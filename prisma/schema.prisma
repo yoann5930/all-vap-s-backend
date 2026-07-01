@@ -1,0 +1,262 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum DeliveryMethod {
+  MONDIAL_RELAY
+  RELAIS_COLIS
+  COLISSIMO
+  STORE_PICKUP
+}
+
+enum PaymentProvider {
+  VIVA
+  SUMUP
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+model User {
+  id             String               @id @default(cuid())
+  email          String               @unique
+  passwordHash   String
+  firstName      String?
+  lastName       String?
+  phone          String?
+  role           Role                 @default(CUSTOMER)
+  loyaltyPoints  Int                  @default(0)
+  qrCode         String               @unique @default(cuid())
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  orders         Order[]
+  addresses      Address[]
+  favorites      Favorite[]
+  reviews        Review[]
+  resetTokens    PasswordResetToken[]
+  vapeProfile    VapeProfile?
+  vapeRecommendations VapeRecommendation[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  imageUrl    String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Brand {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  logoUrl   String?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id              String      @id @default(cuid())
+  sku             String?     @unique
+  name            String
+  slug            String      @unique
+  description     String?
+  category        String
+  brand           String?
+  categoryId      String?
+  categoryRef     Category?   @relation(fields: [categoryId], references: [id])
+  brandId         String?
+  brandRef        Brand?      @relation(fields: [brandId], references: [id])
+  imageUrl        String?
+  images          String[]    @default([])
+  priceCents      Int
+  promoPriceCents Int?
+  stock           Int         @default(0)
+  salesCount      Int         @default(0)
+  isActive        Boolean     @default(true)
+  isNew           Boolean     @default(false)
+  isBestSeller    Boolean     @default(false)
+  isPromo         Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  orderItems      OrderItem[]
+  favorites       Favorite[]
+  reviews         Review[]
+  vapeRecommendations VapeRecommendation[]
+}
+
+model VapeProfile {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status                String    @default("debutant")
+  cigarettesPerDay      Int?
+  drawPreference        String?
+  preferredFlavors      String[]  @default([])
+  avoidedFlavors        String[]  @default([])
+  advisedNicotineMg     Int?
+  usedNicotineMg        Int?
+  advisedProductIds     String[]  @default([])
+  triedProductIds       String[]  @default([])
+  averageBudgetCents    Int?
+  gdprConsent           Boolean   @default(false)
+  personalizedEnabled   Boolean   @default(true)
+  lastRecommendationAt  DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model VapeRecommendation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  reason    String
+  score     Float?
+  source    String   @default("engine")
+  createdAt DateTime @default(now())
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String   @default("Domicile")
+  firstName  String
+  lastName   String
+  street     String
+  city       String
+  postalCode String
+  country    String   @default("FR")
+  phone      String?
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Coupon {
+  id             String       @id @default(cuid())
+  code           String       @unique
+  description    String?
+  discountType   DiscountType
+  value          Int
+  minOrderCents  Int          @default(0)
+  maxUses        Int?
+  usedCount      Int          @default(0)
+  expiresAt      DateTime?
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  linkUrl   String?
+  placement String   @default("home")
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating     Int
+  comment    String?
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([productId, userId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id                String          @id @default(cuid())
+  userId            String?
+  user              User?           @relation(fields: [userId], references: [id])
+  customerEmail     String
+  customerName      String?
+  status            OrderStatus     @default(PENDING)
+  totalCents        Int
+  discountCents     Int             @default(0)
+  couponCode        String?
+  deliveryMethod    DeliveryMethod?
+  pickupStoreId     String?
+  shippingAddress   String?
+  paymentProvider   PaymentProvider?
+  sumupCheckoutId   String?         @unique
+  sumupPaymentId    String?
+  vivaOrderCode     String?         @unique
+  vivaTransactionId String?
+  loyaltyPointsUsed Int             @default(0)
+  loyaltyPointsEarn Int             @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  items             OrderItem[]
+}
+
+model OrderItem {
+  id         String  @id @default(cuid())
+  orderId    String
+  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Int
+  priceCents Int
+}

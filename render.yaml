@@ -1,26 +1,27 @@
 services:
   - type: web
-    name: all-vap-s-backend
-    env: node
+    name: all-vaps
+    runtime: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma db push && npm start
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: DATABASE_URL
         sync: false
-      - key: FRONTEND_URL
-        sync: false
-      - key: VIVA_CLIENT_ID
-        sync: false
-      - key: VIVA_CLIENT_SECRET
-        sync: false
-      - key: VIVA_MERCHANT_ID
-        sync: false
-      - key: VIVA_API_URL
-        sync: false
       - key: JWT_SECRET
+        generateValue: true
+      - key: NEXT_PUBLIC_APP_URL
         sync: false
+      - key: SUMUP_API_KEY
+        sync: false
+      - key: SUMUP_MERCHANT_CODE
+        sync: false
+
+databases:
+  - name: allvaps-db
+    plan: free
+    databaseName: allvaps
+    user: allvaps
