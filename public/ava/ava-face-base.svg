@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" fill="none">
+  <defs>
+    <linearGradient id="skin" x1="200" y1="60" x2="200" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b8e8f4" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#6ecde8" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#1a5a72" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="skinShadow" x1="120" y1="120" x2="280" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#003344" stop-opacity="0.45"/>
+    </linearGradient>
+    <radialGradient id="irisL" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#7ff"/>
+      <stop offset="55%" stop-color="#0bc"/>
+      <stop offset="100%" stop-color="#046"/>
+    </radialGradient>
+    <radialGradient id="irisR" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#7ff"/>
+      <stop offset="55%" stop-color="#0bc"/>
+      <stop offset="100%" stop-color="#046"/>
+    </radialGradient>
+    <linearGradient id="lip" x1="200" y1="318" x2="200" y2="342" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5ee"/>
+      <stop offset="100%" stop-color="#0aa"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="200" y1="20" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0ef" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#036" stop-opacity="0.25"/>
+    </linearGradient>
+    <clipPath id="faceClip">
+      <path d="M200 72 C248 72 278 98 288 142 C298 188 292 248 272 290 C252 328 228 348 200 352 C172 348 148 328 128 290 C108 248 102 188 112 142 C122 98 152 72 200 72 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Cheveux attachés -->
+  <path d="M128 118 C108 88 118 48 158 38 C188 32 212 32 242 38 C282 48 292 88 272 118 C285 95 278 62 248 52 C212 42 188 42 152 52 C122 62 115 95 128 118 Z" fill="url(#hair)" opacity="0.7"/>
+  <path d="M248 52 C268 58 278 78 272 105 C285 82 292 58 278 42 C262 28 238 26 218 30 C232 34 242 42 248 52 Z" fill="url(#hair)" opacity="0.5"/>
+  <ellipse cx="200" cy="44" rx="52" ry="22" fill="url(#hair)" opacity="0.35"/>
+
+  <!-- Visage -->
+  <path d="M200 72 C248 72 278 98 288 142 C298 188 292 248 272 290 C252 328 228 348 200 352 C172 348 148 328 128 290 C108 248 102 188 112 142 C122 98 152 72 200 72 Z" fill="url(#skin)" stroke="rgba(0,220,255,0.35)" stroke-width="0.8"/>
+  <path d="M200 72 C248 72 278 98 288 142 C298 188 292 248 272 290 C252 328 228 348 200 352 C172 348 148 328 128 290 C108 248 102 188 112 142 C122 98 152 72 200 72 Z" fill="url(#skinShadow)" opacity="0.6"/>
+
+  <!-- Cou & épaules -->
+  <path d="M158 340 C172 368 188 398 200 420 C212 398 228 368 242 340 C258 362 268 392 272 430 C240 448 160 448 128 430 C132 392 142 362 158 340 Z" fill="url(#skin)" opacity="0.45" stroke="rgba(0,200,240,0.15)" stroke-width="0.6"/>
+
+  <!-- Sourcils -->
+  <path d="M148 168 C162 160 178 162 188 168" stroke="rgba(0,240,255,0.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <path d="M212 168 C222 162 238 160 252 168" stroke="rgba(0,240,255,0.55)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- Yeux  structure réaliste (groupes animés côté React) -->
+  <g id="eye-left">
+    <ellipse cx="162" cy="198" rx="22" ry="14" fill="rgba(0,40,60,0.25)" stroke="rgba(0,220,255,0.25)" stroke-width="0.5"/>
+    <ellipse cx="162" cy="198" rx="18" ry="11" fill="rgba(200,250,255,0.15)"/>
+    <circle cx="162" cy="198" r="9" fill="url(#irisL)"/>
+    <circle cx="162" cy="198" r="4.5" fill="#012"/>
+    <circle cx="165" cy="195" r="2" fill="rgba(255,255,255,0.9)"/>
+    <path d="M140 188 Q162 178 184 188" stroke="rgba(0,200,240,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <g id="eye-right">
+    <ellipse cx="238" cy="198" rx="22" ry="14" fill="rgba(0,40,60,0.25)" stroke="rgba(0,220,255,0.25)" stroke-width="0.5"/>
+    <ellipse cx="238" cy="198" rx="18" ry="11" fill="rgba(200,250,255,0.15)"/>
+    <circle cx="238" cy="198" r="9" fill="url(#irisR)"/>
+    <circle cx="238" cy="198" r="4.5" fill="#012"/>
+    <circle cx="241" cy="195" r="2" fill="rgba(255,255,255,0.9)"/>
+    <path d="M216 188 Q238 178 260 188" stroke="rgba(0,200,240,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Nez -->
+  <path d="M200 208 C196 228 194 248 198 268 C200 274 202 274 204 268 C208 248 206 228 200 208 Z" fill="rgba(0,180,220,0.12)" stroke="rgba(0,220,255,0.28)" stroke-width="0.6"/>
+  <path d="M188 268 Q200 276 212 268" stroke="rgba(0,200,240,0.22)" stroke-width="0.8" fill="none"/>
+
+  <!-- Joues -->
+  <ellipse cx="138" cy="238" rx="18" ry="12" fill="rgba(0,255,255,0.06)"/>
+  <ellipse cx="262" cy="238" rx="18" ry="12" fill="rgba(0,255,255,0.06)"/>
+
+  <!-- Bouche (base  animée en React) -->
+  <g id="mouth">
+    <path d="M172 318 Q200 328 228 318 Q200 334 172 318 Z" fill="url(#lip)" opacity="0.85"/>
+    <path d="M172 318 Q200 324 228 318" stroke="rgba(0,255,255,0.5)" stroke-width="0.8" fill="none"/>
+  </g>
+
+  <!-- Reflets holographiques -->
+  <path d="M138 98 Q200 72 262 98" stroke="rgba(120,255,255,0.35)" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <ellipse cx="168" cy="118" rx="28" ry="10" fill="rgba(255,255,255,0.04)" transform="rotate(-12 168 118)"/>
+</svg>

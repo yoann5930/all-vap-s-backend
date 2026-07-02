@@ -269,21 +269,6 @@ body {
   }
 }
 
-/* Projection lumineuse sous le visage */
-.ava-face-projection {
-  width: min(280px, 70vw);
-  height: 48px;
-  margin-top: -12px;
-  background: radial-gradient(
-    ellipse 80% 100% at 50% 0%,
-    rgba(0, 212, 255, 0.35) 0%,
-    rgba(0, 180, 220, 0.12) 40%,
-    transparent 72%
-  );
-  filter: blur(8px);
-  animation: ava-projection-pulse 3s ease-in-out infinite;
-}
-
 @keyframes ava-projection-pulse {
   0%, 100% { opacity: 0.55; transform: scaleX(1); }
   50% { opacity: 0.9; transform: scaleX(1.08); }
@@ -291,4 +276,51 @@ body {
 
 .ava-cinematic-vignette {
   background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 0%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Visage humain réaliste holographique */
+.ava-realistic-face {
+  filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.35));
+}
+
+.ava-portrait-wrap {
+  transform-style: preserve-3d;
+}
+
+.ava-portrait-svg {
+  mix-blend-mode: screen;
+  opacity: 0.92;
+}
+
+.ava-portrait-glow {
+  background: radial-gradient(ellipse 55% 65% at 50% 42%, rgba(0, 220, 255, 0.22) 0%, transparent 70%);
+  filter: blur(12px);
+}
+
+.ava-fine-face-scan {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 212, 255, 0.025) 3px,
+    rgba(0, 212, 255, 0.025) 4px
+  );
+  mask-image: radial-gradient(ellipse 48% 58% at 50% 42%, black 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 48% 58% at 50% 42%, black 20%, transparent 72%);
+  animation: ava-scan-sweep 6s linear infinite;
+  opacity: 0.55;
+}
+
+.ava-face-projection {
+  width: min(320px, 75vw);
+  height: 56px;
+  margin-top: -20px;
+  background: radial-gradient(
+    ellipse 85% 100% at 50% 0%,
+    rgba(0, 212, 255, 0.4) 0%,
+    rgba(0, 160, 210, 0.15) 45%,
+    transparent 75%
+  );
+  filter: blur(10px);
+  animation: ava-projection-pulse 3.5s ease-in-out infinite;
 }

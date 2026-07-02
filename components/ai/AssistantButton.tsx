@@ -33,7 +33,6 @@ export function AssistantButton({ onClick, isOpen, speaking = false }: Assistant
         <HolographicAvatar
           size="xl"
           speaking={speaking}
-          hovered={hovered}
           showLabel
           interactive
         />

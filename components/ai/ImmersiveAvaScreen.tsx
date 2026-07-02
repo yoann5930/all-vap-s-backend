@@ -31,11 +31,7 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
     onSpeakingChange?.(voice.isSpeaking);
   }, [voice.isSpeaking, onSpeakingChange]);
 
-  const status = avaStatusLabel(voice.avaState, voice.isPromptingMic);
-  const hint =
-    voice.avaState === "listening" && voice.interimTranscript
-      ? voice.interimTranscript
-      : voice.subtitle;
+  const bottomStatus = avaStatusLabel(voice.avaState, voice.isPromptingMic);
 
   const handleTextSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,15 +45,15 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
     <AnimatePresence>
       <motion.div
         role="dialog"
-        aria-label="A.V.A. — assistante holographique vocale"
+        aria-label="A.V.A. — assistante holographique"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.7 }}
         className="ava-immersive fixed inset-0 z-[70] flex flex-col bg-black"
       >
-        <Particles count={70} color="0, 212, 255" className="opacity-50" />
-        <div className="ava-immersive-scan pointer-events-none absolute inset-0" />
+        <Particles count={80} color="0, 212, 255" className="opacity-45" />
+        <div className="ava-immersive-scan pointer-events-none absolute inset-0 opacity-60" />
         <div className="ava-cinematic-vignette pointer-events-none absolute inset-0" />
 
         <button
@@ -66,52 +62,32 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
             voice.stopAll();
             onClose();
           }}
-          className="absolute right-4 top-4 z-20 rounded-full p-2 text-cyan-600/30 transition hover:bg-white/5 hover:text-cyan-400/60 sm:right-6 sm:top-6"
+          className="absolute right-4 top-4 z-20 rounded-full p-2 text-cyan-700/25 transition hover:bg-white/5 hover:text-cyan-500/50 sm:right-6 sm:top-6"
           aria-label="Fermer A.V.A."
         >
           <X className="h-5 w-5" strokeWidth={1.25} />
         </button>
 
-        <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+        {/* Visage seul — aucun texte au centre */}
+        <div className="relative z-10 flex flex-1 items-center justify-center">
           {!voice.ready ? (
-            <Loader2 className="h-7 w-7 animate-spin text-cyan-600/40" />
+            <Loader2 className="h-7 w-7 animate-spin text-cyan-700/30" />
           ) : (
             <div className="ava-immersive-face flex flex-col items-center">
-              <HolographicAvatar state={voice.avaState} size="hero" interactive immersive feminine />
+              <HolographicAvatar state={voice.avaState} size="hero" interactive immersive />
               <div className="ava-face-projection" aria-hidden />
-
-              {status && (
-                <motion.p
-                  key={status}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0.35, 0.65, 0.35] }}
-                  transition={{ duration: 2.2, repeat: Infinity }}
-                  className="mt-10 max-w-xs px-4 text-center text-[11px] tracking-[0.15em] text-cyan-500/45"
-                >
-                  {status}
-                </motion.p>
-              )}
             </div>
           )}
         </div>
 
-        <div className="relative z-20 pb-8 pt-4 sm:pb-10">
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-black via-black/90 to-transparent" />
+        {/* Bas : micro + statut discret (hors centre) */}
+        <div className="relative z-20 pb-8 pt-2 sm:pb-10">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/95 to-transparent" />
 
-          <div className="relative flex flex-col items-center gap-4">
-            <AnimatePresence mode="wait">
-              {hint && voice.avaState !== "idle" && !voice.isPromptingMic && (
-                <motion.p
-                  key={hint}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="max-w-xs px-6 text-center text-[10px] leading-relaxed text-cyan-500/35"
-                >
-                  {hint}
-                </motion.p>
-              )}
-            </AnimatePresence>
+          <div className="relative flex flex-col items-center gap-3">
+            {bottomStatus && (
+              <p className="text-[10px] tracking-[0.18em] text-cyan-600/40 uppercase">{bottomStatus}</p>
+            )}
 
             <MicPermissionPanel
               status={voice.micPermission}
@@ -124,7 +100,7 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
             {voice.error &&
               voice.micPermission !== "denied" &&
               voice.micPermission !== "unsupported" && (
-                <p className="max-w-xs px-4 text-center text-[10px] text-amber-600/55">{voice.error}</p>
+                <p className="max-w-xs px-4 text-center text-[10px] text-amber-700/50">{voice.error}</p>
               )}
 
             {voice.canListen && (
@@ -138,25 +114,23 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
             {voice.needsTextFallback && voice.ready && (
               <form
                 onSubmit={handleTextSubmit}
-                className="flex w-full max-w-xs items-center gap-2 px-4 opacity-50 focus-within:opacity-80"
+                className="flex w-full max-w-[240px] items-center gap-2 px-4 opacity-40 focus-within:opacity-70"
               >
                 <input
                   type="text"
                   value={textFallback}
                   onChange={(e) => setTextFallback(e.target.value)}
-                  placeholder="Écrivez ici si le micro est indisponible…"
+                  placeholder="Texte si micro indisponible"
                   disabled={voice.blocked || voice.avaState === "thinking"}
-                  className="flex-1 border-0 border-b border-cyan-900/50 bg-transparent py-1.5 text-center text-[10px] text-cyan-500/40 placeholder:text-cyan-900/60 focus:border-cyan-700/40 focus:text-cyan-400/55 focus:outline-none"
+                  className="flex-1 border-0 border-b border-cyan-950/80 bg-transparent py-1 text-center text-[9px] text-cyan-700/40 placeholder:text-cyan-950 focus:outline-none"
                 />
                 {textFallback.trim() && (
-                  <button type="submit" className="text-cyan-700/40 hover:text-cyan-500/60" aria-label="Envoyer">
+                  <button type="submit" className="text-cyan-800/40 hover:text-cyan-600/50" aria-label="Envoyer">
                     <Send className="h-3 w-3" />
                   </button>
                 )}
               </form>
             )}
-
-            <p className="text-[8px] tracking-widest text-cyan-950 uppercase">+18 · All Vap&apos;s</p>
           </div>
         </div>
       </motion.div>
