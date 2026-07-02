@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Security headers only — no host or HTTPS redirects here.
- * Vercel handles HTTP→HTTPS and www→apex at the edge (see vercel.json).
- * Redirect logic in middleware caused ERR_TOO_MANY_REDIRECTS on custom domains
- * because x-forwarded-proto can be "http" on internal requests even over HTTPS.
+ * Security headers only — never redirect, never touch static assets.
+ * Static exclusions must stay in sync with vercel.json redirect rules.
  */
 export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
@@ -17,5 +15,11 @@ export function middleware(_request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: [
+    /*
+     * Run only on HTML/app routes — skip all static assets:
+     * _next/*, public files, SEO files, any path with a file extension
+     */
+    "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|.*\\.[\\w]+$).*)",
+  ],
 };

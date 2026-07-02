@@ -11,7 +11,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   compress: true,
   poweredByHeader: false,
   images: {
@@ -33,8 +32,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        // Never apply security headers to Next.js static chunks (CSS/JS/fonts)
+        source: "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
         headers: securityHeaders,
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
       },
       {
         source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
