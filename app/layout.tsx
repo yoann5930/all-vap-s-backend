@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header, HeaderSpacer } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
+import { HolographicAssistant } from "@/components/ai/HolographicAssistant";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
 import {
@@ -92,6 +93,7 @@ export default function RootLayout({
           <HeaderSpacer />
           <main className="flex-1">{children}</main>
           <Footer />
+          <HolographicAssistant />
         </CartProvider>
       </body>
     </html>
