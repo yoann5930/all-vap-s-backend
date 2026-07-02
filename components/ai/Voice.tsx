@@ -1,6 +1,7 @@
 "use client";
 
-import { Mic, MicOff, Volume2, VolumeX } from "lucide-react";
+import { motion } from "framer-motion";
+import { Mic, MicOff } from "lucide-react";
 import { useSpeech } from "@/hooks/useSpeech";
 
 interface VoiceControlsProps {
@@ -11,83 +12,78 @@ interface VoiceControlsProps {
   disabled?: boolean;
 }
 
+/** Compact controls for legacy layouts */
 export function VoiceControls({
   onTranscript,
-  lastAssistantMessage,
-  voiceEnabled,
-  onToggleVoice,
   disabled,
 }: VoiceControlsProps) {
-  const { isListening, isSpeaking, isSupported, startListening, stopListening, speak, stopSpeaking, error } =
-    useSpeech(onTranscript);
+  const { isListening, isSupported, startListening, stopListening, error } = useSpeech(onTranscript);
 
-  const handleMic = () => {
-    if (isListening) stopListening();
-    else startListening();
-  };
-
-  const handleSpeaker = () => {
-    if (isSpeaking) {
-      stopSpeaking();
-      return;
-    }
-    if (lastAssistantMessage && voiceEnabled) {
-      speak(lastAssistantMessage);
-    }
-  };
-
-  if (!isSupported) {
-    return (
-      <p className="text-[10px] text-cyan-400/40">
-        Voix : compatible navigateur (Web Speech API). Clé OpenAI Voice prête pour extension future.
-      </p>
-    );
-  }
+  if (!isSupported) return null;
 
   return (
-    <div className="flex items-center gap-2">
-      <button
-        type="button"
-        onClick={handleMic}
-        disabled={disabled}
-        aria-label={isListening ? "Arrêter le micro" : "Parler au micro"}
-        className={`flex h-9 w-9 items-center justify-center rounded-xl border transition will-change-transform ${
-          isListening
-            ? "border-cyan-400 bg-cyan-500/20 text-cyan-300 shadow-[0_0_16px_rgba(0,212,255,0.4)]"
-            : "border-cyan-500/30 bg-black/40 text-cyan-400/80 hover:border-cyan-400/50"
-        } disabled:opacity-40`}
-      >
-        {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-      </button>
+    <button
+      type="button"
+      onClick={() => (isListening ? stopListening() : startListening())}
+      disabled={disabled}
+      aria-label="Micro"
+      className="rounded-full p-2 text-cyan-500/50 hover:text-cyan-400 disabled:opacity-40"
+    >
+      {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+      {error && <span className="sr-only">{error}</span>}
+    </button>
+  );
+}
 
-      <button
-        type="button"
-        onClick={() => {
-          onToggleVoice();
-          if (voiceEnabled) stopSpeaking();
-        }}
-        aria-label={voiceEnabled ? "Désactiver la voix" : "Activer la voix"}
-        className={`flex h-9 w-9 items-center justify-center rounded-xl border transition ${
-          voiceEnabled
-            ? "border-cyan-500/40 text-cyan-300"
-            : "border-white/10 text-gray-500"
-        }`}
-      >
-        {voiceEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-      </button>
+/** Prominent mic for immersive full-screen mode */
+interface ImmersiveMicProps {
+  isListening: boolean;
+  isSpeaking: boolean;
+  disabled?: boolean;
+  onToggle: () => void;
+}
 
-      {voiceEnabled && lastAssistantMessage && (
-        <button
-          type="button"
-          onClick={handleSpeaker}
-          disabled={disabled}
-          className="text-[10px] text-cyan-400/70 underline-offset-2 hover:text-cyan-300 hover:underline"
-        >
-          {isSpeaking ? "Arrêter" : "Écouter"}
-        </button>
+export function ImmersiveMic({ isListening, isSpeaking, disabled, onToggle }: ImmersiveMicProps) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onToggle}
+      disabled={disabled || isSpeaking}
+      aria-label={isListening ? "Arrêter le micro" : "Parler à A.V.A."}
+      className="relative flex h-16 w-16 items-center justify-center rounded-full focus:outline-none disabled:opacity-40"
+      whileHover={{ scale: 1.06 }}
+      whileTap={{ scale: 0.94 }}
+      animate={
+        isListening
+          ? { boxShadow: ["0 0 20px rgba(0,212,255,0.3)", "0 0 40px rgba(0,212,255,0.6)", "0 0 20px rgba(0,212,255,0.3)"] }
+          : { boxShadow: "0 0 24px rgba(0,212,255,0.2)" }
+      }
+      transition={{ duration: 1.2, repeat: isListening ? Infinity : 0 }}
+    >
+      {isListening && (
+        <>
+          <motion.span
+            className="absolute inset-0 rounded-full border border-cyan-400/40"
+            animate={{ scale: [1, 1.35, 1], opacity: [0.6, 0, 0.6] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+          />
+          <motion.span
+            className="absolute inset-[-8px] rounded-full border border-cyan-500/20"
+            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
+            transition={{ duration: 2.2, repeat: Infinity, delay: 0.3 }}
+          />
+        </>
       )}
 
-      {error && <span className="text-[10px] text-red-400/80">{error}</span>}
-    </div>
+      <span
+        className={`relative flex h-14 w-14 items-center justify-center rounded-full border transition-colors ${
+          isListening
+            ? "border-cyan-400 bg-cyan-500/25 text-cyan-200"
+            : "border-cyan-600/40 bg-cyan-950/50 text-cyan-400/80 hover:border-cyan-500/60 hover:text-cyan-300"
+        }`}
+      >
+        {isListening ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
+      </span>
+    </motion.button>
   );
 }

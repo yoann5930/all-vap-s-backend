@@ -240,3 +240,31 @@ body {
   will-change: transform, opacity;
   animation: ava-materialize 0.6s ease-out;
 }
+
+/* Immersive full-screen A.V.A. */
+.ava-immersive {
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+.ava-immersive-scan {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.03) 2px,
+    rgba(0, 212, 255, 0.03) 4px
+  );
+  animation: ava-scan-sweep 8s linear infinite;
+}
+
+.ava-immersive-face {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (max-width: 640px) {
+  .ava-immersive-face .ava-holo-root {
+    transform: scale(0.85);
+  }
+}

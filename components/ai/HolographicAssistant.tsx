@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AssistantButton } from "@/components/ai/AssistantButton";
-import { ChatWindow } from "@/components/ai/ChatWindow";
+import { ImmersiveAvaScreen } from "@/components/ai/ImmersiveAvaScreen";
 
 export function HolographicAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ export function HolographicAssistant() {
         speaking={speaking}
       />
       {isOpen && (
-        <ChatWindow
+        <ImmersiveAvaScreen
           onClose={() => setIsOpen(false)}
           onSpeakingChange={setSpeaking}
         />
