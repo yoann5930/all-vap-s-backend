@@ -44,7 +44,7 @@ export default function AccountOverviewPage() {
           <p className="mt-1 text-sm text-gray-500">Carte membre All Vap&apos;s</p>
         </Link>
       </div>
-      <Link href="/boutique"><Button>Découvrir la boutique</Button></Link>
+      <Button href="/boutique">Découvrir la boutique</Button>
     </div>
   );
 }

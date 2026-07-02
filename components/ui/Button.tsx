@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
@@ -5,6 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "outline-light" | "wood" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
+  href?: string;
 }
 
 const variants = {
@@ -23,22 +25,23 @@ const sizes = {
   lg: "px-6 py-3 text-base",
 };
 
+const baseClassName =
+  "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", loading, disabled, children, ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", loading, disabled, href, children, ...props }, ref) => {
+    const classes = cn(baseClassName, variants[variant], sizes[size], className);
+
+    if (href) {
+      return (
+        <Link href={href} className={classes}>
+          {loading ? "Chargement..." : children}
+        </Link>
+      );
+    }
+
     return (
-      <button
-        ref={ref}
-        disabled={disabled || loading}
-        className={cn(
-          "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200",
-          "focus:outline-none focus:ring-2 focus:ring-offset-2",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          variants[variant],
-          sizes[size],
-          className
-        )}
-        {...props}
-      >
+      <button ref={ref} disabled={disabled || loading} className={classes} {...props}>
         {loading ? "Chargement..." : children}
       </button>
     );

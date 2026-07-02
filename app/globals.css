@@ -1,8 +1,6 @@
 @import "tailwindcss";
-
-@source "../components/**/*.{js,ts,jsx,tsx}";
-@source "../lib/**/*.{js,ts,jsx,tsx}";
-@source "./**/*.{js,ts,jsx,tsx,mdx}";
+@config "../tailwind.config.ts";
+@source "..";
 
 @theme {
   /* All Vap's green */

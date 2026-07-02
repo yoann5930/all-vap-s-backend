@@ -58,12 +58,8 @@ function SuccessContent() {
       )}
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-        <Link href="/boutique">
-          <Button>Continuer mes achats</Button>
-        </Link>
-        <Link href="/account">
-          <Button variant="outline">Mes commandes</Button>
-        </Link>
+        <Button href="/boutique">Continuer mes achats</Button>
+        <Button href="/account" variant="outline">Mes commandes</Button>
       </div>
     </div>
   );

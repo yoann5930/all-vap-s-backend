@@ -45,7 +45,7 @@ export default function CommandesPage() {
     return (
       <div className="rounded-xl border border-dashed py-12 text-center">
         <p className="text-gray-500">Aucune commande.</p>
-        <Link href="/boutique" className="mt-4 inline-block"><Button>Boutique</Button></Link>
+        <Button href="/boutique" className="mt-4">Boutique</Button>
       </div>
     );
   }

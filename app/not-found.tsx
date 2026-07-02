@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
@@ -9,9 +8,9 @@ export default function NotFound() {
       <p className="mt-2 text-gray-600">
         La page que vous recherchez n&apos;existe pas ou a été déplacée.
       </p>
-      <Link href="/" className="mt-8 inline-block">
-        <Button>Retour à l&apos;accueil</Button>
-      </Link>
+      <Button href="/" className="mt-8">
+        Retour à l&apos;accueil
+      </Button>
     </div>
   );
 }

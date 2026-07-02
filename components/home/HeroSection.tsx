@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -34,22 +33,14 @@ export function HeroSection() {
           </p>
 
           <div className="animate-fade-in-up animation-delay-300 mt-10 flex flex-wrap gap-4">
-            <Link href="/boutique">
-              <Button size="lg" variant="primary" className="gap-2 shadow-lg shadow-brand-600/25">
-                Découvrir la boutique
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/boutiques">
-              <Button
-                size="lg"
-                variant="outline-light"
-                className="gap-2"
-              >
-                <MapPin className="h-4 w-4" />
-                Nos magasins
-              </Button>
-            </Link>
+            <Button href="/boutique" size="lg" variant="primary" className="gap-2 shadow-lg shadow-brand-600/25">
+              Découvrir la boutique
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button href="/boutiques" size="lg" variant="outline-light" className="gap-2">
+              <MapPin className="h-4 w-4" />
+              Nos magasins
+            </Button>
           </div>
         </div>
 

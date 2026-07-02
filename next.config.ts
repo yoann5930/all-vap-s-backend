@@ -10,7 +10,18 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
 
+/** Serve /_next/static from the Vercel deployment URL — avoids broken relative asset loads on custom domains. */
+function getAssetPrefix(): string | undefined {
+  const explicit = process.env.NEXT_PUBLIC_ASSET_PREFIX?.replace(/\/$/, "");
+  if (explicit) return explicit;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return undefined;
+}
+
+const assetPrefix = getAssetPrefix();
+
 const nextConfig: NextConfig = {
+  ...(assetPrefix ? { assetPrefix, crossOrigin: "anonymous" as const } : {}),
   compress: true,
   poweredByHeader: false,
   images: {
@@ -32,7 +43,6 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Never apply security headers to Next.js static chunks (CSS/JS/fonts)
         source: "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
         headers: securityHeaders,
       },
@@ -40,6 +50,7 @@ const nextConfig: NextConfig = {
         source: "/_next/static/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
         ],
       },
       {

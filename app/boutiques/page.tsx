@@ -64,12 +64,10 @@ export default function BoutiquesPage() {
                 <a href={`mailto:${store.email}`}>
                   <Button variant="wood" className="gap-2"><Mail className="h-4 w-4" />Email</Button>
                 </a>
-                <Link href={`/boutiques/${store.id}`}>
-                  <Button variant="outline" className="gap-2">
-                    Fiche boutique
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <Button href={`/boutiques/${store.id}`} variant="outline" className="gap-2">
+                  Fiche boutique
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
               </div>
 
               <Card className="mt-6">

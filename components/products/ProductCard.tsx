@@ -19,8 +19,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const price = getEffectivePrice(product);
   const hasPromo = product.isPromo && product.promoPriceCents;
 
-  function handleAddToCart(e: React.MouseEvent) {
-    e.preventDefault();
+  function handleAddToCart() {
     addToCart({
       productId: product.id,
       name: product.name,
@@ -32,8 +31,8 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Link href={`/boutique/${product.slug}`} className="group">
-      <article className="overflow-hidden rounded-xl border border-wood-200/60 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+    <article className="flex h-full flex-col overflow-hidden rounded-xl border border-wood-200/60 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+      <Link href={`/boutique/${product.slug}`} className="group block flex-1">
         <div className="relative aspect-square bg-gray-100">
           {product.imageUrl ? (
             <Image
@@ -64,19 +63,21 @@ export function ProductCard({ product }: ProductCardProps) {
             <p className="text-xs font-medium uppercase tracking-wide text-gray-500">{product.brand}</p>
           )}
           <h3 className="mt-1 line-clamp-2 font-semibold text-gray-900 group-hover:text-brand-700">{product.name}</h3>
-          <div className="mt-3 flex items-center justify-between gap-2">
-            <div>
-              <span className="text-lg font-bold text-brand-700">{formatPrice(price)}</span>
-              {hasPromo && (
-                <span className="ml-2 text-sm text-gray-400 line-through">{formatPrice(product.priceCents)}</span>
-              )}
-            </div>
-            {product.stock > 0 && (
-              <Button size="sm" onClick={handleAddToCart}>Ajouter</Button>
+          <div className="mt-3">
+            <span className="text-lg font-bold text-brand-700">{formatPrice(price)}</span>
+            {hasPromo && (
+              <span className="ml-2 text-sm text-gray-400 line-through">{formatPrice(product.priceCents)}</span>
             )}
           </div>
         </div>
-      </article>
-    </Link>
+      </Link>
+      {product.stock > 0 && (
+        <div className="border-t border-wood-100 p-4 pt-3">
+          <Button size="sm" className="w-full" onClick={handleAddToCart}>
+            Ajouter
+          </Button>
+        </div>
+      )}
+    </article>
   );
 }

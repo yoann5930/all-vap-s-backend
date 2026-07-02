@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { MapPin, Phone, Clock, Navigation, ArrowRight } from "lucide-react";import { stores, type Store } from "@/lib/stores";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
@@ -49,12 +48,10 @@ function StoreCard({ store }: { store: Store }) {
             <Clock className="h-3.5 w-3.5" />
             Horaires
           </Button>
-          <Link href={`/boutiques/${store.id}`}>
-            <Button variant="outline" size="sm" className="gap-1.5">
-              Fiche boutique
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </Link>
+          <Button href={`/boutiques/${store.id}`} variant="outline" size="sm" className="gap-1.5">
+            Fiche boutique
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
         </div>
 
         {showHours && (

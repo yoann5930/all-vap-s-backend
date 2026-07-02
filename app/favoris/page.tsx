@@ -28,7 +28,7 @@ export default function FavorisPage() {
       {products.length === 0 ? (
         <div className="mt-12 text-center">
           <p className="text-gray-500">Aucun favori pour le moment.</p>
-          <Link href="/boutique" className="mt-4 inline-block"><Button>Boutique</Button></Link>
+          <Button href="/boutique" className="mt-4">Boutique</Button>
         </div>
       ) : (
         <div className="mt-8"><ProductGrid products={products} /></div>

@@ -33,9 +33,9 @@ export default function CartPage() {
         <ShoppingBag className="mx-auto h-16 w-16 text-gray-300" />
         <h1 className="mt-4 text-2xl font-bold text-gray-900">Votre panier est vide</h1>
         <p className="mt-2 text-gray-600">Découvrez nos produits et ajoutez-les à votre panier.</p>
-        <Link href="/boutique" className="mt-6 inline-block">
-          <Button>Voir la boutique</Button>
-        </Link>
+        <Button href="/boutique" className="mt-6">
+          Voir la boutique
+        </Button>
       </div>
     );
   }
@@ -108,9 +108,9 @@ export default function CartPage() {
                   <span className="text-brand-700">{formatPrice(total)}</span>
                 </div>
               </div>
-              <Link href="/checkout" className="mt-6 block">
-                <Button className="w-full">Passer commande</Button>
-              </Link>
+              <Button href="/checkout" className="mt-6 w-full">
+                Passer commande
+              </Button>
             </CardBody>
           </Card>
         </div>
