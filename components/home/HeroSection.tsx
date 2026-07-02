@@ -1,54 +1,71 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { LogoMark } from "@/components/brand/LogoMark";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-vap-black">
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-vap-black via-vap-charcoal to-brand-950" />
-      <div className="absolute inset-0 opacity-20">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 50%, rgba(5,150,105,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(196,167,125,0.1) 0%, transparent 40%)",
-          }}
-        />
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-wood-400/60 to-transparent" />
+    <section className="relative min-h-[85vh] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-premium-black via-premium-dark to-premium-black" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,217,255,0.08)_0%,transparent_70%)]" />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-500/25 to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
-        <div className="max-w-3xl">
-          <p className="animate-fade-in-up mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
-            Boutique officielle
-          </p>
+      <div className="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mb-10"
+        >
+          <div className="absolute inset-[-60%] rounded-full bg-brand-500/10 blur-3xl" />
+          <LogoMark variant="glow" size={100} animated />
+        </motion.div>
 
-          <h1 className="animate-fade-in-up animation-delay-100 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-            All Vap&apos;s
-          </h1>
+        <motion.p
+          className="premium-section-label mb-4"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+        >
+          Boutique officielle
+        </motion.p>
 
-          <p className="animate-fade-in-up animation-delay-200 mt-6 text-lg leading-relaxed text-gray-300 sm:text-xl">
-            Découvrez les meilleures cigarettes électroniques, e-liquides et accessoires
-            dans vos boutiques All Vap&apos;s Hautmont et All Vap&apos;s Le Quesnoy.
-          </p>
+        <motion.h1
+          className="font-display text-5xl font-extralight tracking-[0.06em] text-white sm:text-6xl lg:text-7xl"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.9 }}
+        >
+          All Vap&apos;s
+        </motion.h1>
 
-          <div className="animate-fade-in-up animation-delay-300 mt-10 flex flex-wrap gap-4">
-            <Button href="/boutique" size="lg" variant="primary" className="gap-2 shadow-lg shadow-brand-600/25">
-              Découvrir la boutique
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button href="/boutiques" size="lg" variant="outline-light" className="gap-2">
-              <MapPin className="h-4 w-4" />
-              Nos magasins
-            </Button>
-          </div>
-        </div>
+        <motion.p
+          className="premium-section-subtitle mx-auto mt-6 max-w-2xl text-base sm:text-lg"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          L&apos;excellence de la vape premium. Cigarettes électroniques, e-liquides et accessoires
+          dans vos boutiques All Vap&apos;s Hautmont et Le Quesnoy.
+        </motion.p>
 
-        {/* Decorative element */}
-        <div className="pointer-events-none absolute -right-20 top-1/2 hidden -translate-y-1/2 lg:block">
-          <div className="h-80 w-80 rounded-full bg-brand-600/10 blur-3xl" />
-          <div className="absolute right-20 top-10 h-40 w-40 rounded-full bg-wood-400/10 blur-2xl" />
-        </div>
+        <motion.div
+          className="mt-12 flex flex-wrap items-center justify-center gap-4"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+        >
+          <Button href="/boutique" size="lg" variant="primary" className="gap-2">
+            Découvrir la boutique
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+          <Button href="/boutiques" size="lg" variant="outline-light" className="gap-2">
+            <MapPin className="h-4 w-4" />
+            Nos magasins
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

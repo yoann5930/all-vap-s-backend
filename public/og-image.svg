@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
-  <rect width="1200" height="630" fill="#0a0a0a"/>
-  <rect x="2" y="2" width="1196" height="626" stroke="#c4a77d" stroke-width="2" fill="none"/>
-  <text x="600" y="260" text-anchor="middle" fill="#ffffff" font-family="Arial,sans-serif" font-size="72" font-weight="bold">All Vap&apos;s</text>
-  <text x="600" y="340" text-anchor="middle" fill="#059669" font-family="Arial,sans-serif" font-size="32">Cigarettes électroniques · E-liquides</text>
-  <text x="600" y="400" text-anchor="middle" fill="#9ca3af" font-family="Arial,sans-serif" font-size="28">Hautmont · Le Quesnoy · allvaps.fr</text>
+  <rect width="1200" height="630" fill="#050505"/>
+  <circle cx="600" cy="280" r="220" fill="rgba(0,217,255,0.06)"/>
+  <path d="M480 380 L600 180 L720 380" stroke="#00D9FF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M520 320 L680 320" stroke="#00D9FF" stroke-width="9" stroke-linecap="round"/>
+  <path d="M600 180 L625 380" stroke="#5EF4FF" stroke-width="7" stroke-linecap="round"/>
+  <text x="600" y="480" text-anchor="middle" fill="#FFFFFF" font-family="Inter,sans-serif" font-size="48" font-weight="300" letter-spacing="0.12em">All Vap&apos;s</text>
+  <text x="600" y="530" text-anchor="middle" fill="#5EF4FF" font-family="Inter,sans-serif" font-size="22" font-weight="300" letter-spacing="0.25em">VAPE PREMIUM</text>
 </svg>

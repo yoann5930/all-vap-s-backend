@@ -37,6 +37,7 @@ export function Header() {
   const { cartCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -56,87 +57,68 @@ export function Header() {
     };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   async function handleLogout() {
     await fetch("/api/auth/me", { method: "DELETE" });
     setUser(null);
     window.location.href = "/";
   }
 
+  const iconBtn =
+    "rounded-xl p-2.5 text-white/50 transition-all duration-300 hover:bg-white/5 hover:text-brand-400 hover:shadow-[0_0_16px_rgba(0,217,255,0.12)]";
+
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      {/* Top accent bar */}
-      <div className="hidden bg-wood-300 sm:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-1.5 text-xs font-medium text-vap-charcoal">
-          <span>Livraison rapide</span>
-          <span className="mx-3 text-wood-500">|</span>
-          <span>Paiement sécurisé Viva.com</span>
-          <span className="mx-3 text-wood-500">|</span>
-          <span>Vente réservée aux +18 ans</span>
-        </div>
-      </div>
+      <div
+        className={cn(
+          "border-b transition-all duration-500",
+          scrolled
+            ? "premium-glass border-white/6 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+            : "border-transparent bg-transparent"
+        )}
+      >
+        <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <Logo variant={scrolled ? "holo" : "glow"} size={40} />
 
-      {/* Main bar */}
-      <div className="border-b border-vap-gray/50 bg-vap-black/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Logo variant="light" />
-
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-1.5">
             <HeaderSearch />
-
-            <Link
-              href="/favoris"
-              className="hidden rounded-lg p-2 text-gray-300 transition-colors hover:bg-vap-gray hover:text-white sm:block"
-              aria-label="Favoris"
-            >
-              <Heart className="h-5 w-5" />
+            <Link href="/favoris" className={cn(iconBtn, "hidden sm:flex")} aria-label="Favoris">
+              <Heart className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
             </Link>
-
             {user ? (
               <div className="hidden items-center sm:flex">
-                <Link
-                  href="/account"
-                  className="flex items-center gap-1.5 rounded-lg px-2.5 py-2 text-sm text-gray-300 transition-colors hover:bg-vap-gray hover:text-white"
-                  aria-label="Compte client"
-                >
-                  <User className="h-5 w-5" />
-                  <span className="hidden max-w-[80px] truncate lg:inline">
+                <Link href="/account" className={cn(iconBtn, "gap-1.5 px-3 text-sm")} aria-label="Compte">
+                  <User className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
+                  <span className="hidden max-w-[72px] truncate font-light lg:inline">
                     {user.firstName || "Compte"}
                   </span>
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-vap-gray hover:text-white"
-                  title="Déconnexion"
-                >
-                  <LogOut className="h-4 w-4" />
+                <button type="button" onClick={handleLogout} className={iconBtn} title="Déconnexion">
+                  <LogOut className="h-4 w-4" strokeWidth={1.5} />
                 </button>
               </div>
             ) : (
-              <Link
-                href="/login"
-                className="hidden rounded-lg p-2 text-gray-300 transition-colors hover:bg-vap-gray hover:text-white sm:block"
-                aria-label="Compte client"
-              >
-                <User className="h-5 w-5" />
+              <Link href="/login" className={cn(iconBtn, "hidden sm:flex")} aria-label="Compte">
+                <User className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
               </Link>
             )}
-
-            <Link
-              href="/cart"
-              className="relative rounded-lg p-2 text-gray-300 transition-colors hover:bg-vap-gray hover:text-white"
-              aria-label="Panier"
-            >
-              <ShoppingCart className="h-5 w-5" />
+            <Link href="/cart" className={cn(iconBtn, "relative")} aria-label="Panier">
+              <ShoppingCart className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-[17px] min-w-[17px] items-center justify-center rounded-full bg-brand-500 px-1 text-[9px] font-semibold text-premium-black shadow-[0_0_12px_rgba(0,217,255,0.5)]">
                   {cartCount}
                 </span>
               )}
             </Link>
-
             <button
               type="button"
-              className="rounded-lg p-2 text-gray-300 transition-colors hover:bg-vap-gray hover:text-white lg:hidden"
+              className={cn(iconBtn, "lg:hidden")}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
@@ -146,22 +128,22 @@ export function Header() {
         </div>
       </div>
 
-      {/* Category navigation — desktop */}
       <nav
-        className="hidden border-b border-vap-gray/30 bg-vap-charcoal/95 backdrop-blur-md lg:block"
+        className={cn(
+          "hidden border-b transition-all duration-500 lg:block",
+          scrolled ? "premium-glass border-white/4" : "border-white/4 bg-premium-black/40 backdrop-blur-sm"
+        )}
         aria-label="Navigation principale"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <ul className="scrollbar-hide flex items-center gap-1 overflow-x-auto py-0">
+          <ul className="scrollbar-hide flex items-center gap-1 overflow-x-auto py-1">
             {mainNavLinks.map((link) => (
-              <li key={link.href} className="flex-shrink-0">
+              <li key={link.href} className="shrink-0">
                 <Link
                   href={link.href}
                   className={cn(
-                    "block whitespace-nowrap px-3 py-3 text-sm font-medium transition-colors",
-                    isActiveLink(pathname, link.href)
-                      ? "border-b-2 border-brand-500 text-brand-400"
-                      : "text-gray-300 hover:text-white"
+                    "premium-nav-link block px-4 py-3",
+                    isActiveLink(pathname, link.href) && "is-active"
                   )}
                 >
                   {link.label}
@@ -169,11 +151,8 @@ export function Header() {
               </li>
             ))}
             {user?.role === "ADMIN" && (
-              <li className="flex-shrink-0">
-                <Link
-                  href="/admin"
-                  className="block whitespace-nowrap px-3 py-3 text-sm font-medium text-brand-400 hover:text-brand-300"
-                >
+              <li className="shrink-0">
+                <Link href="/admin" className="premium-nav-link block px-4 py-3 text-brand-400/80">
                   Admin
                 </Link>
               </li>
@@ -182,59 +161,39 @@ export function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 top-[calc(4rem+0px)] z-40 lg:hidden">
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setMobileOpen(false)}
-            aria-hidden="true"
-          />
-          <nav
-            className="animate-slide-down relative max-h-[calc(100vh-4rem)] overflow-y-auto bg-vap-charcoal px-4 py-4 shadow-2xl"
-            aria-label="Menu mobile"
-          >
-            <div className="mb-4">
+        <div className="fixed inset-0 top-[4.25rem] z-40 lg:hidden">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileOpen(false)} aria-hidden />
+          <nav className="premium-glass animate-slide-down relative max-h-[calc(100vh-4.25rem)] overflow-y-auto px-4 py-5 shadow-2xl" aria-label="Menu mobile">
+            <div className="mb-5">
               <HeaderSearch mobile onClose={() => setMobileOpen(false)} />
             </div>
-
             <ul className="space-y-1">
               {mainNavLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+                      "flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-light transition-colors",
                       isActiveLink(pathname, link.href)
-                        ? "bg-brand-600/20 text-brand-400"
-                        : "text-gray-200 hover:bg-vap-gray"
+                        ? "bg-brand-500/10 text-brand-400"
+                        : "text-white/70 hover:bg-white/5 hover:text-white"
                     )}
                     onClick={() => setMobileOpen(false)}
                   >
                     {link.label}
-                    <ChevronDown className="-rotate-90 h-4 w-4 text-gray-500" />
+                    <ChevronDown className="-rotate-90 h-4 w-4 text-white/25" />
                   </Link>
                 </li>
               ))}
             </ul>
-
-            <div className="mt-4 border-t border-vap-gray pt-4">
-              <div className="grid grid-cols-2 gap-2">
-                <Link
-                  href="/favoris"
-                  className="flex items-center justify-center gap-2 rounded-lg bg-vap-gray px-3 py-3 text-sm text-gray-200"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Heart className="h-4 w-4" /> Favoris
-                </Link>
-                <Link
-                  href={user ? "/account" : "/login"}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-vap-gray px-3 py-3 text-sm text-gray-200"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <User className="h-4 w-4" /> Compte
-                </Link>
-              </div>
+            <div className="mt-5 grid grid-cols-2 gap-2 border-t border-white/6 pt-5">
+              <Link href="/favoris" className="premium-glass-light flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-light text-white/70" onClick={() => setMobileOpen(false)}>
+                <Heart className="h-4 w-4" /> Favoris
+              </Link>
+              <Link href={user ? "/account" : "/login"} className="premium-glass-light flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-light text-white/70" onClick={() => setMobileOpen(false)}>
+                <User className="h-4 w-4" /> Compte
+              </Link>
             </div>
           </nav>
         </div>
@@ -244,5 +203,5 @@ export function Header() {
 }
 
 export function HeaderSpacer() {
-  return <div className="h-16 sm:h-[5.75rem] lg:h-[8.75rem]" aria-hidden="true" />;
+  return <div className="h-[4.25rem] lg:h-[7.5rem]" aria-hidden="true" />;
 }

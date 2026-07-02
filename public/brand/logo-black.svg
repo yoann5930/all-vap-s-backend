@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none">
+  <path d="M8 52 L28 12 L48 52" stroke="#050505" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 38 L40 38" stroke="#050505" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M28 12 L36 52" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="62" y="42" fill="#050505" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="300" letter-spacing="0.08em">All Vap&apos;s</text>
+</svg>

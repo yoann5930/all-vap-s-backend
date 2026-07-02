@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { Header, HeaderSpacer } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { HolographicAssistant } from "@/components/ai/HolographicAssistant";
+import { BrandSplash } from "@/components/brand/BrandSplash";
+import { PremiumBackground } from "@/components/brand/PremiumBackground";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
 import {
@@ -23,6 +25,14 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  variable: "--font-inter",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -85,13 +95,15 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
-      <body className={`${inter.className} flex min-h-screen flex-col`}>
+      <body className={`${inter.variable} ${manrope.variable} ${inter.className} flex min-h-screen flex-col`}>
+        <BrandSplash />
+        <PremiumBackground />
         <JsonLd data={structuredData} />
         <GoogleAnalytics />
         <CartProvider>
           <Header />
           <HeaderSpacer />
-          <main className="flex-1">{children}</main>
+          <main className="premium-main flex-1">{children}</main>
           <Footer />
           <HolographicAssistant />
         </CartProvider>

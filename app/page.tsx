@@ -39,20 +39,18 @@ export default async function HomePage() {
       <HeroSection />
       <AdvantagesSection />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+        <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-600">
-              Sélection premium
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-vap-black">Nouveautés</h2>
-            <p className="mt-2 text-gray-600">
+            <p className="premium-section-label">Sélection premium</p>
+            <h2 className="premium-section-title mt-3">Nouveautés</h2>
+            <p className="premium-section-subtitle">
               Les derniers produits ajoutés à notre catalogue
             </p>
           </div>
           <Link
             href="/boutique"
-            className="inline-flex items-center text-sm font-semibold text-brand-700 transition-colors hover:text-brand-800"
+            className="text-sm font-light tracking-wide text-brand-400/80 transition-colors hover:text-brand-300"
           >
             Tout voir →
           </Link>
