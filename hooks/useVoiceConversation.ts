@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toSpokenText, toSubtitle } from "@/lib/ai/ava-speech-utils";
+import { MIC_MESSAGES } from "@/lib/ai/mic-permission";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 
@@ -32,6 +33,7 @@ export function useVoiceConversation() {
   const [products, setProducts] = useState<AvaProduct[]>([]);
   const [blocked, setBlocked] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showSettingsHelp, setShowSettingsHelp] = useState(false);
   const greetedRef = useRef(false);
 
   const synthesis = useSpeechSynthesis();
@@ -113,17 +115,24 @@ export function useVoiceConversation() {
     setReady(true);
   }, []);
 
-  const toggleMic = useCallback(async () => {
+  const activateMic = useCallback(async () => {
     if (blocked || thinking || synthesis.isSpeaking) return;
     recognition.clearError();
-    if (recognition.isListening) recognition.stopListening();
-    else await recognition.startListening();
+    setShowSettingsHelp(false);
+    if (recognition.isListening) {
+      recognition.stopListening();
+    } else {
+      await recognition.startListening();
+    }
   }, [blocked, thinking, synthesis.isSpeaking, recognition]);
+
+  const toggleMic = activateMic;
 
   const stopAll = useCallback(() => {
     recognition.stopListening();
     synthesis.stopSpeaking();
     setThinking(false);
+    setShowSettingsHelp(false);
   }, [recognition, synthesis]);
 
   useEffect(() => {
@@ -131,6 +140,9 @@ export function useVoiceConversation() {
     greetedRef.current = true;
     synthesis.speak("Bonjour, je suis A.V.A., votre conseillère All Vap's.");
   }, [ready, synthesis]);
+
+  const needsTextFallback =
+    !recognition.canListen || recognition.micPermission === "unsupported";
 
   return {
     avaState,
@@ -142,18 +154,25 @@ export function useVoiceConversation() {
     canListen: recognition.canListen,
     canSpeak: synthesis.canSpeak,
     interimTranscript: recognition.interimTranscript,
+    micPermission: recognition.micPermission,
+    isPromptingMic: recognition.isPrompting,
+    showSettingsHelp,
+    setShowSettingsHelp,
+    needsTextFallback,
     init,
     toggleMic,
+    activateMic,
     stopAll,
     sendMessage,
     isSpeaking: synthesis.isSpeaking,
   };
 }
 
-export function avaStatusLabel(state: AvaConversationState): string {
+export function avaStatusLabel(state: AvaConversationState, isPrompting = false): string {
+  if (isPrompting) return MIC_MESSAGES.prompt;
   switch (state) {
     case "listening":
-      return "A.V.A. écoute…";
+      return MIC_MESSAGES.listening;
     case "thinking":
       return "A.V.A. réfléchit…";
     case "speaking":

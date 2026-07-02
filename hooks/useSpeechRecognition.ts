@@ -1,6 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  isSpeechRecognitionSupported,
+  MIC_MESSAGES,
+  queryMicPermission,
+  requestMicPermission,
+  type MicPermissionStatus,
+} from "@/lib/ai/mic-permission";
 
 export interface SpeechRecognitionState {
   isListening: boolean;
@@ -8,6 +15,8 @@ export interface SpeechRecognitionState {
   transcript: string;
   interimTranscript: string;
   error: string | null;
+  micPermission: MicPermissionStatus;
+  isPrompting: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,23 +29,6 @@ function getRecognitionCtor(): (new () => RecognitionInstance) | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
-export async function requestMicPermission(): Promise<{ granted: boolean; message?: string }> {
-  if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
-    return { granted: true };
-  }
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    stream.getTracks().forEach((t) => t.stop());
-    return { granted: true };
-  } catch (err) {
-    const name = err instanceof DOMException ? err.name : "";
-    if (name === "NotAllowedError" || name === "PermissionDeniedError") {
-      return { granted: false, message: "Autorisez le micro pour parler à A.V.A." };
-    }
-    return { granted: false, message: "Micro indisponible." };
-  }
-}
-
 export function useSpeechRecognition(onFinal?: (text: string) => void) {
   const callbackRef = useRef(onFinal);
   callbackRef.current = onFinal;
@@ -47,13 +39,29 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
     transcript: "",
     interimTranscript: "",
     error: null,
+    micPermission: "unknown",
+    isPrompting: false,
   });
 
   const recognitionRef = useRef<RecognitionInstance>(null);
 
   useEffect(() => {
+    const supported = isSpeechRecognitionSupported();
+    setState((s) => ({
+      ...s,
+      canListen: supported,
+      micPermission: supported ? s.micPermission : "unsupported",
+    }));
+
+    if (!supported) return;
+
+    void queryMicPermission().then((status) => {
+      if (status !== "unknown") {
+        setState((s) => ({ ...s, micPermission: status }));
+      }
+    });
+
     const Ctor = getRecognitionCtor();
-    setState((s) => ({ ...s, canListen: Boolean(Ctor) }));
     if (!Ctor) return;
 
     const rec = new Ctor();
@@ -90,9 +98,17 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
 
     rec.onerror = (event: { error?: string }) => {
       const code = event.error ?? "";
+      if (code === "not-allowed") {
+        setState((s) => ({
+          ...s,
+          isListening: false,
+          micPermission: "denied",
+          error: MIC_MESSAGES.denied,
+        }));
+        return;
+      }
       let message = "";
-      if (code === "not-allowed") message = "Micro refusé.";
-      if (code === "no-speech") message = "Je n'ai rien entendu.";
+      if (code === "no-speech") message = "Je n'ai rien entendu. Réessayez.";
       if (code === "network") message = "Connexion requise pour la reconnaissance vocale.";
       setState((s) => ({
         ...s,
@@ -102,21 +118,41 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
     };
 
     rec.onend = () => {
-      setState((s) => ({ ...s, isListening: false, interimTranscript: "" }));
+      setState((s) => ({ ...s, isListening: false, interimTranscript: "", isPrompting: false }));
     };
 
     recognitionRef.current = rec;
   }, []);
 
   const startListening = useCallback(async () => {
-    if (!recognitionRef.current) {
-      setState((s) => ({ ...s, error: "Reconnaissance vocale non supportée." }));
+    if (!isSpeechRecognitionSupported()) {
+      setState((s) => ({
+        ...s,
+        micPermission: "unsupported",
+        error: MIC_MESSAGES.unsupported,
+      }));
       return false;
     }
 
+    if (!recognitionRef.current) return false;
+
+    setState((s) => ({
+      ...s,
+      isPrompting: true,
+      error: null,
+      micPermission: "prompting",
+    }));
+
     const perm = await requestMicPermission();
+
     if (!perm.granted) {
-      setState((s) => ({ ...s, error: perm.message ?? "Micro refusé." }));
+      setState((s) => ({
+        ...s,
+        isPrompting: false,
+        isListening: false,
+        micPermission: perm.status,
+        error: perm.message ?? MIC_MESSAGES.denied,
+      }));
       return false;
     }
 
@@ -126,6 +162,8 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
       transcript: "",
       interimTranscript: "",
       isListening: true,
+      isPrompting: false,
+      micPermission: "granted",
     }));
 
     try {
@@ -135,7 +173,8 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
       setState((s) => ({
         ...s,
         isListening: false,
-        error: "Micro occupé — réessayez.",
+        isPrompting: false,
+        error: "Micro occupé — patientez un instant.",
       }));
       return false;
     }
@@ -147,7 +186,7 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
     } catch {
       /* ignore */
     }
-    setState((s) => ({ ...s, isListening: false, interimTranscript: "" }));
+    setState((s) => ({ ...s, isListening: false, interimTranscript: "", isPrompting: false }));
   }, []);
 
   const clearError = useCallback(() => {
@@ -161,3 +200,5 @@ export function useSpeechRecognition(onFinal?: (text: string) => void) {
     clearError,
   };
 }
+
+export { requestMicPermission } from "@/lib/ai/mic-permission";
