@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { useEffect, useId, useState } from "react";
 import { useMouseTracking } from "@/hooks/useMouseTracking";
 import { Particles } from "@/components/ai/Particles";
+import type { AvaVoiceState } from "@/hooks/useSpeech";
 
 export interface HolographicAvatarProps {
+  /** Explicit state — overrides individual booleans when set */
+  state?: AvaVoiceState;
   speaking?: boolean;
   listening?: boolean;
   thinking?: boolean;
@@ -26,6 +29,7 @@ const sizeMap = {
 };
 
 export function HolographicAvatar({
+  state: stateProp,
   speaking = false,
   listening = false,
   thinking = false,
@@ -41,23 +45,30 @@ export function HolographicAvatar({
   const [blink, setBlink] = useState(false);
   const uid = useId().replace(/:/g, "");
 
+  const state: AvaVoiceState =
+    stateProp ??
+    (listening ? "listening" : thinking ? "thinking" : speaking ? "speaking" : "idle");
+
+  const isSpeaking = state === "speaking";
+  const isListening = state === "listening";
+  const isThinking = state === "thinking";
+
   useEffect(() => {
     const blinkLoop = () => {
-      if (!speaking && Math.random() > 0.65) {
+      if (!isSpeaking && Math.random() > 0.65) {
         setBlink(true);
         setTimeout(() => setBlink(false), 100);
       }
-      return setTimeout(blinkLoop, speaking ? 3500 : 1800 + Math.random() * 2500);
+      return setTimeout(blinkLoop, isSpeaking ? 3500 : 1800 + Math.random() * 2500);
     };
     const t = blinkLoop();
     return () => clearTimeout(t);
-  }, [speaking]);
+  }, [isSpeaking]);
 
   const rotateY = mouse.x * (immersive ? 10 : hovered ? 14 : 8);
   const rotateX = -mouse.y * (immersive ? 8 : hovered ? 10 : 6);
   const eyeOffsetX = mouse.x * (immersive ? 4 : 3);
   const eyeOffsetY = mouse.y * (immersive ? 3 : 2);
-  const active = speaking || listening;
 
   return (
     <motion.div
@@ -79,37 +90,49 @@ export function HolographicAvatar({
     >
       <Particles count={immersive ? 48 : size === "xl" ? 36 : 22} className="rounded-full" />
 
+      {/* Halo — active during thinking only */}
       <motion.div
         className="ava-holo-halo absolute inset-[-14%] rounded-full"
         animate={{
           rotate: 360,
-          opacity: active ? [0.55, 1, 0.55] : [0.3, 0.5, 0.3],
-          scale: listening ? [1, 1.08, 1] : 1,
+          opacity: isThinking ? [0.5, 1, 0.5] : isListening ? 0.35 : 0.25,
+          scale: isThinking ? [1, 1.12, 1] : 1,
         }}
         transition={{
-          rotate: { duration: active ? 5 : 14, repeat: Infinity, ease: "linear" },
-          opacity: { duration: active ? 0.9 : 3, repeat: Infinity },
-          scale: { duration: 1.2, repeat: Infinity },
+          rotate: { duration: isThinking ? 4 : 16, repeat: Infinity, ease: "linear" },
+          opacity: { duration: isThinking ? 1.1 : 3, repeat: isThinking ? Infinity : 0 },
+          scale: { duration: 1.4, repeat: isThinking ? Infinity : 0 },
         }}
       />
 
       <motion.div
         className="ava-holo-pulse absolute inset-[-8%] rounded-full"
         animate={{
-          scale: speaking ? [1, 1.15, 1] : thinking ? [1, 1.08, 1] : [1, 1.06, 1],
-          opacity: speaking ? [0.5, 0.9, 0.5] : 0.5,
+          scale: isSpeaking ? [1, 1.15, 1] : isThinking ? [1, 1.1, 1] : [1, 1.05, 1],
+          opacity: isSpeaking ? [0.5, 0.95, 0.5] : isThinking ? [0.35, 0.65, 0.35] : 0.35,
         }}
-        transition={{ duration: speaking ? 0.45 : thinking ? 1 : 2.5, repeat: Infinity, ease: "easeInOut" }}
+        transition={{
+          duration: isSpeaking ? 0.45 : isThinking ? 1.2 : 2.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
       <div className="ava-holo-scan absolute inset-0 overflow-hidden rounded-full" />
 
-      {listening && (
-        <motion.div
-          className="absolute inset-[-20%] rounded-full border border-cyan-400/30"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        />
+      {isListening && (
+        <>
+          <motion.div
+            className="absolute inset-[-20%] rounded-full border-2 border-cyan-400/40"
+            animate={{ scale: [1, 1.25, 1], opacity: [0.7, 0, 0.7] }}
+            transition={{ duration: 1.4, repeat: Infinity }}
+          />
+          <motion.div
+            className="absolute inset-[-28%] rounded-full border border-cyan-500/25"
+            animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 1.8, repeat: Infinity, delay: 0.2 }}
+          />
+        </>
       )}
 
       <motion.div
@@ -142,7 +165,6 @@ export function HolographicAvatar({
             </clipPath>
           </defs>
 
-          {/* Wireframe */}
           <g clipPath={`url(#avaHeadClip-${uid})`} opacity="0.5" stroke="rgba(0,212,255,0.55)" strokeWidth="0.5" fill="none">
             {Array.from({ length: 9 }).map((_, i) => (
               <line key={`h${i}`} x1="36" y1={52 + i * 14} x2="164" y2={52 + i * 14} />
@@ -169,48 +191,49 @@ export function HolographicAvatar({
             stroke="rgba(0,255,255,0.75)"
             strokeWidth="1.5"
             filter={`url(#avaGlow-${uid})`}
-            animate={{ opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 2.2, repeat: Infinity }}
+            animate={{ opacity: isThinking ? [0.5, 1, 0.5] : [0.35, 0.7, 0.35] }}
+            transition={{ duration: isThinking ? 1 : 2.2, repeat: Infinity }}
           />
 
-          {/* Eyes */}
           <g transform={`translate(${eyeOffsetX}, ${eyeOffsetY})`}>
             <motion.ellipse
               cx="76"
               cy="98"
               rx="11"
-              animate={{ ry: blink ? 1 : speaking ? [7, 9, 7] : 8 }}
+              animate={{
+                ry: blink ? 1 : isListening ? [6, 9, 6] : 8,
+              }}
               fill="rgba(0,212,255,0.92)"
-              transition={{ duration: speaking ? 0.25 : 0.1, repeat: speaking ? Infinity : 0 }}
+              transition={{ duration: isListening ? 1.5 : 0.1, repeat: isListening ? Infinity : 0 }}
             />
             <motion.ellipse
               cx="124"
               cy="98"
               rx="11"
-              animate={{ ry: blink ? 1 : speaking ? [7, 9, 7] : 8 }}
+              animate={{
+                ry: blink ? 1 : isListening ? [6, 9, 6] : 8,
+              }}
               fill="rgba(0,212,255,0.92)"
-              transition={{ duration: speaking ? 0.25 : 0.1, repeat: speaking ? Infinity : 0, delay: 0.05 }}
+              transition={{ duration: isListening ? 1.5 : 0.1, repeat: isListening ? Infinity : 0, delay: 0.1 }}
             />
             {!blink && (
               <>
                 <circle cx="78" cy="96" r="3.5" fill="rgba(220,255,255,0.95)" />
                 <circle cx="126" cy="96" r="3.5" fill="rgba(220,255,255,0.95)" />
-                <circle cx="79" cy="95" r="1" fill="rgba(255,255,255,0.9)" />
-                <circle cx="127" cy="95" r="1" fill="rgba(255,255,255,0.9)" />
               </>
             )}
           </g>
 
           <line x1="100" y1="106" x2="100" y2="124" stroke="rgba(0,212,255,0.35)" strokeWidth="0.8" />
 
-          {/* Mouth — lip sync */}
+          {/* Mouth — lip sync ONLY while speaking */}
           <motion.path
             fill="none"
             stroke="rgba(0,255,255,0.85)"
             strokeWidth="2"
             strokeLinecap="round"
             animate={
-              speaking
+              isSpeaking
                 ? {
                     d: [
                       "M80 136 Q100 150 120 136",
@@ -220,11 +243,9 @@ export function HolographicAvatar({
                       "M80 136 Q100 150 120 136",
                     ],
                   }
-                : listening
-                  ? { d: "M86 138 Q100 146 114 138" }
-                  : { d: "M88 138 Q100 142 112 138" }
+                : { d: "M88 138 Q100 142 112 138" }
             }
-            transition={{ duration: speaking ? 0.22 : 0.3, repeat: speaking ? Infinity : 0, ease: "easeInOut" }}
+            transition={{ duration: isSpeaking ? 0.2 : 0.3, repeat: isSpeaking ? Infinity : 0, ease: "easeInOut" }}
           />
 
           <path d="M42 178 Q100 200 158 178" fill="none" stroke="rgba(0,212,255,0.2)" strokeWidth="1" />
