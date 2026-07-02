@@ -25,14 +25,13 @@ export async function GET() {
 
 const postSchema = z.object({
   message: z.string().min(1),
-  step: z.number().int().min(0).max(6),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const body = postSchema.parse(await request.json());
     const userId = await getUserId();
-    const reply = await chatHolographicAssistant(userId, body.step, body.message);
+    const reply = await chatHolographicAssistant(userId, body.message);
     return jsonResponse(reply);
   } catch (error) {
     return handleApiError(error);
