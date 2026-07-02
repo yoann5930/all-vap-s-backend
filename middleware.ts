@@ -1,23 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const CANONICAL_HOST = "allvaps.fr";
-
-export function middleware(request: NextRequest) {
-  const host = request.headers.get("host") || "";
-  const url = request.nextUrl.clone();
-
-  if (host.startsWith("www.")) {
-    url.host = CANONICAL_HOST;
-    url.protocol = "https:";
-    return NextResponse.redirect(url, 301);
-  }
-
-  if (process.env.NODE_ENV === "production" && host && !host.includes("localhost") && request.headers.get("x-forwarded-proto") === "http") {
-    url.protocol = "https:";
-    return NextResponse.redirect(url, 301);
-  }
-
+/**
+ * Security headers only — no host or HTTPS redirects here.
+ * Vercel handles HTTP→HTTPS and www→apex at the edge (see vercel.json).
+ * Redirect logic in middleware caused ERR_TOO_MANY_REDIRECTS on custom domains
+ * because x-forwarded-proto can be "http" on internal requests even over HTTPS.
+ */
+export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
