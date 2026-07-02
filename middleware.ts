@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-/**
- * Security headers only — never redirect, never touch static assets.
- * Static exclusions must stay in sync with vercel.json redirect rules.
- */
+/** Security headers only — no redirects (domain redirects belong in Vercel Domains settings). */
 export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
   response.headers.set("X-Content-Type-Options", "nosniff");
@@ -16,10 +13,6 @@ export function middleware(_request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Run only on HTML/app routes — skip all static assets:
-     * _next/*, public files, SEO files, any path with a file extension
-     */
     "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|.*\\.[\\w]+$).*)",
   ],
 };

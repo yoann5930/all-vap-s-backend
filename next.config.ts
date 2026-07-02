@@ -10,18 +10,7 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
 
-/** Serve /_next/static from the Vercel deployment URL — avoids broken relative asset loads on custom domains. */
-function getAssetPrefix(): string | undefined {
-  const explicit = process.env.NEXT_PUBLIC_ASSET_PREFIX?.replace(/\/$/, "");
-  if (explicit) return explicit;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return undefined;
-}
-
-const assetPrefix = getAssetPrefix();
-
 const nextConfig: NextConfig = {
-  ...(assetPrefix ? { assetPrefix, crossOrigin: "anonymous" as const } : {}),
   compress: true,
   poweredByHeader: false,
   images: {
@@ -48,10 +37,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/_next/static/:path*",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-          { key: "Access-Control-Allow-Origin", value: "*" },
-        ],
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
       {
         source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
