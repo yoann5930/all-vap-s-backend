@@ -165,6 +165,7 @@ export function useVoiceConversation() {
     stopAll,
     sendMessage,
     isSpeaking: synthesis.isSpeaking,
+    activeAudio: synthesis.activeAudio,
   };
 }
 

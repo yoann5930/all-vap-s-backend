@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
-import { HolographicAvatar } from "@/components/ai/HolographicAvatar";
 
 interface AssistantButtonProps {
   onClick: () => void;
@@ -29,13 +29,26 @@ export function AssistantButton({ onClick, isOpen, speaking = false }: Assistant
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.97 }}
     >
-      <div className="ava-holo-shadow relative rounded-full p-1">
-        <HolographicAvatar
-          size="xl"
-          speaking={speaking}
-          showLabel
-          interactive
-        />
+      <div className="ava-holo-shadow relative overflow-hidden rounded-full border border-cyan-500/25 p-0.5">
+        <motion.div
+          animate={
+            speaking
+              ? { boxShadow: ["0 0 20px rgba(0,212,255,0.3)", "0 0 36px rgba(0,212,255,0.55)", "0 0 20px rgba(0,212,255,0.3)"] }
+              : { boxShadow: "0 0 18px rgba(0,212,255,0.2)" }
+          }
+          transition={{ duration: 1.2, repeat: speaking ? Infinity : 0 }}
+          className="relative h-[72px] w-[72px] overflow-hidden rounded-full sm:h-[80px] sm:w-[80px]"
+        >
+          <Image
+            src="/ava/ava-hologram-portrait.png"
+            alt=""
+            fill
+            className="object-cover object-[center_20%] opacity-90 mix-blend-screen"
+            sizes="80px"
+            priority
+          />
+          <div className="pointer-events-none absolute inset-0 bg-cyan-400/10 mix-blend-screen" />
+        </motion.div>
       </div>
 
       <motion.span

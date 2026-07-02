@@ -324,3 +324,39 @@ body {
   filter: blur(10px);
   animation: ava-projection-pulse 3.5s ease-in-out infinite;
 }
+
+/* Scène 3D A.V.A. — React Three Fiber */
+.ava-3d-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ava-3d-canvas canvas {
+  display: block;
+}
+
+.ava-3d-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.018) 2px,
+    rgba(0, 212, 255, 0.018) 3px
+  );
+  opacity: 0.45;
+  mix-blend-mode: screen;
+}
+
+.ava-3d-vignette {
+  background: radial-gradient(ellipse 65% 55% at 50% 42%, transparent 0%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.ava-3d-loading {
+  background: radial-gradient(ellipse 50% 40% at 50% 45%, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+}
+
+.ava-mic-modal-glow {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
+}

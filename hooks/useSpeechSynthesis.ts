@@ -28,6 +28,7 @@ export function useSpeechSynthesis() {
     error: null,
   });
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [activeAudio, setActiveAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
@@ -52,6 +53,7 @@ export function useSpeechSynthesis() {
       audioRef.current.pause();
       audioRef.current = null;
     }
+    setActiveAudio(null);
     setState((s) => ({ ...s, isSpeaking: false }));
   }, []);
 
@@ -86,6 +88,7 @@ export function useSpeechSynthesis() {
       stopSpeaking();
       const audio = new Audio(`data:${mimeType};base64,${base64}`);
       audioRef.current = audio;
+      setActiveAudio(audio);
       audio.onplay = () => setState((s) => ({ ...s, isSpeaking: true, error: null }));
       audio.onended = () => setState((s) => ({ ...s, isSpeaking: false }));
       audio.onerror = () => {
@@ -111,5 +114,6 @@ export function useSpeechSynthesis() {
     ...state,
     speak,
     stopSpeaking,
+    activeAudio,
   };
 }
