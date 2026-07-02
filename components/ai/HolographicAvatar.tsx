@@ -4,11 +4,10 @@ import { motion } from "framer-motion";
 import { useEffect, useId, useState } from "react";
 import { useMouseTracking } from "@/hooks/useMouseTracking";
 import { Particles } from "@/components/ai/Particles";
-import type { AvaVoiceState } from "@/hooks/useSpeech";
+import type { AvaConversationState } from "@/hooks/useVoiceConversation";
 
 export interface HolographicAvatarProps {
-  /** Explicit state — overrides individual booleans when set */
-  state?: AvaVoiceState;
+  state?: AvaConversationState;
   speaking?: boolean;
   listening?: boolean;
   thinking?: boolean;
@@ -17,6 +16,7 @@ export interface HolographicAvatarProps {
   interactive?: boolean;
   showLabel?: boolean;
   immersive?: boolean;
+  feminine?: boolean;
   className?: string;
 }
 
@@ -25,7 +25,7 @@ const sizeMap = {
   md: { box: 96, scale: 0.75 },
   lg: { box: 128, scale: 1 },
   xl: { box: 160, scale: 1.25 },
-  hero: { box: 280, scale: 1.55 },
+  hero: { box: 300, scale: 1.6 },
 };
 
 export function HolographicAvatar({
@@ -38,6 +38,7 @@ export function HolographicAvatar({
   interactive = true,
   showLabel = false,
   immersive = false,
+  feminine = false,
   className = "",
 }: HolographicAvatarProps) {
   const { box, scale } = sizeMap[size];
@@ -45,7 +46,7 @@ export function HolographicAvatar({
   const [blink, setBlink] = useState(false);
   const uid = useId().replace(/:/g, "");
 
-  const state: AvaVoiceState =
+  const state: AvaConversationState =
     stateProp ??
     (listening ? "listening" : thinking ? "thinking" : speaking ? "speaking" : "idle");
 
@@ -54,207 +55,234 @@ export function HolographicAvatar({
   const isThinking = state === "thinking";
 
   useEffect(() => {
-    const blinkLoop = () => {
-      if (!isSpeaking && Math.random() > 0.65) {
+    const loop = () => {
+      if (!isSpeaking && Math.random() > 0.6) {
         setBlink(true);
-        setTimeout(() => setBlink(false), 100);
+        setTimeout(() => setBlink(false), 110);
       }
-      return setTimeout(blinkLoop, isSpeaking ? 3500 : 1800 + Math.random() * 2500);
+      return setTimeout(loop, isSpeaking ? 4000 : 1600 + Math.random() * 2200);
     };
-    const t = blinkLoop();
+    const t = loop();
     return () => clearTimeout(t);
   }, [isSpeaking]);
 
-  const rotateY = mouse.x * (immersive ? 10 : hovered ? 14 : 8);
-  const rotateX = -mouse.y * (immersive ? 8 : hovered ? 10 : 6);
-  const eyeOffsetX = mouse.x * (immersive ? 4 : 3);
-  const eyeOffsetY = mouse.y * (immersive ? 3 : 2);
+  const rotateY = mouse.x * (immersive ? 12 : 8);
+  const rotateX = -mouse.y * (immersive ? 9 : 6);
+  const eyeX = mouse.x * (immersive ? 5 : 3);
+  const eyeY = mouse.y * (immersive ? 3.5 : 2);
 
   return (
     <motion.div
       className={`ava-holo-root relative ${className}`}
       style={{ width: box, height: box }}
-      initial={{ opacity: 0, scale: 0.2, filter: "blur(16px)" }}
+      initial={{ opacity: 0, scale: 0.15, filter: "blur(20px)" }}
       animate={{
         opacity: 1,
         scale: 1,
         filter: "blur(0px)",
-        y: immersive ? [0, -6, 0] : [0, -4, 0],
+        y: immersive ? [0, -8, 0] : [0, -4, 0],
       }}
       transition={{
-        opacity: { duration: 1.4, ease: "easeOut" },
-        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-        filter: { duration: 1.2 },
-        y: { duration: immersive ? 5 : 4, repeat: Infinity, ease: "easeInOut" },
+        opacity: { duration: 1.6, ease: "easeOut" },
+        scale: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
+        y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
       }}
     >
-      <Particles count={immersive ? 48 : size === "xl" ? 36 : 22} className="rounded-full" />
+      <Particles count={immersive ? 56 : 24} className="rounded-full" />
 
-      {/* Halo — active during thinking only */}
+      {/* Halo — thinking */}
       <motion.div
-        className="ava-holo-halo absolute inset-[-14%] rounded-full"
+        className="ava-holo-halo absolute inset-[-16%] rounded-full"
         animate={{
           rotate: 360,
-          opacity: isThinking ? [0.5, 1, 0.5] : isListening ? 0.35 : 0.25,
-          scale: isThinking ? [1, 1.12, 1] : 1,
+          opacity: isThinking ? [0.45, 1, 0.45] : 0.22,
+          scale: isThinking ? [1, 1.14, 1] : 1,
         }}
         transition={{
-          rotate: { duration: isThinking ? 4 : 16, repeat: Infinity, ease: "linear" },
-          opacity: { duration: isThinking ? 1.1 : 3, repeat: isThinking ? Infinity : 0 },
-          scale: { duration: 1.4, repeat: isThinking ? Infinity : 0 },
+          rotate: { duration: isThinking ? 3.5 : 20, repeat: Infinity, ease: "linear" },
+          opacity: { duration: 1.2, repeat: isThinking ? Infinity : 0 },
+          scale: { duration: 1.5, repeat: isThinking ? Infinity : 0 },
         }}
       />
 
       <motion.div
-        className="ava-holo-pulse absolute inset-[-8%] rounded-full"
+        className="ava-holo-pulse absolute inset-[-10%] rounded-full"
         animate={{
-          scale: isSpeaking ? [1, 1.15, 1] : isThinking ? [1, 1.1, 1] : [1, 1.05, 1],
-          opacity: isSpeaking ? [0.5, 0.95, 0.5] : isThinking ? [0.35, 0.65, 0.35] : 0.35,
+          scale: isSpeaking ? [1, 1.18, 1] : isListening ? [1, 1.1, 1] : [1, 1.06, 1],
+          opacity: isSpeaking ? [0.45, 0.95, 0.45] : 0.35,
         }}
-        transition={{
-          duration: isSpeaking ? 0.45 : isThinking ? 1.2 : 2.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: isSpeaking ? 0.4 : 2.8, repeat: Infinity }}
       />
 
-      <div className="ava-holo-scan absolute inset-0 overflow-hidden rounded-full" />
+      <div className="ava-holo-scan absolute inset-0 overflow-hidden rounded-full opacity-80" />
 
       {isListening && (
-        <>
-          <motion.div
-            className="absolute inset-[-20%] rounded-full border-2 border-cyan-400/40"
-            animate={{ scale: [1, 1.25, 1], opacity: [0.7, 0, 0.7] }}
-            transition={{ duration: 1.4, repeat: Infinity }}
-          />
-          <motion.div
-            className="absolute inset-[-28%] rounded-full border border-cyan-500/25"
-            animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
-            transition={{ duration: 1.8, repeat: Infinity, delay: 0.2 }}
-          />
-        </>
+        <motion.div
+          className="absolute inset-[-22%] rounded-full border border-cyan-300/35"
+          animate={{ scale: [1, 1.28, 1], opacity: [0.65, 0, 0.65] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+        />
       )}
 
       <motion.div
         className="relative h-full w-full will-change-transform"
-        style={{ perspective: 800, transformStyle: "preserve-3d" }}
-        animate={{ rotateY, rotateX, scale: hovered ? 1.04 : 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        style={{ perspective: 900, transformStyle: "preserve-3d" }}
+        animate={{ rotateY, rotateX }}
+        transition={{ type: "spring", stiffness: 90, damping: 22 }}
       >
         <svg
-          viewBox="0 0 200 260"
-          className={`h-full w-full ${immersive ? "drop-shadow-[0_0_48px_rgba(0,212,255,0.65)]" : "drop-shadow-[0_0_24px_rgba(0,212,255,0.5)]"}`}
+          viewBox="0 0 220 280"
+          className={`h-full w-full ${immersive ? "drop-shadow-[0_0_56px_rgba(0,212,255,0.7)]" : ""}`}
           style={{ transform: `scale(${scale})`, transformOrigin: "center" }}
           aria-hidden
         >
           <defs>
-            <linearGradient id={`avaFaceGrad-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="rgba(0,212,255,0.4)" />
-              <stop offset="45%" stopColor="rgba(0,160,200,0.18)" />
-              <stop offset="100%" stopColor="rgba(0,80,120,0.04)" />
+            <linearGradient id={`fg-${uid}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(0,230,255,0.42)" />
+              <stop offset="55%" stopColor="rgba(0,160,210,0.16)" />
+              <stop offset="100%" stopColor="rgba(0,60,100,0.03)" />
             </linearGradient>
-            <filter id={`avaGlow-${uid}`}>
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <radialGradient id={`cheek-${uid}`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="rgba(0,255,255,0.12)" />
+              <stop offset="100%" stopColor="rgba(0,255,255,0)" />
+            </radialGradient>
+            <filter id={`glow-${uid}`}>
+              <feGaussianBlur stdDeviation="2.8" result="b" />
               <feMerge>
-                <feMergeNode in="blur" />
+                <feMergeNode in="b" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <clipPath id={`avaHeadClip-${uid}`}>
-              <ellipse cx="100" cy="105" rx="64" ry="74" />
+            <clipPath id={`head-${uid}`}>
+              <path d="M110 38 C145 38 168 62 172 98 C176 134 168 168 148 188 C128 208 92 208 72 188 C52 168 44 134 48 98 C52 62 75 38 110 38 Z" />
             </clipPath>
           </defs>
 
-          <g clipPath={`url(#avaHeadClip-${uid})`} opacity="0.5" stroke="rgba(0,212,255,0.55)" strokeWidth="0.5" fill="none">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <line key={`h${i}`} x1="36" y1={52 + i * 14} x2="164" y2={52 + i * 14} />
+          {/* Cheveux holographiques */}
+          {feminine && (
+            <g opacity="0.55" stroke="rgba(0,212,255,0.45)" strokeWidth="0.7" fill="none">
+              <path d="M68 55 Q55 30 75 22 Q95 15 110 18" />
+              <path d="M152 55 Q165 28 145 20 Q125 12 110 18" />
+              <path d="M62 75 Q40 90 45 120" />
+              <path d="M158 75 Q180 92 175 122" />
+              <path d="M110 18 L110 42" opacity="0.4" />
+            </g>
+          )}
+
+          {/* Maillage */}
+          <g clipPath={`url(#head-${uid})`} opacity="0.42" stroke="rgba(0,212,255,0.4)" strokeWidth="0.45" fill="none">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <line key={`h${i}`} x1="52" y1={48 + i * 14} x2="168" y2={48 + i * 14} />
             ))}
             {Array.from({ length: 8 }).map((_, i) => (
-              <line key={`v${i}`} x1={44 + i * 16} y1="48" x2={44 + i * 16} y2="178" />
+              <line key={`v${i}`} x1={58 + i * 15} y1="44" x2={58 + i * 15} y2="195" />
             ))}
-            <ellipse cx="100" cy="105" rx="64" ry="74" />
           </g>
 
-          <ellipse
-            cx="100"
-            cy="105"
-            rx="64"
-            ry="74"
-            fill={`url(#avaFaceGrad-${uid})`}
-            stroke="rgba(0,212,255,0.65)"
-            strokeWidth="1.2"
+          {/* Visage */}
+          <path
+            d="M110 38 C145 38 168 62 172 98 C176 134 168 168 148 188 C128 208 92 208 72 188 C52 168 44 134 48 98 C52 62 75 38 110 38 Z"
+            fill={`url(#fg-${uid})`}
+            stroke="rgba(0,220,255,0.6)"
+            strokeWidth="1.1"
           />
 
-          <motion.path
-            d="M52 92 Q100 65 148 92"
-            fill="none"
-            stroke="rgba(0,255,255,0.75)"
-            strokeWidth="1.5"
-            filter={`url(#avaGlow-${uid})`}
-            animate={{ opacity: isThinking ? [0.5, 1, 0.5] : [0.35, 0.7, 0.35] }}
-            transition={{ duration: isThinking ? 1 : 2.2, repeat: Infinity }}
-          />
+          <ellipse cx="82" cy="118" rx="14" ry="10" fill={`url(#cheek-${uid})`} />
+          <ellipse cx="138" cy="118" rx="14" ry="10" fill={`url(#cheek-${uid})`} />
 
-          <g transform={`translate(${eyeOffsetX}, ${eyeOffsetY})`}>
+          {/* Sourcils */}
+          <path d="M72 88 Q88 82 98 86" fill="none" stroke="rgba(0,255,255,0.5)" strokeWidth="1" strokeLinecap="round" />
+          <path d="M122 86 Q132 82 148 88" fill="none" stroke="rgba(0,255,255,0.5)" strokeWidth="1" strokeLinecap="round" />
+
+          {/* Yeux — regard humain */}
+          <g transform={`translate(${eyeX}, ${eyeY})`}>
             <motion.ellipse
-              cx="76"
-              cy="98"
-              rx="11"
-              animate={{
-                ry: blink ? 1 : isListening ? [6, 9, 6] : 8,
-              }}
-              fill="rgba(0,212,255,0.92)"
-              transition={{ duration: isListening ? 1.5 : 0.1, repeat: isListening ? Infinity : 0 }}
+              cx="88"
+              cy="102"
+              rx={feminine ? 12 : 11}
+              animate={{ ry: blink ? 1.5 : isListening ? [6, 9, 6] : 9 }}
+              fill="rgba(0,200,240,0.15)"
+              stroke="rgba(0,255,255,0.7)"
+              strokeWidth="0.8"
+              transition={{ duration: isListening ? 1.8 : 0.12, repeat: isListening ? Infinity : 0 }}
             />
             <motion.ellipse
-              cx="124"
-              cy="98"
-              rx="11"
-              animate={{
-                ry: blink ? 1 : isListening ? [6, 9, 6] : 8,
-              }}
-              fill="rgba(0,212,255,0.92)"
-              transition={{ duration: isListening ? 1.5 : 0.1, repeat: isListening ? Infinity : 0, delay: 0.1 }}
+              cx="132"
+              cy="102"
+              rx={feminine ? 12 : 11}
+              animate={{ ry: blink ? 1.5 : isListening ? [6, 9, 6] : 9 }}
+              fill="rgba(0,200,240,0.15)"
+              stroke="rgba(0,255,255,0.7)"
+              strokeWidth="0.8"
+              transition={{ duration: isListening ? 1.8 : 0.12, repeat: isListening ? Infinity : 0, delay: 0.08 }}
             />
             {!blink && (
               <>
-                <circle cx="78" cy="96" r="3.5" fill="rgba(220,255,255,0.95)" />
-                <circle cx="126" cy="96" r="3.5" fill="rgba(220,255,255,0.95)" />
+                <circle cx="90" cy="100" r="4.5" fill="rgba(0,255,255,0.95)" filter={`url(#glow-${uid})`} />
+                <circle cx="134" cy="100" r="4.5" fill="rgba(0,255,255,0.95)" filter={`url(#glow-${uid})`} />
+                <circle cx="91.5" cy="98.5" r="1.5" fill="rgba(255,255,255,0.95)" />
+                <circle cx="135.5" cy="98.5" r="1.5" fill="rgba(255,255,255,0.95)" />
+                {feminine && (
+                  <>
+                    <path d="M76 94 Q84 90 92 93" fill="none" stroke="rgba(0,255,255,0.35)" strokeWidth="0.6" />
+                    <path d="M128 93 Q136 90 144 94" fill="none" stroke="rgba(0,255,255,0.35)" strokeWidth="0.6" />
+                  </>
+                )}
               </>
             )}
           </g>
 
-          <line x1="100" y1="106" x2="100" y2="124" stroke="rgba(0,212,255,0.35)" strokeWidth="0.8" />
+          {/* Nez */}
+          <path d="M110 108 Q108 122 110 128 Q112 122 110 108" fill="none" stroke="rgba(0,212,255,0.3)" strokeWidth="0.7" />
 
-          {/* Mouth — lip sync ONLY while speaking */}
+          {/* Bouche — lip sync speaking only */}
           <motion.path
             fill="none"
-            stroke="rgba(0,255,255,0.85)"
-            strokeWidth="2"
+            stroke="rgba(0,255,255,0.9)"
+            strokeWidth="1.8"
             strokeLinecap="round"
+            filter={`url(#glow-${uid})`}
             animate={
               isSpeaking
                 ? {
                     d: [
-                      "M80 136 Q100 150 120 136",
-                      "M84 132 Q100 158 116 132",
-                      "M82 138 Q100 145 118 138",
-                      "M86 134 Q100 155 114 134",
-                      "M80 136 Q100 150 120 136",
+                      "M92 148 Q110 162 128 148",
+                      "M96 144 Q110 168 124 144",
+                      "M94 150 Q110 158 126 150",
+                      "M98 145 Q110 165 122 145",
+                      "M92 148 Q110 162 128 148",
                     ],
                   }
-                : { d: "M88 138 Q100 142 112 138" }
+                : { d: feminine ? "M96 150 Q110 154 124 150" : "M98 150 Q110 152 122 150" }
             }
-            transition={{ duration: isSpeaking ? 0.2 : 0.3, repeat: isSpeaking ? Infinity : 0, ease: "easeInOut" }}
+            transition={{ duration: 0.18, repeat: isSpeaking ? Infinity : 0, ease: "easeInOut" }}
           />
 
-          <path d="M42 178 Q100 200 158 178" fill="none" stroke="rgba(0,212,255,0.2)" strokeWidth="1" />
-          <ellipse cx="72" cy="82" rx="20" ry="9" fill="rgba(255,255,255,0.07)" transform="rotate(-18 72 82)" />
+          {/* Cou / épaules */}
+          <path
+            d="M82 188 Q110 210 138 188 L148 220 Q110 235 72 220 Z"
+            fill="rgba(0,180,220,0.06)"
+            stroke="rgba(0,212,255,0.2)"
+            strokeWidth="0.8"
+          />
+
+          {/* Reflet */}
+          <ellipse cx="85" cy="72" rx="22" ry="10" fill="rgba(255,255,255,0.06)" transform="rotate(-15 85 72)" />
+
+          <motion.path
+            d="M58 95 Q110 68 162 95"
+            fill="none"
+            stroke="rgba(0,255,255,0.55)"
+            strokeWidth="1.2"
+            filter={`url(#glow-${uid})`}
+            animate={{ opacity: [0.3, 0.85, 0.3] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
+          />
         </svg>
       </motion.div>
 
       {showLabel && (
-        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold tracking-widest text-cyan-300/90">
+        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs tracking-[0.3em] text-cyan-300/80">
           A.V.A.
         </span>
       )}
