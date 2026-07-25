@@ -15,14 +15,20 @@ function scoreFrenchVoice(v: SpeechSynthesisVoice): number {
   if (!lang.startsWith("fr")) return -100;
 
   let score = 10;
-  // Voix neurales / online = nettement plus humaines
-  if (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(name)) score += 50;
-  if (/denise|julie|marie|amelie|hortense|aria|claire|caroline|brigitte/i.test(name)) score += 40;
+  // Strictement français de France (évite accents CA/BE/CH)
+  if (lang === "fr-fr" || lang === "fr_fr") score += 35;
+  if (/fr-ca|fr_ca|quebec|belg|fr-be|fr-ch|swiss|canada/i.test(`${lang} ${name}`)) score -= 60;
+
+  // Voix neurales / online = nettement plus humaines et douces
+  if (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(name)) score += 55;
+  if (/denise|julie|marie|amelie|hortense|aria|claire|caroline|brigitte|eloise|léonie|leonie/i.test(name))
+    score += 45;
   if (/female|femme|woman|girl/i.test(name)) score += 15;
   if (/google.*fran[cç]ais|microsoft.*fr/i.test(name)) score += 25;
-  if (/male|homme|paul|thomas|claude|hugo|jean/i.test(name)) score -= 30;
-  if (v.localService) score += 5;
-  if (lang === "fr-fr") score += 8;
+  if (/male|homme|paul|thomas|claude|hugo|jean|jacques/i.test(name)) score -= 40;
+  // Préférer les voix « soft / pleasant » si nommées ainsi
+  if (/soft|gentle|calm|warm/i.test(name)) score += 20;
+  if (v.localService) score += 3;
   return score;
 }
 
@@ -39,11 +45,11 @@ function pickFrenchFemaleVoice(): SpeechSynthesisVoice | null {
 function speakUtterance(text: string, voice: SpeechSynthesisVoice | null): Promise<void> {
   return new Promise((resolve, reject) => {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = voice?.lang || "fr-FR";
-    // Rythme humain : fluide, sans pitch « cartoon »
-    utterance.rate = 1.02;
-    utterance.pitch = 1.0;
-    utterance.volume = 1;
+    utterance.lang = "fr-FR";
+    // Douce, posée, sans accélération ni pitch artificiel
+    utterance.rate = 0.9;
+    utterance.pitch = 0.98;
+    utterance.volume = 0.88;
     if (voice) utterance.voice = voice;
 
     utterance.onend = () => resolve();
@@ -118,7 +124,7 @@ export function useSpeechSynthesis() {
         await speakUtterance(sentences[i], voice);
         // Micro-pause naturelle entre phrases
         if (!cancelRef.current && i < sentences.length - 1) {
-          await pause(140);
+          await pause(220);
         }
       }
     } catch {

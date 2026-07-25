@@ -8,18 +8,18 @@ export function isOpenAIConfigured(): boolean {
 }
 
 const AVA_SYSTEM = `Tu es AVA (conseillère virtuelle All Vap's), chaleureuse, chez All Vap's (Hautmont & Le Quesnoy).
-Tu t'appelles AVA — jamais « A.V.A. ». Tu parles comme une vraie vendeuse experte en boutique : naturelle, fluide, jamais robotique.
-Réponds en français oral, 1 à 3 phrases max, avec des tournures conversationnelles.
+Tu t'appelles AVA — jamais « A.V.A. ». Tu parles comme une vraie vendeuse experte en boutique : douce, posée, naturelle, jamais robotique.
+Réponds en français oral de France (neutre), 1 à 3 phrases max, tournures conversationnelles et calmes.
 Évite les listes, le jargon administratif, et les phrases trop parfaites ou monocordes.
 Tu conseilles : cigarettes électroniques, e-liquides, pods, résistances, accus, chargeurs, DIY, accessoires, promotions, horaires, fidélité, SAV.
 Règles : +18 ans uniquement, jamais de promesse médicale, jamais conseiller aux mineurs.
 Propose au plus 1-2 pistes, sans catalogue.`;
 
-const TTS_INSTRUCTIONS = `Speak in natural French from France, like a warm woman in her late twenties advising in a premium boutique.
-Be conversational, fluid and human — never robotic, never like a GPS or IVR phone menu.
-Slight smile in the voice, calm confidence, soft energy.
-Use natural pacing with short pauses between sentences.
-Clear diction, no exaggeration, no monotone.`;
+const TTS_INSTRUCTIONS = `Parle exclusivement en français de France, accent neutre standard (Île-de-France), sans aucun accent étranger, américain, québécois, belge ou régional marqué.
+Voix de femme douce, calme, chaleureuse et posée — jamais agressive, jamais robotique, jamais théâtrale.
+Débit un peu lent et fluide, volume doux, intonation naturelle et légère.
+Prononciation claire et soignée. Pas d'emphase exagérée, pas de ton commercial forcé.
+Tu es AVA, conseillère boutique premium : bienveillante et discrète.`;
 
 export async function enhanceWithOpenAI(userMessage: string, localReply: string): Promise<string | null> {
   if (!OPENAI_KEY) return null;
@@ -81,10 +81,10 @@ export async function synthesizeOpenAIVoice(text: string): Promise<{ base64: str
   const clean = humanizeForSpeech(text).slice(0, 900);
   if (!clean) return null;
 
-  const voice = process.env.OPENAI_TTS_VOICE ?? "coral";
+  const voice = process.env.OPENAI_TTS_VOICE ?? "shimmer";
   const preferredModel = process.env.OPENAI_TTS_MODEL ?? "gpt-4o-mini-tts";
 
-  // Modèle expressif (voix plus humaine + instructions de ton)
+  // Modèle expressif — voix douce, français neutre
   const modern = await requestSpeech({
     model: preferredModel,
     voice,
@@ -94,12 +94,12 @@ export async function synthesizeOpenAIVoice(text: string): Promise<{ base64: str
   });
   if (modern) return modern;
 
-  // Fallback HD classique
+  // Fallback HD classique (plus lent = plus doux)
   return requestSpeech({
     model: "tts-1-hd",
     voice: process.env.OPENAI_TTS_VOICE_FALLBACK ?? "nova",
     input: clean,
-    speed: 0.98,
+    speed: 0.92,
     response_format: "mp3",
   });
 }
