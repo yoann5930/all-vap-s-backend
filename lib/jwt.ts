@@ -4,17 +4,27 @@ import type { Role } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { generateSecureToken, hashToken } from "@/lib/security";
 
-function resolveJwtSecret(): Uint8Array {
+function isLocalAppUrl(): boolean {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+  return /localhost|127\.0\.0\.1/i.test(appUrl);
+}
+
+/** Lazy secret — ne pas throw au import (sinon `next build` plante sans env Vercel). */
+function getJwtSecret(): Uint8Array {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    if (process.env.NODE_ENV === "production") {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
-      const isLocal = /localhost|127\.0\.0\.1/i.test(appUrl);
-      if (!isLocal) {
-        throw new Error("JWT_SECRET manquant — refus de démarrer en production");
-      }
+    // Pendant le build / collect data, les secrets peuvent être absents.
+    const duringBuild =
+      process.env.NEXT_PHASE === "phase-production-build" ||
+      process.env.npm_lifecycle_event === "build";
+
+    if (process.env.NODE_ENV === "production" && !isLocalAppUrl() && !duringBuild) {
+      throw new Error("JWT_SECRET manquant — refus de démarrer en production");
     }
-    console.warn("[All Vap's] JWT_SECRET absent — secret de développement utilisé");
+
+    if (!duringBuild) {
+      console.warn("[All Vap's] JWT_SECRET absent — secret de développement utilisé");
+    }
     return new TextEncoder().encode("dev-secret-change-in-production");
   }
   if (secret.length < 32 && process.env.NODE_ENV === "production") {
@@ -22,8 +32,6 @@ function resolveJwtSecret(): Uint8Array {
   }
   return new TextEncoder().encode(secret);
 }
-
-const JWT_SECRET = resolveJwtSecret();
 
 const COOKIE_NAME = "allvaps_token";
 const REFRESH_COOKIE = "allvaps_refresh";
@@ -36,22 +44,17 @@ export interface JwtPayload {
   role: Role;
 }
 
-function isLocalAppUrl(): boolean {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
-  return /localhost|127\.0\.0\.1/i.test(appUrl);
-}
-
 export async function signToken(payload: JwtPayload): Promise<string> {
   return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(ACCESS_EXPIRY)
-    .sign(JWT_SECRET);
+    .sign(getJwtSecret());
 }
 
 export async function verifyToken(token: string): Promise<JwtPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token, getJwtSecret());
     return payload as unknown as JwtPayload;
   } catch {
     return null;
