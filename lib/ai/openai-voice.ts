@@ -116,15 +116,30 @@ async function requestSpeech(
 function resolveTtsVoice(raw: string, fallback: string): string {
   const v = raw.toLowerCase();
   if (ALLOWED_TTS_VOICES.has(v)) return v;
-  console.warn(`[All Vap's][TTS] voice invalide "${raw}" — fallback ${fallback}`);
+  const safe = raw.length > 24 ? `${raw.slice(0, 4)}…(len=${raw.length})` : raw;
+  console.warn(`[All Vap's][TTS] voice invalide "${safe}" — fallback ${fallback}`);
   return fallback;
+}
+
+function resolveTtsModel(raw: string, fallback: string): string {
+  const m = raw.trim();
+  // Corrige la typo fréquente gpt-40-mini-tts → gpt-4o-mini-tts
+  const fixed = m.replace(/gpt-40-mini-tts/gi, "gpt-4o-mini-tts");
+  if (!fixed) return fallback;
+  if (fixed !== m) {
+    console.warn("[All Vap's][TTS] modèle corrigé gpt-40-mini-tts → gpt-4o-mini-tts");
+  }
+  return fixed;
 }
 
 export async function synthesizeOpenAIVoice(text: string): Promise<{ base64: string; mime: string } | null> {
   const clean = humanizeForSpeech(text).slice(0, 900);
   if (!clean) return null;
 
-  const preferredModel = envTrim("OPENAI_TTS_MODEL", "gpt-4o-mini-tts") || "gpt-4o-mini-tts";
+  const preferredModel = resolveTtsModel(
+    envTrim("OPENAI_TTS_MODEL", "gpt-4o-mini-tts") || "gpt-4o-mini-tts",
+    "gpt-4o-mini-tts"
+  );
   const voice = resolveTtsVoice(envTrim("OPENAI_TTS_VOICE", "shimmer") || "shimmer", "shimmer");
   const fallbackVoice = resolveTtsVoice(
     envTrim("OPENAI_TTS_VOICE_FALLBACK", "nova") || "nova",
