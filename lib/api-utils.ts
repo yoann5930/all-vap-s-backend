@@ -9,9 +9,18 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
   NOT_FOUND: { message: "Ressource introuvable", status: 404 },
   SUMUP_NOT_CONFIGURED: { message: "Paiement SumUp non configuré", status: 503 },
   VIVA_NOT_CONFIGURED: { message: "Paiement Viva.com non configuré", status: 503 },
+  EMAIL_NOT_CONFIGURED: { message: "Envoi d'email non configuré", status: 503 },
   INVALID_TOKEN: { message: "Token invalide ou expiré", status: 400 },
   COUPON_INVALID: { message: "Code promo invalide", status: 400 },
   COUPON_EXPIRED: { message: "Code promo expiré", status: 400 },
+  ORDER_NOT_REFUNDABLE: { message: "Commande non remboursable", status: 400 },
+  SUMUP_REFUND_TXN_MISSING: { message: "Transaction SumUp introuvable pour remboursement", status: 400 },
+  VIVA_REFUND_TXN_MISSING: { message: "Transaction Viva introuvable pour remboursement", status: 400 },
+  ORDER_NOT_SHIPPABLE: { message: "Commande non expédiable (statut invalide)", status: 400 },
+  INVALID_STATUS_TRANSITION: { message: "Transition de statut non autorisée", status: 400 },
+  CSRF_REJECTED: { message: "Origine non autorisée", status: 403 },
+  RATE_LIMITED: { message: "Trop de tentatives. Réessayez plus tard.", status: 429 },
+  CHECKOUT_FORBIDDEN: { message: "Paiement non autorisé pour cette commande", status: 403 },
 };
 
 export function jsonResponse<T>(data: T, status = 200) {

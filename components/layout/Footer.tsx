@@ -16,7 +16,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Logo variant="holo" size={42} />
+            <Logo variant="official" size={42} />
             <p className="mt-5 max-w-sm text-sm font-light leading-relaxed text-white/40">
               All Vap&apos;s — référence premium de la vape dans le Nord.
               Cigarettes électroniques, e-liquides, DIY et accessoires à Hautmont et Le Quesnoy.

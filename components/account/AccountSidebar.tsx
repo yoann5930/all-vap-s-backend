@@ -3,36 +3,58 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Package, MapPin, Heart, Gift, User, Sparkles } from "lucide-react";
+import {
+  Package,
+  MapPin,
+  Heart,
+  Gift,
+  User,
+  Sparkles,
+  Ticket,
+  Headphones,
+  FileText,
+  History,
+} from "lucide-react";
 
 const items = [
   { href: "/account", label: "Vue d'ensemble", icon: User },
-  { href: "/account/commandes", label: "Mes commandes", icon: Package },
-  { href: "/account/adresses", label: "Mes adresses", icon: MapPin },
+  { href: "/account/commandes", label: "Commandes", icon: Package },
+  { href: "/account/commandes", label: "Historique", icon: History },
+  { href: "/favoris", label: "Favoris", icon: Heart },
+  { href: "/account/adresses", label: "Adresses", icon: MapPin },
+  { href: "/account/fidelite", label: "Points fidélité", icon: Gift },
+  { href: "/account/fidelite", label: "Coupons", icon: Ticket },
+  { href: "/contact", label: "Support", icon: Headphones },
+  { href: "/account/commandes", label: "Factures", icon: FileText },
   { href: "/compte/profil-vape", label: "Profil vape", icon: Sparkles },
-  { href: "/favoris", label: "Mes favoris", icon: Heart },
-  { href: "/account/fidelite", label: "Fidélité & QR Code", icon: Gift },
-  { href: "/ia", label: "Assistant All Vap's", icon: Sparkles },
 ];
 
 export function AccountSidebar() {
   const pathname = usePathname();
 
   return (
-    <nav className="space-y-1 rounded-xl border border-wood-200/60 bg-white p-3">
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-            pathname === item.href ? "bg-brand-50 text-brand-700" : "text-gray-600 hover:bg-wood-50"
-          )}
-        >
-          <item.icon className="h-4 w-4" />
-          {item.label}
-        </Link>
-      ))}
+    <nav
+      aria-label="Espace client"
+      className="space-y-1 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3"
+    >
+      {items.map((item) => {
+        const active = pathname === item.href || pathname.startsWith(item.href + "/");
+        return (
+          <Link
+            key={`${item.href}-${item.label}`}
+            href={item.href}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-light tracking-wide transition-colors duration-280",
+              active
+                ? "bg-[rgba(61,126,255,0.12)] text-[#B8CDFF]"
+                : "text-[#8A8A8E] hover:bg-white/[0.04] hover:text-white"
+            )}
+          >
+            <item.icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+            {item.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

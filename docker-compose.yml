@@ -1,0 +1,22 @@
+# PostgreSQL local dédié All Vap's (port 5433 pour éviter le conflit avec d'autres Postgres sur 5432)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: allvaps-postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: allvaps
+      POSTGRES_PASSWORD: allvaps
+      POSTGRES_DB: allvaps
+    volumes:
+      - allvaps_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U allvaps -d allvaps"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  allvaps_pgdata:

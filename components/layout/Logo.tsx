@@ -11,7 +11,7 @@ interface LogoProps {
 
 export function Logo({
   className,
-  variant = "holo",
+  variant = "official",
   showWordmark = true,
   size = 44,
 }: LogoProps) {

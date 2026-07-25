@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { clearCart, getCartTotal } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
@@ -12,7 +11,6 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 
 export default function CheckoutPage() {
-  const router = useRouter();
   const { items } = useCart();
   const subtotal = getCartTotal(items);
   const [loading, setLoading] = useState(false);
@@ -74,7 +72,11 @@ export default function CheckoutPage() {
       const checkoutRes = await fetch("/api/payments/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId: orderData.id, provider: paymentProvider }),
+        body: JSON.stringify({
+          orderId: orderData.id,
+          provider: paymentProvider,
+          checkoutToken: orderData.checkoutToken,
+        }),
       });
 
       const checkoutData = await checkoutRes.json();
@@ -83,14 +85,15 @@ export default function CheckoutPage() {
         return;
       }
 
+      // Ne jamais aller au succès sans URL de paiement (évite « payé » sans encaissement)
+      if (!checkoutData.redirectUrl) {
+        setError("Aucune URL de paiement reçue. Réessayez ou choisissez un autre moyen de paiement.");
+        return;
+      }
+
       clearCart();
       notifyCartUpdate();
-
-      if (checkoutData.redirectUrl) {
-        window.location.href = checkoutData.redirectUrl;
-      } else {
-        router.push(`/checkout/success?orderId=${orderData.id}`);
-      }
+      window.location.href = checkoutData.redirectUrl;
     } catch {
       setError("Erreur serveur");
     } finally {

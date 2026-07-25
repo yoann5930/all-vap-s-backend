@@ -108,12 +108,21 @@ export function useVoiceConversation() {
 
   const init = useCallback(async () => {
     try {
-      await fetch("/api/ai-assistant");
+      const res = await fetch("/api/ai-assistant");
+      const data = await res.json().catch(() => null);
+      if (data?.greeting && !greetedRef.current) {
+        greetedRef.current = true;
+        const spoken =
+          data.greeting.spoken ||
+          data.greeting.content ||
+          "Bonjour, je suis Ava, votre conseillère All Vaps.";
+        synthesis.speak(spoken, data.greeting.audioBase64, data.greeting.audioMime);
+      }
     } catch {
       /* ok */
     }
     setReady(true);
-  }, []);
+  }, [synthesis]);
 
   const activateMic = useCallback(async () => {
     if (blocked || thinking || synthesis.isSpeaking) return;
@@ -138,7 +147,7 @@ export function useVoiceConversation() {
   useEffect(() => {
     if (!ready || greetedRef.current || !synthesis.canSpeak) return;
     greetedRef.current = true;
-    synthesis.speak("Bonjour, je suis A.V.A., votre conseillère All Vap's.");
+    synthesis.speak("Bonjour, je suis Ava, votre conseillère All Vaps.");
   }, [ready, synthesis]);
 
   const needsTextFallback =

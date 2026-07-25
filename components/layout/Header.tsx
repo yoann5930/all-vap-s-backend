@@ -84,7 +84,7 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Logo variant={scrolled ? "holo" : "glow"} size={40} />
+          <Logo variant="official" size={40} />
 
           <div className="flex items-center gap-1 sm:gap-1.5">
             <HeaderSearch />

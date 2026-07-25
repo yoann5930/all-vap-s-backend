@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
@@ -19,10 +20,15 @@ export async function GET() {
   }
 }
 
+const patchSchema = z.object({
+  id: z.string().min(1),
+  isApproved: z.boolean(),
+});
+
 export async function PATCH(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
-    const { id, isApproved } = await request.json();
+    const { id, isApproved } = patchSchema.parse(await request.json());
 
     const review = await prisma.review.update({
       where: { id },

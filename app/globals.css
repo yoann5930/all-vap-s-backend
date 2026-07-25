@@ -1,55 +1,83 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 @source "..";
+@import "../styles/design-tokens.css";
 
 @theme {
-  /* Premium All Vap's — holographic cyan identity */
-  --color-brand-50: #ecfeff;
-  --color-brand-100: #cffafe;
-  --color-brand-200: #a5f3fc;
-  --color-brand-300: #7cf7ff;
-  --color-brand-400: #5ef4ff;
-  --color-brand-500: #00d9ff;
-  --color-brand-600: #00b8d9;
-  --color-brand-700: #0099b3;
-  --color-brand-800: #007a8c;
-  --color-brand-900: #005c66;
-  --color-brand-950: #003840;
+  /* All Vap's Design System V1.0 — deep black + discreet electric blue */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #d9e6ff;
+  --color-brand-200: #b3cdff;
+  --color-brand-300: #8ab0ff;
+  --color-brand-400: #5f91ff;
+  --color-brand-500: #3d7eff;
+  --color-brand-600: #2f66d6;
+  --color-brand-700: #254faa;
+  --color-brand-800: #1c3c82;
+  --color-brand-900: #142c5e;
+  --color-brand-950: #0c1a38;
 
   --color-premium-black: #050505;
-  --color-premium-dark: #101010;
-  --color-premium-anthracite: #1a1a1a;
-  --color-premium-holo: #00d9ff;
-  --color-premium-glow: #5ef4ff;
-  --color-premium-accent: #7cf7ff;
+  --color-premium-dark: #0c0c0c;
+  --color-premium-anthracite: #141414;
+  --color-premium-holo: #3d7eff;
+  --color-premium-glow: #5f91ff;
+  --color-premium-accent: #3d7eff;
 
   --color-vap-black: #050505;
-  --color-vap-charcoal: #101010;
-  --color-vap-gray: #1a1a1a;
+  --color-vap-charcoal: #0c0c0c;
+  --color-vap-gray: #2c2c2e;
 
-  --color-wood-50: #f8f8f8;
-  --color-wood-100: #ececec;
-  --color-wood-200: #d4d4d4;
-  --color-wood-300: #a3a3a3;
-  --color-wood-400: #737373;
-  --color-wood-500: #525252;
+  --color-wood-50: #fafafa;
+  --color-wood-100: #f2f2f7;
+  --color-wood-200: #e5e5ea;
+  --color-wood-300: #c7c7cc;
+  --color-wood-400: #8a8a8e;
+  --color-wood-500: #6b6b70;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-:root {
+:root,
+[data-theme="dark"] {
   --premium-black: #050505;
-  --premium-dark: #101010;
-  --premium-anthracite: #1a1a1a;
+  --premium-dark: #0c0c0c;
+  --premium-anthracite: #141414;
   --premium-white: #ffffff;
-  --premium-holo: #00d9ff;
-  --premium-glow: #5ef4ff;
-  --premium-accent: #7cf7ff;
+  --premium-holo: #3d7eff;
+  --premium-glow: #5f91ff;
+  --premium-accent: #3d7eff;
+  --av-steel: #8a8a8e;
+  --av-smoke: #2c2c2e;
+}
+
+[data-theme="light"] {
+  --premium-black: #fafafa;
+  --premium-dark: #ffffff;
+  --premium-anthracite: #f2f2f7;
+  --premium-white: #111111;
+  --premium-holo: #3d7eff;
+  --premium-glow: #5f91ff;
+  --premium-accent: #3d7eff;
 }
 
 body {
   @apply bg-premium-black text-white antialiased;
+}
+
+/* Discrete vapor — hero / splash */
+.av-vapor {
+  background:
+    radial-gradient(ellipse 55% 35% at 30% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 30% at 70% 60%, rgba(61, 126, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 25% at 50% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  animation: av-vapor-drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes av-vapor-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.45; }
+  to { transform: translate3d(1.5%, -2%, 0) scale(1.04); opacity: 0.7; }
 }
 
 .font-display {
@@ -133,7 +161,7 @@ body {
 }
 
 .holo-pulse {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(61, 126, 255, 0.28) 0%, transparent 70%);
   animation: holo-pulse 2.5s ease-in-out infinite;
 }
 
@@ -141,10 +169,10 @@ body {
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    rgba(52, 211, 153, 0.15) 60deg,
-    rgba(16, 185, 129, 0.4) 120deg,
+    rgba(61, 126, 255, 0.12) 60deg,
+    rgba(61, 126, 255, 0.35) 120deg,
     transparent 180deg,
-    rgba(52, 211, 153, 0.1) 240deg,
+    rgba(61, 126, 255, 0.1) 240deg,
     transparent 360deg
   );
   animation: holo-halo-spin 8s linear infinite;
@@ -159,9 +187,9 @@ body {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(52, 211, 153, 0.08) 45%,
-    rgba(16, 185, 129, 0.25) 50%,
-    rgba(52, 211, 153, 0.08) 55%,
+    rgba(61, 126, 255, 0.06) 45%,
+    rgba(61, 126, 255, 0.22) 50%,
+    rgba(61, 126, 255, 0.06) 55%,
     transparent 100%
   );
   background-size: 100% 200%;
@@ -175,8 +203,8 @@ body {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: rgba(52, 211, 153, 0.7);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+  background: rgba(61, 126, 255, 0.65);
+  box-shadow: 0 0 6px rgba(61, 126, 255, 0.55);
 }
 
 .holo-particles::before {
@@ -195,7 +223,7 @@ body {
   animation: holo-particle-float 2.5s ease-in-out infinite 0.8s;
 }
 
-/* A.V.A. — Premium cyan holographic assistant */
+/* A.V.A. — Premium assistant (accent électrique discret) */
 @keyframes ava-breathe {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50% { transform: scale(1.1); opacity: 0.75; }
@@ -227,18 +255,18 @@ body {
   background: conic-gradient(
     from 0deg,
     transparent,
-    rgba(0, 212, 255, 0.2),
-    rgba(0, 255, 255, 0.45),
-    rgba(0, 180, 220, 0.15),
+    rgba(61, 126, 255, 0.18),
+    rgba(95, 145, 255, 0.35),
+    rgba(61, 126, 255, 0.12),
     transparent,
-    rgba(0, 212, 255, 0.25),
+    rgba(61, 126, 255, 0.2),
     transparent
   );
   filter: blur(1px);
 }
 
 .ava-holo-pulse {
-  background: radial-gradient(circle, rgba(0, 212, 255, 0.35) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(61, 126, 255, 0.28) 0%, transparent 68%);
   animation: ava-breathe 2.8s ease-in-out infinite;
 }
 
@@ -246,16 +274,16 @@ body {
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(0, 255, 255, 0.06) 42%,
-    rgba(0, 212, 255, 0.35) 50%,
-    rgba(0, 255, 255, 0.06) 58%,
+    rgba(61, 126, 255, 0.05) 42%,
+    rgba(61, 126, 255, 0.28) 50%,
+    rgba(61, 126, 255, 0.05) 58%,
     transparent
   );
   animation: ava-scan-sweep 2.8s ease-in-out infinite;
 }
 
 .ava-holo-shadow {
-  filter: drop-shadow(0 0 24px rgba(0, 212, 255, 0.45)) drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 0 24px rgba(61, 126, 255, 0.35)) drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
 }
 
 .ava-chat-window {
@@ -274,8 +302,8 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 212, 255, 0.03) 2px,
-    rgba(0, 212, 255, 0.03) 4px
+    rgba(61, 126, 255, 0.03) 2px,
+    rgba(61, 126, 255, 0.03) 4px
   );
   animation: ava-scan-sweep 8s linear infinite;
 }
@@ -302,7 +330,7 @@ body {
 
 /* Visage humain réaliste holographique */
 .ava-realistic-face {
-  filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.35));
+  filter: drop-shadow(0 0 40px rgba(61, 126, 255, 0.28));
 }
 
 .ava-portrait-wrap {
@@ -324,8 +352,8 @@ body {
     0deg,
     transparent,
     transparent 3px,
-    rgba(0, 212, 255, 0.025) 3px,
-    rgba(0, 212, 255, 0.025) 4px
+    rgba(61, 126, 255, 0.025) 3px,
+    rgba(61, 126, 255, 0.025) 4px
   );
   mask-image: radial-gradient(ellipse 48% 58% at 50% 42%, black 20%, transparent 72%);
   -webkit-mask-image: radial-gradient(ellipse 48% 58% at 50% 42%, black 20%, transparent 72%);
@@ -339,7 +367,7 @@ body {
   margin-top: -20px;
   background: radial-gradient(
     ellipse 85% 100% at 50% 0%,
-    rgba(0, 212, 255, 0.4) 0%,
+    rgba(61, 126, 255, 0.4) 0%,
     rgba(0, 160, 210, 0.15) 45%,
     transparent 75%
   );
@@ -364,8 +392,8 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 212, 255, 0.018) 2px,
-    rgba(0, 212, 255, 0.018) 3px
+    rgba(61, 126, 255, 0.018) 2px,
+    rgba(61, 126, 255, 0.018) 3px
   );
   opacity: 0.45;
   mix-blend-mode: screen;
@@ -376,11 +404,11 @@ body {
 }
 
 .ava-3d-loading {
-  background: radial-gradient(ellipse 50% 40% at 50% 45%, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 40% at 50% 45%, rgba(61, 126, 255, 0.08) 0%, transparent 70%);
 }
 
 .ava-mic-modal-glow {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 255, 0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(61, 126, 255, 0.12) 0%, transparent 70%);
 }
 
 /* Premium All Vap's Brand Identity */
@@ -396,14 +424,14 @@ body {
   height: 480px;
   top: -120px;
   left: -80px;
-  background: radial-gradient(circle, rgba(0, 217, 255, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(61, 126, 255, 0.18) 0%, transparent 70%);
 }
 .premium-bg-orb-2 {
   width: 360px;
   height: 360px;
   bottom: 10%;
   right: -60px;
-  background: radial-gradient(circle, rgba(94, 244, 255, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(95, 145, 255, 0.12) 0%, transparent 70%);
   animation-delay: -4s;
 }
 .premium-bg-orb-3 {
@@ -420,13 +448,13 @@ body {
 }
 .premium-bg-grid {
   background-image:
-    linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 217, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(61, 126, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 126, 255, 0.02) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 10%, transparent 75%);
 }
 .premium-bg-particles {
-  background-image: radial-gradient(rgba(0, 217, 255, 0.35) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(61, 126, 255, 0.35) 1px, transparent 1px);
   background-size: 48px 48px;
   opacity: 0.12;
   animation: premium-particle-drift 20s linear infinite;
@@ -436,7 +464,7 @@ body {
   to { transform: translateY(-48px); }
 }
 .brand-splash-halo {
-  background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(61, 126, 255, 0.2) 0%, transparent 65%);
   filter: blur(24px);
   animation: brand-halo-pulse 2s ease-in-out infinite;
 }
@@ -445,15 +473,15 @@ body {
   50% { opacity: 0.85; transform: scale(1.08); }
 }
 .brand-splash-sweep {
-  background: linear-gradient(105deg, transparent 0%, rgba(0, 217, 255, 0.55) 45%, rgba(94, 244, 255, 0.8) 50%, rgba(0, 217, 255, 0.55) 55%, transparent 100%);
+  background: linear-gradient(105deg, transparent 0%, rgba(61, 126, 255, 0.55) 45%, rgba(95, 145, 255, 0.8) 50%, rgba(61, 126, 255, 0.55) 55%, transparent 100%);
   filter: blur(8px);
   mix-blend-mode: screen;
 }
 .brand-splash-smoke {
-  background: radial-gradient(ellipse 60% 40% at 50% 80%, rgba(0, 217, 255, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 40% at 50% 80%, rgba(61, 126, 255, 0.06) 0%, transparent 70%);
 }
 .brand-splash-particles {
-  background-image: radial-gradient(rgba(94, 244, 255, 0.5) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(95, 145, 255, 0.5) 1px, transparent 1px);
   background-size: 32px 32px;
   opacity: 0.15;
 }
@@ -461,7 +489,7 @@ body {
   background: rgba(16, 16, 16, 0.55);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(61, 126, 255, 0.08);
 }
 .premium-glass-light {
   background: rgba(255, 255, 255, 0.04);
@@ -478,16 +506,16 @@ body {
   transition: all 0.3s ease;
 }
 .premium-btn-primary {
-  border: 1px solid rgba(0, 217, 255, 0.3);
-  background: rgba(0, 217, 255, 0.1);
-  color: #5ef4ff;
-  box-shadow: 0 0 24px rgba(0, 217, 255, 0.12);
+  border: 1px solid rgba(61, 126, 255, 0.3);
+  background: rgba(61, 126, 255, 0.1);
+  color: #5f91ff;
+  box-shadow: 0 0 24px rgba(61, 126, 255, 0.12);
 }
 .premium-btn-primary:hover {
-  border-color: rgba(94, 244, 255, 0.5);
-  background: rgba(0, 217, 255, 0.2);
+  border-color: rgba(95, 145, 255, 0.5);
+  background: rgba(61, 126, 255, 0.2);
   color: #fff;
-  box-shadow: 0 0 32px rgba(0, 217, 255, 0.25);
+  box-shadow: 0 0 32px rgba(61, 126, 255, 0.25);
   transform: translateY(-1px);
 }
 .premium-input {
@@ -497,9 +525,9 @@ body {
 }
 .premium-input::placeholder { color: rgba(255, 255, 255, 0.3); }
 .premium-input:focus {
-  border-color: rgba(0, 217, 255, 0.4);
+  border-color: rgba(61, 126, 255, 0.4);
   outline: none;
-  box-shadow: 0 0 0 1px rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(61, 126, 255, 0.3);
 }
 .premium-nav-link {
   position: relative;
@@ -517,16 +545,16 @@ body {
   bottom: -4px;
   width: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+  background: linear-gradient(90deg, transparent, #3d7eff, transparent);
   transition: width 0.35s ease, left 0.35s ease;
-  box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+  box-shadow: 0 0 8px rgba(61, 126, 255, 0.4);
 }
 .premium-nav-link:hover::after,
 .premium-nav-link.is-active::after {
   width: 100%;
   left: 0;
 }
-.premium-nav-link.is-active { color: #5ef4ff; }
+.premium-nav-link.is-active { color: #5f91ff; }
 .premium-product-card {
   overflow: hidden;
   border-radius: 1rem;
@@ -537,8 +565,8 @@ body {
 }
 .premium-product-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(0, 217, 255, 0.2);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 217, 255, 0.08);
+  border-color: rgba(61, 126, 255, 0.22);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 40px rgba(61, 126, 255, 0.08);
 }
 .premium-section-label {
   font-family: var(--font-display);
@@ -546,13 +574,13 @@ body {
   font-weight: 300;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(94, 244, 255, 0.8);
+  color: rgba(138, 138, 142, 0.95);
 }
 .premium-section-title {
   font-family: var(--font-display);
   font-size: 1.875rem;
   font-weight: 200;
-  letter-spacing: -0.025em;
+  letter-spacing: 0.04em;
   color: #fff;
 }
 @media (min-width: 640px) {
@@ -564,7 +592,7 @@ body {
   font-size: 0.875rem;
   font-weight: 300;
   line-height: 1.625;
-  color: rgba(255, 255, 255, 0.45);
+  color: #8a8a8e;
 }
 
 /* Premium main content — harmonise legacy light-theme pages */

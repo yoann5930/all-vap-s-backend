@@ -13,6 +13,7 @@ interface Order {
   totalCents: number;
   createdAt: string;
   deliveryMethod?: string;
+  trackingNumber?: string | null;
   items: Array<{ quantity: number; priceCents: number; product: { name: string } }>;
 }
 
@@ -73,6 +74,11 @@ export default function CommandesPage() {
                   <li key={i}>{item.product.name} × {item.quantity}</li>
                 ))}
               </ul>
+              {order.trackingNumber && (
+                <p className="mt-2 text-xs text-gray-500">
+                  Suivi : <span className="font-medium text-gray-700">{order.trackingNumber}</span>
+                </p>
+              )}
             </CardBody>
           </Card>
         );

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { DM_Sans, Outfit } from "next/font/google";
 import "./globals.css";
 import { Header, HeaderSpacer } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -21,18 +21,20 @@ import {
 import { organizationSchema, websiteSchema, localBusinessSchema } from "@/lib/seo/schema";
 import { stores } from "@/lib/stores";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
   preload: true,
-  variable: "--font-inter",
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600"],
 });
 
-const manrope = Manrope({
+const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
   preload: true,
   variable: "--font-display",
+  weight: ["200", "300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -68,8 +70,12 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/apple-touch-icon.svg", sizes: "180x180", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
   robots: {
@@ -94,8 +100,8 @@ export default function RootLayout({
   ];
 
   return (
-    <html lang="fr">
-      <body className={`${inter.variable} ${manrope.variable} ${inter.className} flex min-h-screen flex-col`}>
+    <html lang="fr" data-theme="dark">
+      <body className={`${dmSans.variable} ${outfit.variable} ${dmSans.className} flex min-h-screen flex-col`}>
         <BrandSplash />
         <PremiumBackground />
         <JsonLd data={structuredData} />

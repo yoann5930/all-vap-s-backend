@@ -28,7 +28,20 @@ const IMG = {
 };
 
 async function main() {
-  const adminPassword = await bcrypt.hash("Admin123!", 12);
+  const rawAdminPassword = process.env.SEED_ADMIN_PASSWORD || "Admin123!";
+  if (process.env.NODE_ENV === "production" && !process.env.SEED_ADMIN_PASSWORD) {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+    if (!/localhost|127\.0\.0\.1/i.test(appUrl)) {
+      throw new Error(
+        "SEED_ADMIN_PASSWORD est obligatoire en production (ne pas utiliser le mot de passe par défaut)."
+      );
+    }
+  }
+  if (!process.env.SEED_ADMIN_PASSWORD) {
+    console.warn("[seed] SEED_ADMIN_PASSWORD non défini — mot de passe admin par défaut (dev only).");
+  }
+
+  const adminPassword = await bcrypt.hash(rawAdminPassword, 12);
 
   await prisma.user.upsert({
     where: { email: "admin@allvaps.fr" },

@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
+import { AdminOrderActions } from "@/components/admin/AdminOrderActions";
+import { getShippingOption } from "@/lib/shipping";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +44,9 @@ export default async function AdminOrdersPage() {
         ) : (
           orders.map((order) => {
             const statusInfo = statusLabels[order.status] || statusLabels.PENDING;
+            const method = order.deliveryMethod
+              ? getShippingOption(order.deliveryMethod)?.name
+              : null;
             return (
               <Card key={order.id}>
                 <CardBody>
@@ -66,16 +71,27 @@ export default async function AdminOrdersPage() {
                   <ul className="mt-3 border-t pt-3 text-sm">
                     {order.items.map((item) => (
                       <li key={item.id} className="flex justify-between text-gray-600">
-                        <span>{item.product.name} × {item.quantity}</span>
+                        <span>
+                          {item.product.name} × {item.quantity}
+                        </span>
                         <span>{formatPrice(item.priceCents * item.quantity)}</span>
                       </li>
                     ))}
                   </ul>
-                  {order.shippingAddress && (
+                  {(method || order.shippingAddress) && (
                     <p className="mt-2 text-xs text-gray-500">
-                      Livraison : {order.shippingAddress}
+                      {method && <>Mode : {method}. </>}
+                      {order.shippingAddress && <>Adresse : {order.shippingAddress}</>}
+                      {order.shippingCents > 0 && (
+                        <> — Frais : {formatPrice(order.shippingCents)}</>
+                      )}
                     </p>
                   )}
+                  <AdminOrderActions
+                    orderId={order.id}
+                    status={order.status}
+                    trackingNumber={order.trackingNumber}
+                  />
                 </CardBody>
               </Card>
             );

@@ -1,5 +1,14 @@
-/** Configuration SEO officielle — https://allvaps.fr */
-export const SITE_URL = "https://allvaps.fr";
+/** Configuration SEO officielle — domaine de production All Vap's */
+function resolveSiteUrl(): string {
+  const fromEnv = (process.env.NEXT_PUBLIC_APP_URL || "").trim().replace(/\/$/, "");
+  if (fromEnv && !/localhost|127\.0\.0\.1/i.test(fromEnv)) {
+    return fromEnv;
+  }
+  // Canonique public (le site live répond sur www)
+  return "https://www.allvaps.fr";
+}
+
+export const SITE_URL = resolveSiteUrl();
 export const SITE_NAME = "All Vap's";
 export const SITE_LOCALE = "fr_FR";
 
@@ -30,7 +39,7 @@ export const SEO_KEYWORDS = [
   "accessoires vape",
 ];
 
-export const OG_IMAGE = "/og-image.svg";
+export const OG_IMAGE = "/brand/og-image.png";
 export const TWITTER_HANDLE = "@allvaps";
 
 export const CATEGORY_ROUTES: Record<string, string> = {

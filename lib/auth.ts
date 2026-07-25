@@ -1,6 +1,15 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
-import { signToken, setAuthCookie, type JwtPayload } from "@/lib/jwt";
+import {
+  signToken,
+  setAuthCookie,
+  issueRefreshToken,
+  revokeRefreshToken,
+  clearAuthCookie,
+  type JwtPayload,
+} from "@/lib/jwt";
+import { sendAccountConfirmationEmail } from "@/lib/email";
+import { getSiteUrl } from "@/lib/utils";
 import type { Role } from "@prisma/client";
 
 export async function hashPassword(password: string): Promise<string> {
@@ -36,8 +45,29 @@ export async function registerUser(data: {
       passwordHash,
       firstName: data.firstName,
       lastName: data.lastName,
+      emailVerified: false,
     },
   });
+
+  const confirmToken = crypto.randomUUID();
+  await prisma.emailConfirmationToken.create({
+    data: {
+      token: confirmToken,
+      userId: user.id,
+      expiresAt: new Date(Date.now() + 48 * 3600 * 1000),
+    },
+  });
+
+  const confirmUrl = `${getSiteUrl()}/confirmer-compte?token=${confirmToken}`;
+  try {
+    await sendAccountConfirmationEmail({
+      to: user.email,
+      confirmUrl,
+      firstName: user.firstName,
+    });
+  } catch (err) {
+    console.error("[auth] confirmation email failed:", err);
+  }
 
   const payload: JwtPayload = {
     userId: user.id,
@@ -45,10 +75,41 @@ export async function registerUser(data: {
     role: user.role,
   };
 
+  // Session immédiate conservée (ne casse pas le parcours login post-inscription).
+  // emailVerified reste false jusqu'au clic sur le lien.
   const token = await signToken(payload);
   await setAuthCookie(token);
+  await issueRefreshToken(user.id);
 
-  return { user: sanitizeUser(user), token };
+  return {
+    user: sanitizeUser(user),
+    token,
+    emailConfirmationSent: true,
+  };
+}
+
+export async function confirmUserEmail(token: string) {
+  const record = await prisma.emailConfirmationToken.findUnique({
+    where: { token },
+    include: { user: true },
+  });
+
+  if (!record || record.expiresAt < new Date()) {
+    throw new Error("INVALID_TOKEN");
+  }
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: record.userId },
+      data: { emailVerified: true },
+    }),
+    prisma.emailConfirmationToken.deleteMany({ where: { userId: record.userId } }),
+  ]);
+
+  return sanitizeUser({
+    ...record.user,
+    emailVerified: true,
+  });
 }
 
 export async function loginUser(email: string, password: string) {
@@ -68,8 +129,14 @@ export async function loginUser(email: string, password: string) {
 
   const token = await signToken(payload);
   await setAuthCookie(token);
+  await issueRefreshToken(user.id);
 
   return { user: sanitizeUser(user), token };
+}
+
+export async function logoutUser() {
+  await revokeRefreshToken();
+  await clearAuthCookie();
 }
 
 function sanitizeUser(user: {
@@ -77,7 +144,9 @@ function sanitizeUser(user: {
   email: string;
   firstName: string | null;
   lastName: string | null;
+  phone?: string | null;
   role: Role;
+  emailVerified?: boolean;
   createdAt: Date;
 }) {
   return {
@@ -85,7 +154,9 @@ function sanitizeUser(user: {
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    phone: user.phone ?? null,
     role: user.role,
+    emailVerified: user.emailVerified ?? true,
     createdAt: user.createdAt,
   };
 }

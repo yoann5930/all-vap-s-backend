@@ -10,6 +10,36 @@ import {
   parseProductQuery,
 } from "@/lib/products/queries";
 
+type CatalogMeta = {
+  categories: Array<{ id: string; name: string; slug: string; sortOrder: number }>;
+  brands: Array<{ id: string; name: string; slug: string }>;
+  expiresAt: number;
+};
+
+let catalogMetaCache: CatalogMeta | null = null;
+const CATALOG_META_TTL_MS = 60_000;
+
+async function getCatalogMeta() {
+  const now = Date.now();
+  if (catalogMetaCache && catalogMetaCache.expiresAt > now) {
+    return catalogMetaCache;
+  }
+  const [categories, brands] = await Promise.all([
+    prisma.category.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, name: true, slug: true, sortOrder: true },
+    }),
+    prisma.brand.findMany({
+      where: { isActive: true },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, slug: true },
+    }),
+  ]);
+  catalogMetaCache = { categories, brands, expiresAt: now + CATALOG_META_TTL_MS };
+  return catalogMetaCache;
+}
+
 const productSchema = z.object({
   name: z.string().min(2),
   slug: z.string().min(2).optional(),
@@ -55,23 +85,41 @@ export async function GET(request: NextRequest) {
 
     const skip = ((params.page || 1) - 1) * (params.limit || 12);
 
-    const [products, total, categories, brands] = await Promise.all([
+    const [products, total, meta] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy,
         skip,
         take: params.limit || 12,
-        include: { categoryRef: true, brandRef: true },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          category: true,
+          brand: true,
+          imageUrl: true,
+          images: true,
+          priceCents: true,
+          promoPriceCents: true,
+          stock: true,
+          salesCount: true,
+          isActive: true,
+          isNew: true,
+          isBestSeller: true,
+          isPromo: true,
+          categoryRef: { select: { id: true, name: true, slug: true } },
+          brandRef: { select: { id: true, name: true, slug: true } },
+        },
       }),
       prisma.product.count({ where }),
-      prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
-      prisma.brand.findMany({ where: { isActive: true }, orderBy: { name: "asc" } }),
+      getCatalogMeta(),
     ]);
 
-    return jsonResponse({
+    const response = jsonResponse({
       products,
-      categories,
-      brands,
+      categories: meta.categories,
+      brands: meta.brands,
       pagination: {
         page: params.page || 1,
         limit: params.limit || 12,
@@ -79,6 +127,8 @@ export async function GET(request: NextRequest) {
         totalPages: Math.ceil(total / (params.limit || 12)),
       },
     });
+    response.headers.set("Cache-Control", "public, s-maxage=30, stale-while-revalidate=120");
+    return response;
   } catch (error) {
     return handleApiError(error);
   }

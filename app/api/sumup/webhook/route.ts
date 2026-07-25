@@ -1,41 +1,51 @@
 import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { verifySumUpPayment } from "@/lib/sumup";
+import {
+  verifySumUpPayment,
+  verifySumUpWebhookSignature,
+} from "@/lib/payments/sumup";
+import { fulfillPaidOrder } from "@/lib/payments/fulfill-order";
+import { syncOrderPaymentStatus } from "@/lib/payments/sync-order-status";
+import { isTestCheckoutId } from "@/lib/payments/test-mode";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const checkoutId = body.id || body.checkout_id;
+    const rawBody = await request.text();
+    const signature = request.headers.get("x-payload-signature");
 
+    if (!verifySumUpWebhookSignature(rawBody, signature)) {
+      return jsonResponse({ error: "Signature webhook invalide" }, 401);
+    }
+
+    let body: { id?: string; checkout_id?: string; event_type?: string };
+    try {
+      body = JSON.parse(rawBody || "{}");
+    } catch {
+      return jsonResponse({ received: true });
+    }
+
+    const checkoutId = body.id || body.checkout_id;
     if (!checkoutId) {
       return jsonResponse({ received: true });
     }
 
+    if (isTestCheckoutId(checkoutId)) {
+      return jsonResponse({ received: true, test: true });
+    }
+
     const order = await prisma.order.findUnique({
       where: { sumupCheckoutId: checkoutId },
-      include: { items: true },
     });
 
     if (!order || order.status === "PAID") {
       return jsonResponse({ received: true });
     }
 
+    // Toujours re-vérifier auprès de l’API SumUp (ne pas faire confiance au seul webhook)
     const isPaid = await verifySumUpPayment(checkoutId);
-
     if (isPaid) {
-      await prisma.$transaction([
-        prisma.order.update({
-          where: { id: order.id },
-          data: { status: "PAID" },
-        }),
-        ...order.items.map((item) =>
-          prisma.product.update({
-            where: { id: item.productId },
-            data: { stock: { decrement: item.quantity } },
-          })
-        ),
-      ]);
+      await fulfillPaidOrder(order.id);
     }
 
     return jsonResponse({ received: true });
@@ -44,46 +54,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/** Polling succès — délègue à sync multi-provider (vérifie réellement le paiement). */
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const orderId = searchParams.get("orderId");
-
+    const orderId = new URL(request.url).searchParams.get("orderId");
     if (!orderId) {
       return jsonResponse({ status: "unknown" });
     }
-
-    const order = await prisma.order.findUnique({
-      where: { id: orderId },
-    });
-
-    if (!order?.sumupCheckoutId) {
-      return jsonResponse({ status: order?.status || "unknown" });
-    }
-
-    const isPaid = await verifySumUpPayment(order.sumupCheckoutId);
-
-    if (isPaid && order.status === "PENDING") {
-      const items = await prisma.orderItem.findMany({
-        where: { orderId: order.id },
-      });
-
-      await prisma.$transaction([
-        prisma.order.update({
-          where: { id: order.id },
-          data: { status: "PAID" },
-        }),
-        ...items.map((item) =>
-          prisma.product.update({
-            where: { id: item.productId },
-            data: { stock: { decrement: item.quantity } },
-          })
-        ),
-      ]);
-    }
-
-    const updated = await prisma.order.findUnique({ where: { id: orderId } });
-    return jsonResponse({ status: updated?.status });
+    const status = await syncOrderPaymentStatus(orderId);
+    return jsonResponse({ status });
   } catch (error) {
     return handleApiError(error);
   }

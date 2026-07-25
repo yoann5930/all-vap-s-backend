@@ -46,6 +46,7 @@ model User {
   lastName       String?
   phone          String?
   role           Role                 @default(CUSTOMER)
+  emailVerified  Boolean              @default(true)
   loyaltyPoints  Int                  @default(0)
   qrCode         String               @unique @default(cuid())
   createdAt      DateTime             @default(now())
@@ -55,6 +56,8 @@ model User {
   favorites      Favorite[]
   reviews        Review[]
   resetTokens    PasswordResetToken[]
+  refreshTokens  RefreshToken[]
+  emailConfirmTokens EmailConfirmationToken[]
   vapeProfile    VapeProfile?
   vapeRecommendations VapeRecommendation[]
 }
@@ -111,6 +114,14 @@ model Product {
   favorites       Favorite[]
   reviews         Review[]
   vapeRecommendations VapeRecommendation[]
+
+  @@index([isActive, category])
+  @@index([isActive, isPromo])
+  @@index([isActive, isBestSeller])
+  @@index([isActive, isNew])
+  @@index([salesCount])
+  @@index([categoryId])
+  @@index([brandId])
 }
 
 model VapeProfile {
@@ -226,6 +237,29 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 }
 
+model EmailConfirmationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
 model Order {
   id                String          @id @default(cuid())
   userId            String?
@@ -235,10 +269,15 @@ model Order {
   status            OrderStatus     @default(PENDING)
   totalCents        Int
   discountCents     Int             @default(0)
+  shippingCents     Int             @default(0)
   couponCode        String?
   deliveryMethod    DeliveryMethod?
   pickupStoreId     String?
   shippingAddress   String?
+  trackingNumber    String?
+  shippedAt         DateTime?
+  deliveredAt       DateTime?
+  checkoutToken     String?         @unique
   paymentProvider   PaymentProvider?
   sumupCheckoutId   String?         @unique
   sumupPaymentId    String?
@@ -249,6 +288,10 @@ model Order {
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   items             OrderItem[]
+
+  @@index([status, createdAt])
+  @@index([customerEmail])
+  @@index([userId])
 }
 
 model OrderItem {

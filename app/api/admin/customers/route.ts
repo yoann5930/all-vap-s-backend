@@ -3,6 +3,7 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
+import { updateOrderShippingStatus } from "@/lib/shipping/ops";
 
 export async function GET() {
   try {
@@ -27,20 +28,22 @@ export async function GET() {
   }
 }
 
+/**
+ * @deprecated Préférer PATCH /api/admin/orders.
+ * Conservé pour compatibilité (ship / deliver / cancel uniquement).
+ */
 export async function PATCH(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
-    const { orderId, status } = z.object({
-      orderId: z.string(),
-      status: z.enum(["PENDING", "PAID", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]),
-    }).parse(await request.json());
+    const { orderId, status } = z
+      .object({
+        orderId: z.string(),
+        status: z.enum(["SHIPPED", "DELIVERED", "CANCELLED"]),
+      })
+      .parse(await request.json());
 
-    const order = await prisma.order.update({
-      where: { id: orderId },
-      data: { status },
-    });
-
-    return jsonResponse(order);
+    const result = await updateOrderShippingStatus(orderId, status);
+    return jsonResponse(result);
   } catch (error) {
     return handleApiError(error);
   }

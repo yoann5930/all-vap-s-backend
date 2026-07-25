@@ -5,20 +5,26 @@ import { getAuthUser } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { validateCoupon, calculateLoyaltyEarn } from "@/lib/loyalty";
 import { getShippingPrice } from "@/lib/shipping";
+import { generateSecureToken } from "@/lib/security";
 import type { DeliveryMethod } from "@prisma/client";
 
 const orderSchema = z.object({
-  customerEmail: z.string().email(),
-  customerName: z.string().optional(),
-  shippingAddress: z.string().optional(),
+  customerEmail: z.string().email().max(254),
+  customerName: z.string().max(120).optional(),
+  shippingAddress: z.string().max(500).optional(),
   deliveryMethod: z.enum(["MONDIAL_RELAY", "RELAIS_COLIS", "COLISSIMO", "STORE_PICKUP"]),
-  pickupStoreId: z.string().optional(),
-  couponCode: z.string().optional(),
+  pickupStoreId: z.string().max(64).optional(),
+  couponCode: z.string().max(40).optional(),
   paymentProvider: z.enum(["VIVA", "SUMUP"]).optional(),
-  items: z.array(z.object({
-    productId: z.string(),
-    quantity: z.number().int().positive(),
-  })).min(1),
+  items: z
+    .array(
+      z.object({
+        productId: z.string(),
+        quantity: z.number().int().positive().max(99),
+      })
+    )
+    .min(1)
+    .max(50),
 });
 
 export async function GET() {
@@ -61,7 +67,8 @@ export async function POST(request: NextRequest) {
       if (product.stock < item.quantity) {
         throw new Error(`Stock insuffisant pour ${product.name}`);
       }
-      const price = product.isPromo && product.promoPriceCents ? product.promoPriceCents : product.priceCents;
+      const price =
+        product.isPromo && product.promoPriceCents ? product.promoPriceCents : product.priceCents;
       subtotal += price * item.quantity;
     }
 
@@ -73,6 +80,7 @@ export async function POST(request: NextRequest) {
 
     const shippingCents = getShippingPrice(data.deliveryMethod as DeliveryMethod);
     const totalCents = Math.max(0, subtotal - discountCents + shippingCents);
+    const checkoutToken = generateSecureToken(24);
 
     const order = await prisma.order.create({
       data: {
@@ -84,13 +92,18 @@ export async function POST(request: NextRequest) {
         pickupStoreId: data.pickupStoreId,
         couponCode: data.couponCode?.toUpperCase(),
         discountCents,
+        shippingCents,
+        checkoutToken,
         paymentProvider: data.paymentProvider,
         totalCents,
         loyaltyPointsEarn: calculateLoyaltyEarn(totalCents),
         items: {
           create: data.items.map((item) => {
             const product = products.find((p) => p.id === item.productId)!;
-            const price = product.isPromo && product.promoPriceCents ? product.promoPriceCents : product.priceCents;
+            const price =
+              product.isPromo && product.promoPriceCents
+                ? product.promoPriceCents
+                : product.priceCents;
             return { productId: item.productId, quantity: item.quantity, priceCents: price };
           }),
         },
@@ -98,14 +111,7 @@ export async function POST(request: NextRequest) {
       include: { items: { include: { product: true } } },
     });
 
-    if (data.couponCode) {
-      await prisma.coupon.updateMany({
-        where: { code: data.couponCode.toUpperCase() },
-        data: { usedCount: { increment: 1 } },
-      });
-    }
-
-    return jsonResponse(order, 201);
+    return jsonResponse({ ...order, checkoutToken }, 201);
   } catch (error) {
     return handleApiError(error);
   }

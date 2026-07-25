@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { humanizeForSpeech, splitSpokenSentences } from "@/lib/ai/ava-speech-utils";
 
 export interface SpeechSynthesisState {
   isSpeaking: boolean;
@@ -8,17 +9,51 @@ export interface SpeechSynthesisState {
   error: string | null;
 }
 
+function scoreFrenchVoice(v: SpeechSynthesisVoice): number {
+  const name = v.name.toLowerCase();
+  const lang = v.lang.toLowerCase();
+  if (!lang.startsWith("fr")) return -100;
+
+  let score = 10;
+  // Voix neurales / online = nettement plus humaines
+  if (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(name)) score += 50;
+  if (/denise|julie|marie|amelie|hortense|aria|claire|caroline|brigitte/i.test(name)) score += 40;
+  if (/female|femme|woman|girl/i.test(name)) score += 15;
+  if (/google.*fran[cç]ais|microsoft.*fr/i.test(name)) score += 25;
+  if (/male|homme|paul|thomas|claude|hugo|jean/i.test(name)) score -= 30;
+  if (v.localService) score += 5;
+  if (lang === "fr-fr") score += 8;
+  return score;
+}
+
 function pickFrenchFemaleVoice(): SpeechSynthesisVoice | null {
   if (typeof window === "undefined") return null;
   const voices = window.speechSynthesis.getVoices();
-  const fr = voices.filter((v) => v.lang.toLowerCase().startsWith("fr"));
-  return (
-    fr.find((v) => /amelie|marie|hortense|julie|female|femme|google.*fr/i.test(v.name)) ??
-    fr.find((v) => /google|premium|natural/i.test(v.name)) ??
-    fr.find((v) => v.localService) ??
-    fr[0] ??
-    null
-  );
+  const ranked = voices
+    .map((v) => ({ v, score: scoreFrenchVoice(v) }))
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+  return ranked[0]?.v ?? null;
+}
+
+function speakUtterance(text: string, voice: SpeechSynthesisVoice | null): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = voice?.lang || "fr-FR";
+    // Rythme humain : fluide, sans pitch « cartoon »
+    utterance.rate = 1.02;
+    utterance.pitch = 1.0;
+    utterance.volume = 1;
+    if (voice) utterance.voice = voice;
+
+    utterance.onend = () => resolve();
+    utterance.onerror = () => reject(new Error("speech-error"));
+    window.speechSynthesis.speak(utterance);
+  });
+}
+
+function pause(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
 export function useSpeechSynthesis() {
@@ -29,13 +64,15 @@ export function useSpeechSynthesis() {
   });
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement | null>(null);
+  const cancelRef = useRef(false);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
 
   useEffect(() => {
     const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
     setState((s) => ({ ...s, canSpeak }));
 
     const loadVoices = () => {
-      window.speechSynthesis.getVoices();
+      voiceRef.current = pickFrenchFemaleVoice();
     };
     if (canSpeak) {
       loadVoices();
@@ -43,11 +80,13 @@ export function useSpeechSynthesis() {
     }
     return () => {
       window.speechSynthesis?.removeEventListener("voiceschanged", loadVoices);
+      cancelRef.current = true;
       audioRef.current?.pause();
     };
   }, []);
 
   const stopSpeaking = useCallback(() => {
+    cancelRef.current = true;
     window.speechSynthesis?.cancel();
     if (audioRef.current) {
       audioRef.current.pause();
@@ -57,35 +96,44 @@ export function useSpeechSynthesis() {
     setState((s) => ({ ...s, isSpeaking: false }));
   }, []);
 
-  const speakBrowser = useCallback((text: string) => {
+  const speakBrowser = useCallback(async (text: string) => {
     if (!window.speechSynthesis) {
       setState((s) => ({ ...s, error: "Synthèse vocale indisponible." }));
       return;
     }
 
-    const clean = text.replace(/👋/g, "").trim();
+    const clean = humanizeForSpeech(text);
     if (!clean) return;
 
+    cancelRef.current = false;
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = "fr-FR";
-    utterance.rate = 0.92;
-    utterance.pitch = 1.12;
-    utterance.volume = 1;
+    setState((s) => ({ ...s, isSpeaking: true, error: null }));
 
-    const voice = pickFrenchFemaleVoice();
-    if (voice) utterance.voice = voice;
+    const voice = voiceRef.current ?? pickFrenchFemaleVoice();
+    const sentences = splitSpokenSentences(clean);
 
-    utterance.onstart = () => setState((s) => ({ ...s, isSpeaking: true, error: null }));
-    utterance.onend = () => setState((s) => ({ ...s, isSpeaking: false }));
-    utterance.onerror = () => setState((s) => ({ ...s, isSpeaking: false }));
-
-    window.speechSynthesis.speak(utterance);
+    try {
+      for (let i = 0; i < sentences.length; i++) {
+        if (cancelRef.current) break;
+        await speakUtterance(sentences[i], voice);
+        // Micro-pause naturelle entre phrases
+        if (!cancelRef.current && i < sentences.length - 1) {
+          await pause(140);
+        }
+      }
+    } catch {
+      /* cancelled / engine error */
+    } finally {
+      if (!cancelRef.current) {
+        setState((s) => ({ ...s, isSpeaking: false }));
+      }
+    }
   }, []);
 
   const speakFromBase64 = useCallback(
     (base64: string, mimeType = "audio/mpeg") => {
       stopSpeaking();
+      cancelRef.current = false;
       const audio = new Audio(`data:${mimeType};base64,${base64}`);
       audioRef.current = audio;
       setActiveAudio(audio);
@@ -105,7 +153,7 @@ export function useSpeechSynthesis() {
         speakFromBase64(audioBase64, audioMime);
         return;
       }
-      speakBrowser(text);
+      void speakBrowser(text);
     },
     [speakBrowser, speakFromBase64]
   );

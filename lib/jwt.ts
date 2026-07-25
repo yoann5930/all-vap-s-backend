@@ -1,13 +1,34 @@
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type { Role } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { generateSecureToken, hashToken } from "@/lib/security";
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "dev-secret-change-in-production"
-);
+function resolveJwtSecret(): Uint8Array {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+      const isLocal = /localhost|127\.0\.0\.1/i.test(appUrl);
+      if (!isLocal) {
+        throw new Error("JWT_SECRET manquant — refus de démarrer en production");
+      }
+    }
+    console.warn("[All Vap's] JWT_SECRET absent — secret de développement utilisé");
+    return new TextEncoder().encode("dev-secret-change-in-production");
+  }
+  if (secret.length < 32 && process.env.NODE_ENV === "production") {
+    console.warn("[All Vap's] JWT_SECRET trop court (< 32 caractères) — renforcez-le");
+  }
+  return new TextEncoder().encode(secret);
+}
+
+const JWT_SECRET = resolveJwtSecret();
 
 const COOKIE_NAME = "allvaps_token";
-const TOKEN_EXPIRY = "7d";
+const REFRESH_COOKIE = "allvaps_refresh";
+const ACCESS_EXPIRY = "2h";
+const REFRESH_DAYS = 7;
 
 export interface JwtPayload {
   userId: string;
@@ -15,11 +36,16 @@ export interface JwtPayload {
   role: Role;
 }
 
+function isLocalAppUrl(): boolean {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+  return /localhost|127\.0\.0\.1/i.test(appUrl);
+}
+
 export async function signToken(payload: JwtPayload): Promise<string> {
   return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(TOKEN_EXPIRY)
+    .setExpirationTime(ACCESS_EXPIRY)
     .sign(JWT_SECRET);
 }
 
@@ -36,9 +62,20 @@ export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 2,
+    path: "/",
+  });
+}
+
+export async function setRefreshCookie(rawToken: string) {
+  const cookieStore = await cookies();
+  cookieStore.set(REFRESH_COOKIE, rawToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * REFRESH_DAYS,
     path: "/",
   });
 }
@@ -46,13 +83,84 @@ export async function setAuthCookie(token: string) {
 export async function clearAuthCookie() {
   const cookieStore = await cookies();
   cookieStore.delete(COOKIE_NAME);
+  cookieStore.delete(REFRESH_COOKIE);
+}
+
+/** Crée un refresh token DB + cookie. */
+export async function issueRefreshToken(userId: string): Promise<string> {
+  const raw = generateSecureToken(48);
+  const tokenHash = hashToken(raw);
+  const expiresAt = new Date(Date.now() + REFRESH_DAYS * 24 * 60 * 60 * 1000);
+
+  await prisma.refreshToken.create({
+    data: { tokenHash, userId, expiresAt },
+  });
+
+  await setRefreshCookie(raw);
+  return raw;
+}
+
+/** Renouvelle l’access token à partir du cookie refresh. */
+export async function refreshAccessToken(): Promise<{ token: string; user: JwtPayload } | null> {
+  const cookieStore = await cookies();
+  const raw = cookieStore.get(REFRESH_COOKIE)?.value;
+  if (!raw) return null;
+
+  const tokenHash = hashToken(raw);
+  const stored = await prisma.refreshToken.findUnique({
+    where: { tokenHash },
+    include: { user: true },
+  });
+
+  if (!stored || stored.revokedAt || stored.expiresAt < new Date()) {
+    return null;
+  }
+
+  const payload: JwtPayload = {
+    userId: stored.user.id,
+    email: stored.user.email,
+    role: stored.user.role,
+  };
+
+  const token = await signToken(payload);
+  await setAuthCookie(token);
+  return { token, user: payload };
+}
+
+export async function revokeRefreshToken(): Promise<void> {
+  const cookieStore = await cookies();
+  const raw = cookieStore.get(REFRESH_COOKIE)?.value;
+  if (!raw) return;
+  const tokenHash = hashToken(raw);
+  await prisma.refreshToken.updateMany({
+    where: { tokenHash, revokedAt: null },
+    data: { revokedAt: new Date() },
+  });
 }
 
 export async function getAuthUser(): Promise<JwtPayload | null> {
   const cookieStore = await cookies();
-  const token = cookieStore.get(COOKIE_NAME)?.value;
+  let token = cookieStore.get(COOKIE_NAME)?.value;
+
+  if (!token) {
+    const headerStore = await headers();
+    const auth = headerStore.get("authorization") || "";
+    const match = auth.match(/^Bearer\s+(.+)$/i);
+    if (match?.[1]) token = match[1].trim();
+  }
+
   if (!token) return null;
-  return verifyToken(token);
+  const payload = await verifyToken(token);
+  if (!payload) return null;
+
+  // Re-vérifie le rôle en base (révocation / démotion)
+  const user = await prisma.user.findUnique({
+    where: { id: payload.userId },
+    select: { id: true, email: true, role: true },
+  });
+  if (!user) return null;
+
+  return { userId: user.id, email: user.email, role: user.role };
 }
 
 export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {
@@ -66,4 +174,4 @@ export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {
   return user;
 }
 
-export { COOKIE_NAME };
+export { COOKIE_NAME, REFRESH_COOKIE };

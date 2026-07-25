@@ -24,6 +24,7 @@ const brandSchema = z.object({
 
 export async function GET() {
   try {
+    await requireAuth("ADMIN");
     const [categories, brands] = await Promise.all([
       prisma.category.findMany({ orderBy: { sortOrder: "asc" }, include: { _count: { select: { products: true } } } }),
       prisma.brand.findMany({ orderBy: { name: "asc" }, include: { _count: { select: { products: true } } } }),
@@ -75,14 +76,36 @@ export async function PATCH(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
     const type = new URL(request.url).searchParams.get("type");
-    const { id, ...body } = await request.json();
+    const body = await request.json();
+    const id = z.string().parse(body.id);
 
     if (type === "brand") {
-      const brand = await prisma.brand.update({ where: { id }, data: body });
+      const data = brandSchema.partial().parse(body);
+      const { ...patch } = data;
+      const brand = await prisma.brand.update({
+        where: { id },
+        data: {
+          ...(patch.name !== undefined ? { name: patch.name } : {}),
+          ...(patch.slug !== undefined ? { slug: patch.slug } : {}),
+          ...(patch.logoUrl !== undefined ? { logoUrl: patch.logoUrl } : {}),
+          ...(patch.isActive !== undefined ? { isActive: patch.isActive } : {}),
+        },
+      });
       return jsonResponse(brand);
     }
 
-    const category = await prisma.category.update({ where: { id }, data: body });
+    const data = categorySchema.partial().parse(body);
+    const category = await prisma.category.update({
+      where: { id },
+      data: {
+        ...(data.name !== undefined ? { name: data.name } : {}),
+        ...(data.slug !== undefined ? { slug: data.slug } : {}),
+        ...(data.description !== undefined ? { description: data.description } : {}),
+        ...(data.imageUrl !== undefined ? { imageUrl: data.imageUrl } : {}),
+        ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
+        ...(data.isActive !== undefined ? { isActive: data.isActive } : {}),
+      },
+    });
     return jsonResponse(category);
   } catch (error) {
     return handleApiError(error);

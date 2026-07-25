@@ -1,0 +1,40 @@
+/* All Vap's Design System V1 — CSS custom properties */
+:root,
+[data-theme="dark"] {
+  --av-black: #050505;
+  --av-anthracite: #141414;
+  --av-charcoal: #0c0c0c;
+  --av-smoke: #2c2c2e;
+  --av-steel: #8a8a8e;
+  --av-mist: #c7c7cc;
+  --av-white: #ffffff;
+  --av-accent: #3d7eff;
+  --av-accent-muted: rgba(61, 126, 255, 0.14);
+  --av-accent-border: rgba(61, 126, 255, 0.28);
+  --av-accent-glow: rgba(61, 126, 255, 0.22);
+
+  --av-bg: var(--av-black);
+  --av-surface: var(--av-anthracite);
+  --av-text: var(--av-white);
+  --av-muted: var(--av-steel);
+  --av-border: rgba(255, 255, 255, 0.08);
+
+  --av-font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --av-font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --av-radius-md: 0.75rem;
+  --av-radius-xl: 1.25rem;
+  --av-shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --av-shadow-accent: 0 0 24px rgba(61, 126, 255, 0.18);
+  --av-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --av-duration: 280ms;
+}
+
+[data-theme="light"] {
+  --av-bg: #fafafa;
+  --av-surface: #ffffff;
+  --av-text: #111111;
+  --av-muted: #6b6b70;
+  --av-border: #e5e5ea;
+  --av-smoke: #f2f2f7;
+}
