@@ -21,7 +21,7 @@ export function AssistantButton({ onClick, isOpen, speaking = false }: Assistant
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      aria-label="Ouvrir A.V.A. — conseillère virtuelle All Vap's"
+      aria-label="Ouvrir AVA — conseillère virtuelle All Vap's"
       className="group fixed bottom-4 right-3 z-[60] flex flex-col items-center gap-2 sm:bottom-6 sm:right-6"
       initial={{ opacity: 0, y: 40, scale: 0.5 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -55,7 +55,7 @@ export function AssistantButton({ onClick, isOpen, speaking = false }: Assistant
         className="rounded-full border border-white/10 bg-[#0C0C0C]/90 px-3 py-1 text-[10px] font-light tracking-[0.16em] text-white/70 backdrop-blur-md"
         animate={{ opacity: hovered ? 1 : 0.85 }}
       >
-        A.V.A.
+        AVA
       </motion.span>
     </motion.button>
   );

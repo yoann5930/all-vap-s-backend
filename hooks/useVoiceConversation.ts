@@ -184,9 +184,9 @@ export function avaStatusLabel(state: AvaConversationState, isPrompting = false)
     case "listening":
       return MIC_MESSAGES.listening;
     case "thinking":
-      return "A.V.A. réfléchit…";
+      return "AVA réfléchit…";
     case "speaking":
-      return "A.V.A. parle…";
+      return "AVA parle…";
     default:
       return "";
   }

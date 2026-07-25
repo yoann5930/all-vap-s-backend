@@ -127,7 +127,7 @@ export async function initAva(userId?: string) {
     message: greeting,
     suggestions,
     isLoggedIn: Boolean(userId),
-    agentName: "A.V.A.",
+    agentName: "AVA",
   };
 }
 
@@ -179,7 +179,7 @@ export async function chatAva(userId: string | undefined, message: string): Prom
 
   let picks: CatalogProduct[] = [];
   let intro = "";
-  let reason = "sélection A.V.A.";
+  let reason = "sélection AVA";
 
   if (/promo|promotion|solde|offre/i.test(text)) {
     picks = searchCatalog(products, message, { promoOnly: true, limit: 4 });
@@ -270,7 +270,7 @@ export async function chatAva(userId: string | undefined, message: string): Prom
 
   return {
     content:
-      "Je suis A.V.A., experte en cigarettes électroniques, e-liquides, pods, résistances, accus, chargeurs, DIY et accessoires. Décrivez votre besoin (saveur, matériel, budget…) et je vous guide. " +
+      "Je suis AVA, experte en cigarettes électroniques, e-liquides, pods, résistances, accus, chargeurs, DIY et accessoires. Décrivez votre besoin (saveur, matériel, budget…) et je vous guide. " +
       MEDICAL_DISCLAIMER,
     suggestions: AVA_SUGGESTIONS,
     products: [],

@@ -45,7 +45,7 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
     <AnimatePresence>
       <motion.div
         role="dialog"
-        aria-label="A.V.A. — assistante holographique"
+        aria-label="AVA — assistante holographique"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -59,7 +59,7 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
             onClose();
           }}
           className="absolute right-4 top-4 z-[80] flex items-center gap-1.5 rounded-lg border border-cyan-800/25 px-3 py-1.5 text-[10px] tracking-wider text-cyan-600/40 transition hover:border-cyan-600/35 hover:text-cyan-400/65 sm:right-6 sm:top-6"
-          aria-label="Fermer A.V.A."
+          aria-label="Fermer AVA"
         >
           <X className="h-3.5 w-3.5" strokeWidth={1.25} />
           <span className="hidden sm:inline">FERMER</span>
@@ -94,7 +94,7 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
                   className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-cyan-500/45 uppercase"
                 >
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400/70" />
-                  A.V.A. écoute…
+                  AVA écoute…
                 </motion.p>
               )}
               {!showListeningIndicator && bottomStatus && voice.avaState !== "idle" && (

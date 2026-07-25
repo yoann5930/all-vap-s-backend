@@ -138,7 +138,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
     <AnimatePresence>
       <motion.div
         role="dialog"
-        aria-label="A.V.A. — All Vap's Virtual Advisor"
+        aria-label="AVA — All Vap's Virtual Advisor"
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
@@ -154,7 +154,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
             <div className="relative flex items-center gap-3">
               <HolographicAvatar speaking={sending} size="sm" interactive={false} />
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold tracking-wide text-cyan-300">A.V.A.</p>
+                <p className="text-sm font-bold tracking-wide text-cyan-300">AVA</p>
                 <p className="truncate text-[11px] text-cyan-400/60">
                   All Vap&apos;s Virtual Advisor · {isLoggedIn ? "Profil mémorisé" : "Mode invité"}
                 </p>
@@ -272,7 +272,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Posez votre question à A.V.A…"
+                  placeholder="Posez votre question à AVA…"
                   disabled={sending || loading}
                   className="flex-1 rounded-xl border border-cyan-500/25 bg-black/70 px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/40 disabled:opacity-50"
                 />

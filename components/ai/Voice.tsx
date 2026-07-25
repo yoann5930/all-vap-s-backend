@@ -33,7 +33,7 @@ export function ImmersiveMic({ state, disabled, onToggle }: ImmersiveMicProps) {
       type="button"
       onClick={onToggle}
       disabled={disabled || isSpeaking || isThinking}
-      aria-label={isListening ? "Arrêter le micro" : "Parler à A.V.A."}
+      aria-label={isListening ? "Arrêter le micro" : "Parler à AVA"}
       className="relative flex h-16 w-16 items-center justify-center rounded-full focus:outline-none disabled:opacity-40"
       whileHover={{ scale: disabled ? 1 : 1.06 }}
       whileTap={{ scale: disabled ? 1 : 0.94 }}

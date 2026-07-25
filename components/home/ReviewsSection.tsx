@@ -5,7 +5,7 @@ const REVIEWS = [
     place: "Hautmont",
   },
   {
-    quote: "Une boutique premium, produits soignés, et A.V.A. m’a aidée à choisir mon pod.",
+    quote: "Une boutique premium, produits soignés, et AVA m’a aidée à choisir mon pod.",
     author: "Julie M.",
     place: "Le Quesnoy",
   },

@@ -20,7 +20,7 @@ export function VoiceAssistant({ state, disabled, onToggleMic }: VoiceAssistantP
       type="button"
       onClick={onToggleMic}
       disabled={disabled || isSpeaking || isThinking}
-      aria-label={isListening ? "Arrêter le micro" : "Parler à A.V.A."}
+      aria-label={isListening ? "Arrêter le micro" : "Parler à AVA"}
       className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full focus:outline-none disabled:opacity-35"
       whileHover={{ scale: disabled ? 1 : 1.05 }}
       whileTap={{ scale: disabled ? 1 : 0.95 }}

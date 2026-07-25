@@ -62,7 +62,7 @@ export function HeroSection() {
             onClick={openAva}
           >
             <Sparkles className="h-4 w-4" />
-            Parler avec A.V.A.
+            Parler avec AVA
           </Button>
         </motion.div>
       </div>

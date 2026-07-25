@@ -8,6 +8,7 @@ export function humanizeForSpeech(text: string): string {
   return text
     .replace(/👋/g, "")
     .replace(/A\.V\.A\./gi, "Ava")
+    .replace(/\bAVA\b/g, "Ava")
     .replace(/All Vap['’]?s/gi, "All Vaps")
     .replace(/e-liquides?/gi, "é liquides")
     .replace(/E-liquides?/g, "é liquides")

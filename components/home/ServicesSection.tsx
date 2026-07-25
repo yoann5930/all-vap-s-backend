@@ -14,7 +14,7 @@ const SERVICES = [
   {
     icon: ShieldCheck,
     title: "Conseil expert",
-    text: "Accompagnement premium, en magasin et avec A.V.A.",
+    text: "Accompagnement premium, en magasin et avec AVA",
   },
   {
     icon: Headphones,

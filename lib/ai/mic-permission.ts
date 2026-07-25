@@ -59,12 +59,12 @@ export const BROWSER_MIC_HELP: Record<BrowserKind, string[]> = {
 };
 
 export const MIC_MESSAGES = {
-  prompt: "Autorisez le micro pour parler avec A.V.A.",
-  listening: "A.V.A. vous écoute…",
+  prompt: "Autorisez le micro pour parler avec AVA",
+  listening: "AVA vous écoute…",
   denied:
-    "Micro refusé. Pour parler avec A.V.A., autorisez le micro dans les paramètres de votre navigateur.",
+    "Micro refusé. Pour parler avec AVA, autorisez le micro dans les paramètres de votre navigateur.",
   unsupported:
-    "Votre navigateur ne permet pas encore la reconnaissance vocale. Utilisez Chrome ou Edge pour parler avec A.V.A.",
+    "Votre navigateur ne permet pas encore la reconnaissance vocale. Utilisez Chrome ou Edge pour parler avec AVA",
   unavailable: "Micro indisponible sur cet appareil.",
 } as const;
 

@@ -313,7 +313,7 @@ export function HolographicAvatar({
 
       {showLabel && (
         <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.35em] text-cyan-400/50">
-          A.V.A.
+          AVA
         </span>
       )}
     </motion.div>
