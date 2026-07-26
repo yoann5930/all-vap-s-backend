@@ -1,7 +1,7 @@
 "use client";
 
-import { useFrame, useLoader } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import {
   holographicFragmentShader,
@@ -19,14 +19,39 @@ interface AvaPortraitHeadProps {
   blink: number;
 }
 
+/** Placeholder 1×1 si /ava/ava-face-texture.png est absent — évite un crash du fallback */
+const PLACEHOLDER_TEX = (() => {
+  const t = new THREE.DataTexture(new Uint8Array([0, 40, 60, 255]), 1, 1);
+  t.needsUpdate = true;
+  return t;
+})();
+
 export function AvaPortraitHead({ state, lipSync, lookX, lookY, blink }: AvaPortraitHeadProps) {
   const groupRef = useRef<THREE.Group>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const leftLidRef = useRef<THREE.Mesh>(null);
   const rightLidRef = useRef<THREE.Mesh>(null);
+  const [texture, setTexture] = useState<THREE.Texture>(PLACEHOLDER_TEX);
 
-  const texture = useLoader(THREE.TextureLoader, "/ava/ava-face-texture.png");
-  texture.colorSpace = THREE.SRGBColorSpace;
+  useEffect(() => {
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      "/ava/ava-face-texture.png",
+      (tex) => {
+        if (cancelled) return;
+        tex.colorSpace = THREE.SRGBColorSpace;
+        setTexture(tex);
+      },
+      undefined,
+      () => {
+        /* fichier manquant → placeholder, pas d’exception */
+      }
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const uniforms = useMemo(() => {
     const u = THREE.UniformsUtils.clone(holographicUniforms);
