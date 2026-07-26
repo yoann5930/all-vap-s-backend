@@ -16,14 +16,18 @@ export interface AvaProduct {
   promoPriceCents: number | null;
   isPromo: boolean;
   stock: number;
+  imageUrl?: string | null;
+  description?: string | null;
+  reason?: string;
+  nicotine?: string | null;
+  pgVg?: string | null;
+  volume?: string | null;
 }
 
 interface AvaReplyPayload {
   subtitle: string;
   spoken: string;
   products: AvaProduct[];
-  audioBase64?: string | null;
-  audioMime?: string;
   blocked?: boolean;
 }
 
@@ -52,10 +56,22 @@ export function useVoiceConversation() {
     const data = await res.json();
     return {
       subtitle: toSubtitle(data.content),
-      spoken: toSpokenText(data.content),
-      products: data.products ?? [],
-      audioBase64: data.audioBase64 ?? null,
-      audioMime: data.audioMime ?? "audio/mpeg",
+      spoken: toSpokenText(data.spoken ?? data.content ?? ""),
+      products: (data.products ?? []).map((p: AvaProduct & { imageUrl?: string | null }) => ({
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        priceCents: p.priceCents,
+        promoPriceCents: p.promoPriceCents ?? null,
+        isPromo: Boolean(p.isPromo),
+        stock: p.stock,
+        imageUrl: p.imageUrl ?? null,
+        description: p.description ?? null,
+        reason: p.reason ?? "catalogue",
+        nicotine: p.nicotine ?? null,
+        pgVg: p.pgVg ?? null,
+        volume: p.volume ?? null,
+      })),
       blocked: Boolean(data.blocked),
     };
   }, []);
@@ -64,7 +80,8 @@ export function useVoiceConversation() {
     (reply: AvaReplyPayload) => {
       setSubtitle(reply.subtitle);
       setProducts(reply.products);
-      synthesis.speak(reply.spoken, reply.audioBase64, reply.audioMime);
+      // Voix gratuite uniquement (speechSynthesis) — jamais d’audio OpenAI
+      synthesis.speak(reply.spoken);
     },
     [synthesis]
   );
@@ -115,8 +132,8 @@ export function useVoiceConversation() {
         const spoken =
           data.greeting.spoken ||
           data.greeting.content ||
-          "Bonjour, je suis Ava, votre conseillère All Vaps.";
-        synthesis.speak(spoken, data.greeting.audioBase64, data.greeting.audioMime);
+          "Bonjour, je m'appelle Ava. Que recherchez-vous ?";
+        synthesis.speak(spoken);
       }
     } catch {
       /* ok */
@@ -147,7 +164,7 @@ export function useVoiceConversation() {
   useEffect(() => {
     if (!ready || greetedRef.current || !synthesis.canSpeak) return;
     greetedRef.current = true;
-    synthesis.speak("Bonjour, je suis Ava, votre conseillère All Vaps.");
+    synthesis.speak("Bonjour, je m'appelle Ava. Que recherchez-vous ?");
   }, [ready, synthesis]);
 
   const needsTextFallback =

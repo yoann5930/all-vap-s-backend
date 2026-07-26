@@ -1,17 +1,19 @@
-export const AVA_GREETING = `Bonjour 👋
-
-Je suis AVA, votre conseillère virtuelle All Vap's.
-
-Je peux vous aider à choisir votre cigarette électronique, vos e-liquides, vos résistances ou répondre à toutes vos questions.
-
-Comment puis-je vous aider aujourd'hui ?`;
-
-export const AVA_SUGGESTIONS = [
-  "E-liquide fruité",
-  "Je débute dans la vape",
-  "Chercher une résistance",
-  "Horaires boutique",
-];
-
 export const AVA_NAME = "AVA";
 export const AVA_FULL_NAME = "All Vap's Virtual Advisor";
+
+/** Accueil unique — ne jamais répéter ensuite */
+export const AVA_GREETING = `Bonjour, je m'appelle Ava.
+
+Que recherchez-vous ?`;
+
+export const AVA_SUGGESTIONS = [
+  "E-liquide Frais Rouge",
+  "DIY",
+  "Résistance Vaporesso",
+  "Cigarette électronique",
+];
+
+export const AVA_NO_EXACT_MATCH =
+  "Je n'ai pas trouvé exactement ce produit. Voici les alternatives les plus proches disponibles.";
+
+export const AVA_NAME_REPLY = "Je m'appelle Ava.";

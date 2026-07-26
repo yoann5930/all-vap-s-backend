@@ -5,169 +5,236 @@ import { humanizeForSpeech, splitSpokenSentences } from "@/lib/ai/ava-speech-uti
 
 export interface SpeechSynthesisState {
   isSpeaking: boolean;
+  isPaused: boolean;
   canSpeak: boolean;
   error: string | null;
+  selectedVoiceName: string | null;
 }
+
+const SPEECH_UNAVAILABLE =
+  "La synthèse vocale du navigateur n'est pas disponible. Utilisez Chrome ou Edge pour entendre Ava.";
 
 function scoreFrenchVoice(v: SpeechSynthesisVoice): number {
   const name = v.name.toLowerCase();
-  const lang = v.lang.toLowerCase();
+  const lang = v.lang.toLowerCase().replace(/_/g, "-");
   if (!lang.startsWith("fr")) return -100;
 
   let score = 10;
-  // Strictement français de France (évite accents CA/BE/CH)
-  if (lang === "fr-fr" || lang === "fr_fr") score += 35;
-  if (/fr-ca|fr_ca|quebec|belg|fr-be|fr-ch|swiss|canada/i.test(`${lang} ${name}`)) score -= 60;
+  // Priorité : français de France
+  if (lang === "fr-fr") score += 40;
+  else if (lang.startsWith("fr")) score += 15;
 
-  // Voix neurales / online = nettement plus humaines et douces
-  if (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(name)) score += 55;
-  if (/denise|julie|marie|amelie|hortense|aria|claire|caroline|brigitte|eloise|léonie|leonie/i.test(name))
+  // Éviter le québécois / belge / suisse
+  if (/fr-ca|quebec|belg|fr-be|fr-ch|swiss|canada/i.test(`${lang} ${name}`)) score -= 70;
+
+  if (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(name)) score += 50;
+  if (/denise|julie|marie|amelie|hortense|aria|claire|caroline|brigitte|eloise|léonie|leonie| millie|gabrielle/i.test(name))
     score += 45;
-  if (/female|femme|woman|girl/i.test(name)) score += 15;
+  if (/female|femme|woman|girl/i.test(name)) score += 20;
   if (/google.*fran[cç]ais|microsoft.*fr/i.test(name)) score += 25;
-  if (/male|homme|paul|thomas|claude|hugo|jean|jacques/i.test(name)) score -= 40;
-  // Préférer les voix « soft / pleasant » si nommées ainsi
+  if (/male|homme|paul|thomas|claude|hugo|jean|jacques|guy|henri/i.test(name)) score -= 40;
   if (/soft|gentle|calm|warm/i.test(name)) score += 20;
   if (v.localService) score += 3;
   return score;
 }
 
 function pickFrenchFemaleVoice(): SpeechSynthesisVoice | null {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined" || !window.speechSynthesis) return null;
   const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+
   const ranked = voices
     .map((v) => ({ v, score: scoreFrenchVoice(v) }))
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score);
-  return ranked[0]?.v ?? null;
+
+  if (ranked[0]) return ranked[0].v;
+
+  // Fallback : toute voix fr* (hors CA si possible), sinon null → voix défaut navigateur
+  const anyFr = voices.find((v) => {
+    const lang = v.lang.toLowerCase();
+    return lang.startsWith("fr") && !lang.includes("ca");
+  });
+  return anyFr ?? voices.find((v) => v.lang.toLowerCase().startsWith("fr")) ?? null;
 }
 
 function speakUtterance(text: string, voice: SpeechSynthesisVoice | null): Promise<void> {
   return new Promise((resolve, reject) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "fr-FR";
-    // Douce, posée, sans accélération ni pitch artificiel
     utterance.rate = 0.9;
-    utterance.pitch = 0.98;
-    utterance.volume = 0.88;
+    utterance.pitch = 1;
+    utterance.volume = 1;
     if (voice) utterance.voice = voice;
 
     utterance.onend = () => resolve();
-    utterance.onerror = () => reject(new Error("speech-error"));
+    utterance.onerror = (ev) => {
+      if (ev.error === "canceled" || ev.error === "interrupted") {
+        resolve();
+        return;
+      }
+      reject(new Error(ev.error || "speech-error"));
+    };
     window.speechSynthesis.speak(utterance);
   });
 }
 
-function pause(ms: number) {
+function pauseMs(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
 export function useSpeechSynthesis() {
   const [state, setState] = useState<SpeechSynthesisState>({
     isSpeaking: false,
+    isPaused: false,
     canSpeak: false,
     error: null,
+    selectedVoiceName: null,
   });
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [activeAudio, setActiveAudio] = useState<HTMLAudioElement | null>(null);
   const cancelRef = useRef(false);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+  const speakingGenRef = useRef(0);
 
   useEffect(() => {
     const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
-    setState((s) => ({ ...s, canSpeak }));
+    if (!canSpeak) {
+      setState((s) => ({ ...s, canSpeak: false, error: SPEECH_UNAVAILABLE }));
+      return;
+    }
+
+    setState((s) => ({ ...s, canSpeak: true, error: null }));
 
     const loadVoices = () => {
-      voiceRef.current = pickFrenchFemaleVoice();
+      const picked = pickFrenchFemaleVoice();
+      voiceRef.current = picked;
+      setState((s) => ({
+        ...s,
+        selectedVoiceName: picked?.name ?? null,
+      }));
     };
-    if (canSpeak) {
-      loadVoices();
-      window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
-    }
+
+    loadVoices();
+    // Chrome charge souvent les voix de façon asynchrone
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    // Relance courte si liste encore vide
+    const t = window.setTimeout(loadVoices, 250);
+
     return () => {
+      window.clearTimeout(t);
       window.speechSynthesis?.removeEventListener("voiceschanged", loadVoices);
       cancelRef.current = true;
-      audioRef.current?.pause();
+      speakingGenRef.current += 1;
+      window.speechSynthesis?.cancel();
     };
   }, []);
 
   const stopSpeaking = useCallback(() => {
     cancelRef.current = true;
-    window.speechSynthesis?.cancel();
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    speakingGenRef.current += 1;
+    try {
+      window.speechSynthesis?.cancel();
+      window.speechSynthesis?.resume(); // évite un état "paused" bloqué sur certains navigateurs
+    } catch {
+      /* ignore */
     }
-    setActiveAudio(null);
-    setState((s) => ({ ...s, isSpeaking: false }));
+    setState((s) => ({ ...s, isSpeaking: false, isPaused: false }));
+  }, []);
+
+  const pauseSpeaking = useCallback(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (!window.speechSynthesis.speaking) return;
+    window.speechSynthesis.pause();
+    setState((s) => ({ ...s, isPaused: true }));
+  }, []);
+
+  const resumeSpeaking = useCallback(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    window.speechSynthesis.resume();
+    setState((s) => ({ ...s, isPaused: false }));
   }, []);
 
   const speakBrowser = useCallback(async (text: string) => {
-    if (!window.speechSynthesis) {
-      setState((s) => ({ ...s, error: "Synthèse vocale indisponible." }));
+    if (typeof window === "undefined" || !("speechSynthesis" in window) || !window.speechSynthesis) {
+      setState((s) => ({ ...s, error: SPEECH_UNAVAILABLE, isSpeaking: false }));
       return;
     }
 
     const clean = humanizeForSpeech(text);
     if (!clean) return;
 
-    cancelRef.current = false;
-    window.speechSynthesis.cancel();
-    setState((s) => ({ ...s, isSpeaking: true, error: null }));
+    // Annule toute lecture précédente — pas de superposition
+    cancelRef.current = true;
+    speakingGenRef.current += 1;
+    const gen = speakingGenRef.current;
+    try {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+    } catch {
+      /* ignore */
+    }
 
-    const voice = voiceRef.current ?? pickFrenchFemaleVoice();
+    cancelRef.current = false;
+    if (!voiceRef.current) {
+      voiceRef.current = pickFrenchFemaleVoice();
+    }
+    const voice = voiceRef.current;
     const sentences = splitSpokenSentences(clean);
+
+    setState((s) => ({
+      ...s,
+      isSpeaking: true,
+      isPaused: false,
+      error: null,
+      selectedVoiceName: voice?.name ?? s.selectedVoiceName,
+    }));
 
     try {
       for (let i = 0; i < sentences.length; i++) {
-        if (cancelRef.current) break;
+        if (cancelRef.current || gen !== speakingGenRef.current) break;
         await speakUtterance(sentences[i], voice);
-        // Micro-pause naturelle entre phrases
-        if (!cancelRef.current && i < sentences.length - 1) {
-          await pause(220);
+        if (!cancelRef.current && gen === speakingGenRef.current && i < sentences.length - 1) {
+          await pauseMs(200);
         }
       }
-    } catch {
-      /* cancelled / engine error */
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      // Autoplay / interaction requise
+      if (/not-allowed|denied|interrupted/i.test(msg)) {
+        setState((s) => ({
+          ...s,
+          error: "Appuyez sur le micro ou envoyez un message pour activer la voix d'Ava.",
+        }));
+      } else if (msg && msg !== "canceled") {
+        setState((s) => ({
+          ...s,
+          error: "Impossible de lire la réponse à voix haute.",
+        }));
+      }
     } finally {
-      if (!cancelRef.current) {
-        setState((s) => ({ ...s, isSpeaking: false }));
+      if (gen === speakingGenRef.current) {
+        setState((s) => ({ ...s, isSpeaking: false, isPaused: false }));
       }
     }
   }, []);
 
-  const speakFromBase64 = useCallback(
-    (base64: string, mimeType = "audio/mpeg") => {
-      stopSpeaking();
-      cancelRef.current = false;
-      const audio = new Audio(`data:${mimeType};base64,${base64}`);
-      audioRef.current = audio;
-      setActiveAudio(audio);
-      audio.onplay = () => setState((s) => ({ ...s, isSpeaking: true, error: null }));
-      audio.onended = () => setState((s) => ({ ...s, isSpeaking: false }));
-      audio.onerror = () => {
-        setState((s) => ({ ...s, isSpeaking: false, error: "Lecture audio impossible." }));
-      };
-      void audio.play();
-    },
-    [stopSpeaking]
-  );
-
+  /**
+   * Voix 100 % navigateur — ignore tout audio distant (OpenAI TTS désactivé).
+   * Signature conservée pour compatibilité des appels existants.
+   */
   const speak = useCallback(
-    (text: string, audioBase64?: string | null, audioMime?: string) => {
-      if (audioBase64) {
-        speakFromBase64(audioBase64, audioMime);
-        return;
-      }
+    (text: string, _audioBase64?: string | null, _audioMime?: string) => {
       void speakBrowser(text);
     },
-    [speakBrowser, speakFromBase64]
+    [speakBrowser]
   );
 
   return {
     ...state,
     speak,
     stopSpeaking,
-    activeAudio,
+    pauseSpeaking,
+    resumeSpeaking,
+    /** Plus d’élément <audio> OpenAI — le hologramme s’appuie sur isSpeaking. */
+    activeAudio: null as HTMLAudioElement | null,
   };
 }

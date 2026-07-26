@@ -85,7 +85,6 @@ export function scoreProduct(product: ProductForScoring, profile: VapeProfileDat
 
   if (profile.averageBudgetCents && effectivePrice(product) <= profile.averageBudgetCents) {
     score += 10;
-    reasons.push("dans votre budget");
   } else if (profile.averageBudgetCents && effectivePrice(product) > profile.averageBudgetCents * 1.3) {
     score -= 10;
   }

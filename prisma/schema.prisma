@@ -87,33 +87,50 @@ model Brand {
 }
 
 model Product {
-  id              String      @id @default(cuid())
-  sku             String?     @unique
-  name            String
-  slug            String      @unique
-  description     String?
-  category        String
-  brand           String?
-  categoryId      String?
-  categoryRef     Category?   @relation(fields: [categoryId], references: [id])
-  brandId         String?
-  brandRef        Brand?      @relation(fields: [brandId], references: [id])
-  imageUrl        String?
-  images          String[]    @default([])
-  priceCents      Int
-  promoPriceCents Int?
-  stock           Int         @default(0)
-  salesCount      Int         @default(0)
-  isActive        Boolean     @default(true)
-  isNew           Boolean     @default(false)
-  isBestSeller    Boolean     @default(false)
-  isPromo         Boolean     @default(false)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  orderItems      OrderItem[]
-  favorites       Favorite[]
-  reviews         Review[]
+  id               String      @id @default(cuid())
+  sku              String?     @unique
+  name             String
+  /// Nom normalisé pour matching uniquement — jamais affiché tel quel au client
+  normalizedName   String?
+  slug             String      @unique
+  description      String?
+  category         String
+  subcategory      String?
+  brand            String?
+  range            String?
+  productType      String?
+  categoryId       String?
+  categoryRef      Category?   @relation(fields: [categoryId], references: [id])
+  brandId          String?
+  brandRef         Brand?      @relation(fields: [brandId], references: [id])
+  imageUrl         String?
+  images           String[]    @default([])
+  priceCents       Int
+  promoPriceCents  Int?
+  currency         String      @default("EUR")
+  /// Stock legacy e-commerce (agrégat) — les stocks boutiques sont dans StockLevel
+  stock            Int         @default(0)
+  salesCount       Int         @default(0)
+  barcode          String?
+  sumupProductId   String?
+  sumupVariantId   String?
+  source           String      @default("manual")
+  visibleOnline    Boolean     @default(true)
+  isActive         Boolean     @default(true)
+  isNew            Boolean     @default(false)
+  isBestSeller     Boolean     @default(false)
+  isPromo          Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  orderItems       OrderItem[]
+  favorites        Favorite[]
+  reviews          Review[]
   vapeRecommendations VapeRecommendation[]
+  variants         ProductVariant[]
+  flavors          ProductFlavor[]
+  stockLevels      StockLevel[]
+  stockMovements   StockMovement[]
+  productMatches   ProductMatch[] @relation("MatchedProduct")
 
   @@index([isActive, category])
   @@index([isActive, isPromo])
@@ -122,6 +139,180 @@ model Product {
   @@index([salesCount])
   @@index([categoryId])
   @@index([brandId])
+  @@index([normalizedName])
+  @@index([barcode])
+  @@index([sumupProductId])
+  @@index([source])
+}
+
+model ProductVariant {
+  id              String   @id @default(cuid())
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name            String
+  sku             String?
+  barcode         String?
+  nicotineMg      Float?
+  nicotineLabel   String?
+  powerWatts      Float?
+  resistanceOhms  Float?
+  capacityMl      Float?
+  color           String?
+  size            String?
+  strength        String?
+  sumupVariantId  String?
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  stockLevels     StockLevel[]
+  stockMovements  StockMovement[]
+
+  @@index([productId])
+  @@index([sku])
+  @@index([barcode])
+  @@index([sumupVariantId])
+}
+
+model ProductFlavor {
+  id               String   @id @default(cuid())
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  primaryFlavor    String?
+  secondaryFlavor  String?
+  flavorFamily     String?
+  isFresh          Boolean?
+  isFruity         Boolean?
+  isGourmet        Boolean?
+  isTobacco        Boolean?
+  isMint           Boolean?
+  isDrink          Boolean?
+  confidenceScore  Float?
+  validatedManually Boolean @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([productId])
+  @@index([flavorFamily])
+}
+
+model StockLocation {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  address   String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  levels    StockLevel[]
+  movements StockMovement[]
+}
+
+model StockLevel {
+  id                 String         @id @default(cuid())
+  productId          String
+  product            Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId          String
+  variant            ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  locationId         String
+  location           StockLocation  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  quantity           Int            @default(0)
+  reservedQuantity   Int            @default(0)
+  /// availableQuantity = quantity - reservedQuantity (maintenu à l'écriture)
+  availableQuantity  Int            @default(0)
+  lowStockThreshold  Int            @default(3)
+  source             String         @default("unknown")
+  lastSyncedAt       DateTime?
+  updatedAt          DateTime       @updatedAt
+  createdAt          DateTime       @default(now())
+
+  @@unique([variantId, locationId])
+  @@index([locationId])
+  @@index([productId])
+  @@index([availableQuantity])
+}
+
+model StockMovement {
+  id                String         @id @default(cuid())
+  productId         String
+  product           Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId         String?
+  variant           ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  locationId        String
+  location          StockLocation  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  movementType      String
+  quantityBefore    Int
+  quantityChange    Int
+  quantityAfter     Int
+  source            String
+  externalReference String?
+  createdAt         DateTime       @default(now())
+
+  @@index([productId, createdAt])
+  @@index([locationId, createdAt])
+  @@index([movementType])
+}
+
+model ProductMatch {
+  id                   String    @id @default(cuid())
+  sourceType           String
+  sourceProductId      String?
+  sourceName           String
+  normalizedSourceName String
+  matchedProductId     String?
+  matchedProduct       Product?  @relation("MatchedProduct", fields: [matchedProductId], references: [id], onDelete: SetNull)
+  matchMethod          String?
+  confidenceScore      Float?
+  status               String    @default("UNMATCHED")
+  validatedBy          String?
+  validatedAt          DateTime?
+  locationCode         String?
+  syncRunId            String?
+  syncRun              SyncRun?  @relation(fields: [syncRunId], references: [id], onDelete: SetNull)
+  payloadSafe          String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([status])
+  @@index([normalizedSourceName])
+  @@index([syncRunId])
+  @@index([matchedProductId])
+}
+
+model SyncRun {
+  id              String      @id @default(cuid())
+  source          String
+  locationCode    String?
+  dryRun          Boolean     @default(true)
+  startedAt       DateTime    @default(now())
+  completedAt     DateTime?
+  status          String      @default("RUNNING")
+  importedCount   Int         @default(0)
+  updatedCount    Int         @default(0)
+  unchangedCount  Int         @default(0)
+  unmatchedCount  Int         @default(0)
+  duplicateCount  Int         @default(0)
+  errorCount      Int         @default(0)
+  createCount     Int         @default(0)
+  errorSummary    String?
+  reportJson      String?
+  matches         ProductMatch[]
+  errors          SyncError[]
+}
+
+model SyncError {
+  id              String   @id @default(cuid())
+  syncRunId       String
+  syncRun         SyncRun  @relation(fields: [syncRunId], references: [id], onDelete: Cascade)
+  sourceRow       Int?
+  sourceReference String?
+  errorType       String
+  errorMessage    String
+  payloadSafe     String?
+  resolved        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@index([syncRunId])
+  @@index([resolved])
 }
 
 model VapeProfile {

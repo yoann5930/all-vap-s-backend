@@ -19,6 +19,9 @@ export interface ProductSuggestion {
   stock: number;
   description: string | null;
   reason: string;
+  nicotine?: string | null;
+  pgVg?: string | null;
+  volume?: string | null;
 }
 
 interface ProductSuggestionCardProps {
@@ -28,6 +31,9 @@ interface ProductSuggestionCardProps {
 
 export function ProductSuggestionCard({ product, index }: ProductSuggestionCardProps) {
   const price = product.isPromo && product.promoPriceCents ? product.promoPriceCents : product.priceCents;
+  const specs = [product.nicotine, product.pgVg ? `PG/VG ${product.pgVg}` : null, product.volume]
+    .filter(Boolean)
+    .join(" · ");
 
   function handleAdd() {
     addToCart({
@@ -62,7 +68,11 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
           <Link href={`/boutique/${product.slug}`} className="line-clamp-2 text-xs font-semibold text-cyan-100 hover:text-cyan-300">
             {product.name}
           </Link>
-          <p className="mt-0.5 text-[10px] text-cyan-400/60">{product.reason}</p>
+          {specs ? (
+            <p className="mt-0.5 text-[10px] text-cyan-300/70">{specs}</p>
+          ) : (
+            <p className="mt-0.5 text-[10px] text-cyan-400/60">{product.reason}</p>
+          )}
           <div className="mt-1 flex items-center justify-between gap-2">
             <span className="text-sm font-bold text-cyan-300">
               {product.isPromo && product.promoPriceCents && (
@@ -99,7 +109,7 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
           className="flex flex-1 items-center justify-center gap-1 border-l border-cyan-500/15 py-2 text-[11px] font-medium text-cyan-300 transition hover:bg-cyan-500/15 disabled:opacity-40"
         >
           <ShoppingBag className="h-3 w-3" />
-          Ajouter
+          Ajouter au panier
         </button>
       </div>
     </motion.div>

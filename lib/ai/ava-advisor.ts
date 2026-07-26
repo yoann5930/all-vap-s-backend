@@ -4,9 +4,20 @@ import { getVapeProfile, upsertVapeProfile, addRecommendation } from "@/lib/vape
 import { extractProfileUpdates, mergeProfileUpdates } from "@/lib/vape-profile/learning";
 import { emptyVapeProfile, MEDICAL_DISCLAIMER } from "@/lib/vape-profile/types";
 import { getPersonalizedRecommendations } from "@/lib/recommendations/engine";
-import { searchCatalog, recommendForProfile, type CatalogProduct } from "@/lib/ai/catalog-search";
+import {
+  searchCatalog,
+  searchCatalogAlternatives,
+  recommendForProfile,
+  type CatalogProduct,
+} from "@/lib/ai/catalog-search";
 import { isAgeConfirmed, AGE_REFUSAL } from "@/lib/ai/sales-script";
-import { AVA_GREETING, AVA_SUGGESTIONS } from "@/lib/ai/ava-constants";
+import {
+  AVA_GREETING,
+  AVA_SUGGESTIONS,
+  AVA_NO_EXACT_MATCH,
+  AVA_NAME_REPLY,
+} from "@/lib/ai/ava-constants";
+import { parseCatalogSpecs } from "@/lib/ai/ava-speech-utils";
 
 export { AVA_GREETING, AVA_SUGGESTIONS } from "@/lib/ai/ava-constants";
 
@@ -21,6 +32,9 @@ export interface AvaProductCard {
   stock: number;
   description: string | null;
   reason: string;
+  nicotine: string | null;
+  pgVg: string | null;
+  volume: string | null;
 }
 
 export interface AvaReply {
@@ -32,6 +46,7 @@ export interface AvaReply {
 }
 
 function toCard(p: CatalogProduct, reason: string): AvaProductCard {
+  const specs = parseCatalogSpecs(`${p.name} ${p.description ?? ""}`);
   return {
     id: p.id,
     name: p.name,
@@ -43,26 +58,46 @@ function toCard(p: CatalogProduct, reason: string): AvaProductCard {
     stock: p.stock,
     description: p.description,
     reason,
+    nicotine: specs.nicotine,
+    pgVg: specs.pgVg,
+    volume: specs.volume,
   };
 }
 
 async function loadCatalog(): Promise<CatalogProduct[]> {
   const rows = await prisma.product.findMany({ where: { isActive: true } });
-  return rows.map((p) => ({
-    id: p.id,
-    name: p.name,
-    slug: p.slug,
-    description: p.description,
-    category: p.category,
-    brand: p.brand,
-    priceCents: p.priceCents,
-    promoPriceCents: p.promoPriceCents,
-    isPromo: p.isPromo,
-    isNew: p.isNew,
-    stock: p.stock,
-    imageUrl: p.imageUrl,
-    isActive: p.isActive,
-  }));
+  const location = await prisma.stockLocation.findUnique({ where: { code: "GLOBAL_ALL_VAPS" } });
+  const levels = location
+    ? await prisma.stockLevel.findMany({
+        where: { locationId: location.id },
+        select: { productId: true, availableQuantity: true, quantity: true, reservedQuantity: true },
+      })
+    : [];
+  const byProduct = new Map(levels.map((l) => [l.productId, l]));
+
+  return rows.map((p) => {
+    const level = byProduct.get(p.id);
+    const availableQuantity = level ? level.availableQuantity : null;
+    const stockKnown = Boolean(level);
+    return {
+      id: p.id,
+      name: p.name,
+      slug: p.slug,
+      description: p.description,
+      category: p.category,
+      brand: p.brand,
+      priceCents: p.priceCents,
+      promoPriceCents: p.promoPriceCents,
+      isPromo: p.isPromo,
+      isNew: p.isNew,
+      isBestSeller: p.isBestSeller,
+      stock: stockKnown ? (availableQuantity ?? 0) : p.stock,
+      imageUrl: p.imageUrl,
+      isActive: p.isActive,
+      availableQuantity,
+      stockKnown,
+    };
+  });
 }
 
 function storeInfo(text: string): string | null {
@@ -72,33 +107,55 @@ function storeInfo(text: string): string | null {
   }
 
   const storeMatch = stores.find(
-    (s) =>
-      lower.includes(s.city.toLowerCase()) ||
-      lower.includes(s.id.replace("-", " "))
+    (s) => lower.includes(s.city.toLowerCase()) || lower.includes(s.id.replace("-", " "))
   );
 
   if (storeMatch) {
-    return `${storeMatch.name}\n📍 ${storeMatch.address}, ${storeMatch.postalCode} ${storeMatch.city}\n📞 ${storeMatch.phone}\n✉️ ${storeMatch.email}\n\nHoraires :\n${storeMatch.hours.join("\n")}`;
+    return `${storeMatch.name}\n${storeMatch.address}, ${storeMatch.postalCode} ${storeMatch.city}\n${storeMatch.phone}\n\nHoraires :\n${storeMatch.hours.join("\n")}`;
   }
 
   return stores
-    .map(
-      (s) =>
-        `• ${s.name} — ${s.address}, ${s.city}\n  ${s.hours[0]} · ${s.phone}`
-    )
+    .map((s) => `• ${s.name} — ${s.address}, ${s.city}\n  ${s.hours[0]} · ${s.phone}`)
     .join("\n\n");
 }
 
 function loyaltyInfo(text: string): string | null {
   if (!/fid[ée]lit[ée]|points|qr|carte/i.test(text.toLowerCase())) return null;
-  return "Programme fidélité All Vap's : cumulez des points à chaque achat en boutique ou en ligne. Consultez votre solde et QR code dans Mon compte → Fidélité. Nos équipes en magasin activent votre carte en quelques secondes.";
+  return "Programme fidélité All Vap's : cumulez des points à chaque achat. Consultez votre solde dans Mon compte → Fidélité.";
 }
 
 function savInfo(text: string): string | null {
   if (!/sav|garantie|apr[èe]s.?vente|panne|r[ée]paration|retour/i.test(text.toLowerCase())) {
     return null;
   }
-  return "Service après-vente All Vap's : garantie constructeur sur le matériel, diagnostic en boutique Hautmont et Le Quesnoy. Apportez votre facture ou votre compte client — nos experts testent votre matériel et proposent réparation ou échange selon la garantie.";
+  return "SAV All Vap's : diagnostic en boutique Hautmont et Le Quesnoy. Apportez votre facture — on teste et on vous oriente.";
+}
+
+function isNameQuestion(text: string): boolean {
+  return /(?:comment\s+(?:tu\s+t['’]appelle|vous\s+appelez)|quel\s+est\s+(?:ton|votre)\s+nom|t['’]appelle|qui\s+es[- ]tu|qui\s+[êe]tes[- ]vous)/i.test(
+    text
+  );
+}
+
+function productReply(
+  intro: string,
+  picks: CatalogProduct[],
+  reason: string,
+  suggestions: string[]
+): AvaReply {
+  const cards = picks.map((p) => toCard(p, reason));
+  const availabilityNote =
+    picks.length > 0
+      ? picks.every((p) => (p.availableQuantity != null ? p.availableQuantity : p.stock) > 0)
+        ? " Ces produits sont disponibles chez All Vap's."
+        : ""
+      : "";
+  return {
+    content: `${intro}${availabilityNote}`,
+    suggestions: [...suggestions.slice(0, 3), "Autre recherche", "Nos magasins"],
+    products: cards,
+    speaking: true,
+  };
 }
 
 export async function initAva(userId?: string) {
@@ -110,14 +167,14 @@ export async function initAva(userId?: string) {
     const profile = (await getVapeProfile(userId)) ?? emptyVapeProfile();
 
     if (user?.firstName) {
-      greeting = `Bonjour ${user.firstName} 👋\n\n` + AVA_GREETING.split("\n\n").slice(1).join("\n\n");
+      greeting = `Bonjour ${user.firstName}, je m'appelle Ava.\n\nQue recherchez-vous ?`;
     }
 
     if (profile.gdprConsent && profile.preferredFlavors.length > 0) {
       const products = await loadCatalog();
       const newRecs = getPersonalizedRecommendations(products, profile, { limit: 1, newOnly: true });
       if (newRecs.length > 0) {
-        greeting += `\n\nJ'ai repéré une nouveauté pour vous : ${newRecs[0].product.name}.`;
+        greeting += `\n\nUne nouveauté pourrait vous plaire : ${newRecs[0].product.name}.`;
         suggestions = ["Voir la nouveauté", ...AVA_SUGGESTIONS.slice(0, 3)];
       }
     }
@@ -139,10 +196,29 @@ export async function chatAva(userId: string | undefined, message: string): Prom
     return { content: AGE_REFUSAL, suggestions: [], products: [], blocked: true };
   }
 
+  if (isNameQuestion(message)) {
+    return {
+      content: AVA_NAME_REPLY,
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      speaking: true,
+    };
+  }
+
+  // Jamais orienter vers le budget — ignorer ces questions côté réponses Ava
+  if (/quel\s+est\s+votre\s+budget|combien\s+(souhaitez|voulez)|gamme\s+de\s+prix|budget\s*\?/i.test(text)) {
+    return {
+      content: "Les prix sont indiqués sur chaque produit. Dites-moi plutôt ce que vous cherchez.",
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      speaking: true,
+    };
+  }
+
   const store = storeInfo(message);
   if (store) {
     return {
-      content: `Voici nos boutiques All Vap's :\n\n${store}\n\n${MEDICAL_DISCLAIMER}`,
+      content: `Voici nos boutiques :\n\n${store}`,
       suggestions: ["E-liquide fruité", "Je débute", "Promotions"],
       products: [],
     };
@@ -150,20 +226,12 @@ export async function chatAva(userId: string | undefined, message: string): Prom
 
   const loyalty = loyaltyInfo(message);
   if (loyalty) {
-    return {
-      content: `${loyalty}\n\n${MEDICAL_DISCLAIMER}`,
-      suggestions: ["Voir la boutique", "Horaires boutique"],
-      products: [],
-    };
+    return { content: loyalty, suggestions: ["Voir la boutique", "Horaires boutique"], products: [] };
   }
 
   const sav = savInfo(message);
   if (sav) {
-    return {
-      content: `${sav}\n\n${MEDICAL_DISCLAIMER}`,
-      suggestions: ["Nos magasins", "Voir le matériel"],
-      products: [],
-    };
+    return { content: sav, suggestions: ["Nos magasins", "Voir le matériel"], products: [] };
   }
 
   const products = await loadCatalog();
@@ -173,80 +241,137 @@ export async function chatAva(userId: string | undefined, message: string): Prom
     const updates = extractProfileUpdates(message);
     if (Object.keys(updates).length > 0) {
       profile = mergeProfileUpdates(profile, updates);
-      await upsertVapeProfile(userId, { ...profile, gdprConsent: profile.gdprConsent || true, personalizedEnabled: true });
+      await upsertVapeProfile(userId, {
+        ...profile,
+        gdprConsent: profile.gdprConsent || true,
+        personalizedEnabled: true,
+      });
     }
   }
 
   let picks: CatalogProduct[] = [];
   let intro = "";
-  let reason = "sélection AVA";
+  let reason = "catalogue";
+  let usedAlternatives = false;
+
+  const runSearch = (q: string, opts?: Parameters<typeof searchCatalog>[2]) =>
+    searchCatalog(products, q, { limit: 4, ...opts });
 
   if (/promo|promotion|solde|offre/i.test(text)) {
-    picks = searchCatalog(products, message, { promoOnly: true, limit: 4 });
-    intro = "Voici nos promotions du moment — des opportunités à saisir chez All Vap's :";
-    reason = "promotion en cours";
+    picks = runSearch(message, { promoOnly: true });
+    intro = "Voici nos promotions du moment.";
+    reason = "promotion";
   } else if (/nouveaut|nouveau|new/i.test(text)) {
-    picks = searchCatalog(products, message, { newOnly: true, limit: 4 });
-    intro = "Découvrez nos dernières nouveautés sélectionnées pour vous :";
+    picks = runSearch(message, { newOnly: true });
+    intro = "Voici nos nouveautés.";
     reason = "nouveauté";
-  } else if (/résistance|resistance|coil|mesh/i.test(text)) {
-    picks = searchCatalog(products, message, { category: "resistance", limit: 4 });
-    if (picks.length === 0) picks = searchCatalog(products, "résistance coil", { limit: 4 });
-    intro = "J'ai identifié ces résistances compatibles avec votre demande :";
-    reason = "résistance compatible";
+  } else if (/r[ée]sistance|coil|mesh/i.test(text)) {
+    picks = runSearch(message, { category: "resistance" });
+    if (picks.length === 0) picks = runSearch(message);
+    if (picks.length === 0) picks = runSearch("résistance coil");
+    intro = /vaporesso/i.test(text)
+      ? "Voici les résistances Vaporesso disponibles."
+      : "Voici les résistances qui correspondent.";
+    reason = "résistance";
   } else if (/accu|batterie|18650|21700/i.test(text)) {
-    picks = searchCatalog(products, message, { category: "accu", limit: 4 });
-    intro = "Sélection d'accus et batteries recommandés par nos experts :";
-    reason = "accu / batterie";
+    picks = runSearch(message, { category: "accu" });
+    if (picks.length === 0) picks = runSearch(message);
+    intro = "Voici les accus et batteries disponibles.";
+    reason = "batterie";
   } else if (/chargeur/i.test(text)) {
-    picks = searchCatalog(products, message, { limit: 4 });
-    intro = "Voici nos chargeurs disponibles :";
+    picks = runSearch(message);
+    intro = "Voici nos chargeurs.";
     reason = "chargeur";
-  } else if (/diy|base|ar[ôo]me/i.test(text)) {
-    picks = searchCatalog(products, message, { category: "diy", limit: 4 });
-    intro = "Matériel DIY pour créer vos propres e-liquides :";
+  } else if (/clearomiseur|clearo|atomiseur/i.test(text)) {
+    picks = runSearch(message);
+    intro = "Voici les clearomiseurs disponibles.";
+    reason = "clearomiseur";
+  } else if (/\bdiy\b|base\s+diy|ar[ôo]me/i.test(text)) {
+    picks = runSearch(message, { category: "diy" });
+    if (picks.length === 0) picks = runSearch("diy base arôme");
+    intro = "Voici notre sélection DIY.";
     reason = "DIY";
-  } else if (/d[ée]but|commenc|premier|kit|starter|nouveau vapoteur/i.test(text)) {
-    picks = searchCatalog(products, "kit pod starter cigarette débutant", { limit: 4 });
+  } else if (/\bpuff\b|jetable/i.test(text)) {
+    picks = runSearch(message);
+    if (picks.length === 0) picks = runSearch("puff");
+    intro = "Voici les puffs disponibles.";
+    reason = "puff";
+  } else if (/d[ée]but|commenc|premier|starter|nouveau vapoteur/i.test(text)) {
+    picks = runSearch("kit pod starter cigarette débutant");
+    intro = "Voici des kits simples pour bien démarrer.";
+    reason = "débutant";
+  } else if (/arr[êe]t\s+(du\s+)?tabac|sevrage|gros\s+fumeur|petit\s+fumeur/i.test(text)) {
+    picks = runSearch("pod kit MTL nicotine");
     intro =
-      "Parfait pour débuter ! Je vous recommande un kit complet, simple et fiable. En boutique, nous vous accompagnons pas à pas :";
-    reason = "idéal débutant";
-  } else if (/arr[êe]t|fumer|sevrage|cigarette/i.test(text)) {
-    picks = searchCatalog(products, "pod kit MTL nicotine", { limit: 3 });
-    intro =
-      "Bravo pour votre démarche. Un kit pod MTL avec un taux de nicotine adapté peut vous accompagner progressivement. Ce n'est pas un traitement médical — nos conseillers en boutique personnalisent votre accompagnement :";
-    reason = "accompagnement sevrage";
-  } else if (/fruit|liquide|e-liquid|eliquide|saveur|gourmand|menthol|classic/i.test(text)) {
-    if (userId && profile.gdprConsent) {
+      /gros\s+fumeur/i.test(text)
+        ? "Pour un gros fumeur, voici des pods adaptés à un tirage serré."
+        : /petit\s+fumeur/i.test(text)
+          ? "Pour un petit fumeur, voici des options douces pour commencer."
+          : "Voici des kits adaptés pour accompagner l'arrêt du tabac.";
+    reason = "accompagnement";
+  } else if (/tirage\s+serr[ée]|mtl/i.test(text)) {
+    picks = runSearch("pod MTL kit tirage serré");
+    intro = "Voici des modèles en tirage serré (MTL).";
+    reason = "MTL";
+  } else if (/tirage\s+a[ée]rien|sub.?ohm|\bdl\b/i.test(text)) {
+    picks = runSearch("box DL subohm");
+    intro = "Voici des modèles en tirage aérien (DL).";
+    reason = "DL";
+  } else if (
+    /frais\s*rouge|fruits?\s*rouges?|menthe|mangue|citron|vanille|classic|fruit|liquide|e-liquid|eliquide|saveur|gourmand|menthol/i.test(
+      text
+    )
+  ) {
+    picks = runSearch(message);
+    if (picks.length === 0 && userId && profile.gdprConsent) {
       picks = recommendForProfile(products, profile, 4);
       reason = "selon votre profil";
     }
-    if (picks.length === 0) picks = searchCatalog(products, message, { limit: 4 });
-    intro = "Excellente question ! Voici des e-liquides qui correspondent à votre recherche :";
-    reason = picks.length ? reason : "saveur recherchée";
-  } else if (/pod|cigarette|box|mod|mat[ée]riel/i.test(text)) {
-    picks = searchCatalog(products, message, { limit: 4 });
-    intro = "Voici le matériel que je vous suggère :";
-    reason = "matériel adapté";
+    if (/frais\s*rouge/i.test(text)) intro = "Voici les e-liquides Frais Rouge disponibles dans notre boutique.";
+    else if (/fruits?\s*rouges?/i.test(text)) intro = "Voici les e-liquides Fruits Rouges disponibles.";
+    else if (/menthe/i.test(text)) intro = "Voici les e-liquides menthe disponibles.";
+    else if (/diy/i.test(text)) intro = "Voici notre sélection DIY.";
+    else intro = "Voici les e-liquides qui correspondent à votre recherche.";
+    reason = reason === "selon votre profil" ? reason : "saveur";
+  } else if (/cigarette|[ée]lectronique|pod|box|mod|mat[ée]riel|kit(?!\s*diy)/i.test(text)) {
+    picks = runSearch(message);
+    intro = "Voici les modèles qui pourraient vous convenir.";
+    reason = "matériel";
   } else if (userId && profile.gdprConsent) {
     const recs = getPersonalizedRecommendations(products, profile, { limit: 3 });
     if (recs.length > 0) {
-      picks = recs.map((r) => ({ ...r.product, imageUrl: (r.product as CatalogProduct).imageUrl ?? null }));
-      intro = "D'après votre profil vape, voici mes recommandations personnalisées :";
-      reason = "profil personnalisé";
+      picks = recs.map((r) => ({
+        ...r.product,
+        imageUrl: (r.product as CatalogProduct).imageUrl ?? null,
+      }));
+      intro = "Voici ce qui correspond le mieux à votre profil.";
+      reason = "profil";
     }
   }
 
+  const exactCount = picks.length;
+
   if (picks.length === 0) {
-    picks = searchCatalog(products, message, { limit: 3 });
+    picks = searchCatalogAlternatives(products, message, 4);
+    if (picks.length > 0) {
+      usedAlternatives = true;
+      intro = AVA_NO_EXACT_MATCH;
+      reason = "alternatives";
+    }
+  } else if (exactCount > 0) {
+    // Si la requête est très spécifique et le meilleur score faible → alternatives message
+    // (géré déjà par search si score > 0)
   }
 
   if (picks.length === 0 && /voir la nouveaut/i.test(text) && userId) {
     const recs = getPersonalizedRecommendations(products, profile, { limit: 1, newOnly: true });
     if (recs.length) {
-      picks = recs.map((r) => ({ ...r.product, imageUrl: (r.product as CatalogProduct).imageUrl ?? null }));
-      intro = "Voici la nouveauté que j'avais repérée pour vous :";
-      reason = "nouveauté personnalisée";
+      picks = recs.map((r) => ({
+        ...r.product,
+        imageUrl: (r.product as CatalogProduct).imageUrl ?? null,
+      }));
+      intro = "Voici la nouveauté repérée pour vous.";
+      reason = "nouveauté";
     }
   }
 
@@ -257,20 +382,22 @@ export async function chatAva(userId: string | undefined, message: string): Prom
       }
     }
 
-    const cards = picks.map((p) => toCard(p, reason));
-    const names = picks.map((p) => p.name).join(", ");
+    const finalIntro =
+      usedAlternatives || !intro
+        ? intro || AVA_NO_EXACT_MATCH
+        : intro;
 
-    return {
-      content: `${intro || "Voici ma sélection All Vap's :"}\n\n${names}\n\n${MEDICAL_DISCLAIMER}`,
-      suggestions: picks.slice(0, 3).map((p) => p.name).concat(["Autre recherche", "Nos magasins"]),
-      products: cards,
-      speaking: true,
-    };
+    return productReply(
+      finalIntro,
+      picks,
+      reason,
+      picks.slice(0, 3).map((p) => p.name)
+    );
   }
 
   return {
     content:
-      "Je suis AVA, experte en cigarettes électroniques, e-liquides, pods, résistances, accus, chargeurs, DIY et accessoires. Décrivez votre besoin (saveur, matériel, budget…) et je vous guide. " +
+      "Dites-moi ce que vous cherchez : une saveur, un DIY, une puff, une résistance ou une cigarette électronique. " +
       MEDICAL_DISCLAIMER,
     suggestions: AVA_SUGGESTIONS,
     products: [],

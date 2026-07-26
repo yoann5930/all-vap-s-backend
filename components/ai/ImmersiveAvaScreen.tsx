@@ -7,6 +7,7 @@ import { AvaHologramScene } from "@/components/ai/ava3d/AvaHologramScene";
 import { AudioWaveform } from "@/components/ai/AudioWaveform";
 import { VoiceAssistant } from "@/components/ai/VoiceAssistant";
 import { MicPermissionPanel } from "@/components/ai/MicPermissionPanel";
+import { ProductSuggestionCard } from "@/components/ai/ProductSuggestionCard";
 import { avaStatusLabel, useVoiceConversation } from "@/hooks/useVoiceConversation";
 
 interface ImmersiveAvaScreenProps {
@@ -65,11 +66,11 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
           <span className="hidden sm:inline">FERMER</span>
         </button>
 
-        <div className="relative z-10 flex flex-1 items-center justify-center">
+        <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center">
           {!voice.ready ? (
             <Loader2 className="h-7 w-7 animate-spin text-cyan-700/30" />
           ) : (
-            <div className="ava-immersive-face relative h-[min(72vh,680px)] w-full max-w-3xl">
+            <div className="ava-immersive-face relative h-[min(52vh,480px)] w-full max-w-3xl">
               <AvaHologramScene
                 state={voice.avaState}
                 isSpeaking={voice.isSpeaking}
@@ -81,9 +82,39 @@ export function ImmersiveAvaScreen({ onClose, onSpeakingChange }: ImmersiveAvaSc
         </div>
 
         <div className="relative z-20 pb-8 pt-2 sm:pb-10">
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black via-black/95 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black via-black/95 to-transparent" />
 
           <div className="relative flex flex-col items-center gap-3">
+            {voice.subtitle ? (
+              <p className="max-w-md px-4 text-center text-sm text-cyan-100/80">{voice.subtitle}</p>
+            ) : null}
+
+            {voice.products.length > 0 ? (
+              <div className="max-h-[28vh] w-full max-w-md space-y-2 overflow-y-auto px-3 scrollbar-hide">
+                {voice.products.map((p, idx) => (
+                  <ProductSuggestionCard
+                    key={p.id}
+                    index={idx}
+                    product={{
+                      id: p.id,
+                      name: p.name,
+                      slug: p.slug,
+                      imageUrl: p.imageUrl ?? null,
+                      priceCents: p.priceCents,
+                      promoPriceCents: p.promoPriceCents,
+                      isPromo: p.isPromo,
+                      stock: p.stock,
+                      description: p.description ?? null,
+                      reason: p.reason ?? "catalogue",
+                      nicotine: p.nicotine,
+                      pgVg: p.pgVg,
+                      volume: p.volume,
+                    }}
+                  />
+                ))}
+              </div>
+            ) : null}
+
             <AnimatePresence mode="wait">
               {showListeningIndicator && (
                 <motion.p

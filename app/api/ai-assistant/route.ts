@@ -8,7 +8,6 @@ import {
   synthesizeGreetingVoice,
 } from "@/lib/ai/openai-voice";
 import { chatAva } from "@/lib/ai/ava-advisor";
-import { AVA_GREETING_SHORT } from "@/lib/ai/ava-speech-utils";
 
 async function getUserId(): Promise<string | undefined> {
   try {
@@ -26,26 +25,14 @@ export async function GET() {
     const init = await initHolographicAssistant(userId);
     const openaiEnabled = isOpenAIConfigured();
 
-    let greeting = {
-      content: AVA_GREETING_SHORT,
-      spoken: AVA_GREETING_SHORT,
-      audioBase64: null as string | null,
-      audioMime: "audio/mpeg",
-      voiceProvider: "browser" as string,
-    };
-
-    if (openaiEnabled) {
-      try {
-        greeting = await synthesizeGreetingVoice();
-      } catch {
-        /* fallback browser */
-      }
-    }
+    // Accueil texte uniquement — lecture vocale = speechSynthesis navigateur (0 appel TTS OpenAI)
+    const greeting = await synthesizeGreetingVoice();
 
     return jsonResponse({
       ...init,
       openaiEnabled,
       mode: "voice",
+      voiceProvider: "browser",
       greeting,
     });
   } catch (error) {
