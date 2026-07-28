@@ -8,9 +8,11 @@ interface ProductGridProps {
 export function ProductGrid({ products }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center">
-        <p className="text-gray-500">Aucun produit disponible pour le moment.</p>
-        <p className="mt-1 text-sm text-gray-400">Revenez bientôt ou configurez la base de données.</p>
+      <div className="rounded-xl border border-dashed border-[#1C2430] bg-[#0B0F14] py-16 text-center">
+        <p className="text-[#A7B0BC]">Aucun produit disponible pour le moment.</p>
+        <p className="mt-1 text-sm text-[#A7B0BC]/70">
+          Catalogue en cours de synchronisation — réessayez dans un instant.
+        </p>
       </div>
     );
   }
