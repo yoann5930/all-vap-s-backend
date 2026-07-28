@@ -62,14 +62,14 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
             {product.stock === 0 && (
               <Badge variant="warning" className="text-[10px]">
-                Rupture
+                Dispo. à confirmer
               </Badge>
             )}
           </div>
           {product.stock === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/45 backdrop-blur-[2px]">
-              <span className="rounded-full border border-white/20 bg-black/40 px-4 py-1.5 text-sm font-light text-white">
-                Rupture
+            <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/55 via-transparent to-transparent pb-3">
+              <span className="rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[11px] font-light text-white/90">
+                Disponibilité à confirmer
               </span>
             </div>
           )}

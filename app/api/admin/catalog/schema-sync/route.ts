@@ -128,16 +128,11 @@ const ADDITIVE_STATEMENTS = [
   `CREATE INDEX IF NOT EXISTS "StockLevel_availableQuantity_idx" ON "StockLevel"("availableQuantity")`,
 ];
 
-async function authorize(request: NextRequest, confirm?: string) {
+async function authorize(request: NextRequest) {
   const headerSecret = request.headers.get("x-catalog-import-secret") || "";
   const envSecret = (process.env.CATALOG_IMPORT_SECRET || "").trim();
   if (envSecret && headerSecret && headerSecret === envSecret) {
     return { mode: "secret" as const };
-  }
-  if (confirm === EMPTY_CATALOG_CONFIRM) {
-    const total = await prisma.product.count();
-    if (total === 0) return { mode: "empty-bootstrap" as const };
-    throw new Error("Bootstrap refusé : le catalogue n'est plus vide.");
   }
   await requireAuth("ADMIN");
   return { mode: "admin" as const };
@@ -145,14 +140,13 @@ async function authorize(request: NextRequest, confirm?: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = z
-      .object({ confirm: z.string().optional() })
-      .parse(await request.json().catch(() => ({})));
-
-    const auth = await authorize(request, body.confirm);
+    const auth = await authorize(request);
     const applied: string[] = [];
     const errors: string[] = [];
 
+    // body volontairement ignoré — auth admin/secret uniquement
+    void (await request.json().catch(() => ({})));
+    void z;
     for (const sql of ADDITIVE_STATEMENTS) {
       const label = sql.slice(0, 72).replace(/\s+/g, " ");
       try {

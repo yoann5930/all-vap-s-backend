@@ -8,22 +8,11 @@ import {
 } from "@/lib/catalog/liquidarom-import";
 import prisma from "@/lib/prisma";
 
-const EMPTY_CATALOG_CONFIRM = "IMPORT_LIQUIDAROM_EMPTY_CATALOG";
-
-async function authorize(request: NextRequest, confirm?: string) {
+async function authorize(request: NextRequest) {
   const headerSecret = request.headers.get("x-catalog-import-secret") || "";
   const envSecret = (process.env.CATALOG_IMPORT_SECRET || "").trim();
   if (envSecret && headerSecret && headerSecret === envSecret) {
     return { mode: "secret" as const };
-  }
-
-  // Bootstrap unique : catalogue vide uniquement (urgence production).
-  if (confirm === EMPTY_CATALOG_CONFIRM) {
-    const total = await prisma.product.count();
-    if (total === 0) {
-      return { mode: "empty-bootstrap" as const };
-    }
-    throw new Error("Bootstrap refusé : le catalogue n'est plus vide.");
   }
 
   await requireAuth("ADMIN");
@@ -53,16 +42,14 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await authorize(request);
     const body = z
       .object({
         dryRun: z.boolean().optional().default(false),
-        confirm: z.string().optional(),
         productsCsv: z.string().optional(),
         flavorsCsv: z.string().optional(),
       })
       .parse(await request.json().catch(() => ({})));
-
-    const auth = await authorize(request, body.confirm);
 
     const stats =
       body.productsCsv && body.flavorsCsv
