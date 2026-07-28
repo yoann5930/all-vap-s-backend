@@ -10,10 +10,11 @@ import { ProductCatalog } from "@/components/shop/ProductCatalog";
 export function HomeShowcase() {
   return (
     <>
+      <HeroSection />
+
       <div className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-6 lg:px-8 lg:pt-8">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
           <div className="min-w-0 space-y-6">
-            <HeroSection />
             <LiquidaromCollections />
             <Suspense
               fallback={
