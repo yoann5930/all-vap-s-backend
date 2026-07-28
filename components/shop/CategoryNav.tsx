@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CATEGORY_GROUPS, CATALOG_CATEGORIES } from "@/lib/catalog/categories";
+import { CATALOG_CATEGORIES } from "@/lib/catalog/categories";
 import { cn } from "@/lib/utils";
 
 export function CategoryNav() {
@@ -10,13 +10,15 @@ export function CategoryNav() {
   const current = searchParams.get("category");
 
   return (
-    <div className="mb-6 overflow-x-auto rounded-xl border border-wood-200/60 bg-white p-4 shadow-sm">
-      <div className="flex flex-wrap gap-2">
+    <div className="mb-6 overflow-x-auto rounded-2xl border border-white/8 bg-[#101720] p-3 sm:p-4">
+      <div className="flex flex-nowrap gap-2 sm:flex-wrap">
         <Link
           href="/boutique"
           className={cn(
-            "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-            !current ? "bg-brand-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            "shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors",
+            !current
+              ? "bg-brand-500 text-premium-black"
+              : "bg-white/5 text-[#A7B0BC] hover:bg-white/8 hover:text-[#F5F7FA]"
           )}
         >
           Toutes
@@ -26,21 +28,14 @@ export function CategoryNav() {
             key={cat.slug}
             href={`/boutique?category=${cat.slug}`}
             className={cn(
-              "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-              current === cat.slug ? "bg-brand-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              "shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors",
+              current === cat.slug
+                ? "bg-brand-500 text-premium-black"
+                : "bg-white/5 text-[#A7B0BC] hover:bg-white/8 hover:text-[#F5F7FA]"
             )}
           >
             {cat.name}
           </Link>
-        ))}
-      </div>
-      <div className="mt-3 hidden gap-4 border-t pt-3 sm:flex">
-        {CATEGORY_GROUPS.map((g) => (
-          <span key={g.id} className="text-xs text-gray-500">
-            <strong className="text-vap-black">{g.label}</strong>
-            {" — "}
-            {CATALOG_CATEGORIES.filter((c) => c.group === g.id).map((c) => c.name).join(", ")}
-          </span>
         ))}
       </div>
     </div>

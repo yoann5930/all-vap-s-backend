@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
 import "./globals.css";
-import { Header, HeaderSpacer } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
-import { HolographicAssistant } from "@/components/ai/HolographicAssistant";
-import { BrandSplash } from "@/components/brand/BrandSplash";
-import { PremiumBackground } from "@/components/brand/PremiumBackground";
+import { SiteShell } from "@/components/layout/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
 import {
@@ -102,16 +98,10 @@ export default function RootLayout({
   return (
     <html lang="fr" data-theme="dark">
       <body className={`${dmSans.variable} ${outfit.variable} ${dmSans.className} flex min-h-screen flex-col`}>
-        <BrandSplash />
-        <PremiumBackground />
         <JsonLd data={structuredData} />
         <GoogleAnalytics />
         <CartProvider>
-          <Header />
-          <HeaderSpacer />
-          <main className="premium-main flex-1">{children}</main>
-          <Footer />
-          <HolographicAssistant />
+          <SiteShell>{children}</SiteShell>
         </CartProvider>
       </body>
     </html>

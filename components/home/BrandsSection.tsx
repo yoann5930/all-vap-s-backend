@@ -20,7 +20,7 @@ export function BrandsSection() {
             <p className="premium-section-label">Sélection</p>
             <h2 className="premium-section-title mt-3">Marques</h2>
           </div>
-          <Link href="/boutique" className="text-sm font-light text-[#8A8A8E] transition-colors hover:text-[#3D7EFF]">
+          <Link href="/boutique" className="text-sm font-light text-[#A7B0BC] transition-colors hover:text-brand-500">
             Voir le catalogue →
           </Link>
         </div>

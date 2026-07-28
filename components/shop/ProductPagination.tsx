@@ -33,11 +33,12 @@ export function ProductPagination({ pagination, onPageChange }: ProductPaginatio
         return (
           <button
             key={pageNum}
+            type="button"
             onClick={() => onPageChange(pageNum)}
-            className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+            className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-medium transition-colors ${
               pageNum === page
-                ? "bg-brand-600 text-white"
-                : "text-gray-600 hover:bg-gray-100"
+                ? "bg-brand-500 text-premium-black"
+                : "text-[#A7B0BC] hover:bg-white/5 hover:text-[#F5F7FA]"
             }`}
             aria-current={pageNum === page ? "page" : undefined}
           >

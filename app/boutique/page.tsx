@@ -23,7 +23,11 @@ export default function BoutiquePage() {
       <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
         <Breadcrumb items={[{ name: "Accueil", path: "/" }, { name: "Boutique", path: "/boutique" }]} />
       </div>
-      <Suspense fallback={<div className="py-20 text-center text-gray-500">Chargement du catalogue...</div>}>
+      <Suspense
+        fallback={
+          <div className="py-20 text-center text-[#A7B0BC]">Chargement du catalogue…</div>
+        }
+      >
         <ProductCatalog />
       </Suspense>
     </>

@@ -1,23 +1,24 @@
 /**
- * All Vap's Design System V1.0 — Design Tokens (app copy)
- * Canonical folder: /design-system/tokens
+ * All Vap's Design System V2 — Premium tokens (refonte maquette)
  */
 
 export const colors = {
-  deepBlack: "#050505",
-  anthracite: "#141414",
-  white: "#FFFFFF",
-  steel: "#8A8A8E",
-  smoke: "#2C2C2E",
-  charcoal: "#0C0C0C",
-  mist: "#C7C7CC",
-  accent: "#3D7EFF",
-  accentMuted: "rgba(61, 126, 255, 0.14)",
-  accentBorder: "rgba(61, 126, 255, 0.28)",
-  accentGlow: "rgba(61, 126, 255, 0.22)",
-  success: "#3D9A6A",
-  warning: "#C9A227",
-  danger: "#C44B4B",
+  deepBlack: "#05070A",
+  charcoal: "#0B1016",
+  anthracite: "#101720",
+  surfaceHover: "#151D27",
+  white: "#F5F7FA",
+  steel: "#A7B0BC",
+  smoke: "#1A2330",
+  mist: "#D5DAE2",
+  accent: "#00AEEF",
+  accentAction: "#118DFF",
+  accentMuted: "rgba(0, 174, 239, 0.14)",
+  accentBorder: "rgba(0, 174, 239, 0.28)",
+  accentGlow: "rgba(0, 174, 239, 0.22)",
+  success: "#2BCB78",
+  warning: "#FFB020",
+  danger: "#FF4D5E",
   lightBg: "#FAFAFA",
   lightSurface: "#FFFFFF",
   lightText: "#111111",
@@ -73,17 +74,17 @@ export const radii = {
   sm: "0.5rem",
   md: "0.75rem",
   lg: "1rem",
-  xl: "1.25rem",
+  xl: "1.125rem",
   "2xl": "1.5rem",
   pill: "9999px",
 } as const;
 
 export const shadows = {
   none: "none",
-  soft: "0 8px 32px rgba(0, 0, 0, 0.35)",
+  soft: "0 8px 32px rgba(0, 0, 0, 0.4)",
   elevated: "0 16px 48px rgba(0, 0, 0, 0.45)",
-  accent: "0 0 24px rgba(61, 126, 255, 0.18)",
-  accentStrong: "0 0 36px rgba(61, 126, 255, 0.28)",
+  accent: "0 0 24px rgba(0, 174, 239, 0.18)",
+  accentStrong: "0 0 36px rgba(0, 174, 239, 0.28)",
   inset: "inset 0 1px 0 rgba(255, 255, 255, 0.04)",
 } as const;
 
@@ -121,6 +122,8 @@ export const themes = {
 
 export const brandAssets = {
   logoOfficial: "/brand/logo-official.png",
+  logoOfficialDark: "/brand/logo-official-dark.png",
+  logoWhite: "/brand/logo-white.svg",
   logoOg: "/brand/og-image.png",
   favicon: "/favicon-32.png",
   appleTouch: "/apple-touch-icon.png",

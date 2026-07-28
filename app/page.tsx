@@ -62,7 +62,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/boutique"
-            className="text-sm font-light tracking-wide text-[#8A8A8E] transition-colors hover:text-[#3D7EFF]"
+            className="text-sm font-light tracking-wide text-[#A7B0BC] transition-colors hover:text-[#00AEEF]"
           >
             Tout voir →
           </Link>
@@ -80,7 +80,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/boutique?promo=1"
-              className="text-sm font-light tracking-wide text-[#8A8A8E] transition-colors hover:text-[#3D7EFF]"
+              className="text-sm font-light tracking-wide text-[#A7B0BC] transition-colors hover:text-[#00AEEF]"
             >
               Voir les promos →
             </Link>

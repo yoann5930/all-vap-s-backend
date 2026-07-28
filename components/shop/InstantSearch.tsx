@@ -49,36 +49,39 @@ export function InstantSearch() {
   }, []);
 
   return (
-    <div ref={ref} className="relative mx-auto max-w-xl">
-      <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+    <div ref={ref} className="relative mx-auto max-w-2xl">
+      <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#A7B0BC]" />
       <input
         type="search"
-        placeholder="Recherche instantanée..."
+        placeholder="Recherche instantanée (produit, marque, saveur…)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => query.length >= 2 && setOpen(true)}
-        className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+        className="w-full rounded-xl border border-white/10 bg-[#0B1016] py-3.5 pl-12 pr-4 text-sm text-[#F5F7FA] placeholder:text-[#A7B0BC]/65 shadow-[0_0_0_1px_rgba(0,174,239,0.04)] focus:border-brand-500/50 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
         aria-label="Recherche produits"
       />
       {open && results.length > 0 && (
-        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-[#101720] shadow-2xl">
           {results.map((p) => (
             <Link
               key={p.id}
               href={`/boutique/${p.slug}`}
-              className="flex items-center gap-3 px-4 py-3 hover:bg-wood-50"
-              onClick={() => { setOpen(false); setQuery(""); }}
+              className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
+              onClick={() => {
+                setOpen(false);
+                setQuery("");
+              }}
             >
-              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+              <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-[#0B1016]">
                 {p.imageUrl && (
                   <Image src={p.imageUrl} alt="" fill className="object-cover" sizes="40px" />
                 )}
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="truncate text-sm font-medium">{p.name}</p>
-                <p className="text-xs text-gray-500 capitalize">{p.category}</p>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-[#F5F7FA]">{p.name}</p>
+                <p className="text-xs capitalize text-[#A7B0BC]">{p.category}</p>
               </div>
-              <span className="text-sm font-semibold text-brand-700">
+              <span className="text-sm font-semibold text-brand-400">
                 {formatPrice(getEffectivePrice(p))}
               </span>
             </Link>

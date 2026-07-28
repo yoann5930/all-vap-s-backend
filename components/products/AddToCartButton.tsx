@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
+import { getEffectivePrice } from "@/lib/products/queries";
 import type { Product } from "@prisma/client";
 
 interface AddToCartButtonProps {
@@ -13,14 +14,17 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ product }: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const price = getEffectivePrice(product);
+  const hasConfirmedPrice = price > 0;
 
   function handleAdd() {
+    if (!hasConfirmedPrice) return;
     addToCart(
       {
         productId: product.id,
         name: product.name,
         slug: product.slug,
-        priceCents: product.priceCents,
+        priceCents: price,
         imageUrl: product.imageUrl,
       },
       quantity
@@ -38,18 +42,28 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     );
   }
 
+  if (!hasConfirmedPrice) {
+    return (
+      <div className="rounded-xl border border-white/10 bg-[#0B1016] px-4 py-3 text-sm text-[#A7B0BC]">
+        Prix à confirmer en boutique — panier en ligne indisponible pour ce produit.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-      <div className="flex items-center rounded-lg border border-gray-300">
+      <div className="flex items-center rounded-xl border border-white/10 bg-[#0B1016]">
         <button
-          className="px-4 py-2 text-gray-600 hover:bg-gray-50"
+          type="button"
+          className="px-4 py-2 text-[#A7B0BC] hover:text-white"
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
         >
           −
         </button>
-        <span className="w-12 text-center font-medium">{quantity}</span>
+        <span className="w-12 text-center font-medium text-[#F5F7FA]">{quantity}</span>
         <button
-          className="px-4 py-2 text-gray-600 hover:bg-gray-50"
+          type="button"
+          className="px-4 py-2 text-[#A7B0BC] hover:text-white"
           onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
         >
           +

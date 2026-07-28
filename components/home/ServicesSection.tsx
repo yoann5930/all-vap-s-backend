@@ -34,7 +34,7 @@ export function ServicesSection() {
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((s) => (
             <li key={s.title} className="flex flex-col gap-4">
-              <s.icon className="h-5 w-5 text-[#3D7EFF]/80" strokeWidth={1.25} aria-hidden />
+              <s.icon className="h-5 w-5 text-brand-500/80" strokeWidth={1.25} aria-hidden />
               <h3 className="font-display text-base font-light tracking-wide text-white">{s.title}</h3>
               <p className="text-sm font-light leading-relaxed text-[#8A8A8E]">{s.text}</p>
             </li>

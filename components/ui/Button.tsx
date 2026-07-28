@@ -11,16 +11,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants = {
   primary:
-    "border border-[rgba(61,126,255,0.28)] bg-[rgba(61,126,255,0.12)] text-[#B8CDFF] shadow-[0_0_24px_rgba(61,126,255,0.14)] hover:border-[rgba(61,126,255,0.45)] hover:bg-[rgba(61,126,255,0.2)] hover:text-white hover:shadow-[0_0_32px_rgba(61,126,255,0.22)] active:scale-[0.98]",
+    "min-h-11 border border-[rgba(0,174,239,0.35)] bg-[rgba(0,174,239,0.16)] text-[#E8F8FE] shadow-[0_0_24px_rgba(0,174,239,0.16)] hover:border-[rgba(0,174,239,0.55)] hover:bg-[rgba(17,141,255,0.28)] hover:text-white hover:shadow-[0_0_32px_rgba(0,174,239,0.28)] active:scale-[0.98]",
   secondary:
-    "border border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/10 active:scale-[0.98]",
+    "min-h-11 border border-[rgba(0,174,239,0.28)] bg-premium-dark text-white hover:border-[rgba(0,174,239,0.45)] hover:bg-[#151D27] active:scale-[0.98]",
   outline:
-    "border border-white/15 bg-transparent text-white/80 hover:border-[rgba(61,126,255,0.28)] hover:text-[#8AB0FF] active:scale-[0.98]",
+    "min-h-11 border border-white/15 bg-transparent text-white/80 hover:border-[rgba(0,174,239,0.35)] hover:text-brand-400 active:scale-[0.98]",
   "outline-light":
-    "border border-white/20 bg-transparent text-white/90 hover:border-[rgba(61,126,255,0.35)] hover:bg-[rgba(61,126,255,0.06)] hover:text-white active:scale-[0.98]",
-  wood: "border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 active:scale-[0.98]",
-  ghost: "text-white/60 hover:bg-white/5 hover:text-white active:scale-[0.98]",
-  danger: "bg-red-600/90 text-white hover:bg-red-600 active:scale-[0.98]",
+    "min-h-11 border border-white/20 bg-transparent text-white/90 hover:border-[rgba(0,174,239,0.4)] hover:bg-[rgba(0,174,239,0.08)] hover:text-white active:scale-[0.98]",
+  wood: "min-h-11 border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 active:scale-[0.98]",
+  ghost: "min-h-11 text-white/60 hover:bg-white/5 hover:text-white active:scale-[0.98]",
+  danger: "min-h-11 bg-[#FF4D5E]/90 text-white hover:bg-[#FF4D5E] active:scale-[0.98]",
 };
 
 const sizes = {
@@ -30,7 +30,7 @@ const sizes = {
 };
 
 const baseClassName =
-  "inline-flex items-center justify-center rounded-xl font-light tracking-wide transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,126,255,0.4)] focus-visible:ring-offset-2 focus-visible:ring-offset-premium-black disabled:cursor-not-allowed disabled:opacity-40 hover:-translate-y-0.5";
+  "inline-flex items-center justify-center rounded-xl font-light tracking-wide transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(0,174,239,0.45)] focus-visible:ring-offset-2 focus-visible:ring-offset-premium-black disabled:cursor-not-allowed disabled:opacity-40 hover:-translate-y-0.5";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", loading, disabled, href, children, ...props }, ref) => {

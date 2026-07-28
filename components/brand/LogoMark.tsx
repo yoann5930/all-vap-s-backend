@@ -39,7 +39,7 @@ export function LogoMark({
 
   const img = (
     <Image
-      src="/brand/logo-official.png"
+      src="/brand/logo-official-dark.png"
       alt="All Vap's"
       width={w}
       height={h}

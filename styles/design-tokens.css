@@ -1,17 +1,22 @@
-/* All Vap's Design System V1 — CSS custom properties */
+/* All Vap's Design System V2 — Premium dark (maquette refonte) */
 :root,
 [data-theme="dark"] {
-  --av-black: #050505;
-  --av-anthracite: #141414;
-  --av-charcoal: #0c0c0c;
-  --av-smoke: #2c2c2e;
-  --av-steel: #8a8a8e;
-  --av-mist: #c7c7cc;
-  --av-white: #ffffff;
-  --av-accent: #3d7eff;
-  --av-accent-muted: rgba(61, 126, 255, 0.14);
-  --av-accent-border: rgba(61, 126, 255, 0.28);
-  --av-accent-glow: rgba(61, 126, 255, 0.22);
+  --av-black: #05070a;
+  --av-anthracite: #101720;
+  --av-charcoal: #0b1016;
+  --av-surface-hover: #151d27;
+  --av-smoke: #1a2330;
+  --av-steel: #a7b0bc;
+  --av-mist: #d5dae2;
+  --av-white: #f5f7fa;
+  --av-accent: #00aeef;
+  --av-accent-action: #118dff;
+  --av-accent-muted: rgba(0, 174, 239, 0.14);
+  --av-accent-border: rgba(0, 174, 239, 0.28);
+  --av-accent-glow: rgba(0, 174, 239, 0.22);
+  --av-success: #2bcb78;
+  --av-warning: #ffb020;
+  --av-danger: #ff4d5e;
 
   --av-bg: var(--av-black);
   --av-surface: var(--av-anthracite);
@@ -22,10 +27,11 @@
   --av-font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --av-font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --av-radius-md: 0.75rem;
-  --av-radius-xl: 1.25rem;
-  --av-shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --av-shadow-accent: 0 0 24px rgba(61, 126, 255, 0.18);
+  --av-radius-md: 0.75rem; /* 12px */
+  --av-radius-lg: 1rem; /* 16px */
+  --av-radius-xl: 1.125rem; /* 18px */
+  --av-shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --av-shadow-accent: 0 0 24px rgba(0, 174, 239, 0.18);
   --av-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --av-duration: 280ms;
 }

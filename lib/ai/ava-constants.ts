@@ -17,3 +17,19 @@ export const AVA_NO_EXACT_MATCH =
   "Je n'ai pas trouvé exactement ce produit. Voici les alternatives les plus proches disponibles.";
 
 export const AVA_NAME_REPLY = "Je m'appelle Ava.";
+
+/**
+ * Feuille de route 3D AVA — flags non activés (préparation sans changer le rendu actuel).
+ * Activer uniquement après validation modèle + tests.
+ */
+export const AVA_3D_ROADMAP = {
+  /** Chemin relatif public du modèle de test */
+  modelPath: "/models/ava/ava-test-model.glb",
+  texturePath: "/models/ava/ava-test-texture.png",
+  /** Morph targets à brancher quand le GLB final les exposera */
+  plannedMorphs: ["mouthOpen", "jawOpen", "eyeBlinkLeft", "eyeBlinkRight", "mouthSmile"] as const,
+  /** Features futures — toutes OFF pour ne pas casser la prod */
+  enableAdvancedLipSync: false,
+  enableIdleAnimations: false,
+  enableCompressedAssets: false,
+} as const;

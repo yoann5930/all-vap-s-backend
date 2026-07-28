@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Spécialiste cigarette électronique à Hautmont et Le Quesnoy — e-liquides, pods, DIY et accessoires.",
     start_url: "/",
     display: "standalone",
-    background_color: "#050505",
-    theme_color: "#050505",
+    background_color: "#05070A",
+    theme_color: "#05070A",
     lang: "fr",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },

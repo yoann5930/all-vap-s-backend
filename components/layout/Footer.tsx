@@ -28,7 +28,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/3 text-white/40 transition-all duration-300 hover:border-brand-500/30 hover:text-brand-400 hover:shadow-[0_0_20px_rgba(0,217,255,0.15)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/3 text-white/40 transition-all duration-300 hover:border-brand-500/30 hover:text-brand-400 hover:shadow-[0_0_20px_rgba(0,174,239,0.15)]"
                   aria-label={social.label}
                 >
                   {social.icon === "facebook" ? (

@@ -17,22 +17,22 @@ export function ProductGallery({ name, imageUrl, images = [] }: ProductGalleryPr
 
   if (allImages.length === 0) {
     return (
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-[#0B1016]">
         <div className="flex h-full items-center justify-center">
-          <ShoppingBag className="h-24 w-24 text-gray-300" />
+          <ShoppingBag className="h-24 w-24 text-white/15" strokeWidth={1.25} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+    <div className="space-y-4 p-3 sm:p-4">
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-[#0B1016]">
         <Image
           src={allImages[active]}
           alt={`${name} — photo ${active + 1}`}
           fill
-          className="object-cover transition-opacity duration-300"
+          className="object-contain p-4 transition-opacity duration-300"
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
@@ -46,11 +46,11 @@ export function ProductGallery({ name, imageUrl, images = [] }: ProductGalleryPr
               type="button"
               onClick={() => setActive(i)}
               className={cn(
-                "relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-colors",
-                active === i ? "border-brand-500" : "border-transparent opacity-70 hover:opacity-100"
+                "relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-[#0B1016] transition-colors",
+                active === i ? "border-brand-500" : "border-white/10 opacity-70 hover:opacity-100"
               )}
             >
-              <Image src={src} alt="" fill className="object-cover" sizes="64px" />
+              <Image src={src} alt="" fill className="object-contain p-1" sizes="64px" />
             </button>
           ))}
         </div>
