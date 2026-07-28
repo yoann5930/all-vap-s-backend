@@ -1,0 +1,11 @@
+{
+  "brand": "Liquidarom",
+  "collection": "Ice Cool",
+  "images": [
+    {"file":"hero-liquidarom-ice-cool.webp","usage":"hero homepage and e-liquid category","alt":"Collection de e-liquides Liquidarom Ice Cool disponible chez All Vap's"},
+    {"file":"ice-cool-rayon-01-card.webp","usage":"collection card","alt":"Sélection Ice Cool Liquidarom, saveurs fruitées et fraîches"},
+    {"file":"ice-cool-rayon-02-card.webp","usage":"collection card","alt":"Gamme Ice Cool Liquidarom en boutique All Vap's"},
+    {"file":"liquidarom-selection-card.webp","usage":"brand highlight","alt":"Sélection Liquidarom et Les Essentiels"},
+    {"file":"ice-cool-premium-card.webp","usage":"featured range","alt":"Flacons Liquidarom Ice Cool aux saveurs fruitées"}
+  ]
+}

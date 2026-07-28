@@ -1,13 +1,12 @@
-"use client";
-
 import { Suspense } from "react";
 import { HeroSection } from "@/components/home/HeroSection";
+import { LiquidaromCollections } from "@/components/home/LiquidaromCollections";
 import { AvaSidePanel } from "@/components/home/AvaSidePanel";
 import { TrustBar } from "@/components/home/TrustBar";
 import { StoresSection } from "@/components/home/StoresSection";
 import { ProductCatalog } from "@/components/shop/ProductCatalog";
 
-/** Layout maquette : hero+catalogue à gauche, A.V.A. sticky à droite */
+/** Layout maquette : hero+collections+catalogue, A.V.A. sticky à droite */
 export function HomeShowcase() {
   return (
     <>
@@ -15,6 +14,7 @@ export function HomeShowcase() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
           <div className="min-w-0 space-y-6">
             <HeroSection />
+            <LiquidaromCollections />
             <Suspense
               fallback={
                 <div className="py-12 text-center text-[#A7B0BC]">

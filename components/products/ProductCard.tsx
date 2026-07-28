@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { getEffectivePrice } from "@/lib/products/queries";
 import { extractExplicitSpecs } from "@/lib/catalog/normalize";
@@ -50,9 +50,19 @@ export function ProductCard({ product }: ProductCardProps) {
               loading="lazy"
             />
           ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
-              <ShoppingBag className="h-10 w-10 text-white/15" strokeWidth={1.25} />
-              <span className="text-[11px] text-[#A7B0BC]/60">Visuel à venir</span>
+            <div className="relative flex h-full flex-col items-center justify-center gap-2 bg-[radial-gradient(circle_at_50%_30%,rgba(0,174,239,0.12),transparent_60%)] px-4 text-center">
+              <Image
+                src="/brand/logo-official-dark.png"
+                alt=""
+                width={48}
+                height={48}
+                className="opacity-40"
+                aria-hidden
+              />
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#A7B0BC]/80">
+                {product.brand || "All Vap's"}
+              </p>
+              <p className="text-[11px] text-[#A7B0BC]/55">Photo produit à venir</p>
             </div>
           )}
           <div className="absolute left-2.5 top-2.5 flex flex-col gap-1.5">
