@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   ShoppingCart,
   User,
@@ -30,14 +30,20 @@ interface AuthUser {
   role: string;
 }
 
-function isActiveLink(pathname: string, href: string) {
+function isActiveLink(pathname: string, href: string, search = "") {
   if (href === "/") return pathname === "/";
   const base = href.split("?")[0];
-  if (base === "/boutique") {
-    return pathname === "/boutique" || pathname.startsWith("/boutique/");
+  const hrefQuery = href.includes("?") ? href.split("?")[1] : "";
+  if (base === "/e-liquides" || hrefQuery.includes("category=e-liquides")) {
+    return (
+      pathname === "/" ||
+      pathname.includes("e-liquides") ||
+      search.includes("category=e-liquides") ||
+      (pathname === "/boutique" && !search.includes("category="))
+    );
   }
-  if (base === "/e-liquides") {
-    return pathname.includes("e-liquides") || pathname.includes("category=e-liquides");
+  if (base === "/boutique" && !hrefQuery) {
+    return pathname === "/boutique" || pathname.startsWith("/boutique/");
   }
   return pathname === base || pathname.startsWith(base + "/");
 }
@@ -53,6 +59,8 @@ function formatPhoneDisplay(e164: string) {
 
 export function Header() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const search = searchParams.toString();
   const { cartCount, items } = useCart();
   const cartTotal = useMemo(() => getCartTotal(items), [items]);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -225,7 +233,7 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "block px-3 py-2.5 text-[12px] font-semibold tracking-[0.06em] transition-colors",
-                    isActiveLink(pathname, link.href)
+                    isActiveLink(pathname, link.href, search)
                       ? "border-b-2 border-brand-500 text-brand-400"
                       : "border-b-2 border-transparent text-[#A7B0BC] hover:text-white"
                   )}
@@ -278,7 +286,7 @@ export function Header() {
                     href={link.href}
                     className={cn(
                       "flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-colors",
-                      isActiveLink(pathname, link.href)
+                      isActiveLink(pathname, link.href, search)
                         ? "bg-brand-500/10 text-brand-400"
                         : "text-white/70 hover:bg-white/5 hover:text-white"
                     )}

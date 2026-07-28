@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Header, HeaderSpacer } from "@/components/layout/Header";
@@ -59,7 +60,9 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <>
       <BrandSplash />
       <PremiumBackground />
-      <Header />
+      <Suspense fallback={<HeaderSpacer />}>
+        <Header />
+      </Suspense>
       <HeaderSpacer />
       <main className="premium-main flex-1">{children}</main>
       <Footer />

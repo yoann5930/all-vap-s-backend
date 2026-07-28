@@ -113,7 +113,7 @@ export function ProductCatalog({
           Filtres
         </button>
         <ProductSort
-          value={searchParams.get("sort") || "newest"}
+          value={searchParams.get("sort") || "bestseller"}
           onChange={(sort) => updateParams({ sort })}
         />
       </div>
@@ -137,7 +137,7 @@ export function ProductCatalog({
             </div>
             <div className="hidden lg:block">
               <ProductSort
-                value={searchParams.get("sort") || "newest"}
+                value={searchParams.get("sort") || "bestseller"}
                 onChange={(sort) => updateParams({ sort })}
               />
             </div>
