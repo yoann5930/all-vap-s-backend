@@ -1,32 +1,44 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LogoMark, type LogoVariant } from "@/components/brand/LogoMark";
 
 interface LogoProps {
   className?: string;
-  variant?: LogoVariant;
-  showWordmark?: boolean;
+  compact?: boolean;
+  /** Conservé pour compatibilité — le wordmark maquette est toujours utilisé */
+  variant?: string;
   size?: number;
+  showWordmark?: boolean;
 }
 
-export function Logo({
-  className,
-  variant = "official",
-  showWordmark = true,
-  size = 44,
-}: LogoProps) {
+/** Wordmark header — aligné maquette ALL VAP'S + villes */
+export function Logo({ className, compact = false }: LogoProps) {
   return (
     <Link
       href="/"
-      className={cn("group inline-flex items-center gap-3 transition-opacity hover:opacity-90", className)}
+      className={cn(
+        "group inline-flex flex-col justify-center leading-none transition-opacity hover:opacity-90",
+        className
+      )}
       aria-label="All Vap's — Accueil"
     >
-      <LogoMark
-        variant={variant}
-        size={size}
-        showWordmark={showWordmark}
-        className="transition-transform duration-500 group-hover:scale-[1.02]"
-      />
+      <span
+        className={cn(
+          "font-display font-bold tracking-[0.04em] text-white",
+          compact ? "text-lg" : "text-[1.35rem] sm:text-[1.55rem]"
+        )}
+      >
+        ALL VAP&apos;S
+      </span>
+      <span
+        className={cn(
+          "mt-1 font-medium tracking-[0.18em] text-[#A7B0BC]",
+          compact ? "text-[8px]" : "text-[9px] sm:text-[10px]"
+        )}
+      >
+        LE QUESNOY | HAUTMONT
+      </span>
     </Link>
   );
 }

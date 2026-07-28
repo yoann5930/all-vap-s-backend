@@ -1,8 +1,6 @@
-import { Suspense } from "react";
-import { ProductCatalog } from "@/components/shop/ProductCatalog";
+import { HomeShowcase } from "@/components/home/HomeShowcase";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
-import { DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo/config";
-import { absoluteUrl } from "@/lib/seo/config";
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, absoluteUrl } from "@/lib/seo/config";
 
 export const dynamic = "force-dynamic";
 
@@ -20,16 +18,12 @@ export const metadata = {
 export default function BoutiquePage() {
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-        <Breadcrumb items={[{ name: "Accueil", path: "/" }, { name: "Boutique", path: "/boutique" }]} />
+      <div className="mx-auto max-w-[1400px] px-4 pt-4 sm:px-6 lg:px-8">
+        <Breadcrumb
+          items={[{ name: "Accueil", path: "/" }, { name: "Boutique", path: "/boutique" }]}
+        />
       </div>
-      <Suspense
-        fallback={
-          <div className="py-20 text-center text-[#A7B0BC]">Chargement du catalogue…</div>
-        }
-      >
-        <ProductCatalog />
-      </Suspense>
+      <HomeShowcase />
     </>
   );
 }

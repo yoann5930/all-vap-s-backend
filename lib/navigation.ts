@@ -3,17 +3,17 @@ export interface NavLink {
   label: string;
 }
 
-/** Navigation principale — alignée maquette premium */
+/** Navigation principale — libellés maquette */
 export const mainNavLinks: NavLink[] = [
-  { href: "/cigarettes-electroniques", label: "E-cigarettes" },
-  { href: "/e-liquides", label: "E-liquides" },
-  { href: "/pods", label: "Pods" },
-  { href: "/boutique?category=resistances", label: "Résistances" },
-  { href: "/accessoires", label: "Accessoires" },
+  { href: "/cigarettes-electroniques", label: "E-CIGARETTES" },
+  { href: "/e-liquides", label: "E-LIQUIDES" },
+  { href: "/pods", label: "PODS" },
+  { href: "/boutique?category=resistances", label: "RÉSISTANCES" },
+  { href: "/accessoires", label: "ACCESSOIRES" },
   { href: "/diy", label: "DIY" },
-  { href: "/promotions", label: "Promotions" },
-  { href: "/nouveautes", label: "Nouveautés" },
-  { href: "/boutique", label: "Marques" },
+  { href: "/promotions", label: "PROMOTIONS" },
+  { href: "/nouveautes", label: "NOUVEAUTÉS" },
+  { href: "/boutique", label: "MARQUES" },
 ];
 
 export const footerNavLinks: NavLink[] = [

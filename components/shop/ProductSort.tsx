@@ -1,8 +1,8 @@
 "use client";
 
 const sortOptions = [
+  { value: "bestseller", label: "Popularité" },
   { value: "newest", label: "Plus récents" },
-  { value: "bestseller", label: "Meilleures ventes" },
   { value: "price-asc", label: "Prix croissant" },
   { value: "price-desc", label: "Prix décroissant" },
   { value: "name-asc", label: "Nom A-Z" },

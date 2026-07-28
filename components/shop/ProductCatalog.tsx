@@ -1,15 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Filter, X } from "lucide-react";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { AdvancedFilters } from "@/components/shop/AdvancedFilters";
 import { ProductSort } from "@/components/shop/ProductSort";
 import { ProductPagination } from "@/components/shop/ProductPagination";
-import { InstantSearch } from "@/components/shop/InstantSearch";
-import { CategoryNav } from "@/components/shop/CategoryNav";
+import { AvaSidePanel } from "@/components/home/AvaSidePanel";
 import { getCategoryBySlug } from "@/lib/catalog/categories";
 import type { Product, Category, Brand } from "@prisma/client";
 
@@ -20,7 +18,17 @@ interface CatalogResponse {
   pagination: { page: number; limit: number; total: number; totalPages: number };
 }
 
-export function ProductCatalog() {
+export function ProductCatalog({
+  defaultCategory,
+  showAvaPanel = true,
+  heading,
+  embedded = false,
+}: {
+  defaultCategory?: string;
+  showAvaPanel?: boolean;
+  heading?: string;
+  embedded?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState<CatalogResponse | null>(null);
@@ -32,7 +40,12 @@ export function ProductCatalog() {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/products?${queryString}`);
+      const params = new URLSearchParams(queryString);
+      if (defaultCategory && !params.get("category")) {
+        params.set("category", defaultCategory);
+      }
+      if (!params.get("limit")) params.set("limit", "20");
+      const res = await fetch(`/api/products?${params.toString()}`);
       const json = await res.json();
       setData(json);
     } catch {
@@ -40,7 +53,7 @@ export function ProductCatalog() {
     } finally {
       setLoading(false);
     }
-  }, [queryString]);
+  }, [queryString, defaultCategory]);
 
   useEffect(() => {
     fetchProducts();
@@ -60,19 +73,23 @@ export function ProductCatalog() {
       else params.set(key, value);
     });
     if (!updates.page) params.set("page", "1");
+    const base = defaultCategory ? "/e-liquides" : "/boutique";
+    // e-liquides redirects to boutique?category= — keep boutique for query updates
     router.push(`/boutique?${params.toString()}`);
+    void base;
   }
 
-  const categorySlug = searchParams.get("category");
+  const categorySlug = searchParams.get("category") || defaultCategory || null;
   const categoryName = categorySlug ? getCategoryBySlug(categorySlug)?.name : null;
 
-  const title = searchParams.get("promo")
-    ? "Promotions"
-    : searchParams.get("new")
-      ? "Nouveautés"
-      : searchParams.get("bestseller")
-        ? "Meilleures ventes"
-        : categoryName || (categorySlug ? `Catégorie : ${categorySlug}` : "Boutique");
+  const title =
+    heading ||
+    (searchParams.get("promo")
+      ? "Promotions"
+      : searchParams.get("new")
+        ? "Nouveautés"
+        : categoryName ||
+          (categorySlug ? `Catégorie : ${categorySlug}` : "E-LIQUIDES"));
 
   const filterProps = {
     categories: data?.categories || [],
@@ -85,23 +102,7 @@ export function ProductCatalog() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <p className="premium-section-label">Catalogue</p>
-        <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-[#F5F7FA] sm:text-4xl">
-          {title}
-        </h1>
-        <p className="mt-2 text-sm text-[#A7B0BC]">
-          {data ? `${data.pagination.total} produit(s)` : "Chargement…"}
-        </p>
-      </div>
-
-      <div className="mb-6">
-        <InstantSearch />
-      </div>
-
-      <CategoryNav />
-
+    <div className={embedded ? "" : "mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8"}>
       <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
         <button
           type="button"
@@ -117,30 +118,37 @@ export function ProductCatalog() {
         />
       </div>
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        <aside className="hidden lg:block lg:w-64 lg:flex-shrink-0">
+      <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+        <aside className="hidden w-[220px] shrink-0 lg:block">
           <div className="sticky top-36">
             <AdvancedFilters {...filterProps} />
           </div>
         </aside>
 
-        <div className="flex-1">
-          <div className="mb-6 hidden flex-wrap items-center justify-between gap-4 lg:flex">
-            <p className="text-sm text-[#A7B0BC]">
-              {data ? `${data.pagination.total} résultat(s)` : ""}
-            </p>
-            <ProductSort
-              value={searchParams.get("sort") || "newest"}
-              onChange={(sort) => updateParams({ sort })}
-            />
+        <div className="min-w-0 flex-1">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="font-display text-2xl font-bold tracking-wide text-white sm:text-[1.75rem]">
+                {title}
+              </h2>
+              <p className="mt-1 text-sm text-[#A7B0BC]">
+                {data ? `${data.pagination.total} produits trouvés` : "Chargement…"}
+              </p>
+            </div>
+            <div className="hidden lg:block">
+              <ProductSort
+                value={searchParams.get("sort") || "newest"}
+                onChange={(sort) => updateParams({ sort })}
+              />
+            </div>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
+              {Array.from({ length: 8 }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-80 animate-pulse rounded-2xl border border-white/6 bg-[#101720]"
+                  className="h-72 animate-pulse rounded-2xl border border-white/6 bg-[#101720]"
                 />
               ))}
             </div>
@@ -152,7 +160,7 @@ export function ProductCatalog() {
               </p>
               <button
                 type="button"
-                onClick={() => router.push("/boutique")}
+                onClick={() => router.push("/boutique?category=e-liquides")}
                 className="mt-6 inline-flex min-h-11 items-center rounded-xl border border-brand-500/35 bg-brand-500/15 px-5 text-sm text-brand-300"
               >
                 Réinitialiser
@@ -171,27 +179,15 @@ export function ProductCatalog() {
           )}
         </div>
 
-        <aside className="hidden xl:block xl:w-64 xl:flex-shrink-0">
-          <div className="sticky top-36 space-y-4 rounded-2xl border border-white/8 bg-[#101720] p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-400">
-              Conseils
-            </p>
-            <h2 className="font-display text-lg text-[#F5F7FA]">Besoin d&apos;aide ?</h2>
-            <p className="text-sm leading-relaxed text-[#A7B0BC]">
-              Nicotine, PG/VG, fraîcheur… nos boutiques Hautmont et Le Quesnoy
-              vous conseillent. A.V.A. revient bientôt.
-            </p>
-            <Link
-              href="/boutiques"
-              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-brand-500/35 bg-brand-500/15 px-4 text-sm text-brand-300"
-            >
-              Voir les boutiques
-            </Link>
-          </div>
-        </aside>
+        {showAvaPanel && (
+          <aside className="hidden w-[280px] shrink-0 xl:block">
+            <div className="sticky top-36">
+              <AvaSidePanel />
+            </div>
+          </aside>
+        )}
       </div>
 
-      {/* Tiroir filtres mobile */}
       {filtersOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { getEffectivePrice } from "@/lib/products/queries";
 import { extractExplicitSpecs } from "@/lib/catalog/normalize";
-import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
@@ -21,8 +20,11 @@ export function ProductCard({ product }: ProductCardProps) {
   const hasConfirmedPrice = price > 0;
   const hasPromo = Boolean(hasConfirmedPrice && product.isPromo && product.promoPriceCents);
   const specs = extractExplicitSpecs(`${product.name} ${product.description || ""}`);
+  const shortName = product.name.replace(/^Ice Cool X\s*[-–—]\s*/i, "").trim();
 
-  function handleAddToCart() {
+  function handleAddToCart(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
     if (!hasConfirmedPrice) return;
     addToCart({
       productId: product.id,
@@ -35,98 +37,72 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <article className="premium-product-card group flex h-full flex-col bg-[#101720]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#101720] transition-all duration-300 hover:border-brand-500/35 hover:shadow-[0_0_28px_rgba(0,174,239,0.12)]">
       <Link href={`/boutique/${product.slug}`} className="block flex-1">
-        <div className="relative aspect-square overflow-hidden bg-[#0B1016]">
+        <div className="relative aspect-[4/5] overflow-hidden bg-[#0B1016]">
           {product.imageUrl ? (
             <Image
               src={product.imageUrl}
               alt={product.name}
               fill
-              className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.04]"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
               loading="lazy"
             />
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
-              <ShoppingBag className="h-12 w-12 text-white/15" strokeWidth={1.25} />
+              <ShoppingBag className="h-10 w-10 text-white/15" strokeWidth={1.25} />
               <span className="text-[11px] text-[#A7B0BC]/60">Visuel à venir</span>
             </div>
           )}
-          <div className="absolute left-3 top-3 flex flex-col gap-1.5">
-            {product.isNew && <Badge className="text-[10px]">Nouveau</Badge>}
+          <div className="absolute left-2.5 top-2.5 flex flex-col gap-1.5">
+            {(product.isNew || product.source === "liquidarom") && (
+              <Badge className="text-[10px]">Nouveau</Badge>
+            )}
             {hasPromo && (
               <Badge variant="danger" className="text-[10px]">
                 Promo
               </Badge>
             )}
-            {product.stock === 0 && (
-              <Badge variant="warning" className="text-[10px]">
-                Dispo. à confirmer
-              </Badge>
-            )}
           </div>
-          {product.stock === 0 && (
-            <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/55 via-transparent to-transparent pb-3">
-              <span className="rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[11px] font-light text-white/90">
-                Disponibilité à confirmer
-              </span>
-            </div>
-          )}
         </div>
-        <div className="flex flex-1 flex-col p-4 sm:p-5">
+
+        <div className="flex flex-1 flex-col px-3 pb-3 pt-3 sm:px-3.5">
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-[13px] font-semibold leading-snug text-[#F5F7FA] transition-colors group-hover:text-brand-400">
+            {shortName}
+          </h3>
           {product.brand && (
-            <p className="text-[10px] font-medium tracking-[0.16em] text-[#A7B0BC]/70 uppercase">
+            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A7B0BC]/75">
               {product.brand}
             </p>
           )}
-          <h3 className="mt-1.5 line-clamp-2 font-display text-[15px] font-normal leading-snug text-[#F5F7FA] transition-colors group-hover:text-brand-400">
-            {product.name}
-          </h3>
-
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {specs.nicotineMg != null && (
-              <span className="rounded-md border border-white/8 bg-white/4 px-1.5 py-0.5 text-[10px] text-[#A7B0BC]">
-                {specs.nicotineMg} mg
-              </span>
-            )}
-            {specs.capacityMl != null && (
-              <span className="rounded-md border border-white/8 bg-white/4 px-1.5 py-0.5 text-[10px] text-[#A7B0BC]">
-                {specs.capacityMl} ml
-              </span>
-            )}
-            {product.stock > 0 ? (
-              <span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] text-emerald-300/90">
-                En stock
-              </span>
-            ) : null}
-          </div>
-
-          <div className="mt-3 flex items-baseline gap-2">
-            {hasConfirmedPrice ? (
-              <>
-                <span className="font-display text-lg font-medium text-brand-400">
-                  {formatPrice(price)}
-                </span>
-                {hasPromo && (
-                  <span className="text-sm font-light text-white/30 line-through">
-                    {formatPrice(product.priceCents)}
-                  </span>
-                )}
-              </>
-            ) : (
-              <span className="text-sm text-[#A7B0BC]">Prix en boutique</span>
-            )}
-          </div>
+          <p className="mt-1 text-[11px] text-[#A7B0BC]">
+            {specs.nicotineMg != null ? `${specs.nicotineMg} mg/ml` : "0 mg/ml"}
+            {specs.capacityMl != null ? ` · ${specs.capacityMl} ml` : " · 50 ml"}
+          </p>
         </div>
       </Link>
-      {product.stock > 0 && hasConfirmedPrice && (
-        <div className="border-t border-white/6 p-4 pt-3">
-          <Button size="sm" className="w-full" onClick={handleAddToCart}>
-            Ajouter au panier
-          </Button>
+
+      <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/6 px-3 py-2.5 sm:px-3.5">
+        <div className="min-w-0">
+          {hasConfirmedPrice ? (
+            <span className="font-display text-[15px] font-semibold text-white">
+              {formatPrice(price)}
+            </span>
+          ) : (
+            <span className="text-[12px] font-medium text-[#A7B0BC]">Prix en boutique</span>
+          )}
         </div>
-      )}
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={!hasConfirmedPrice}
+          title={hasConfirmedPrice ? "Ajouter au panier" : "Prix à confirmer en boutique"}
+          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-brand-500/40 bg-brand-500/15 text-brand-300 transition-colors hover:bg-brand-500 hover:text-premium-black disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <ShoppingCart className="h-4 w-4" strokeWidth={1.75} />
+        </button>
+      </div>
     </article>
   );
 }

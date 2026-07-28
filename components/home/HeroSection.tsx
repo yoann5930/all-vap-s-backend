@@ -1,96 +1,100 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Droplets, FlaskConical, Flag } from "lucide-react";
 
+/** Bannière e-liquides — sans panneau A.V.A. (placé en colonne droite) */
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[88svh] items-center overflow-hidden lg:min-h-[78svh]">
-      <div className="absolute inset-0 bg-[#05070A]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_40%,rgba(0,174,239,0.10)_0%,transparent_65%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_60%,rgba(120,80,255,0.08)_0%,transparent_60%)]" />
-      <div className="av-vapor pointer-events-none absolute inset-0 opacity-50" aria-hidden />
+    <section className="relative overflow-hidden">
+      <div className="relative min-h-[320px] overflow-hidden rounded-3xl border border-white/8 bg-[#0B1016]/55 lg:min-h-[400px]">
+        <div className="absolute inset-0">
+          <Image
+            src="/brand/hero-eliquides-bottles.png"
+            alt="Collection e-liquides Ice Cool Liquidarom"
+            fill
+            priority
+            className="object-cover object-center opacity-90"
+            sizes="(max-width: 1024px) 100vw, 75vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#05070A] via-[#05070A]/78 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#05070A]/75 via-transparent to-[#05070A]/25" />
+        </div>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
-        <div className="text-left">
+        <div className="relative z-10 flex h-full max-w-xl flex-col justify-center px-6 py-10 sm:px-10 lg:px-12">
           <motion.p
-            className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-brand-400/90"
-            initial={{ opacity: 0, y: 10 }}
+            className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-400"
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
           >
-            All Vap&apos;s · Hautmont &amp; Le Quesnoy
+            E-LIQUIDES
           </motion.p>
 
           <motion.h1
-            className="font-display text-4xl font-semibold leading-[1.08] tracking-tight text-[#F5F7FA] sm:text-5xl lg:text-[3.25rem]"
-            initial={{ opacity: 0, y: 14 }}
+            className="mt-3 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]"
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 0.08 }}
           >
-            Découvrez nos{" "}
-            <span className="bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">
-              saveurs
-            </span>
+            DÉCOUVREZ NOS
+            <br />
+            SAVEURS
           </motion.h1>
 
           <motion.p
-            className="mt-5 max-w-lg text-base font-light leading-relaxed text-[#A7B0BC] sm:text-lg"
-            initial={{ opacity: 0, y: 12 }}
+            className="mt-3 text-lg font-semibold text-brand-400 sm:text-xl"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.65 }}
+            transition={{ delay: 0.16 }}
           >
-            E-liquides, pods et matériel sélectionnés — conseils en boutique et catalogue en ligne.
+            + DE 250 RÉFÉRENCES
           </motion.p>
 
-          <motion.div
-            className="mt-9 flex flex-wrap items-center gap-3"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.65 }}
-          >
-            <Button href="/boutique" size="lg" variant="primary" className="gap-2">
-              Voir le catalogue
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button href="/ia" size="lg" variant="secondary" className="gap-2">
-              <Sparkles className="h-4 w-4" />
-              A.V.A. — bientôt
-            </Button>
-          </motion.div>
-
           <motion.ul
-            className="mt-10 flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#A7B0BC]/90 sm:text-[13px]"
+            className="mt-6 flex flex-wrap gap-2.5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.55, duration: 0.6 }}
+            transition={{ delay: 0.24 }}
           >
-            <li>Dosages &amp; PG/VG indiqués</li>
-            <li>Stock boutique réel</li>
-            <li>Retrait gratuit en magasin</li>
+            <li className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/35 px-3 py-1.5 text-[11px] text-[#D5DBE4] backdrop-blur-sm">
+              <Droplets className="h-3.5 w-3.5 text-brand-400" />
+              <span>
+                <strong className="text-white">0 MG À 18 MG</strong>
+                <span className="ml-1 text-[#A7B0BC]">De nicotine</span>
+              </span>
+            </li>
+            <li className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/35 px-3 py-1.5 text-[11px] text-[#D5DBE4] backdrop-blur-sm">
+              <FlaskConical className="h-3.5 w-3.5 text-brand-400" />
+              <span>
+                <strong className="text-white">PG/VG</strong>
+                <span className="ml-1 text-[#A7B0BC]">50/50 à 100% VG</span>
+              </span>
+            </li>
+            <li className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/35 px-3 py-1.5 text-[11px] text-[#D5DBE4] backdrop-blur-sm">
+              <Flag className="h-3.5 w-3.5 text-brand-400" />
+              <span>
+                <strong className="text-white">FABRIQUÉS EN FRANCE</strong>
+                <span className="ml-1 text-[#A7B0BC]">Qualité premium</span>
+              </span>
+            </li>
           </motion.ul>
-        </div>
 
-        <motion.div
-          className="relative mx-auto flex w-full max-w-md justify-center lg:max-w-none lg:justify-end"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="relative aspect-square w-full max-w-[420px]">
-            <div className="absolute inset-6 rounded-full bg-[radial-gradient(circle,rgba(0,174,239,0.18)_0%,transparent_68%)] blur-2xl" aria-hidden />
-            <Image
-              src="/brand/logo-official-dark.png"
-              alt="All Vap's"
-              width={480}
-              height={480}
-              priority
-              className="relative z-10 mx-auto h-auto w-full object-contain drop-shadow-[0_0_40px_rgba(0,174,239,0.2)]"
-            />
-          </div>
-        </motion.div>
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.32 }}
+          >
+            <Link
+              href="/e-liquides"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-500 px-6 text-sm font-bold tracking-wide text-premium-black transition-colors hover:bg-brand-400"
+            >
+              VOIR LA COLLECTION
+            </Link>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

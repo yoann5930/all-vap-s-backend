@@ -8,16 +8,15 @@ import {
   Menu,
   X,
   LogOut,
-  Heart,
   ChevronDown,
   Phone,
-  MapPin,
   Truck,
   Sparkles,
 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { useState, useEffect, useMemo } from "react";
+import { cn, formatPrice } from "@/lib/utils";
 import { useCart } from "@/components/cart/CartProvider";
+import { getCartTotal } from "@/lib/cart";
 import { mainNavLinks } from "@/lib/navigation";
 import { Logo } from "@/components/layout/Logo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
@@ -34,13 +33,17 @@ interface AuthUser {
 function isActiveLink(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   const base = href.split("?")[0];
-  if (base === "/boutique") return pathname === "/boutique" || pathname.startsWith("/boutique/");
+  if (base === "/boutique") {
+    return pathname === "/boutique" || pathname.startsWith("/boutique/");
+  }
+  if (base === "/e-liquides") {
+    return pathname.includes("e-liquides") || pathname.includes("category=e-liquides");
+  }
   return pathname === base || pathname.startsWith(base + "/");
 }
 
 function formatPhoneDisplay(e164: string) {
   const digits = e164.replace(/\D/g, "");
-  // +33327496100 → 03 27 49 61 00
   if (digits.startsWith("33") && digits.length === 11) {
     const local = `0${digits.slice(2)}`;
     return local.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
@@ -50,7 +53,8 @@ function formatPhoneDisplay(e164: string) {
 
 export function Header() {
   const pathname = usePathname();
-  const { cartCount } = useCart();
+  const { cartCount, items } = useCart();
+  const cartTotal = useMemo(() => getCartTotal(items), [items]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -87,100 +91,115 @@ export function Header() {
     window.location.href = "/";
   }
 
-  const iconBtn =
-    "rounded-xl p-2.5 text-white/55 transition-all duration-300 hover:bg-white/5 hover:text-brand-400 hover:shadow-[0_0_16px_rgba(0,174,239,0.14)]";
+  function openAva() {
+    window.dispatchEvent(new Event("allvaps:open-ava"));
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      {/* Bandeau supérieur */}
-      <div className="hidden border-b border-white/6 bg-[#0B1016] text-[11px] text-[#A7B0BC] sm:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span className="inline-flex items-center gap-1.5">
-              <Truck className="h-3 w-3 text-brand-500" strokeWidth={1.75} aria-hidden />
-              Retrait boutique gratuit · Livraison Mondial Relay / Colissimo
-            </span>
-            <Link
-              href="/boutiques"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-brand-400"
-            >
-              <MapPin className="h-3 w-3 text-brand-500" strokeWidth={1.75} aria-hidden />
-              Hautmont &amp; Le Quesnoy
-            </Link>
+      {/* Top bar maquette */}
+      <div className="hidden border-b border-white/6 bg-[#070A0F] text-[11px] text-[#A7B0BC] sm:block">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-3 items-center gap-3 px-4 py-1.5 sm:px-6 lg:px-8">
+          <div className="inline-flex items-center gap-1.5 justify-self-start">
+            <Truck className="h-3 w-3 text-amber-400" strokeWidth={1.75} aria-hidden />
+            <span>Livraison offerte dès 49€ d&apos;achat</span>
           </div>
-          {primaryStore?.phone && (
+          <p className="justify-self-center text-center text-[11px] text-[#A7B0BC]/90">
+            All Vap&apos;s Le Quesnoy &amp; Hautmont – Bar à vape – Conseils d&apos;experts
+          </p>
+          {primaryStore?.phone ? (
             <a
               href={`tel:${primaryStore.phone}`}
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-brand-400"
+              className="inline-flex items-center gap-1.5 justify-self-end transition-colors hover:text-brand-400"
             >
               <Phone className="h-3 w-3 text-brand-500" strokeWidth={1.75} aria-hidden />
-              {formatPhoneDisplay(primaryStore.phone)}
+              Besoin d&apos;aide ? {formatPhoneDisplay(primaryStore.phone)}
             </a>
+          ) : (
+            <span className="justify-self-end" />
           )}
         </div>
       </div>
 
+      {/* Main bar */}
       <div
         className={cn(
           "border-b transition-all duration-500",
           scrolled
-            ? "premium-glass border-white/6 shadow-[0_8px_32px_rgba(0,0,0,0.45)]"
-            : "border-white/6 bg-premium-black/85 backdrop-blur-md"
+            ? "border-white/6 bg-[#05070A]/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.45)]"
+            : "border-white/6 bg-[#05070A]/90 backdrop-blur-md"
         )}
       >
-        <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:gap-6 lg:px-8">
-          <Logo variant="official" size={44} />
+        <div className="mx-auto flex h-[4.5rem] max-w-[1400px] items-center gap-3 px-4 sm:px-6 lg:gap-8 lg:px-8">
+          <Logo />
 
           <div className="hidden min-w-0 flex-1 md:block">
             <HeaderSearch expanded />
           </div>
 
-          <div className="ml-auto flex items-center gap-1 sm:gap-1.5">
+          <div className="ml-auto flex items-center gap-2 sm:gap-3">
             <div className="md:hidden">
               <HeaderSearch />
             </div>
-            <Link
-              href="/ia"
-              className={cn(iconBtn, "hidden items-center gap-1.5 px-3 text-xs font-light sm:inline-flex")}
-              aria-label="A.V.A. — bientôt disponible"
-              title="A.V.A. — bientôt disponible"
-            >
-              <Sparkles className="h-4 w-4 text-brand-400" strokeWidth={1.5} />
-              <span className="hidden lg:inline">
-                A.V.A. <span className="text-white/35">bientôt</span>
-              </span>
-            </Link>
-            <Link href="/favoris" className={cn(iconBtn, "hidden sm:flex")} aria-label="Favoris">
-              <Heart className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
-            </Link>
+
             {user ? (
-              <div className="hidden items-center sm:flex">
-                <Link href="/account" className={cn(iconBtn, "gap-1.5 px-3 text-sm")} aria-label="Compte">
-                  <User className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
-                  <span className="hidden max-w-[72px] truncate font-light lg:inline">
-                    {user.firstName || "Compte"}
+              <div className="hidden items-center gap-1 sm:flex">
+                <Link
+                  href="/account"
+                  className="flex items-center gap-2 rounded-xl px-2 py-1.5 text-left transition-colors hover:bg-white/5"
+                >
+                  <User className="h-5 w-5 text-white/70" strokeWidth={1.5} />
+                  <span className="hidden leading-tight lg:block">
+                    <span className="block text-xs font-medium text-white">Mon compte</span>
+                    <span className="block text-[10px] text-[#A7B0BC]">
+                      {user.firstName || "Connecté"}
+                    </span>
                   </span>
                 </Link>
-                <button type="button" onClick={handleLogout} className={iconBtn} title="Déconnexion">
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-xl p-2 text-white/45 hover:bg-white/5 hover:text-brand-400"
+                  title="Déconnexion"
+                >
                   <LogOut className="h-4 w-4" strokeWidth={1.5} />
                 </button>
               </div>
             ) : (
-              <Link href="/login" className={cn(iconBtn, "hidden sm:flex")} aria-label="Compte">
-                <User className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
+              <Link
+                href="/login"
+                className="hidden items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/5 sm:flex"
+              >
+                <User className="h-5 w-5 text-white/70" strokeWidth={1.5} />
+                <span className="hidden leading-tight lg:block">
+                  <span className="block text-xs font-medium text-white">Mon compte</span>
+                  <span className="block text-[10px] text-[#A7B0BC]">Se connecter</span>
+                </span>
               </Link>
             )}
-            <Link href="/cart" className={cn(iconBtn, "relative")} aria-label="Panier">
-              <ShoppingCart className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.5} />
-              {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-[17px] min-w-[17px] items-center justify-center rounded-full bg-brand-500 px-1 text-[9px] font-semibold text-premium-black shadow-[0_0_12px_rgba(0,174,239,0.55)]">
+
+            <Link
+              href="/cart"
+              className="relative flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/5"
+              aria-label="Panier"
+            >
+              <span className="relative">
+                <ShoppingCart className="h-5 w-5 text-white/80" strokeWidth={1.5} />
+                <span className="absolute -right-2 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-brand-500 px-1 text-[10px] font-semibold text-premium-black">
                   {cartCount}
                 </span>
-              )}
+              </span>
+              <span className="hidden leading-tight lg:block">
+                <span className="block text-xs font-medium text-white">Panier</span>
+                <span className="block text-[10px] text-[#A7B0BC]">
+                  {formatPrice(cartTotal)}
+                </span>
+              </span>
             </Link>
+
             <button
               type="button"
-              className={cn(iconBtn, "lg:hidden")}
+              className="rounded-xl p-2.5 text-white/70 hover:bg-white/5 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
@@ -190,22 +209,25 @@ export function Header() {
         </div>
       </div>
 
+      {/* Nav + AVA */}
       <nav
         className={cn(
           "hidden border-b transition-all duration-500 lg:block",
-          scrolled ? "premium-glass border-white/4" : "border-white/4 bg-[#0B1016]/90 backdrop-blur-sm"
+          scrolled ? "border-white/4 bg-[#05070A]/95 backdrop-blur-xl" : "border-white/4 bg-[#070A0F]/95"
         )}
         aria-label="Navigation principale"
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <ul className="scrollbar-hide flex items-center gap-0.5 overflow-x-auto py-1">
             {mainNavLinks.map((link) => (
               <li key={`${link.href}-${link.label}`} className="shrink-0">
                 <Link
                   href={link.href}
                   className={cn(
-                    "premium-nav-link block px-3.5 py-2.5 text-[13px]",
-                    isActiveLink(pathname, link.href) && "is-active"
+                    "block px-3 py-2.5 text-[12px] font-semibold tracking-[0.06em] transition-colors",
+                    isActiveLink(pathname, link.href)
+                      ? "border-b-2 border-brand-500 text-brand-400"
+                      : "border-b-2 border-transparent text-[#A7B0BC] hover:text-white"
                   )}
                 >
                   {link.label}
@@ -214,20 +236,36 @@ export function Header() {
             ))}
             {user?.role === "ADMIN" && (
               <li className="shrink-0">
-                <Link href="/admin" className="premium-nav-link block px-3.5 py-2.5 text-[13px] text-brand-400/80">
-                  Admin
+                <Link
+                  href="/admin"
+                  className="block px-3 py-2.5 text-[12px] font-semibold tracking-[0.06em] text-brand-400/80"
+                >
+                  ADMIN
                 </Link>
               </li>
             )}
           </ul>
+
+          <button
+            type="button"
+            onClick={openAva}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-brand-500/50 bg-transparent px-4 py-1.5 text-xs font-medium text-brand-300 transition-colors hover:bg-brand-500/10"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            A.V.A. – Votre assistant
+          </button>
         </div>
       </nav>
 
       {mobileOpen && (
-        <div className="fixed inset-0 top-[4.25rem] z-40 sm:top-[calc(4.25rem+1.75rem)] lg:hidden">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileOpen(false)} aria-hidden />
+        <div className="fixed inset-0 top-[4.5rem] z-40 sm:top-[calc(4.5rem+1.75rem)] lg:hidden">
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden
+          />
           <nav
-            className="premium-glass animate-slide-down relative max-h-[calc(100vh-4.25rem)] overflow-y-auto px-4 py-5 shadow-2xl"
+            className="relative max-h-[calc(100vh-4.5rem)] overflow-y-auto border-b border-white/8 bg-[#0B1016] px-4 py-5 shadow-2xl"
             aria-label="Menu mobile"
           >
             <div className="mb-5 md:hidden">
@@ -239,7 +277,7 @@ export function Header() {
                   <Link
                     href={link.href}
                     className={cn(
-                      "flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-light transition-colors",
+                      "flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-colors",
                       isActiveLink(pathname, link.href)
                         ? "bg-brand-500/10 text-brand-400"
                         : "text-white/70 hover:bg-white/5 hover:text-white"
@@ -252,32 +290,19 @@ export function Header() {
                 </li>
               ))}
               <li>
-                <Link
-                  href="/ia"
-                  className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-light text-brand-400/90 hover:bg-brand-500/10"
-                  onClick={() => setMobileOpen(false)}
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium text-brand-400 hover:bg-brand-500/10"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openAva();
+                  }}
                 >
-                  A.V.A. — bientôt disponible
+                  A.V.A. – Votre assistant
                   <Sparkles className="h-4 w-4" />
-                </Link>
+                </button>
               </li>
             </ul>
-            <div className="mt-5 grid grid-cols-2 gap-2 border-t border-white/6 pt-5">
-              <Link
-                href="/favoris"
-                className="premium-glass-light flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-light text-white/70"
-                onClick={() => setMobileOpen(false)}
-              >
-                <Heart className="h-4 w-4" /> Favoris
-              </Link>
-              <Link
-                href={user ? "/account" : "/login"}
-                className="premium-glass-light flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-light text-white/70"
-                onClick={() => setMobileOpen(false)}
-              >
-                <User className="h-4 w-4" /> Compte
-              </Link>
-            </div>
           </nav>
         </div>
       )}
@@ -286,5 +311,10 @@ export function Header() {
 }
 
 export function HeaderSpacer() {
-  return <div className="h-[4.25rem] sm:h-[calc(4.25rem+1.75rem)] lg:h-[calc(7.25rem+1.75rem)]" aria-hidden="true" />;
+  return (
+    <div
+      className="h-[4.5rem] sm:h-[calc(4.5rem+1.75rem)] lg:h-[calc(7.35rem+1.75rem)]"
+      aria-hidden="true"
+    />
+  );
 }

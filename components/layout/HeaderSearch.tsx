@@ -50,7 +50,7 @@ export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A7B0BC]" />
           <input
             type="search"
-            placeholder="Rechercher un produit, une marque, une saveur…"
+            placeholder="Rechercher un produit, une marque…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-[#0B1016] py-2.5 pl-11 pr-10 text-sm text-[#F5F7FA] placeholder:text-[#A7B0BC]/65 transition-colors focus:border-brand-500/50 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
