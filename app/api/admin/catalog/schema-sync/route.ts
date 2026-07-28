@@ -1,10 +1,7 @@
 import { NextRequest } from "next/server";
-import { z } from "zod";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import prisma from "@/lib/prisma";
-
-const EMPTY_CATALOG_CONFIRM = "IMPORT_LIQUIDAROM_EMPTY_CATALOG";
 
 /**
  * SQL additif uniquement — colonnes / tables phase2 catalogue.
@@ -144,9 +141,6 @@ export async function POST(request: NextRequest) {
     const applied: string[] = [];
     const errors: string[] = [];
 
-    // body volontairement ignoré — auth admin/secret uniquement
-    void (await request.json().catch(() => ({})));
-    void z;
     for (const sql of ADDITIVE_STATEMENTS) {
       const label = sql.slice(0, 72).replace(/\s+/g, " ");
       try {
@@ -157,7 +151,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // FK best-effort (ignore si déjà présentes)
     const fks = [
       `DO $$ BEGIN ALTER TABLE "ProductVariant" ADD CONSTRAINT "ProductVariant_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$`,
       `DO $$ BEGIN ALTER TABLE "ProductFlavor" ADD CONSTRAINT "ProductFlavor_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$`,
@@ -173,7 +166,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Vérifie la colonne critique
     const cols = await prisma.$queryRawUnsafe<Array<{ column_name: string }>>(
       `SELECT column_name FROM information_schema.columns WHERE table_name = 'Product' AND column_name = 'normalizedName'`
     );
