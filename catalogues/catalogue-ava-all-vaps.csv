@@ -1,0 +1,74 @@
+id_produit;nom_produit;marque;gamme;saveur_principale;saveurs_secondaires;famille;fraicheur;mots_cles;description_ava;produits_similaires;statut_disponibilite
+AV-ELIQ-002;E-liquide Alfaliquid RY4 Classic 10ml;Alfaliquid;;;;;Non;;;;Rupture
+AV-ARO-001;Arôme Capella Blueberry 30ml;Capella;;;;;Non;;;;Rupture
+AV-ELIQ-003;E-liquide Dinner Lady Lemon Tart 50ml;Dinner Lady;;;;;Non;;;;Rupture
+AV-BOX-001;GeekVape Aegis Legend 2;GeekVape;;;;;Non;;;;Rupture
+AV-MOD-001;GeekVape Aegis Solo 3;GeekVape;;;;;Non;;;;Rupture
+AV-CLR-001;GeekVape Z Sub-Ohm Tank;GeekVape;;;;;Non;;;;Rupture
+AV-RES-002;Résistances GeekVape Z 0.2Ω;GeekVape;;;;;Non;;;;Rupture
+AV-VER-001;Verre Pyrex GeekVape Z;GeekVape;;;;;Non;;;;Rupture
+AV-CE-001;Kit Innokin Endura T18 II;Innokin;;;;;Non;;;;Rupture
+AV-0032;Edition Collection - Miss Blue;Liquidarom;Edition Collection;fruit du dragon;frais;Fruité;Oui;miss blue, edition collection, fruit du dragon, frais, frais, glacé;Un mélange fruit du dragon, frais avec une touche fraîche.;;Rupture
+AV-0015;Ice Cool - Ananas Kiwi jaune;Liquidarom;Ice Cool;ananas;kiwi jaune;Fruité;Oui;ananas kiwi jaune, ice cool, ananas, kiwi jaune, frais, glacé;Un mélange ananas, kiwi jaune avec une fraîcheur très marquée.;;Rupture
+AV-0011;Ice Cool - Cactus citronné Framboise Fruit du dragon;Liquidarom;Ice Cool;cactus citronné;framboise, fruit du dragon;Fruité;Oui;cactus citronné framboise fruit du dragon, ice cool, cactus citronné, framboise, fruit du dragon, frais, glacé;Un mélange cactus citronné, framboise, fruit du dragon avec une fraîcheur très marquée.;;Rupture
+AV-0001;Ice Cool - Cassis Citron;Liquidarom;Ice Cool;cassis;citron;Fruité;Oui;cassis citron, ice cool, cassis, citron, frais, glacé;Un mélange cassis, citron avec une fraîcheur très marquée.;;Rupture
+AV-0006;Ice Cool - Cassis Framboise Raisin;Liquidarom;Ice Cool;cassis;framboise, raisin;Fruité;Oui;cassis framboise raisin, ice cool, cassis, framboise, raisin, frais, glacé;Un mélange cassis, framboise, raisin avec une fraîcheur très marquée.;;Rupture
+AV-0020;Ice Cool - Cassis Mangue;Liquidarom;Ice Cool;cassis;mangue;Fruité;Oui;cassis mangue, ice cool, cassis, mangue, frais, glacé;Un mélange cassis, mangue avec une fraîcheur très marquée.;;Rupture
+AV-0021;Ice Cool - Citron Pastèque;Liquidarom;Ice Cool;citron;pastèque;Fruité;Oui;citron pastèque, ice cool, citron, pastèque, frais, glacé;Un mélange citron, pastèque avec une fraîcheur très marquée.;;Rupture
+AV-0010;Ice Cool - Citron vert Orange sanguine;Liquidarom;Ice Cool;citron vert;orange sanguine;Fruité;Oui;citron vert orange sanguine, ice cool, citron vert, orange sanguine, frais, glacé;Un mélange citron vert, orange sanguine avec une fraîcheur très marquée.;;Rupture
+AV-0012;Ice Cool - Cocktail exotique;Liquidarom;Ice Cool;cocktail exotique;;Fruité;Oui;cocktail exotique, ice cool, cocktail exotique, frais, glacé;Un mélange cocktail exotique avec une fraîcheur très marquée.;;Rupture
+AV-0005;Ice Cool - Cola Pomme;Liquidarom;Ice Cool;cola;pomme;Fruité;Oui;cola pomme, ice cool, cola, pomme, frais, glacé;Un mélange cola, pomme avec une fraîcheur très marquée.;;Rupture
+AV-0014;Ice Cool - Extra Fruits rouges;Liquidarom;Ice Cool;fruits rouges;;Fruité;Oui;extra fruits rouges, ice cool, fruits rouges, frais, glacé;Un mélange fruits rouges avec une fraîcheur très marquée.;;Rupture
+AV-0013;Ice Cool - Fraise Framboise Basilic;Liquidarom;Ice Cool;fraise;framboise, basilic;Fruité;Oui;fraise framboise basilic, ice cool, fraise, framboise, basilic, frais, glacé;Un mélange fraise, framboise, basilic avec une fraîcheur très marquée.;;Rupture
+AV-0022;Ice Cool - Framboise bleue Pitaya;Liquidarom;Ice Cool;framboise bleue;pitaya;Fruité;Oui;framboise bleue pitaya, ice cool, framboise bleue, pitaya, frais, glacé;Un mélange framboise bleue, pitaya avec une fraîcheur très marquée.;;Rupture
+AV-0003;Ice Cool - Framboise des bois;Liquidarom;Ice Cool;framboise des bois;;Fruité;Oui;framboise des bois, ice cool, framboise des bois, frais, glacé;Un mélange framboise des bois avec une fraîcheur très marquée.;;Rupture
+AV-0007;Ice Cool - Fruit du dragon Fruits rouges;Liquidarom;Ice Cool;fruit du dragon;fruits rouges;Fruité;Oui;fruit du dragon fruits rouges, ice cool, fruit du dragon, fruits rouges, frais, glacé;Un mélange fruit du dragon, fruits rouges avec une fraîcheur très marquée.;;Rupture
+AV-0018;Ice Cool - Fruit du serpent Framboise;Liquidarom;Ice Cool;fruit du serpent;framboise;Fruité;Oui;fruit du serpent framboise, ice cool, fruit du serpent, framboise, frais, glacé;Un mélange fruit du serpent, framboise avec une fraîcheur très marquée.;;Rupture
+AV-0023;Ice Cool - Grenade tropicale;Liquidarom;Ice Cool;grenade tropicale;;Fruité;Oui;grenade tropicale, ice cool, grenade tropicale, frais, glacé;Un mélange grenade tropicale avec une fraîcheur très marquée.;;Rupture
+AV-0019;Ice Cool - Kiwi Banane;Liquidarom;Ice Cool;kiwi;banane;Fruité;Oui;kiwi banane, ice cool, kiwi, banane, frais, glacé;Un mélange kiwi, banane avec une fraîcheur très marquée.;;Rupture
+AV-0009;Ice Cool - Mangue Passion;Liquidarom;Ice Cool;mangue;fruit de la passion;Fruité;Oui;mangue passion, ice cool, mangue, fruit de la passion, frais, glacé;Un mélange mangue, fruit de la passion avec une fraîcheur très marquée.;;Rupture
+AV-0008;Ice Cool - Mûre Framboise;Liquidarom;Ice Cool;mûre;framboise;Fruité;Oui;mûre framboise, ice cool, mûre, framboise, frais, glacé;Un mélange mûre, framboise avec une fraîcheur très marquée.;;Rupture
+AV-0017;Ice Cool - Pastèque Fruits rouges;Liquidarom;Ice Cool;pastèque;fruits rouges;Fruité;Oui;pastèque fruits rouges, ice cool, pastèque, fruits rouges, frais, glacé;Un mélange pastèque, fruits rouges avec une fraîcheur très marquée.;;Rupture
+AV-0016;Ice Cool - Pêche Myrtille;Liquidarom;Ice Cool;pêche;myrtille;Fruité;Oui;pêche myrtille, ice cool, pêche, myrtille, frais, glacé;Un mélange pêche, myrtille avec une fraîcheur très marquée.;;Rupture
+AV-0002;Ice Cool - Pêche Raisin;Liquidarom;Ice Cool;pêche;raisin;Fruité;Oui;pêche raisin, ice cool, pêche, raisin, frais, glacé;Un mélange pêche, raisin avec une fraîcheur très marquée.;;Rupture
+AV-0004;Ice Cool - Pomme verte Orange;Liquidarom;Ice Cool;pomme verte;orange;Fruité;Oui;pomme verte orange, ice cool, pomme verte, orange, frais, glacé;Un mélange pomme verte, orange avec une fraîcheur très marquée.;;Rupture
+AV-0040;Ice Cool X - Blackberry Raspberry;Liquidarom;Ice Cool X;mûre;framboise;Fruité;Oui;blackberry raspberry, ice cool x, mûre, framboise, frais, glacé;Un mélange mûre, framboise avec une fraîcheur très marquée.;;Rupture
+AV-0038;Ice Cool X - Blackcurrant Raspberry Grape;Liquidarom;Ice Cool X;cassis;framboise, raisin;Fruité;Oui;blackcurrant raspberry grape, ice cool x, cassis, framboise, raisin, frais, glacé;Un mélange cassis, framboise, raisin avec une fraîcheur très marquée.;;Rupture
+AV-0036;Ice Cool X - Blue Raspberry Pitaya;Liquidarom;Ice Cool X;framboise bleue;pitaya;Fruité;Oui;blue raspberry pitaya, ice cool x, framboise bleue, pitaya, frais, glacé;Un mélange framboise bleue, pitaya avec une fraîcheur très marquée.;;Rupture
+AV-0039;Ice Cool X - Mixed Red Berries;Liquidarom;Ice Cool X;fruits rouges;;Fruité;Oui;mixed berries, ice cool x, fruits rouges, frais, glacé;Un mélange fruits rouges avec une fraîcheur très marquée.;;Rupture
+AV-0037;Ice Cool X - Watermelon Lemon;Liquidarom;Ice Cool X;pastèque;citron;Fruité;Oui;watermelon lemon, ice cool x, pastèque, citron, frais, glacé;Un mélange pastèque, citron avec une fraîcheur très marquée.;;Rupture
+AV-0024;Les Collègues - La Coquette;Liquidarom;Les Collègues;café;biscuit;Gourmand;Oui;la coquette, les collègues, café, biscuit;Un mélange café, biscuit.;;Rupture
+AV-0030;Les Collègues - La Mimi;Liquidarom;Les Collègues;crème;gourmand;Gourmand;Oui;la mimi, les collègues, crème, gourmand;Un mélange crème, gourmand.;;Rupture
+AV-0025;Les Collègues - Le Balèze;Liquidarom;Les Collègues;vanille;crème;Gourmand;Oui;le balèze, les collègues, vanille, crème;Un mélange vanille, crème.;;Rupture
+AV-0026;Les Collègues - Le Charmeur;Liquidarom;Les Collègues;bonbon;fruité;Fruité;Oui;le charmeur, les collègues, bonbon, fruité;Un mélange bonbon, fruité.;;Rupture
+AV-0031;Les Collègues - Le ChocoStar;Liquidarom;Les Collègues;chocolat;gourmand;Gourmand;Oui;le chocostar, les collègues, chocolat, gourmand;Un mélange chocolat, gourmand.;;Rupture
+AV-0029;Les Collègues - Le Flambeur;Liquidarom;Les Collègues;vanille;gourmand;Gourmand;Oui;le flambeur, les collègues, vanille, gourmand;Un mélange vanille, gourmand.;;Rupture
+AV-0027;Les Collègues - Le Funkie;Liquidarom;Les Collègues;cookie;gourmand;Gourmand;Oui;le funkie, les collègues, cookie, gourmand;Un mélange cookie, gourmand.;;Rupture
+AV-0028;Les Collègues - Le Tchatcheur;Liquidarom;Les Collègues;céréales;gourmand;Gourmand;Oui;le tchatcheur, les collègues, céréales, gourmand;Un mélange céréales, gourmand.;;Rupture
+AV-0035;Les Essentiels - Le P'tit Blond;Liquidarom;Les Essentiels;tabac blond;;Classic / tabac;Oui;le p'tit blond, les essentiels, tabac blond;Un mélange tabac blond.;;Rupture
+AV-0034;Les Essentiels - Mojito des îles;Liquidarom;Les Essentiels;mojito;citron vert, menthe;Boisson;Oui;mojito des îles, les essentiels, mojito, citron vert, menthe, frais, glacé;Un mélange mojito, citron vert, menthe avec une touche fraîche.;;Rupture
+AV-0033;Les Essentiels - Pastis 13;Liquidarom;Les Essentiels;anis;pastis;Boisson;Oui;pastis 13, les essentiels, anis, pastis;Un mélange anis, pastis.;;Rupture
+AV-POD-002;Lost Vape Ursa Nano Pro 2;Lost Vape;;;;;Non;;;;Rupture
+AV-CHA-001;Chargeur Nitecore D4;Nitecore;;;;;Non;;;;Rupture
+AV-ACC-001;Chargeur Nitecore i2;Nitecore;;;;;Non;;;;Rupture
+AV-ELIQ-001;E-liquide Pulp Blue Slush 50ml;Pulp;;;;;Non;;;;Rupture
+AV-MOD-002;Smok Morph 3;Smok;;;;;Non;;;;Rupture
+AV-ARO-002;Arôme Vampire Vape Heisenberg 30ml;Vampire Vape;;;;;Non;;;;Rupture
+AV-CE-002;Kit Vaporesso Eco Nano;Vaporesso;;;;;Non;;;;Rupture
+AV-RES-001;Résistances Vaporesso GTX 0.8Ω;Vaporesso;;;;;Non;;;;Rupture
+AV-CLR-002;Vaporesso iTank 2;Vaporesso;;;;;Non;;;;Rupture
+AV-POD-001;Vaporesso XROS 3 Mini;Vaporesso;;;;;Non;;;;Rupture
+AV-VER-002;Verre Pyrex Vaporesso iTank;Vaporesso;;;;;Non;;;;Rupture
+AV-BOX-002;Voopoo Drag X Plus;Voopoo;;;;;Non;;;;Rupture
+AV-BAT-002;Accu Molicel P42A 21700;;;;;;Non;;;;Rupture
+AV-BAT-001;Accu Samsung 18650 25R;;;;;;Non;;;;Rupture
+AV-BAS-002;Base DIY VG 100% 1L;;;;;;Non;;;;Rupture
+AV-BAS-001;Base DIY VPG 50/50 1L;;;;;;Non;;;;Rupture
+AV-BOO-002;Booster Nicotine 10mg 10ml;;;;;;Non;;;;Rupture
+AV-BOO-001;Booster Nicotine 20mg 10ml;;;;;;Non;;;;Rupture
+AV-CHA-002;Chargeur Xtar VC4;;;;;;Non;;;;Rupture
+AV-DT-002;Drip Tip 510 Delrin;;;;;;Non;;;;Rupture
+AV-DT-001;Drip Tip 810 Resine;;;;;;Non;;;;Rupture
+AV-ACC-002;Étui de transport rigide;;;;;;Non;;;;Rupture
+AV-DIY-002;Flacons gradués 10ml (x10);;;;;;Non;;;;Rupture
+AV-DIY-001;Kit DIY Débutant All Vap's;;;;;;Non;;;;Rupture

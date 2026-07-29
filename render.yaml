@@ -29,6 +29,20 @@ services:
         sync: false
       - key: SUMUP_WEBHOOK_SECRET
         sync: false
+      - key: SUMUP_API_BASE_URL
+        value: https://api.sumup.com
+      - key: SUMUP_SYNC_ENABLED
+        value: "false"
+      - key: SUMUP_SYNC_INTERVAL_SECONDS
+        value: "1800"
+      - key: SUMUP_SYNC_OVERLAP_MINUTES
+        value: "10"
+      - key: CRON_SECRET
+        sync: false
+      - key: CATALOGUE_MAGASIN_PATH
+        value: ./catalogues/catalogue-magasin-all-vaps.csv
+      - key: CATALOGUE_AVA_PATH
+        value: ./catalogues/catalogue-ava-all-vaps.csv
       # --- Viva.com ---
       - key: VIVA_CLIENT_ID
         sync: false
@@ -67,3 +81,8 @@ databases:
     plan: free
     databaseName: allvaps
     user: allvaps
+
+cron:
+  - name: sumup-stock-sync
+    schedule: "*/30 * * * *"
+    command: curl -sf -H "Authorization: Bearer $CRON_SECRET" "$NEXT_PUBLIC_APP_URL/api/cron/sumup-sync"

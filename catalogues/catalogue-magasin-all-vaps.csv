@@ -1,0 +1,74 @@
+id_produit;ean;reference;reference_sumup;nom_produit;marque;gamme;categorie;format;nicotine;prix;stock_general;stock_minimum;statut_stock;actif;image;derniere_synchro_sumup
+AV-ELIQ-002;;AV-ELIQ-002;;E-liquide Alfaliquid RY4 Classic 10ml;Alfaliquid;;E-liquides;;;5.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-ARO-001;;AV-ARO-001;;Arôme Capella Blueberry 30ml;Capella;;Arômes;;;8.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-ELIQ-003;;AV-ELIQ-003;;E-liquide Dinner Lady Lemon Tart 50ml;Dinner Lady;;E-liquides;;;22.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-BOX-001;;AV-BOX-001;;GeekVape Aegis Legend 2;GeekVape;;Box;;;69.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600;2026-07-29T06:30:26.785Z
+AV-MOD-001;;AV-MOD-001;;GeekVape Aegis Solo 3;GeekVape;;Mods;;;45.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600;2026-07-29T06:30:26.785Z
+AV-CLR-001;;AV-CLR-001;;GeekVape Z Sub-Ohm Tank;GeekVape;;Clearomiseurs;;;32.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-RES-002;;AV-RES-002;;Résistances GeekVape Z 0.2Ω;GeekVape;;Résistances;;;14.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-VER-001;;AV-VER-001;;Verre Pyrex GeekVape Z;GeekVape;;Verres;;;4.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-CE-001;;AV-CE-001;;Kit Innokin Endura T18 II;Innokin;;Cigarettes électroniques;;;29.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600;2026-07-29T06:30:26.785Z
+AV-0032;;AV-0032;;Edition Collection - Miss Blue;Liquidarom;Edition Collection;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0015;;AV-0015;;Ice Cool - Ananas Kiwi jaune;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0011;;AV-0011;;Ice Cool - Cactus citronné Framboise Fruit du dragon;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0001;;AV-0001;;Ice Cool - Cassis Citron;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0006;;AV-0006;;Ice Cool - Cassis Framboise Raisin;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0020;;AV-0020;;Ice Cool - Cassis Mangue;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0021;;AV-0021;;Ice Cool - Citron Pastèque;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0010;;AV-0010;;Ice Cool - Citron vert Orange sanguine;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0012;;AV-0012;;Ice Cool - Cocktail exotique;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0005;;AV-0005;;Ice Cool - Cola Pomme;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0014;;AV-0014;;Ice Cool - Extra Fruits rouges;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0013;;AV-0013;;Ice Cool - Fraise Framboise Basilic;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0022;;AV-0022;;Ice Cool - Framboise bleue Pitaya;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0003;;AV-0003;;Ice Cool - Framboise des bois;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0007;;AV-0007;;Ice Cool - Fruit du dragon Fruits rouges;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0018;;AV-0018;;Ice Cool - Fruit du serpent Framboise;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0023;;AV-0023;;Ice Cool - Grenade tropicale;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0019;;AV-0019;;Ice Cool - Kiwi Banane;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0009;;AV-0009;;Ice Cool - Mangue Passion;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0008;;AV-0008;;Ice Cool - Mûre Framboise;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0017;;AV-0017;;Ice Cool - Pastèque Fruits rouges;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0016;;AV-0016;;Ice Cool - Pêche Myrtille;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0002;;AV-0002;;Ice Cool - Pêche Raisin;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0004;;AV-0004;;Ice Cool - Pomme verte Orange;Liquidarom;Ice Cool;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0040;;AV-0040;;Ice Cool X - Blackberry Raspberry;Liquidarom;Ice Cool X;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0038;;AV-0038;;Ice Cool X - Blackcurrant Raspberry Grape;Liquidarom;Ice Cool X;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0036;;AV-0036;;Ice Cool X - Blue Raspberry Pitaya;Liquidarom;Ice Cool X;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0039;;AV-0039;;Ice Cool X - Mixed Red Berries;Liquidarom;Ice Cool X;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0037;;AV-0037;;Ice Cool X - Watermelon Lemon;Liquidarom;Ice Cool X;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0024;;AV-0024;;Les Collègues - La Coquette;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0030;;AV-0030;;Les Collègues - La Mimi;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0025;;AV-0025;;Les Collègues - Le Balèze;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0026;;AV-0026;;Les Collègues - Le Charmeur;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0031;;AV-0031;;Les Collègues - Le ChocoStar;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0029;;AV-0029;;Les Collègues - Le Flambeur;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0027;;AV-0027;;Les Collègues - Le Funkie;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0028;;AV-0028;;Les Collègues - Le Tchatcheur;Liquidarom;Les Collègues;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0035;;AV-0035;;Les Essentiels - Le P'tit Blond;Liquidarom;Les Essentiels;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0034;;AV-0034;;Les Essentiels - Mojito des îles;Liquidarom;Les Essentiels;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-0033;;AV-0033;;Les Essentiels - Pastis 13;Liquidarom;Les Essentiels;E-liquides;50 ml;0;;0;3;Rupture;Oui;;2026-07-29T06:30:26.785Z
+AV-POD-002;;AV-POD-002;;Lost Vape Ursa Nano Pro 2;Lost Vape;;Pods;;;34.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=600;2026-07-29T06:30:26.785Z
+AV-CHA-001;;AV-CHA-001;;Chargeur Nitecore D4;Nitecore;;Chargeurs;;;29.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-ACC-001;;AV-ACC-001;;Chargeur Nitecore i2;Nitecore;;Accessoires;;;15.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-ELIQ-001;;AV-ELIQ-001;;E-liquide Pulp Blue Slush 50ml;Pulp;;E-liquides;;;19.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-MOD-002;;AV-MOD-002;;Smok Morph 3;Smok;;Mods;;;39.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600;2026-07-29T06:30:26.785Z
+AV-ARO-002;;AV-ARO-002;;Arôme Vampire Vape Heisenberg 30ml;Vampire Vape;;Arômes;;;9.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-CE-002;;AV-CE-002;;Kit Vaporesso Eco Nano;Vaporesso;;Cigarettes électroniques;;;19.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=600;2026-07-29T06:30:26.785Z
+AV-RES-001;;AV-RES-001;;Résistances Vaporesso GTX 0.8Ω;Vaporesso;;Résistances;;;12.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-CLR-002;;AV-CLR-002;;Vaporesso iTank 2;Vaporesso;;Clearomiseurs;;;27.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-POD-001;;AV-POD-001;;Vaporesso XROS 3 Mini;Vaporesso;;Pods;;;24.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=600;2026-07-29T06:30:26.785Z
+AV-VER-002;;AV-VER-002;;Verre Pyrex Vaporesso iTank;Vaporesso;;Verres;;;5.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-BOX-002;;AV-BOX-002;;Voopoo Drag X Plus;Voopoo;;Box;;;54.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600;2026-07-29T06:30:26.785Z
+AV-BAT-002;;AV-BAT-002;;Accu Molicel P42A 21700;;;Batteries;;;12.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1609091839311-9d67056a9f7c?w=600;2026-07-29T06:30:26.785Z
+AV-BAT-001;;AV-BAT-001;;Accu Samsung 18650 25R;;;Batteries;;;8.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1609091839311-9d67056a9f7c?w=600;2026-07-29T06:30:26.785Z
+AV-BAS-002;;AV-BAS-002;;Base DIY VG 100% 1L;;;Bases;;;11.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-BAS-001;;AV-BAS-001;;Base DIY VPG 50/50 1L;;;Bases;;;12.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-BOO-002;;AV-BOO-002;;Booster Nicotine 10mg 10ml;;;Boosters;;;1.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-BOO-001;;AV-BOO-001;;Booster Nicotine 20mg 10ml;;;Boosters;;;1.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600;2026-07-29T06:30:26.785Z
+AV-CHA-002;;AV-CHA-002;;Chargeur Xtar VC4;;;Chargeurs;;;24.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-DT-002;;AV-DT-002;;Drip Tip 510 Delrin;;;Drip Tips;;;5.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-DT-001;;AV-DT-001;;Drip Tip 810 Resine;;;Drip Tips;;;7.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-ACC-002;;AV-ACC-002;;Étui de transport rigide;;;Accessoires;;;9.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-DIY-002;;AV-DIY-002;;Flacons gradués 10ml (x10);;;DIY;;;4.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
+AV-DIY-001;;AV-DIY-001;;Kit DIY Débutant All Vap's;;;DIY;;;24.90;0;3;Rupture;Oui;https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600;2026-07-29T06:30:26.785Z
