@@ -43,3 +43,9 @@ yarn-error.log*
 # prisma
 prisma/*.db
 prisma/*.db-journal
+
+# rapports sync SumUp (historique horodaté)
+rapports/sumup-sync-20*.json
+rapports/sumup-sync-20*.md
+rapports/sumup-sync-latest.json
+rapports/sumup-sync-latest.md

@@ -18,5 +18,24 @@ services:
       timeout: 5s
       retries: 10
 
+  # Optionnel : worker SumUp (profile sync)
+  # docker compose --profile sync up -d sumup-worker
+  sumup-worker:
+    profiles: ["sync"]
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    environment:
+      SUMUP_SYNC_ENABLED: "true"
+      SUMUP_SYNC_INTERVAL_SECONDS: "1800"
+    command: sh -c "npm run sumup:worker"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   allvaps_pgdata:
