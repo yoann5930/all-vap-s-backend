@@ -1,24 +1,32 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
 import { Star, ShieldCheck, Store } from "lucide-react";
+import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
-import { getEffectivePrice } from "@/lib/products/queries";
-import { extractExplicitSpecs } from "@/lib/catalog/normalize";
-import { AddToCartButton } from "@/components/products/AddToCartButton";
+import { catalogDisplayPrice } from "@/lib/catalog/product-view";
+import { CATALOG_PRODUCT_INCLUDE, toCatalogProduct } from "@/lib/catalog/product-view";
+import type { CatalogProductFull } from "@/lib/catalog/types";
+import { getGlobalStockForProduct } from "@/lib/catalog/stock";
+import { ProductPurchasePanel } from "@/components/products/ProductPurchasePanel";
 import { FavoriteButton } from "@/components/product/FavoriteButton";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductReviewsClient } from "@/components/product/ProductReviewsClient";
+import { ProductDetailSections } from "@/components/catalog/ProductDetailSections";
 import { Badge } from "@/components/ui/Badge";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { absoluteUrl } from "@/lib/seo/config";
 import { productSchema, reviewSchema } from "@/lib/seo/schema";
+import { SetMainNavActive } from "@/components/layout/MainNavContext";
+import { navIdFromProduct } from "@/lib/navigation/active-main-nav";
 
 export const dynamic = "force-dynamic";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ nic?: string }>;
 }
 
 export async function generateMetadata({ params }: ProductPageProps) {
@@ -42,10 +50,102 @@ export async function generateMetadata({ params }: ProductPageProps) {
   };
 }
 
+function buildEliquideBreadcrumb(product: {
+  name: string;
+  slug: string;
+  volumeMl: number | null;
+  productType: string | null;
+  manufacturer?: { name: string; slug: string } | null;
+  brand: string | null;
+  rangeRef?: { name: string; slug: string } | null;
+  range: string | null;
+}) {
+  const items: Array<{ name: string; path: string }> = [
+    { name: "Accueil", path: "/" },
+    { name: "E-liquides", path: "/e-liquides" },
+  ];
+
+  const formatCode =
+    product.productType && /^\d+ml$/i.test(product.productType)
+      ? product.productType.toLowerCase()
+      : product.volumeMl
+        ? `${product.volumeMl}ml`
+        : null;
+
+  if (formatCode) {
+    items.push({
+      name: formatCode.replace("ml", " ml"),
+      path: `/formats/${formatCode}`,
+    });
+  }
+
+  const mfrName = product.manufacturer?.name || product.brand;
+  const mfrSlug = product.manufacturer?.slug;
+  if (mfrName && mfrSlug) {
+    items.push({ name: mfrName, path: `/fabricants/${mfrSlug}` });
+  } else if (mfrName) {
+    items.push({ name: mfrName, path: "/e-liquides" });
+  }
+
+  const rangeName = product.rangeRef?.name || product.range;
+  const rangeSlug = product.rangeRef?.slug;
+  if (rangeName && rangeSlug) {
+    const qs = mfrSlug ? `?fabricant=${mfrSlug}` : "";
+    items.push({ name: rangeName, path: `/gammes/${rangeSlug}${qs}` });
+  } else if (rangeName) {
+    items.push({ name: rangeName, path: formatCode ? `/formats/${formatCode}` : "/e-liquides" });
+  }
+
+  items.push({ name: product.name, path: `/boutique/${product.slug}` });
+  return { items, formatCode };
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
 
-  let product;
+  // 1) Redirection éventuelle (ancienne fiche fusionnée)
+  try {
+    const anyBySlug = await prisma.product.findFirst({
+      where: { slug },
+      select: { importAnomaly: true },
+    });
+    if (anyBySlug?.importAnomaly?.startsWith("merged_into:")) {
+      const m = anyBySlug.importAnomaly.match(/^merged_into:([^|]+)(?:\|nic:([\d.]+))?/);
+      if (m?.[1]) {
+        const target = m[2] ? `/boutique/${m[1]}?nic=${m[2]}` : `/boutique/${m[1]}`;
+        redirect(target);
+      }
+    }
+  } catch (e) {
+    if (e && typeof e === "object" && "digest" in e) throw e;
+    console.error("[pdp] redirect-check failed", slug, e);
+  }
+
+  // 2) Chargement produit publié — include minimal (stock chargé à part)
+  const product = await prisma.product
+    .findFirst({
+      where: { slug, isActive: true, visibleOnline: true },
+      include: {
+        categoryRef: { select: { id: true, name: true, slug: true } },
+        brandRef: { select: { id: true, name: true, slug: true } },
+        rangeRef: { select: { id: true, name: true, slug: true } },
+        flavors: true,
+        variants: { where: { active: true } },
+        catalogImages: { orderBy: { sortOrder: "asc" } },
+        avaMeta: true,
+        manufacturer: { select: { name: true, slug: true } },
+      },
+    })
+    .catch((e) => {
+      console.error("[pdp] product load failed", slug, e);
+      return null;
+    });
+
+  if (!product) notFound();
+
+  const navId = navIdFromProduct(product) || "e-liquides";
+
+  // 3) Données satellites — erreurs isolées (ne pas planter la fiche)
   let similar: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
   let reviews: Array<{
     rating: number;
@@ -55,61 +155,166 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   let avgRating = 0;
 
   try {
-    product = await prisma.product.findFirst({
-      where: { slug, isActive: true },
-      include: { categoryRef: true, brandRef: true, flavors: true, variants: true },
+    similar = await prisma.product.findMany({
+      where: {
+        isActive: true,
+        visibleOnline: true,
+        id: { not: product.id },
+        OR: [
+          { category: product.category },
+          ...(product.categoryId ? [{ categoryId: product.categoryId }] : []),
+          ...(product.rangeId ? [{ rangeId: product.rangeId }] : []),
+        ],
+      },
+      include: CATALOG_PRODUCT_INCLUDE,
+      take: 4,
+      orderBy: { salesCount: "desc" },
     });
-
-    if (product) {
-      similar = await prisma.product.findMany({
-        where: {
-          isActive: true,
-          id: { not: product.id },
-          OR: [
-            { category: product.category },
-            ...(product.categoryId ? [{ categoryId: product.categoryId }] : []),
-          ],
-        },
-        take: 4,
-        orderBy: { salesCount: "desc" },
-      });
-
-      reviews = await prisma.review.findMany({
-        where: { productId: product.id, isApproved: true },
-        include: { user: { select: { firstName: true } } },
-        take: 10,
-      });
-
-      const agg = await prisma.review.aggregate({
-        where: { productId: product.id, isApproved: true },
-        _avg: { rating: true },
-      });
-      avgRating = agg._avg.rating ?? 0;
-    }
-  } catch {
-    product = null;
+  } catch (e) {
+    console.error("[pdp] similar products failed", slug, e);
   }
 
-  if (!product) notFound();
+  try {
+    reviews = await prisma.review.findMany({
+      where: { productId: product.id, isApproved: true },
+      include: { user: { select: { firstName: true } } },
+      take: 10,
+    });
+    const agg = await prisma.review.aggregate({
+      where: { productId: product.id, isApproved: true },
+      _avg: { rating: true },
+    });
+    avgRating = agg._avg.rating ?? 0;
+  } catch (e) {
+    console.error("[pdp] reviews failed", slug, e);
+  }
 
-  const price = getEffectivePrice(product);
-  const hasPromo = product.isPromo && product.promoPriceCents;
+  let catalog: CatalogProductFull;
+  try {
+    catalog = toCatalogProduct({
+      ...product,
+      stockLevels: [],
+    } as Parameters<typeof toCatalogProduct>[0]);
+  } catch (e) {
+    console.error("[pdp] toCatalogProduct failed", slug, e);
+    // Ne pas planter toute la fiche : fallback minimal
+    catalog = {
+      id: product.id,
+      reference: product.reference ?? product.sku ?? null,
+      ean: product.barcode ?? null,
+      slug: product.slug,
+      fabricant: product.brand,
+      gamme: product.rangeRef?.name ?? product.range,
+      gammeSlug: product.rangeRef?.slug ?? null,
+      nom: product.name,
+      descriptionCourte: product.description?.slice(0, 200) ?? null,
+      descriptionLongue: product.description ?? null,
+      categorie: product.category,
+      categorieSlug: null,
+      marque: product.brand,
+      marqueSlug: null,
+      saveurs: [],
+      saveurPrincipale: null,
+      saveursSecondaires: [],
+      fraicheur: null,
+      intensite: null,
+      format: product.productType ? product.productType.replace("ml", " ml") : null,
+      nicotine: null,
+      dosages: [],
+      dosageLabels: [],
+      pg: null,
+      vg: null,
+      pgVg: null,
+      prix: product.priceCents,
+      promo: null,
+      stock: product.stock,
+      stockDisponibilite: product.stock > 0 ? ("in_stock" as const) : ("out_of_stock" as const),
+      photo: product.imageUrl,
+      photoStatut: product.imageStatus as CatalogProductFull["photoStatut"],
+      galerie: product.imageUrl ? [product.imageUrl] : [],
+      visible: true,
+      ordre: product.sortOrder,
+      dateCreation: product.createdAt,
+      dateModification: product.updatedAt,
+      isNew: product.isNew,
+      isPromo: product.isPromo,
+      isBestSeller: product.isBestSeller,
+      ava: undefined,
+      profilGustatif: {
+        fruit: false,
+        menthole: false,
+        boisson: false,
+        dessert: false,
+        tabac: false,
+        bonbon: false,
+        frais: false,
+        tresFrais: false,
+        sucre: false,
+        acidule: false,
+      },
+    } satisfies CatalogProductFull;
+  }
+
+  let stockSnap;
+  try {
+    stockSnap = await getGlobalStockForProduct(product.id);
+  } catch (e) {
+    console.error("[pdp] stock failed", slug, e);
+    stockSnap = {
+      productId: product.id,
+      variantId: null,
+      quantity: product.stock,
+      reservedQuantity: 0,
+      availableQuantity: product.stock,
+      lowStockThreshold: 3,
+      source: "legacy",
+      lastSyncedAt: null,
+      known: true,
+      status: product.stock > 0 ? ("EN_STOCK" as const) : ("RUPTURE" as const),
+    };
+  }
+
+  const price = catalogDisplayPrice(catalog);
+  const hasPromo = Boolean(catalog.isPromo && catalog.promo && catalog.prix > 0);
   const discountPct = hasPromo
-    ? Math.round((1 - product.promoPriceCents! / product.priceCents) * 100)
+    ? Math.round((1 - catalog.promo! / catalog.prix) * 100)
     : 0;
 
-  const specs = extractExplicitSpecs(`${product.name} ${product.description || ""}`);
-  const flavor = product.flavors?.[0];
   const nicotineVariants = (product.variants || [])
     .filter((v) => v.active && v.nicotineMg != null)
     .map((v) => v.nicotineMg as number);
   const uniqueNicotine = [...new Set(nicotineVariants)].sort((a, b) => a - b);
+  const hasMultiDosage = uniqueNicotine.length > 1;
 
-  const breadcrumbItems = [
-    { name: "Accueil", path: "/" },
-    { name: "Boutique", path: "/boutique" },
-    { name: product.name, path: `/boutique/${slug}` },
-  ];
+  const stockLabel =
+    stockSnap.status === "EN_STOCK"
+      ? `En stock (${stockSnap.availableQuantity})`
+      : stockSnap.status === "STOCK_FAIBLE"
+        ? `Stock faible (${stockSnap.availableQuantity})`
+        : stockSnap.status === "RUPTURE"
+          ? "Rupture de stock"
+          : stockSnap.availableQuantity > 0
+            ? `En stock (${stockSnap.availableQuantity})`
+            : "Rupture de stock";
+
+  const isEliquide = navId === "e-liquides";
+  const { items: breadcrumbItems, formatCode } = isEliquide
+    ? buildEliquideBreadcrumb(product)
+    : {
+        items: [
+          { name: "Accueil", path: "/" },
+          { name: "Boutique", path: "/boutique" },
+          { name: product.name, path: `/boutique/${slug}` },
+        ],
+        formatCode: null as string | null,
+      };
+
+  const backHref = formatCode ? `/formats/${formatCode}` : isEliquide ? "/e-liquides" : "/boutique";
+  const backLabel = formatCode
+    ? `Retour aux e-liquides ${formatCode.replace("ml", " ml")}`
+    : isEliquide
+      ? "Retour aux e-liquides"
+      : "Retour à la boutique";
 
   const schemaProduct = {
     ...productSchema({
@@ -136,12 +341,24 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <SetMainNavActive
+        navId={navId}
+        productType={product.productType}
+        category={product.category}
+        manufacturerSlug={product.manufacturer?.slug ?? null}
+        rangeSlug={product.rangeRef?.slug ?? null}
+        volumeMl={product.volumeMl}
+      />
       <JsonLd data={schemaProduct} />
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
         <div className="relative overflow-hidden rounded-2xl border border-white/8 bg-[#101720]">
-          <ProductGallery name={product.name} imageUrl={product.imageUrl} images={product.images} />
+          <ProductGallery
+            name={catalog.nom}
+            imageUrl={catalog.photo}
+            images={catalog.galerie}
+          />
           <div className="absolute left-4 top-4 flex flex-col gap-2">
             {product.isNew && <Badge>Nouveau</Badge>}
             {product.isBestSeller && <Badge variant="warning">Best-seller</Badge>}
@@ -150,20 +367,20 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         </div>
 
         <div>
-          {(product.brand || product.range) && (
+          {(catalog.marque || catalog.gamme) && (
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#A7B0BC]">
-              {[product.brand, product.range].filter(Boolean).join(" · ")}
+              {[catalog.marque, catalog.gamme].filter(Boolean).join(" · ")}
             </p>
           )}
           <div className="mt-2 flex items-start justify-between gap-4">
             <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#F5F7FA] sm:text-4xl">
-              {product.name}
+              {catalog.nom}
             </h1>
             <FavoriteButton productId={product.id} />
           </div>
 
-          {product.sku && (
-            <p className="mt-2 text-xs text-[#A7B0BC]/70">Réf. {product.sku}</p>
+          {catalog.reference && (
+            <p className="mt-2 text-xs text-[#A7B0BC]/70">Réf. {catalog.reference}</p>
           )}
 
           {avgRating > 0 && (
@@ -175,81 +392,57 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           )}
 
           <div className="mt-4 flex flex-wrap gap-2">
-            <Badge>{product.categoryRef?.name || product.category}</Badge>
-            {product.stock > 0 ? (
-              <Badge variant="success">En stock ({product.stock})</Badge>
-            ) : (
-              <Badge variant="danger">Rupture de stock</Badge>
+            <Badge>{catalog.categorie}</Badge>
+            {!hasMultiDosage && (
+              <Badge variant={stockSnap.status === "RUPTURE" ? "danger" : "success"}>
+                {stockLabel}
+              </Badge>
             )}
-            {specs.nicotineMg != null && <Badge variant="warning">{specs.nicotineMg} mg</Badge>}
-            {specs.capacityMl != null && <Badge>{specs.capacityMl} ml</Badge>}
+            {catalog.format && <Badge>{catalog.format}</Badge>}
+            {catalog.pgVg && <Badge>{catalog.pgVg}</Badge>}
+            {product.promotion10mlEligible &&
+              (product.volumeMl === 10 || product.productType === "10ml") && (
+                <Badge>5+1 · 10 ml</Badge>
+              )}
           </div>
 
-          <div className="mt-6 flex items-baseline gap-3">
-            {price > 0 ? (
-              <>
-                <p className="font-display text-3xl font-semibold text-brand-400">{formatPrice(price)}</p>
-                {hasPromo && (
-                  <p className="text-lg text-[#A7B0BC]/60 line-through">
-                    {formatPrice(product.priceCents)}
+          {!hasMultiDosage && (
+            <div className="mt-6 flex items-baseline gap-3">
+              {price > 0 ? (
+                <>
+                  <p className="font-display text-3xl font-semibold text-brand-400">
+                    {formatPrice(price)}
                   </p>
-                )}
-              </>
-            ) : (
-              <p className="font-display text-xl text-[#A7B0BC]">Prix en boutique</p>
-            )}
-          </div>
-
-          {uniqueNicotine.length > 0 && (
-            <div className="mt-6">
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#A7B0BC]">
-                Dosages disponibles
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {uniqueNicotine.map((mg) => (
-                  <span
-                    key={mg}
-                    className="rounded-lg border border-white/10 bg-[#0B1016] px-3 py-1.5 text-sm text-[#F5F7FA]"
-                  >
-                    {mg} mg
-                  </span>
-                ))}
-              </div>
+                  {hasPromo && (
+                    <p className="text-lg text-[#A7B0BC]/60 line-through">
+                      {formatPrice(catalog.prix)}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="font-display text-xl text-[#A7B0BC]">Prix en boutique</p>
+              )}
             </div>
           )}
 
-          {flavor && (flavor.flavorFamily || flavor.primaryFlavor || flavor.isFresh != null) && (
-            <div className="mt-6 rounded-xl border border-white/8 bg-[#0B1016] p-4">
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#A7B0BC]">
-                Profil aromatique
-              </p>
-              <p className="mt-2 text-sm text-[#F5F7FA]">
-                {[flavor.flavorFamily, flavor.primaryFlavor, flavor.secondaryFlavor]
-                  .filter(Boolean)
-                  .join(" · ") || "Profil en cours de complétion"}
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5 text-[11px] text-[#A7B0BC]">
-                {flavor.isFresh && <span>Frais</span>}
-                {flavor.isFruity && <span>Fruité</span>}
-                {flavor.isGourmet && <span>Gourmand</span>}
-                {flavor.isMint && <span>Mentholé</span>}
-                {flavor.isTobacco && <span>Tabac</span>}
-              </div>
-            </div>
-          )}
-
-          {product.description && (
-            <p className="mt-6 leading-relaxed text-[#A7B0BC]">{product.description}</p>
+          {catalog.descriptionCourte && (
+            <p className="mt-6 leading-relaxed text-[#A7B0BC]">{catalog.descriptionCourte}</p>
           )}
 
           <div className="mt-8">
-            <AddToCartButton product={product} />
+            <Suspense fallback={<div className="text-sm text-[#A7B0BC]">Chargement…</div>}>
+              <ProductPurchasePanel
+                product={product}
+                variants={product.variants || []}
+                fallbackPriceCents={price}
+              />
+            </Suspense>
           </div>
 
           <ul className="mt-6 space-y-2 text-xs text-[#A7B0BC]">
             <li className="flex items-center gap-2">
               <ShieldCheck className="h-3.5 w-3.5 text-brand-400" />
-              Paiement sécurisé Viva.com &amp; SumUp
+              Paiement sécurisé
             </li>
             <li className="flex items-center gap-2">
               <Store className="h-3.5 w-3.5 text-brand-400" />
@@ -261,8 +454,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             Produit destiné aux adultes. Contient de la nicotine — substance addictive. Les conseils
             All Vap&apos;s ne remplacent pas un avis médical.
           </p>
+
+          <Link href={backHref} className="mt-6 inline-block text-sm text-brand-400 hover:text-brand-300">
+            ← {backLabel}
+          </Link>
         </div>
       </div>
+
+      <ProductDetailSections product={catalog} />
 
       <ProductReviewsClient productId={product.id} initialReviews={reviews} avgRating={avgRating} />
 

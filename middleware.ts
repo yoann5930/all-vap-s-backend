@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { isAllowedOrigin } from "@/lib/security";
+import { isAllowedOrigin } from "@/lib/security-origins";
 import {
   AUTH_COOKIE_NAME,
   MAINTENANCE_COOKIE,
@@ -12,6 +12,20 @@ import {
 } from "@/lib/maintenance";
 
 const WEBHOOK_PREFIXES = ["/api/sumup/webhook", "/api/viva/webhook"];
+
+/** Catégories matériel non prêtes — ne pas exposer via /boutique?category= */
+const HIDDEN_BOUTIQUE_CATEGORIES = new Set([
+  "cigarettes-electroniques",
+  "pods",
+  "resistances",
+  "accessoires",
+  "diy",
+  "accus",
+  "chargeurs",
+  "drip-tips",
+  "promotions",
+  "nouveautes",
+]);
 
 function isLocalHost(host: string): boolean {
   const h = host.split(":")[0].toLowerCase();
@@ -43,14 +57,26 @@ async function hasOwnerAccess(request: NextRequest): Promise<boolean> {
   }
 }
 
-function applySecurityHeaders(response: NextResponse): NextResponse {
+function applySecurityHeaders(
+  response: NextResponse,
+  opts?: { localDev?: boolean }
+): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set(
     "Permissions-Policy",
     "camera=(), microphone=(self), geolocation=()"
   );
+
+  // En local : autoriser le Simple Browser / preview IDE (sinon page blanche iframe).
+  // En prod : refuser tout embedding.
+  const frameAncestors = opts?.localDev ? "*" : "'none'";
+  if (!opts?.localDev) {
+    response.headers.set("X-Frame-Options", "DENY");
+  } else {
+    response.headers.delete("X-Frame-Options");
+  }
+
   response.headers.set(
     "Content-Security-Policy",
     [
@@ -60,7 +86,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
       "connect-src 'self' https:",
-      "frame-ancestors 'none'",
+      `frame-ancestors ${frameAncestors}`,
       "base-uri 'self'",
       "form-action 'self'",
     ].join("; ")
@@ -89,10 +115,22 @@ export async function middleware(request: NextRequest) {
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
-    return applySecurityHeaders(res);
+    return applySecurityHeaders(res, { localDev: isLocalHost(host) });
   }
 
   const ownerAccess = await hasOwnerAccess(request);
+  const localDev = isLocalHost(host);
+
+  // /boutique?category=resistances (etc.) → page d'attente (fiable avant le rendu page)
+  if (pathname === "/boutique") {
+    const category = (request.nextUrl.searchParams.get("category") || "").toLowerCase();
+    if (category && HIDDEN_BOUTIQUE_CATEGORIES.has(category)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/catalogue-en-preparation";
+      url.search = "";
+      return applySecurityHeaders(NextResponse.redirect(url), { localDev });
+    }
+  }
 
   const maintenanceOn =
     isMaintenanceEnabled() &&
@@ -108,7 +146,8 @@ export async function middleware(request: NextRequest) {
             message: "Site en maintenance. Réessayez plus tard.",
           },
           { status: 503, headers: { "Retry-After": "3600" } }
-        )
+        ),
+        { localDev }
       );
     }
 
@@ -119,7 +158,7 @@ export async function middleware(request: NextRequest) {
     const res = NextResponse.redirect(url);
     res.headers.set("Retry-After", "3600");
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    return applySecurityHeaders(res);
+    return applySecurityHeaders(res, { localDev });
   }
 
   if (
@@ -130,12 +169,13 @@ export async function middleware(request: NextRequest) {
     const origin = request.headers.get("origin");
     if (origin && !isAllowedOrigin(origin)) {
       return applySecurityHeaders(
-        NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
+        NextResponse.json({ error: "Origine non autorisée" }, { status: 403 }),
+        { localDev }
       );
     }
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  return applySecurityHeaders(NextResponse.next(), { localDev });
 }
 
 export const config = {

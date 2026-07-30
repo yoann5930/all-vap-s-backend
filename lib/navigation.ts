@@ -1,26 +1,37 @@
+/**
+ * Navigation publique — uniquement ce qui est prêt.
+ * Catégories incomplètes masquées (restent en admin).
+ */
 export interface NavLink {
   href: string;
   label: string;
 }
 
-/** Navigation principale — libellés maquette */
+/** Nav principale publique : e-liquides seulement tant que le reste n'est pas validé */
 export const mainNavLinks: NavLink[] = [
-  { href: "/cigarettes-electroniques", label: "E-CIGARETTES" },
   { href: "/e-liquides", label: "E-LIQUIDES" },
-  { href: "/pods", label: "PODS" },
-  { href: "/boutique?category=resistances", label: "RÉSISTANCES" },
-  { href: "/accessoires", label: "ACCESSOIRES" },
-  { href: "/diy", label: "DIY" },
-  { href: "/promotions", label: "PROMOTIONS" },
-  { href: "/nouveautes", label: "NOUVEAUTÉS" },
-  { href: "/boutique", label: "MARQUES" },
+  { href: "/boutiques", label: "BOUTIQUES" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/contact", label: "CONTACT" },
 ];
+
+/** Catégories masquées du public (présentes côté admin / futures) */
+export const hiddenPublicCategories = [
+  "cigarettes-electroniques",
+  "pods",
+  "resistances",
+  "accessoires",
+  "diy",
+  "accus",
+  "chargeurs",
+  "drip-tips",
+  "promotions",
+  "nouveautes",
+] as const;
 
 export const footerNavLinks: NavLink[] = [
   { href: "/", label: "Accueil" },
-  { href: "/boutique", label: "Boutique" },
   { href: "/e-liquides", label: "E-liquides" },
-  { href: "/pods", label: "Pods" },
   { href: "/boutiques", label: "Nos boutiques" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
@@ -36,3 +47,11 @@ export const socialLinks = [
   { href: "https://www.facebook.com/allvaps", label: "Facebook", icon: "facebook" as const },
   { href: "https://www.instagram.com/allvaps", label: "Instagram", icon: "instagram" as const },
 ];
+
+export {
+  getActiveMainNavigation,
+  isMainNavLinkActive,
+  navIdFromHref,
+  navIdFromProduct,
+} from "@/lib/navigation/active-main-nav";
+export type { MainNavId, ProductNavContext } from "@/lib/navigation/active-main-nav";

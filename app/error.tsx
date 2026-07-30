@@ -16,9 +16,26 @@ export default function Error({
 
   return (
     <div className="mx-auto max-w-lg px-4 py-24 text-center">
-      <h1 className="text-2xl font-bold text-vap-black">Une erreur est survenue</h1>
-      <p className="mt-2 text-gray-600">All Vap&apos;s — veuillez réessayer.</p>
-      <Button className="mt-6" onClick={reset}>Réessayer</Button>
+      <h1 className="text-2xl font-bold text-white">Une erreur est survenue</h1>
+      <p className="mt-2 text-[#A7B0BC]">All Vap&apos;s — veuillez réessayer.</p>
+      <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <Button
+          onClick={() => {
+            // Rechargement complet : contourne les erreurs Soft Nav / RSC
+            window.location.reload();
+          }}
+        >
+          Réessayer
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            window.location.assign("/e-liquides");
+          }}
+        >
+          Retour e-liquides
+        </Button>
+      </div>
     </div>
   );
 }

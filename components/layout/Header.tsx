@@ -21,6 +21,11 @@ import { mainNavLinks } from "@/lib/navigation";
 import { Logo } from "@/components/layout/Logo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
 import { stores } from "@/lib/stores";
+import {
+  getActiveMainNavigation,
+  isMainNavLinkActive,
+} from "@/lib/navigation/active-main-nav";
+import { useMainNavProductContext } from "@/components/layout/MainNavContext";
 
 interface AuthUser {
   id: string;
@@ -28,24 +33,6 @@ interface AuthUser {
   firstName: string | null;
   lastName: string | null;
   role: string;
-}
-
-function isActiveLink(pathname: string, href: string, search = "") {
-  if (href === "/") return pathname === "/";
-  const base = href.split("?")[0];
-  const hrefQuery = href.includes("?") ? href.split("?")[1] : "";
-  if (base === "/e-liquides" || hrefQuery.includes("category=e-liquides")) {
-    return (
-      pathname === "/" ||
-      pathname.includes("e-liquides") ||
-      search.includes("category=e-liquides") ||
-      (pathname === "/boutique" && !search.includes("category="))
-    );
-  }
-  if (base === "/boutique" && !hrefQuery) {
-    return pathname === "/boutique" || pathname.startsWith("/boutique/");
-  }
-  return pathname === base || pathname.startsWith(base + "/");
 }
 
 function formatPhoneDisplay(e164: string) {
@@ -61,6 +48,11 @@ export function Header() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const search = searchParams.toString();
+  const { productContext } = useMainNavProductContext();
+  const activeNavId = useMemo(
+    () => getActiveMainNavigation(pathname, search, productContext),
+    [pathname, search, productContext]
+  );
   const { cartCount, items } = useCart();
   const cartTotal = useMemo(() => getCartTotal(items), [items]);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -151,10 +143,11 @@ export function Header() {
             </div>
 
             {user ? (
-              <div className="hidden items-center gap-1 sm:flex">
+              <div className="flex items-center gap-1">
                 <Link
                   href="/account"
                   className="flex items-center gap-2 rounded-xl px-2 py-1.5 text-left transition-colors hover:bg-white/5"
+                  aria-label="Mon compte"
                 >
                   <User className="h-5 w-5 text-white/70" strokeWidth={1.5} />
                   <span className="hidden leading-tight lg:block">
@@ -169,6 +162,7 @@ export function Header() {
                   onClick={handleLogout}
                   className="rounded-xl p-2 text-white/45 hover:bg-white/5 hover:text-brand-400"
                   title="Déconnexion"
+                  aria-label="Déconnexion"
                 >
                   <LogOut className="h-4 w-4" strokeWidth={1.5} />
                 </button>
@@ -176,7 +170,8 @@ export function Header() {
             ) : (
               <Link
                 href="/login"
-                className="hidden items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/5 sm:flex"
+                className="flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/5"
+                aria-label="Mon compte — Se connecter"
               >
                 <User className="h-5 w-5 text-white/70" strokeWidth={1.5} />
                 <span className="hidden leading-tight lg:block">
@@ -233,7 +228,7 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "block px-3 py-2.5 text-[12px] font-semibold tracking-[0.06em] transition-colors",
-                    isActiveLink(pathname, link.href, search)
+                    isMainNavLinkActive(link.href, link.label, activeNavId)
                       ? "border-b-2 border-brand-500 text-brand-400"
                       : "border-b-2 border-transparent text-[#A7B0BC] hover:text-white"
                   )}
@@ -242,16 +237,6 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            {user?.role === "ADMIN" && (
-              <li className="shrink-0">
-                <Link
-                  href="/admin"
-                  className="block px-3 py-2.5 text-[12px] font-semibold tracking-[0.06em] text-brand-400/80"
-                >
-                  ADMIN
-                </Link>
-              </li>
-            )}
           </ul>
 
           <button
@@ -286,7 +271,7 @@ export function Header() {
                     href={link.href}
                     className={cn(
                       "flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-colors",
-                      isActiveLink(pathname, link.href, search)
+                      isMainNavLinkActive(link.href, link.label, activeNavId)
                         ? "bg-brand-500/10 text-brand-400"
                         : "text-white/70 hover:bg-white/5 hover:text-white"
                     )}
@@ -309,6 +294,16 @@ export function Header() {
                   A.V.A. – Votre assistant
                   <Sparkles className="h-4 w-4" />
                 </button>
+              </li>
+              <li>
+                <Link
+                  href={user ? "/account" : "/login"}
+                  className="flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {user ? "Mon compte" : "Se connecter"}
+                  <User className="h-4 w-4 text-white/25" strokeWidth={1.5} />
+                </Link>
               </li>
             </ul>
           </nav>

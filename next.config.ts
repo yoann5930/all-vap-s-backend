@@ -1,17 +1,36 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
-  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  ...(isDev
+    ? []
+    : [
+        {
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains; preload",
+        },
+      ]),
   { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "DENY" },
+  // DENY bloque le Simple Browser / preview IDE → page blanche en local
+  ...(isDev ? [] : [{ key: "X-Frame-Options", value: "DENY" }]),
   { key: "X-XSS-Protection", value: "1; mode=block" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=()" },
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https:",
+      `frame-ancestors ${isDev ? "*" : "'none'"}`,
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
   },
 ];
 
@@ -33,14 +52,47 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/products", destination: "/boutique", permanent: true },
-      { source: "/products/:slug", destination: "/boutique/:slug", permanent: true },
+      // Ancienne URL produit → fiche réelle (jamais le hub e-liquides)
+      { source: "/products", destination: "/e-liquides", permanent: false },
+      { source: "/products/:slug", destination: "/boutique/:slug", permanent: false },
+      // /boutique reste la grille catalogue (recherche ?search=, filtres). /e-liquides = hub.
       { source: "/nos-boutiques", destination: "/boutiques", permanent: true },
-      { source: "/e-liquides", destination: "/boutique?category=e-liquides", permanent: true },
-      { source: "/cigarettes-electroniques", destination: "/boutique?category=cigarettes-electroniques", permanent: true },
-      { source: "/pods", destination: "/boutique?category=pods", permanent: true },
-      { source: "/diy", destination: "/boutique?category=diy", permanent: true },
-      { source: "/accessoires", destination: "/boutique?category=accessoires", permanent: true },
+      // Catégories / nav non prêtes → page d'attente (pas de faux catalogue)
+      { source: "/cigarettes-electroniques", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/pods", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/accessoires", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/diy", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/promotions", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/nouveautes", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/meilleures-ventes", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/resistances", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/marques", destination: "/catalogue-en-preparation", permanent: false },
+      { source: "/marques/:slug", destination: "/catalogue-en-preparation", permanent: false },
+      // Ancienne nav : /boutique?category=… matériel
+      {
+        source: "/boutique",
+        has: [{ type: "query", key: "category", value: "resistances" }],
+        destination: "/catalogue-en-preparation",
+        permanent: false,
+      },
+      {
+        source: "/boutique",
+        has: [{ type: "query", key: "category", value: "cigarettes-electroniques" }],
+        destination: "/catalogue-en-preparation",
+        permanent: false,
+      },
+      {
+        source: "/boutique",
+        has: [{ type: "query", key: "category", value: "pods" }],
+        destination: "/catalogue-en-preparation",
+        permanent: false,
+      },
+      {
+        source: "/boutique",
+        has: [{ type: "query", key: "category", value: "marques" }],
+        destination: "/catalogue-en-preparation",
+        permanent: false,
+      },
     ];
   },
   async headers() {

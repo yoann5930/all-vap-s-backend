@@ -1,0 +1,332 @@
+{
+  "date": "2026-07-30T15:35:19.094Z",
+  "base": "http://localhost:3000",
+  "total": 38,
+  "passed": 38,
+  "failed": 0,
+  "successRate": "100%",
+  "samples": [
+    "mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+    "mamita-50ml-cafe-stout-557875dc",
+    "mamita-50ml-cafe-vanille-custard-68c32f20",
+    "mamita-50ml-cookie-choco-noisette-dd2c2826",
+    "mamita-50ml-custard-vanille-pecan-238179b3",
+    "le-fruit-defendu-50ml-erotic-dream",
+    "le-fruit-defendu-50ml-fraise-d-amour",
+    "double-dragon-50ml-fruit-du-dragon-cerise",
+    "double-dragon-50ml-fruit-du-dragon-fraise",
+    "double-dragon-50ml-fruit-du-dragon-framboise",
+    "double-dragon-50ml-fruit-du-dragon-limonade",
+    "double-dragon-50ml-fruit-du-dragon-mandarine",
+    "double-dragon-50ml-fruit-du-dragon-mure",
+    "double-dragon-50ml-fruit-du-dragon-passion",
+    "double-dragon-50ml-fruit-du-dragon-peche"
+  ],
+  "checks": [
+    {
+      "name": "hub e-liquides",
+      "url": "/e-liquides",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/e-liquides",
+      "detail": "OK"
+    },
+    {
+      "name": "fabricant biarritz",
+      "url": "/fabricants/biarritz-lab",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/fabricants/biarritz-lab",
+      "detail": "OK"
+    },
+    {
+      "name": "gamme double-dragon",
+      "url": "/gammes/double-dragon?fabricant=biarritz-lab",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/gammes/double-dragon?fabricant=biarritz-lab",
+      "detail": "OK"
+    },
+    {
+      "name": "gamme fruit-defendu",
+      "url": "/gammes/le-fruit-defendu?fabricant=biarritz-lab",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/gammes/le-fruit-defendu?fabricant=biarritz-lab",
+      "detail": "OK"
+    },
+    {
+      "name": "gamme mamita",
+      "url": "/gammes/mamita?fabricant=biarritz-lab",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/gammes/mamita?fabricant=biarritz-lab",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "url": "/boutique/mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "url": "/products/mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP mamita-50ml-cafe-stout-557875dc",
+      "url": "/boutique/mamita-50ml-cafe-stout-557875dc",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cafe-stout-557875dc",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products mamita-50ml-cafe-stout-557875dc",
+      "url": "/products/mamita-50ml-cafe-stout-557875dc",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cafe-stout-557875dc",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP mamita-50ml-cafe-vanille-custard-68c32f20",
+      "url": "/boutique/mamita-50ml-cafe-vanille-custard-68c32f20",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cafe-vanille-custard-68c32f20",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products mamita-50ml-cafe-vanille-custard-68c32f20",
+      "url": "/products/mamita-50ml-cafe-vanille-custard-68c32f20",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cafe-vanille-custard-68c32f20",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "url": "/boutique/mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "url": "/products/mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP mamita-50ml-custard-vanille-pecan-238179b3",
+      "url": "/boutique/mamita-50ml-custard-vanille-pecan-238179b3",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-custard-vanille-pecan-238179b3",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products mamita-50ml-custard-vanille-pecan-238179b3",
+      "url": "/products/mamita-50ml-custard-vanille-pecan-238179b3",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/mamita-50ml-custard-vanille-pecan-238179b3",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP le-fruit-defendu-50ml-erotic-dream",
+      "url": "/boutique/le-fruit-defendu-50ml-erotic-dream",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/le-fruit-defendu-50ml-erotic-dream",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products le-fruit-defendu-50ml-erotic-dream",
+      "url": "/products/le-fruit-defendu-50ml-erotic-dream",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/le-fruit-defendu-50ml-erotic-dream",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP le-fruit-defendu-50ml-fraise-d-amour",
+      "url": "/boutique/le-fruit-defendu-50ml-fraise-d-amour",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/le-fruit-defendu-50ml-fraise-d-amour",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products le-fruit-defendu-50ml-fraise-d-amour",
+      "url": "/products/le-fruit-defendu-50ml-fraise-d-amour",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/le-fruit-defendu-50ml-fraise-d-amour",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-cerise",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-cerise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-cerise",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-cerise",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-cerise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-cerise",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-fraise",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-fraise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-fraise",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-fraise",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-fraise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-fraise",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-framboise",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-framboise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-framboise",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-framboise",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-framboise",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-framboise",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-limonade",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-limonade",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-limonade",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-limonade",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-limonade",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-limonade",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-mandarine",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-mandarine",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-mandarine",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-mandarine",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-mandarine",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-mandarine",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-mure",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-mure",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-mure",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-mure",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-mure",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-mure",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-passion",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-passion",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-passion",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-passion",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-passion",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-passion",
+      "detail": "OK"
+    },
+    {
+      "name": "PDP double-dragon-50ml-fruit-du-dragon-peche",
+      "url": "/boutique/double-dragon-50ml-fruit-du-dragon-peche",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-peche",
+      "detail": "OK"
+    },
+    {
+      "name": "alias products double-dragon-50ml-fruit-du-dragon-peche",
+      "url": "/products/double-dragon-50ml-fruit-du-dragon-peche",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/boutique/double-dragon-50ml-fruit-du-dragon-peche",
+      "detail": "OK"
+    },
+    {
+      "name": "resistances path",
+      "url": "/resistances",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/catalogue-en-preparation",
+      "detail": "OK"
+    },
+    {
+      "name": "marques path",
+      "url": "/marques",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/catalogue-en-preparation",
+      "detail": "OK"
+    },
+    {
+      "name": "boutique category resistances",
+      "url": "/boutique?category=resistances",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:3000/catalogue-en-preparation?category=resistances",
+      "detail": "OK"
+    }
+  ],
+  "failedChecks": []
+}
