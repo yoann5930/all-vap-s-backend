@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import { jsonResponse } from "@/lib/api-utils";
 import {
   checkApplication,
@@ -9,12 +8,8 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/**
- * GET /api/health — liveness + readiness DB uniquement.
- * Pas de SumUp, SMTP, audit writes, catalogue, ni appels externes.
- * Timeout DB strict (voir lib/health/checks.ts).
- */
-export async function GET(_request: NextRequest) {
+/** GET /api/health/ready — dépendances indispensables (DB). */
+export async function GET() {
   const application = checkApplication();
   const database = await checkDatabase();
   const status = overallStatus(application, database);
@@ -32,9 +27,10 @@ export async function GET(_request: NextRequest) {
         database: database.status,
       },
       details: {
-        database: database.detail
-          ? { detail: database.detail, ms: database.ms }
-          : { ms: database.ms },
+        database: {
+          detail: database.detail,
+          ms: database.ms,
+        },
       },
     },
     http

@@ -30,7 +30,7 @@ export function isMaintenanceExemptPath(pathname: string): boolean {
   if (pathname === "/boutiques" || pathname.startsWith("/boutiques/")) return true;
   if (pathname === "/login") return true;
   if (pathname === "/mot-de-passe-oublie") return true;
-  if (pathname === "/api/health") return true;
+  if (pathname === "/api/health" || pathname.startsWith("/api/health/")) return true;
   if (pathname.startsWith("/api/auth/")) return true;
   if (pathname.startsWith("/api/sumup/webhook")) return true;
   if (pathname.startsWith("/api/viva/webhook")) return true;
