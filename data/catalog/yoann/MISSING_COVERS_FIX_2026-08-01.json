@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-08-01T00:01:18.298Z",
+  "report": [
+    {
+      "key": "swoke/saint-flava-swoke",
+      "status": "OK",
+      "mode": "fallback_logo",
+      "source": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\logo.webp",
+      "bytes": "14582",
+      "path": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\ranges\\saint-flava-swoke.webp"
+    },
+    {
+      "key": "swoke/bisou-swoke",
+      "status": "OK",
+      "mode": "fallback_logo",
+      "source": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\logo.webp",
+      "bytes": "14582",
+      "path": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\ranges\\bisou-swoke.webp"
+    },
+    {
+      "key": "swoke/force-vape-swoke",
+      "status": "OK",
+      "mode": "fallback_logo",
+      "source": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\logo.webp",
+      "bytes": "14582",
+      "path": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\ranges\\force-vape-swoke.webp"
+    },
+    {
+      "key": "airmust/unik-airmust",
+      "status": "OK",
+      "mode": "fallback_logo",
+      "source": "",
+      "bytes": "20010",
+      "path": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\airmust\\ranges\\unik-airmust.webp"
+    },
+    {
+      "key": "juice-66/66-juice-juice-66",
+      "status": "BLOCKED",
+      "reason": "logo_officiel_indisponible_dns_ou_404"
+    },
+    {
+      "key": "aromes-secrets/mythologie-aromes-secrets",
+      "status": "BLOCKED",
+      "reason": "logo_officiel_indisponible_dns_ou_404"
+    },
+    {
+      "key": "cloud-vapor/grand-taste-city-cloud-vapor",
+      "status": "BLOCKED",
+      "reason": "logo_officiel_indisponible_dns_ou_404"
+    },
+    {
+      "key": "avap/devil-avap",
+      "status": "BLOCKED",
+      "reason": "logo_officiel_indisponible_dns_ou_404"
+    }
+  ]
+}

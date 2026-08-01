@@ -37,8 +37,8 @@
 | **`ava:mission:test`** | **95 OK** |
 | `sumup:lock-test` | 16/16 PASS |
 | `catalog:validate:sumup` | PASS |
-| `catalog:validate:media` | FAIL — 8 covers |
-| `catalog:validate:routes` | FAIL — 8 covers |
+| `catalog:validate:media` | **PASS** · 0 cover manquante |
+| `catalog:validate:routes` | **PASS** · 0 cover manquante |
 | `audit:integration` | **45 PASS / 0 FAIL** · **0 blockers** |
 | `health:test` | **17 OK** |
 
@@ -141,7 +141,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 - Logos fabricants (13/13 sample) OK  
 - Product imageUrl API 12/12 OK  
-- 8 covers gammes manquantes  
+- **0 cover manquante** (8/8 corrigées — mission 2)  
 
 → [`RAPPORT_LOGOS_COVERS.md`](./RAPPORT_LOGOS_COVERS.md)
 
@@ -189,7 +189,6 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 | Sévérité | Erreur |
 |----------|--------|
-| Major | 8 covers gammes manquantes |
 | Major | Catalogue Yoann non 100 % vert (`validate:all`) |
 | Minor | Ton AVA encore trop « résultats produits » |
 | Info | Notices / vision média / TTS mobile non faits |
@@ -220,8 +219,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 ## 21. Prochaines actions
 
-1. Produire les 8 covers manquantes  
-2. Script import matériels SumUp → `data/ava/devices`  
+1. Script import matériels SumUp → `data/ava/devices`  
 3. Intégrer 1ères notices officielles (XROS / Argus)  
 4. Soften copy AVA response-builder  
 5. Campagne TTS + micro réel  
@@ -233,7 +231,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 | Module | État | Tests | Erreurs |
 | ------ | ---- | ----- | ------- |
-| Catalogue | ⚠️ | validate:sumup ✅ · media/routes 0/8 covers | 8 covers + Yoann incomplet |
+| Catalogue | ⚠️ | validate:sumup ✅ · media/routes ✅ | Yoann / validate:all incomplet |
 | SumUp | ⚠️ | lock 16/16 · sumup validate ✅ | health sync à surveiller |
 | AVA Voix | ⚠️ | 16/16 voice-rules | TTS réel + ton catalogue |
 | AVA Accessibilité | ⚠️ | 49/49 continuous+a11y | VoiceOver/TalkBack |

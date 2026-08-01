@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-08-01T00:09:29.493Z",
+  "report": [
+    {
+      "key": "cloud-vapor/grand-taste-city-cloud-vapor",
+      "status": "OK",
+      "mode": "cover",
+      "source": "cloudvapor.com homepage Grand Taste City (official CDN)",
+      "url": "https://aaqrzpichxfdzxgcniim.supabase.co/storage/v1/render/image/public/product-images/homepage/grandtc-1775125978311.png?width=1200&quality=90&resize=contain&format=webp",
+      "bytes": "89066"
+    },
+    {
+      "key": "aromes-secrets/mythologie-aromes-secrets",
+      "status": "OK",
+      "mode": "fallback_logo",
+      "source": "savourea-shop.com logo jpg",
+      "url": "https://www.savourea-shop.com/img/logo.jpg",
+      "bytes": "15890"
+    },
+    {
+      "key": "juice-66/66-juice-juice-66",
+      "status": "BLOCKED",
+      "reason": "aucune_source_officielle_recuperable"
+    },
+    {
+      "key": "avap/devil-avap",
+      "status": "BLOCKED",
+      "reason": "aucune_source_officielle_recuperable"
+    }
+  ]
+}
