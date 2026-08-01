@@ -229,9 +229,9 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 ## 21. Prochaines actions
 
 1. Trouver PDF notice Argus G2 (Voopoo) + notice Kuix  
-2. Campagne tests réels restants (mobile / Edge / micro TTS / VoiceOver) — voir `RAPPORT_AVA_TESTS_REELS.md`  
-3. Soften copy AVA response-builder  
-4. Nettoyage Git / commits (mission 7) — **sans** ALLVAPS_PORTABLE  
+2. Campagne tests réels restants (mobile / Edge / micro TTS / VoiceOver)  
+3. Commits thématiques restants (AVA UI, admin e-commerce, Prisma) — voir [`RAPPORT_PREPARATION_COMMITS.md`](./RAPPORT_PREPARATION_COMMITS.md)  
+4. Soften copy AVA response-builder  
 
 ---
 
