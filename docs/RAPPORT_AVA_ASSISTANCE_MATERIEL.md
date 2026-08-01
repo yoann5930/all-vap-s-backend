@@ -18,5 +18,9 @@ XROS 3 / Argus G2 restent en seed sans ID SumUp.
 
 - `ava:device:test` → 10 OK  
 - Import réexécuté → idempotent (0 doublon créé)
+- Réel Cursor Chromium : danger batterie gonflée → consigne stop + boutique (texte) ✅ PARTIEL  
+- Photo/vidéo / confirmation visuelle modèle → **`NON TESTÉ SUR APPAREIL RÉEL`**
+
+→ [`RAPPORT_AVA_TESTS_REELS.md`](./RAPPORT_AVA_TESTS_REELS.md)
 
 Ne pas déclarer la base matérielle « complète ».

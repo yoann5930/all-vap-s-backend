@@ -90,7 +90,7 @@ Détail : [`RAPPORT_AUDIT_FINAL.md`](./RAPPORT_AUDIT_FINAL.md)
 | Notices | [`RAPPORT_AVA_NOTICES.md`](./RAPPORT_AVA_NOTICES.md) | ❌ |
 | Compatibilités | [`RAPPORT_AVA_COMPATIBILITES.md`](./RAPPORT_AVA_COMPATIBILITES.md) | ⚠️ |
 | Sécurité | [`RAPPORT_AVA_SECURITE.md`](./RAPPORT_AVA_SECURITE.md) | ✅ règles |
-| Tests AVA | [`RAPPORT_AVA_TESTS.md`](./RAPPORT_AVA_TESTS.md) | ✅ unitaires |
+| Tests AVA | [`RAPPORT_AVA_TESTS.md`](./RAPPORT_AVA_TESTS.md) · [`RAPPORT_AVA_TESTS_REELS.md`](./RAPPORT_AVA_TESTS_REELS.md) | ⚠️ unitaires OK · réel partiel |
 
 **Isolation multi-clients :** PASS (A fruité / B pod / C boutique — pas de mélange).
 
@@ -210,7 +210,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 - ❌ Vision photo/vidéo diagnostic  
 - ❌ Validation a11y lecteur d’écran réel  
 - ❌ Catalogue référence Yoann 100 % PASS  
-- ❌ Tests AVA sur appareil réel (mission 6)  
+- ❌ Tests AVA exhaustifs sur appareils physiques (mobile / Edge / SumUp / VoiceOver) — smoke Cursor Chromium seulement  
 
 ---
 
@@ -229,10 +229,9 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 ## 21. Prochaines actions
 
 1. Trouver PDF notice Argus G2 (Voopoo) + notice Kuix  
-2. Tests AVA réels navigateur/appareil (mission 6)  
+2. Campagne tests réels restants (mobile / Edge / micro TTS / VoiceOver) — voir `RAPPORT_AVA_TESTS_REELS.md`  
 3. Soften copy AVA response-builder  
-4. Campagne TTS + micro réel  
-5. Nettoyage Git / commits (mission 7) — **sans** ALLVAPS_PORTABLE  
+4. Nettoyage Git / commits (mission 7) — **sans** ALLVAPS_PORTABLE  
 
 ---
 
@@ -270,7 +269,8 @@ docs/
 ├── RAPPORT_AVA_NOTICES.md
 ├── RAPPORT_AVA_COMPATIBILITES.md
 ├── RAPPORT_AVA_SECURITE.md
-└── RAPPORT_AVA_TESTS.md
+├── RAPPORT_AVA_TESTS.md
+└── RAPPORT_AVA_TESTS_REELS.md
 ```
 
 Index : [`docs/INDEX.md`](./INDEX.md)  
