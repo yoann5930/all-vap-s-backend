@@ -1,0 +1,102 @@
+{
+  "manufacturer": "Vaporesso",
+  "manufacturerSlug": "vaporesso",
+  "model": "XROS 3",
+  "modelSlug": "xros-3",
+  "aliases": ["xros3", "xros 3", "cross 3", "x-ros 3"],
+  "category": "pod",
+  "officialProductUrl": "https://www.vaporesso.com/",
+  "officialManualUrl": null,
+  "officialSupportUrl": "https://www.vaporesso.com/",
+  "verifiedAt": "2026-08-01",
+  "verificationStatus": "NEEDS_CONFIRMATION",
+  "images": {
+    "front": "/media/devices/vaporesso-xros-3/front.webp"
+  },
+  "distinguishingFeatures": [
+    "Format slim pod",
+    "Écran sur la face",
+    "Port USB-C en bas"
+  ],
+  "technicalSpecs": {
+    "batteryCapacityMah": 1000,
+    "removableBattery": false,
+    "chargingPort": "USB-C",
+    "powerRangeW": "selon cartouche",
+    "activationModes": ["auto", "bouton"]
+  },
+  "controls": {
+    "powerOn": "Appuyer 5 fois rapidement sur le bouton.",
+    "powerOff": "Appuyer 5 fois rapidement sur le bouton.",
+    "lockUnlock": "Appuyer 2 fois pour verrouiller / déverrouiller (selon firmware).",
+    "wattageAdjustment": "Ajuster via les boutons +/- si le modèle le permet."
+  },
+  "compatibleCartridges": [
+    "XROS Mesh 0.6Ω",
+    "XROS Mesh 0.8Ω",
+    "XROS Mesh 1.0Ω",
+    "XROS Mesh 1.2Ω"
+  ],
+  "compatibleCoils": [
+    {
+      "name": "XROS Mesh 0.6Ω",
+      "resistanceOhm": 0.6,
+      "recommendedWattage": "voir notice cartouche",
+      "usageType": "DL restreint",
+      "officialSource": "À confirmer notice officielle Vaporesso"
+    },
+    {
+      "name": "XROS Mesh 0.8Ω",
+      "resistanceOhm": 0.8,
+      "usageType": "MTL",
+      "officialSource": "À confirmer notice officielle Vaporesso"
+    },
+    {
+      "name": "XROS Mesh 1.0Ω",
+      "resistanceOhm": 1.0,
+      "usageType": "MTL",
+      "officialSource": "À confirmer notice officielle Vaporesso"
+    }
+  ],
+  "fillingProcedure": [
+    "Retirez la cartouche du body.",
+    "Ouvrez le bouchon de remplissage latéral.",
+    "Remplissez sans dépasser le max, refermez, remettez la cartouche.",
+    "Attendez quelques minutes si la cartouche est neuve (amorçage)."
+  ],
+  "podReplacementProcedure": [
+    "Retirez l'ancienne cartouche.",
+    "Insérez la nouvelle jusqu'au clic.",
+    "Remplissez et attendez avant de vapoter."
+  ],
+  "primingProcedure": [
+    "Remplissez la cartouche neuve.",
+    "Attendez au moins 5 minutes avant les premières bouffées."
+  ],
+  "chargingProcedure": [
+    "Utilisez un câble USB-C adapté.",
+    "Ne chargez pas si l'appareil est anormalement chaud."
+  ],
+  "errorMessages": [
+    {
+      "display": "No Atomizer",
+      "meaning": "Cartouche non détectée.",
+      "safeChecks": ["Remettez la cartouche", "Nettoyez les contacts"]
+    }
+  ],
+  "commonProblems": [
+    {
+      "intent": "fuite",
+      "symptoms": ["liquide sur les doigts", "glouglou"],
+      "safeDiagnosisSteps": ["Vérifier le niveau de remplissage", "Contrôler le bouchon"],
+      "possibleCauses": ["Trop rempli", "Cartouche usée"],
+      "safeSolutions": ["Vider légèrement", "Changer la cartouche"],
+      "requiresShopInspection": false
+    }
+  ],
+  "safetyWarnings": [
+    "Ne jamais percer la batterie.",
+    "Ne pas utiliser un appareil endommagé ou qui chauffe anormalement.",
+    "Réserver aux adultes (+18)."
+  ]
+}

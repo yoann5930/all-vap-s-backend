@@ -1,0 +1,230 @@
+{
+  "generatedAt": "2026-08-01T00:59:37.674Z",
+  "devices": [
+    {
+      "manufacturer": "Liquide Lab",
+      "model": "Kuix Batterie",
+      "aliases": [
+        "kuix batterie",
+        "kuix battery",
+        "batterie kuix",
+        "kuix black",
+        "kuix blue",
+        "kuix-batterie-black",
+        "kuix-batterie",
+        "kuix-batterie-blue"
+      ],
+      "category": "batterie intégrée",
+      "sumupProductIds": [
+        "d6fa42ec-13af-4b57-a8e0-a36e0223c1e0",
+        "2bdf96e4-59e5-40f9-9c6e-0a5fe870099b"
+      ],
+      "barcode": null,
+      "verificationStatus": "NEEDS_OFFICIAL_DATA",
+      "source": "SUMUP",
+      "officialManualUrl": null,
+      "images": {},
+      "importedAt": "2026-08-01T00:54:52.155Z",
+      "sourceProducts": [
+        "kuix-batterie-black",
+        "kuix-batterie-blue"
+      ],
+      "colorVariants": [
+        "black",
+        "blue"
+      ],
+      "note": "Appareil détecté dans SumUp/Prisma catégorie materiel. Notice officielle à intégrer (mission 5).",
+      "file": "liquide-lab-kuix-batterie.json"
+    },
+    {
+      "manufacturer": "Vaporesso",
+      "manufacturerSlug": "vaporesso",
+      "model": "XROS 3",
+      "modelSlug": "xros-3",
+      "aliases": [
+        "xros3",
+        "xros 3",
+        "cross 3",
+        "x-ros 3"
+      ],
+      "category": "pod",
+      "officialProductUrl": "https://www.vaporesso.com/",
+      "officialManualUrl": null,
+      "officialSupportUrl": "https://www.vaporesso.com/",
+      "verifiedAt": "2026-08-01",
+      "verificationStatus": "NEEDS_CONFIRMATION",
+      "images": {
+        "front": "/media/devices/vaporesso-xros-3/front.webp"
+      },
+      "distinguishingFeatures": [
+        "Format slim pod",
+        "Écran sur la face",
+        "Port USB-C en bas"
+      ],
+      "technicalSpecs": {
+        "batteryCapacityMah": 1000,
+        "removableBattery": false,
+        "chargingPort": "USB-C",
+        "powerRangeW": "selon cartouche",
+        "activationModes": [
+          "auto",
+          "bouton"
+        ]
+      },
+      "controls": {
+        "powerOn": "Appuyer 5 fois rapidement sur le bouton.",
+        "powerOff": "Appuyer 5 fois rapidement sur le bouton.",
+        "lockUnlock": "Appuyer 2 fois pour verrouiller / déverrouiller (selon firmware).",
+        "wattageAdjustment": "Ajuster via les boutons +/- si le modèle le permet."
+      },
+      "compatibleCartridges": [
+        "XROS Mesh 0.6Ω",
+        "XROS Mesh 0.8Ω",
+        "XROS Mesh 1.0Ω",
+        "XROS Mesh 1.2Ω"
+      ],
+      "compatibleCoils": [
+        {
+          "name": "XROS Mesh 0.6Ω",
+          "resistanceOhm": 0.6,
+          "recommendedWattage": "voir notice cartouche",
+          "usageType": "DL restreint",
+          "officialSource": "À confirmer notice officielle Vaporesso"
+        },
+        {
+          "name": "XROS Mesh 0.8Ω",
+          "resistanceOhm": 0.8,
+          "usageType": "MTL",
+          "officialSource": "À confirmer notice officielle Vaporesso"
+        },
+        {
+          "name": "XROS Mesh 1.0Ω",
+          "resistanceOhm": 1,
+          "usageType": "MTL",
+          "officialSource": "À confirmer notice officielle Vaporesso"
+        }
+      ],
+      "fillingProcedure": [
+        "Retirez la cartouche du body.",
+        "Ouvrez le bouchon de remplissage latéral.",
+        "Remplissez sans dépasser le max, refermez, remettez la cartouche.",
+        "Attendez quelques minutes si la cartouche est neuve (amorçage)."
+      ],
+      "podReplacementProcedure": [
+        "Retirez l'ancienne cartouche.",
+        "Insérez la nouvelle jusqu'au clic.",
+        "Remplissez et attendez avant de vapoter."
+      ],
+      "primingProcedure": [
+        "Remplissez la cartouche neuve.",
+        "Attendez au moins 5 minutes avant les premières bouffées."
+      ],
+      "chargingProcedure": [
+        "Utilisez un câble USB-C adapté.",
+        "Ne chargez pas si l'appareil est anormalement chaud."
+      ],
+      "errorMessages": [
+        {
+          "display": "No Atomizer",
+          "meaning": "Cartouche non détectée.",
+          "safeChecks": [
+            "Remettez la cartouche",
+            "Nettoyez les contacts"
+          ]
+        }
+      ],
+      "commonProblems": [
+        {
+          "intent": "fuite",
+          "symptoms": [
+            "liquide sur les doigts",
+            "glouglou"
+          ],
+          "safeDiagnosisSteps": [
+            "Vérifier le niveau de remplissage",
+            "Contrôler le bouchon"
+          ],
+          "possibleCauses": [
+            "Trop rempli",
+            "Cartouche usée"
+          ],
+          "safeSolutions": [
+            "Vider légèrement",
+            "Changer la cartouche"
+          ],
+          "requiresShopInspection": false
+        }
+      ],
+      "safetyWarnings": [
+        "Ne jamais percer la batterie.",
+        "Ne pas utiliser un appareil endommagé ou qui chauffe anormalement.",
+        "Réserver aux adultes (+18)."
+      ],
+      "file": "vaporesso-xros-3.json"
+    },
+    {
+      "manufacturer": "Voopoo",
+      "manufacturerSlug": "voopoo",
+      "model": "Argus G2",
+      "modelSlug": "argus-g2",
+      "aliases": [
+        "argus g2",
+        "argusse g2",
+        "argusg2"
+      ],
+      "category": "pod",
+      "officialProductUrl": "https://www.voopoo.com/",
+      "officialManualUrl": null,
+      "verifiedAt": "2026-08-01",
+      "verificationStatus": "NEEDS_CONFIRMATION",
+      "images": {
+        "front": "/media/devices/voopoo-argus-g2/front.webp"
+      },
+      "distinguishingFeatures": [
+        "Écran coloré",
+        "Forme Argus caractéristique",
+        "Port USB-C"
+      ],
+      "technicalSpecs": {
+        "batteryCapacityMah": 1000,
+        "removableBattery": false,
+        "chargingPort": "USB-C",
+        "powerRangeW": "selon cartouche"
+      },
+      "controls": {
+        "powerOn": "Appuyer 5 fois sur le bouton fire.",
+        "powerOff": "Appuyer 5 fois sur le bouton fire.",
+        "wattageAdjustment": "Ajuster via l'écran / boutons selon le mode."
+      },
+      "compatibleCartridges": [
+        "Argus Pod cartridge (famille à confirmer notice)"
+      ],
+      "compatibleCoils": [
+        {
+          "name": "À confirmer — notice Voopoo Argus G2",
+          "officialSource": "NEEDS_CONFIRMATION"
+        }
+      ],
+      "fillingProcedure": [
+        "Retirez la cartouche.",
+        "Remplissez par l'orifice prévu.",
+        "Attendez avant de vapoter si neuve."
+      ],
+      "errorMessages": [
+        {
+          "display": "Check Atomizer",
+          "meaning": "Problème de détection cartouche/résistance.",
+          "safeChecks": [
+            "Remettre la cartouche",
+            "Contrôler les contacts"
+          ]
+        }
+      ],
+      "safetyWarnings": [
+        "Arrêt immédiat si chauffe anormale, fumée ou odeur.",
+        "Pas de démontage batterie intégrée."
+      ],
+      "file": "voopoo-argus-g2.json"
+    }
+  ]
+}

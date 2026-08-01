@@ -1,0 +1,56 @@
+{
+  "manufacturer": "Voopoo",
+  "manufacturerSlug": "voopoo",
+  "model": "Argus G2",
+  "modelSlug": "argus-g2",
+  "aliases": ["argus g2", "argusse g2", "argusg2"],
+  "category": "pod",
+  "officialProductUrl": "https://www.voopoo.com/",
+  "officialManualUrl": null,
+  "verifiedAt": "2026-08-01",
+  "verificationStatus": "NEEDS_CONFIRMATION",
+  "images": {
+    "front": "/media/devices/voopoo-argus-g2/front.webp"
+  },
+  "distinguishingFeatures": [
+    "Écran coloré",
+    "Forme Argus caractéristique",
+    "Port USB-C"
+  ],
+  "technicalSpecs": {
+    "batteryCapacityMah": 1000,
+    "removableBattery": false,
+    "chargingPort": "USB-C",
+    "powerRangeW": "selon cartouche"
+  },
+  "controls": {
+    "powerOn": "Appuyer 5 fois sur le bouton fire.",
+    "powerOff": "Appuyer 5 fois sur le bouton fire.",
+    "wattageAdjustment": "Ajuster via l'écran / boutons selon le mode."
+  },
+  "compatibleCartridges": [
+    "Argus Pod cartridge (famille à confirmer notice)"
+  ],
+  "compatibleCoils": [
+    {
+      "name": "À confirmer — notice Voopoo Argus G2",
+      "officialSource": "NEEDS_CONFIRMATION"
+    }
+  ],
+  "fillingProcedure": [
+    "Retirez la cartouche.",
+    "Remplissez par l'orifice prévu.",
+    "Attendez avant de vapoter si neuve."
+  ],
+  "errorMessages": [
+    {
+      "display": "Check Atomizer",
+      "meaning": "Problème de détection cartouche/résistance.",
+      "safeChecks": ["Remettre la cartouche", "Contrôler les contacts"]
+    }
+  ],
+  "safetyWarnings": [
+    "Arrêt immédiat si chauffe anormale, fumée ou odeur.",
+    "Pas de démontage batterie intégrée."
+  ]
+}

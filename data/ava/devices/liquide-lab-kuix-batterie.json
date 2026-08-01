@@ -1,0 +1,34 @@
+{
+  "manufacturer": "Liquide Lab",
+  "model": "Kuix Batterie",
+  "aliases": [
+    "kuix batterie",
+    "kuix battery",
+    "batterie kuix",
+    "kuix black",
+    "kuix blue",
+    "kuix-batterie-black",
+    "kuix-batterie",
+    "kuix-batterie-blue"
+  ],
+  "category": "batterie intégrée",
+  "sumupProductIds": [
+    "d6fa42ec-13af-4b57-a8e0-a36e0223c1e0",
+    "2bdf96e4-59e5-40f9-9c6e-0a5fe870099b"
+  ],
+  "barcode": null,
+  "verificationStatus": "NEEDS_OFFICIAL_DATA",
+  "source": "SUMUP",
+  "officialManualUrl": null,
+  "images": {},
+  "importedAt": "2026-08-01T00:54:52.155Z",
+  "sourceProducts": [
+    "kuix-batterie-black",
+    "kuix-batterie-blue"
+  ],
+  "colorVariants": [
+    "black",
+    "blue"
+  ],
+  "note": "Appareil détecté dans SumUp/Prisma catégorie materiel. Notice officielle à intégrer (mission 5)."
+}

@@ -87,6 +87,8 @@
     "ava:listening:report": "npm run ava:listening:test && tsx scripts/report-ava-continuous-listening.ts",
     "ava:hardware:test": "tsx tests/ava/hardware-assistance.test.ts",
     "ava:device:test": "tsx tests/ava/device-support.test.ts",
+    "ava:devices:import": "tsx scripts/import-sumup-devices-to-ava.ts",
+    "ava:devices:audit": "tsx scripts/audit-ava-device-completeness.ts",
     "ava:mission:test": "npm run ava:listening:test && npm run ava:voice-rules:test && npm run ava:hardware:test && npm run ava:device:test",
     "audit:integration": "tsx scripts/audit-integration-client.ts",
     "docs:rapport-global": "tsx scripts/generate-rapport-global.ts",

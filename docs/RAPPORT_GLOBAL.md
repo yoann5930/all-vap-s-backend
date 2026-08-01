@@ -86,7 +86,7 @@ Détail : [`RAPPORT_AUDIT_FINAL.md`](./RAPPORT_AUDIT_FINAL.md)
 | Humanisation / voix | [`RAPPORT_AVA_HUMANISATION.md`](./RAPPORT_AVA_HUMANISATION.md) | ⚠️ |
 | Accessibilité / écoute | [`RAPPORT_AVA_ACCESSIBILITE.md`](./RAPPORT_AVA_ACCESSIBILITE.md) | ⚠️ |
 | Assistance matériel | [`RAPPORT_AVA_ASSISTANCE_MATERIEL.md`](./RAPPORT_AVA_ASSISTANCE_MATERIEL.md) | ⚠️ |
-| Base technique | [`RAPPORT_AVA_BASE_TECHNIQUE.md`](./RAPPORT_AVA_BASE_TECHNIQUE.md) | ⚠️ seed |
+| Base technique | [`RAPPORT_AVA_BASE_TECHNIQUE.md`](./RAPPORT_AVA_BASE_TECHNIQUE.md) | ⚠️ 3 modèles · 1 SumUp |
 | Notices | [`RAPPORT_AVA_NOTICES.md`](./RAPPORT_AVA_NOTICES.md) | ❌ |
 | Compatibilités | [`RAPPORT_AVA_COMPATIBILITES.md`](./RAPPORT_AVA_COMPATIBILITES.md) | ⚠️ |
 | Sécurité | [`RAPPORT_AVA_SECURITE.md`](./RAPPORT_AVA_SECURITE.md) | ✅ règles |
@@ -115,8 +115,9 @@ Lecteurs d’écran / WCAG mesuré : **non validés**.
 ## 9. Matériel
 
 - Intent + diagnostic + médias consentement : OK code  
-- Seed : 2 modèles seulement  
-- Vision IA photo/vidéo : **non**
+- Import SumUp : 1 appareil réel (Kuix Batterie) + 2 seeds  
+- Vision IA photo/vidéo : **non**  
+- Stock SumUp sans XROS/Argus actuellement
 
 ---
 
