@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-08-01T01:43:11.487Z",
+  "total": 3,
+  "officialConfirmed": 1,
+  "partial": 0,
+  "specsOnly": 1,
+  "blocked": 1,
+  "rows": [
+    {
+      "file": "liquide-lab-kuix-batterie.json",
+      "manufacturer": "Liquide Lab",
+      "model": "Kuix Batterie",
+      "verificationStatus": "NEEDS_OFFICIAL_DATA",
+      "hasManualUrl": false,
+      "hasManualLocal": false,
+      "hasProductPage": false,
+      "coilsCount": 0,
+      "controlsFromManual": false,
+      "status": "BLOCKED_NO_MANUAL"
+    },
+    {
+      "file": "vaporesso-xros-3.json",
+      "manufacturer": "Vaporesso",
+      "model": "XROS 3",
+      "verificationStatus": "OFFICIAL_CONFIRMED",
+      "hasManualUrl": true,
+      "hasManualLocal": true,
+      "hasProductPage": true,
+      "coilsCount": 2,
+      "controlsFromManual": true,
+      "status": "OK_OFFICIAL"
+    },
+    {
+      "file": "voopoo-argus-g2.json",
+      "manufacturer": "Voopoo",
+      "model": "Argus G2",
+      "verificationStatus": "NEEDS_CONFIRMATION",
+      "hasManualUrl": false,
+      "hasManualLocal": false,
+      "hasProductPage": true,
+      "coilsCount": 3,
+      "controlsFromManual": false,
+      "status": "SPECS_ONLY"
+    }
+  ]
+}

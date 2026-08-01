@@ -5,52 +5,79 @@
   "modelSlug": "argus-g2",
   "aliases": ["argus g2", "argusse g2", "argusg2"],
   "category": "pod",
-  "officialProductUrl": "https://www.voopoo.com/",
+  "officialProductUrl": "https://m.voopoo.com/argus-series/argus-g2",
   "officialManualUrl": null,
+  "officialManualLocalPath": null,
   "verifiedAt": "2026-08-01",
   "verificationStatus": "NEEDS_CONFIRMATION",
+  "specsVerifiedAt": "2026-08-01",
+  "specsSource": "Page produit officielle Voopoo ARGUS G2",
   "images": {
     "front": "/media/devices/voopoo-argus-g2/front.webp"
   },
   "distinguishingFeatures": [
-    "Écran coloré",
-    "Forme Argus caractéristique",
+    "Écran TFT couleur 0.96 pouce",
+    "Vibration moteur",
+    "Modes SUPER / SMART / ECO",
     "Port USB-C"
   ],
   "technicalSpecs": {
     "batteryCapacityMah": 1000,
     "removableBattery": false,
     "chargingPort": "USB-C",
-    "powerRangeW": "selon cartouche"
+    "outputPowerW": "5-30",
+    "maxPowerW": 30,
+    "outputVoltageV": "3.2-4.2",
+    "resistanceRangeOhm": "0.4-3.0",
+    "podCapacityMl": "3.0 / 2.0 (TPD)",
+    "fastCharge": "5V/2A",
+    "officialSource": "https://m.voopoo.com/argus-series/argus-g2 § SPECIFICATION"
   },
   "controls": {
-    "powerOn": "Appuyer 5 fois sur le bouton fire.",
-    "powerOff": "Appuyer 5 fois sur le bouton fire.",
-    "wattageAdjustment": "Ajuster via l'écran / boutons selon le mode."
+    "powerOn": null,
+    "powerOff": null,
+    "wattageAdjustment": "Modes SUPER / SMART / ECO (détail boutons : attendre PDF notice officielle).",
+    "note": "Combinaisons de boutons non publiées sur la page produit — PDF notice manquant.",
+    "officialSource": null
   },
   "compatibleCartridges": [
-    "Argus Pod cartridge (famille à confirmer notice)"
+    "ARGUS Top Fill Cartridge 0.4 Ω (2 mL / 3 mL) — 18-30 W",
+    "ARGUS Top Fill Cartridge 0.7 Ω (2 mL / 3 mL) — 14-18 W",
+    "ARGUS Top Fill Cartridge 1.0 Ω (2 mL / 3 mL) — 10-14 W",
+    "ARGUS Top Fill Cartridge V2 0.4 / 0.7 / 1.0 Ω (mêmes plages)",
+    "Compatibilité famille ARGUS Pod (page officielle)"
   ],
   "compatibleCoils": [
     {
-      "name": "À confirmer — notice Voopoo Argus G2",
-      "officialSource": "NEEDS_CONFIRMATION"
+      "name": "ARGUS Top Fill 0.4 Ω",
+      "resistanceOhm": 0.4,
+      "recommendedWattage": "18-30 W",
+      "usageType": "RDL / Freebase",
+      "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
+    },
+    {
+      "name": "ARGUS Top Fill 0.7 Ω",
+      "resistanceOhm": 0.7,
+      "recommendedWattage": "14-18 W",
+      "usageType": "MTL/RDL selon e-liquide",
+      "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
+    },
+    {
+      "name": "ARGUS Top Fill 1.0 Ω",
+      "resistanceOhm": 1.0,
+      "recommendedWattage": "10-14 W",
+      "usageType": "MTL / Nic Salt",
+      "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
     }
   ],
   "fillingProcedure": [
-    "Retirez la cartouche.",
-    "Remplissez par l'orifice prévu.",
-    "Attendez avant de vapoter si neuve."
+    "Remplissage topside (cartouche ARGUS Top Fill) — procédure détaillée dans le User Manual papier/PDF (non téléchargé : URL PDF officielle introuvable)."
   ],
-  "errorMessages": [
-    {
-      "display": "Check Atomizer",
-      "meaning": "Problème de détection cartouche/résistance.",
-      "safeChecks": ["Remettre la cartouche", "Contrôler les contacts"]
-    }
-  ],
+  "errorMessages": [],
   "safetyWarnings": [
-    "Arrêt immédiat si chauffe anormale, fumée ou odeur.",
-    "Pas de démontage batterie intégrée."
-  ]
+    "Protections listées page officielle : overtime 5s, court-circuit, surcharge, surintensité, batterie faible, surchauffe, puissance max.",
+    "Réserver aux adultes (+18)."
+  ],
+  "sumupProductIds": [],
+  "blockedUntil": "PDF notice officielle Voopoo ARGUS G2"
 }

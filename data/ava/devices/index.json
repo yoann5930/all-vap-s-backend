@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T00:59:37.674Z",
+  "generatedAt": "2026-08-01T01:44:37.323Z",
   "devices": [
     {
       "manufacturer": "Liquide Lab",
@@ -49,117 +49,95 @@
       ],
       "category": "pod",
       "officialProductUrl": "https://www.vaporesso.com/",
-      "officialManualUrl": null,
+      "officialManualUrl": "https://www.vaporesso.com/hubfs/imgs/downloads/manual/Vaporesso-XROS%203-User%20Manual-A1-20221102.pdf",
+      "officialManualLocalPath": "data/ava/manuals/vaporesso-xros-3/Vaporesso-XROS-3-User-Manual-A1-20221102.pdf",
       "officialSupportUrl": "https://www.vaporesso.com/",
       "verifiedAt": "2026-08-01",
-      "verificationStatus": "NEEDS_CONFIRMATION",
+      "verificationStatus": "OFFICIAL_CONFIRMED",
+      "manualVerifiedAt": "2026-08-01",
+      "manualSource": "PDF officiel Vaporesso A1-20221102",
       "images": {
         "front": "/media/devices/vaporesso-xros-3/front.webp"
       },
       "distinguishingFeatures": [
         "Format slim pod",
-        "Écran sur la face",
-        "Port USB-C en bas"
+        "LED néon",
+        "Curseur airflow au dos",
+        "Port USB-C"
       ],
       "technicalSpecs": {
         "batteryCapacityMah": 1000,
         "removableBattery": false,
         "chargingPort": "USB-C",
-        "powerRangeW": "selon cartouche",
+        "podCapacityMl": 2,
+        "dimensionsMm": "13.7x23.6x115.1",
+        "resistancesMentionedOhm": [
+          0.6,
+          1
+        ],
         "activationModes": [
           "auto",
           "bouton"
-        ]
+        ],
+        "officialSource": "Vaporesso-XROS 3 User Manual A1-20221102"
       },
       "controls": {
-        "powerOn": "Appuyer 5 fois rapidement sur le bouton.",
-        "powerOff": "Appuyer 5 fois rapidement sur le bouton.",
-        "lockUnlock": "Appuyer 2 fois pour verrouiller / déverrouiller (selon firmware).",
-        "wattageAdjustment": "Ajuster via les boutons +/- si le modèle le permet."
+        "powerOn": "Appuyer 5 fois sur le bouton en 2 secondes pour allumer.",
+        "powerOff": "Appuyer 5 fois sur le bouton en 2 secondes pour éteindre.",
+        "lockUnlock": null,
+        "wattageAdjustment": null,
+        "airflow": "Curseur d'airflow au dos de la batterie — régler selon l'habitude de vape.",
+        "startVaping": "Appuyer sur le bouton OU inhaler directement (activation bouton + tirage).",
+        "officialSource": "Vaporesso-XROS 3 User Manual A1-20221102 § USER INSTRUCTIONS"
       },
       "compatibleCartridges": [
-        "XROS Mesh 0.6Ω",
-        "XROS Mesh 0.8Ω",
-        "XROS Mesh 1.0Ω",
-        "XROS Mesh 1.2Ω"
+        "Pod XROS préinstallé / pods XROS compatibles (réf. notice : 0.6Ω / 1.0Ω mentionnés)"
       ],
       "compatibleCoils": [
         {
-          "name": "XROS Mesh 0.6Ω",
+          "name": "XROS 0.6Ω",
           "resistanceOhm": 0.6,
-          "recommendedWattage": "voir notice cartouche",
-          "usageType": "DL restreint",
-          "officialSource": "À confirmer notice officielle Vaporesso"
+          "usageType": "selon notice",
+          "officialSource": "Vaporesso-XROS 3 User Manual A1-20221102 § SPECIFICATION"
         },
         {
-          "name": "XROS Mesh 0.8Ω",
-          "resistanceOhm": 0.8,
-          "usageType": "MTL",
-          "officialSource": "À confirmer notice officielle Vaporesso"
-        },
-        {
-          "name": "XROS Mesh 1.0Ω",
+          "name": "XROS 1.0Ω",
           "resistanceOhm": 1,
-          "usageType": "MTL",
-          "officialSource": "À confirmer notice officielle Vaporesso"
+          "usageType": "selon notice",
+          "officialSource": "Vaporesso-XROS 3 User Manual A1-20221102 § SPECIFICATION"
         }
       ],
       "fillingProcedure": [
-        "Retirez la cartouche du body.",
-        "Ouvrez le bouchon de remplissage latéral.",
-        "Remplissez sans dépasser le max, refermez, remettez la cartouche.",
-        "Attendez quelques minutes si la cartouche est neuve (amorçage)."
+        "Retirer l'embout (mouthpiece).",
+        "Remplir par l'orifice de remplissage.",
+        "Remettre l'embout et s'assurer qu'il est bien fermé.",
+        "Premier remplissage : attendre 5 minutes pour amorcer la résistance."
       ],
       "podReplacementProcedure": [
-        "Retirez l'ancienne cartouche.",
-        "Insérez la nouvelle jusqu'au clic.",
-        "Remplissez et attendez avant de vapoter."
+        "Retirer la cartouche (pod) de la batterie.",
+        "Installer la nouvelle cartouche.",
+        "Premier usage : retirer l'autocollant de la cartouche préinstallée si présent."
       ],
       "primingProcedure": [
-        "Remplissez la cartouche neuve.",
-        "Attendez au moins 5 minutes avant les premières bouffées."
+        "Après le premier remplissage, attendre 5 minutes avant les premières bouffées."
       ],
       "chargingProcedure": [
-        "Utilisez un câble USB-C adapté.",
-        "Ne chargez pas si l'appareil est anormalement chaud."
+        "Utiliser le câble Type-C fourni.",
+        "La LED pulse pendant la charge et reste verte une fois pleine."
       ],
-      "errorMessages": [
-        {
-          "display": "No Atomizer",
-          "meaning": "Cartouche non détectée.",
-          "safeChecks": [
-            "Remettez la cartouche",
-            "Nettoyez les contacts"
-          ]
-        }
-      ],
-      "commonProblems": [
-        {
-          "intent": "fuite",
-          "symptoms": [
-            "liquide sur les doigts",
-            "glouglou"
-          ],
-          "safeDiagnosisSteps": [
-            "Vérifier le niveau de remplissage",
-            "Contrôler le bouchon"
-          ],
-          "possibleCauses": [
-            "Trop rempli",
-            "Cartouche usée"
-          ],
-          "safeSolutions": [
-            "Vider légèrement",
-            "Changer la cartouche"
-          ],
-          "requiresShopInspection": false
-        }
-      ],
+      "batteryLevelIndicator": {
+        "70-100%": "LED verte",
+        "30-70%": "LED bleue",
+        "0-30%": "LED rouge",
+        "officialSource": "Vaporesso-XROS 3 User Manual A1-20221102"
+      },
+      "errorMessages": [],
       "safetyWarnings": [
-        "Ne jamais percer la batterie.",
-        "Ne pas utiliser un appareil endommagé ou qui chauffe anormalement.",
-        "Réserver aux adultes (+18)."
+        "Lire la notice officielle avant usage.",
+        "Réserver aux adultes (+18).",
+        "Ne pas utiliser un appareil endommagé."
       ],
+      "sumupProductIds": [],
       "file": "vaporesso-xros-3.json"
     },
     {
@@ -173,57 +151,81 @@
         "argusg2"
       ],
       "category": "pod",
-      "officialProductUrl": "https://www.voopoo.com/",
+      "officialProductUrl": "https://m.voopoo.com/argus-series/argus-g2",
       "officialManualUrl": null,
+      "officialManualLocalPath": null,
       "verifiedAt": "2026-08-01",
       "verificationStatus": "NEEDS_CONFIRMATION",
+      "specsVerifiedAt": "2026-08-01",
+      "specsSource": "Page produit officielle Voopoo ARGUS G2",
       "images": {
         "front": "/media/devices/voopoo-argus-g2/front.webp"
       },
       "distinguishingFeatures": [
-        "Écran coloré",
-        "Forme Argus caractéristique",
+        "Écran TFT couleur 0.96 pouce",
+        "Vibration moteur",
+        "Modes SUPER / SMART / ECO",
         "Port USB-C"
       ],
       "technicalSpecs": {
         "batteryCapacityMah": 1000,
         "removableBattery": false,
         "chargingPort": "USB-C",
-        "powerRangeW": "selon cartouche"
+        "outputPowerW": "5-30",
+        "maxPowerW": 30,
+        "outputVoltageV": "3.2-4.2",
+        "resistanceRangeOhm": "0.4-3.0",
+        "podCapacityMl": "3.0 / 2.0 (TPD)",
+        "fastCharge": "5V/2A",
+        "officialSource": "https://m.voopoo.com/argus-series/argus-g2 § SPECIFICATION"
       },
       "controls": {
-        "powerOn": "Appuyer 5 fois sur le bouton fire.",
-        "powerOff": "Appuyer 5 fois sur le bouton fire.",
-        "wattageAdjustment": "Ajuster via l'écran / boutons selon le mode."
+        "powerOn": null,
+        "powerOff": null,
+        "wattageAdjustment": "Modes SUPER / SMART / ECO (détail boutons : attendre PDF notice officielle).",
+        "note": "Combinaisons de boutons non publiées sur la page produit — PDF notice manquant.",
+        "officialSource": null
       },
       "compatibleCartridges": [
-        "Argus Pod cartridge (famille à confirmer notice)"
+        "ARGUS Top Fill Cartridge 0.4 Ω (2 mL / 3 mL) — 18-30 W",
+        "ARGUS Top Fill Cartridge 0.7 Ω (2 mL / 3 mL) — 14-18 W",
+        "ARGUS Top Fill Cartridge 1.0 Ω (2 mL / 3 mL) — 10-14 W",
+        "ARGUS Top Fill Cartridge V2 0.4 / 0.7 / 1.0 Ω (mêmes plages)",
+        "Compatibilité famille ARGUS Pod (page officielle)"
       ],
       "compatibleCoils": [
         {
-          "name": "À confirmer — notice Voopoo Argus G2",
-          "officialSource": "NEEDS_CONFIRMATION"
+          "name": "ARGUS Top Fill 0.4 Ω",
+          "resistanceOhm": 0.4,
+          "recommendedWattage": "18-30 W",
+          "usageType": "RDL / Freebase",
+          "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
+        },
+        {
+          "name": "ARGUS Top Fill 0.7 Ω",
+          "resistanceOhm": 0.7,
+          "recommendedWattage": "14-18 W",
+          "usageType": "MTL/RDL selon e-liquide",
+          "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
+        },
+        {
+          "name": "ARGUS Top Fill 1.0 Ω",
+          "resistanceOhm": 1,
+          "recommendedWattage": "10-14 W",
+          "usageType": "MTL / Nic Salt",
+          "officialSource": "https://m.voopoo.com/argus-series/argus-g2"
         }
       ],
       "fillingProcedure": [
-        "Retirez la cartouche.",
-        "Remplissez par l'orifice prévu.",
-        "Attendez avant de vapoter si neuve."
+        "Remplissage topside (cartouche ARGUS Top Fill) — procédure détaillée dans le User Manual papier/PDF (non téléchargé : URL PDF officielle introuvable)."
       ],
-      "errorMessages": [
-        {
-          "display": "Check Atomizer",
-          "meaning": "Problème de détection cartouche/résistance.",
-          "safeChecks": [
-            "Remettre la cartouche",
-            "Contrôler les contacts"
-          ]
-        }
-      ],
+      "errorMessages": [],
       "safetyWarnings": [
-        "Arrêt immédiat si chauffe anormale, fumée ou odeur.",
-        "Pas de démontage batterie intégrée."
+        "Protections listées page officielle : overtime 5s, court-circuit, surcharge, surintensité, batterie faible, surchauffe, puissance max.",
+        "Réserver aux adultes (+18)."
       ],
+      "sumupProductIds": [],
+      "blockedUntil": "PDF notice officielle Voopoo ARGUS G2",
       "file": "voopoo-argus-g2.json"
     }
   ]

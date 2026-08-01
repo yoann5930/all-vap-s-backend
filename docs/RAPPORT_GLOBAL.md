@@ -123,13 +123,19 @@ Lecteurs d’écran / WCAG mesuré : **non validés**.
 
 ## 10. Notices
 
-Aucune notice PDF officielle intégrée → **bloquant** pour conseils procédures « OFFICIAL_CONFIRMED ».
+| Modèle | État |
+|--------|------|
+| XROS 3 | ✅ PDF officiel + `OFFICIAL_CONFIRMED` |
+| Argus G2 | ⚠️ specs page produit · PDF **manquant** |
+| Kuix Batterie | ❌ aucune notice |
+
+→ [`RAPPORT_AVA_NOTICES.md`](./RAPPORT_AVA_NOTICES.md) — **pas** « notices terminées ».
 
 ---
 
 ## 11. Compatibilités
 
-Verrous coils/cartouches : **OK**. Données officielles : **partielles**.
+Verrous coils/cartouches : **OK**. XROS coils 0.6/1.0Ω notice. Argus 0.4/0.7/1.0Ω page produit.
 
 ---
 
@@ -193,17 +199,18 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 |----------|--------|
 | Info | 66 gammes référence BLOCKED (hors site / logos / stock) — pas FAIL |
 | Minor | Ton AVA encore trop « résultats produits » |
-| Info | Notices / vision média / TTS mobile non faits |
+| Info | Argus/Kuix notices + vision média / TTS mobile |
 
 ---
 
 ## 19. Missions bloquées
 
-- ❌ Notices officielles matériels  
+- ⚠️ Notices partielles (Argus PDF + Kuix manquants)  
 - ❌ Recensement exhaustif appareils All Vap’s  
 - ❌ Vision photo/vidéo diagnostic  
 - ❌ Validation a11y lecteur d’écran réel  
 - ❌ Catalogue référence Yoann 100 % PASS  
+- ❌ Tests AVA sur appareil réel (mission 6)  
 
 ---
 
@@ -221,11 +228,11 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 ## 21. Prochaines actions
 
-1. Script import matériels SumUp → `data/ava/devices`  
-3. Intégrer 1ères notices officielles (XROS / Argus)  
-4. Soften copy AVA response-builder  
-5. Campagne TTS + micro réel  
-6. Commit ciblé (si validation humaine) **sans** ALLVAPS_PORTABLE  
+1. Trouver PDF notice Argus G2 (Voopoo) + notice Kuix  
+2. Tests AVA réels navigateur/appareil (mission 6)  
+3. Soften copy AVA response-builder  
+4. Campagne TTS + micro réel  
+5. Nettoyage Git / commits (mission 7) — **sans** ALLVAPS_PORTABLE  
 
 ---
 
@@ -238,8 +245,8 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 | AVA Voix | ⚠️ | 16/16 voice-rules | TTS réel + ton catalogue |
 | AVA Accessibilité | ⚠️ | 49/49 continuous+a11y | VoiceOver/TalkBack |
 | AVA Matériel | ⚠️ | 20/20 hardware | base + vision |
-| Notices | ❌ | 0 notice officielle | toutes à intégrer |
-| Compatibilités | ⚠️ | 10/10 device-support | données seed |
+| Notices | ⚠️ | 1/3 OFFICIAL + PDF | Argus/Kuix manquants |
+| Compatibilités | ⚠️ | 10/10 device-support | XROS notice · Argus specs |
 | Sécurité | ✅ | hardware danger PASS | scénarios vidéo |
 | Site | ✅ | audit 45/45 · health ✅ | — |
 

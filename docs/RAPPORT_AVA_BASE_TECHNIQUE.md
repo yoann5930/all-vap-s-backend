@@ -1,8 +1,8 @@
 # RAPPORT AVA — Base technique
 
 **Dernière mise à jour :** 2026-08-01  
-**Mission :** 4/7 — import matériels SumUp  
-**État :** ⚠️ Import livré — stock magasin quasi sans appareils classiques
+**Mission :** 5/7 — notices (partielle)  
+**État :** ⚠️ 1/3 OFFICIAL_CONFIRMED · Argus specs-only · Kuix bloqué
 
 ## Constat SumUp / Prisma
 
@@ -12,34 +12,27 @@
 | pods (jetables nicotinés Kuix) | 29 |
 | materiel | **2** (Kuix batterie black/blue) |
 
-Aucun produit Vaporesso / Voopoo / Oxva détecté dans la base active actuelle.
+Aucun produit Vaporesso / Voopoo / Oxva dans la base active actuelle.
 
 ## Modèles AVA
 
 | Modèle | Source | Statut |
 |--------|--------|--------|
-| Vaporesso XROS 3 | seed | NEEDS_CONFIRMATION — **pas** dans SumUp actuel |
-| Voopoo Argus G2 | seed | NEEDS_CONFIRMATION — **pas** dans SumUp actuel |
-| Liquide Lab Kuix Batterie | SumUp | NEEDS_OFFICIAL_DATA (2 sumupProductIds couleurs) |
+| Vaporesso XROS 3 | PDF notice officielle | **OFFICIAL_CONFIRMED** (pas dans SumUp) |
+| Voopoo Argus G2 | page produit Voopoo | NEEDS_CONFIRMATION — PDF notice manquant |
+| Liquide Lab Kuix Batterie | SumUp | NEEDS_OFFICIAL_DATA |
 
 ## Scripts
 
 - `npm run ava:devices:import` — idempotent
+- `npm run ava:devices:index` — régénère `index.json`
 - `npm run ava:devices:audit`
-- Rapport : `data/ava/device-import-report.json`
-- Audit : `data/ava/device-completeness-audit.json`
-
-## Admin
-
-`DeviceKnowledgeAdmin` affiche totaux : trouvés / vérifiés / sans notice / sans photo / sans coils.
+- `npm run ava:manuals:audit`
+- Rapport notices : [`RAPPORT_AVA_NOTICES.md`](./RAPPORT_AVA_NOTICES.md)
 
 ## Règle
 
-Aucune fiche `OFFICIAL_CONFIRMED` sans notice fabricant.  
-Ne pas classer les pods jetables Kuix (10/20 mg) comme matériel rechargeable.
-
-## Bloquant mission 4 « exhaustif »
-
-Recensement exhaustif **impossible** tant que SumUp All Vap’s ne contient pas les cigarettes électroniques / pods rechargeables réellement vendus. À enrichir quand le stock matériel est synchronisé.
+`OFFICIAL_CONFIRMED` uniquement avec notice fabricant locale + URL.  
+Pas de procédures boutons inventées (Argus = `null` jusqu’au PDF).
 
 Tableau de bord : [`RAPPORT_GLOBAL.md`](./RAPPORT_GLOBAL.md)
