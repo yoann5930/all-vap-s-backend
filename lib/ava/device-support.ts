@@ -37,7 +37,7 @@ function hydrate(raw: IndexDevice): VapeDeviceManual {
 }
 
 const DEVICES: VapeDeviceManual[] = (
-  (deviceIndex as { devices: IndexDevice[] }).devices || []
+  (deviceIndex as unknown as { devices: IndexDevice[] }).devices || []
 ).map(hydrate);
 
 export function listDevices(): VapeDeviceManual[] {
