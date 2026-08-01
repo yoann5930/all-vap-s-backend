@@ -1,0 +1,11 @@
+{
+  "mode": "dry-run",
+  "generatedAt": "2026-08-01T00:35:20.897Z",
+  "totalProducts": 2670,
+  "duplicateGroups": 0,
+  "onlineDuplicateGroupsBefore": 0,
+  "onlineDuplicateGroupsAfter": 0,
+  "quarantined": 0,
+  "groupsKept": 0,
+  "actions": []
+}

@@ -61,8 +61,9 @@ Détail : [`RAPPORT_AUDIT_FINAL.md`](./RAPPORT_AUDIT_FINAL.md)
 
 - Actifs 421 · Visibles 172 · SumUp liés 311  
 - Visibles e-liquides sans SumUp : **0**  
-- Complétude Yoann / validate:all : **non vert** (historique)  
-- Blackout = collection (pas gamme)  
+- `catalog:validate:all` : **PASS** (2026-08-01)  
+- Audit strict : FAIL=0 · BLOCKED=66 justifiés  
+- Blackout = collection sous Call of Vape  
 
 → [`RAPPORT_CATALOGUE.md`](./RAPPORT_CATALOGUE.md)
 
@@ -189,7 +190,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 | Sévérité | Erreur |
 |----------|--------|
-| Major | Catalogue Yoann non 100 % vert (`validate:all`) |
+| Info | 66 gammes référence BLOCKED (hors site / logos / stock) — pas FAIL |
 | Minor | Ton AVA encore trop « résultats produits » |
 | Info | Notices / vision média / TTS mobile non faits |
 
@@ -231,7 +232,7 @@ Danger → consigne boutique : **codé + testé**. Scénarios vidéo réels : **
 
 | Module | État | Tests | Erreurs |
 | ------ | ---- | ----- | ------- |
-| Catalogue | ⚠️ | validate:sumup ✅ · media/routes ✅ | Yoann / validate:all incomplet |
+| Catalogue | ✅ tech | validate:all PASS · strict FAIL=0 · BLOCKED=66 | BLOCKED justifiés |
 | SumUp | ⚠️ | lock 16/16 · sumup validate ✅ | health sync à surveiller |
 | AVA Voix | ⚠️ | 16/16 voice-rules | TTS réel + ton catalogue |
 | AVA Accessibilité | ⚠️ | 49/49 continuous+a11y | VoiceOver/TalkBack |
