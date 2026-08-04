@@ -1,92 +1,101 @@
-# Déploiement inventaire All Vap's
+# Déploiement permanent All Vap's Inventaire
 
-## URL publique actuelle (HTTPS)
-
-> Tunnel Cloudflare temporaire — accessible téléphones / tablettes / PC **maintenant** :
+## URL temporaire actuelle (tunnel Cloudflare — actif)
 
 | Accès | URL |
 |---|---|
-| **Employés** | https://conviction-evanescence-acknowledged-select.trycloudflare.com/inventaire |
-| **Administration** | https://conviction-evanescence-acknowledged-select.trycloudflare.com/admin → `/login` |
+| **Login** | https://jazz-boots-donated-filters.trycloudflare.com/login |
+| **Employés** | https://jazz-boots-donated-filters.trycloudflare.com/inventaire |
+| **Admin** | https://jazz-boots-donated-filters.trycloudflare.com/admin |
+| **Inventaires (Yoann)** | https://jazz-boots-donated-filters.trycloudflare.com/admin/inventaires |
 
-Cible permanente : `https://inventaire.allvaps.fr` (après DNS + Vercel).
+> Ce tunnel reste actif tant que l’environnement Cursor tourne.  
+> Pour une URL **permanente** (indépendante de Cursor), suivre Vercel ci-dessous.
 
-Pour une URL Vercel stable sans tunnel : connecter le repo sur vercel.com **ou** fournir un `VERCEL_TOKEN` (Account → Tokens).
+Cible DNS : `https://inventaire.allvaps.fr`
 
-## Séparation des accès
+---
 
-| Accès | Chemin | Auth |
-|---|---|---|
-| Employés | `/inventaire` | Aucune (nom + boutique uniquement) |
-| Administration | `/admin` | Login ADMIN obligatoire |
+## Option A — Vercel (recommandé pour Next.js)
 
-Les employés ne peuvent pas modifier tarifs, supprimer produits, stocks hors inventaire, Google sync, ni l’espace admin.
+### Prérequis
+1. Compte Vercel lié au repo GitHub `yoann5930/all-vap-s-backend`
+2. Base Postgres (Neon / Supabase / Vercel Postgres)
+3. Token optionnel `VERCEL_TOKEN` pour déploiement CLI
 
-## Variables d'environnement (production Vercel)
-
-Obligatoires :
+### Variables d’environnement (Production)
 
 ```
 DEMO_MODE=false
 NODE_ENV=production
 DATABASE_URL=postgresql://...
-JWT_SECRET=<long-random>
+JWT_SECRET=<32+ caractères aléatoires>
 NEXT_PUBLIC_APP_URL=https://inventaire.allvaps.fr
 ALLOWED_ORIGINS=https://inventaire.allvaps.fr,https://www.allvaps.fr,https://allvaps.fr
-SEED_ADMIN_PASSWORD=<mot-de-passe-fort-unique>
+SEED_ADMIN_PASSWORD=<mot-de-passe-fort>
 PAYMENT_TEST_MODE=false
 MAINTENANCE_MODE=false
+BLOB_READ_WRITE_TOKEN=<token Vercel Blob — photos persistantes>
 ```
 
-Optionnelles (sync / photos cloud) :
+### Étapes UI Vercel
+1. vercel.com → Add New Project → importer `all-vap-s-backend`
+2. Framework : Next.js (voir `vercel.json`, région `cdg1`)
+3. Build Command : `prisma generate && next build`
+4. Coller les variables ci-dessus
+5. Deploy
+6. Après le 1er deploy réussi, dans un terminal lié au projet :
+   ```bash
+   npx prisma migrate deploy
+   DEMO_MODE=false npx tsx scripts/seed-inventory-staff.ts
+   ```
+7. Domains → ajouter `inventaire.allvaps.fr` + DNS CNAME chez le registrar
 
-```
-GOOGLE_SYNC_ENABLED=true
-GOOGLE_SERVICE_ACCOUNT_EMAIL=
-GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=
-GOOGLE_DRIVE_FOLDER_ID=
-GOOGLE_SHEETS_SPREADSHEET_ID=
-BLOB_READ_WRITE_TOKEN=
-```
-
-## Vercel (déploiement permanent)
-
-1. Importer le dépôt `yoann5930/all-vap-s-backend` sur [vercel.com](https://vercel.com)
-2. Framework : Next.js (`vercel.json` fourni)
-3. Build : `prisma generate && next build`
-4. Renseigner les variables ci-dessus — **jamais** `DEMO_MODE=true` en prod
-5. Après premier deploy : `npx prisma migrate deploy` puis seed admin avec `SEED_ADMIN_PASSWORD`
-6. Domaine custom : `inventaire.allvaps.fr`
-
-## DNS inventaire.allvaps.fr
-
-Chez le registrar / Cloudflare DNS :
-
-```
-Type: CNAME
-Name: inventaire
-Value: cname.vercel-dns.com
-Proxy: optionnel
+### Étapes CLI (si `VERCEL_TOKEN` fourni)
+```bash
+npx vercel link --yes --token "$VERCEL_TOKEN"
+npx vercel env add DATABASE_URL production --token "$VERCEL_TOKEN"
+# … autres env
+npx vercel --prod --token "$VERCEL_TOKEN"
 ```
 
-Puis Vercel → Project → Domains → Add `inventaire.allvaps.fr`.
+---
 
-## Installation PWA Android
+## Option B — Render
 
-1. Ouvrir l’URL HTTPS `/inventaire` dans Chrome
-2. Menu ⋮ → « Ajouter à l’écran d’accueil » / « Installer l’application »
-3. Autoriser la caméra au premier scan/photo
-4. Hors ligne : les lignes sont mises en file et synchronisées au retour réseau
+Fichier prêt : `render.yaml`
 
-## Identifiants admin (à changer)
+1. render.com → New → Blueprint → sélectionner le repo
+2. Renseigner `DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_APP_URL`, `ALLOWED_ORIGINS`
+3. `DEMO_MODE=false`
+4. Après deploy : migrations via `startCommand` (`prisma migrate deploy`) puis seed staff
+5. Domaine custom `inventaire.allvaps.fr`
 
-Sur le tunnel temporaire (DEMO) uniquement :
+---
 
-- Email : `admin@allvaps.fr`
-- Mot de passe : `Admin123!` → **à remplacer immédiatement** dès le passage en prod (`SEED_ADMIN_PASSWORD` + changement dans l’admin)
+## Auth inventaire (rappel)
 
-En production réelle : ne pas utiliser ces identifiants ; générer un mot de passe fort via `SEED_ADMIN_PASSWORD`.
+| Rôle | Accès |
+|---|---|
+| EMPLOYEE (Lilie, Kelli, Aurélien) | `/inventaire` uniquement |
+| ADMIN (Yoann) | `/admin` + `/admin/inventaires` + `/inventaire` |
 
-## Sécurité employés
+1ʳᵉ connexion → changement de mot de passe obligatoire.
 
-Chaque ligne enregistre : employé, boutique, date/heure, produit/code-barres, quantité, photo éventuelle.
+---
+
+## Photos en production
+
+Sans `BLOB_READ_WRITE_TOKEN`, les photos sur Vercel vont dans `/tmp` (éphémère).  
+Créer un store Vercel Blob et coller le token.
+
+---
+
+## Checklist avant bascule permanente
+
+- [ ] `DEMO_MODE=false`
+- [ ] Postgres + `prisma migrate deploy`
+- [ ] Seed comptes staff
+- [ ] `BLOB_READ_WRITE_TOKEN`
+- [ ] DNS `inventaire.allvaps.fr`
+- [ ] Test téléphone HTTPS : scan + prix + photo + visible dans `/admin/inventaires`
