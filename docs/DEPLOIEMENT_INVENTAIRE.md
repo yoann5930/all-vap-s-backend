@@ -2,14 +2,16 @@
 
 ## URL publique actuelle (HTTPS)
 
-> Tunnel Cloudflare temporaire (session cloud agent) — accessible téléphones / tablettes / PC :
+> Tunnel Cloudflare temporaire — accessible téléphones / tablettes / PC **maintenant** :
 
 | Accès | URL |
 |---|---|
-| **Employés** | https://mining-nancy-fantastic-porcelain.trycloudflare.com/inventaire |
-| **Administration** | https://mining-nancy-fantastic-porcelain.trycloudflare.com/admin → redirige vers `/login` |
+| **Employés** | https://conviction-evanescence-acknowledged-select.trycloudflare.com/inventaire |
+| **Administration** | https://conviction-evanescence-acknowledged-select.trycloudflare.com/admin → `/login` |
 
 Cible permanente : `https://inventaire.allvaps.fr` (après DNS + Vercel).
+
+Pour une URL Vercel stable sans tunnel : connecter le repo sur vercel.com **ou** fournir un `VERCEL_TOKEN` (Account → Tokens).
 
 ## Séparation des accès
 
