@@ -6,6 +6,7 @@ import {
   flushOfflineInventoryQueue,
   queueOfflineInventoryLine,
 } from "@/lib/inventory/offline-queue";
+import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 
 type StoreCode = "HAUTMONT" | "LE_QUESNOY";
 
@@ -55,6 +56,7 @@ export function EmployeeInventoryApp() {
   const [loading, setLoading] = useState(false);
   const [online, setOnline] = useState(true);
   const [confirmStoreChange, setConfirmStoreChange] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const lastLineIdRef = useRef<string | null>(null);
   const barcodeRef = useRef<HTMLInputElement>(null);
@@ -271,6 +273,16 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  const onBarcodeScanned = useCallback((code: string) => {
+    const cleaned = code.trim();
+    if (!cleaned) return;
+    setBarcode(cleaned);
+    setMessage(`Code scanné : ${cleaned}`);
+    setError(null);
+    void lookupBarcode(cleaned);
+    setTimeout(() => barcodeRef.current?.focus(), 50);
+  }, []);
+
   function requestStoreChange(code: StoreCode) {
     if (session && session.status === "OPEN" && code !== locationCode) {
       setConfirmStoreChange(true);
@@ -369,23 +381,34 @@ export function EmployeeInventoryApp() {
           <div className="space-y-3 rounded-2xl border border-gray-200 bg-white p-4">
             <label className="block">
               <span className="text-sm font-medium">Scan / code-barres</span>
-              <input
-                ref={barcodeRef}
-                className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
-                value={barcode}
-                onChange={(e) => {
-                  setBarcode(e.target.value);
-                  setLookupHint(null);
-                }}
-                onBlur={() => {
-                  if (barcode.trim().length >= 6) void lookupBarcode(barcode.trim());
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") void addLine();
-                }}
-                inputMode="numeric"
-                placeholder="Scanner ou saisir l’EAN"
-              />
+              <div className="mt-1.5 flex gap-2">
+                <input
+                  ref={barcodeRef}
+                  className="w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
+                  value={barcode}
+                  onChange={(e) => {
+                    setBarcode(e.target.value);
+                    setLookupHint(null);
+                  }}
+                  onBlur={() => {
+                    if (barcode.trim().length >= 6) void lookupBarcode(barcode.trim());
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") void addLine();
+                  }}
+                  inputMode="numeric"
+                  placeholder="Scanner ou saisir l’EAN"
+                />
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => setScannerOpen(true)}
+                  className="shrink-0 rounded-xl bg-gray-900 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
+                  aria-label="Scanner avec l’appareil photo"
+                >
+                  Caméra
+                </button>
+              </div>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
 
@@ -481,6 +504,12 @@ export function EmployeeInventoryApp() {
 
       {message && <p className="mt-4 text-sm text-emerald-700">{message}</p>}
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+
+      <BarcodeCameraScanner
+        open={scannerOpen}
+        onClose={() => setScannerOpen(false)}
+        onDetected={onBarcodeScanned}
+      />
     </div>
   );
 }
