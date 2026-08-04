@@ -1,0 +1,66 @@
+import { NextRequest } from "next/server";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import prisma from "@/lib/prisma";
+import { requireAuth } from "@/lib/jwt";
+import { jsonResponse, handleApiError } from "@/lib/api-utils";
+import { uploadInventoryPhotoToDrive } from "@/lib/google/drive";
+
+type Ctx = { params: Promise<{ id: string }> };
+
+export async function POST(request: NextRequest, context: Ctx) {
+  try {
+    await requireAuth("ADMIN");
+    const { id } = await context.params;
+
+    const session = await prisma.inventorySession.findUnique({ where: { id } });
+    if (!session) throw new Error("NOT_FOUND");
+    if (session.status !== "OPEN") {
+      return jsonResponse({ error: "Session clôturée" }, 400);
+    }
+
+    const form = await request.formData();
+    const file = form.get("file");
+    const lineId = String(form.get("lineId") || "");
+    if (!(file instanceof File)) {
+      return jsonResponse({ error: "Photo requise" }, 400);
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const filename = `${id}-${Date.now()}.${ext || "jpg"}`;
+    const dir = path.join(process.cwd(), "public", "uploads", "inventory");
+    await mkdir(dir, { recursive: true });
+    const abs = path.join(dir, filename);
+    await writeFile(abs, buffer);
+    const photoPath = `/uploads/inventory/${filename}`;
+
+    const drive = await uploadInventoryPhotoToDrive({
+      filename,
+      mimeType: file.type || "image/jpeg",
+      buffer,
+      sessionId: id,
+    });
+
+    let updatedLine = null;
+    if (lineId) {
+      updatedLine = await prisma.inventoryLine.update({
+        where: { id: lineId },
+        data: {
+          photoPath,
+          driveFileId: drive.ok ? drive.fileId : null,
+        },
+      });
+    }
+
+    return jsonResponse({
+      photoPath,
+      drive: drive.ok
+        ? { uploaded: true, fileId: drive.fileId, webViewLink: drive.webViewLink }
+        : { uploaded: false, code: drive.code, message: drive.message },
+      line: updatedLine,
+    });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}

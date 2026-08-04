@@ -1,9 +1,11 @@
 import { parseCsv } from "@/lib/import/csv";
 import {
   extractExplicitSpecs,
-  GLOBAL_STOCK_CODE,
-  GLOBAL_STOCK_NAME,
+  HAUTMONT_STOCK_CODE,
+  HAUTMONT_STOCK_NAME,
   normalizeProductName,
+  stockCodeDisplayName,
+  type StoreStockCode,
 } from "@/lib/catalog/normalize";
 import {
   matchCatalogProduct,
@@ -46,8 +48,8 @@ export interface ImportRowPlan {
 }
 
 export interface SumUpImportPreview {
-  locationCode: typeof GLOBAL_STOCK_CODE;
-  locationName: typeof GLOBAL_STOCK_NAME;
+  locationCode: StoreStockCode;
+  locationName: string;
   dryRun: true;
   detectedColumns: Record<string, string | null>;
   totalRows: number;
@@ -185,7 +187,10 @@ export function buildSumUpImportPreview(params: {
   csvContent: string;
   catalog: CatalogMatchCandidate[];
   currentQuantities?: Map<string, number>;
+  locationCode?: StoreStockCode;
 }): SumUpImportPreview {
+  const locationCode = params.locationCode ?? HAUTMONT_STOCK_CODE;
+  const locationName = stockCodeDisplayName(locationCode);
   const { columns, rows, parseErrors } = mapSumUpCsvRows(params.csvContent);
   const currentQuantities = params.currentQuantities ?? new Map<string, number>();
 
@@ -353,8 +358,8 @@ export function buildSumUpImportPreview(params: {
       matchedProductId: match.productId,
       message:
         current == null
-          ? `Définir stock général = ${r.quantity}`
-          : `Mettre à jour stock général : ${current} → ${r.quantity}`,
+          ? `Définir stock ${locationName} = ${r.quantity}`
+          : `Mettre à jour stock ${locationName} : ${current} → ${r.quantity}`,
       specs,
     });
   }
@@ -365,8 +370,8 @@ export function buildSumUpImportPreview(params: {
     .map(([name, rowIndexes]) => ({ name, rowIndexes }));
 
   return {
-    locationCode: GLOBAL_STOCK_CODE,
-    locationName: GLOBAL_STOCK_NAME,
+    locationCode,
+    locationName,
     dryRun: true,
     detectedColumns: columns,
     totalRows: rows.length,

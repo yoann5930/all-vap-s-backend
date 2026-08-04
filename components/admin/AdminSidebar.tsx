@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw,
+  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw, ClipboardList,
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/stocks", label: "Stocks", icon: Warehouse },
+  { href: "/admin/inventaire", label: "Inventaire", icon: ClipboardList },
   { href: "/admin/import", label: "Import CSV", icon: Upload },
   { href: "/admin/sumup-import", label: "Import SumUp", icon: RefreshCw },
   { href: "/admin/orders", label: "Commandes", icon: ShoppingCart },

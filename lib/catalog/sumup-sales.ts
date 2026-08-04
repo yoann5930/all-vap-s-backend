@@ -1,19 +1,22 @@
 /**
- * Préparation connexion ventes SumUp → stock général.
+ * Préparation connexion ventes SumUp → stock boutique.
+ * Sans boutique précisée : défaut Hautmont (documenté).
  * Pas de fausse clé ; pas d'API catalogue inventée.
  * Idempotence via externalReference sur StockMovement.
  */
-import { applyGlobalSale } from "@/lib/catalog/stock";
+import { applyStoreSale } from "@/lib/catalog/stock";
+import type { StoreStockCode } from "@/lib/catalog/normalize";
 
 export interface SumUpSaleLine {
   productId: string | null;
   quantity: number;
   externalReference: string;
   rawItemName?: string;
+  locationCode?: StoreStockCode;
 }
 
 /**
- * Applique une vente SumUp sur le stock général.
+ * Applique une vente SumUp sur le stock d'une boutique.
  * - produit non reconnu (productId null) → aucun mouvement
  * - même externalReference → ignoré (idempotent)
  * - jamais de stock négatif silencieux (plancher à 0)
@@ -36,11 +39,12 @@ export async function applySumUpSaleToGlobalStock(lines: SumUpSaleLine[]): Promi
       continue;
     }
     try {
-      const result = await applyGlobalSale({
+      const result = await applyStoreSale({
         productId: line.productId,
         quantity: line.quantity,
         externalReference: line.externalReference,
         source: "sumup_sale",
+        locationCode: line.locationCode,
       });
       if (result.duplicate) duplicates++;
       else if (result.ok) processed++;

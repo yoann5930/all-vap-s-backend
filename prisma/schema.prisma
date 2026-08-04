@@ -131,6 +131,7 @@ model Product {
   stockLevels      StockLevel[]
   stockMovements   StockMovement[]
   productMatches   ProductMatch[] @relation("MatchedProduct")
+  inventoryLines   InventoryLine[]
 
   @@index([isActive, category])
   @@index([isActive, isPromo])
@@ -196,15 +197,56 @@ model ProductFlavor {
 }
 
 model StockLocation {
-  id        String   @id @default(cuid())
-  code      String   @unique
-  name      String
-  address   String?
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  levels    StockLevel[]
-  movements StockMovement[]
+  id                 String             @id @default(cuid())
+  code               String             @unique
+  name               String
+  address            String?
+  active             Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  levels             StockLevel[]
+  movements          StockMovement[]
+  inventorySessions  InventorySession[]
+}
+
+/// Session d'inventaire physique — toujours rattachée à une boutique
+model InventorySession {
+  id               String           @id @default(cuid())
+  employeeName     String
+  locationId       String
+  location         StockLocation    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  status           String           @default("OPEN") // OPEN | COMPLETED | CANCELLED
+  createdByUserId  String?
+  notes            String?
+  startedAt        DateTime         @default(now())
+  completedAt      DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  lines            InventoryLine[]
+
+  @@index([locationId, status])
+  @@index([startedAt])
+}
+
+model InventoryLine {
+  id                String           @id @default(cuid())
+  sessionId         String
+  session           InventorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  productId         String?
+  product           Product?         @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId         String?
+  barcode           String?
+  quantityCounted   Int
+  photoPath         String?
+  driveFileId       String?
+  syncedToSheetsAt  DateTime?
+  notes             String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([sessionId])
+  @@index([productId])
+  @@index([barcode])
 }
 
 model StockLevel {

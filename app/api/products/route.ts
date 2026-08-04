@@ -110,14 +110,41 @@ export async function GET(request: NextRequest) {
           isPromo: true,
           categoryRef: { select: { id: true, name: true, slug: true } },
           brandRef: { select: { id: true, name: true, slug: true } },
+          stockLevels: {
+            where: { location: { code: { in: ["HAUTMONT", "LE_QUESNOY"] } } },
+            select: {
+              quantity: true,
+              availableQuantity: true,
+              location: { select: { code: true } },
+            },
+          },
         },
       }),
       prisma.product.count({ where }),
       getCatalogMeta(),
     ]);
 
+    const productsWithDualStock = products.map((p) => {
+      const hautmont =
+        p.stockLevels
+          .filter((l) => l.location.code === "HAUTMONT")
+          .reduce((s, l) => s + l.quantity, 0);
+      const leQuesnoy =
+        p.stockLevels
+          .filter((l) => l.location.code === "LE_QUESNOY")
+          .reduce((s, l) => s + l.quantity, 0);
+      const { stockLevels: _, ...rest } = p;
+      void _;
+      return {
+        ...rest,
+        stockHautmont: hautmont,
+        stockLeQuesnoy: leQuesnoy,
+        stock: hautmont + leQuesnoy > 0 || p.stockLevels.length > 0 ? hautmont + leQuesnoy : p.stock,
+      };
+    });
+
     const response = jsonResponse({
-      products,
+      products: productsWithDualStock,
       categories: meta.categories,
       brands: meta.brands,
       pagination: {

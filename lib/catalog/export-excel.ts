@@ -1,6 +1,11 @@
 import ExcelJS from "exceljs";
 import prisma from "@/lib/prisma";
-import { ensureGlobalStockLocation, GLOBAL_STOCK_CODE, GLOBAL_STOCK_NAME } from "@/lib/catalog/stock";
+import {
+  HAUTMONT_STOCK_CODE,
+  LE_QUESNOY_STOCK_CODE,
+  stockCodeDisplayName,
+} from "@/lib/catalog/normalize";
+import { ensureStoreStockLocations } from "@/lib/catalog/stock";
 
 function styleHeader(row: ExcelJS.Row) {
   row.font = { bold: true };
@@ -24,15 +29,46 @@ function addSheet(
   return sheet;
 }
 
-/** Génère CATALOGUE_STOCK_ALL_VAPS.xlsx — stock général unique uniquement. */
-export async function generateCatalogStockWorkbook(): Promise<Buffer> {
-  await ensureGlobalStockLocation();
+function stockRows(
+  levels: Array<{
+    productId: string;
+    product: { name: string };
+    variantId: string;
+    variant: { name: string };
+    quantity: number;
+    reservedQuantity: number;
+    availableQuantity: number;
+    lowStockThreshold: number;
+    source: string;
+    lastSyncedAt: Date | null;
+    location: { code: string; name: string };
+  }>
+) {
+  return levels.map((s) => [
+    s.productId,
+    s.product.name,
+    s.variantId,
+    s.variant.name,
+    s.quantity,
+    s.reservedQuantity,
+    s.availableQuantity,
+    s.lowStockThreshold,
+    s.source,
+    s.lastSyncedAt,
+    s.location.code,
+    s.location.name,
+  ]);
+}
 
-  const [products, variants, globalStock, matches, syncRuns, syncErrors] = await Promise.all([
+/** Génère CATALOGUE_STOCK_ALL_VAPS.xlsx — stocks Hautmont / Le Quesnoy + global calculé. */
+export async function generateCatalogStockWorkbook(): Promise<Buffer> {
+  await ensureStoreStockLocations();
+
+  const [products, variants, storeStock, matches, syncRuns, syncErrors] = await Promise.all([
     prisma.product.findMany({ orderBy: { name: "asc" }, include: { flavors: true } }),
     prisma.productVariant.findMany({ orderBy: { name: "asc" } }),
     prisma.stockLevel.findMany({
-      where: { location: { code: GLOBAL_STOCK_CODE } },
+      where: { location: { code: { in: [HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE] } } },
       include: { product: true, variant: true, location: true },
     }),
     prisma.productMatch.findMany({ orderBy: { createdAt: "desc" }, take: 5000 }),
@@ -40,22 +76,104 @@ export async function generateCatalogStockWorkbook(): Promise<Buffer> {
     prisma.syncError.findMany({ orderBy: { createdAt: "desc" }, take: 2000 }),
   ]);
 
+  const hautmont = storeStock.filter((s) => s.location.code === HAUTMONT_STOCK_CODE);
+  const leQuesnoy = storeStock.filter((s) => s.location.code === LE_QUESNOY_STOCK_CODE);
+
+  const byProduct = new Map<
+    string,
+    { name: string; hautmont: number; leQuesnoy: number; reservedH: number; reservedQ: number }
+  >();
+  for (const p of products) {
+    byProduct.set(p.id, {
+      name: p.name,
+      hautmont: 0,
+      leQuesnoy: 0,
+      reservedH: 0,
+      reservedQ: 0,
+    });
+  }
+  for (const s of hautmont) {
+    const row = byProduct.get(s.productId) ?? {
+      name: s.product.name,
+      hautmont: 0,
+      leQuesnoy: 0,
+      reservedH: 0,
+      reservedQ: 0,
+    };
+    row.hautmont += s.quantity;
+    row.reservedH += s.reservedQuantity;
+    byProduct.set(s.productId, row);
+  }
+  for (const s of leQuesnoy) {
+    const row = byProduct.get(s.productId) ?? {
+      name: s.product.name,
+      hautmont: 0,
+      leQuesnoy: 0,
+      reservedH: 0,
+      reservedQ: 0,
+    };
+    row.leQuesnoy += s.quantity;
+    row.reservedQ += s.reservedQuantity;
+    byProduct.set(s.productId, row);
+  }
+
   const wb = new ExcelJS.Workbook();
   wb.creator = "All Vap's";
   wb.created = new Date();
+
+  const stockHeaders = [
+    "productId",
+    "productName",
+    "variantId",
+    "variantName",
+    "quantity",
+    "reservedQuantity",
+    "availableQuantity",
+    "lowStockThreshold",
+    "source",
+    "lastSyncedAt",
+    "locationCode",
+    "locationName",
+  ];
 
   addSheet(
     wb,
     "Catalogue_Produits",
     [
-      "id", "sku", "barcode", "name", "normalizedName", "brand", "range", "category",
-      "productType", "priceCents", "currency", "source", "active", "visibleOnline",
-      "sumupProductId", "legacyStock",
+      "id",
+      "sku",
+      "barcode",
+      "name",
+      "normalizedName",
+      "brand",
+      "range",
+      "category",
+      "productType",
+      "priceCents",
+      "currency",
+      "source",
+      "active",
+      "visibleOnline",
+      "sumupProductId",
+      "stockGlobalCalcule",
     ],
     products.map((p) => [
-      p.id, p.sku, p.barcode, p.name, p.normalizedName, p.brand, p.range, p.category,
-      p.productType, p.priceCents, p.currency, p.source, p.isActive, p.visibleOnline,
-      p.sumupProductId, p.stock,
+      p.id,
+      p.sku,
+      p.barcode,
+      p.name,
+      p.normalizedName,
+      p.brand,
+      p.range,
+      p.category,
+      p.productType,
+      p.priceCents,
+      p.currency,
+      p.source,
+      p.isActive,
+      p.visibleOnline,
+      p.sumupProductId,
+      p.stock,
     ])
   );
 
@@ -63,27 +181,60 @@ export async function generateCatalogStockWorkbook(): Promise<Buffer> {
     wb,
     "Variantes",
     [
-      "id", "productId", "name", "sku", "barcode", "nicotineMg", "capacityMl",
-      "resistanceOhms", "powerWatts", "color", "sumupVariantId", "active",
+      "id",
+      "productId",
+      "name",
+      "sku",
+      "barcode",
+      "nicotineMg",
+      "capacityMl",
+      "resistanceOhms",
+      "powerWatts",
+      "color",
+      "sumupVariantId",
+      "active",
     ],
     variants.map((v) => [
-      v.id, v.productId, v.name, v.sku, v.barcode, v.nicotineMg, v.capacityMl,
-      v.resistanceOhms, v.powerWatts, v.color, v.sumupVariantId, v.active,
+      v.id,
+      v.productId,
+      v.name,
+      v.sku,
+      v.barcode,
+      v.nicotineMg,
+      v.capacityMl,
+      v.resistanceOhms,
+      v.powerWatts,
+      v.color,
+      v.sumupVariantId,
+      v.active,
     ])
   );
 
+  addSheet(wb, "Stocks_Hautmont", stockHeaders, stockRows(hautmont));
+  addSheet(wb, "Stocks_Le_Quesnoy", stockHeaders, stockRows(leQuesnoy));
+
   addSheet(
     wb,
-    "Stock_General_All_Vaps",
+    "Stocks_Global_Calcule",
     [
-      "productId", "productName", "variantId", "variantName", "quantity",
-      "reservedQuantity", "availableQuantity", "lowStockThreshold", "source", "lastSyncedAt",
-      "locationCode", "locationName",
+      "productId",
+      "productName",
+      "stockHautmont",
+      "stockLeQuesnoy",
+      "stockGlobal",
+      "reservedHautmont",
+      "reservedLeQuesnoy",
+      "availableGlobal",
     ],
-    globalStock.map((s) => [
-      s.productId, s.product.name, s.variantId, s.variant.name, s.quantity,
-      s.reservedQuantity, s.availableQuantity, s.lowStockThreshold, s.source, s.lastSyncedAt,
-      GLOBAL_STOCK_CODE, GLOBAL_STOCK_NAME,
+    [...byProduct.entries()].map(([productId, row]) => [
+      productId,
+      row.name,
+      row.hautmont,
+      row.leQuesnoy,
+      row.hautmont + row.leQuesnoy,
+      row.reservedH,
+      row.reservedQ,
+      Math.max(0, row.hautmont + row.leQuesnoy - row.reservedH - row.reservedQ),
     ])
   );
 
@@ -100,19 +251,35 @@ export async function generateCatalogStockWorkbook(): Promise<Buffer> {
     wb,
     "Import_Stock",
     ["note"],
-    [["Recalage stock général via CSV SumUp — source officielle des quantités physiques"]]
+    [
+      [
+        "Recalage stock boutique via CSV SumUp — choisir HAUTMONT ou LE_QUESNOY à l'import. Global = somme calculée.",
+      ],
+    ]
   );
 
   addSheet(
     wb,
     "Correspondances",
     [
-      "id", "sourceName", "normalizedSourceName", "matchedProductId", "matchMethod",
-      "confidenceScore", "status", "syncRunId",
+      "id",
+      "sourceName",
+      "normalizedSourceName",
+      "matchedProductId",
+      "matchMethod",
+      "confidenceScore",
+      "status",
+      "syncRunId",
     ],
     matches.map((m) => [
-      m.id, m.sourceName, m.normalizedSourceName, m.matchedProductId, m.matchMethod,
-      m.confidenceScore, m.status, m.syncRunId,
+      m.id,
+      m.sourceName,
+      m.normalizedSourceName,
+      m.matchedProductId,
+      m.matchMethod,
+      m.confidenceScore,
+      m.status,
+      m.syncRunId,
     ])
   );
 
@@ -138,72 +305,50 @@ export async function generateCatalogStockWorkbook(): Promise<Buffer> {
     wb,
     "Erreurs_Import",
     ["id", "syncRunId", "sourceRow", "errorType", "errorMessage", "resolved", "createdAt"],
-    syncErrors.map((e) => [e.id, e.syncRunId, e.sourceRow, e.errorType, e.errorMessage, e.resolved, e.createdAt])
+    syncErrors.map((e) => [
+      e.id,
+      e.syncRunId,
+      e.sourceRow,
+      e.errorType,
+      e.errorMessage,
+      e.resolved,
+      e.createdAt,
+    ])
   );
 
   addSheet(
     wb,
     "Historique_Synchronisations",
     [
-      "id", "source", "locationCode", "dryRun", "status", "importedCount", "updatedCount",
-      "createCount", "unmatchedCount", "duplicateCount", "errorCount", "startedAt", "completedAt",
+      "id",
+      "source",
+      "locationCode",
+      "dryRun",
+      "status",
+      "importedCount",
+      "updatedCount",
+      "createCount",
+      "unmatchedCount",
+      "duplicateCount",
+      "errorCount",
+      "startedAt",
+      "completedAt",
     ],
     syncRuns.map((r) => [
-      r.id, r.source, r.locationCode, r.dryRun, r.status, r.importedCount, r.updatedCount,
-      r.createCount, r.unmatchedCount, r.duplicateCount, r.errorCount, r.startedAt, r.completedAt,
+      r.id,
+      r.source,
+      r.locationCode,
+      r.dryRun,
+      r.status,
+      r.importedCount,
+      r.updatedCount,
+      r.createCount,
+      r.unmatchedCount,
+      r.duplicateCount,
+      r.errorCount,
+      r.startedAt,
+      r.completedAt,
     ])
-  );
-
-  addSheet(
-    wb,
-    "Tableau_Croise_Stocks",
-    ["productId", "productName", "quantity", "reservedQuantity", "availableQuantity", "statusHint"],
-    globalStock.map((s) => [
-      s.productId,
-      s.product.name,
-      s.quantity,
-      s.reservedQuantity,
-      s.availableQuantity,
-      s.availableQuantity <= 0 ? "RUPTURE" : s.availableQuantity <= s.lowStockThreshold ? "STOCK_FAIBLE" : "EN_STOCK",
-    ])
-  );
-
-  const byBrand = new Map<string, number>();
-  for (const p of products) {
-    const key = p.brand || "(sans marque)";
-    byBrand.set(key, (byBrand.get(key) ?? 0) + 1);
-  }
-  addSheet(
-    wb,
-    "Tableau_Croise_Marques",
-    ["brand", "productCount"],
-    [...byBrand.entries()].map(([brand, productCount]) => [brand, productCount])
-  );
-
-  const byFlavor = new Map<string, number>();
-  for (const p of products) {
-    for (const f of p.flavors) {
-      const key = f.flavorFamily || f.primaryFlavor || "(non renseigné)";
-      byFlavor.set(key, (byFlavor.get(key) ?? 0) + 1);
-    }
-  }
-  if (byFlavor.size === 0) byFlavor.set("(aucune donnée goût)", 0);
-  addSheet(
-    wb,
-    "Tableau_Croise_Gouts",
-    ["flavor", "count"],
-    [...byFlavor.entries()].map(([flavor, count]) => [flavor, count])
-  );
-
-  const byCat = new Map<string, number>();
-  for (const p of products) {
-    byCat.set(p.category, (byCat.get(p.category) ?? 0) + 1);
-  }
-  addSheet(
-    wb,
-    "Tableau_Croise_Categories",
-    ["category", "productCount"],
-    [...byCat.entries()].map(([category, productCount]) => [category, productCount])
   );
 
   addSheet(
@@ -212,20 +357,15 @@ export async function generateCatalogStockWorkbook(): Promise<Buffer> {
     ["key", "value"],
     [
       ["generatedAt", new Date().toISOString()],
-      ["stockLocation", GLOBAL_STOCK_CODE],
-      ["stockName", GLOBAL_STOCK_NAME],
-      ["rule", "Un seul stock général — pas de stock par boutique"],
+      ["stockHautmont", HAUTMONT_STOCK_CODE],
+      ["stockLeQuesnoy", LE_QUESNOY_STOCK_CODE],
+      ["stockHautmontName", stockCodeDisplayName(HAUTMONT_STOCK_CODE)],
+      ["stockLeQuesnoyName", stockCodeDisplayName(LE_QUESNOY_STOCK_CODE)],
+      ["rule", "Deux stocks indépendants — global = somme calculée"],
       ["file", "CATALOGUE_STOCK_ALL_VAPS.xlsx"],
       ["note", "Fichier de contrôle — PostgreSQL reste la base centrale"],
     ]
   );
-
-  // Garde-fou : aucune feuille boutique
-  for (const forbidden of ["Stocks_Hautmont", "Stocks_Le_Quesnoy", "HAUTMONT", "LE_QUESNOY"]) {
-    if (wb.getWorksheet(forbidden)) {
-      throw new Error(`Feuille interdite détectée: ${forbidden}`);
-    }
-  }
 
   const buffer = await wb.xlsx.writeBuffer();
   return Buffer.from(buffer);

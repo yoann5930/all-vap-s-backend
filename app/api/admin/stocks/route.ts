@@ -3,10 +3,21 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
+import {
+  HAUTMONT_STOCK_CODE,
+  LE_QUESNOY_STOCK_CODE,
+  isStoreStockCode,
+} from "@/lib/catalog/normalize";
+import {
+  ensureStoreStockLocations,
+  getDualStockForProduct,
+  setStoreStockQuantity,
+} from "@/lib/catalog/stock";
 
 export async function GET(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
+    await ensureStoreStockLocations();
     const lowStock = new URL(request.url).searchParams.get("lowStock") === "true";
 
     const products = await prisma.product.findMany({
@@ -15,14 +26,29 @@ export async function GET(request: NextRequest) {
       orderBy: lowStock ? { stock: "asc" } : { name: "asc" },
     });
 
+    const enriched = await Promise.all(
+      products.map(async (p) => {
+        const dual = await getDualStockForProduct(p.id);
+        return {
+          ...p,
+          stockHautmont: dual.hautmont.quantity,
+          stockLeQuesnoy: dual.leQuesnoy.quantity,
+          stockGlobal: dual.global.quantity,
+          stock: dual.global.quantity,
+        };
+      })
+    );
+
     const stats = {
-      total: products.length,
-      outOfStock: products.filter((p) => p.stock === 0).length,
-      lowStock: products.filter((p) => p.stock > 0 && p.stock <= 5).length,
-      totalUnits: products.reduce((s, p) => s + p.stock, 0),
+      total: enriched.length,
+      outOfStock: enriched.filter((p) => p.stockGlobal === 0).length,
+      lowStock: enriched.filter((p) => p.stockGlobal > 0 && p.stockGlobal <= 5).length,
+      totalUnits: enriched.reduce((s, p) => s + p.stockGlobal, 0),
+      totalHautmont: enriched.reduce((s, p) => s + p.stockHautmont, 0),
+      totalLeQuesnoy: enriched.reduce((s, p) => s + p.stockLeQuesnoy, 0),
     };
 
-    return jsonResponse({ products, stats });
+    return jsonResponse({ products: enriched, stats });
   } catch (error) {
     return handleApiError(error);
   }
@@ -31,23 +57,58 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
-    const { productId, stock, adjustment } = z.object({
-      productId: z.string(),
-      stock: z.number().int().min(0).optional(),
-      adjustment: z.number().int().optional(),
-    }).parse(await request.json());
+    const body = z
+      .object({
+        productId: z.string(),
+        locationCode: z.enum([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]),
+        stock: z.number().int().min(0).optional(),
+        adjustment: z.number().int().optional(),
+      })
+      .parse(await request.json());
 
-    const product = await prisma.product.findUnique({ where: { id: productId } });
+    if (!isStoreStockCode(body.locationCode)) {
+      return jsonResponse({ error: "locationCode invalide" }, 400);
+    }
+
+    const product = await prisma.product.findUnique({ where: { id: body.productId } });
     if (!product) throw new Error("NOT_FOUND");
 
-    const newStock = stock ?? Math.max(0, product.stock + (adjustment ?? 0));
+    let variant = await prisma.productVariant.findFirst({
+      where: { productId: body.productId, active: true },
+      orderBy: { createdAt: "asc" },
+    });
+    if (!variant) {
+      variant = await prisma.productVariant.create({
+        data: { productId: body.productId, name: "Standard" },
+      });
+    }
 
-    const updated = await prisma.product.update({
-      where: { id: productId },
-      data: { stock: newStock },
+    const dual = await getDualStockForProduct(body.productId);
+    const current =
+      body.locationCode === HAUTMONT_STOCK_CODE
+        ? dual.hautmont.quantity
+        : dual.leQuesnoy.quantity;
+    const newStock = body.stock ?? Math.max(0, current + (body.adjustment ?? 0));
+
+    await setStoreStockQuantity({
+      productId: body.productId,
+      variantId: variant.id,
+      locationCode: body.locationCode,
+      quantity: newStock,
+      source: "admin_manual",
+      movementType: "SYNC_SET",
+      externalReference: `admin:${body.productId}:${body.locationCode}:${Date.now()}`,
     });
 
-    return jsonResponse(updated);
+    const updatedDual = await getDualStockForProduct(body.productId);
+    return jsonResponse({
+      productId: body.productId,
+      locationCode: body.locationCode,
+      stockHautmont: updatedDual.hautmont.quantity,
+      stockLeQuesnoy: updatedDual.leQuesnoy.quantity,
+      stockGlobal: updatedDual.global.quantity,
+      stock: updatedDual.global.quantity,
+    });
   } catch (error) {
     return handleApiError(error);
   }

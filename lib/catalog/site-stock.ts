@@ -1,6 +1,6 @@
 import type { StockStatus } from "@/lib/catalog/stock";
 
-/** Statuts affichés site / admin — stock général unique */
+/** Statuts affichés site / admin — stock global = somme des boutiques */
 export function siteStockLabel(status: StockStatus): string {
   switch (status) {
     case "EN_STOCK":
