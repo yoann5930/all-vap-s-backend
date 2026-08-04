@@ -1,5 +1,5 @@
 /**
- * File d'attente inventaire hors ligne (IndexedDB via localStorage fallback simple).
+ * File d'attente inventaire hors ligne (localStorage).
  */
 
 export interface OfflineInventoryLine {
@@ -33,7 +33,9 @@ export async function queueOfflineInventoryLine(
   writeQueue(queue);
 }
 
-export async function flushOfflineInventoryQueue(): Promise<{ flushed: number; failed: number }> {
+export async function flushOfflineInventoryQueue(
+  apiBase = "/api/inventaire/sessions"
+): Promise<{ flushed: number; failed: number }> {
   if (typeof window === "undefined" || !navigator.onLine) {
     return { flushed: 0, failed: 0 };
   }
@@ -43,10 +45,11 @@ export async function flushOfflineInventoryQueue(): Promise<{ flushed: number; f
   const remaining: OfflineInventoryLine[] = [];
   let flushed = 0;
   let failed = 0;
+  const base = apiBase.replace(/\/$/, "");
 
   for (const item of queue) {
     try {
-      const res = await fetch(`/api/admin/inventory/sessions/${item.sessionId}/lines`, {
+      const res = await fetch(`${base}/${item.sessionId}/lines`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

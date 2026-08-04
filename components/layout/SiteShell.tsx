@@ -44,12 +44,23 @@ function MaintenanceBoutiquesChrome({ children }: { children: React.ReactNode })
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const maintenancePage = pathname === "/maintenance";
+  const inventaireEmployee =
+    pathname === "/inventaire" || pathname.startsWith("/inventaire/");
   const boutiquesOnly =
     isPublicMaintenanceUi() &&
     (pathname === "/boutiques" || pathname.startsWith("/boutiques/"));
 
   if (maintenancePage) {
     return <>{children}</>;
+  }
+
+  // Accès employé mobile : pas de chrome e-commerce / AVA
+  if (inventaireEmployee) {
+    return (
+      <main className="min-h-dvh flex-1 bg-gradient-to-b from-emerald-50 via-white to-slate-50">
+        {children}
+      </main>
+    );
   }
 
   if (boutiquesOnly) {

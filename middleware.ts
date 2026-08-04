@@ -43,13 +43,17 @@ async function hasOwnerAccess(request: NextRequest): Promise<boolean> {
   }
 }
 
-function applySecurityHeaders(response: NextResponse): NextResponse {
+function applySecurityHeaders(response: NextResponse, pathname: string): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  const camera =
+    pathname.startsWith("/inventaire") || pathname.startsWith("/admin/inventaire")
+      ? "camera=(self)"
+      : "camera=()";
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(self), geolocation=()"
+    `${camera}, microphone=(), geolocation=()`
   );
   response.headers.set(
     "Content-Security-Policy",
@@ -58,6 +62,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
+      "media-src 'self' blob:",
       "font-src 'self' data:",
       "connect-src 'self' https:",
       "frame-ancestors 'none'",
@@ -89,7 +94,7 @@ export async function middleware(request: NextRequest) {
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
-    return applySecurityHeaders(res);
+    return applySecurityHeaders(res, pathname);
   }
 
   const ownerAccess = await hasOwnerAccess(request);
@@ -108,7 +113,8 @@ export async function middleware(request: NextRequest) {
             message: "Site en maintenance. Réessayez plus tard.",
           },
           { status: 503, headers: { "Retry-After": "3600" } }
-        )
+        ),
+        pathname
       );
     }
 
@@ -119,7 +125,7 @@ export async function middleware(request: NextRequest) {
     const res = NextResponse.redirect(url);
     res.headers.set("Retry-After", "3600");
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    return applySecurityHeaders(res);
+    return applySecurityHeaders(res, pathname);
   }
 
   if (
@@ -128,14 +134,15 @@ export async function middleware(request: NextRequest) {
     !WEBHOOK_PREFIXES.some((p) => pathname.startsWith(p))
   ) {
     const origin = request.headers.get("origin");
-    if (origin && !isAllowedOrigin(origin)) {
+    if (origin && !isAllowedOrigin(origin, host)) {
       return applySecurityHeaders(
-        NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
+        NextResponse.json({ error: "Origine non autorisée" }, { status: 403 }),
+        pathname
       );
     }
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  return applySecurityHeaders(NextResponse.next(), pathname);
 }
 
 export const config = {

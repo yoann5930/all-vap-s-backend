@@ -6,7 +6,16 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   try {
     await requireAuth("ADMIN");
-  } catch {
+  } catch (error) {
+    // Ne pas avaler NEXT_REDIRECT éventuel
+    if (
+      error &&
+      typeof error === "object" &&
+      "digest" in error &&
+      String((error as { digest?: string }).digest || "").startsWith("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
     redirect("/login");
   }
 

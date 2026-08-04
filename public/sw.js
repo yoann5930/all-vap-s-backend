@@ -1,18 +1,27 @@
-/* All Vap's — service worker inventaire (cache shell + files API inventaire en réseau d'abord) */
-const CACHE = "allvaps-inventory-v1";
-const SHELL = ["/admin/inventaire", "/manifest.webmanifest"];
+/* All Vap's — service worker inventaire (shell + file réseau d'abord) */
+const CACHE = "allvaps-inventory-v2";
+const SHELL = [
+  "/inventaire",
+  "/manifest-inventaire.webmanifest",
+  "/icon-192.png",
+  "/icon-512.png",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting())
+    caches
+      .open(CACHE)
+      .then((cache) => cache.addAll(SHELL))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
@@ -22,19 +31,25 @@ self.addEventListener("fetch", (event) => {
 
   if (req.method !== "GET") return;
 
-  // API inventaire : réseau d'abord
-  if (url.pathname.startsWith("/api/admin/inventory")) {
+  if (url.pathname.startsWith("/api/inventaire") || url.pathname.startsWith("/api/admin/inventory")) {
     event.respondWith(
-      fetch(req).catch(() => new Response(JSON.stringify({ offline: true }), {
-        status: 503,
-        headers: { "Content-Type": "application/json" },
-      }))
+      fetch(req).catch(
+        () =>
+          new Response(JSON.stringify({ offline: true }), {
+            status: 503,
+            headers: { "Content-Type": "application/json" },
+          })
+      )
     );
     return;
   }
 
-  // Shell inventaire : cache fallback
-  if (url.pathname.startsWith("/admin/inventaire") || url.pathname === "/manifest.webmanifest") {
+  if (
+    url.pathname.startsWith("/inventaire") ||
+    url.pathname.startsWith("/admin/inventaire") ||
+    url.pathname === "/manifest-inventaire.webmanifest" ||
+    url.pathname === "/manifest.webmanifest"
+  ) {
     event.respondWith(
       fetch(req)
         .then((res) => {
@@ -42,7 +57,9 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE).then((c) => c.put(req, copy));
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match("/admin/inventaire")))
+        .catch(() =>
+          caches.match(req).then((r) => r || caches.match("/inventaire"))
+        )
     );
   }
 });

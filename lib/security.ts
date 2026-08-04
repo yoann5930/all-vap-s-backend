@@ -12,27 +12,48 @@ export function getAllowedOrigins(): string[] {
     "http://127.0.0.1:3000",
     "https://www.allvaps.fr",
     "https://allvaps.fr",
+    "https://inventaire.allvaps.fr",
   ];
 
   // Si APP_URL est apex ou www, accepter les deux
   const pair: string[] = [];
   if (appUrl.includes("allvaps.fr")) {
-    pair.push("https://www.allvaps.fr", "https://allvaps.fr");
+    pair.push("https://www.allvaps.fr", "https://allvaps.fr", "https://inventaire.allvaps.fr");
+  }
+
+  // Domaines Vercel preview / production
+  if (process.env.VERCEL_URL) {
+    pair.push(`https://${process.env.VERCEL_URL.replace(/^https?:\/\//, "")}`);
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    pair.push(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, "")}`);
   }
 
   return Array.from(new Set([appUrl, ...pair, ...extras, ...defaults].filter(Boolean)));
 }
 
-export function isAllowedOrigin(origin: string | null): boolean {
+export function isAllowedOrigin(origin: string | null, requestHost?: string): boolean {
   if (!origin) return true; // curl / same-origin sans Origin (mobile apps / SSR)
   const allowed = getAllowedOrigins();
   try {
-    const o = new URL(origin).origin;
+    const o = new URL(origin);
+    // Même hôte que la requête (tunnel Cloudflare, preview Vercel, domaine custom)
+    if (requestHost) {
+      const host = requestHost.split(":")[0].toLowerCase();
+      if (o.hostname.toLowerCase() === host) return true;
+    }
+    // Previews Vercel / tunnels Cloudflare (HTTPS public temporaire)
+    if (
+      o.hostname.endsWith(".vercel.app") ||
+      o.hostname.endsWith(".trycloudflare.com")
+    ) {
+      return true;
+    }
     return allowed.some((a) => {
       try {
-        return new URL(a).origin === o;
+        return new URL(a).origin === o.origin;
       } catch {
-        return a === o;
+        return a === o.origin;
       }
     });
   } catch {
@@ -43,7 +64,8 @@ export function isAllowedOrigin(origin: string | null): boolean {
 /** Vérifie Origin/Referer pour les requêtes mutantes authentifiées par cookie. */
 export function assertSameOrigin(request: Request): void {
   const origin = request.headers.get("origin");
-  if (origin && !isAllowedOrigin(origin)) {
+  const host = request.headers.get("host") || undefined;
+  if (origin && !isAllowedOrigin(origin, host)) {
     throw new Error("CSRF_REJECTED");
   }
   if (!origin) {
@@ -51,7 +73,7 @@ export function assertSameOrigin(request: Request): void {
     if (referer) {
       try {
         const refOrigin = new URL(referer).origin;
-        if (!isAllowedOrigin(refOrigin)) throw new Error("CSRF_REJECTED");
+        if (!isAllowedOrigin(refOrigin, host)) throw new Error("CSRF_REJECTED");
       } catch (e) {
         if (e instanceof Error && e.message === "CSRF_REJECTED") throw e;
       }
