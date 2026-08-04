@@ -156,12 +156,13 @@ export async function getAuthUser(): Promise<JwtPayload | null> {
   const payload = await verifyToken(token);
   if (!payload) return null;
 
-  // Re-vérifie le rôle en base (révocation / démotion)
+  // Re-vérifie le rôle / actif en base (révocation / démotion / désactivation)
   const user = await prisma.user.findUnique({
     where: { id: payload.userId },
-    select: { id: true, email: true, role: true },
+    select: { id: true, email: true, role: true, active: true },
   });
   if (!user) return null;
+  if (user.active === false) return null;
 
   return { userId: user.id, email: user.email, role: user.role };
 }

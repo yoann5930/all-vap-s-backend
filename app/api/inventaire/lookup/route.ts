@@ -5,12 +5,13 @@ import { matchCatalogProduct } from "@/lib/catalog/matching";
 import { normalizeProductName } from "@/lib/catalog/normalize";
 import { getDualStockForProduct } from "@/lib/catalog/stock";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
+import { requireInventoryAuth } from "@/lib/inventory/auth";
 
-/** Lookup barcode public (employé) — pas de données admin sensibles. */
+/** Lookup barcode inventaire — EMPLOYEE/ADMIN authentifié. */
 export async function GET(request: NextRequest) {
   try {
-    const ip = clientIp(request);
-    const limit = checkRateLimit(`inventaire:lookup:${ip}`, 180, 15 * 60 * 1000);
+    const user = await requireInventoryAuth();
+    const limit = checkRateLimit(`inventaire:lookup:${user.userId}`, 180, 15 * 60 * 1000);
     if (!limit.ok) {
       return jsonResponse({ error: "Trop de scans", retryAfterSec: limit.retryAfterSec }, 429);
     }

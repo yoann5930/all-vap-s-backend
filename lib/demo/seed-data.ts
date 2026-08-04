@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import { CATALOG_CATEGORIES } from "@/lib/catalog/categories";
 import { buildDualStockSeed } from "./dual-stock-seed";
+import { INVENTORY_STAFF } from "@/lib/inventory/staff-accounts";
+import { STAFF_PASSWORD_HASHES } from "@/lib/inventory/staff-hashes.generated";
 
 const BASE = new Date("2024-06-01T10:00:00.000Z");
 
@@ -64,11 +66,36 @@ export interface DemoStore {
   productMatches: Array<Record<string, unknown>>;
   syncErrors: Array<Record<string, unknown>>;
   refreshTokens: Array<Record<string, unknown>>;
+  auditLogs: Array<Record<string, unknown>>;
 }
 
 export function buildDemoSeed(): DemoStore {
   const adminHash = bcrypt.hashSync("Admin123!", 12);
   const demoHash = bcrypt.hashSync("Demo123!", 12);
+  const staffUsers = INVENTORY_STAFF.map((s, i) => {
+    const passwordHash = STAFF_PASSWORD_HASHES[s.email];
+    if (!passwordHash) {
+      throw new Error(`Hash manquant pour ${s.email} — lancer scripts/seed-inventory-staff.ts`);
+    }
+    return {
+      id: `usr_staff_${i + 1}`,
+      email: s.email,
+      passwordHash,
+      firstName: s.firstName,
+      lastName: s.lastName,
+      phone: null,
+      role: s.role,
+      active: true,
+      mustChangePassword: true,
+      allowedStores: s.allowedStores,
+      lastLoginAt: null,
+      emailVerified: true,
+      loyaltyPoints: 0,
+      qrCode: `qr_staff_${i + 1}`,
+      createdAt: BASE,
+      updatedAt: BASE,
+    };
+  });
 
   const categories = CATALOG_CATEGORIES.map((c) => ({
     id: catId(c.slug),
@@ -163,6 +190,10 @@ export function buildDemoSeed(): DemoStore {
       lastName: "All Vap's",
       phone: null,
       role: "ADMIN",
+      active: true,
+      mustChangePassword: false,
+      allowedStores: ["HAUTMONT", "LE_QUESNOY"],
+      lastLoginAt: null,
       emailVerified: true,
       loyaltyPoints: 0,
       qrCode: "qr_admin",
@@ -177,12 +208,17 @@ export function buildDemoSeed(): DemoStore {
       lastName: "Dupont",
       phone: "0600000000",
       role: "CUSTOMER",
+      active: true,
+      mustChangePassword: false,
+      allowedStores: [],
+      lastLoginAt: null,
       emailVerified: true,
       loyaltyPoints: 150,
       qrCode: "qr_demo",
       createdAt: BASE,
       updatedAt: BASE,
     },
+    ...staffUsers,
   ];
 
   const orderItems = [
@@ -323,6 +359,7 @@ export function buildDemoSeed(): DemoStore {
     ],
     ...buildDualStockSeed(products),
     refreshTokens: [],
+    auditLogs: [],
   };
 }
 

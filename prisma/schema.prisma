@@ -9,6 +9,7 @@ datasource db {
 
 enum Role {
   CUSTOMER
+  EMPLOYEE
   ADMIN
 }
 
@@ -39,27 +40,62 @@ enum DiscountType {
 }
 
 model User {
-  id             String               @id @default(cuid())
-  email          String               @unique
-  passwordHash   String
-  firstName      String?
-  lastName       String?
-  phone          String?
-  role           Role                 @default(CUSTOMER)
-  emailVerified  Boolean              @default(true)
-  loyaltyPoints  Int                  @default(0)
-  qrCode         String               @unique @default(cuid())
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @updatedAt
-  orders         Order[]
-  addresses      Address[]
-  favorites      Favorite[]
-  reviews        Review[]
-  resetTokens    PasswordResetToken[]
-  refreshTokens  RefreshToken[]
-  emailConfirmTokens EmailConfirmationToken[]
-  vapeProfile    VapeProfile?
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  passwordHash        String
+  firstName           String?
+  lastName            String?
+  phone               String?
+  role                Role                 @default(CUSTOMER)
+  /// Compte actif — false = connexion refusée immédiatement
+  active              Boolean              @default(true)
+  /// Force le changement de mot de passe (1ère connexion / reset admin)
+  mustChangePassword  Boolean              @default(false)
+  /// Boutiques inventaire autorisées (codes HAUTMONT / LE_QUESNOY)
+  allowedStores       String[]             @default([])
+  lastLoginAt         DateTime?
+  emailVerified       Boolean              @default(true)
+  loyaltyPoints       Int                  @default(0)
+  qrCode              String               @unique @default(cuid())
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  orders              Order[]
+  addresses           Address[]
+  favorites           Favorite[]
+  reviews             Review[]
+  resetTokens         PasswordResetToken[]
+  refreshTokens       RefreshToken[]
+  emailConfirmTokens  EmailConfirmationToken[]
+  vapeProfile         VapeProfile?
   vapeRecommendations VapeRecommendation[]
+  inventorySessions   InventorySession[]
+  auditLogs           AuditLog[]
+}
+
+/// Journal d'audit inventaire / admin (traçabilité obligatoire)
+model AuditLog {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userEmail       String?
+  userRole        String?
+  action          String
+  storeCode       String?
+  productId       String?
+  productName     String?
+  inventoryId     String?
+  oldQuantity     Int?
+  newQuantity     Int?
+  sessionId       String?
+  deviceInfo      String?
+  ip              String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@index([inventoryId])
+  @@index([storeCode, createdAt])
 }
 
 model Category {
@@ -217,6 +253,7 @@ model InventorySession {
   location         StockLocation    @relation(fields: [locationId], references: [id], onDelete: Cascade)
   status           String           @default("OPEN") // OPEN | COMPLETED | CANCELLED
   createdByUserId  String?
+  createdBy        User?            @relation(fields: [createdByUserId], references: [id], onDelete: SetNull)
   notes            String?
   startedAt        DateTime         @default(now())
   completedAt      DateTime?
@@ -226,6 +263,7 @@ model InventorySession {
 
   @@index([locationId, status])
   @@index([startedAt])
+  @@index([createdByUserId])
 }
 
 model InventoryLine {

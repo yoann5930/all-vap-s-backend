@@ -18,10 +18,19 @@ export async function GET() {
         lastName: true,
         phone: true,
         role: true,
+        active: true,
+        mustChangePassword: true,
+        allowedStores: true,
+        lastLoginAt: true,
         emailVerified: true,
         createdAt: true,
       },
     });
+
+    if (user && user.active === false) {
+      await clearAuthCookie();
+      return jsonResponse({ user: null });
+    }
 
     return jsonResponse({ user });
   } catch (error) {

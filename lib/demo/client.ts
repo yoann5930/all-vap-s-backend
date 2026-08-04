@@ -246,6 +246,7 @@ export function createDemoPrismaClient() {
     productMatch: createModelDelegate("productMatch"),
     syncError: createModelDelegate("syncError"),
     refreshToken: createModelDelegate("refreshToken"),
+    auditLog: createModelDelegate("auditLog"),
   };
 }
 

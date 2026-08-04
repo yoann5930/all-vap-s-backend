@@ -4,23 +4,33 @@ import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { uploadInventoryPhotoToDrive } from "@/lib/google/drive";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { storeInventoryPhoto } from "@/lib/inventory/photo-storage";
+import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
+import { writeAuditLog } from "@/lib/audit/log";
 
 type Ctx = { params: Promise<{ id: string }> };
 
 export async function POST(request: NextRequest, context: Ctx) {
   try {
+    const user = await requireInventoryAuth();
     const ip = clientIp(request);
-    const limit = checkRateLimit(`inventaire:photo:${ip}`, 60, 15 * 60 * 1000);
+    const limit = checkRateLimit(`inventaire:photo:${user.userId}`, 60, 15 * 60 * 1000);
     if (!limit.ok) {
       return jsonResponse({ error: "Trop de photos", retryAfterSec: limit.retryAfterSec }, 429);
     }
 
     const { id } = await context.params;
-    const session = await prisma.inventorySession.findUnique({ where: { id } });
+    const session = await prisma.inventorySession.findUnique({
+      where: { id },
+      include: { location: true },
+    });
     if (!session) throw new Error("NOT_FOUND");
     if (session.status !== "OPEN") {
       return jsonResponse({ error: "Session clôturée" }, 400);
     }
+    if (user.role !== "ADMIN" && session.createdByUserId && session.createdByUserId !== user.userId) {
+      throw new Error("FORBIDDEN");
+    }
+    assertStoreAllowed(user, session.location.code);
 
     const form = await request.formData();
     const file = form.get("file");
@@ -59,6 +69,17 @@ export async function POST(request: NextRequest, context: Ctx) {
         },
       });
     }
+
+    await writeAuditLog({
+      user,
+      action: "INVENTORY_PHOTO",
+      storeCode: session.location.code,
+      inventoryId: id,
+      sessionId: id,
+      ip,
+      deviceInfo: request.headers.get("user-agent"),
+      metadata: { lineId: lineId || null, storage: stored.storage },
+    });
 
     return jsonResponse({
       photoPath: stored.photoPath,

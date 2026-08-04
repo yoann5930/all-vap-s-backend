@@ -121,6 +121,15 @@ export async function loginUser(email: string, password: string) {
     throw new Error("INVALID_CREDENTIALS");
   }
 
+  if (user.active === false) {
+    throw new Error("ACCOUNT_DISABLED");
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { lastLoginAt: new Date() },
+  });
+
   const payload: JwtPayload = {
     userId: user.id,
     email: user.email,
@@ -147,6 +156,10 @@ function sanitizeUser(user: {
   phone?: string | null;
   role: Role;
   emailVerified?: boolean;
+  active?: boolean;
+  mustChangePassword?: boolean;
+  allowedStores?: string[];
+  lastLoginAt?: Date | null;
   createdAt: Date;
 }) {
   return {
@@ -157,6 +170,10 @@ function sanitizeUser(user: {
     phone: user.phone ?? null,
     role: user.role,
     emailVerified: user.emailVerified ?? true,
+    active: user.active ?? true,
+    mustChangePassword: user.mustChangePassword ?? false,
+    allowedStores: user.allowedStores ?? [],
+    lastLoginAt: user.lastLoginAt ?? null,
     createdAt: user.createdAt,
   };
 }

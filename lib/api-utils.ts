@@ -20,7 +20,11 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
   INVALID_STATUS_TRANSITION: { message: "Transition de statut non autorisée", status: 400 },
   CSRF_REJECTED: { message: "Origine non autorisée", status: 403 },
   RATE_LIMITED: { message: "Trop de tentatives. Réessayez plus tard.", status: 429 },
-  CHECKOUT_FORBIDDEN: { message: "Paiement non autorisé pour cette commande", status: 403 },
+  ACCOUNT_DISABLED: { message: "Compte désactivé", status: 403 },
+  MUST_CHANGE_PASSWORD: { message: "Changement de mot de passe obligatoire", status: 403 },
+  STORE_NOT_ALLOWED: { message: "Boutique non autorisée pour ce compte", status: 403 },
+  WEAK_PASSWORD: { message: "Mot de passe trop faible (8 caractères min., lettre + chiffre)", status: 400 },
+  SAME_PASSWORD: { message: "Le nouveau mot de passe doit être différent", status: 400 },
 };
 
 export function jsonResponse<T>(data: T, status = 200) {

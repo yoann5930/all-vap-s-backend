@@ -9,6 +9,7 @@ import {
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/users", label: "Utilisateurs", icon: Users },
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/stocks", label: "Stocks", icon: Warehouse },
   { href: "/admin/inventaire", label: "Inventaire", icon: ClipboardList },

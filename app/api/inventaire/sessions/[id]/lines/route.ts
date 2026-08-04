@@ -5,11 +5,15 @@ import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { matchCatalogProduct } from "@/lib/catalog/matching";
 import { normalizeProductName } from "@/lib/catalog/normalize";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
+import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
+import { writeAuditLog } from "@/lib/audit/log";
+import { getDualStockForProduct } from "@/lib/catalog/stock";
 
 type Ctx = { params: Promise<{ id: string }> };
 
 export async function GET(_request: NextRequest, context: Ctx) {
   try {
+    const user = await requireInventoryAuth();
     const { id } = await context.params;
     const session = await prisma.inventorySession.findUnique({
       where: { id },
@@ -19,6 +23,10 @@ export async function GET(_request: NextRequest, context: Ctx) {
       },
     });
     if (!session) throw new Error("NOT_FOUND");
+    if (user.role !== "ADMIN" && session.createdByUserId && session.createdByUserId !== user.userId) {
+      throw new Error("FORBIDDEN");
+    }
+    assertStoreAllowed(user, session.location.code);
     return jsonResponse({ session });
   } catch (error) {
     return handleApiError(error);
@@ -27,8 +35,9 @@ export async function GET(_request: NextRequest, context: Ctx) {
 
 export async function POST(request: NextRequest, context: Ctx) {
   try {
+    const user = await requireInventoryAuth();
     const ip = clientIp(request);
-    const limit = checkRateLimit(`inventaire:line:${ip}`, 120, 15 * 60 * 1000);
+    const limit = checkRateLimit(`inventaire:line:${user.userId}`, 120, 15 * 60 * 1000);
     if (!limit.ok) {
       return jsonResponse({ error: "Trop de requêtes", retryAfterSec: limit.retryAfterSec }, 429);
     }
@@ -42,6 +51,10 @@ export async function POST(request: NextRequest, context: Ctx) {
     if (session.status !== "OPEN") {
       return jsonResponse({ error: "Session clôturée" }, 400);
     }
+    if (user.role !== "ADMIN" && session.createdByUserId && session.createdByUserId !== user.userId) {
+      throw new Error("FORBIDDEN");
+    }
+    assertStoreAllowed(user, session.location.code);
 
     const body = z
       .object({
@@ -111,6 +124,32 @@ export async function POST(request: NextRequest, context: Ctx) {
           `employé=${session.employeeName}; boutique=${session.location.code}; at=${now.toISOString()}`,
       },
       include: { product: true },
+    });
+
+    let oldQty: number | null = null;
+    if (productId) {
+      try {
+        const dual = await getDualStockForProduct(productId);
+        oldQty =
+          session.location.code === "LE_QUESNOY"
+            ? dual.leQuesnoy.quantity
+            : dual.hautmont.quantity;
+      } catch { /* ignore */ }
+    }
+
+    await writeAuditLog({
+      user,
+      action: "INVENTORY_LINE_UPSERT",
+      storeCode: session.location.code,
+      productId: productId || null,
+      productName: line.product?.name || null,
+      inventoryId: id,
+      sessionId: id,
+      oldQuantity: oldQty,
+      newQuantity: body.quantityCounted,
+      ip,
+      deviceInfo: request.headers.get("user-agent"),
+      metadata: { barcode, lineId: line.id },
     });
 
     return jsonResponse({

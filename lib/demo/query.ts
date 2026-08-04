@@ -307,6 +307,11 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     if (counts.orders) {
       countObj.orders = store.orders.filter((o) => o.userId === record.id).length;
     }
+    if (counts.inventorySessions) {
+      countObj.inventorySessions = store.inventorySessions.filter(
+        (s) => s.createdByUserId === record.id
+      ).length;
+    }
     if (counts.lines) {
       countObj.lines = store.inventoryLines.filter((l) => l.sessionId === record.id).length;
     }

@@ -1,12 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   flushOfflineInventoryQueue,
   queueOfflineInventoryLine,
 } from "@/lib/inventory/offline-queue";
 
 type StoreCode = "HAUTMONT" | "LE_QUESNOY";
+
+interface MeUser {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  role: string;
+  mustChangePassword?: boolean;
+  allowedStores?: string[];
+  active?: boolean;
+}
 
 interface Session {
   id: string;
@@ -24,13 +36,15 @@ interface Session {
   }>;
 }
 
-const STORES: { code: StoreCode; label: string }[] = [
-  { code: "HAUTMONT", label: "All Vap's Hautmont" },
-  { code: "LE_QUESNOY", label: "All Vap's Le Quesnoy" },
-];
+const STORE_LABELS: Record<StoreCode, string> = {
+  HAUTMONT: "All Vap's Hautmont",
+  LE_QUESNOY: "All Vap's Le Quesnoy",
+};
 
 export function EmployeeInventoryApp() {
-  const [employeeName, setEmployeeName] = useState("");
+  const router = useRouter();
+  const [me, setMe] = useState<MeUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [locationCode, setLocationCode] = useState<StoreCode | "">("");
   const [session, setSession] = useState<Session | null>(null);
   const [barcode, setBarcode] = useState("");
@@ -45,12 +59,54 @@ export function EmployeeInventoryApp() {
   const lastLineIdRef = useRef<string | null>(null);
   const barcodeRef = useRef<HTMLInputElement>(null);
 
+  const allowedStores = useMemo(() => {
+    const stores = (me?.allowedStores || []) as StoreCode[];
+    if (me?.role === "ADMIN") return ["HAUTMONT", "LE_QUESNOY"] as StoreCode[];
+    return stores.filter((s) => s === "HAUTMONT" || s === "LE_QUESNOY");
+  }, [me]);
+
+  const displayName = useMemo(() => {
+    if (!me) return "";
+    return [me.firstName, me.lastName].filter(Boolean).join(" ").trim() || me.email;
+  }, [me]);
+
   const refreshSession = useCallback(async (id: string) => {
     const res = await fetch(`/api/inventaire/sessions/${id}/lines`);
     if (!res.ok) return;
     const data = await res.json();
     setSession(data.session);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (!res.ok) {
+          router.replace("/login?next=/inventaire");
+          return;
+        }
+        const data = await res.json();
+        const user = data.user as MeUser | undefined;
+        if (!user || (user.role !== "EMPLOYEE" && user.role !== "ADMIN")) {
+          router.replace("/login?next=/inventaire");
+          return;
+        }
+        if (user.mustChangePassword) {
+          router.replace("/changer-mot-de-passe?next=/inventaire");
+          return;
+        }
+        if (!cancelled) setMe(user);
+      } catch {
+        router.replace("/login?next=/inventaire");
+      } finally {
+        if (!cancelled) setAuthLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   useEffect(() => {
     setOnline(navigator.onLine);
@@ -69,6 +125,11 @@ export function EmployeeInventoryApp() {
       window.removeEventListener("offline", off);
     };
   }, []);
+
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.replace("/login");
+  }
 
   async function lookupBarcode(code: string) {
     try {
@@ -92,8 +153,8 @@ export function EmployeeInventoryApp() {
   }
 
   async function startSession() {
-    if (!employeeName.trim() || !locationCode) {
-      setError("Indiquez votre nom et la boutique.");
+    if (!locationCode) {
+      setError("Choisissez la boutique.");
       return;
     }
     setLoading(true);
@@ -102,7 +163,7 @@ export function EmployeeInventoryApp() {
       const res = await fetch("/api/inventaire/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ employeeName: employeeName.trim(), locationCode }),
+        body: JSON.stringify({ locationCode }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Impossible de démarrer");
@@ -177,9 +238,7 @@ export function EmployeeInventoryApp() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur photo");
       setMessage(
-        data.drive?.uploaded
-          ? "Photo enregistrée (+ Drive)"
-          : "Photo enregistrée localement"
+        data.drive?.uploaded ? "Photo enregistrée (+ Drive)" : "Photo enregistrée localement"
       );
       await refreshSession(session.id);
     } catch (e) {
@@ -205,7 +264,6 @@ export function EmployeeInventoryApp() {
       setMessage(`Terminé — ${data.applied} produit(s) mis à jour`);
       setSession(null);
       setLocationCode("");
-      setEmployeeName("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {
@@ -221,44 +279,52 @@ export function EmployeeInventoryApp() {
     setLocationCode(code);
   }
 
+  if (authLoading) {
+    return (
+      <div className="mx-auto flex min-h-dvh max-w-lg items-center justify-center px-4">
+        <p className="text-sm text-gray-600">Vérification de la session…</p>
+      </div>
+    );
+  }
+
+  if (!me) return null;
+
   return (
     <div className="mx-auto min-h-dvh max-w-lg px-4 py-6 text-gray-900">
-      <header className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          All Vap&apos;s
-        </p>
-        <h1 className="mt-1 text-2xl font-bold">Inventaire boutique</h1>
-        <p
-          className={`mt-2 inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
-            online ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-900"
-          }`}
+      <header className="mb-6 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            All Vap&apos;s
+          </p>
+          <h1 className="mt-1 text-2xl font-bold">Inventaire boutique</h1>
+          <p className="mt-1 text-sm text-gray-600">{displayName}</p>
+          <p
+            className={`mt-2 inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              online ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-900"
+            }`}
+          >
+            {online ? "En ligne" : "Hors ligne — file d’attente active"}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => void logout()}
+          className="rounded-xl border border-gray-300 px-3 py-2 text-xs font-semibold"
         >
-          {online ? "En ligne" : "Hors ligne — file d’attente active"}
-        </p>
+          Déconnexion
+        </button>
       </header>
 
       {!session ? (
         <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-          <label className="block">
-            <span className="text-sm font-medium">Nom de l&apos;employé</span>
-            <input
-              className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
-              value={employeeName}
-              onChange={(e) => setEmployeeName(e.target.value)}
-              placeholder="Prénom Nom"
-              autoComplete="name"
-              autoFocus
-            />
-          </label>
-
           <fieldset>
             <legend className="text-sm font-medium">Boutique de l&apos;inventaire</legend>
             <div className="mt-2 space-y-2">
-              {STORES.map((s) => (
+              {allowedStores.map((code) => (
                 <label
-                  key={s.code}
+                  key={code}
                   className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 ${
-                    locationCode === s.code
+                    locationCode === code
                       ? "border-emerald-500 bg-emerald-50"
                       : "border-gray-200"
                   }`}
@@ -266,18 +332,23 @@ export function EmployeeInventoryApp() {
                   <input
                     type="radio"
                     name="store"
-                    checked={locationCode === s.code}
-                    onChange={() => requestStoreChange(s.code)}
+                    checked={locationCode === code}
+                    onChange={() => requestStoreChange(code)}
                   />
-                  <span className="font-medium">{s.label}</span>
+                  <span className="font-medium">{STORE_LABELS[code]}</span>
                 </label>
               ))}
+              {allowedStores.length === 0 && (
+                <p className="text-sm text-red-600">
+                  Aucune boutique autorisée — contactez Yoann.
+                </p>
+              )}
             </div>
           </fieldset>
 
           <button
             type="button"
-            disabled={loading || !employeeName.trim() || !locationCode}
+            disabled={loading || !locationCode}
             onClick={() => void startSession()}
             className="w-full rounded-xl bg-emerald-700 px-4 py-3.5 text-base font-semibold text-white disabled:opacity-50"
           >
@@ -410,13 +481,6 @@ export function EmployeeInventoryApp() {
 
       {message && <p className="mt-4 text-sm text-emerald-700">{message}</p>}
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-
-      <p className="mt-8 text-center text-xs text-gray-400">
-        Accès employé uniquement ·{" "}
-        <a href="/login" className="underline">
-          Administration
-        </a>
-      </p>
     </div>
   );
 }

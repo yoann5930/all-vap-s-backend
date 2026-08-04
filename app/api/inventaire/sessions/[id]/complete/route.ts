@@ -5,14 +5,17 @@ import { isStoreStockCode } from "@/lib/catalog/normalize";
 import { setStoreStockQuantity } from "@/lib/catalog/stock";
 import { syncCatalogToGoogleSheets } from "@/lib/google/sheets";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
+import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
+import { writeAuditLog } from "@/lib/audit/log";
 
 type Ctx = { params: Promise<{ id: string }> };
 
 /** Clôture inventaire employé — applique uniquement sur la boutique de la session. */
 export async function POST(request: NextRequest, context: Ctx) {
   try {
+    const user = await requireInventoryAuth();
     const ip = clientIp(request);
-    const limit = checkRateLimit(`inventaire:complete:${ip}`, 20, 15 * 60 * 1000);
+    const limit = checkRateLimit(`inventaire:complete:${user.userId}`, 20, 15 * 60 * 1000);
     if (!limit.ok) {
       return jsonResponse({ error: "Trop de clôtures", retryAfterSec: limit.retryAfterSec }, 429);
     }
@@ -26,6 +29,10 @@ export async function POST(request: NextRequest, context: Ctx) {
     if (session.status !== "OPEN") {
       return jsonResponse({ error: "Session déjà clôturée" }, 400);
     }
+    if (user.role !== "ADMIN" && session.createdByUserId && session.createdByUserId !== user.userId) {
+      throw new Error("FORBIDDEN");
+    }
+    assertStoreAllowed(user, session.location.code);
 
     const code = session.location.code;
     if (!isStoreStockCode(code)) {
@@ -67,6 +74,18 @@ export async function POST(request: NextRequest, context: Ctx) {
         externalReference: `inventory:${session.id}:line:${line.id}`,
       });
       applied++;
+
+      await writeAuditLog({
+        user,
+        action: "INVENTORY_STOCK_APPLIED",
+        storeCode: code,
+        productId: line.productId,
+        inventoryId: session.id,
+        sessionId: session.id,
+        newQuantity: line.quantityCounted,
+        ip,
+        metadata: { lineId: line.id },
+      });
     }
 
     const updated = await prisma.inventorySession.update({
@@ -77,6 +96,7 @@ export async function POST(request: NextRequest, context: Ctx) {
         notes: [
           session.notes,
           `completed_by=${session.employeeName}`,
+          `user=${user.email}`,
           `location=${code}`,
           `applied=${applied}`,
           `at=${new Date().toISOString()}`,
@@ -85,6 +105,17 @@ export async function POST(request: NextRequest, context: Ctx) {
           .join(" | "),
       },
       include: { location: true, _count: { select: { lines: true } } },
+    });
+
+    await writeAuditLog({
+      user,
+      action: "INVENTORY_SESSION_COMPLETE",
+      storeCode: code,
+      inventoryId: session.id,
+      sessionId: session.id,
+      ip,
+      deviceInfo: request.headers.get("user-agent"),
+      metadata: { applied, skipped },
     });
 
     const sheets = await syncCatalogToGoogleSheets();

@@ -47,3 +47,8 @@ yarn-error.log*
 # prisma
 prisma/*.db
 prisma/*.db-journal
+
+# secrets locaux (identifiants temporaires — jamais committer)
+.local/
+*credentials*.txt
+*credentials*.json

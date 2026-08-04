@@ -42,8 +42,24 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
-      router.push(data.user?.role === "ADMIN" ? "/admin" : "/account");
-      router.refresh();
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get("next");
+
+      if (data.user?.mustChangePassword) {
+        window.location.assign(
+          `/changer-mot-de-passe?next=${encodeURIComponent(next || "/inventaire")}`
+        );
+        return;
+      }
+      if (data.user?.role === "ADMIN") {
+        window.location.assign(next || "/admin");
+        return;
+      }
+      if (data.user?.role === "EMPLOYEE") {
+        window.location.assign(next || "/inventaire");
+        return;
+      }
+      window.location.assign(next || "/account");
     } catch {
       setError("Erreur de connexion au serveur");
     } finally {
