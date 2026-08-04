@@ -25,6 +25,7 @@
     "@react-three/postprocessing": "^3.0.4",
     "@vercel/blob": "^2.6.1",
     "@zxing/browser": "^0.2.1",
+    "@zxing/library": "^0.21.3",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "exceljs": "^4.4.0",
