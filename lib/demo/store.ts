@@ -28,7 +28,16 @@ export type ModelName =
   | "banner"
   | "passwordResetToken"
   | "vapeProfile"
-  | "vapeRecommendation";
+  | "vapeRecommendation"
+  | "stockLocation"
+  | "productVariant"
+  | "stockLevel"
+  | "stockMovement"
+  | "inventorySession"
+  | "inventoryLine"
+  | "syncRun"
+  | "productMatch"
+  | "syncError";
 
 export function getModelArray(store: DemoStore, model: ModelName): Array<Record<string, unknown>> {
   const map: Record<ModelName, keyof DemoStore> = {
@@ -46,6 +55,15 @@ export function getModelArray(store: DemoStore, model: ModelName): Array<Record<
     passwordResetToken: "passwordResetTokens",
     vapeProfile: "vapeProfiles",
     vapeRecommendation: "vapeRecommendations",
+    stockLocation: "stockLocations",
+    productVariant: "productVariants",
+    stockLevel: "stockLevels",
+    stockMovement: "stockMovements",
+    inventorySession: "inventorySessions",
+    inventoryLine: "inventoryLines",
+    syncRun: "syncRuns",
+    productMatch: "productMatches",
+    syncError: "syncErrors",
   };
   return store[map[model]] as Array<Record<string, unknown>>;
 }

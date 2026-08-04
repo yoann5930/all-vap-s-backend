@@ -52,15 +52,50 @@ function resolveRelation(store: DemoStore, record: RecordLike, relation: string)
   if (relation === "items" && record.id) {
     return store.orderItems.filter((i) => i.orderId === record.id) as unknown as RecordLike;
   }
+  if (relation === "location" && record.locationId) {
+    return store.stockLocations.find((l) => l.id === record.locationId) || null;
+  }
+  if (relation === "variant" && record.variantId) {
+    return store.productVariants.find((v) => v.id === record.variantId) || null;
+  }
+  if (relation === "lines" && record.id) {
+    return store.inventoryLines.filter((l) => l.sessionId === record.id) as unknown as RecordLike;
+  }
+  if (relation === "session" && record.sessionId) {
+    return store.inventorySessions.find((s) => s.id === record.sessionId) || null;
+  }
+  if (relation === "stockLevels" && record.id) {
+    return store.stockLevels.filter((l) => l.productId === record.id) as unknown as RecordLike;
+  }
   return null;
 }
 
 function matchField(store: DemoStore, record: RecordLike, key: string, condition: unknown): boolean {
   if (key === "OR" || key === "AND" || key === "NOT") return true;
 
-  if (key.endsWith("Ref") || key === "product" || key === "user" || key === "items") {
+  if (
+    key.endsWith("Ref") ||
+    key === "product" ||
+    key === "user" ||
+    key === "items" ||
+    key === "location" ||
+    key === "variant" ||
+    key === "lines" ||
+    key === "session" ||
+    key === "stockLevels"
+  ) {
     const rel = resolveRelation(store, record, key);
-    if (Array.isArray(rel)) return false;
+    if (Array.isArray(rel)) {
+      if (!condition || typeof condition !== "object") return rel.length > 0;
+      const cond = condition as Where;
+      if (cond.some) {
+        return rel.some((r) => matchWhere(store, r as RecordLike, cond.some as Where));
+      }
+      if (cond.every) {
+        return rel.every((r) => matchWhere(store, r as RecordLike, cond.every as Where));
+      }
+      return rel.some((r) => matchWhere(store, r as RecordLike, cond));
+    }
     if (!rel && condition) return false;
     if (!rel) return true;
     if (typeof condition === "object" && condition !== null) {
@@ -111,17 +146,57 @@ export function sortRecords(records: RecordLike[], orderBy?: OrderBy): RecordLik
   });
 }
 
-function applySelect(record: RecordLike, select?: RecordLike): RecordLike {
+function applySelect(store: DemoStore, model: ModelName, record: RecordLike, select?: RecordLike): RecordLike {
   if (!select) return { ...record };
   const out: RecordLike = {};
   for (const [key, val] of Object.entries(select)) {
-    if (val === true) out[key] = record[key];
-    else if (typeof val === "object" && val !== null && "_count" in val) {
-      // handled separately
-    } else if (typeof val === "object" && val !== null && "select" in val) {
+    if (val === true) {
+      out[key] = record[key];
+      continue;
+    }
+    if (typeof val !== "object" || val === null) continue;
+
+    if (key === "stockLevels") {
+      let levels = store.stockLevels.filter((l) => l.productId === record.id);
+      const lvlArgs = val as RecordLike;
+      if (lvlArgs.where) levels = levels.filter((l) => matchWhere(store, l, lvlArgs.where as Where));
+      out.stockLevels = levels.map((l) => {
+        let item: RecordLike = { ...l };
+        if (lvlArgs.select) {
+          item = applySelect(store, "stockLevel", l, lvlArgs.select as RecordLike);
+        }
+        if (lvlArgs.include) {
+          item = applyInclude(store, "stockLevel", item, lvlArgs.include as RecordLike);
+        }
+        // ensure location nested select
+        if (lvlArgs.select && typeof lvlArgs.select === "object" && "location" in (lvlArgs.select as RecordLike)) {
+          const loc = store.stockLocations.find((x) => x.id === l.locationId);
+          const locSel = (lvlArgs.select as RecordLike).location;
+          if (loc && locSel && typeof locSel === "object" && "select" in (locSel as RecordLike)) {
+            item.location = applySelect(store, "stockLocation", loc, (locSel as RecordLike).select as RecordLike);
+          } else if (loc) {
+            item.location = loc;
+          }
+        }
+        return item;
+      });
+      continue;
+    }
+
+    if (key === "categoryRef" || key === "brandRef" || key === "location" || key === "product" || key === "variant") {
+      const rel = resolveRelation(store, record, key);
+      if (rel && !Array.isArray(rel) && "select" in val) {
+        out[key] = applySelect(store, model, rel, val.select as RecordLike);
+      } else {
+        out[key] = rel;
+      }
+      continue;
+    }
+
+    if ("select" in val) {
       const nested = record[key];
-      if (nested && typeof nested === "object") {
-        out[key] = applySelect(nested as RecordLike, val.select as RecordLike);
+      if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+        out[key] = applySelect(store, model, nested as RecordLike, val.select as RecordLike);
       }
     }
   }
@@ -145,7 +220,7 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     const user = store.users.find((u) => u.id === record.userId);
     if (user) {
       out.user = include.user && typeof include.user === "object" && "select" in include.user
-        ? applySelect(user, include.user.select as RecordLike)
+        ? applySelect(store, "user", user, include.user.select as RecordLike)
         : user;
     }
   }
@@ -171,6 +246,54 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     }
     out.reviews = reviews;
   }
+  if (include.location) {
+    const loc = store.stockLocations.find((l) => l.id === record.locationId) || null;
+    out.location = loc;
+  }
+  if (include.variant) {
+    out.variant = store.productVariants.find((v) => v.id === record.variantId) || null;
+  }
+  if (include.session) {
+    let session = store.inventorySessions.find((s) => s.id === record.sessionId) || null;
+    if (session && include.session && typeof include.session === "object" && "include" in include.session) {
+      session = applyInclude(
+        store,
+        "inventorySession",
+        session,
+        (include.session as RecordLike).include as RecordLike
+      );
+    }
+    out.session = session;
+  }
+  if (include.lines) {
+    let lines = store.inventoryLines.filter((l) => l.sessionId === record.id);
+    if (include.lines && typeof include.lines === "object") {
+      const lineInc = include.lines as RecordLike;
+      if (lineInc.orderBy) lines = sortRecords(lines, lineInc.orderBy as OrderBy);
+      if (typeof lineInc.take === "number") lines = lines.slice(0, lineInc.take);
+      if (lineInc.include) {
+        lines = lines.map((l) =>
+          applyInclude(store, "inventoryLine", l, lineInc.include as RecordLike)
+        );
+      }
+    }
+    out.lines = lines;
+  }
+  if (include.stockLevels) {
+    let levels = store.stockLevels.filter((l) => l.productId === record.id);
+    if (include.stockLevels && typeof include.stockLevels === "object") {
+      const lvlInc = include.stockLevels as RecordLike;
+      if (lvlInc.where) levels = levels.filter((l) => matchWhere(store, l, lvlInc.where as Where));
+      if (lvlInc.select || lvlInc.include) {
+        levels = levels.map((l) => {
+          let item = applyInclude(store, "stockLevel", l, lvlInc.include as RecordLike);
+          if (lvlInc.select) item = applySelect(store, "stockLevel", l, lvlInc.select as RecordLike);
+          return item;
+        });
+      }
+    }
+    out.stockLevels = levels;
+  }
   if (include._count) {
     const counts = (include._count as RecordLike).select as RecordLike;
     const countObj: RecordLike = {};
@@ -183,6 +306,9 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     }
     if (counts.orders) {
       countObj.orders = store.orders.filter((o) => o.userId === record.id).length;
+    }
+    if (counts.lines) {
+      countObj.lines = store.inventoryLines.filter((l) => l.sessionId === record.id).length;
     }
     out._count = countObj;
   }
@@ -209,6 +335,13 @@ export function findUniqueWhere(store: DemoStore, model: ModelName, where: Where
     const { productId, userId } = where.productId_userId as RecordLike;
     return records.find((r) => r.productId === productId && r.userId === userId) || null;
   }
+  if (where.variantId_locationId) {
+    const { variantId, locationId } = where.variantId_locationId as RecordLike;
+    return (
+      records.find((r) => r.variantId === variantId && r.locationId === locationId) || null
+    );
+  }
+  if (where.barcode) return records.find((r) => r.barcode === where.barcode) || null;
 
   return records.find((r) => matchWhere(store, r, where)) || null;
 }
@@ -232,7 +365,7 @@ export function queryMany(
 
   return records.map((r) => {
     let item = applyInclude(store, model, r, args.include);
-    if (args.select) item = applySelect(item, args.select);
+    if (args.select) item = applySelect(store, model, r, args.select);
     return item;
   });
 }

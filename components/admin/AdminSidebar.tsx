@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw, ClipboardList,
+  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw, ClipboardList, Cloud,
 } from "lucide-react";
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/stocks", label: "Stocks", icon: Warehouse },
   { href: "/admin/inventaire", label: "Inventaire", icon: ClipboardList },
+  { href: "/admin/google", label: "Google Sync", icon: Cloud },
   { href: "/admin/import", label: "Import CSV", icon: Upload },
   { href: "/admin/sumup-import", label: "Import SumUp", icon: RefreshCw },
   { href: "/admin/orders", label: "Commandes", icon: ShoppingCart },

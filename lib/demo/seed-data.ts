@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { CATALOG_CATEGORIES } from "@/lib/catalog/categories";
+import { buildDualStockSeed } from "./dual-stock-seed";
 
 const BASE = new Date("2024-06-01T10:00:00.000Z");
 
@@ -53,6 +54,15 @@ export interface DemoStore {
   passwordResetTokens: Array<Record<string, unknown>>;
   vapeProfiles: Array<Record<string, unknown>>;
   vapeRecommendations: Array<Record<string, unknown>>;
+  stockLocations: Array<Record<string, unknown>>;
+  productVariants: Array<Record<string, unknown>>;
+  stockLevels: Array<Record<string, unknown>>;
+  stockMovements: Array<Record<string, unknown>>;
+  inventorySessions: Array<Record<string, unknown>>;
+  inventoryLines: Array<Record<string, unknown>>;
+  syncRuns: Array<Record<string, unknown>>;
+  productMatches: Array<Record<string, unknown>>;
+  syncErrors: Array<Record<string, unknown>>;
 }
 
 export function buildDemoSeed(): DemoStore {
@@ -131,6 +141,10 @@ export function buildDemoSeed(): DemoStore {
     promoPriceCents: p.promoPriceCents || null,
     stock: p.stock,
     salesCount: p.salesCount || 0,
+    barcode: `3760${String(i + 1).padStart(9, "0")}`,
+    normalizedName: p.name.toLowerCase(),
+    source: "demo",
+    visibleOnline: true,
     isActive: true,
     isNew: p.isNew || false,
     isBestSeller: p.isBestSeller || false,
@@ -148,6 +162,7 @@ export function buildDemoSeed(): DemoStore {
       lastName: "All Vap's",
       phone: null,
       role: "ADMIN",
+      emailVerified: true,
       loyaltyPoints: 0,
       qrCode: "qr_admin",
       createdAt: BASE,
@@ -161,6 +176,7 @@ export function buildDemoSeed(): DemoStore {
       lastName: "Dupont",
       phone: "0600000000",
       role: "CUSTOMER",
+      emailVerified: true,
       loyaltyPoints: 150,
       qrCode: "qr_demo",
       createdAt: BASE,
@@ -304,6 +320,7 @@ export function buildDemoSeed(): DemoStore {
         createdAt: new Date("2024-06-17T10:00:00.000Z"),
       },
     ],
+    ...buildDualStockSeed(products),
   };
 }
 

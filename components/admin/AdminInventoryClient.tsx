@@ -33,8 +33,26 @@ export function AdminInventoryClient() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [online, setOnline] = useState(true);
+  const [lookupHint, setLookupHint] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const lastLineIdRef = useRef<string | null>(null);
+
+  async function lookupBarcode(code: string) {
+    try {
+      const res = await fetch(`/api/admin/inventory/lookup?barcode=${encodeURIComponent(code)}`);
+      const data = await res.json();
+      if (!res.ok) return;
+      if (data.found) {
+        setLookupHint(
+          `${data.product.name} — H:${data.product.stockHautmont} · Q:${data.product.stockLeQuesnoy} · Σ:${data.product.stockGlobal}`
+        );
+      } else {
+        setLookupHint("Produit non reconnu — la ligne sera quand même enregistrée");
+      }
+    } catch {
+      setLookupHint(null);
+    }
+  }
 
   const loadSessions = useCallback(async () => {
     const res = await fetch("/api/admin/inventory/sessions");
@@ -243,7 +261,13 @@ export function AdminInventoryClient() {
               <Input
                 className="mt-1"
                 value={barcode}
-                onChange={(e) => setBarcode(e.target.value)}
+                onChange={(e) => {
+                  setBarcode(e.target.value);
+                  setLookupHint(null);
+                }}
+                onBlur={() => {
+                  if (barcode.trim().length >= 6) void lookupBarcode(barcode.trim());
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") void addLine();
                 }}
@@ -251,6 +275,9 @@ export function AdminInventoryClient() {
                 autoFocus
               />
             </label>
+            {lookupHint && (
+              <p className="text-sm text-gray-600">{lookupHint}</p>
+            )}
             <label className="block text-sm">
               <span className="font-medium">Quantité comptée</span>
               <Input
