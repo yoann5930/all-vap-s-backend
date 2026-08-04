@@ -114,6 +114,8 @@ export function buildDualStockSeed(products: Array<Record<string, unknown>>) {
     stockMovements,
     inventorySessions: [] as Array<Record<string, unknown>>,
     inventoryLines: [] as Array<Record<string, unknown>>,
+    inventoryPhotos: [] as Array<Record<string, unknown>>,
+    inventoryAuditLogs: [] as Array<Record<string, unknown>>,
     syncRuns: [] as Array<Record<string, unknown>>,
     productMatches: [] as Array<Record<string, unknown>>,
     syncErrors: [] as Array<Record<string, unknown>>,

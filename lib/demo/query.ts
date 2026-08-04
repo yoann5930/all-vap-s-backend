@@ -183,6 +183,19 @@ function applySelect(store: DemoStore, model: ModelName, record: RecordLike, sel
       continue;
     }
 
+    if (key === "variants") {
+      let variants = store.productVariants.filter((v) => v.productId === record.id);
+      const vArgs = val as RecordLike;
+      if (vArgs.where) variants = variants.filter((v) => matchWhere(store, v, vArgs.where as Where));
+      if (vArgs.orderBy) variants = sortRecords(variants, vArgs.orderBy as OrderBy);
+      if (typeof vArgs.take === "number") variants = variants.slice(0, vArgs.take);
+      out.variants = variants.map((v) => {
+        if (vArgs.select) return applySelect(store, "productVariant", v, vArgs.select as RecordLike);
+        return { ...v };
+      });
+      continue;
+    }
+
     if (key === "categoryRef" || key === "brandRef" || key === "location" || key === "product" || key === "variant") {
       const rel = resolveRelation(store, record, key);
       if (rel && !Array.isArray(rel) && "select" in val) {
@@ -215,6 +228,16 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
   }
   if (include.product) {
     out.product = store.products.find((p) => p.id === record.productId) || null;
+  }
+  if (include.variants) {
+    let variants = store.productVariants.filter((v) => v.productId === record.id);
+    if (include.variants && typeof include.variants === "object") {
+      const vInc = include.variants as RecordLike;
+      if (vInc.where) variants = variants.filter((v) => matchWhere(store, v, vInc.where as Where));
+      if (vInc.orderBy) variants = sortRecords(variants, vInc.orderBy as OrderBy);
+      if (typeof vInc.take === "number") variants = variants.slice(0, vInc.take);
+    }
+    out.variants = variants;
   }
   if (include.user) {
     const user = store.users.find((u) => u.id === record.userId);
@@ -250,8 +273,38 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     const loc = store.stockLocations.find((l) => l.id === record.locationId) || null;
     out.location = loc;
   }
+  if (include.createdBy) {
+    const user = store.users.find((u) => u.id === record.createdByUserId) || null;
+    if (user && include.createdBy && typeof include.createdBy === "object" && "select" in include.createdBy) {
+      out.createdBy = applySelect(store, "user", user, (include.createdBy as RecordLike).select as RecordLike);
+    } else {
+      out.createdBy = user;
+    }
+  }
   if (include.variant) {
     out.variant = store.productVariants.find((v) => v.id === record.variantId) || null;
+  }
+  if (include.photos) {
+    let photos = store.inventoryPhotos.filter((p) => p.inventoryItemId === record.id);
+    if (include.photos && typeof include.photos === "object") {
+      const phInc = include.photos as RecordLike;
+      if (phInc.orderBy) photos = sortRecords(photos, phInc.orderBy as OrderBy);
+    }
+    out.photos = photos;
+  }
+  if (include.inventoryAudits) {
+    let audits = store.inventoryAuditLogs.filter((a) => a.inventoryId === record.id || a.inventoryItemId === record.id);
+    if (model === "inventorySession") {
+      audits = store.inventoryAuditLogs.filter((a) => a.inventoryId === record.id);
+    } else if (model === "inventoryLine") {
+      audits = store.inventoryAuditLogs.filter((a) => a.inventoryItemId === record.id);
+    }
+    if (include.inventoryAudits && typeof include.inventoryAudits === "object") {
+      const aInc = include.inventoryAudits as RecordLike;
+      if (aInc.orderBy) audits = sortRecords(audits, aInc.orderBy as OrderBy);
+      if (typeof aInc.take === "number") audits = audits.slice(0, aInc.take);
+    }
+    out.inventoryAudits = audits;
   }
   if (include.session) {
     let session = store.inventorySessions.find((s) => s.id === record.sessionId) || null;
@@ -314,6 +367,9 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     }
     if (counts.lines) {
       countObj.lines = store.inventoryLines.filter((l) => l.sessionId === record.id).length;
+    }
+    if (counts.photos) {
+      countObj.photos = store.inventoryPhotos.filter((p) => p.inventoryItemId === record.id).length;
     }
     out._count = countObj;
   }

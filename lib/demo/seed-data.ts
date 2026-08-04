@@ -62,6 +62,8 @@ export interface DemoStore {
   stockMovements: Array<Record<string, unknown>>;
   inventorySessions: Array<Record<string, unknown>>;
   inventoryLines: Array<Record<string, unknown>>;
+  inventoryPhotos: Array<Record<string, unknown>>;
+  inventoryAuditLogs: Array<Record<string, unknown>>;
   syncRuns: Array<Record<string, unknown>>;
   productMatches: Array<Record<string, unknown>>;
   syncErrors: Array<Record<string, unknown>>;

@@ -6,6 +6,8 @@ export interface OfflineInventoryLine {
   sessionId: string;
   barcode: string;
   quantityCounted: number;
+  unitPrice?: string;
+  confirmZeroPrice?: boolean;
   queuedAt: string;
 }
 
@@ -55,6 +57,8 @@ export async function flushOfflineInventoryQueue(
         body: JSON.stringify({
           barcode: item.barcode,
           quantityCounted: item.quantityCounted,
+          unitPrice: item.unitPrice,
+          confirmZeroPrice: item.confirmZeroPrice,
         }),
       });
       if (!res.ok) {

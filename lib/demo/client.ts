@@ -242,6 +242,8 @@ export function createDemoPrismaClient() {
     stockMovement: createModelDelegate("stockMovement"),
     inventorySession: createModelDelegate("inventorySession"),
     inventoryLine: createModelDelegate("inventoryLine"),
+    inventoryPhoto: createModelDelegate("inventoryPhoto"),
+    inventoryAuditLog: createModelDelegate("inventoryAuditLog"),
     syncRun: createModelDelegate("syncRun"),
     productMatch: createModelDelegate("productMatch"),
     syncError: createModelDelegate("syncError"),

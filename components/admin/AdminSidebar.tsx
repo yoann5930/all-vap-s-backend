@@ -12,7 +12,8 @@ const navItems = [
   { href: "/admin/users", label: "Utilisateurs", icon: Users },
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/stocks", label: "Stocks", icon: Warehouse },
-  { href: "/admin/inventaire", label: "Inventaire", icon: ClipboardList },
+  { href: "/admin/inventaires", label: "Inventaires", icon: ClipboardList },
+  { href: "/admin/inventaire", label: "Saisie inventaire", icon: ClipboardList },
   { href: "/admin/google", label: "Google Sync", icon: Cloud },
   { href: "/admin/import", label: "Import CSV", icon: Upload },
   { href: "/admin/sumup-import", label: "Import SumUp", icon: RefreshCw },
@@ -33,7 +34,9 @@ export function AdminSidebar() {
     <aside className="w-full lg:w-56 lg:flex-shrink-0">
       <nav className="space-y-1 rounded-xl border border-gray-200 bg-white p-3">
         {navItems.map((item) => {
-          const active = pathname === item.href;
+          const active =
+            pathname === item.href ||
+            (item.href !== "/admin" && pathname.startsWith(item.href + "/"));
           return (
             <Link
               key={item.href}

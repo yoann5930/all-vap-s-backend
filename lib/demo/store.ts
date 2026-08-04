@@ -35,6 +35,8 @@ export type ModelName =
   | "stockMovement"
   | "inventorySession"
   | "inventoryLine"
+  | "inventoryPhoto"
+  | "inventoryAuditLog"
   | "syncRun"
   | "productMatch"
   | "syncError"
@@ -63,6 +65,8 @@ export function getModelArray(store: DemoStore, model: ModelName): Array<Record<
     stockMovement: "stockMovements",
     inventorySession: "inventorySessions",
     inventoryLine: "inventoryLines",
+    inventoryPhoto: "inventoryPhotos",
+    inventoryAuditLog: "inventoryAuditLogs",
     syncRun: "syncRuns",
     productMatch: "productMatches",
     syncError: "syncErrors",

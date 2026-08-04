@@ -7,6 +7,7 @@ import {
   queueOfflineInventoryLine,
 } from "@/lib/inventory/offline-queue";
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
+import { formatEuroFromCents } from "@/lib/inventory/pricing";
 
 type StoreCode = "HAUTMONT" | "LE_QUESNOY";
 
@@ -21,21 +22,40 @@ interface MeUser {
   active?: boolean;
 }
 
+interface SessionLine {
+  id: string;
+  barcode: string | null;
+  quantityCounted: number;
+  unitPriceCents?: number | null;
+  totalValueCents?: number | null;
+  priceSource?: string | null;
+  productNameSnapshot?: string | null;
+  product?: { name: string } | null;
+  photoPath?: string | null;
+  photos?: Array<{ publicUrl: string }>;
+  notes?: string | null;
+  createdAt?: string;
+  scannedAt?: string;
+}
+
 interface Session {
   id: string;
   employeeName: string;
   status: string;
   location: { code: string; name: string };
-  lines?: Array<{
-    id: string;
-    barcode: string | null;
-    quantityCounted: number;
-    product?: { name: string } | null;
-    photoPath?: string | null;
-    notes?: string | null;
-    createdAt?: string;
-  }>;
+  lines?: SessionLine[];
 }
+
+type LookupState = {
+  found: boolean;
+  name?: string;
+  brand?: string;
+  unitPriceCents?: number | null;
+  priceSource?: string | null;
+  priceMissing: boolean;
+  priceLocked: boolean;
+  imageUrl?: string | null;
+};
 
 const STORE_LABELS: Record<StoreCode, string> = {
   HAUTMONT: "All Vap's Hautmont",
@@ -50,12 +70,15 @@ export function EmployeeInventoryApp() {
   const [session, setSession] = useState<Session | null>(null);
   const [barcode, setBarcode] = useState("");
   const [quantity, setQuantity] = useState("1");
+  const [unitPrice, setUnitPrice] = useState("");
+  const [lookup, setLookup] = useState<LookupState | null>(null);
   const [lookupHint, setLookupHint] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [online, setOnline] = useState(true);
   const [confirmStoreChange, setConfirmStoreChange] = useState(false);
+  const [confirmZero, setConfirmZero] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const lastLineIdRef = useRef<string | null>(null);
@@ -139,15 +162,35 @@ export function EmployeeInventoryApp() {
       const data = await res.json();
       if (!res.ok) return;
       if (data.found) {
+        const cents = data.price?.unitPriceCents as number | undefined;
+        const missing = Boolean(data.priceMissing) || cents == null || cents <= 0;
+        setLookup({
+          found: true,
+          name: data.product.name,
+          brand: data.product.brand,
+          unitPriceCents: missing ? null : cents,
+          priceSource: data.price?.source || null,
+          priceMissing: missing,
+          priceLocked: !missing && me?.role !== "ADMIN",
+          imageUrl: data.product.imageUrl,
+        });
+        setUnitPrice(missing ? "" : ((cents || 0) / 100).toFixed(2).replace(".", ","));
         setLookupHint(
-          `${data.product.name} — stock boutique actuel : ${
+          `${data.product.name}${data.product.brand ? ` · ${data.product.brand}` : ""} — stock : ${
             locationCode === "LE_QUESNOY"
               ? data.product.stockLeQuesnoy
               : data.product.stockHautmont
           }`
         );
       } else {
-        setLookupHint("Produit non reconnu — ligne enregistrée quand même");
+        setLookup({
+          found: false,
+          priceMissing: true,
+          priceLocked: false,
+          unitPriceCents: null,
+        });
+        setUnitPrice("");
+        setLookupHint("Produit non reconnu — saisissez le prix manuellement");
       }
     } catch {
       setLookupHint(null);
@@ -186,6 +229,10 @@ export function EmployeeInventoryApp() {
       setError("Code-barres et quantité requis");
       return;
     }
+    if (!unitPrice.trim()) {
+      setError("Prix manquant — saisissez le prix unitaire (ex. 6,90)");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -195,28 +242,43 @@ export function EmployeeInventoryApp() {
           barcode: barcode.trim(),
           quantityCounted: qty,
         });
-        setMessage("Hors ligne — ligne mise en file, sync au retour réseau");
+        setMessage("Hors ligne — ligne mise en file (prix à revalider au sync)");
         setBarcode("");
         setQuantity("1");
+        setUnitPrice("");
+        setLookup(null);
         return;
       }
+
+      const payload: Record<string, unknown> = {
+        barcode: barcode.trim(),
+        quantityCounted: qty,
+        unitPrice: unitPrice.trim(),
+        confirmZeroPrice: confirmZero,
+      };
+      if (lookup?.priceSource && !lookup.priceMissing) {
+        payload.priceSource = lookup.priceSource;
+      }
+
       const res = await fetch(`/api/inventaire/sessions/${session.id}/lines`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ barcode: barcode.trim(), quantityCounted: qty }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur ligne");
       lastLineIdRef.current = data.line.id;
       const when = new Date().toLocaleString("fr-FR");
+      const name = data.line.productNameSnapshot || data.line.product?.name || barcode;
       setMessage(
-        data.line.product
-          ? `${data.line.product.name} × ${qty} — ${when}`
-          : `Code ${barcode} × ${qty} — ${when}`
+        `${name} × ${qty} · ${formatEuroFromCents(data.line.unitPriceCents)} — ${when}`
       );
       setBarcode("");
       setQuantity("1");
+      setUnitPrice("");
+      setLookup(null);
       setLookupHint(null);
+      setConfirmZero(false);
       await refreshSession(session.id);
       barcodeRef.current?.focus();
     } catch (e) {
@@ -228,11 +290,15 @@ export function EmployeeInventoryApp() {
 
   async function uploadPhoto(file: File) {
     if (!session) return;
+    if (!lastLineIdRef.current) {
+      setError("Enregistrez d’abord la ligne (quantité + prix) avant la photo");
+      return;
+    }
     setLoading(true);
     try {
       const form = new FormData();
       form.set("file", file);
-      if (lastLineIdRef.current) form.set("lineId", lastLineIdRef.current);
+      form.set("lineId", lastLineIdRef.current);
       const res = await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
         method: "POST",
         body: form,
@@ -240,7 +306,11 @@ export function EmployeeInventoryApp() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur photo");
       setMessage(
-        data.drive?.uploaded ? "Photo enregistrée (+ Drive)" : "Photo enregistrée localement"
+        data.persistent === false
+          ? "Photo enregistrée (stockage temporaire — configurer Blob en prod)"
+          : data.drive?.uploaded
+            ? "Photo enregistrée (+ Drive)"
+            : "Photo enregistrée"
       );
       await refreshSession(session.id);
     } catch (e) {
@@ -253,7 +323,7 @@ export function EmployeeInventoryApp() {
   async function completeSession() {
     if (!session) return;
     const ok = window.confirm(
-      `Valider l'inventaire ${session.location.name} ?\nLes quantités seront appliquées uniquement à cette boutique.`
+      `Terminer l'inventaire ${session.location.name} ?\nLes quantités seront appliquées à cette boutique.\nLa validation définitive reste réservée à Yoann.`
     );
     if (!ok) return;
     setLoading(true);
@@ -273,29 +343,19 @@ export function EmployeeInventoryApp() {
     }
   }
 
-  const onBarcodeScanned = useCallback((code: string) => {
-    const cleaned = code.trim();
-    if (!cleaned) return;
-    setBarcode(cleaned);
-    setMessage(`Code scanné : ${cleaned}`);
-    setError(null);
-    setLookupHint(null);
-    void (async () => {
-      try {
-        const res = await fetch(`/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}`);
-        const data = await res.json();
-        if (!res.ok) return;
-        if (data.found) {
-          setLookupHint(`${data.product.name} — produit reconnu`);
-        } else {
-          setLookupHint("Produit non reconnu — ligne enregistrée quand même");
-        }
-      } catch {
-        /* ignore */
-      }
-    })();
-    setTimeout(() => barcodeRef.current?.focus(), 50);
-  }, []);
+  const onBarcodeScanned = useCallback(
+    (code: string) => {
+      const cleaned = code.trim();
+      if (!cleaned) return;
+      setBarcode(cleaned);
+      setMessage(`Code scanné : ${cleaned}`);
+      setError(null);
+      void lookupBarcode(cleaned);
+      setTimeout(() => barcodeRef.current?.focus(), 50);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [locationCode, me?.role]
+  );
 
   function requestStoreChange(code: StoreCode) {
     if (session && session.status === "OPEN" && code !== locationCode) {
@@ -314,6 +374,8 @@ export function EmployeeInventoryApp() {
   }
 
   if (!me) return null;
+
+  const priceReadOnly = Boolean(lookup?.priceLocked);
 
   return (
     <div className="mx-auto min-h-dvh max-w-lg px-4 py-6 text-gray-900">
@@ -403,6 +465,7 @@ export function EmployeeInventoryApp() {
                   onChange={(e) => {
                     setBarcode(e.target.value);
                     setLookupHint(null);
+                    setLookup(null);
                   }}
                   onBlur={() => {
                     if (barcode.trim().length >= 6) void lookupBarcode(barcode.trim());
@@ -425,17 +488,55 @@ export function EmployeeInventoryApp() {
               </div>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
+            {lookup?.priceMissing && (
+              <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900">
+                Prix manquant — saisie obligatoire avant enregistrement
+              </p>
+            )}
 
-            <label className="block">
-              <span className="text-sm font-medium">Quantité comptée</span>
-              <input
-                type="number"
-                min={0}
-                className="mt-1.5 w-28 rounded-xl border border-gray-300 px-3 py-3 text-base"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              />
-            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="block">
+                <span className="text-sm font-medium">Quantité</span>
+                <input
+                  type="number"
+                  min={0}
+                  className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
+              </label>
+              <label className="block">
+                <span className="text-sm font-medium">Prix unitaire (€)</span>
+                <input
+                  inputMode="decimal"
+                  className={`mt-1.5 w-full rounded-xl border px-3 py-3 text-base ${
+                    lookup?.priceMissing
+                      ? "border-amber-400 bg-amber-50"
+                      : "border-gray-300"
+                  } ${priceReadOnly ? "bg-gray-50 text-gray-700" : ""}`}
+                  value={unitPrice}
+                  readOnly={priceReadOnly}
+                  onChange={(e) => setUnitPrice(e.target.value)}
+                  placeholder="ex. 6,90"
+                />
+              </label>
+            </div>
+            {lookup && !lookup.priceMissing && (
+              <p className="text-xs text-gray-500">
+                Prix {lookup.priceSource || "catalogue"}
+                {priceReadOnly ? " (verrouillé)" : ""}
+              </p>
+            )}
+            {unitPrice.trim() === "0" || unitPrice.trim() === "0,00" || unitPrice.trim() === "0.00" ? (
+              <label className="flex items-center gap-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={confirmZero}
+                  onChange={(e) => setConfirmZero(e.target.checked)}
+                />
+                Confirmer un prix à 0,00 €
+              </label>
+            ) : null}
 
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -472,7 +573,7 @@ export function EmployeeInventoryApp() {
               onClick={() => void completeSession()}
               className="w-full rounded-xl border border-emerald-700 px-3 py-3 text-sm font-semibold text-emerald-800"
             >
-              Valider les comptages
+              Terminer l&apos;inventaire
             </button>
           </div>
 
@@ -483,13 +584,20 @@ export function EmployeeInventoryApp() {
                 className="rounded-xl border border-gray-100 bg-white px-3 py-2 text-sm"
               >
                 <div className="font-medium">
-                  {l.product?.name || l.barcode || "Ligne"} × {l.quantityCounted}
+                  {l.productNameSnapshot || l.product?.name || l.barcode || "Ligne"} ×{" "}
+                  {l.quantityCounted}
                 </div>
                 <div className="text-xs text-gray-500">
                   {l.barcode || "—"}
-                  {l.photoPath ? " · photo" : ""}
-                  {l.createdAt
-                    ? ` · ${new Date(l.createdAt).toLocaleTimeString("fr-FR")}`
+                  {l.unitPriceCents != null
+                    ? ` · ${formatEuroFromCents(l.unitPriceCents)}`
+                    : " · prix ?"}
+                  {l.totalValueCents != null
+                    ? ` · total ${formatEuroFromCents(l.totalValueCents)}`
+                    : ""}
+                  {l.photoPath || (l.photos && l.photos.length > 0) ? " · photo" : ""}
+                  {l.scannedAt || l.createdAt
+                    ? ` · ${new Date(l.scannedAt || l.createdAt!).toLocaleTimeString("fr-FR")}`
                     : ""}
                 </div>
               </li>

@@ -246,45 +246,104 @@ model StockLocation {
 }
 
 /// Session d'inventaire physique — toujours rattachée à une boutique
+/// status: OPEN | COMPLETED | VALIDATED | CORRECTED | CANCELLED
 model InventorySession {
   id               String           @id @default(cuid())
   employeeName     String
   locationId       String
   location         StockLocation    @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  status           String           @default("OPEN") // OPEN | COMPLETED | CANCELLED
+  status           String           @default("OPEN")
   createdByUserId  String?
   createdBy        User?            @relation(fields: [createdByUserId], references: [id], onDelete: SetNull)
   notes            String?
   startedAt        DateTime         @default(now())
   completedAt      DateTime?
+  validatedAt      DateTime?
+  validatedByUserId String?
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   lines            InventoryLine[]
+  inventoryAudits  InventoryAuditLog[]
 
   @@index([locationId, status])
   @@index([startedAt])
   @@index([createdByUserId])
+  @@index([status, updatedAt])
 }
 
 model InventoryLine {
-  id                String           @id @default(cuid())
-  sessionId         String
-  session           InventorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  productId         String?
-  product           Product?         @relation(fields: [productId], references: [id], onDelete: SetNull)
-  variantId         String?
-  barcode           String?
-  quantityCounted   Int
-  photoPath         String?
-  driveFileId       String?
-  syncedToSheetsAt  DateTime?
-  notes             String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id                   String           @id @default(cuid())
+  sessionId            String
+  session              InventorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  productId            String?
+  product              Product?         @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId            String?
+  barcode              String?
+  /// Snapshots catalogue — lisibles même si le produit change ensuite
+  productNameSnapshot  String?
+  brandSnapshot        String?
+  rangeSnapshot        String?
+  categorySnapshot     String?
+  formatSnapshot       String?
+  nicotineSnapshot     String?
+  catalogImageUrl      String?
+  quantityCounted      Int
+  unitPriceCents       Int?
+  totalValueCents      Int?
+  /// CATALOGUE | SUMUP | SAISIE_MANUELLE | CORRECTION_ADMIN
+  priceSource          String?
+  photoPath            String?
+  driveFileId          String?
+  syncedToSheetsAt     DateTime?
+  notes                String?
+  scannedByUserId      String?
+  scannedAt            DateTime         @default(now())
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  photos               InventoryPhoto[]
+  inventoryAudits      InventoryAuditLog[]
 
   @@index([sessionId])
   @@index([productId])
   @@index([barcode])
+  @@index([scannedAt])
+}
+
+/// Photo liée à une ligne d'inventaire (URL persistante en base)
+model InventoryPhoto {
+  id               String        @id @default(cuid())
+  inventoryItemId  String
+  line             InventoryLine @relation(fields: [inventoryItemId], references: [id], onDelete: Cascade)
+  storageKey       String
+  publicUrl        String
+  mimeType         String?
+  fileSize         Int?
+  createdAt        DateTime      @default(now())
+  createdById      String?
+
+  @@index([inventoryItemId])
+  @@index([createdAt])
+}
+
+/// Journal d'audit dédié inventaire (quantités, prix, statut, produit…)
+model InventoryAuditLog {
+  id               String            @id @default(cuid())
+  inventoryId      String
+  session          InventorySession  @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  inventoryItemId  String?
+  line             InventoryLine?    @relation(fields: [inventoryItemId], references: [id], onDelete: SetNull)
+  userId           String?
+  userEmail        String?
+  action           String
+  fieldName        String?
+  oldValue         String?
+  newValue         String?
+  reason           String?
+  createdAt        DateTime          @default(now())
+
+  @@index([inventoryId, createdAt])
+  @@index([inventoryItemId])
+  @@index([userId, createdAt])
 }
 
 model StockLevel {
