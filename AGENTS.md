@@ -36,3 +36,20 @@ Standard commands live in `README.md` and `package.json` scripts (`dev`, `build`
 - There is no automated test runner; the CI gates are `npm run lint` and `npm run build`
   (see `.github/workflows/ci.yml`). Utility/smoke scripts live in `scripts/`.
 - Node 22 is present locally; CI uses Node 20. Both work for Next 15.
+- **Build gotcha:** the local `.env` (copied from `.env.example`) pins
+  `NODE_ENV="development"`. This leaks into `next build`'s static export and
+  intermittently crashes prerendering with `Cannot read properties of null (reading
+  'useState')` / `<Html> should not be imported outside of pages/_document` on random
+  pages. Build with production env, e.g. `NODE_ENV=production npm run build`. CI is
+  unaffected (it never sets `NODE_ENV=development`). `npm run dev` is unaffected.
+
+### Inventory module (Inventaire)
+- Employee PWA at `/inventaire` (no login) records stock counts per store; admin
+  consultation + tooling at `/admin/inventaire`. Public API under `/api/inventaire/*`,
+  admin API under `/api/admin/inventory/*`.
+- Scanning matches a `Product` by exact `barcode` (see `lib/catalog/matching.ts`); the
+  seed assigns each product a deterministic EAN‑13 (prefix `340`) so scans resolve to a
+  product (name + price). Real stores get barcodes via SumUp import instead.
+- Inventory photos: no Vercel Blob token locally → stored under
+  `public/uploads/inventory/` and served statically. On Vercel they go to `/tmp` (served
+  via `/api/inventaire/media/...`) or Blob when `BLOB_READ_WRITE_TOKEN` is set.
