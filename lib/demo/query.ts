@@ -289,6 +289,7 @@ export function applyInclude(store: DemoStore, model: ModelName, record: RecordL
     if (include.photos && typeof include.photos === "object") {
       const phInc = include.photos as RecordLike;
       if (phInc.orderBy) photos = sortRecords(photos, phInc.orderBy as OrderBy);
+      if (typeof phInc.take === "number") photos = photos.slice(0, phInc.take);
     }
     out.photos = photos;
   }

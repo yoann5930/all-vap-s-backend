@@ -84,6 +84,25 @@ export function EmployeeInventoryApp() {
   const lastLineIdRef = useRef<string | null>(null);
   const barcodeRef = useRef<HTMLInputElement>(null);
 
+  function rememberLineId(id: string | null) {
+    lastLineIdRef.current = id;
+    try {
+      if (id) sessionStorage.setItem("allvaps_last_inventory_line", id);
+      else sessionStorage.removeItem("allvaps_last_inventory_line");
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function restoreLineId() {
+    try {
+      const saved = sessionStorage.getItem("allvaps_last_inventory_line");
+      if (saved) lastLineIdRef.current = saved;
+    } catch {
+      /* ignore */
+    }
+  }
+
   const allowedStores = useMemo(() => {
     const stores = (me?.allowedStores || []) as StoreCode[];
     if (me?.role === "ADMIN") return ["HAUTMONT", "LE_QUESNOY"] as StoreCode[];
@@ -132,6 +151,10 @@ export function EmployeeInventoryApp() {
       cancelled = true;
     };
   }, [router]);
+
+  useEffect(() => {
+    restoreLineId();
+  }, []);
 
   useEffect(() => {
     setOnline(navigator.onLine);
@@ -213,6 +236,7 @@ export function EmployeeInventoryApp() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Impossible de démarrer");
       setSession(data.session);
+      rememberLineId(null);
       setMessage(`Inventaire démarré — ${data.session.location.name}`);
       setTimeout(() => barcodeRef.current?.focus(), 100);
     } catch (e) {
@@ -237,16 +261,24 @@ export function EmployeeInventoryApp() {
     setError(null);
     try {
       if (!navigator.onLine) {
+        if (!unitPrice.trim()) {
+          setError("Prix manquant — requis aussi hors ligne");
+          setLoading(false);
+          return;
+        }
         await queueOfflineInventoryLine({
           sessionId: session.id,
           barcode: barcode.trim(),
           quantityCounted: qty,
+          unitPrice: unitPrice.trim(),
+          confirmZeroPrice: confirmZero,
         });
-        setMessage("Hors ligne — ligne mise en file (prix à revalider au sync)");
+        setMessage("Hors ligne — ligne mise en file, sync au retour réseau");
         setBarcode("");
         setQuantity("1");
         setUnitPrice("");
         setLookup(null);
+        setConfirmZero(false);
         return;
       }
 
@@ -267,7 +299,7 @@ export function EmployeeInventoryApp() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur ligne");
-      lastLineIdRef.current = data.line.id;
+      rememberLineId(data.line.id);
       const when = new Date().toLocaleString("fr-FR");
       const name = data.line.productNameSnapshot || data.line.product?.name || barcode;
       setMessage(
@@ -290,7 +322,13 @@ export function EmployeeInventoryApp() {
 
   async function uploadPhoto(file: File) {
     if (!session) return;
-    if (!lastLineIdRef.current) {
+    restoreLineId();
+    let lineId = lastLineIdRef.current;
+    if (!lineId && session.lines?.length) {
+      lineId = session.lines[0].id;
+      rememberLineId(lineId);
+    }
+    if (!lineId) {
       setError("Enregistrez d’abord la ligne (quantité + prix) avant la photo");
       return;
     }
@@ -298,7 +336,7 @@ export function EmployeeInventoryApp() {
     try {
       const form = new FormData();
       form.set("file", file);
-      form.set("lineId", lastLineIdRef.current);
+      form.set("lineId", lineId);
       const res = await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
         method: "POST",
         body: form,

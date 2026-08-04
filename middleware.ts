@@ -62,7 +62,7 @@ function applySecurityHeaders(response: NextResponse, pathname: string): NextRes
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
-      "media-src 'self' blob:",
+      "media-src 'self' blob: mediastream:",
       "font-src 'self' data:",
       "connect-src 'self' https:",
       "frame-ancestors 'none'",

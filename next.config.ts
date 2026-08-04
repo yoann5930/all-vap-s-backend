@@ -1,17 +1,16 @@
 import type { NextConfig } from "next";
 
-const securityHeaders = [
+const baseSecurityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-XSS-Protection", value: "1; mode=block" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=()" },
   {
     key: "Content-Security-Policy",
     value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: mediastream:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
 ];
 
@@ -37,17 +36,55 @@ const nextConfig: NextConfig = {
       { source: "/products/:slug", destination: "/boutique/:slug", permanent: true },
       { source: "/nos-boutiques", destination: "/boutiques", permanent: true },
       { source: "/e-liquides", destination: "/boutique?category=e-liquides", permanent: true },
-      { source: "/cigarettes-electroniques", destination: "/boutique?category=cigarettes-electroniques", permanent: true },
+      {
+        source: "/cigarettes-electroniques",
+        destination: "/boutique?category=cigarettes-electroniques",
+        permanent: true,
+      },
       { source: "/pods", destination: "/boutique?category=pods", permanent: true },
       { source: "/diy", destination: "/boutique?category=diy", permanent: true },
       { source: "/accessoires", destination: "/boutique?category=accessoires", permanent: true },
     ];
   },
   async headers() {
+    const inventaireCamera = {
+      key: "Permissions-Policy",
+      value: "camera=(self), microphone=(), geolocation=()",
+    };
+    const noCamera = {
+      key: "Permissions-Policy",
+      value: "camera=(), microphone=(self), geolocation=()",
+    };
     return [
+      // Inventaire : caméra autorisée (sinon camera=() global bloque getUserMedia)
       {
-        source: "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
-        headers: securityHeaders,
+        source: "/inventaire",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/inventaire/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaire",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaire/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaires",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaires/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source:
+          "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire).*)",
+        headers: [...baseSecurityHeaders, noCamera],
       },
       {
         source: "/_next/static/:path*",

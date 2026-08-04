@@ -7,6 +7,7 @@ import { syncCatalogToGoogleSheets } from "@/lib/google/sheets";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
 import { writeAuditLog } from "@/lib/audit/log";
+import { writeInventoryAudit } from "@/lib/inventory/inventory-audit";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -116,6 +117,16 @@ export async function POST(request: NextRequest, context: Ctx) {
       ip,
       deviceInfo: request.headers.get("user-agent"),
       metadata: { applied, skipped },
+    });
+
+    await writeInventoryAudit({
+      user,
+      inventoryId: session.id,
+      action: "STATUS_CHANGED",
+      fieldName: "status",
+      oldValue: "OPEN",
+      newValue: "COMPLETED",
+      reason: `applied=${applied}; skipped=${skipped}`,
     });
 
     const sheets = await syncCatalogToGoogleSheets();
