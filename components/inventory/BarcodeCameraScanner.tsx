@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BrowserMultiFormatReader } from "@zxing/browser";
+import {
+  BrowserCodeReader,
+  BrowserMultiFormatOneDReader,
+} from "@zxing/browser";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 
 type Props = {
@@ -22,8 +25,8 @@ declare global {
   }
 }
 
-function buildZxingHints() {
-  const hints = new Map();
+function buildOneDHints() {
+  const hints = new Map<DecodeHintType, unknown>();
   hints.set(DecodeHintType.TRY_HARDER, true);
   hints.set(DecodeHintType.POSSIBLE_FORMATS, [
     BarcodeFormat.EAN_13,
@@ -33,26 +36,48 @@ function buildZxingHints() {
     BarcodeFormat.CODE_128,
     BarcodeFormat.CODE_39,
     BarcodeFormat.ITF,
-    BarcodeFormat.QR_CODE,
   ]);
   return hints;
 }
 
+function waitForVideoFrame(video: HTMLVideoElement, timeoutMs = 8000) {
+  return new Promise<void>((resolve, reject) => {
+    const started = Date.now();
+    const tick = () => {
+      if (video.readyState >= 2 && video.videoWidth > 0) {
+        resolve();
+        return;
+      }
+      if (Date.now() - started > timeoutMs) {
+        reject(new Error("Caméra démarrée mais aucune image reçue."));
+        return;
+      }
+      requestAnimationFrame(tick);
+    };
+    tick();
+  });
+}
+
 /**
- * Scanner caméra fiable :
- * - ZXing gère le flux caméra (decodeFromConstraints)
- * - BarcodeDetector natif en parallèle si disponible (Chrome Android)
+ * Scanner caméra inventaire :
+ * - Flux unique getUserMedia (pas de double ouverture)
+ * - ZXing 1D (EAN/UPC) en priorité + MultiFormat en secours
+ * - BarcodeDetector natif en parallèle (Chrome Android)
+ * - Cadrage object-contain = ce que l’on voit = ce qui est décodé
  */
 export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const controlsRef = useRef<ScannerControls | null>(null);
+  const controlsRef = useRef<ScannerControls[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<number | null>(null);
   const lockedRef = useRef(false);
   const onDetectedRef = useRef(onDetected);
   const onCloseRef = useRef(onClose);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState("Initialisation caméra…");
+  const [torchOn, setTorchOn] = useState(false);
+  const [torchAvailable, setTorchAvailable] = useState(false);
 
   onDetectedRef.current = onDetected;
   onCloseRef.current = onClose;
@@ -62,6 +87,8 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
 
     lockedRef.current = false;
     setError(null);
+    setTorchOn(false);
+    setTorchAvailable(false);
     setHint("Ouverture de la caméra…");
 
     let cancelled = false;
@@ -80,6 +107,27 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
       setHint(`Détecté : ${cleaned}`);
       onDetectedRef.current(cleaned);
       onCloseRef.current();
+    }
+
+    function stopAll() {
+      if (timerRef.current != null) {
+        window.clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      for (const c of controlsRef.current) {
+        try {
+          c.stop();
+        } catch {
+          /* ignore */
+        }
+      }
+      controlsRef.current = [];
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      const video = videoRef.current;
+      if (video) {
+        video.srcObject = null;
+      }
     }
 
     async function startNativeDetectorLoop() {
@@ -108,18 +156,34 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
         const canvas = canvasRef.current;
         if (video && canvas && video.readyState >= 2 && video.videoWidth > 0) {
           try {
-            // Crop central (zone du cadre) pour améliorer la détection 1D
             const vw = video.videoWidth;
             const vh = video.videoHeight;
-            const cw = Math.floor(vw * 0.85);
-            const ch = Math.floor(vh * 0.35);
-            const sx = Math.floor((vw - cw) / 2);
-            const sy = Math.floor((vh - ch) / 2);
-            canvas.width = cw;
-            canvas.height = ch;
-            const ctx = canvas.getContext("2d", { willReadFrequently: true });
-            if (ctx) {
-              ctx.drawImage(video, sx, sy, cw, ch, 0, 0, cw, ch);
+            // Bande centrale horizontale (codes 1D) + essai plein cadre
+            const crops = [
+              {
+                sx: Math.floor(vw * 0.05),
+                sy: Math.floor(vh * 0.32),
+                cw: Math.floor(vw * 0.9),
+                ch: Math.floor(vh * 0.36),
+              },
+              { sx: 0, sy: 0, cw: vw, ch: vh },
+            ];
+            for (const crop of crops) {
+              canvas.width = crop.cw;
+              canvas.height = crop.ch;
+              const ctx = canvas.getContext("2d", { willReadFrequently: true });
+              if (!ctx) continue;
+              ctx.drawImage(
+                video,
+                crop.sx,
+                crop.sy,
+                crop.cw,
+                crop.ch,
+                0,
+                0,
+                crop.cw,
+                crop.ch
+              );
               const codes = await detector.detect(canvas);
               const raw = codes[0]?.rawValue?.trim();
               if (raw) {
@@ -133,89 +197,124 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
         }
         timerRef.current = window.setTimeout(() => {
           void tick();
-        }, 180);
+        }, 120);
       };
 
       timerRef.current = window.setTimeout(() => {
         void tick();
-      }, 250);
+      }, 200);
     }
 
-    async function start() {
-      const video = videoRef.current;
-      if (!video) return;
-
-      try {
-        if (!navigator.mediaDevices?.getUserMedia) {
-          setError("Caméra non disponible sur cet appareil.");
-          return;
-        }
-
-        const reader = new BrowserMultiFormatReader(buildZxingHints(), {
-          delayBetweenScanAttempts: 120,
-          delayBetweenScanSuccess: 800,
-        });
-
-        const constraints: MediaStreamConstraints = {
+    async function openCamera(): Promise<MediaStream> {
+      const attempts: MediaStreamConstraints[] = [
+        {
           audio: false,
           video: {
             facingMode: { ideal: "environment" },
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
-            // @ts-expect-error - non standard but useful on Android Chrome
-            focusMode: "continuous",
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
-        };
+        },
+        {
+          audio: false,
+          video: { facingMode: "environment" },
+        },
+        { audio: false, video: true },
+      ];
 
-        setHint("Cadrez le code-barres dans le rectangle vert");
-        const controls = await reader.decodeFromConstraints(
-          constraints,
-          video,
-          (result) => {
-            if (cancelled || lockedRef.current) return;
-            if (result) {
-              succeed(result.getText());
-            }
-          }
-        );
-        if (cancelled) {
-          controls.stop();
+      let lastError: unknown;
+      for (const constraints of attempts) {
+        try {
+          return await navigator.mediaDevices.getUserMedia(constraints);
+        } catch (e) {
+          lastError = e;
+        }
+      }
+      throw lastError instanceof Error
+        ? lastError
+        : new Error("Impossible d’ouvrir la caméra");
+    }
+
+    async function startReaders(video: HTMLVideoElement, stream: MediaStream) {
+      const options = {
+        delayBetweenScanAttempts: 80,
+        delayBetweenScanSuccess: 600,
+        tryPlayVideoTimeout: 10000,
+      };
+
+      // Un seul decodeFromStream : stop() dispose le MediaStream
+      const oneD = new BrowserMultiFormatOneDReader(buildOneDHints(), options);
+      const controls = await oneD.decodeFromStream(
+        stream,
+        video,
+        (result) => {
+          if (cancelled || lockedRef.current || !result) return;
+          succeed(result.getText());
+        }
+      );
+      if (cancelled) {
+        controls.stop();
+        return;
+      }
+      controlsRef.current.push(controls);
+    }
+
+    async function start() {
+      // Attendre que le <video> soit monté (open vient de passer à true)
+      let video = videoRef.current;
+      for (let i = 0; i < 20 && !video; i++) {
+        await new Promise((r) => setTimeout(r, 50));
+        if (cancelled) return;
+        video = videoRef.current;
+      }
+      if (!video) {
+        setError("Élément vidéo introuvable.");
+        return;
+      }
+
+      try {
+        if (!navigator.mediaDevices?.getUserMedia) {
+          setError("Caméra non disponible sur cet appareil (HTTPS requis).");
           return;
         }
-        controlsRef.current = controls;
+
+        const stream = await openCamera();
+        if (cancelled) {
+          stream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+        streamRef.current = stream;
+        setTorchAvailable(BrowserCodeReader.mediaStreamIsTorchCompatible(stream));
+
+        const track = stream.getVideoTracks()[0];
+        if (track) {
+          try {
+            await track.applyConstraints({
+              // @ts-expect-error - avancé Android Chrome
+              advanced: [{ focusMode: "continuous" }],
+            });
+          } catch {
+            /* non supporté */
+          }
+        }
+
+        // ZXing attache le flux au <video> (un seul propriétaire)
+        setHint("Cadrez le code-barres dans le rectangle — détection auto");
+        await startReaders(video, stream);
+        if (cancelled) return;
+        await waitForVideoFrame(video).catch(() => undefined);
         void startNativeDetectorLoop();
       } catch (e) {
-        // Fallback plus permissif si facingMode environment échoue
-        try {
-          const reader = new BrowserMultiFormatReader(buildZxingHints(), {
-            delayBetweenScanAttempts: 120,
-          });
-          const controls = await reader.decodeFromConstraints(
-            { audio: false, video: true },
-            video,
-            (result) => {
-              if (cancelled || lockedRef.current) return;
-              if (result) succeed(result.getText());
-            }
-          );
-          if (cancelled) {
-            controls.stop();
-            return;
-          }
-          controlsRef.current = controls;
-          setHint("Cadrez le code-barres (caméra de secours)");
-          void startNativeDetectorLoop();
-        } catch (e2) {
-          const msg =
-            e2 instanceof Error && /NotAllowed|Permission/i.test(e2.message)
-              ? "Autorisez l’accès à la caméra dans les paramètres du navigateur."
-              : e2 instanceof Error
-                ? e2.message
-                : e instanceof Error
-                  ? e.message
-                  : "Impossible d’ouvrir la caméra";
-          setError(msg);
-        }
+        const msg =
+          e instanceof Error && /NotAllowed|Permission/i.test(e.message)
+            ? "Autorisez l’accès à la caméra dans les paramètres du navigateur."
+            : e instanceof Error && /NotFound|DevicesNotFound/i.test(e.message)
+              ? "Aucune caméra détectée sur cet appareil."
+              : e instanceof Error
+                ? e.message
+                : "Impossible d’ouvrir la caméra";
+        setError(msg);
+        stopAll();
       }
     }
 
@@ -223,24 +322,69 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
 
     return () => {
       cancelled = true;
-      if (timerRef.current != null) {
-        window.clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-      try {
-        controlsRef.current?.stop();
-      } catch {
-        /* ignore */
-      }
-      controlsRef.current = null;
-      const v = videoRef.current;
-      if (v) {
-        const stream = v.srcObject as MediaStream | null;
-        stream?.getTracks().forEach((t) => t.stop());
-        v.srcObject = null;
-      }
+      stopAll();
     };
   }, [open]);
+
+  async function toggleTorch() {
+    const stream = streamRef.current;
+    const track = stream?.getVideoTracks()[0];
+    if (!track) return;
+    const next = !torchOn;
+    try {
+      await BrowserCodeReader.mediaStreamSetTorch(track, next);
+      setTorchOn(next);
+    } catch {
+      setTorchAvailable(false);
+    }
+  }
+
+  async function decodeStillPhoto() {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState < 2) {
+      setError("Image caméra pas encore prête.");
+      return;
+    }
+    setHint("Analyse de la photo…");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+    ctx.drawImage(video, 0, 0);
+
+    try {
+      if (typeof window.BarcodeDetector === "function") {
+        const detector = new window.BarcodeDetector({
+          formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128", "code_39", "itf", "qr_code"],
+        });
+        const codes = await detector.detect(canvas);
+        const raw = codes[0]?.rawValue?.trim();
+        if (raw) {
+          onDetectedRef.current(raw);
+          onCloseRef.current();
+          return;
+        }
+      }
+    } catch {
+      /* fallback zxing */
+    }
+
+    try {
+      const reader = new BrowserMultiFormatOneDReader(buildOneDHints());
+      const result = reader.decodeFromCanvas(canvas);
+      const text = result.getText()?.trim();
+      if (text) {
+        onDetectedRef.current(text);
+        onCloseRef.current();
+        return;
+      }
+    } catch {
+      /* no code */
+    }
+
+    setHint("Aucun code détecté — rapprochez-vous, éclairez, réessayez");
+  }
 
   if (!open) return null;
 
@@ -263,26 +407,45 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
       <div className="relative min-h-0 flex-1 bg-black">
         <video
           ref={videoRef}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain bg-black"
           playsInline
           muted
           autoPlay
         />
         <canvas ref={canvasRef} className="hidden" aria-hidden />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="relative h-36 w-[82%] max-w-sm">
-            <div className="absolute inset-0 rounded-2xl border-2 border-emerald-400/95" />
-            <div className="absolute left-3 right-3 top-1/2 h-0.5 -translate-y-1/2 bg-emerald-300/80" />
+          <div className="relative h-40 w-[88%] max-w-md">
+            <div className="absolute inset-0 rounded-2xl border-2 border-emerald-400/95 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
+            <div className="absolute left-4 right-4 top-1/2 h-0.5 -translate-y-1/2 bg-emerald-300/80" />
           </div>
         </div>
+      </div>
+
+      <div className="flex gap-2 bg-black px-4 py-3">
+        {torchAvailable ? (
+          <button
+            type="button"
+            onClick={() => void toggleTorch()}
+            className="rounded-xl bg-white/15 px-3 py-2.5 text-sm font-semibold text-white"
+          >
+            {torchOn ? "Éteindre flash" : "Flash"}
+          </button>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => void decodeStillPhoto()}
+          className="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
+        >
+          Capturer maintenant
+        </button>
       </div>
 
       {error ? (
         <div className="bg-red-600 px-4 py-3 text-sm text-white">{error}</div>
       ) : (
-        <p className="bg-black px-4 py-3 text-center text-xs text-white/75">
-          Tenez le téléphone stable, code bien éclairé, horizontal dans le cadre.
-          La détection est automatique.
+        <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
+          Tenez le téléphone à ~10–20 cm, code bien éclairé, horizontal dans le cadre.
+          Si rien ne se passe, appuyez sur « Capturer maintenant ».
         </p>
       )}
     </div>
