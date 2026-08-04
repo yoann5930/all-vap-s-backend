@@ -58,7 +58,20 @@ DATABASE_URL=...
 - TypeScript `locationCode` trop étroit dans la route SumUp → typé `string` + garde `isStoreStockCode`.
 - Tests phase 2 alignés sur double stock (36 OK).
 
-## Verdict
+## Preuves locales (suite — DEMO_MODE)
 
-Mission inventaire **implémentée localement avec preuves lint/tsc/tests/build**.  
-Reste bloqué sans PostgreSQL local et sans credentials Google — comportement attendu et documenté.
+App lancée en local avec `DEMO_MODE=true` (sans PostgreSQL, sans clés Google).
+
+| Contrôle | Résultat |
+|---|---|
+| `GET /api/health` | `mode: demo` OK |
+| `GET /api/products` | `stockHautmont` / `stockLeQuesnoy=0` / `stock` somme |
+| Login admin | OK après ajout `refreshToken` demo |
+| `GET /api/admin/stocks` | Dual + global (Hautmont total, Le Quesnoy 0) |
+| Inventaire scan + clôture | OK — applique uniquement Hautmont |
+| `POST /api/admin/google/sync-sheets` | `GOOGLE_NOT_CONFIGURED` (attendu) |
+| GUI `/admin/stocks`, `/admin/inventaire`, `/admin/google` | OK |
+
+Captures : `/opt/cursor/artifacts/screenshots/admin-stocks-dual.webp`, `admin-inventaire.webp`, `admin-google-sync.webp`
+
+Le stock Le Quesnoy reste à **0** volontairement (import ultérieur).

@@ -37,7 +37,8 @@ export type ModelName =
   | "inventoryLine"
   | "syncRun"
   | "productMatch"
-  | "syncError";
+  | "syncError"
+  | "refreshToken";
 
 export function getModelArray(store: DemoStore, model: ModelName): Array<Record<string, unknown>> {
   const map: Record<ModelName, keyof DemoStore> = {
@@ -64,6 +65,7 @@ export function getModelArray(store: DemoStore, model: ModelName): Array<Record<
     syncRun: "syncRuns",
     productMatch: "productMatches",
     syncError: "syncErrors",
+    refreshToken: "refreshTokens",
   };
   return store[map[model]] as Array<Record<string, unknown>>;
 }

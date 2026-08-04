@@ -342,6 +342,7 @@ export function findUniqueWhere(store: DemoStore, model: ModelName, where: Where
     );
   }
   if (where.barcode) return records.find((r) => r.barcode === where.barcode) || null;
+  if (where.tokenHash) return records.find((r) => r.tokenHash === where.tokenHash) || null;
 
   return records.find((r) => matchWhere(store, r, where)) || null;
 }

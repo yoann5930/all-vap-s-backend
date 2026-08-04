@@ -63,6 +63,7 @@ export interface DemoStore {
   syncRuns: Array<Record<string, unknown>>;
   productMatches: Array<Record<string, unknown>>;
   syncErrors: Array<Record<string, unknown>>;
+  refreshTokens: Array<Record<string, unknown>>;
 }
 
 export function buildDemoSeed(): DemoStore {
@@ -321,6 +322,7 @@ export function buildDemoSeed(): DemoStore {
       },
     ],
     ...buildDualStockSeed(products),
+    refreshTokens: [],
   };
 }
 

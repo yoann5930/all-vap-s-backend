@@ -26,9 +26,15 @@ function createModelDelegate(model: ModelName) {
       const store = getDemoStore();
       const record = findUniqueWhere(store, model, args.where as RecordLike);
       if (!record) return null;
-      return args.include
+      let out: RecordLike = args.include
         ? applyInclude(store, model, record, args.include as RecordLike)
         : { ...record };
+      // refreshToken.include.user
+      if (model === "refreshToken" && args.include && (args.include as RecordLike).user) {
+        const user = store.users.find((u) => u.id === record.userId) || null;
+        out = { ...out, user };
+      }
+      return out;
     },
     findUniqueOrThrow: async (args: Args) => {
       const row = await delegate.findUnique(args);
@@ -148,6 +154,8 @@ function createModelDelegate(model: ModelName) {
 
 export function createDemoPrismaClient() {
   return {
+    $connect: async () => undefined,
+    $disconnect: async () => undefined,
     $queryRaw: async () => [{ ok: 1 }],
     $transaction: async (ops: unknown[]) => {
       // Support array of promises (Prisma interactive-less form)
@@ -237,6 +245,7 @@ export function createDemoPrismaClient() {
     syncRun: createModelDelegate("syncRun"),
     productMatch: createModelDelegate("productMatch"),
     syncError: createModelDelegate("syncError"),
+    refreshToken: createModelDelegate("refreshToken"),
   };
 }
 
