@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     let dryRun = true;
     let createUnmatched = false;
     let confirmToken = "";
-    let locationCodeRaw = HAUTMONT_STOCK_CODE;
+    let locationCodeRaw: string = HAUTMONT_STOCK_CODE;
 
     if (contentType.includes("multipart/form-data")) {
       const form = await request.formData();
