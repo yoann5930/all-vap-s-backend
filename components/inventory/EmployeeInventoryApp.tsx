@@ -279,7 +279,21 @@ export function EmployeeInventoryApp() {
     setBarcode(cleaned);
     setMessage(`Code scanné : ${cleaned}`);
     setError(null);
-    void lookupBarcode(cleaned);
+    setLookupHint(null);
+    void (async () => {
+      try {
+        const res = await fetch(`/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}`);
+        const data = await res.json();
+        if (!res.ok) return;
+        if (data.found) {
+          setLookupHint(`${data.product.name} — produit reconnu`);
+        } else {
+          setLookupHint("Produit non reconnu — ligne enregistrée quand même");
+        }
+      } catch {
+        /* ignore */
+      }
+    })();
     setTimeout(() => barcodeRef.current?.focus(), 50);
   }, []);
 

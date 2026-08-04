@@ -141,6 +141,7 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
 
     void start();
 
+    const videoEl = videoRef.current;
     return () => {
       cancelled = true;
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
@@ -152,7 +153,7 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
       controlsRef.current = null;
       streamRef.current?.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
-      if (videoRef.current) videoRef.current.srcObject = null;
+      if (videoEl) videoEl.srcObject = null;
     };
   }, [open, onClose, onDetected]);
 
