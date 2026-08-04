@@ -21,7 +21,22 @@ export async function GET(request: NextRequest) {
       where: status ? { status } : undefined,
       include: {
         location: true,
-        lines: { orderBy: { createdAt: "desc" }, take: 50 },
+        lines: {
+          orderBy: { createdAt: "desc" },
+          take: 50,
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                barcode: true,
+                imageUrl: true,
+                priceCents: true,
+                promoPriceCents: true,
+              },
+            },
+          },
+        },
         _count: { select: { lines: true } },
       },
       orderBy: { startedAt: "desc" },
