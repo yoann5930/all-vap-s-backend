@@ -397,9 +397,31 @@ export function BarcodeCameraScanner({
           return;
         }
         streamRef.current = stream;
-        setTorchAvailable(BrowserCodeReader.mediaStreamIsTorchCompatible(stream));
 
         const track = stream.getVideoTracks()[0];
+        // Flash : ZXing OU contrainte torch native (certains Android/Samsung)
+        let torchOk = BrowserCodeReader.mediaStreamIsTorchCompatible(stream);
+        if (!torchOk && track) {
+          try {
+            const caps = track.getCapabilities?.() as
+              | { torch?: boolean }
+              | undefined;
+            torchOk = Boolean(caps?.torch);
+          } catch {
+            torchOk = false;
+          }
+        }
+        // Afficher le bouton même si la capacité est incertaine (iOS/Android variables)
+        setTorchAvailable(true);
+        if (!torchOk) {
+          // Marqueur soft : on tentera au clic ; si échec on masquera
+          (streamRef.current as MediaStream & { __torchLikely?: boolean }).__torchLikely =
+            false;
+        } else {
+          (streamRef.current as MediaStream & { __torchLikely?: boolean }).__torchLikely =
+            true;
+        }
+
         if (track) {
           try {
             await track.applyConstraints({
@@ -459,8 +481,19 @@ export function BarcodeCameraScanner({
     try {
       await BrowserCodeReader.mediaStreamSetTorch(track, next);
       setTorchOn(next);
+      return;
+    } catch {
+      /* fallback native */
+    }
+    try {
+      await track.applyConstraints({
+        // @ts-expect-error torch non typé partout
+        advanced: [{ torch: next }],
+      });
+      setTorchOn(next);
     } catch {
       setTorchAvailable(false);
+      setTorchOn(false);
     }
   }
 
@@ -522,15 +555,18 @@ export function BarcodeCameraScanner({
           </ul>
         ) : null}
         <div className="flex gap-2">
-          {torchAvailable ? (
-            <button
-              type="button"
-              onClick={() => void toggleTorch()}
-              className="rounded-xl bg-white/15 px-3 py-2.5 text-sm font-semibold text-white"
-            >
-              {torchOn ? "Éteindre flash" : "Flash"}
-            </button>
-          ) : null}
+          <button
+            type="button"
+            onClick={() => void toggleTorch()}
+            disabled={!torchAvailable && torchOn === false && !streamRef.current}
+            className={`rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
+              torchOn ? "bg-amber-500" : "bg-white/15"
+            }`}
+            aria-pressed={torchOn}
+            aria-label={torchOn ? "Éteindre le flash" : "Allumer le flash"}
+          >
+            {torchOn ? "Flash ON" : "Flash"}
+          </button>
           <button
             type="button"
             onClick={onClose}

@@ -12,6 +12,8 @@ export type ExternalProductHit = {
   source: string;
   confidence: number;
   rawHints?: string[];
+  /** Image catalogue fabricant (URL publique) — jamais stockée côté serveur inventaire. */
+  imageUrl?: string | null;
 };
 
 function envFlag(name: string, fallback = true): boolean {
@@ -406,17 +408,54 @@ export async function searchExternalProducts(params: {
 }
 
 /**
- * Marques vape / e-liquide FR courantes → domaines officiels.
- * Uniquement des sites fabricants / marques (pas de marketplaces).
+ * Marques vape / e-liquide FR courantes → domaines officiels fabricants.
+ * Uniquement sites fabricants / marques (pas de marketplaces).
+ * Autorisation client : images utilisées en lecture seule pour identification inventaire.
  */
 const OFFICIAL_BRAND_DOMAINS: Array<{ keys: string[]; domains: string[]; brand: string }> = [
   { keys: ["pulp"], domains: ["pulp.fr", "www.pulp.fr"], brand: "Pulp" },
   { keys: ["alfaliquid", "alfa liquid"], domains: ["alfaliquid.com", "www.alfaliquid.com"], brand: "Alfaliquid" },
-  { keys: ["liquidarom", "liquide arom"], domains: ["liquidarom.com", "www.liquidarom.com"], brand: "Liquidarom" },
-  { keys: ["le french liquide", "french liquide"], domains: ["lefrenchliquide.com", "www.lefrenchliquide.com"], brand: "Le French Liquide" },
-  { keys: ["vincent dans les vapes", "vdlv"], domains: ["vincentdanslesvapes.com"], brand: "Vincent dans les Vapes" },
+  {
+    keys: ["liquidarom", "liquide arom", "liquid arom"],
+    domains: ["liquidarom.com", "www.liquidarom.com"],
+    brand: "Liquidarom",
+  },
+  {
+    keys: ["liquidelab", "liquide lab", "liquid lab", "liquidlabs", "liquide labs"],
+    domains: ["liquidelab.com", "www.liquidelab.com"],
+    brand: "LiquideLab",
+  },
+  {
+    keys: ["e-tasty", "etasty", "e.tasty", "e tasty"],
+    domains: ["pro.e-tasty.fr", "e-tasty.fr", "www.e-tasty.fr"],
+    brand: "E-Tasty",
+  },
+  {
+    keys: ["juice 66", "juice66", "run 66", "hiro 66", "empire 66"],
+    domains: ["vapair.pro", "www.vapair.pro"],
+    brand: "Juice 66",
+  },
+  {
+    keys: ["vape 47", "vape47"],
+    domains: ["vape47.com", "www.vape47.com"],
+    brand: "Vape 47",
+  },
+  {
+    keys: ["le french liquide", "french liquide"],
+    domains: ["lefrenchliquide.com", "www.lefrenchliquide.com"],
+    brand: "Le French Liquide",
+  },
+  {
+    keys: ["vincent dans les vapes", "vdlv"],
+    domains: ["vincentdanslesvapes.com"],
+    brand: "Vincent dans les Vapes",
+  },
   { keys: ["dinner lady"], domains: ["dinnerlady.com", "www.dinnerlady.com"], brand: "Dinner Lady" },
-  { keys: ["vampire vape"], domains: ["vampirevape.co.uk", "www.vampirevape.co.uk"], brand: "Vampire Vape" },
+  {
+    keys: ["vampire vape"],
+    domains: ["vampirevape.co.uk", "www.vampirevape.co.uk"],
+    brand: "Vampire Vape",
+  },
   { keys: ["capella"], domains: ["capellaflavors.com"], brand: "Capella" },
   { keys: ["vaporesso"], domains: ["vaporesso.com", "www.vaporesso.com"], brand: "Vaporesso" },
   { keys: ["geekvape", "geek vape"], domains: ["geekvape.com", "www.geekvape.com"], brand: "GeekVape" },
@@ -424,10 +463,17 @@ const OFFICIAL_BRAND_DOMAINS: Array<{ keys: string[]; domains: string[]; brand: 
   { keys: ["voopoo"], domains: ["voopoo.com", "www.voopoo.com"], brand: "Voopoo" },
   { keys: ["smok"], domains: ["smoktech.com", "www.smoktech.com"], brand: "Smok" },
   { keys: ["lost vape"], domains: ["lostvape.com", "www.lostvape.com"], brand: "Lost Vape" },
-  { keys: ["petits plaisirs", "les petits plaisirs"], domains: ["lespetitsplaisirs.com"], brand: "Les Petits Plaisirs" },
+  {
+    keys: ["petits plaisirs", "les petits plaisirs"],
+    domains: ["lespetitsplaisirs.com"],
+    brand: "Les Petits Plaisirs",
+  },
   { keys: ["curieux"], domains: ["curieux.fr", "www.curieux.fr"], brand: "Curieux" },
   { keys: ["protect"], domains: ["protect.fr"], brand: "Protect" },
   { keys: ["revolute"], domains: ["revolute.fr"], brand: "Revolute" },
+  { keys: ["flavour power", "flavor power"], domains: ["flavourpower.com", "www.flavourpower.com"], brand: "Flavour Power" },
+  { keys: ["solana"], domains: ["solana-ecig.com", "www.solana-ecig.com"], brand: "Solana" },
+  { keys: ["happy liquid", "happyliquide"], domains: ["happyliquide.com"], brand: "Happy Liquide" },
 ];
 
 function resolveOfficialBrandTargets(
@@ -521,8 +567,16 @@ async function duckDuckGoOfficialSiteSearch(
 
     const title = stripTags(m[2]).slice(0, 160);
     if (!title || title.length < 3) continue;
-    // Ignore pages génériques
-    if (/^(accueil|home|login|compte|panier|cart)$/i.test(title)) continue;
+    // Ignore pages génériques / bruit SEO
+    if (
+      /^(accueil|home|login|compte|panier|cart|www\.|index)$/i.test(title) ||
+      /^https?:\/\//i.test(title) ||
+      new RegExp(`^${allowed.replace(/\./g, "\\.")}$`, "i").test(title) ||
+      /\|?\s*accueil\s*$/i.test(title) ||
+      /^www\./i.test(title)
+    ) {
+      continue;
+    }
 
     hits.push({
       name: title,
@@ -551,6 +605,36 @@ function tokensMatchScore(title: string, query: string): number {
     if (t.includes(w)) hit += 1;
   }
   return hit / words.length;
+}
+
+function absoluteUrl(href: string, domain: string): string | null {
+  try {
+    if (!href || href.startsWith("data:")) return null;
+    if (href.startsWith("//")) return `https:${href}`;
+    if (href.startsWith("http")) return href;
+    const host = domain.replace(/^www\./, "");
+    if (href.startsWith("/")) return `https://www.${host}${href}`;
+    return `https://www.${host}/${href}`;
+  } catch {
+    return null;
+  }
+}
+
+/** Extrait une image produit depuis un bloc HTML (Prestashop / JSON-LD). */
+function extractImageFromBlock(block: string, domain: string): string | null {
+  const candidates = [
+    block.match(/data-full-size-image-url=["']([^"']+)["']/i)?.[1],
+    block.match(/data-image-large-src=["']([^"']+)["']/i)?.[1],
+    block.match(/data-src=["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
+    block.match(/src=["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
+  ];
+  for (const c of candidates) {
+    if (!c) continue;
+    if (/logo|icon|sprite|placeholder|lazy|blank/i.test(c)) continue;
+    const abs = absoluteUrl(c, domain);
+    if (abs) return abs;
+  }
+  return null;
 }
 
 /** Extrait des produits depuis HTML (JSON-LD + liens produit Prestashop/Shopify-like). */
@@ -602,6 +686,15 @@ function parseOfficialHtmlProducts(
             source: `official:${domain}`,
             confidence: 0.93,
             rawHints: [name, brand],
+            imageUrl:
+              absoluteUrl(
+                String(
+                  (Array.isArray(item.image) ? item.image[0] : item.image) ||
+                    item.thumbnailUrl ||
+                    ""
+                ),
+                domain
+              ) || null,
           });
         }
       }
@@ -649,6 +742,7 @@ function parseOfficialHtmlProducts(
       source: `official:${domain}`,
       confidence: Math.min(0.95, 0.82 + score * 0.15),
       rawHints: [title, brand],
+      imageUrl: extractImageFromBlock(block, domain),
     });
   }
 
@@ -671,6 +765,7 @@ function parseOfficialHtmlProducts(
       source: `official:${domain}`,
       confidence: 0.9,
       rawHints: [title, brand, lm[1] || lm[3] || ""],
+      imageUrl: null,
     });
   }
 
@@ -695,6 +790,7 @@ function parseOfficialHtmlProducts(
         source: `official:${domain}`,
         confidence: 0.86,
         rawHints: [title, brand, fm[1]],
+        imageUrl: null,
       });
     }
   }
@@ -712,23 +808,21 @@ async function searchOfficialSiteDirect(
   const paths = [
     `/recherche?controller=search&s=${encodeURIComponent(query)}`,
     `/fr/recherche?controller=search&s=${encodeURIComponent(query)}`,
+    `/search?controller=search&s=${encodeURIComponent(query)}`,
     `/search?q=${encodeURIComponent(query)}`,
     `/search?type=product&q=${encodeURIComponent(query)}`,
     `/?s=${encodeURIComponent(query)}`,
+    `/index.php?controller=search&s=${encodeURIComponent(query)}`,
   ];
-  for (const path of paths) {
-    const html = await fetchText(`https://www.${host}${path}`);
-    if (!html || html.length < 800) continue;
-    if (/page not found|404/i.test(html.slice(0, 500)) && html.length < 2000) continue;
-    const hits = parseOfficialHtmlProducts(html, brand, host, query);
-    if (hits.length) return hits;
-  }
-  // Essai sans www
-  for (const path of paths.slice(0, 2)) {
-    const html = await fetchText(`https://${host}${path}`);
-    if (!html || html.length < 800) continue;
-    const hits = parseOfficialHtmlProducts(html, brand, host, query);
-    if (hits.length) return hits;
+  const hostsToTry = [`www.${host}`, host];
+  for (const base of hostsToTry) {
+    for (const path of paths) {
+      const html = await fetchText(`https://${base}${path}`);
+      if (!html || html.length < 800) continue;
+      if (/page not found|404/i.test(html.slice(0, 500)) && html.length < 2000) continue;
+      const hits = parseOfficialHtmlProducts(html, brand, host, query);
+      if (hits.length) return hits;
+    }
   }
   return [];
 }
@@ -752,16 +846,19 @@ async function searchOfficialManufacturerSites(params: {
 
   const all: ExternalProductHit[] = [];
   for (const t of targets) {
-    for (const domain of t.domains.slice(0, 1)) {
-      // 1) Recherche native du site officiel
-      let found = await searchOfficialSiteDirect(domain, t.brand, productQuery);
-      // 2) Fallback DDG site: (souvent bloqué en datacenter)
-      if (!found.length) {
-        found = await duckDuckGoOfficialSiteSearch(productQuery, domain, t.brand);
-      }
-      all.push(...found);
-      if (all.length >= 5) break;
+    let found: ExternalProductHit[] = [];
+    for (const domain of t.domains) {
+      found = await searchOfficialSiteDirect(domain, t.brand, productQuery);
+      if (found.length) break;
     }
+    if (!found.length) {
+      found = await duckDuckGoOfficialSiteSearch(
+        productQuery,
+        t.domains[0],
+        t.brand
+      );
+    }
+    all.push(...found);
     if (all.length >= 5) break;
   }
   return all.slice(0, 5);

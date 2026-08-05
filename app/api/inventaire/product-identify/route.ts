@@ -106,42 +106,122 @@ export async function POST(request: NextRequest) {
       unitPriceCents: number | null;
       unitPriceLabel: string | null;
       priceFromLocalOnly: true;
+      imageUrl: string | null;
+      sumupProductId: string | null;
     };
 
     const suggestions: Suggestion[] = [];
 
-    // Niveau 1 — local Prisma (lecture)
-    diagnostics.localSearch = true;
-    if (safeBarcode) {
-      const local = await prisma.product.findFirst({
+    async function resolveLocalCatalog(params: {
+      barcode?: string | null;
+      name?: string | null;
+      brand?: string | null;
+    }): Promise<{
+      id: string;
+      priceCents: number;
+      barcode: string | null;
+      sumupProductId: string | null;
+      name: string;
+      brand: string | null;
+      range: string | null;
+      imageUrl: string | null;
+      source: string | null;
+    } | null> {
+      if (params.barcode) {
+        const byCode = await prisma.product.findFirst({
+          where: {
+            OR: [{ barcode: params.barcode }, { sku: params.barcode }],
+          },
+          select: {
+            id: true,
+            priceCents: true,
+            barcode: true,
+            sumupProductId: true,
+            name: true,
+            brand: true,
+            range: true,
+            imageUrl: true,
+            source: true,
+          },
+        });
+        if (byCode) return byCode;
+      }
+      const name = (params.name || "").trim();
+      if (name.length < 4) return null;
+      const tokens = name
+        .toLowerCase()
+        .split(/[^a-z0-9àâäéèêëïîôùûüç]+/i)
+        .filter((t) => t.length >= 3)
+        .slice(0, 5);
+      if (!tokens.length) return null;
+      const brand = (params.brand || "").trim();
+      const candidates = await prisma.product.findMany({
         where: {
-          OR: [{ barcode: safeBarcode }, { sku: safeBarcode }],
+          AND: [
+            brand
+              ? {
+                  OR: [
+                    { brand: { contains: brand, mode: "insensitive" } },
+                    { name: { contains: brand, mode: "insensitive" } },
+                  ],
+                }
+              : {},
+            {
+              OR: tokens.map((t) => ({
+                name: { contains: t, mode: "insensitive" as const },
+              })),
+            },
+          ],
         },
         select: {
           id: true,
+          priceCents: true,
+          barcode: true,
+          sumupProductId: true,
           name: true,
           brand: true,
           range: true,
-          category: true,
-          barcode: true,
-          sku: true,
-          priceCents: true,
+          imageUrl: true,
+          source: true,
         },
+        take: 12,
       });
+      if (!candidates.length) return null;
+      // Préfère SumUp / barcode connu, puis meilleur recouvrement de tokens
+      const scored = candidates
+        .map((c) => {
+          const hay = `${c.name} ${c.brand || ""}`.toLowerCase();
+          const hit = tokens.filter((t) => hay.includes(t)).length;
+          const bonus =
+            (c.sumupProductId ? 0.15 : 0) +
+            (c.source && /sumup/i.test(c.source) ? 0.1 : 0) +
+            (c.barcode ? 0.05 : 0);
+          return { c, score: hit / tokens.length + bonus };
+        })
+        .sort((a, b) => b.score - a.score);
+      return scored[0] && scored[0].score >= 0.55 ? scored[0].c : null;
+    }
+
+    // Niveau 1 — local Prisma (lecture)
+    diagnostics.localSearch = true;
+    if (safeBarcode) {
+      const local = await resolveLocalCatalog({ barcode: safeBarcode });
       if (local) {
         const priceOk = local.priceCents > 0;
         suggestions.push({
           name: local.name,
           brand: local.brand,
-          range: local.range || local.category,
+          range: local.range,
           barcode: local.barcode || safeBarcode,
-          sku: local.sku,
+          sku: null,
           source: "local-catalog",
           confidence: 1,
           localProductId: local.id,
           unitPriceCents: priceOk ? local.priceCents : null,
           unitPriceLabel: priceOk ? formatEuroFromCents(local.priceCents) : null,
           priceFromLocalOnly: true,
+          imageUrl: local.imageUrl,
+          sumupProductId: local.sumupProductId,
         });
       }
     }
@@ -160,35 +240,28 @@ export async function POST(request: NextRequest) {
     diagnostics.sourcesTried = external.sourcesTried;
 
     for (const hit of external.hits) {
-      // Prix : uniquement si on retrouve le même EAN en local
-      let localProductId: string | null = null;
-      let unitPriceCents: number | null = null;
-      let unitPriceLabel: string | null = null;
-      if (hit.barcode) {
-        const local = await prisma.product.findFirst({
-          where: { barcode: hit.barcode },
-          select: { id: true, priceCents: true },
-        });
-        if (local) {
-          localProductId = local.id;
-          if (local.priceCents > 0) {
-            unitPriceCents = local.priceCents;
-            unitPriceLabel = formatEuroFromCents(local.priceCents);
-          }
-        }
-      }
-      suggestions.push({
+      // Prix / SumUp : rattachement catalogue local (EAN puis nom+marque)
+      const local = await resolveLocalCatalog({
+        barcode: hit.barcode || safeBarcode,
         name: hit.name,
         brand: hit.brand,
-        range: hit.range,
-        barcode: hit.barcode || safeBarcode,
+      });
+      const priceOk = Boolean(local && local.priceCents > 0);
+      suggestions.push({
+        name: local?.name || hit.name,
+        brand: local?.brand || hit.brand,
+        range: local?.range || hit.range,
+        barcode: local?.barcode || hit.barcode || safeBarcode,
         sku: hit.sku,
         source: hit.source,
-        confidence: hit.confidence,
-        localProductId,
-        unitPriceCents,
-        unitPriceLabel,
+        confidence: hit.confidence + (local?.sumupProductId ? 0.02 : 0),
+        localProductId: local?.id || null,
+        unitPriceCents: priceOk && local ? local.priceCents : null,
+        unitPriceLabel:
+          priceOk && local ? formatEuroFromCents(local.priceCents) : null,
         priceFromLocalOnly: true,
+        imageUrl: local?.imageUrl || hit.imageUrl || null,
+        sumupProductId: local?.sumupProductId || null,
       });
     }
 
@@ -198,18 +271,27 @@ export async function POST(request: NextRequest) {
         (s) => s.name.toLowerCase() === visionHit!.name!.toLowerCase()
       );
       if (!already) {
-        suggestions.push({
+        const local = await resolveLocalCatalog({
+          barcode: visionHit.barcode || safeBarcode,
           name: visionHit.name,
           brand: visionHit.brand,
-          range: visionHit.range,
-          barcode: visionHit.barcode || safeBarcode,
+        });
+        const priceOk = Boolean(local && local.priceCents > 0);
+        suggestions.push({
+          name: local?.name || visionHit.name,
+          brand: local?.brand || visionHit.brand,
+          range: local?.range || visionHit.range,
+          barcode: local?.barcode || visionHit.barcode || safeBarcode,
           sku: null,
           source: "openai-vision",
           confidence: visionHit.confidence,
-          localProductId: null,
-          unitPriceCents: null,
-          unitPriceLabel: null,
+          localProductId: local?.id || null,
+          unitPriceCents: priceOk && local ? local.priceCents : null,
+          unitPriceLabel:
+            priceOk && local ? formatEuroFromCents(local.priceCents) : null,
           priceFromLocalOnly: true,
+          imageUrl: local?.imageUrl || null,
+          sumupProductId: local?.sumupProductId || null,
         });
       }
     }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { flushOfflineInventoryQueue } from "@/lib/inventory/offline-queue";
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
+import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
   buildVisualIndex,
@@ -157,6 +158,8 @@ export function EmployeeInventoryApp() {
     localProductId: string | null;
     unitPriceCents: number | null;
     unitPriceLabel: string | null;
+    imageUrl?: string | null;
+    sumupProductId?: string | null;
   };
 
   function canvasToDataUrl(canvas: HTMLCanvasElement): string | null {
@@ -180,10 +183,14 @@ export function EmployeeInventoryApp() {
       brand: s.brand || undefined,
       range: s.range || undefined,
       unitPriceCents: priceOk ? s.unitPriceCents : null,
-      priceSource: priceOk ? "CATALOGUE" : null,
+      priceSource: priceOk
+        ? s.sumupProductId
+          ? "SUMUP"
+          : "CATALOGUE"
+        : null,
       priceMissing: !priceOk,
       priceLocked: false,
-      imageUrl: null,
+      imageUrl: s.imageUrl || null,
     });
     setUnitPrice(
       priceOk ? ((s.unitPriceCents || 0) / 100).toFixed(2).replace(".", ",") : ""
@@ -298,7 +305,7 @@ export function EmployeeInventoryApp() {
           range: s.range,
           category: s.range,
           barcode: s.barcode,
-          imageUrl: "",
+          imageUrl: s.imageUrl || "",
           priceCents: s.unitPriceCents,
           score: s.confidence,
           distance: Math.round((1 - s.confidence) * 64),
@@ -803,6 +810,7 @@ export function EmployeeInventoryApp() {
         localProductId: String(s.id).startsWith("ext-") ? null : s.id,
         unitPriceCents: s.priceCents ?? null,
         unitPriceLabel: null,
+        imageUrl: s.imageUrl || null,
       });
       return;
     }
@@ -1217,6 +1225,10 @@ export function EmployeeInventoryApp() {
           Déconnexion
         </button>
       </header>
+
+      <div className="mb-5">
+        <InventoryInstallButton />
+      </div>
 
       {!session ? (
         <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -1670,7 +1682,13 @@ export function EmployeeInventoryApp() {
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s.imageUrl} alt="" className="h-12 w-12 rounded-md object-cover" />
+                  {s.imageUrl ? (
+                    <img src={s.imageUrl} alt="" className="h-12 w-12 rounded-md object-cover" />
+                  ) : (
+                    <span className="flex h-12 w-12 items-center justify-center rounded-md bg-gray-100 text-[10px] text-gray-400">
+                      —
+                    </span>
+                  )}
                   <span className="min-w-0 flex-1">
                     <span className="block font-medium">{s.name}</span>
                     <span className="block text-xs text-gray-500">

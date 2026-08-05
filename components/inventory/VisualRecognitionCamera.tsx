@@ -72,6 +72,8 @@ export function VisualRecognitionCamera({
   const pausedRef = useRef(paused);
   const [error, setError] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [torchOn, setTorchOn] = useState(false);
+  const [torchAvailable, setTorchAvailable] = useState(true);
 
   onFrameRef.current = onFrame;
   onBarcodeFoundRef.current = onBarcodeFound;
@@ -85,6 +87,8 @@ export function VisualRecognitionCamera({
     lastAtRef.current = 0;
     setError(null);
     setReady(false);
+    setTorchOn(false);
+    setTorchAvailable(true);
 
     let cancelled = false;
 
@@ -239,6 +243,22 @@ export function VisualRecognitionCamera({
     };
   }, [open]);
 
+  async function toggleTorch() {
+    const track = streamRef.current?.getVideoTracks()[0];
+    if (!track) return;
+    const next = !torchOn;
+    try {
+      await track.applyConstraints({
+        // @ts-expect-error torch non typé partout
+        advanced: [{ torch: next }],
+      });
+      setTorchOn(next);
+    } catch {
+      setTorchAvailable(false);
+      setTorchOn(false);
+    }
+  }
+
   if (!open) return null;
 
   return (
@@ -280,13 +300,27 @@ export function VisualRecognitionCamera({
         <p className="text-center text-sm font-medium text-white">
           {status || "Présentez la face avant du produit devant la caméra"}
         </p>
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-full rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
-        >
-          Fermer
-        </button>
+        <div className="flex gap-2">
+          {torchAvailable ? (
+            <button
+              type="button"
+              onClick={() => void toggleTorch()}
+              className={`rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
+                torchOn ? "bg-amber-500" : "bg-white/15"
+              }`}
+              aria-pressed={torchOn}
+            >
+              {torchOn ? "Flash ON" : "Flash"}
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
+          >
+            Fermer
+          </button>
+        </div>
         <p className="pb-2 text-center text-xs text-white/70">
           Aucune photo prise ni enregistrée — analyse du flux en mémoire uniquement.
         </p>
