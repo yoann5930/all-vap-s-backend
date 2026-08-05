@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { flushOfflineInventoryQueue } from "@/lib/inventory/offline-queue";
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
+import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
   buildVisualIndex,
@@ -105,7 +106,7 @@ export function EmployeeInventoryApp() {
   } | null>(null);
   const [quantity, setQuantity] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
-  const [applyToRange, setApplyToRange] = useState(true);
+  const [applyToRange, setApplyToRange] = useState(false);
   const [lookup, setLookup] = useState<LookupState | null>(null);
   const [lookupHint, setLookupHint] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -115,6 +116,7 @@ export function EmployeeInventoryApp() {
   const [confirmStoreChange, setConfirmStoreChange] = useState(false);
   const [confirmZero, setConfirmZero] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [photoOpen, setPhotoOpen] = useState(false);
   const [visualSuggestions, setVisualSuggestions] = useState<VisualMatch[]>([]);
   const [visualReady, setVisualReady] = useState(false);
   const [recognitionHint, setRecognitionHint] = useState<string | null>(null);
@@ -368,33 +370,40 @@ export function EmployeeInventoryApp() {
     setVisualReady(false);
     visualIndexRef.current = [];
     try {
-      const res = await fetch("/api/products?legacy=true&limit=500");
-      if (!res.ok) return;
-      const data = await res.json();
-      const list = Array.isArray(data) ? data : data.products || [];
-      const mapped = list
-        .map(
-          (p: {
-            id?: string;
-            name?: string;
-            brand?: string | null;
-            range?: string | null;
-            category?: string | null;
-            barcode?: string | null;
-            imageUrl?: string | null;
-            priceCents?: number | null;
-          }) => ({
-            id: p.id || "",
-            name: p.name || "",
-            brand: p.brand,
-            range: p.range,
-            category: p.category,
-            barcode: p.barcode,
-            imageUrl: (p.imageUrl || "").trim(),
-            priceCents: p.priceCents,
-          })
-        )
-        .filter((p: { id: string; name: string; imageUrl: string }) => p.id && p.name && p.imageUrl);
+      let list: unknown[] = [];
+      const legacyRes = await fetch("/api/products?legacy=true");
+      if (legacyRes.ok) {
+        const data = await legacyRes.json();
+        list = Array.isArray(data) ? data : data.products || [];
+      } else {
+        const pageRes = await fetch("/api/products?limit=48");
+        if (pageRes.ok) {
+          const data = await pageRes.json();
+          list = data.products || [];
+        }
+      }
+
+      const mapped = (list as Array<{
+        id?: string;
+        name?: string;
+        brand?: string | null;
+        range?: string | null;
+        category?: string | null;
+        barcode?: string | null;
+        imageUrl?: string | null;
+        priceCents?: number | null;
+      }>)
+        .map((p) => ({
+          id: p.id || "",
+          name: p.name || "",
+          brand: p.brand,
+          range: p.range,
+          category: p.category,
+          barcode: p.barcode,
+          imageUrl: (p.imageUrl || "").trim(),
+          priceCents: p.priceCents != null && p.priceCents > 0 ? p.priceCents : null,
+        }))
+        .filter((p) => p.id && p.name && p.imageUrl);
 
       const index = await buildVisualIndex(mapped, { maxProducts: 400 });
       visualIndexRef.current = index;
@@ -405,20 +414,45 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  /** Remplit le formulaire depuis un produit reconnu (jamais la quantité, jamais un prix inventé). */
   async function applyVisualProduct(match: VisualMatch) {
     if (visualLookupBusyRef.current) return;
     visualLookupBusyRef.current = true;
+    setRecognitionHint("Produit reconnu");
     try {
+      setProductId(match.id);
+      setProductName(match.name || "");
+      setBrandName(match.brand || "");
+      setRangeName(match.range || match.category || "");
+      if (match.barcode) setBarcode(match.barcode);
+      const matchPriceOk = match.priceCents != null && match.priceCents > 0;
+      setLookup({
+        found: true,
+        name: match.name,
+        brand: match.brand || undefined,
+        range: match.range || undefined,
+        unitPriceCents: matchPriceOk ? match.priceCents : null,
+        priceSource: matchPriceOk ? "CATALOGUE" : null,
+        priceMissing: !matchPriceOk,
+        priceLocked: false,
+        imageUrl: match.imageUrl,
+      });
+      setUnitPrice(
+        matchPriceOk ? ((match.priceCents || 0) / 100).toFixed(2).replace(".", ",") : ""
+      );
+      setQuantity("");
+      setShowSuggestions(false);
+      setVisualSuggestions([]);
+
       const sid = sessionRef.current?.id;
-      // Priorité EAN → lookup mémoire existant (remplit prix, doublon, etc.)
+
       if (match.barcode && match.barcode.trim().length >= 6) {
         const ok = await lookupBarcode(match.barcode.trim());
         if (ok) {
+          setPhotoOpen(false);
           setRecognitionHint(null);
-          setMessage(
-            `Produit reconnu — ${match.name}. Saisissez uniquement la quantité.`
-          );
-          setVisualSuggestions([]);
+          setMessage("Produit reconnu — saisissez uniquement la quantité");
+          focusQuantityField();
           return;
         }
       }
@@ -432,60 +466,46 @@ export function EmployeeInventoryApp() {
           applyMemoryProduct(data);
           applyDuplicateFromLookup(data);
           if (match.barcode) setBarcode(match.barcode);
-          focusQuantityField();
-          setRecognitionHint(null);
-          setMessage(
-            `Produit reconnu — ${match.name}. Saisissez uniquement la quantité.`
-          );
-          setVisualSuggestions([]);
-          return;
+          if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+          if (!(data.product.range || data.product.category) && (match.range || match.category)) {
+            setRangeName(match.range || match.category || "");
+          }
         }
       } catch {
-        /* fallback local */
+        /* garder le remplissage local */
       }
 
-      // Fallback local si lookup nom échoue
-      const missing = match.priceCents == null || match.priceCents <= 0;
-      setProductId(match.id);
-      setProductName(match.name);
-      setBrandName(match.brand || "");
-      setRangeName(match.range || match.category || "Non classé");
-      if (match.barcode) setBarcode(match.barcode);
-      setLookup({
-        found: true,
-        name: match.name,
-        brand: match.brand || undefined,
-        range: match.range || undefined,
-        unitPriceCents: missing ? null : match.priceCents,
-        priceSource: "CATALOGUE",
-        priceMissing: missing,
-        priceLocked: !missing && meRef.current?.role !== "ADMIN",
-        imageUrl: match.imageUrl,
-      });
-      setUnitPrice(
-        missing ? "" : ((match.priceCents || 0) / 100).toFixed(2).replace(".", ",")
-      );
-      setLookupHint(`Reconnaissance visuelle : ${match.name}`);
-      focusQuantityField();
-      setVisualSuggestions([]);
+      setPhotoOpen(false);
       setRecognitionHint(null);
-      setMessage(`Produit reconnu — saisissez uniquement la quantité`);
+      setLookupHint(
+        `Reconnaissance visuelle : ${match.name}${
+          match.brand ? ` · ${match.brand}` : ""
+        }${match.range ? ` · gamme ${match.range}` : ""}`
+      );
+      setMessage("Produit reconnu — saisissez uniquement la quantité");
+      focusQuantityField();
     } finally {
       visualLookupBusyRef.current = false;
     }
   }
 
-  const onVisualSample = async (canvas: HTMLCanvasElement) => {
+  /** Frame caméra Photo — matching visuel en mémoire, une analyse à la fois. */
+  const onPhotoFrame = async (canvas: HTMLCanvasElement) => {
     if (visualMatchBusyRef.current) return;
-    if (scanBusyRef.current) return;
     if (visualLookupBusyRef.current) return;
+
     const index = visualIndexRef.current;
     if (!index.length) {
-      setRecognitionHint("Produit non reconnu");
+      setRecognitionHint(
+        "Produit non reconnu, rapprochez ou repositionnez le produit"
+      );
       return;
     }
 
     visualMatchBusyRef.current = true;
+    setRecognitionHint((prev) =>
+      prev === "Produit reconnu" ? prev : "Analyse du produit…"
+    );
     try {
       const matches = matchVisualCanvas(canvas, index, {
         limit: 8,
@@ -494,7 +514,9 @@ export function EmployeeInventoryApp() {
       const decision = decideVisualAction(matches);
 
       if (decision.mode === "none") {
-        setRecognitionHint("Produit non reconnu");
+        setRecognitionHint(
+          "Produit non reconnu, rapprochez ou repositionnez le produit"
+        );
         return;
       }
 
@@ -502,8 +524,7 @@ export function EmployeeInventoryApp() {
         const pick = decision.picks[0];
         if (pick.id === lastVisualAutoIdRef.current) return;
         lastVisualAutoIdRef.current = pick.id;
-        setRecognitionHint(`Reconnu : ${pick.name}`);
-        setScannerOpen(false);
+        setRecognitionHint("Produit reconnu");
         await applyVisualProduct(pick);
         return;
       }
@@ -514,6 +535,23 @@ export function EmployeeInventoryApp() {
       }
     } finally {
       visualMatchBusyRef.current = false;
+    }
+  };
+
+  /** EAN lu sur la face produit pendant Photo → lookup existant. */
+  const onPhotoBarcodeFound = async (code: string) => {
+    if (visualLookupBusyRef.current) return;
+    setRecognitionHint("Analyse du produit…");
+    const ok = await lookupBarcode(code);
+    if (ok) {
+      setRecognitionHint("Produit reconnu");
+      setPhotoOpen(false);
+      setMessage("Produit reconnu — saisissez uniquement la quantité");
+      focusQuantityField();
+    } else {
+      setRecognitionHint(
+        "Produit non reconnu, rapprochez ou repositionnez le produit"
+      );
     }
   };
 
@@ -867,12 +905,11 @@ export function EmployeeInventoryApp() {
       setUnitPrice("");
       setQuantity("");
       setLookupHint(
-        "EAN inconnu — présentez le produit devant la caméra, ou tapez le nom"
+        "EAN inconnu — appuyez sur Photo pour reconnaître l’étiquette, ou tapez le nom"
       );
-      setMessage(`Code ${cleaned} inconnu — analyse visuelle en cours…`);
-      setRecognitionHint("Produit non reconnu");
-      // Garder la caméra ouverte pour la reconnaissance visuelle continue
-      return true;
+      setMessage(`Code ${cleaned} inconnu en mémoire`);
+      setError("Non trouvé — utilisez Photo ou saisissez le nom");
+      return false;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur scan");
       return false;
@@ -1006,19 +1043,16 @@ export function EmployeeInventoryApp() {
                   onClick={() => {
                     setRecognitionHint(null);
                     setVisualSuggestions([]);
-                    lastVisualAutoIdRef.current = "";
                     setScannerOpen(true);
                   }}
                   className="shrink-0 rounded-xl bg-emerald-700 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
-                  aria-label="Caméra intelligente — EAN et reconnaissance produit"
+                  aria-label="Scanner le code-barres"
                 >
-                  Caméra
+                  Scan
                 </button>
               </div>
               <p className="mt-1.5 text-xs text-gray-500">
-                Caméra intelligente : analyse continue (EAN + produit). Aucune photo
-                enregistrée. Vous ne saisissez que la quantité.
-                {visualReady ? " · Mémoire visuelle prête" : session ? " · Préparation visuelle…" : ""}
+                Scan EAN : remplit la fiche connue. Si l’EAN est inconnu, utilisez Photo.
               </p>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
@@ -1034,7 +1068,7 @@ export function EmployeeInventoryApp() {
                         type="button"
                         className="flex w-full items-center gap-3 rounded-lg bg-white px-2 py-2 text-left text-sm ring-1 ring-emerald-100 hover:bg-emerald-50"
                         onClick={() => {
-                          setScannerOpen(false);
+                          setPhotoOpen(false);
                           void applyVisualProduct(s);
                         }}
                       >
@@ -1204,11 +1238,19 @@ export function EmployeeInventoryApp() {
                 type="checkbox"
                 className="mt-1"
                 checked={applyToRange}
-                onChange={(e) => setApplyToRange(e.target.checked)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    const ok = window.confirm(
+                      "Confirmer : appliquer ce prix à TOUTE la gamme ?"
+                    );
+                    if (!ok) return;
+                  }
+                  setApplyToRange(e.target.checked);
+                }}
               />
               <span>
                 Appliquer ce prix à <strong>toute la gamme</strong>
-                {rangeName ? ` « ${rangeName} »` : ""} (tous les produits de la gamme)
+                {rangeName ? ` « ${rangeName} »` : ""} (désactivé par défaut — confirmation requise)
               </span>
             </label>
             {unitPrice.trim() === "0" || unitPrice.trim() === "0,00" || unitPrice.trim() === "0.00" ? (
@@ -1221,6 +1263,31 @@ export function EmployeeInventoryApp() {
                 Confirmer un prix à 0,00 €
               </label>
             ) : null}
+
+            <div className="rounded-xl border border-dashed border-emerald-300 bg-emerald-50/50 p-3">
+              <p className="text-sm font-medium text-gray-900">Photo</p>
+              <p className="mt-1 text-xs text-gray-600">
+                Ouvre la caméra pour reconnaître automatiquement l’étiquette. Aucune photo
+                n’est prise ni enregistrée.
+                {visualReady ? " · Mémoire visuelle prête" : " · Préparation mémoire…"}
+              </p>
+              <button
+                type="button"
+                disabled={loading || !session}
+                onClick={() => {
+                  lastVisualAutoIdRef.current = "";
+                  setVisualSuggestions([]);
+                  setRecognitionHint(
+                    "Présentez la face avant du produit devant la caméra"
+                  );
+                  void loadVisualCatalogIndex();
+                  setPhotoOpen(true);
+                }}
+                className="mt-2 w-full rounded-xl bg-gray-900 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              >
+                Photo
+              </button>
+            </div>
 
             <div className="grid grid-cols-1 gap-2">
               <button
@@ -1324,10 +1391,10 @@ export function EmployeeInventoryApp() {
       {message && <p className="mt-4 text-sm text-emerald-700">{message}</p>}
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
 
-      {visualSuggestions.length > 0 && scannerOpen ? (
+      {visualSuggestions.length > 0 && photoOpen ? (
         <div className="fixed inset-x-0 bottom-0 z-[90] max-h-[45vh] overflow-auto rounded-t-2xl bg-white p-4 shadow-2xl">
           <p className="text-sm font-semibold text-gray-900">
-            Plusieurs produits ressemblent — choisissez
+            Plusieurs produits possibles — choisissez
           </p>
           <ul className="mt-2 space-y-1">
             {visualSuggestions.map((s) => (
@@ -1336,7 +1403,7 @@ export function EmployeeInventoryApp() {
                   type="button"
                   className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm hover:bg-emerald-50"
                   onClick={() => {
-                    setScannerOpen(false);
+                    setPhotoOpen(false);
                     void applyVisualProduct(s);
                   }}
                 >
@@ -1355,24 +1422,37 @@ export function EmployeeInventoryApp() {
           <button
             type="button"
             className="mt-2 w-full rounded-xl border border-gray-300 py-2 text-sm font-semibold"
-            onClick={() => setVisualSuggestions([])}
+            onClick={() => {
+              setVisualSuggestions([]);
+              setRecognitionHint(
+                "Produit non reconnu, rapprochez ou repositionnez le produit"
+              );
+            }}
           >
-            Continuer le scan
+            Continuer l’analyse
           </button>
         </div>
       ) : null}
 
+      {/* Scanner EAN — inchangé, sans reconnaissance visuelle */}
       <BarcodeCameraScanner
         open={scannerOpen}
         continuous
+        onClose={() => setScannerOpen(false)}
+        onDetected={onBarcodeScanned}
+      />
+
+      {/* Bouton Photo — reconnaissance visuelle du flux, aucune capture */}
+      <VisualRecognitionCamera
+        open={photoOpen}
         onClose={() => {
-          setScannerOpen(false);
+          setPhotoOpen(false);
           setRecognitionHint(null);
         }}
-        onDetected={onBarcodeScanned}
-        onVisualSample={visualReady ? onVisualSample : undefined}
-        recognitionHint={recognitionHint}
-        visualIntervalMs={300}
+        onFrame={onPhotoFrame}
+        onBarcodeFound={onPhotoBarcodeFound}
+        status={recognitionHint}
+        intervalMs={350}
       />
     </div>
   );
