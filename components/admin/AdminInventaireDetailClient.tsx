@@ -86,8 +86,8 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
   const [editReason, setEditReason] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (opts?: { silent?: boolean }) => {
+    if (!opts?.silent) setLoading(true);
     setError(null);
     try {
       const res = await fetch(`/api/admin/inventaires/${id}`);
@@ -97,13 +97,30 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {
-      setLoading(false);
+      if (!opts?.silent) setLoading(false);
     }
   }, [id]);
 
   useEffect(() => {
     void load();
   }, [load]);
+
+  // Affichage temps réel : relecture silencieuse tant que l’inventaire est EN COURS
+  useEffect(() => {
+    if (inv?.status !== "OPEN") return;
+    const timer = window.setInterval(() => {
+      if (document.visibilityState === "hidden") return;
+      void load({ silent: true });
+    }, 4000);
+    const onVis = () => {
+      if (document.visibilityState === "visible") void load({ silent: true });
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [inv?.status, load]);
 
   async function setStatus(status: string) {
     const reason = window.prompt("Motif (optionnel) :") || undefined;
@@ -202,6 +219,11 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
           </Link>
           <h1 className="mt-2 text-2xl font-bold text-gray-900">Détail inventaire</h1>
           <p className="mt-1 font-mono text-xs text-gray-500">{inv.id}</p>
+          {inv.status === "OPEN" ? (
+            <p className="mt-1 text-xs font-medium text-emerald-700">
+              Suivi en direct — les nouveaux scans apparaissent automatiquement
+            </p>
+          ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
           <a
