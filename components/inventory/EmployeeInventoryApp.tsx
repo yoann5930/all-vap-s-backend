@@ -132,6 +132,157 @@ export function EmployeeInventoryApp() {
   const visualMatchBusyRef = useRef(false);
   const visualLookupBusyRef = useRef(false);
   const lastVisualAutoIdRef = useRef<string>("");
+  const identifyBusyRef = useRef(false);
+  const lastIdentifyAtRef = useRef(0);
+  const lastIdentifyKeyRef = useRef<string>("");
+
+  type IdentifySuggestion = {
+    name: string;
+    brand: string | null;
+    range: string | null;
+    barcode: string | null;
+    sku: string | null;
+    source: string;
+    confidence: number;
+    localProductId: string | null;
+    unitPriceCents: number | null;
+    unitPriceLabel: string | null;
+  };
+
+  function canvasToDataUrl(canvas: HTMLCanvasElement): string | null {
+    try {
+      return canvas.toDataURL("image/jpeg", 0.55);
+    } catch {
+      return null;
+    }
+  }
+
+  function applyIdentifySuggestion(s: IdentifySuggestion) {
+    setProductId(s.localProductId);
+    setProductName(s.name || "");
+    setBrandName(s.brand || "");
+    setRangeName(s.range || "");
+    if (s.barcode) setBarcode(s.barcode);
+    const priceOk = s.unitPriceCents != null && s.unitPriceCents > 0;
+    setLookup({
+      found: true,
+      name: s.name,
+      brand: s.brand || undefined,
+      range: s.range || undefined,
+      unitPriceCents: priceOk ? s.unitPriceCents : null,
+      priceSource: priceOk ? "CATALOGUE" : null,
+      priceMissing: !priceOk,
+      priceLocked: false,
+      imageUrl: null,
+    });
+    setUnitPrice(
+      priceOk ? ((s.unitPriceCents || 0) / 100).toFixed(2).replace(".", ",") : ""
+    );
+    setQuantity("");
+    setShowSuggestions(false);
+    setVisualSuggestions([]);
+    setLookupHint(
+      `Identifié (${s.source}) : ${s.name}${s.brand ? ` · ${s.brand}` : ""}${
+        s.range ? ` · ${s.range}` : ""
+      }`
+    );
+    setMessage("Produit reconnu — saisissez uniquement la quantité");
+    setRecognitionHint("Produit reconnu");
+    setPhotoOpen(false);
+    focusQuantityField();
+  }
+
+  async function identifyUnknownProduct(params: {
+    barcode?: string | null;
+    query?: string | null;
+    canvas?: HTMLCanvasElement | null;
+  }): Promise<boolean> {
+    if (identifyBusyRef.current) return false;
+    const key = `${params.barcode || ""}|${params.query || ""}|${params.canvas ? "img" : ""}`;
+    const now = Date.now();
+    if (key === lastIdentifyKeyRef.current && now - lastIdentifyAtRef.current < (params.canvas ? 4000 : 2500)) {
+      return false;
+    }
+    identifyBusyRef.current = true;
+    lastIdentifyKeyRef.current = key;
+    lastIdentifyAtRef.current = now;
+    setRecognitionHint("Recherche du produit…");
+    try {
+      const payload: Record<string, string> = {};
+      if (params.barcode) payload.barcode = params.barcode;
+      if (params.query) payload.query = params.query;
+      if (params.canvas) {
+        const dataUrl = canvasToDataUrl(params.canvas);
+        if (dataUrl && dataUrl.length < 900_000) payload.imageDataUrl = dataUrl;
+      }
+      const res = await fetch("/api/inventaire/product-identify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRecognitionHint(
+          data.error || "Recherche indisponible — saisie manuelle possible"
+        );
+        return false;
+      }
+
+      if (process.env.NODE_ENV === "development" && data.diagnostics) {
+        console.info("[inventaire:identify]", data.diagnostics);
+      }
+
+      const list = (data.suggestions || []) as IdentifySuggestion[];
+      if (data.autoFill && data.suggestion) {
+        applyIdentifySuggestion(data.suggestion as IdentifySuggestion);
+        return true;
+      }
+      if (list.length === 1 && list[0].confidence >= 0.85) {
+        applyIdentifySuggestion(list[0]);
+        return true;
+      }
+      if (list.length > 1) {
+        setVisualSuggestions(
+          list.map((s, i) => ({
+            id: s.localProductId || `ext-${i}-${s.barcode || s.name}`,
+            name: s.name,
+            brand: s.brand,
+            range: s.range,
+            category: s.range,
+            barcode: s.barcode,
+            imageUrl: "",
+            priceCents: s.unitPriceCents,
+            score: s.confidence,
+            distance: Math.round((1 - s.confidence) * 64),
+            source: s.source,
+          })) as VisualMatch[]
+        );
+        setRecognitionHint("Plusieurs résultats possibles — choisissez");
+        setMessage(
+          list
+            .slice(0, 5)
+            .map((s) => `${s.name} (${s.source}, ${Math.round(s.confidence * 100)}%)`)
+            .join(" · ")
+        );
+        return false;
+      }
+
+      const reason =
+        data.failureReason ||
+        (data.ocrText
+          ? `Texte détecté : « ${String(data.ocrText).slice(0, 60)} » — aucun produit fiable`
+          : "Aucun produit fiable trouvé");
+      setRecognitionHint(reason);
+      setLookupHint(reason);
+      return false;
+    } catch {
+      setRecognitionHint("Recherche indisponible — saisie manuelle possible");
+      return false;
+    } finally {
+      identifyBusyRef.current = false;
+    }
+  }
+
 
   sessionRef.current = session;
   meRef.current = me;
@@ -489,58 +640,53 @@ export function EmployeeInventoryApp() {
     }
   }
 
-  /** Frame caméra Photo — matching visuel en mémoire, une analyse à la fois. */
+  /** Frame caméra Photo — local d’abord, puis recherche élargie si inconnu. */
   const onPhotoFrame = async (canvas: HTMLCanvasElement) => {
     if (visualMatchBusyRef.current) return;
     if (visualLookupBusyRef.current) return;
+    if (identifyBusyRef.current) return;
 
     const index = visualIndexRef.current;
-    if (!index.length) {
-      setRecognitionHint(
-        "Produit non reconnu, rapprochez ou repositionnez le produit"
-      );
-      return;
-    }
-
     visualMatchBusyRef.current = true;
     setRecognitionHint((prev) =>
-      prev === "Produit reconnu" ? prev : "Analyse du produit…"
+      prev === "Produit reconnu" || (prev || "").startsWith("Recherche")
+        ? prev
+        : "Analyse du produit…"
     );
     try {
-      const matches = matchVisualCanvas(canvas, index, {
-        limit: 8,
-        maxDistance: 14,
-      });
-      const decision = decideVisualAction(matches);
+      if (index.length) {
+        const matches = matchVisualCanvas(canvas, index, {
+          limit: 8,
+          maxDistance: 14,
+        });
+        const decision = decideVisualAction(matches);
 
-      if (decision.mode === "none") {
-        setRecognitionHint(
-          "Produit non reconnu, rapprochez ou repositionnez le produit"
-        );
-        return;
+        if (decision.mode === "auto" && decision.picks[0]) {
+          const pick = decision.picks[0];
+          if (pick.id === lastVisualAutoIdRef.current) return;
+          lastVisualAutoIdRef.current = pick.id;
+          setRecognitionHint("Produit reconnu");
+          await applyVisualProduct(pick);
+          return;
+        }
+
+        if (decision.mode === "suggest") {
+          setRecognitionHint("Plusieurs résultats possibles — choisissez");
+          setVisualSuggestions(decision.picks);
+          return;
+        }
       }
 
-      if (decision.mode === "auto" && decision.picks[0]) {
-        const pick = decision.picks[0];
-        if (pick.id === lastVisualAutoIdRef.current) return;
-        lastVisualAutoIdRef.current = pick.id;
-        setRecognitionHint("Produit reconnu");
-        await applyVisualProduct(pick);
-        return;
-      }
-
-      if (decision.mode === "suggest") {
-        setRecognitionHint("Plusieurs produits possibles — choisissez");
-        setVisualSuggestions(decision.picks);
-      }
+      // Inconnu localement → recherche élargie (EAN/OCR/Internet via endpoint isolé)
+      await identifyUnknownProduct({ canvas });
     } finally {
       visualMatchBusyRef.current = false;
     }
   };
 
-  /** EAN lu sur la face produit pendant Photo → lookup existant. */
+  /** EAN lu sur la face produit pendant Photo → local puis recherche élargie. */
   const onPhotoBarcodeFound = async (code: string) => {
-    if (visualLookupBusyRef.current) return;
+    if (visualLookupBusyRef.current || identifyBusyRef.current) return;
     setRecognitionHint("Analyse du produit…");
     const ok = await lookupBarcode(code);
     if (ok) {
@@ -548,12 +694,32 @@ export function EmployeeInventoryApp() {
       setPhotoOpen(false);
       setMessage("Produit reconnu — saisissez uniquement la quantité");
       focusQuantityField();
-    } else {
-      setRecognitionHint(
-        "Produit non reconnu, rapprochez ou repositionnez le produit"
-      );
+      return;
     }
+    await identifyUnknownProduct({ barcode: code });
   };
+
+
+  function selectSuggestionRow(s: VisualMatch & { source?: string; score?: number }) {
+    setPhotoOpen(false);
+    // Suggestions issues de product-identify (pas d’image catalogue)
+    if (!s.imageUrl || String(s.id).startsWith("ext-") || (s.source && s.source !== "catalog")) {
+      applyIdentifySuggestion({
+        name: s.name,
+        brand: s.brand || null,
+        range: s.range || s.category || null,
+        barcode: s.barcode || null,
+        sku: null,
+        source: s.source || "suggestion",
+        confidence: s.score ?? 0.7,
+        localProductId: String(s.id).startsWith("ext-") ? null : s.id,
+        unitPriceCents: s.priceCents ?? null,
+        unitPriceLabel: null,
+      });
+      return;
+    }
+    void applyVisualProduct(s);
+  }
 
   async function lookupNameMemory(name: string) {
     const q = name.trim();
@@ -1069,7 +1235,7 @@ export function EmployeeInventoryApp() {
                         className="flex w-full items-center gap-3 rounded-lg bg-white px-2 py-2 text-left text-sm ring-1 ring-emerald-100 hover:bg-emerald-50"
                         onClick={() => {
                           setPhotoOpen(false);
-                          void applyVisualProduct(s);
+                          selectSuggestionRow(s);
                         }}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1404,7 +1570,7 @@ export function EmployeeInventoryApp() {
                   className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm hover:bg-emerald-50"
                   onClick={() => {
                     setPhotoOpen(false);
-                    void applyVisualProduct(s);
+                    selectSuggestionRow(s);
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
