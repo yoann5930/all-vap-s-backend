@@ -1,20 +1,34 @@
-# Accès public inventaire — URL ACTIVE (FIGÉE)
+# Accès inventaire — domaine officiel allvaps.fr
 
 Mis à jour : 2026-08-05
 
-## URL à utiliser — JAMAIS CHANGER
+## Domaine propriétaire
 
-**https://heather-auctions-they-leu.trycloudflare.com**
+**allvaps.fr** (All Vap's) — DNS OVH — site vitrine `https://www.allvaps.fr` (Vercel).
+
+## URL inventaire FIGÉE (jamais changer)
+
+**https://inventaire.allvaps.fr**
 
 | Page | Lien |
 |---|---|
-| Accueil accès | https://heather-auctions-they-leu.trycloudflare.com/acces |
-| Login | https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire |
-| Inventaire employés | https://heather-auctions-they-leu.trycloudflare.com/inventaire |
-| Admin inventaires | https://heather-auctions-they-leu.trycloudflare.com/admin/inventaires |
+| Accueil accès | https://inventaire.allvaps.fr/acces |
+| Login | https://inventaire.allvaps.fr/login?next=/inventaire |
+| Inventaire employés | https://inventaire.allvaps.fr/inventaire |
+| Admin inventaires | https://inventaire.allvaps.fr/admin/inventaires |
 
-Source de vérité : `data/FIXED_TUNNEL_URL.txt`  
-Interdit de publier / basculer vers une autre URL sans OK explicite.
+Source : `data/FIXED_TUNNEL_URL.txt`
+
+## DNS à créer chez OVH (une fois)
+
+| Type | Nom | Cible | TTL |
+|------|-----|--------|-----|
+| CNAME | `inventaire` | `cname.vercel-dns.com.` | 300 |
+
+Ensuite : Vercel → Domains → ajouter `inventaire.allvaps.fr` → Deploy production de ce repo.
+
+> Tant que le CNAME n’est pas créé, `inventaire.allvaps.fr` ne résout pas.
+> Après deploy, `/inventaire` fonctionne aussi sur `https://www.allvaps.fr/inventaire` (même app).
 
 ## Comptes (emails)
 

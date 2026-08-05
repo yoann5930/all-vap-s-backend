@@ -12,7 +12,7 @@ import android.view.WindowManager;
 
 public class MainActivity extends Activity {
   private WebView webView;
-  private static final String START_URL = "https://heather-auctions-they-leu.trycloudflare.com/inventaire";
+  private static final String START_URL = "https://inventaire.allvaps.fr/inventaire";
 
   @SuppressLint("SetJavaScriptEnabled")
   @Override

@@ -1,18 +1,25 @@
-# URL tunnel inventaire — VERROUILLÉES + serveurs toujours allumés
+# URL inventaire — domaine allvaps.fr (FIGÉ)
 
-## Adresses figées (JAMAIS changer sans OK explicite)
+## Domaine
 
-- Accès : https://heather-auctions-they-leu.trycloudflare.com/acces
-- Inventaire : https://heather-auctions-they-leu.trycloudflare.com/inventaire
-- Login : https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
+**allvaps.fr** — propriétaire All Vap's. DNS OVH. Production Vercel (`www`).
+
+## Adresses inventaire (JAMAIS changer sans OK explicite)
+
+- Accès : https://inventaire.allvaps.fr/acces
+- Inventaire : https://inventaire.allvaps.fr/inventaire
+- Login : https://inventaire.allvaps.fr/login?next=/inventaire
 
 Source : `data/FIXED_TUNNEL_URL.txt`
 
-## Serveurs
+## DNS requis (OVH)
 
-Ne s’arrêtent que sur demande (`scripts/stop-servers.sh`).
-Ne jamais lancer un 2ᵉ `cloudflared` quick tunnel (nouvelle URL = violation).
+| Type | Nom | Cible |
+|------|-----|--------|
+| CNAME | `inventaire` | `cname.vercel-dns.com.` |
+
+Puis Vercel → Project → Domains → Add `inventaire.allvaps.fr`.
 
 ## Application Android
 
-Bouton inventaire → télécharge `/apps/AllVaps-Inventaire.apk` (vrai fichier APK).
+Bouton inventaire → `/apps/AllVaps-Inventaire.apk` (START_URL = inventaire.allvaps.fr).

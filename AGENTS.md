@@ -1,20 +1,23 @@
-# Fixed inventaire tunnel URLs (mandatory)
+# URL inventaire officielle — domaine All Vap's (mandatory)
 
-## Never change these URLs
+## Domaine propriétaire
 
-- https://heather-auctions-they-leu.trycloudflare.com/acces
-- https://heather-auctions-they-leu.trycloudflare.com/inventaire
-- https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
+**allvaps.fr** (Yoann / All Vap's) — DNS chez OVH.
+
+## URL inventaire FIGÉE (jamais changer sans OK explicite)
+
+- https://inventaire.allvaps.fr/acces
+- https://inventaire.allvaps.fr/inventaire
+- https://inventaire.allvaps.fr/login?next=/inventaire
 
 Source of truth: `data/FIXED_TUNNEL_URL.txt`
 
-**INTERDIT** de remplacer, « basculer », ou documenter une autre URL `*.trycloudflare.com`
-sans accord **explicite** de l’utilisateur pour **cette** nouvelle adresse.
+Aussi acceptés (même domaine) : `https://www.allvaps.fr`, `https://allvaps.fr`.
 
-## Servers must stay up
+**INTERDIT** de basculer vers une URL `*.trycloudflare.com` aléatoire.
+Les quick tunnels Cloudflare ne sont plus la source d’accès inventaire.
 
-- Next.js + tunnel must **not** stop except on explicit user request.
-- Use `scripts/ensure-servers.sh`. Stop only with `scripts/stop-servers.sh`.
-- Never kill cloudflared unless user accepts a new URL.
-- Never start a second quick tunnel while one is running (ça tue l’hostname figé).
-- Android app download: `/apps/AllVaps-Inventaire.apk` (button on inventaire page).
+## Serveurs locaux (dev / démo)
+
+- Next.js local ne s’arrête que sur demande (`scripts/stop-servers.sh`).
+- Android APK : `/apps/AllVaps-Inventaire.apk` → ouvre `https://inventaire.allvaps.fr/inventaire`.

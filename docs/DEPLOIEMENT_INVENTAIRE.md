@@ -1,20 +1,26 @@
 # Déploiement permanent All Vap's Inventaire
 
-## URL FIGÉE (tunnel Cloudflare — ne jamais changer)
+## Domaine officiel (allvaps.fr — propriétaire)
 
 | Accès | URL |
 |---|---|
-| **Login** | https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire |
-| **Employés** | https://heather-auctions-they-leu.trycloudflare.com/inventaire |
-| **Admin** | https://heather-auctions-they-leu.trycloudflare.com/admin |
-| **Inventaires (Yoann)** | https://heather-auctions-they-leu.trycloudflare.com/admin/inventaires |
-| **Accès** | https://heather-auctions-they-leu.trycloudflare.com/acces |
+| **Login** | https://inventaire.allvaps.fr/login?next=/inventaire |
+| **Employés** | https://inventaire.allvaps.fr/inventaire |
+| **Admin** | https://inventaire.allvaps.fr/admin |
+| **Inventaires (Yoann)** | https://inventaire.allvaps.fr/admin/inventaires |
+| **Accès** | https://inventaire.allvaps.fr/acces |
 
 > Source de vérité : `data/FIXED_TUNNEL_URL.txt`  
-> **Interdit** de relancer un quick tunnel (nouvelle URL) sans OK explicite.  
-> Ne jamais pkill cloudflared sauf demande utilisateur (`scripts/stop-servers.sh`).
+> Domaine : **allvaps.fr** (DNS OVH). Vitrine : `https://www.allvaps.fr` (Vercel).  
+> **Pas** d’URL `*.trycloudflare.com` pour l’accès inventaire.
 
-Cible DNS long terme : `https://inventaire.allvaps.fr`
+### DNS OVH (obligatoire une fois)
+
+| Type | Nom | Cible |
+|------|-----|--------|
+| CNAME | `inventaire` | `cname.vercel-dns.com.` |
+
+Puis Vercel → Domains → `inventaire.allvaps.fr`.
 
 ---
 
