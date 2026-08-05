@@ -45,7 +45,10 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const maintenancePage = pathname === "/maintenance";
   const inventaireEmployee =
-    pathname === "/inventaire" || pathname.startsWith("/inventaire/");
+    pathname === "/inventaire" ||
+    pathname.startsWith("/inventaire/") ||
+    pathname === "/acces" ||
+    pathname.startsWith("/acces/");
   const boutiquesOnly =
     isPublicMaintenanceUi() &&
     (pathname === "/boutiques" || pathname.startsWith("/boutiques/"));

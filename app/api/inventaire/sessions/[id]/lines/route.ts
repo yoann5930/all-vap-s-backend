@@ -163,24 +163,34 @@ export async function POST(request: NextRequest, context: Ctx) {
     let unitPriceCents: number | null = null;
     let priceSource: PriceSource | null = null;
 
-    if (body.unitPriceCents != null) {
-      unitPriceCents = body.unitPriceCents;
-    } else if (body.unitPrice != null && body.unitPrice !== "") {
-      const parsed = parseEuroPriceInput(body.unitPrice);
-      if (!parsed.ok) return jsonResponse({ error: parsed.error }, 400);
-      unitPriceCents = parsed.cents;
-    } else if (catalogPrice && catalogPrice.cents > 0) {
-      unitPriceCents = catalogPrice.cents;
-      priceSource = catalogPrice.source;
+    // Prix catalogue connu : priorité sauf correction admin explicite
+    if (catalogPrice && catalogPrice.cents > 0 && user.role !== "ADMIN") {
+      if (body.priceSource === "CATALOGUE" || body.priceSource === "SUMUP") {
+        unitPriceCents = catalogPrice.cents;
+        priceSource = catalogPrice.source;
+      }
     }
 
-    if (body.priceSource) {
+    if (unitPriceCents == null) {
+      if (body.unitPriceCents != null) {
+        unitPriceCents = body.unitPriceCents;
+      } else if (body.unitPrice != null && body.unitPrice !== "") {
+        const parsed = parseEuroPriceInput(body.unitPrice);
+        if (!parsed.ok) return jsonResponse({ error: parsed.error }, 400);
+        unitPriceCents = parsed.cents;
+      } else if (catalogPrice && catalogPrice.cents > 0) {
+        unitPriceCents = catalogPrice.cents;
+        priceSource = catalogPrice.source;
+      }
+    }
+
+    if (body.priceSource && !priceSource) {
       priceSource = body.priceSource;
     } else if (unitPriceCents != null && !priceSource) {
       priceSource = "SAISIE_MANUELLE";
     }
 
-    // Employé : ne peut pas écraser un prix catalogue sans autorisation
+    // Employé : ne peut pas écraser un prix catalogue existant
     if (
       user.role !== "ADMIN" &&
       catalogPrice &&
@@ -189,13 +199,19 @@ export async function POST(request: NextRequest, context: Ctx) {
       unitPriceCents !== catalogPrice.cents &&
       !body.allowCatalogPriceOverride
     ) {
-      return jsonResponse(
-        {
-          error: "Prix catalogue non modifiable — contactez un administrateur",
-          catalogPriceCents: catalogPrice.cents,
-        },
-        403
-      );
+      // Tolérance : si la saisie est le prix catalogue arrondi, forcer catalogue
+      if (Math.abs(unitPriceCents - catalogPrice.cents) <= 1) {
+        unitPriceCents = catalogPrice.cents;
+        priceSource = catalogPrice.source;
+      } else {
+        return jsonResponse(
+          {
+            error: "Prix catalogue non modifiable — contactez un administrateur",
+            catalogPriceCents: catalogPrice.cents,
+          },
+          403
+        );
+      }
     }
 
     if (unitPriceCents == null) {

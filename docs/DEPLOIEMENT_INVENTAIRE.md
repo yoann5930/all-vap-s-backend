@@ -4,10 +4,11 @@
 
 | Accès | URL |
 |---|---|
-| **Login** | https://authorities-lamb-films-chain.trycloudflare.com/login |
-| **Employés** | https://authorities-lamb-films-chain.trycloudflare.com/inventaire |
-| **Admin** | https://authorities-lamb-films-chain.trycloudflare.com/admin |
-| **Inventaires (Yoann)** | https://authorities-lamb-films-chain.trycloudflare.com/admin/inventaires |
+| **Login** | https://ppm-geometry-antique-ban.trycloudflare.com/login |
+| **Employés** | https://ppm-geometry-antique-ban.trycloudflare.com/inventaire |
+| **Admin** | https://ppm-geometry-antique-ban.trycloudflare.com/admin |
+| **Inventaires (Yoann)** | https://ppm-geometry-antique-ban.trycloudflare.com/admin/inventaires |
+| **Accès** | https://ppm-geometry-antique-ban.trycloudflare.com/acces |
 
 > Les quick tunnels Cloudflare changent d’hostname à chaque redémarrage de `cloudflared`.  
 > Si la page ne charge plus : vérifier `/tmp/cf-tunnel.log` (ou relancer le tunnel) — ne pas réutiliser une ancienne URL.  

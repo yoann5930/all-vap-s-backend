@@ -282,11 +282,14 @@ export function EmployeeInventoryApp() {
       const payload: Record<string, unknown> = {
         barcode: barcode.trim(),
         quantityCounted: qty,
-        unitPrice: unitPrice.trim(),
         confirmZeroPrice: confirmZero,
       };
-      if (lookup?.priceSource && !lookup.priceMissing) {
-        payload.priceSource = lookup.priceSource;
+      if (lookup?.priceLocked && lookup.unitPriceCents != null) {
+        payload.unitPriceCents = lookup.unitPriceCents;
+        payload.priceSource = lookup.priceSource || "CATALOGUE";
+      } else {
+        payload.unitPrice = unitPrice.trim();
+        if (lookup?.priceSource) payload.priceSource = lookup.priceSource;
       }
 
       const res = await fetch(`/api/inventaire/sessions/${session.id}/lines`, {
