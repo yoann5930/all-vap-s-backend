@@ -236,17 +236,20 @@ export function decideVisualAction(matches: VisualMatch[]): {
 } {
   if (!matches.length) return { mode: "none", picks: [] };
   const best = matches[0];
+  // Même vignette partagée par plusieurs produits → jamais d’auto-remplissage
   const sameImage = matches.filter((m) => m.imageUrl === best.imageUrl);
   if (sameImage.length > 1) {
-    return { mode: "suggest", picks: sameImage.slice(0, 8) };
+    return { mode: "suggest", picks: sameImage.slice(0, 6) };
   }
   const second = matches[1];
   const clearWinner =
-    best.distance <= 10 && (!second || second.distance - best.distance >= 4);
+    best.distance <= 7 && (!second || second.distance - best.distance >= 5);
   if (clearWinner) return { mode: "auto", picks: [best] };
-  if (matches.length >= 2 && best.distance <= 12) {
-    return { mode: "suggest", picks: matches.slice(0, 6) };
+  if (matches.length >= 2 && best.distance <= 11) {
+    return { mode: "suggest", picks: matches.slice(0, 5) };
   }
-  if (best.distance <= 8) return { mode: "auto", picks: [best] };
+  // Auto seul si match très net
+  if (best.distance <= 5) return { mode: "auto", picks: [best] };
+  if (best.distance <= 10) return { mode: "suggest", picks: matches.slice(0, 4) };
   return { mode: "none", picks: [] };
 }

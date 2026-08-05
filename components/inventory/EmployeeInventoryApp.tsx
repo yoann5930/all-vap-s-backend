@@ -135,6 +135,16 @@ export function EmployeeInventoryApp() {
   const identifyBusyRef = useRef(false);
   const lastIdentifyAtRef = useRef(0);
   const lastIdentifyKeyRef = useRef<string>("");
+  /** Cap identify Internet par session Photo (évite spam frame). */
+  const identifyAttemptsRef = useRef(0);
+  const identifyAbortRef = useRef<AbortController | null>(null);
+  const localMissStreakRef = useRef(0);
+  const lastCanvasIdentifyAtRef = useRef(0);
+  const photoRecognizedRef = useRef(false);
+  const visualSuggestionsRef = useRef<VisualMatch[]>([]);
+  const MAX_IDENTIFY_PER_PHOTO = 3;
+  const CANVAS_IDENTIFY_COOLDOWN_MS = 5500;
+  const LOCAL_MISS_BEFORE_IDENTIFY = 3;
 
   type IdentifySuggestion = {
     name: string;
@@ -180,6 +190,7 @@ export function EmployeeInventoryApp() {
     );
     setQuantity("");
     setShowSuggestions(false);
+    visualSuggestionsRef.current = [];
     setVisualSuggestions([]);
     setLookupHint(
       `Identifié (${s.source}) : ${s.name}${s.brand ? ` · ${s.brand}` : ""}${
@@ -198,14 +209,44 @@ export function EmployeeInventoryApp() {
     canvas?: HTMLCanvasElement | null;
   }): Promise<boolean> {
     if (identifyBusyRef.current) return false;
-    const key = `${params.barcode || ""}|${params.query || ""}|${params.canvas ? "img" : ""}`;
+    if (photoRecognizedRef.current) return false;
+    if (visualSuggestionsRef.current.length > 0) return false;
+
+    const isCanvas = Boolean(params.canvas);
+    if (isCanvas) {
+      if (identifyAttemptsRef.current >= MAX_IDENTIFY_PER_PHOTO) {
+        setRecognitionHint(
+          "Recherche limitée — saisissez le nom ou scannez l’EAN"
+        );
+        return false;
+      }
+      const nowCd = Date.now();
+      if (nowCd - lastCanvasIdentifyAtRef.current < CANVAS_IDENTIFY_COOLDOWN_MS) {
+        return false;
+      }
+    }
+
+    const key = `${params.barcode || ""}|${params.query || ""}|${isCanvas ? "img" : ""}`;
     const now = Date.now();
-    if (key === lastIdentifyKeyRef.current && now - lastIdentifyAtRef.current < (params.canvas ? 4000 : 2500)) {
+    if (
+      key === lastIdentifyKeyRef.current &&
+      now - lastIdentifyAtRef.current < (isCanvas ? 5000 : 2500)
+    ) {
       return false;
     }
+
     identifyBusyRef.current = true;
     lastIdentifyKeyRef.current = key;
     lastIdentifyAtRef.current = now;
+    if (isCanvas) {
+      identifyAttemptsRef.current += 1;
+      lastCanvasIdentifyAtRef.current = now;
+    }
+
+    identifyAbortRef.current?.abort();
+    const abort = new AbortController();
+    identifyAbortRef.current = abort;
+
     setRecognitionHint("Recherche du produit…");
     try {
       const payload: Record<string, string> = {};
@@ -214,12 +255,18 @@ export function EmployeeInventoryApp() {
       if (params.canvas) {
         const dataUrl = canvasToDataUrl(params.canvas);
         if (dataUrl && dataUrl.length < 900_000) payload.imageDataUrl = dataUrl;
+        // Sans image utile et sans EAN/query → inutile d’appeler
+        if (!payload.imageDataUrl && !payload.barcode && !payload.query) {
+          return false;
+        }
       }
       const res = await fetch("/api/inventaire/product-identify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        signal: abort.signal,
       });
+      if (abort.signal.aborted) return false;
       const data = await res.json();
       if (!res.ok) {
         setRecognitionHint(
@@ -234,29 +281,31 @@ export function EmployeeInventoryApp() {
 
       const list = (data.suggestions || []) as IdentifySuggestion[];
       if (data.autoFill && data.suggestion) {
+        photoRecognizedRef.current = true;
         applyIdentifySuggestion(data.suggestion as IdentifySuggestion);
         return true;
       }
-      if (list.length === 1 && list[0].confidence >= 0.85) {
+      if (list.length === 1 && list[0].confidence >= 0.9) {
+        photoRecognizedRef.current = true;
         applyIdentifySuggestion(list[0]);
         return true;
       }
       if (list.length > 1) {
-        setVisualSuggestions(
-          list.map((s, i) => ({
-            id: s.localProductId || `ext-${i}-${s.barcode || s.name}`,
-            name: s.name,
-            brand: s.brand,
-            range: s.range,
-            category: s.range,
-            barcode: s.barcode,
-            imageUrl: "",
-            priceCents: s.unitPriceCents,
-            score: s.confidence,
-            distance: Math.round((1 - s.confidence) * 64),
-            source: s.source,
-          })) as VisualMatch[]
-        );
+        const mapped = list.map((s, i) => ({
+          id: s.localProductId || `ext-${i}-${s.barcode || s.name}`,
+          name: s.name,
+          brand: s.brand,
+          range: s.range,
+          category: s.range,
+          barcode: s.barcode,
+          imageUrl: "",
+          priceCents: s.unitPriceCents,
+          score: s.confidence,
+          distance: Math.round((1 - s.confidence) * 64),
+          source: s.source,
+        })) as VisualMatch[];
+        visualSuggestionsRef.current = mapped;
+        setVisualSuggestions(mapped);
         setRecognitionHint("Plusieurs résultats possibles — choisissez");
         setMessage(
           list
@@ -275,7 +324,8 @@ export function EmployeeInventoryApp() {
       setRecognitionHint(reason);
       setLookupHint(reason);
       return false;
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return false;
       setRecognitionHint("Recherche indisponible — saisie manuelle possible");
       return false;
     } finally {
@@ -640,24 +690,35 @@ export function EmployeeInventoryApp() {
     }
   }
 
-  /** Frame caméra Photo — local d’abord, puis recherche élargie si inconnu. */
+  /** Frame caméra Photo — local d’abord, puis identify Internet (limité). */
   const onPhotoFrame = async (canvas: HTMLCanvasElement) => {
     if (visualMatchBusyRef.current) return;
     if (visualLookupBusyRef.current) return;
     if (identifyBusyRef.current) return;
+    if (photoRecognizedRef.current) return;
+    if (visualSuggestionsRef.current.length > 0) return;
 
     const index = visualIndexRef.current;
     visualMatchBusyRef.current = true;
-    setRecognitionHint((prev) =>
-      prev === "Produit reconnu" || (prev || "").startsWith("Recherche")
-        ? prev
-        : "Analyse du produit…"
-    );
+    setRecognitionHint((prev) => {
+      if (
+        prev === "Produit reconnu" ||
+        (prev || "").startsWith("Recherche") ||
+        (prev || "").startsWith("Plusieurs") ||
+        (prev || "").startsWith("Aucun") ||
+        (prev || "").startsWith("Texte") ||
+        (prev || "").startsWith("EAN") ||
+        (prev || "").startsWith("OCR")
+      ) {
+        return prev;
+      }
+      return "Analyse du produit…";
+    });
     try {
       if (index.length) {
         const matches = matchVisualCanvas(canvas, index, {
           limit: 8,
-          maxDistance: 14,
+          maxDistance: 12,
         });
         const decision = decideVisualAction(matches);
 
@@ -665,19 +726,42 @@ export function EmployeeInventoryApp() {
           const pick = decision.picks[0];
           if (pick.id === lastVisualAutoIdRef.current) return;
           lastVisualAutoIdRef.current = pick.id;
+          photoRecognizedRef.current = true;
+          localMissStreakRef.current = 0;
           setRecognitionHint("Produit reconnu");
           await applyVisualProduct(pick);
           return;
         }
 
         if (decision.mode === "suggest") {
+          localMissStreakRef.current = 0;
+          visualSuggestionsRef.current = decision.picks;
           setRecognitionHint("Plusieurs résultats possibles — choisissez");
           setVisualSuggestions(decision.picks);
           return;
         }
+
+        localMissStreakRef.current += 1;
+      } else {
+        localMissStreakRef.current += 1;
       }
 
-      // Inconnu localement → recherche élargie (EAN/OCR/Internet via endpoint isolé)
+      // Attendre plusieurs frames sans match + cooldown avant Internet
+      // (laisse la priorité à l’EAN lu sur la face produit)
+      if (localMissStreakRef.current < LOCAL_MISS_BEFORE_IDENTIFY) {
+        setRecognitionHint((prev) =>
+          prev && prev !== "Analyse du produit…"
+            ? prev
+            : "Présentez la face avant ou l’EAN"
+        );
+        return;
+      }
+      if (identifyAttemptsRef.current >= MAX_IDENTIFY_PER_PHOTO) {
+        setRecognitionHint(
+          "Non reconnu localement — saisissez le nom ou scannez l’EAN"
+        );
+        return;
+      }
       await identifyUnknownProduct({ canvas });
     } finally {
       visualMatchBusyRef.current = false;
@@ -687,15 +771,19 @@ export function EmployeeInventoryApp() {
   /** EAN lu sur la face produit pendant Photo → local puis recherche élargie. */
   const onPhotoBarcodeFound = async (code: string) => {
     if (visualLookupBusyRef.current || identifyBusyRef.current) return;
+    if (photoRecognizedRef.current) return;
+    if (visualSuggestionsRef.current.length > 0) return;
     setRecognitionHint("Analyse du produit…");
     const ok = await lookupBarcode(code);
     if (ok) {
+      photoRecognizedRef.current = true;
       setRecognitionHint("Produit reconnu");
       setPhotoOpen(false);
       setMessage("Produit reconnu — saisissez uniquement la quantité");
       focusQuantityField();
       return;
     }
+    // EAN prioritaire : ne compte pas comme un spam canvas
     await identifyUnknownProduct({ barcode: code });
   };
 
@@ -1442,6 +1530,14 @@ export function EmployeeInventoryApp() {
                 disabled={loading || !session}
                 onClick={() => {
                   lastVisualAutoIdRef.current = "";
+                  photoRecognizedRef.current = false;
+                  identifyAttemptsRef.current = 0;
+                  localMissStreakRef.current = 0;
+                  lastCanvasIdentifyAtRef.current = 0;
+                  lastIdentifyKeyRef.current = "";
+                  identifyAbortRef.current?.abort();
+                  identifyAbortRef.current = null;
+                  visualSuggestionsRef.current = [];
                   setVisualSuggestions([]);
                   setRecognitionHint(
                     "Présentez la face avant du produit devant la caméra"
@@ -1589,7 +1685,9 @@ export function EmployeeInventoryApp() {
             type="button"
             className="mt-2 w-full rounded-xl border border-gray-300 py-2 text-sm font-semibold"
             onClick={() => {
+              visualSuggestionsRef.current = [];
               setVisualSuggestions([]);
+              localMissStreakRef.current = 0;
               setRecognitionHint(
                 "Produit non reconnu, rapprochez ou repositionnez le produit"
               );
@@ -1612,13 +1710,17 @@ export function EmployeeInventoryApp() {
       <VisualRecognitionCamera
         open={photoOpen}
         onClose={() => {
+          identifyAbortRef.current?.abort();
+          identifyAbortRef.current = null;
+          identifyBusyRef.current = false;
           setPhotoOpen(false);
           setRecognitionHint(null);
         }}
         onFrame={onPhotoFrame}
         onBarcodeFound={onPhotoBarcodeFound}
         status={recognitionHint}
-        intervalMs={350}
+        intervalMs={480}
+        paused={visualSuggestions.length > 0 || photoRecognizedRef.current}
       />
     </div>
   );

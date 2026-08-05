@@ -12,8 +12,10 @@ type Props = {
   onBarcodeFound?: (code: string) => void | Promise<void>;
   /** Statut affiché (Présentez… / Analyse… / Reconnu / Non reconnu). */
   status?: string | null;
-  /** Intervalle entre analyses (ms), borné 200–500. */
+  /** Intervalle entre analyses (ms), borné 250–800. */
   intervalMs?: number;
+  /** Met en pause l’analyse (ex. suggestions ouvertes) sans fermer la caméra. */
+  paused?: boolean;
 };
 
 declare global {
@@ -55,7 +57,8 @@ export function VisualRecognitionCamera({
   onFrame,
   onBarcodeFound,
   status = null,
-  intervalMs = 350,
+  intervalMs = 450,
+  paused = false,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -66,12 +69,14 @@ export function VisualRecognitionCamera({
   const onFrameRef = useRef(onFrame);
   const onBarcodeFoundRef = useRef(onBarcodeFound);
   const intervalRef = useRef(intervalMs);
+  const pausedRef = useRef(paused);
   const [error, setError] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
 
   onFrameRef.current = onFrame;
   onBarcodeFoundRef.current = onBarcodeFound;
-  intervalRef.current = Math.max(200, Math.min(500, intervalMs));
+  intervalRef.current = Math.max(250, Math.min(800, intervalMs));
+  pausedRef.current = paused;
 
   useEffect(() => {
     if (!open) return;
@@ -151,6 +156,7 @@ export function VisualRecognitionCamera({
         if (cancelled) return;
         const now = Date.now();
         if (
+          !pausedRef.current &&
           !busyRef.current &&
           now - lastAtRef.current >= intervalRef.current &&
           videoRef.current &&
@@ -169,12 +175,12 @@ export function VisualRecognitionCamera({
         if (!cancelled) {
           loopRef.current = window.setTimeout(() => {
             void tick();
-          }, 80);
+          }, 100);
         }
       };
       loopRef.current = window.setTimeout(() => {
         void tick();
-      }, 200);
+      }, 350);
     }
 
     async function start() {

@@ -84,36 +84,82 @@ async function fetchJson(url: string, timeoutMs = 6000): Promise<unknown | null>
   }
 }
 
+/** Cache mémoire court (stabilise les recherches répétées Photo). */
+const RESULT_CACHE = new Map<string, { at: number; hits: ExternalProductHit[]; ttl: number }>();
+const CACHE_TTL_MS = 90_000;
+const EMPTY_CACHE_TTL_MS = 20_000;
+
+function cacheGet(key: string): ExternalProductHit[] | null {
+  const row = RESULT_CACHE.get(key);
+  if (!row) return null;
+  if (Date.now() - row.at > row.ttl) {
+    RESULT_CACHE.delete(key);
+    return null;
+  }
+  return row.hits.map((h) => ({ ...h }));
+}
+
+function cacheSet(key: string, hits: ExternalProductHit[], ttl = CACHE_TTL_MS) {
+  if (RESULT_CACHE.size > 200) {
+    const first = RESULT_CACHE.keys().next().value;
+    if (first) RESULT_CACHE.delete(first);
+  }
+  RESULT_CACHE.set(key, { at: Date.now(), hits: hits.map((h) => ({ ...h })), ttl });
+}
+
+function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return new Promise((resolve) => {
+    const t = setTimeout(() => resolve(fallback), ms);
+    promise
+      .then((v) => {
+        clearTimeout(t);
+        resolve(v);
+      })
+      .catch(() => {
+        clearTimeout(t);
+        resolve(fallback);
+      });
+  });
+}
+
 /** Open Food / Beauty / Products Facts — API publique, sans clé. */
 async function lookupOpenFactsBarcode(barcode: string): Promise<ExternalProductHit[]> {
+  const cached = cacheGet(`off:${barcode}`);
+  if (cached) return cached;
+
   const hosts = [
     "world.openfoodfacts.org",
     "world.openbeautyfacts.org",
     "world.openproductsfacts.org",
   ];
-  const hits: ExternalProductHit[] = [];
-  for (const host of hosts) {
-    const data = (await fetchJson(
-      `https://${host}/api/v2/product/${encodeURIComponent(barcode)}.json`
-    )) as { status?: number; product?: Record<string, unknown> } | null;
-    if (!data || data.status !== 1 || !data.product) continue;
-    const name = pickName(data.product);
-    if (!name) continue;
-    hits.push({
-      name,
-      brand: pickBrand(data.product),
-      range: pickRange(data.product),
-      barcode,
-      sku: cleanText(data.product.code as string) || barcode,
-      source: host.replace("world.", ""),
-      confidence: 0.92,
-      rawHints: [name, pickBrand(data.product), pickRange(data.product)].filter(
-        Boolean
-      ) as string[],
-    });
-    break; // une source fiable suffit
-  }
-  return hits;
+  const results = await Promise.all(
+    hosts.map(async (host) => {
+      const data = (await fetchJson(
+        `https://${host}/api/v2/product/${encodeURIComponent(barcode)}.json`,
+        5000
+      )) as { status?: number; product?: Record<string, unknown> } | null;
+      if (!data || data.status !== 1 || !data.product) return null;
+      const name = pickName(data.product);
+      if (!name) return null;
+      return {
+        name,
+        brand: pickBrand(data.product),
+        range: pickRange(data.product),
+        barcode,
+        sku: cleanText(data.product.code as string) || barcode,
+        source: host.replace("world.", ""),
+        confidence: 0.92,
+        rawHints: [name, pickBrand(data.product), pickRange(data.product)].filter(
+          Boolean
+        ) as string[],
+      } satisfies ExternalProductHit;
+    })
+  );
+  const hits = results.filter(Boolean) as ExternalProductHit[];
+  // Une seule meilleure source
+  const top = hits.slice(0, 1);
+  cacheSet(`off:${barcode}`, top);
+  return top;
 }
 
 /** UPC Item DB — essai public (quota limité), sans clé. */
@@ -287,13 +333,22 @@ export async function searchExternalProducts(params: {
   const query = (params.query || "").trim();
   const brandHint = cleanText(params.brandHint);
 
+  const cacheKey = `ext:${barcode}|${query.toLowerCase()}|${(brandHint || "").toLowerCase()}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) {
+    sourcesTried.push("cache");
+    return { hits: cached, externalEnabled, sourcesTried };
+  }
+
   // 1) EAN → bases publiques
   if (barcode.length >= 8 && isPlausibleBarcode(barcode)) {
     sourcesTried.push("openfacts");
-    hits.push(...(await lookupOpenFactsBarcode(barcode)));
+    hits.push(
+      ...(await withTimeout(lookupOpenFactsBarcode(barcode), 7000, []))
+    );
     if (!hits.length) {
       sourcesTried.push("upcitemdb");
-      hits.push(...(await lookupUpcItemDb(barcode)));
+      hits.push(...(await withTimeout(lookupUpcItemDb(barcode), 6000, [])));
     }
   } else if (barcode) {
     sourcesTried.push("barcode-rejected");
@@ -304,16 +359,20 @@ export async function searchExternalProducts(params: {
   if (envFlag("PRODUCT_IDENTIFY_OFFICIAL_SITES", true) && query.length >= 3) {
     sourcesTried.push("official-sites");
     officialAttempted = resolveOfficialBrandTargets(brandHint, query).length > 0;
-    const official = await searchOfficialManufacturerSites({
-      query,
-      brandHint,
-    });
-    // Insérer en tête (priorité)
-    hits.unshift(...official);
+    if (officialAttempted) {
+      const official = await withTimeout(
+        searchOfficialManufacturerSites({
+          query,
+          brandHint,
+        }),
+        10000,
+        []
+      );
+      hits.unshift(...official);
+    }
   }
 
   // 3) Fallback texte Open Food Facts UNIQUEMENT si pas de marque officielle connue
-  // (évite les faux positifs alimentaires type Nescafé sur une requête vape)
   if (
     !hits.length &&
     query.length >= 3 &&
@@ -321,10 +380,16 @@ export async function searchExternalProducts(params: {
     !brandHint
   ) {
     sourcesTried.push("openfoodfacts-search");
-    hits.push(...(await searchOpenFoodFactsText(query)));
+    hits.push(...(await withTimeout(searchOpenFoodFactsText(query), 6000, [])));
   }
 
-  // Déduplique par nom+marque (garde la 1ʳᵉ = souvent site officiel)
+  // Déduplique + priorise official > ean bases
+  hits.sort((a, b) => {
+    const rank = (h: ExternalProductHit) =>
+      h.source.startsWith("official:") ? 0 : h.confidence >= 0.9 ? 1 : 2;
+    return rank(a) - rank(b) || b.confidence - a.confidence;
+  });
+
   const seen = new Set<string>();
   const unique: ExternalProductHit[] = [];
   for (const h of hits) {
@@ -335,6 +400,8 @@ export async function searchExternalProducts(params: {
     if (unique.length >= 5) break;
   }
 
+  if (unique.length) cacheSet(cacheKey, unique);
+  else cacheSet(cacheKey, [], EMPTY_CACHE_TTL_MS);
   return { hits: unique, externalEnabled, sourcesTried };
 }
 
@@ -564,14 +631,19 @@ function parseOfficialHtmlProducts(
     if (seen.has(key)) continue;
     seen.add(key);
     const rangeGuess =
-      cleanText((title.split(" - ").pop() || "").trim()) &&
       title.includes(" - ")
         ? cleanText(title.split(" - ").pop() || "")
+        : null;
+    const range =
+      rangeGuess &&
+      rangeGuess.length < 40 &&
+      rangeGuess.toLowerCase() !== brand.toLowerCase()
+        ? rangeGuess
         : null;
     hits.push({
       name: title,
       brand,
-      range: rangeGuess && rangeGuess.length < 40 ? rangeGuess : null,
+      range,
       barcode: null,
       sku: mm[1] || null,
       source: `official:${domain}`,

@@ -220,15 +220,20 @@ export async function POST(request: NextRequest) {
     diagnostics.resultCount = top.length;
 
     const best = top[0] || null;
+    const second = top[1] || null;
+    const clearGap = !second || best.confidence - second.confidence >= 0.12;
     const auto =
       best &&
-      (best.confidence >= 0.9 ||
-        best.source.startsWith("official:") ||
-        (best.source === "local-catalog" && best.confidence >= 1) ||
+      clearGap &&
+      ((best.source === "local-catalog" && best.confidence >= 1) ||
         (best.barcode &&
           safeBarcode &&
           best.barcode === safeBarcode &&
-          best.confidence >= 0.85));
+          best.confidence >= 0.88) ||
+        (best.source.startsWith("official:") &&
+          best.confidence >= 0.9 &&
+          (top.length === 1 || clearGap)) ||
+        (best.confidence >= 0.93 && top.length === 1));
 
     let failureReason: string | null = null;
     if (!top.length) {
@@ -253,8 +258,7 @@ export async function POST(request: NextRequest) {
     const payload: Record<string, unknown> = {
       found: top.length > 0,
       autoFill: Boolean(auto && best),
-      suggestion:
-        auto && best && (top.length === 1 || best.confidence >= 0.92) ? best : null,
+      suggestion: auto && best ? best : null,
       suggestions: top,
       ocrText,
       effectiveBarcode: safeBarcode || effectiveBarcode,
