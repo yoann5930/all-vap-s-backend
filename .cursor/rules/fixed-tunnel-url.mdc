@@ -1,21 +1,15 @@
 # URL tunnel inventaire — VERROUILLÉES + serveurs toujours allumés
 
-## Adresses figées (ne jamais changer)
+## Adresses figées
 
-- Accès : https://heather-auctions-they-leu.trycloudflare.com/acces
-- Inventaire : https://heather-auctions-they-leu.trycloudflare.com/inventaire
-- Login : https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
+- Accès : https://tries-digital-raw-aus.trycloudflare.com/acces
+- Inventaire : https://tries-digital-raw-aus.trycloudflare.com/inventaire
+- Login : https://tries-digital-raw-aus.trycloudflare.com/login?next=/inventaire
 
-Fichier : `data/FIXED_TUNNEL_URL.txt`
+## Serveurs
 
-## Serveurs — ne s’arrêtent que sur demande
+Ne s’arrêtent que sur demande (`scripts/stop-servers.sh`).
 
-1. **Ne jamais** arrêter Next.js ni `cloudflared` sauf demande explicite de l’utilisateur.
-2. Superviseur : `scripts/ensure-servers.sh` / `scripts/keep-servers.sh` (ignore Ctrl+C).
-3. Arrêt volontaire uniquement : `bash scripts/stop-servers.sh` (+ `--also-tunnel` si demandé).
-4. Ne jamais `pkill cloudflared` ni tuer un Next healthy pendant le travail courant.
-5. Ne pas annoncer d’autre URL `*.trycloudflare.com`.
+## Application Android
 
-## Si l’URL figée meurt
-
-Prévenir l’utilisateur ; **aucun** nouveau tunnel sans accord explicite (« OK »).
+Bouton inventaire → télécharge `/apps/AllVaps-Inventaire.apk` (vrai fichier APK).

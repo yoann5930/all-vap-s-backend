@@ -11,6 +11,7 @@ import {
   buildVisualIndex,
   decideVisualAction,
   matchVisualCanvas,
+  sharpenCatalogImageUrl,
   type VisualIndexedProduct,
   type VisualMatch,
 } from "@/components/inventory/visual-product-matcher";
@@ -164,7 +165,7 @@ export function EmployeeInventoryApp() {
 
   function canvasToDataUrl(canvas: HTMLCanvasElement): string | null {
     try {
-      return canvas.toDataURL("image/jpeg", 0.55);
+      return canvas.toDataURL("image/jpeg", 0.88);
     } catch {
       return null;
     }
@@ -636,7 +637,8 @@ export function EmployeeInventoryApp() {
           }>;
           for (const r of refs) {
             if (!r.imageUrl || !r.name) continue;
-            const proxied = `/api/inventaire/image-proxy?url=${encodeURIComponent(r.imageUrl)}`;
+            const sharp = sharpenCatalogImageUrl(r.imageUrl);
+            const proxied = `/api/inventaire/image-proxy?url=${encodeURIComponent(sharp)}`;
             mapped.push({
               id: r.id,
               name: r.name,
@@ -1496,7 +1498,8 @@ export function EmployeeInventoryApp() {
                 <img
                   src={lookup.imageUrl}
                   alt={productName || lookup.name || "Produit"}
-                  className="h-24 w-24 object-cover"
+                  className="h-28 w-28 rounded-lg object-cover"
+                  loading="eager"
                 />
                 <span className="absolute inset-x-0 bottom-0 bg-black/70 px-1.5 py-1 text-[10px] font-semibold leading-tight text-white">
                   {productName || lookup.name || "Produit"}

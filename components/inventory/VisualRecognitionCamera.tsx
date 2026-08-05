@@ -115,8 +115,8 @@ export function VisualRecognitionCamera({
           audio: false,
           video: {
             facingMode: { ideal: "environment" },
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
           },
         },
         { audio: false, video: { facingMode: "environment" } },
@@ -139,7 +139,7 @@ export function VisualRecognitionCamera({
       const video = videoRef.current;
       const canvas = canvasRef.current;
       if (!video || !canvas || video.readyState < 2) return;
-      if (!drawProductCropToCanvas(video, canvas, 192)) return;
+      if (!drawProductCropToCanvas(video, canvas, 384)) return;
 
       // Lecture éventuelle d’un EAN visible sur la face (sans scanner EAN dédié)
       if (onBarcodeFoundRef.current && typeof window.BarcodeDetector === "function") {
@@ -296,7 +296,7 @@ export function VisualRecognitionCamera({
       <div className="relative min-h-0 flex-1 bg-black">
         <video
           ref={videoRef}
-          className="h-full w-full object-contain bg-black"
+          className="h-full w-full object-cover bg-black"
           playsInline
           muted
           autoPlay

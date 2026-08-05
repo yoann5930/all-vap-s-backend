@@ -1,0 +1,7 @@
+<resources>
+  <style name="Theme.AllVaps" parent="android:Theme.Material.Light.NoActionBar">
+    <item name="android:statusBarColor">#047857</item>
+    <item name="android:navigationBarColor">#047857</item>
+    <item name="android:windowBackground">#FFFFFF</item>
+  </style>
+</resources>

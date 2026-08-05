@@ -65,10 +65,17 @@ export async function GET(request: NextRequest) {
       return jsonResponse({ error: "Domaine non autorisé" }, 403);
     }
 
+    // Remonte vignettes Prestashop floues → large_default
+    let fetchUrl = target.toString();
+    fetchUrl = fetchUrl
+      .replace(/home_default/gi, "large_default")
+      .replace(/small_default/gi, "large_default")
+      .replace(/medium_default/gi, "large_default");
+
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 8000);
     try {
-      const res = await fetch(target.toString(), {
+      const res = await fetch(fetchUrl, {
         signal: ctrl.signal,
         headers: {
           Accept: "image/*,*/*",
@@ -77,6 +84,28 @@ export async function GET(request: NextRequest) {
         redirect: "follow",
         cache: "force-cache",
       });
+      if (!res.ok && fetchUrl !== target.toString()) {
+        // fallback URL d’origine
+        const res2 = await fetch(target.toString(), {
+          signal: ctrl.signal,
+          headers: {
+            Accept: "image/*,*/*",
+            "User-Agent": "AllVaps-Inventory/1.0 (+visual-proxy)",
+          },
+          redirect: "follow",
+          cache: "force-cache",
+        });
+        if (!res2.ok) return new Response("Image introuvable", { status: 404 });
+        const buf2 = await res2.arrayBuffer();
+        const ctype2 = res2.headers.get("content-type") || "image/jpeg";
+        return new Response(buf2, {
+          headers: {
+            "Content-Type": ctype2.startsWith("image/") ? ctype2 : "image/jpeg",
+            "Cache-Control": "private, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
       if (!res.ok) {
         return new Response("Image introuvable", { status: 404 });
       }

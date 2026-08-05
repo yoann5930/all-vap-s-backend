@@ -94,6 +94,20 @@ const nextConfig: NextConfig = {
         source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
+      {
+        source: "/apps/:file*.apk",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/vnd.android.package-archive",
+          },
+          {
+            key: "Content-Disposition",
+            value: 'attachment; filename="AllVaps-Inventaire.apk"',
+          },
+          { key: "Cache-Control", value: "public, max-age=300" },
+        ],
+      },
     ];
   },
 };

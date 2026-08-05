@@ -8,10 +8,8 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 /**
- * Installation téléphone inventaire :
- * - clic = téléchargement du guide (fichier HTML)
- * - + étapes claires Android / iPhone
- * - + install PWA native si le navigateur le propose
+ * Bouton unique : télécharge l’APK Android Inventaire sur le téléphone.
+ * (iPhone : pas de sideload IPA — propose l’install PWA native si dispo.)
  */
 export function InventoryInstallButton() {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(
@@ -20,6 +18,11 @@ export function InventoryInstallButton() {
   const [installed, setInstalled] = useState(false);
   const [busy, setBusy] = useState(false);
   const [hint, setHint] = useState<string | null>(null);
+  const [apkOk, setApkOk] = useState(true);
+
+  const isIos =
+    typeof navigator !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
     const standalone =
@@ -41,6 +44,12 @@ export function InventoryInstallButton() {
     };
     window.addEventListener("beforeinstallprompt", onBip);
     window.addEventListener("appinstalled", onInstalled);
+
+    // Vérifie que l’APK est servi
+    fetch("/apps/AllVaps-Inventaire.apk", { method: "HEAD" })
+      .then((r) => setApkOk(r.ok))
+      .catch(() => setApkOk(false));
+
     return () => {
       window.removeEventListener("beforeinstallprompt", onBip);
       window.removeEventListener("appinstalled", onInstalled);
@@ -55,46 +64,50 @@ export function InventoryInstallButton() {
     );
   }
 
-  const isIos =
-    typeof navigator !== "undefined" &&
-    /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-  function downloadGuide() {
-    // Téléchargement réel d’un fichier (fonctionne hors PWA)
+  function downloadApk() {
     const a = document.createElement("a");
-    a.href = "/guides/installer-inventaire.html";
-    a.download = "AllVaps-Installer-Inventaire.html";
+    a.href = "/apps/AllVaps-Inventaire.apk";
+    a.download = "AllVaps-Inventaire.apk";
     a.rel = "noopener";
     document.body.appendChild(a);
     a.click();
     a.remove();
     setHint(
-      isIos
-        ? "Guide téléchargé. Sur iPhone : Safari → Partager → Sur l’écran d’accueil."
-        : "Guide téléchargé. Sur Android : Chrome → ⋮ → Installer l’application."
+      "Téléchargement de l’application… Ouvrez le fichier .apk puis Autoriser l’installation."
     );
   }
 
-  async function tryNativeInstall() {
-    if (!deferred) {
-      downloadGuide();
-      setHint(
-        "Ce navigateur n’affiche pas encore « Installer ». Suivez le guide téléchargé (Chrome Android / Safari iPhone)."
-      );
-      return;
-    }
+  async function onClickInstall() {
     setBusy(true);
+    setHint(null);
     try {
-      await deferred.prompt();
-      const choice = await deferred.userChoice;
-      if (choice.outcome === "accepted") {
-        setHint("Installation acceptée — cherchez l’icône Inventaire.");
-      } else {
-        downloadGuide();
+      if (isIos) {
+        if (deferred) {
+          await deferred.prompt();
+          await deferred.userChoice;
+          setDeferred(null);
+          setHint("Installation lancée — cherchez l’icône Inventaire.");
+          return;
+        }
+        setHint(
+          "Sur iPhone : Safari → bouton Partager → « Sur l’écran d’accueil »."
+        );
+        return;
       }
-      setDeferred(null);
-    } catch {
-      downloadGuide();
+      // Android / Samsung : fichier APK réel
+      if (apkOk) {
+        downloadApk();
+        return;
+      }
+      // Fallback PWA native si APK absent
+      if (deferred) {
+        await deferred.prompt();
+        await deferred.userChoice;
+        setDeferred(null);
+        setHint("Installation lancée — cherchez l’icône Inventaire.");
+        return;
+      }
+      setHint("Application indisponible pour le moment — réessayez.");
     } finally {
       setBusy(false);
     }
@@ -103,49 +116,26 @@ export function InventoryInstallButton() {
   return (
     <div className="rounded-xl border border-emerald-200 bg-white p-3 shadow-sm">
       <p className="text-sm font-semibold text-gray-900">
-        Installer sur le téléphone
+        Application téléphone
       </p>
       <p className="mt-1 text-xs text-gray-600">
-        Un clic télécharge le guide. Puis ajoutez l’app à l’écran d’accueil
-        (pas de Play Store / App Store).
+        Un clic télécharge l’appli Inventaire sur votre téléphone (Android /
+        Samsung).
       </p>
-
-      <div className="mt-2 grid gap-2 sm:grid-cols-2">
-        <button
-          type="button"
-          onClick={downloadGuide}
-          className="rounded-xl bg-emerald-700 px-3 py-2.5 text-sm font-semibold text-white"
-        >
-          Télécharger le guide
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void tryNativeInstall()}
-          className="rounded-xl bg-gray-900 px-3 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {busy
-            ? "Installation…"
-            : deferred
-              ? "Installer maintenant"
-              : "Android / iPhone — comment faire"}
-        </button>
-      </div>
-
-      <ol className="mt-3 list-decimal space-y-1 pl-5 text-xs text-gray-700">
-        <li>
-          <strong>Android / Samsung</strong> (Chrome) : menu ⋮ → « Installer
-          l’application » ou « Ajouter à l’écran d’accueil ».
-        </li>
-        <li>
-          <strong>iPhone</strong> (Safari uniquement) : Partager → « Sur
-          l’écran d’accueil » → Ajouter.
-        </li>
-        <li>Ouvrez l’icône « Inventaire » comme une app.</li>
-      </ol>
-
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => void onClickInstall()}
+        className="mt-3 w-full rounded-xl bg-emerald-700 px-3 py-3.5 text-base font-semibold text-white disabled:opacity-60"
+      >
+        {busy
+          ? "Téléchargement…"
+          : isIos
+            ? "Installer sur iPhone"
+            : "Télécharger l’application"}
+      </button>
       {hint ? (
-        <p className="mt-2 rounded-lg bg-amber-50 px-2 py-1.5 text-xs text-amber-900">
+        <p className="mt-2 rounded-lg bg-emerald-50 px-2 py-1.5 text-xs text-emerald-900">
           {hint}
         </p>
       ) : null}

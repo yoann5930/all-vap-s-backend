@@ -52,3 +52,8 @@ prisma/*.db-journal
 .local/
 *credentials*.txt
 *credentials*.json
+
+# Android inventaire build (APK publié dans public/apps)
+mobile/inventaire-webview/app/build/
+mobile/inventaire-webview/.gradle/
+mobile/inventaire-webview/local.properties

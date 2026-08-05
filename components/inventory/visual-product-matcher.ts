@@ -209,20 +209,34 @@ export function matchVisualCanvas(
 export function drawProductCropToCanvas(
   video: HTMLVideoElement,
   target: HTMLCanvasElement,
-  size = 160
+  size = 384
 ): boolean {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
   if (vw < 40 || vh < 40) return false;
-  const side = Math.floor(Math.min(vw, vh) * 0.72);
+  const side = Math.floor(Math.min(vw, vh) * 0.78);
   const sx = Math.floor((vw - side) / 2);
   const sy = Math.floor((vh - side) / 2);
   target.width = size;
   target.height = size;
   const ctx = target.getContext("2d", { willReadFrequently: true });
   if (!ctx) return false;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   ctx.drawImage(video, sx, sy, side, side, 0, 0, size, size);
   return true;
+}
+
+/** Remonte les vignettes Prestashop floues (home_default) vers large_default. */
+export function sharpenCatalogImageUrl(url: string): string {
+  if (!url) return url;
+  return url
+    .replace(/\/\d+-home_default\//i, (m) => m.replace("home_default", "large_default"))
+    .replace(/-home_default\./i, "-large_default.")
+    .replace(/\/\d+-small_default\//i, (m) => m.replace("small_default", "large_default"))
+    .replace(/-small_default\./i, "-large_default.")
+    .replace(/\/\d+-medium_default\./i, (m) => m.replace("medium_default", "large_default"))
+    .replace(/-medium_default\./i, "-large_default.");
 }
 
 /**
