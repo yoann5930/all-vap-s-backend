@@ -4,9 +4,9 @@
 
 Do **not** restart, kill, or recreate the Cloudflare quick tunnel in a way that would change:
 
-- https://minnesota-join-powerpoint-heritage.trycloudflare.com/acces
-- https://minnesota-join-powerpoint-heritage.trycloudflare.com/inventaire
-- https://minnesota-join-powerpoint-heritage.trycloudflare.com/login?next=/inventaire
+- https://heather-auctions-they-leu.trycloudflare.com/acces
+- https://heather-auctions-they-leu.trycloudflare.com/inventaire
+- https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
 
 Source of truth: `data/FIXED_TUNNEL_URL.txt`
 

@@ -4,7 +4,7 @@
 set -u
 cd /workspace
 
-FIXED_TUNNEL_URL="https://minnesota-join-powerpoint-heritage.trycloudflare.com"
+FIXED_TUNNEL_URL="https://heather-auctions-they-leu.trycloudflare.com"
 mkdir -p /tmp/allvaps-keepalive
 LOG_NEXT=/tmp/allvaps-keepalive/next.log
 LOG_CF=/tmp/allvaps-keepalive/cloudflared.log

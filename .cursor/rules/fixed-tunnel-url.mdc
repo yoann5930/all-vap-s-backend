@@ -4,11 +4,11 @@
 
 **NE JAMAIS** changer, remplacer, ni régénérer ces adresses :
 
-- Accès : https://minnesota-join-powerpoint-heritage.trycloudflare.com/acces
-- Inventaire : https://minnesota-join-powerpoint-heritage.trycloudflare.com/inventaire
-- Login : https://minnesota-join-powerpoint-heritage.trycloudflare.com/login?next=/inventaire
+- Accès : https://heather-auctions-they-leu.trycloudflare.com/acces
+- Inventaire : https://heather-auctions-they-leu.trycloudflare.com/inventaire
+- Login : https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
 
-Base : `https://minnesota-join-powerpoint-heritage.trycloudflare.com`
+Base : `https://heather-auctions-they-leu.trycloudflare.com`
 
 ## Pourquoi
 
@@ -18,7 +18,7 @@ Un redémarrage de `cloudflared` (quick tunnel) crée une **nouvelle** URL aléa
 
 1. **Ne jamais** `pkill` / `kill` le process `cloudflared` qui sert cette URL, sauf panne totale **et** instruction explicite de l’utilisateur acceptant une nouvelle URL.
 2. Le script `scripts/keep-servers.sh` ne doit relancer **que** Next.js si besoin ; le tunnel reste intact tant que l’URL verrouillée répond HTTP 200.
-3. Avant toute action serveur : vérifier `https://minnesota-join-powerpoint-heritage.trycloudflare.com/api/health`.
+3. Avant toute action serveur : vérifier `https://heather-auctions-they-leu.trycloudflare.com/api/health`.
 4. Ne pas annoncer d’autre URL `*.trycloudflare.com` dans les réponses utilisateur.
 5. Fichier de vérité : `data/FIXED_TUNNEL_URL.txt` et `scripts/keep-servers.sh` (`FIXED_TUNNEL_URL`).
 

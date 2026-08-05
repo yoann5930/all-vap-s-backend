@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 FIXED_URL="$(cat "$ROOT/data/FIXED_TUNNEL_URL.txt" 2>/dev/null | tr -d '[:space:]')"
-FIXED_URL="${FIXED_URL:-https://minnesota-join-powerpoint-heritage.trycloudflare.com}"
+FIXED_URL="${FIXED_URL:-https://heather-auctions-they-leu.trycloudflare.com}"
 
 echo "[1/2] Next.js…"
 pkill -f 'next dev --port 3000' 2>/dev/null || true
