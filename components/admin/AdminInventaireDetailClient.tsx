@@ -78,7 +78,7 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ url: string; name: string } | null>(null);
   const [editLine, setEditLine] = useState<Line | null>(null);
   const [editQty, setEditQty] = useState("");
   const [editPrice, setEditPrice] = useState("");
@@ -306,17 +306,27 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
                 <tr key={l.id} className="border-b align-top last:border-0">
                   <td className="px-3 py-3">
                     {thumb ? (
-                      <button type="button" onClick={() => setLightbox(thumb)}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={thumb}
-                          alt=""
-                          className="h-14 w-14 rounded-lg object-cover ring-1 ring-gray-200"
-                        />
+                      <button
+                        type="button"
+                        onClick={() => setLightbox({ url: thumb, name })}
+                        className="group w-24 text-left"
+                      >
+                        <span className="relative block overflow-hidden rounded-lg ring-1 ring-gray-200">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={thumb}
+                            alt={name}
+                            className="h-16 w-24 object-cover"
+                          />
+                          <span className="absolute inset-x-0 bottom-0 bg-black/70 px-1.5 py-1 text-[10px] font-semibold leading-tight text-white">
+                            {name}
+                          </span>
+                        </span>
                       </button>
                     ) : (
-                      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-red-50 text-[10px] font-semibold text-red-700">
-                        Sans photo
+                      <div className="flex h-16 w-24 flex-col items-center justify-center rounded-lg bg-red-50 px-1 text-center text-[10px] font-semibold text-red-700">
+                        <span>Sans photo</span>
+                        <span className="mt-0.5 line-clamp-2 font-medium text-red-600/80">{name}</span>
                       </div>
                     )}
                   </td>
@@ -486,12 +496,27 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4"
           onClick={() => setLightbox(null)}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={lightbox}
-            alt="Photo inventaire"
-            className="max-h-[90vh] max-w-full rounded-lg object-contain"
-          />
+          <div
+            className="relative max-h-[90vh] max-w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={lightbox.url}
+              alt={lightbox.name}
+              className="max-h-[82vh] max-w-full rounded-lg object-contain"
+            />
+            <p className="mt-3 rounded-lg bg-black/70 px-3 py-2 text-center text-sm font-semibold text-white">
+              {lightbox.name}
+            </p>
+            <button
+              type="button"
+              className="mt-2 w-full rounded-lg bg-white/15 py-2 text-sm font-semibold text-white"
+              onClick={() => setLightbox(null)}
+            >
+              Fermer
+            </button>
+          </div>
         </div>
       )}
     </div>

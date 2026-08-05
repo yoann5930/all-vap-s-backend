@@ -680,17 +680,33 @@ export function EmployeeInventoryApp() {
             <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3">
               <p className="text-sm font-medium text-gray-800">Photo produit *</p>
               <p className="mt-1 text-xs text-gray-500">
-                Photo obligatoire : le produit doit permettre de vérifier nom, gamme et prix.
+                La photo affiche le nom du produit. Vérifiez nom, gamme et prix avant d’enregistrer.
               </p>
               {photoPreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={photoPreview}
-                  alt="Aperçu"
-                  className="mt-2 h-28 w-28 rounded-lg object-cover ring-1 ring-gray-200"
-                />
+                <div className="relative mt-2 inline-block overflow-hidden rounded-xl ring-1 ring-gray-200">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photoPreview}
+                    alt={productName.trim() || "Aperçu produit"}
+                    className="h-40 w-40 object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pb-2 pt-8">
+                    <p className="text-sm font-semibold leading-tight text-white">
+                      {productName.trim() || "Nom à renseigner"}
+                    </p>
+                    {(brandName || rangeName) && (
+                      <p className="mt-0.5 text-[11px] text-white/80">
+                        {[brandName, rangeName ? `gamme ${rangeName}` : null]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
+                  </div>
+                </div>
               ) : (
-                <p className="mt-2 text-xs font-semibold text-amber-800">Aucune photo — enregistrement bloqué</p>
+                <p className="mt-2 text-xs font-semibold text-amber-800">
+                  Aucune photo — enregistrement bloqué
+                </p>
               )}
               <button
                 type="button"
@@ -742,31 +758,51 @@ export function EmployeeInventoryApp() {
           </div>
 
           <ul className="space-y-2">
-            {(session.lines || []).map((l) => (
-              <li
-                key={l.id}
-                className="rounded-xl border border-gray-100 bg-white px-3 py-2 text-sm"
-              >
-                <div className="font-medium">
-                  {l.productNameSnapshot || l.product?.name || "Sans nom"} ×{" "}
-                  {l.quantityCounted}
-                </div>
-                <div className="text-xs text-gray-500">
-                  EAN {l.barcode || "—"}
-                  {l.rangeSnapshot ? ` · gamme ${l.rangeSnapshot}` : ""}
-                  {l.unitPriceCents != null
-                    ? ` · ${formatEuroFromCents(l.unitPriceCents)}`
-                    : " · prix ?"}
-                  {l.totalValueCents != null
-                    ? ` · total ${formatEuroFromCents(l.totalValueCents)}`
-                    : ""}
-                  {l.photoPath || (l.photos && l.photos.length > 0) ? " · photo ✓" : " · photo ✗"}
-                  {l.scannedAt || l.createdAt
-                    ? ` · ${new Date(l.scannedAt || l.createdAt!).toLocaleTimeString("fr-FR")}`
-                    : ""}
-                </div>
-              </li>
-            ))}
+            {(session.lines || []).map((l) => {
+              const name = l.productNameSnapshot || l.product?.name || "Sans nom";
+              const thumb =
+                (l.photos && l.photos[0]?.publicUrl) || l.photoPath || null;
+              return (
+                <li
+                  key={l.id}
+                  className="flex gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2 text-sm"
+                >
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200">
+                    {thumb ? (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={thumb} alt={name} className="h-full w-full object-cover" />
+                        <span className="absolute inset-x-0 bottom-0 bg-black/70 px-1 py-0.5 text-[9px] font-semibold leading-tight text-white line-clamp-2">
+                          {name}
+                        </span>
+                      </>
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center px-1 text-center text-[9px] font-semibold text-red-700">
+                        Sans photo
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-gray-900">
+                      {name} × {l.quantityCounted}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      EAN {l.barcode || "—"}
+                      {l.rangeSnapshot ? ` · gamme ${l.rangeSnapshot}` : ""}
+                      {l.unitPriceCents != null
+                        ? ` · ${formatEuroFromCents(l.unitPriceCents)}`
+                        : " · prix ?"}
+                      {l.totalValueCents != null
+                        ? ` · total ${formatEuroFromCents(l.totalValueCents)}`
+                        : ""}
+                      {l.scannedAt || l.createdAt
+                        ? ` · ${new Date(l.scannedAt || l.createdAt!).toLocaleTimeString("fr-FR")}`
+                        : ""}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
