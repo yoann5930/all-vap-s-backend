@@ -20,6 +20,9 @@ async function main() {
     if (!cred) throw new Error(`Credential manquant pour ${def.email}`);
 
     const existing = await prisma.user.findUnique({ where: { email: def.email } });
+    const forcePassword =
+      process.env.FORCE_STAFF_CREDS === "1" || process.env.FORCE_STAFF_CREDS === "true";
+
     if (existing) {
       await prisma.user.update({
         where: { email: def.email },
@@ -29,12 +32,16 @@ async function main() {
           role: def.role,
           allowedStores: def.allowedStores,
           active: true,
-          ...(existing.mustChangePassword
-            ? { passwordHash: cred.passwordHash, mustChangePassword: true }
+          ...(forcePassword || existing.mustChangePassword
+            ? {
+                passwordHash: cred.passwordHash,
+                // Démo tunnel : accès immédiat. Prod : forcer le changement.
+                mustChangePassword: isDemoMode() ? false : true,
+              }
             : {}),
         },
       });
-      console.log(`updated: ${def.email} (${def.role})`);
+      console.log(`updated: ${def.email} (${def.role})${forcePassword ? " [password reset]" : ""}`);
     } else {
       await prisma.user.create({
         data: {

@@ -18,12 +18,18 @@ function hashesJsonPath() {
   return path.join(localDir(), "inventory-user-hashes.json");
 }
 
+/** MDP temporaires alphanumériques — faciles à saisir sur téléphone (pas de $ ! @ #). */
 function generateTempPassword(): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$";
-  const bytes = randomBytes(14);
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const bytes = randomBytes(12);
   let out = "";
-  for (let i = 0; i < 14; i++) out += alphabet[bytes[i]! % alphabet.length];
+  for (let i = 0; i < 12; i++) out += alphabet[bytes[i]! % alphabet.length];
   return out;
+}
+
+/** FORCE_STAFF_CREDS=1 → régénère même si .local existe déjà. */
+function shouldForceRegenerate(): boolean {
+  return process.env.FORCE_STAFF_CREDS === "1" || process.env.FORCE_STAFF_CREDS === "true";
 }
 
 export type StaffCredentialRecord = {
@@ -38,7 +44,11 @@ export type StaffCredentialRecord = {
 export function loadOrCreateStaffCredentials(): StaffCredentialRecord[] {
   mkdirSync(localDir(), { recursive: true });
 
-  if (existsSync(hashesJsonPath()) && existsSync(credentialsPath())) {
+  if (
+    !shouldForceRegenerate() &&
+    existsSync(hashesJsonPath()) &&
+    existsSync(credentialsPath())
+  ) {
     const hashes = JSON.parse(readFileSync(hashesJsonPath(), "utf8")) as Array<{
       email: string;
       firstName: string;

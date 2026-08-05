@@ -23,10 +23,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const data = loginSchema.parse(body);
+    // Trim avant validation — collages téléphone / espaces invisibles
+    const data = loginSchema.parse({
+      email: typeof body?.email === "string" ? body.email.trim().toLowerCase() : body?.email,
+      password: typeof body?.password === "string" ? body.password.trim() : body?.password,
+    });
 
     const emailLimit = checkRateLimit(
-      `login:email:${data.email.toLowerCase()}`,
+      `login:email:${data.email}`,
       8,
       15 * 60 * 1000
     );
