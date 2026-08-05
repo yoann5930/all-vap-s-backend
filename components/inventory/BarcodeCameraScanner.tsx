@@ -10,7 +10,10 @@ import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 type Props = {
   open: boolean;
   onClose: () => void;
-  onDetected: (code: string) => void;
+  /** Appelé à chaque code détecté. Retourner false pour mettre le scan en pause / fermer. */
+  onDetected: (code: string) => void | boolean | Promise<void | boolean>;
+  /** Mode continu : la caméra reste ouverte (défaut true). */
+  continuous?: boolean;
 };
 
 type ScannerControls = { stop: () => void };
@@ -24,6 +27,17 @@ declare global {
     };
   }
 }
+
+const FORMATS_NATIVE = [
+  "ean_13",
+  "ean_8",
+  "upc_a",
+  "upc_e",
+  "code_128",
+  "code_39",
+  "itf",
+  "qr_code",
+] as const;
 
 function buildOneDHints() {
   const hints = new Map<DecodeHintType, unknown>();
@@ -59,60 +73,60 @@ function waitForVideoFrame(video: HTMLVideoElement, timeoutMs = 8000) {
 }
 
 /**
- * Scanner caméra inventaire :
- * - Flux unique getUserMedia (pas de double ouverture)
- * - ZXing 1D (EAN/UPC) en priorité + MultiFormat en secours
- * - BarcodeDetector natif en parallèle (Chrome Android)
- * - Cadrage object-contain = ce que l’on voit = ce qui est décodé
+ * Scanner inventaire — détection continue automatique via caméra.
+ * Pas besoin de prendre une photo : le code est reconnu et renvoyé dès qu’il entre dans le cadre.
  */
-export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
+export function BarcodeCameraScanner({
+  open,
+  onClose,
+  onDetected,
+  continuous = true,
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef<ScannerControls[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
-  const timerRef = useRef<number | null>(null);
-  const lockedRef = useRef(false);
+  const loopRef = useRef<number | null>(null);
+  const busyRef = useRef(false);
+  const lastCodeRef = useRef<string>("");
+  const lastAtRef = useRef(0);
+  const pausedRef = useRef(false);
   const onDetectedRef = useRef(onDetected);
   const onCloseRef = useRef(onClose);
+  const continuousRef = useRef(continuous);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState("Initialisation caméra…");
   const [torchOn, setTorchOn] = useState(false);
   const [torchAvailable, setTorchAvailable] = useState(false);
+  const [flash, setFlash] = useState(false);
+  const [recent, setRecent] = useState<string[]>([]);
+  const [count, setCount] = useState(0);
 
   onDetectedRef.current = onDetected;
   onCloseRef.current = onClose;
+  continuousRef.current = continuous;
 
   useEffect(() => {
     if (!open) return;
 
-    lockedRef.current = false;
+    busyRef.current = false;
+    pausedRef.current = false;
+    lastCodeRef.current = "";
+    lastAtRef.current = 0;
     setError(null);
     setTorchOn(false);
     setTorchAvailable(false);
+    setFlash(false);
+    setRecent([]);
+    setCount(0);
     setHint("Ouverture de la caméra…");
 
     let cancelled = false;
 
-    function succeed(code: string) {
-      const cleaned = code.trim();
-      if (!cleaned || lockedRef.current || cancelled) return;
-      lockedRef.current = true;
-      try {
-        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-          navigator.vibrate?.(40);
-        }
-      } catch {
-        /* ignore */
-      }
-      setHint(`Détecté : ${cleaned}`);
-      onDetectedRef.current(cleaned);
-      onCloseRef.current();
-    }
-
     function stopAll() {
-      if (timerRef.current != null) {
-        window.clearTimeout(timerRef.current);
-        timerRef.current = null;
+      if (loopRef.current != null) {
+        window.clearTimeout(loopRef.current);
+        loopRef.current = null;
       }
       for (const c of controlsRef.current) {
         try {
@@ -125,84 +139,157 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
       streamRef.current?.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
       const video = videoRef.current;
-      if (video) {
-        video.srcObject = null;
-      }
+      if (video) video.srcObject = null;
     }
 
-    async function startNativeDetectorLoop() {
-      if (typeof window.BarcodeDetector !== "function") return;
-      let detector: InstanceType<NonNullable<typeof window.BarcodeDetector>>;
-      try {
-        detector = new window.BarcodeDetector({
-          formats: [
-            "ean_13",
-            "ean_8",
-            "upc_a",
-            "upc_e",
-            "code_128",
-            "code_39",
-            "itf",
-            "qr_code",
-          ],
-        });
-      } catch {
+    async function succeed(code: string) {
+      const cleaned = code.trim();
+      if (!cleaned || cancelled || busyRef.current || pausedRef.current) return;
+
+      const now = Date.now();
+      // Anti-doublon : même code ignoré pendant 1,6 s (évite 50 enregistrements d’un même EAN)
+      if (cleaned === lastCodeRef.current && now - lastAtRef.current < 1600) {
         return;
       }
 
+      busyRef.current = true;
+      lastCodeRef.current = cleaned;
+      lastAtRef.current = now;
+
+      try {
+        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+          navigator.vibrate?.(35);
+        }
+      } catch {
+        /* ignore */
+      }
+
+      setFlash(true);
+      window.setTimeout(() => setFlash(false), 180);
+      setHint(`Détecté : ${cleaned}`);
+      setRecent((prev) => [cleaned, ...prev.filter((c) => c !== cleaned)].slice(0, 6));
+      setCount((n) => n + 1);
+
+      try {
+        const result = await onDetectedRef.current(cleaned);
+        if (result === false) {
+          pausedRef.current = true;
+          setHint("Scan en pause — complétez la saisie puis rouvrez la caméra");
+          onCloseRef.current();
+          return;
+        }
+      } catch {
+        setHint("Erreur à l’enregistrement — continuez le scan");
+      }
+
+      if (!continuousRef.current) {
+        onCloseRef.current();
+        return;
+      }
+
+      // Laisse le temps d’éloigner le produit avant la prochaine détection
+      window.setTimeout(() => {
+        busyRef.current = false;
+        if (!cancelled) {
+          setHint("Prêt — présentez le prochain code-barres");
+        }
+      }, 700);
+    }
+
+    async function decodeFrame(
+      video: HTMLVideoElement,
+      canvas: HTMLCanvasElement,
+      zxingReader: BrowserMultiFormatOneDReader,
+      nativeDetector: InstanceType<NonNullable<typeof window.BarcodeDetector>> | null
+    ) {
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      if (vw < 40 || vh < 40) return null;
+
+      const crops = [
+        {
+          sx: Math.floor(vw * 0.04),
+          sy: Math.floor(vh * 0.3),
+          cw: Math.floor(vw * 0.92),
+          ch: Math.floor(vh * 0.4),
+        },
+        { sx: 0, sy: 0, cw: vw, ch: vh },
+      ];
+
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return null;
+
+      if (nativeDetector) {
+        try {
+          for (const crop of crops) {
+            canvas.width = crop.cw;
+            canvas.height = crop.ch;
+            ctx.drawImage(video, crop.sx, crop.sy, crop.cw, crop.ch, 0, 0, crop.cw, crop.ch);
+            const codes = await nativeDetector.detect(canvas);
+            const raw = codes[0]?.rawValue?.trim();
+            if (raw) return raw;
+          }
+        } catch {
+          /* continue ZXing */
+        }
+      }
+
+      try {
+        const crop = crops[0];
+        canvas.width = crop.cw;
+        canvas.height = crop.ch;
+        ctx.drawImage(video, crop.sx, crop.sy, crop.cw, crop.ch, 0, 0, crop.cw, crop.ch);
+        const result = zxingReader.decodeFromCanvas(canvas);
+        const text = result.getText()?.trim();
+        if (text) return text;
+      } catch {
+        /* pas de code sur cette frame */
+      }
+
+      return null;
+    }
+
+    function startFrameLoop() {
+      const zxingReader = new BrowserMultiFormatOneDReader(buildOneDHints());
+      let nativeDetector: InstanceType<NonNullable<typeof window.BarcodeDetector>> | null =
+        null;
+      if (typeof window.BarcodeDetector === "function") {
+        try {
+          nativeDetector = new window.BarcodeDetector({ formats: [...FORMATS_NATIVE] });
+        } catch {
+          nativeDetector = null;
+        }
+      }
+
       const tick = async () => {
-        if (cancelled || lockedRef.current) return;
+        if (cancelled) return;
         const video = videoRef.current;
         const canvas = canvasRef.current;
-        if (video && canvas && video.readyState >= 2 && video.videoWidth > 0) {
+        if (
+          video &&
+          canvas &&
+          !busyRef.current &&
+          !pausedRef.current &&
+          video.readyState >= 2
+        ) {
           try {
-            const vw = video.videoWidth;
-            const vh = video.videoHeight;
-            // Bande centrale horizontale (codes 1D) + essai plein cadre
-            const crops = [
-              {
-                sx: Math.floor(vw * 0.05),
-                sy: Math.floor(vh * 0.32),
-                cw: Math.floor(vw * 0.9),
-                ch: Math.floor(vh * 0.36),
-              },
-              { sx: 0, sy: 0, cw: vw, ch: vh },
-            ];
-            for (const crop of crops) {
-              canvas.width = crop.cw;
-              canvas.height = crop.ch;
-              const ctx = canvas.getContext("2d", { willReadFrequently: true });
-              if (!ctx) continue;
-              ctx.drawImage(
-                video,
-                crop.sx,
-                crop.sy,
-                crop.cw,
-                crop.ch,
-                0,
-                0,
-                crop.cw,
-                crop.ch
-              );
-              const codes = await detector.detect(canvas);
-              const raw = codes[0]?.rawValue?.trim();
-              if (raw) {
-                succeed(raw);
-                return;
-              }
+            const code = await decodeFrame(video, canvas, zxingReader, nativeDetector);
+            if (code) {
+              await succeed(code);
             }
           } catch {
             /* frame skip */
           }
         }
-        timerRef.current = window.setTimeout(() => {
-          void tick();
-        }, 120);
+        if (!cancelled) {
+          loopRef.current = window.setTimeout(() => {
+            void tick();
+          }, 90);
+        }
       };
-
-      timerRef.current = window.setTimeout(() => {
+      loopRef.current = window.setTimeout(() => {
         void tick();
-      }, 200);
+      }, 150);
     }
 
     async function openCamera(): Promise<MediaStream> {
@@ -215,13 +302,9 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
             height: { ideal: 720 },
           },
         },
-        {
-          audio: false,
-          video: { facingMode: "environment" },
-        },
+        { audio: false, video: { facingMode: "environment" } },
         { audio: false, video: true },
       ];
-
       let lastError: unknown;
       for (const constraints of attempts) {
         try {
@@ -235,32 +318,7 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
         : new Error("Impossible d’ouvrir la caméra");
     }
 
-    async function startReaders(video: HTMLVideoElement, stream: MediaStream) {
-      const options = {
-        delayBetweenScanAttempts: 80,
-        delayBetweenScanSuccess: 600,
-        tryPlayVideoTimeout: 10000,
-      };
-
-      // Un seul decodeFromStream : stop() dispose le MediaStream
-      const oneD = new BrowserMultiFormatOneDReader(buildOneDHints(), options);
-      const controls = await oneD.decodeFromStream(
-        stream,
-        video,
-        (result) => {
-          if (cancelled || lockedRef.current || !result) return;
-          succeed(result.getText());
-        }
-      );
-      if (cancelled) {
-        controls.stop();
-        return;
-      }
-      controlsRef.current.push(controls);
-    }
-
     async function start() {
-      // Attendre que le <video> soit monté (open vient de passer à true)
       let video = videoRef.current;
       for (let i = 0; i < 20 && !video; i++) {
         await new Promise((r) => setTimeout(r, 50));
@@ -274,7 +332,7 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
 
       try {
         if (!navigator.mediaDevices?.getUserMedia) {
-          setError("Caméra non disponible sur cet appareil (HTTPS requis).");
+          setError("Caméra non disponible (HTTPS requis).");
           return;
         }
 
@@ -290,7 +348,7 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
         if (track) {
           try {
             await track.applyConstraints({
-              // @ts-expect-error - avancé Android Chrome
+              // @ts-expect-error focusMode avancé
               advanced: [{ focusMode: "continuous" }],
             });
           } catch {
@@ -298,12 +356,21 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
           }
         }
 
-        // ZXing attache le flux au <video> (un seul propriétaire)
-        setHint("Cadrez le code-barres dans le rectangle — détection auto");
-        await startReaders(video, stream);
-        if (cancelled) return;
+        video.srcObject = stream;
+        video.setAttribute("playsinline", "true");
+        video.muted = true;
+        try {
+          await video.play();
+        } catch {
+          /* autoplay policies */
+        }
+
         await waitForVideoFrame(video).catch(() => undefined);
-        void startNativeDetectorLoop();
+        if (cancelled) return;
+
+        setHint("Détection automatique — cadrez le code dans le rectangle");
+        // Boucle unique (BarcodeDetector natif + ZXing canvas) — pas de 2ᵉ flux caméra
+        startFrameLoop();
       } catch (e) {
         const msg =
           e instanceof Error && /NotAllowed|Permission/i.test(e.message)
@@ -319,7 +386,6 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
     }
 
     void start();
-
     return () => {
       cancelled = true;
       stopAll();
@@ -339,60 +405,13 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
     }
   }
 
-  async function decodeStillPhoto() {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if (!video || !canvas || video.readyState < 2) {
-      setError("Image caméra pas encore prête.");
-      return;
-    }
-    setHint("Analyse de la photo…");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-    ctx.drawImage(video, 0, 0);
-
-    try {
-      if (typeof window.BarcodeDetector === "function") {
-        const detector = new window.BarcodeDetector({
-          formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128", "code_39", "itf", "qr_code"],
-        });
-        const codes = await detector.detect(canvas);
-        const raw = codes[0]?.rawValue?.trim();
-        if (raw) {
-          onDetectedRef.current(raw);
-          onCloseRef.current();
-          return;
-        }
-      }
-    } catch {
-      /* fallback zxing */
-    }
-
-    try {
-      const reader = new BrowserMultiFormatOneDReader(buildOneDHints());
-      const result = reader.decodeFromCanvas(canvas);
-      const text = result.getText()?.trim();
-      if (text) {
-        onDetectedRef.current(text);
-        onCloseRef.current();
-        return;
-      }
-    } catch {
-      /* no code */
-    }
-
-    setHint("Aucun code détecté — rapprochez-vous, éclairez, réessayez");
-  }
-
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-black">
       <div className="flex items-center justify-between gap-3 px-4 py-3 text-white">
         <div>
-          <p className="text-sm font-semibold">Scan code-barres</p>
+          <p className="text-sm font-semibold">Scan automatique</p>
           <p className="text-xs text-white/70">{hint}</p>
         </div>
         <button
@@ -413,39 +432,58 @@ export function BarcodeCameraScanner({ open, onClose, onDetected }: Props) {
           autoPlay
         />
         <canvas ref={canvasRef} className="hidden" aria-hidden />
+        <div
+          className={`pointer-events-none absolute inset-0 transition-colors duration-150 ${
+            flash ? "bg-emerald-400/25" : "bg-transparent"
+          }`}
+        />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="relative h-40 w-[88%] max-w-md">
             <div className="absolute inset-0 rounded-2xl border-2 border-emerald-400/95 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
             <div className="absolute left-4 right-4 top-1/2 h-0.5 -translate-y-1/2 bg-emerald-300/80" />
           </div>
         </div>
+        {count > 0 ? (
+          <div className="absolute right-3 top-3 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white">
+            {count} scanné{count > 1 ? "s" : ""}
+          </div>
+        ) : null}
       </div>
 
-      <div className="flex gap-2 bg-black px-4 py-3">
-        {torchAvailable ? (
+      <div className="space-y-2 bg-black px-4 py-3">
+        {recent.length > 0 ? (
+          <ul className="max-h-20 space-y-1 overflow-y-auto text-xs text-emerald-200/90">
+            {recent.map((c, i) => (
+              <li key={`${c}-${i}`}>✓ {c}</li>
+            ))}
+          </ul>
+        ) : null}
+        <div className="flex gap-2">
+          {torchAvailable ? (
+            <button
+              type="button"
+              onClick={() => void toggleTorch()}
+              className="rounded-xl bg-white/15 px-3 py-2.5 text-sm font-semibold text-white"
+            >
+              {torchOn ? "Éteindre flash" : "Flash"}
+            </button>
+          ) : null}
           <button
             type="button"
-            onClick={() => void toggleTorch()}
-            className="rounded-xl bg-white/15 px-3 py-2.5 text-sm font-semibold text-white"
+            onClick={onClose}
+            className="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
           >
-            {torchOn ? "Éteindre flash" : "Flash"}
+            Terminer le scan
           </button>
-        ) : null}
-        <button
-          type="button"
-          onClick={() => void decodeStillPhoto()}
-          className="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
-        >
-          Capturer maintenant
-        </button>
+        </div>
       </div>
 
       {error ? (
         <div className="bg-red-600 px-4 py-3 text-sm text-white">{error}</div>
       ) : (
         <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
-          Tenez le téléphone à ~10–20 cm, code bien éclairé, horizontal dans le cadre.
-          Si rien ne se passe, appuyez sur « Capturer maintenant ».
+          Aucune photo à prendre : présentez chaque code-barres dans le cadre —
+          détection et enregistrement automatiques.
         </p>
       )}
     </div>

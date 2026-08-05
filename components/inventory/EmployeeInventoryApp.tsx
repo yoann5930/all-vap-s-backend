@@ -83,6 +83,14 @@ export function EmployeeInventoryApp() {
   const fileRef = useRef<HTMLInputElement>(null);
   const lastLineIdRef = useRef<string | null>(null);
   const barcodeRef = useRef<HTMLInputElement>(null);
+  const sessionRef = useRef<Session | null>(null);
+  const meRef = useRef<MeUser | null>(null);
+  const locationCodeRef = useRef<StoreCode | "">("");
+  const scanBusyRef = useRef(false);
+
+  sessionRef.current = session;
+  meRef.current = me;
+  locationCodeRef.current = locationCode;
 
   function rememberLineId(id: string | null) {
     lastLineIdRef.current = id;
@@ -381,19 +389,146 @@ export function EmployeeInventoryApp() {
     }
   }
 
-  const onBarcodeScanned = useCallback(
-    (code: string) => {
-      const cleaned = code.trim();
-      if (!cleaned) return;
+  /**
+   * Scan caméra continu : lookup + enregistrement auto (qty +1).
+   * Si prix manquant → pause le scan pour saisie manuelle.
+   */
+  const onBarcodeScanned = useCallback(async (code: string): Promise<boolean | void> => {
+    const cleaned = code.trim();
+    if (!cleaned) return;
+    if (scanBusyRef.current) return;
+    scanBusyRef.current = true;
+
+    const current = sessionRef.current;
+    if (!current || current.status !== "OPEN") {
       setBarcode(cleaned);
       setMessage(`Code scanné : ${cleaned}`);
-      setError(null);
-      void lookupBarcode(cleaned);
-      setTimeout(() => barcodeRef.current?.focus(), 50);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [locationCode, me?.role]
-  );
+      scanBusyRef.current = false;
+      return false;
+    }
+
+    setBarcode(cleaned);
+    setError(null);
+
+    try {
+      const existing = (current.lines || []).find(
+        (l) => (l.barcode || "").trim() === cleaned
+      );
+
+      // Même code déjà dans la session → +1 quantité auto
+      if (existing && existing.unitPriceCents != null && existing.unitPriceCents > 0) {
+        const nextQty = existing.quantityCounted + 1;
+        const res = await fetch(
+          `/api/inventaire/sessions/${current.id}/lines/${existing.id}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              quantityCounted: nextQty,
+              reason: "scan_auto_increment",
+            }),
+          }
+        );
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Erreur incrément");
+        rememberLineId(existing.id);
+        setMessage(
+          `${existing.productNameSnapshot || existing.product?.name || cleaned} → × ${nextQty}`
+        );
+        await refreshSession(current.id);
+        setBarcode("");
+        setQuantity("1");
+        setUnitPrice("");
+        setLookup(null);
+        setLookupHint(null);
+        return true;
+      }
+
+      const lookRes = await fetch(
+        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}`
+      );
+      const look = await lookRes.json();
+      if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
+
+      const cents = look.price?.unitPriceCents as number | undefined;
+      const priceMissing = Boolean(look.priceMissing) || cents == null || cents <= 0;
+      const role = meRef.current?.role;
+      const loc = locationCodeRef.current;
+
+      if (look.found) {
+        setLookup({
+          found: true,
+          name: look.product.name,
+          brand: look.product.brand,
+          unitPriceCents: priceMissing ? null : cents,
+          priceSource: look.price?.source || null,
+          priceMissing,
+          priceLocked: !priceMissing && role !== "ADMIN",
+          imageUrl: look.product.imageUrl,
+        });
+        setLookupHint(
+          `${look.product.name}${look.product.brand ? ` · ${look.product.brand}` : ""} — stock : ${
+            loc === "LE_QUESNOY"
+              ? look.product.stockLeQuesnoy
+              : look.product.stockHautmont
+          }`
+        );
+      } else {
+        setLookup({
+          found: false,
+          priceMissing: true,
+          priceLocked: false,
+          unitPriceCents: null,
+        });
+        setLookupHint("Produit non reconnu — saisissez le prix manuellement");
+      }
+
+      if (priceMissing) {
+        setUnitPrice("");
+        setQuantity("1");
+        setMessage(`Prix manquant pour ${cleaned} — saisissez le prix puis Enregistrer`);
+        setError("Prix manquant — scan en pause");
+        return false; // ferme le scanner pour saisie
+      }
+
+      setUnitPrice(((cents || 0) / 100).toFixed(2).replace(".", ","));
+
+      const payload: Record<string, unknown> = {
+        barcode: cleaned,
+        quantityCounted: 1,
+        unitPriceCents: cents,
+        priceSource: look.price?.source || "CATALOGUE",
+      };
+
+      const res = await fetch(`/api/inventaire/sessions/${current.id}/lines`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur enregistrement");
+
+      rememberLineId(data.line.id);
+      const name =
+        data.line.productNameSnapshot || data.line.product?.name || cleaned;
+      setMessage(
+        `✓ ${name} × 1 · ${formatEuroFromCents(data.line.unitPriceCents)} — enregistré`
+      );
+      await refreshSession(current.id);
+      setBarcode("");
+      setQuantity("1");
+      setUnitPrice("");
+      setLookup(null);
+      setLookupHint(null);
+      setConfirmZero(false);
+      return true;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur scan");
+      return false;
+    } finally {
+      scanBusyRef.current = false;
+    }
+  }, [refreshSession]);
 
   function requestStoreChange(code: StoreCode) {
     if (session && session.status === "OPEN" && code !== locationCode) {
@@ -518,12 +653,15 @@ export function EmployeeInventoryApp() {
                   type="button"
                   disabled={loading}
                   onClick={() => setScannerOpen(true)}
-                  className="shrink-0 rounded-xl bg-gray-900 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
-                  aria-label="Scanner avec l’appareil photo"
+                  className="shrink-0 rounded-xl bg-emerald-700 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
+                  aria-label="Scan automatique à la caméra"
                 >
-                  Caméra
+                  Scan auto
                 </button>
               </div>
+              <p className="mt-1.5 text-xs text-gray-500">
+                Scan auto : la caméra détecte et enregistre chaque code-barres sans photo.
+              </p>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
             {lookup?.priceMissing && (
@@ -667,6 +805,7 @@ export function EmployeeInventoryApp() {
 
       <BarcodeCameraScanner
         open={scannerOpen}
+        continuous
         onClose={() => setScannerOpen(false)}
         onDetected={onBarcodeScanned}
       />
