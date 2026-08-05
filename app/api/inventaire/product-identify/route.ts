@@ -152,8 +152,9 @@ export async function POST(request: NextRequest) {
       query:
         query ||
         (visionHit
-          ? [visionHit.brand, visionHit.name].filter(Boolean).join(" ")
+          ? [visionHit.brand, visionHit.range, visionHit.name].filter(Boolean).join(" ")
           : null),
+      brandHint: visionHit?.brand || null,
     });
     diagnostics.externalSearch = external.externalEnabled;
     diagnostics.sourcesTried = external.sourcesTried;
@@ -222,6 +223,7 @@ export async function POST(request: NextRequest) {
     const auto =
       best &&
       (best.confidence >= 0.9 ||
+        best.source.startsWith("official:") ||
         (best.source === "local-catalog" && best.confidence >= 1) ||
         (best.barcode &&
           safeBarcode &&

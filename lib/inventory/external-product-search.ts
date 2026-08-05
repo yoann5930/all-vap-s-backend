@@ -232,7 +232,7 @@ export async function extractLabelWithOpenAI(
           {
             role: "system",
             content:
-              "Tu analyses l'étiquette d'un produit (souvent e-liquide / vape). Réponds UNIQUEMENT en JSON: {\"name\":\"\",\"brand\":\"\",\"range\":\"\",\"barcode\":\"\",\"ocrText\":\"\",\"confidence\":0.0}. Ne invente rien. barcode = EAN si lisible. confidence 0-1.",
+              "Tu analyses l'étiquette d'un produit (souvent e-liquide / vape). Réponds UNIQUEMENT en JSON: {\"name\":\"\",\"brand\":\"\",\"range\":\"\",\"barcode\":\"\",\"ocrText\":\"\",\"confidence\":0.0}. Ne invente rien. brand = nom exact du fabricant/marque tel qu'écrit. barcode = EAN si lisible. confidence 0-1.",
           },
           {
             role: "user",
@@ -270,6 +270,7 @@ export async function extractLabelWithOpenAI(
 export async function searchExternalProducts(params: {
   barcode?: string | null;
   query?: string | null;
+  brandHint?: string | null;
 }): Promise<{
   hits: ExternalProductHit[];
   externalEnabled: boolean;
@@ -283,7 +284,10 @@ export async function searchExternalProducts(params: {
 
   const hits: ExternalProductHit[] = [];
   const barcode = (params.barcode || "").trim();
+  const query = (params.query || "").trim();
+  const brandHint = cleanText(params.brandHint);
 
+  // 1) EAN → bases publiques
   if (barcode.length >= 8 && isPlausibleBarcode(barcode)) {
     sourcesTried.push("openfacts");
     hits.push(...(await lookupOpenFactsBarcode(barcode)));
@@ -295,13 +299,32 @@ export async function searchExternalProducts(params: {
     sourcesTried.push("barcode-rejected");
   }
 
-  const query = (params.query || "").trim();
-  if (!hits.length && query.length >= 3) {
+  // 2) Sites officiels fabricants (prioritaires pour Photo / OCR)
+  let officialAttempted = false;
+  if (envFlag("PRODUCT_IDENTIFY_OFFICIAL_SITES", true) && query.length >= 3) {
+    sourcesTried.push("official-sites");
+    officialAttempted = resolveOfficialBrandTargets(brandHint, query).length > 0;
+    const official = await searchOfficialManufacturerSites({
+      query,
+      brandHint,
+    });
+    // Insérer en tête (priorité)
+    hits.unshift(...official);
+  }
+
+  // 3) Fallback texte Open Food Facts UNIQUEMENT si pas de marque officielle connue
+  // (évite les faux positifs alimentaires type Nescafé sur une requête vape)
+  if (
+    !hits.length &&
+    query.length >= 3 &&
+    !officialAttempted &&
+    !brandHint
+  ) {
     sourcesTried.push("openfoodfacts-search");
     hits.push(...(await searchOpenFoodFactsText(query)));
   }
 
-  // Déduplique par nom+marque
+  // Déduplique par nom+marque (garde la 1ʳᵉ = souvent site officiel)
   const seen = new Set<string>();
   const unique: ExternalProductHit[] = [];
   for (const h of hits) {
@@ -314,3 +337,361 @@ export async function searchExternalProducts(params: {
 
   return { hits: unique, externalEnabled, sourcesTried };
 }
+
+/**
+ * Marques vape / e-liquide FR courantes → domaines officiels.
+ * Uniquement des sites fabricants / marques (pas de marketplaces).
+ */
+const OFFICIAL_BRAND_DOMAINS: Array<{ keys: string[]; domains: string[]; brand: string }> = [
+  { keys: ["pulp"], domains: ["pulp.fr", "www.pulp.fr"], brand: "Pulp" },
+  { keys: ["alfaliquid", "alfa liquid"], domains: ["alfaliquid.com", "www.alfaliquid.com"], brand: "Alfaliquid" },
+  { keys: ["liquidarom", "liquide arom"], domains: ["liquidarom.com", "www.liquidarom.com"], brand: "Liquidarom" },
+  { keys: ["le french liquide", "french liquide"], domains: ["lefrenchliquide.com", "www.lefrenchliquide.com"], brand: "Le French Liquide" },
+  { keys: ["vincent dans les vapes", "vdlv"], domains: ["vincentdanslesvapes.com"], brand: "Vincent dans les Vapes" },
+  { keys: ["dinner lady"], domains: ["dinnerlady.com", "www.dinnerlady.com"], brand: "Dinner Lady" },
+  { keys: ["vampire vape"], domains: ["vampirevape.co.uk", "www.vampirevape.co.uk"], brand: "Vampire Vape" },
+  { keys: ["capella"], domains: ["capellaflavors.com"], brand: "Capella" },
+  { keys: ["vaporesso"], domains: ["vaporesso.com", "www.vaporesso.com"], brand: "Vaporesso" },
+  { keys: ["geekvape", "geek vape"], domains: ["geekvape.com", "www.geekvape.com"], brand: "GeekVape" },
+  { keys: ["innokin"], domains: ["innokin.com", "www.innokin.com"], brand: "Innokin" },
+  { keys: ["voopoo"], domains: ["voopoo.com", "www.voopoo.com"], brand: "Voopoo" },
+  { keys: ["smok"], domains: ["smoktech.com", "www.smoktech.com"], brand: "Smok" },
+  { keys: ["lost vape"], domains: ["lostvape.com", "www.lostvape.com"], brand: "Lost Vape" },
+  { keys: ["petits plaisirs", "les petits plaisirs"], domains: ["lespetitsplaisirs.com"], brand: "Les Petits Plaisirs" },
+  { keys: ["curieux"], domains: ["curieux.fr", "www.curieux.fr"], brand: "Curieux" },
+  { keys: ["protect"], domains: ["protect.fr"], brand: "Protect" },
+  { keys: ["revolute"], domains: ["revolute.fr"], brand: "Revolute" },
+];
+
+function resolveOfficialBrandTargets(
+  brandHint: string | null,
+  query: string
+): Array<{ brand: string; domains: string[] }> {
+  const hay = `${brandHint || ""} ${query}`.toLowerCase();
+  const found: Array<{ brand: string; domains: string[] }> = [];
+  for (const row of OFFICIAL_BRAND_DOMAINS) {
+    if (row.keys.some((k) => hay.includes(k))) {
+      found.push({ brand: row.brand, domains: row.domains });
+    }
+  }
+  return found.slice(0, 3);
+}
+
+async function fetchText(url: string, timeoutMs = 7000): Promise<string | null> {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      signal: ctrl.signal,
+      headers: {
+        Accept: "text/html,application/xhtml+xml",
+        "User-Agent": "AllVaps-Inventory/1.0 (+product-identify; official-site-lookup)",
+      },
+      cache: "no-store",
+      redirect: "follow",
+    });
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+function decodeHtmlEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#x27;/g, "'");
+}
+
+function stripTags(s: string): string {
+  return decodeHtmlEntities(s.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Recherche contrôlée sur DuckDuckGo HTML, filtrée `site:domaine-officiel`.
+ * Pas de clé API. Résultats hors domaines officiels ignorés.
+ */
+async function duckDuckGoOfficialSiteSearch(
+  query: string,
+  domain: string,
+  brand: string
+): Promise<ExternalProductHit[]> {
+  const q = `site:${domain} ${query}`.slice(0, 180);
+  const url = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(q)}`;
+  const html = await fetchText(url);
+  if (!html) return [];
+
+  const hits: ExternalProductHit[] = [];
+  // result__a = lien résultat DDG HTML
+  const re =
+    /<a[^>]*class="[^"]*result__a[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) && hits.length < 3) {
+    let href = decodeHtmlEntities(m[1]);
+    // DDG wrap : //duckduckgo.com/l/?uddg=<encoded>
+    const uddg = href.match(/[?&]uddg=([^&]+)/);
+    if (uddg) {
+      try {
+        href = decodeURIComponent(uddg[1]);
+      } catch {
+        /* keep */
+      }
+    }
+    let host = "";
+    try {
+      host = new URL(href).hostname.replace(/^www\./, "");
+    } catch {
+      continue;
+    }
+    const allowed = domain.replace(/^www\./, "");
+    if (host !== allowed && !host.endsWith(`.${allowed}`)) continue;
+
+    const title = stripTags(m[2]).slice(0, 160);
+    if (!title || title.length < 3) continue;
+    // Ignore pages génériques
+    if (/^(accueil|home|login|compte|panier|cart)$/i.test(title)) continue;
+
+    hits.push({
+      name: title,
+      brand,
+      range: null,
+      barcode: null,
+      sku: null,
+      source: `official:${allowed}`,
+      confidence: 0.9,
+      rawHints: [title, brand, href],
+    });
+  }
+  return hits;
+}
+
+function tokensMatchScore(title: string, query: string): number {
+  const t = title.toLowerCase();
+  const words = query
+    .toLowerCase()
+    .split(/[^a-z0-9àâäéèêëïîôùûüç+]+/i)
+    .map((w) => w.trim())
+    .filter((w) => w.length >= 3);
+  if (!words.length) return 0;
+  let hit = 0;
+  for (const w of words) {
+    if (t.includes(w)) hit += 1;
+  }
+  return hit / words.length;
+}
+
+/** Extrait des produits depuis HTML (JSON-LD + liens produit Prestashop/Shopify-like). */
+function parseOfficialHtmlProducts(
+  html: string,
+  brand: string,
+  domain: string,
+  query: string
+): ExternalProductHit[] {
+  const hits: ExternalProductHit[] = [];
+  const seen = new Set<string>();
+
+  // JSON-LD Product / ItemList
+  const ldRe =
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let ld: RegExpExecArray | null;
+  while ((ld = ldRe.exec(html))) {
+    try {
+      const raw = JSON.parse(ld[1]);
+      const nodes = Array.isArray(raw) ? raw : [raw];
+      for (const node of nodes) {
+        const graph = node["@graph"];
+        const list = Array.isArray(graph) ? graph : [node];
+        for (const item of list) {
+          const type = String(item["@type"] || "");
+          if (!/Product/i.test(type)) continue;
+          const name = cleanText(item.name as string);
+          if (!name) continue;
+          if (tokensMatchScore(name, query) < 0.34) continue;
+          const key = name.toLowerCase();
+          if (seen.has(key)) continue;
+          seen.add(key);
+          const brandField = item.brand;
+          const brandName =
+            typeof brandField === "string"
+              ? cleanText(brandField)
+              : cleanText(
+                  brandField && typeof brandField === "object"
+                    ? String((brandField as { name?: string }).name || "")
+                    : ""
+                );
+          hits.push({
+            name,
+            brand: brandName || brand,
+            range: null,
+            barcode:
+              cleanText(String(item.gtin13 || item.gtin || item.sku || "")) || null,
+            sku: cleanText(String(item.sku || "")) || null,
+            source: `official:${domain}`,
+            confidence: 0.93,
+            rawHints: [name, brand],
+          });
+        }
+      }
+    } catch {
+      /* ignore bad json-ld */
+    }
+  }
+
+  // Cartes Prestashop product-miniature
+  const miniRe =
+    /product-miniature[^>]*data-id-product="(\d+)"[\s\S]*?<\/article>/gi;
+  let mm: RegExpExecArray | null;
+  while ((mm = miniRe.exec(html)) && hits.length < 5) {
+    const block = mm[0];
+    const titleRaw =
+      (block.match(
+        /(?:product-title|product-name)[^>]*>[\s\S]*?<a[^>]*>([\s\S]*?)<\/a>/i
+      ) ||
+        block.match(/<h[23][^>]*>[\s\S]*?<a[^>]*>([\s\S]*?)<\/a>/i) ||
+        [])[1] || "";
+    const title = stripTags(titleRaw).slice(0, 160);
+    if (!title) continue;
+    // Accepte si au moins un token match OU si la requête est très courte (marque seule)
+    const score = tokensMatchScore(title, query);
+    if (score < 0.2 && query.trim().split(/\s+/).length > 1) continue;
+    const key = title.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const rangeGuess =
+      cleanText((title.split(" - ").pop() || "").trim()) &&
+      title.includes(" - ")
+        ? cleanText(title.split(" - ").pop() || "")
+        : null;
+    hits.push({
+      name: title,
+      brand,
+      range: rangeGuess && rangeGuess.length < 40 ? rangeGuess : null,
+      barcode: null,
+      sku: mm[1] || null,
+      source: `official:${domain}`,
+      confidence: Math.min(0.95, 0.82 + score * 0.15),
+      rawHints: [title, brand],
+    });
+  }
+
+  // Liens titre produit (Prestashop product-title / product-name)
+  const linkRe =
+    /<a[^>]*href="([^"]+)"[^>]*class="[^"]*(?:product-title|product-name|product__title)[^"]*"[^>]*>([\s\S]*?)<\/a>|<a[^>]*class="[^"]*(?:product-title|product-name|product__title)[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  let lm: RegExpExecArray | null;
+  while ((lm = linkRe.exec(html)) && hits.length < 5) {
+    const title = stripTags(lm[2] || lm[4] || "").slice(0, 160);
+    if (!title || tokensMatchScore(title, query) < 0.34) continue;
+    const key = title.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    hits.push({
+      name: title,
+      brand,
+      range: null,
+      barcode: null,
+      sku: null,
+      source: `official:${domain}`,
+      confidence: 0.9,
+      rawHints: [title, brand, lm[1] || lm[3] || ""],
+    });
+  }
+
+  // Fallback : ancres contenant /product ou /produit
+  if (!hits.length) {
+    const fallbackRe =
+      /<a[^>]*href="([^"]*(?:\/product|\/produit|\/p\/)[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
+    let fm: RegExpExecArray | null;
+    while ((fm = fallbackRe.exec(html)) && hits.length < 5) {
+      const title = stripTags(fm[2] || "").slice(0, 160);
+      if (!title || title.length < 4) continue;
+      if (tokensMatchScore(title, query) < 0.4) continue;
+      const key = title.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      hits.push({
+        name: title,
+        brand,
+        range: null,
+        barcode: null,
+        sku: null,
+        source: `official:${domain}`,
+        confidence: 0.86,
+        rawHints: [title, brand, fm[1]],
+      });
+    }
+  }
+
+  return hits.slice(0, 5);
+}
+
+/** Recherche directe sur le moteur interne du site officiel (Prestashop / search). */
+async function searchOfficialSiteDirect(
+  domain: string,
+  brand: string,
+  query: string
+): Promise<ExternalProductHit[]> {
+  const host = domain.replace(/^www\./, "");
+  const paths = [
+    `/recherche?controller=search&s=${encodeURIComponent(query)}`,
+    `/fr/recherche?controller=search&s=${encodeURIComponent(query)}`,
+    `/search?q=${encodeURIComponent(query)}`,
+    `/search?type=product&q=${encodeURIComponent(query)}`,
+    `/?s=${encodeURIComponent(query)}`,
+  ];
+  for (const path of paths) {
+    const html = await fetchText(`https://www.${host}${path}`);
+    if (!html || html.length < 800) continue;
+    if (/page not found|404/i.test(html.slice(0, 500)) && html.length < 2000) continue;
+    const hits = parseOfficialHtmlProducts(html, brand, host, query);
+    if (hits.length) return hits;
+  }
+  // Essai sans www
+  for (const path of paths.slice(0, 2)) {
+    const html = await fetchText(`https://${host}${path}`);
+    if (!html || html.length < 800) continue;
+    const hits = parseOfficialHtmlProducts(html, brand, host, query);
+    if (hits.length) return hits;
+  }
+  return [];
+}
+
+async function searchOfficialManufacturerSites(params: {
+  query: string;
+  brandHint?: string | null;
+}): Promise<ExternalProductHit[]> {
+  const targets = resolveOfficialBrandTargets(params.brandHint || null, params.query);
+  if (!targets.length) {
+    // Pas de marque connue : ne pas scraperer le web ouvert
+    return [];
+  }
+
+  // Nettoie la requête : enlève la marque déjà connue pour cibler le produit
+  let productQuery = params.query;
+  for (const t of targets) {
+    productQuery = productQuery.replace(new RegExp(t.brand, "ig"), " ");
+  }
+  productQuery = productQuery.replace(/\s+/g, " ").trim() || params.query;
+
+  const all: ExternalProductHit[] = [];
+  for (const t of targets) {
+    for (const domain of t.domains.slice(0, 1)) {
+      // 1) Recherche native du site officiel
+      let found = await searchOfficialSiteDirect(domain, t.brand, productQuery);
+      // 2) Fallback DDG site: (souvent bloqué en datacenter)
+      if (!found.length) {
+        found = await duckDuckGoOfficialSiteSearch(productQuery, domain, t.brand);
+      }
+      all.push(...found);
+      if (all.length >= 5) break;
+    }
+    if (all.length >= 5) break;
+  }
+  return all.slice(0, 5);
+}
+
