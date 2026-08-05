@@ -20,6 +20,10 @@ import {
   applyUnitPriceToRange,
   findRangeUnitPriceCents,
 } from "@/lib/inventory/range-pricing";
+import {
+  duplicateMessage,
+  findInventoryDuplicate,
+} from "@/lib/inventory/duplicates";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -79,7 +83,7 @@ export async function POST(request: NextRequest, context: Ctx) {
 
     const body = z
       .object({
-        barcode: z.string().min(6).max(64),
+        barcode: z.string().min(1).max(64).optional(),
         productId: z.string().optional(),
         productName: z.string().min(1).max(200).optional(),
         brand: z.string().max(120).optional(),
@@ -95,14 +99,12 @@ export async function POST(request: NextRequest, context: Ctx) {
         confirmZeroPrice: z.boolean().optional(),
         confirmHighAmount: z.boolean().optional(),
         allowCatalogPriceOverride: z.boolean().optional(),
+        /** true = autoriser malgré doublon (admin seulement) */
+        allowDuplicate: z.boolean().optional(),
       })
       .parse(await request.json());
 
-    const barcode = body.barcode.trim();
-    if (barcode.length < 6) {
-      return jsonResponse({ error: "Code-barres obligatoire (min. 6 caractères)" }, 400);
-    }
-
+    let barcode = (body.barcode || "").trim() || null;
     let productId = body.productId || null;
     let variantId: string | null = null;
     let productNameSnapshot: string | null = body.productName?.trim() || null;
@@ -139,6 +141,32 @@ export async function POST(request: NextRequest, context: Ctx) {
       }
     }
 
+    // Match par nom si pas d'EAN / EAN inconnu
+    if (!productId && productNameSnapshot) {
+      const catalog = await prisma.product.findMany({
+        select: {
+          id: true,
+          name: true,
+          normalizedName: true,
+          sku: true,
+          barcode: true,
+          sumupProductId: true,
+          brand: true,
+        },
+      });
+      const match = matchCatalogProduct(
+        {
+          name: productNameSnapshot,
+          normalizedName: normalizeProductName(productNameSnapshot),
+          barcode: barcode || undefined,
+        },
+        catalog
+      );
+      if (match.productId && (match.decision === "AUTO" || match.confidence >= 0.95)) {
+        productId = match.productId;
+      }
+    }
+
     if (productId) {
       const product = await prisma.product.findUnique({
         where: { id: productId },
@@ -157,6 +185,9 @@ export async function POST(request: NextRequest, context: Ctx) {
         categorySnapshot = product.category;
         catalogImageUrl = product.imageUrl;
         catalogPrice = resolveCatalogUnitPriceCents(product);
+        if (!barcode && product.barcode) {
+          barcode = product.barcode;
+        }
         const variant = product.variants?.[0];
         variantId = variant?.id || null;
         if (variant) {
@@ -169,6 +200,44 @@ export async function POST(request: NextRequest, context: Ctx) {
             (variant.nicotineMg != null ? `${variant.nicotineMg} mg` : null);
         }
       }
+    }
+
+    // Code-barres : obligatoire sauf si produit catalogue identifié (EAN mémoire éventuel)
+    if (!barcode || barcode.length < 6) {
+      if (productId) {
+        barcode = barcode && barcode.length >= 4 ? barcode : `MEM-${productId.slice(-10)}`;
+      } else {
+        return jsonResponse(
+          {
+            error:
+              "Code-barres manquant — scannez un EAN ou choisissez un produit en mémoire (nom)",
+            code: "BARCODE_REQUIRED",
+          },
+          400
+        );
+      }
+    }
+
+    // Anti-doublon : même inventaire / même jour / 30 jours
+    const dup = await findInventoryDuplicate({
+      barcode,
+      productId,
+      locationId: session.locationId,
+      locationCode: session.location.code,
+      currentSessionId: id,
+    });
+    if (dup && !(body.allowDuplicate && user.role === "ADMIN")) {
+      return jsonResponse(
+        {
+          error: duplicateMessage(dup),
+          code: "DUPLICATE",
+          duplicate: {
+            ...dup,
+            scannedAt: dup.scannedAt.toISOString(),
+          },
+        },
+        409
+      );
     }
 
     if (!productNameSnapshot) {

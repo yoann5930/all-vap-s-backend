@@ -73,7 +73,30 @@ export function EmployeeInventoryApp() {
   const [productName, setProductName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [rangeName, setRangeName] = useState("");
-  const [quantity, setQuantity] = useState("1");
+  const [productId, setProductId] = useState<string | null>(null);
+  const [nameSuggestions, setNameSuggestions] = useState<
+    Array<{
+      id: string;
+      name: string;
+      brand?: string | null;
+      range?: string | null;
+      barcode?: string | null;
+      imageUrl?: string | null;
+      unitPriceCents?: number | null;
+      unitPriceLabel?: string | null;
+      source?: string;
+      score?: number;
+    }>
+  >([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [duplicateInfo, setDuplicateInfo] = useState<{
+    lineId: string;
+    sessionId?: string;
+    message: string;
+    quantityCounted: number;
+    reason?: "SAME_SESSION" | "SAME_DAY" | "WITHIN_MONTH";
+  } | null>(null);
+  const [quantity, setQuantity] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [applyToRange, setApplyToRange] = useState(true);
   const [pendingPhoto, setPendingPhoto] = useState<File | null>(null);
@@ -94,6 +117,7 @@ export function EmployeeInventoryApp() {
   const meRef = useRef<MeUser | null>(null);
   const locationCodeRef = useRef<StoreCode | "">("");
   const scanBusyRef = useRef(false);
+  const nameLookupTimer = useRef<number | null>(null);
 
   sessionRef.current = session;
   meRef.current = me;
@@ -196,7 +220,11 @@ export function EmployeeInventoryApp() {
     setProductName("");
     setBrandName("");
     setRangeName("");
-    setQuantity("1");
+    setProductId(null);
+    setNameSuggestions([]);
+    setShowSuggestions(false);
+    setDuplicateInfo(null);
+    setQuantity("");
     setUnitPrice("");
     setLookup(null);
     setLookupHint(null);
@@ -212,39 +240,92 @@ export function EmployeeInventoryApp() {
     setPhotoPreview(file ? URL.createObjectURL(file) : null);
   }
 
+  function applyMemoryProduct(data: {
+    product?: {
+      id?: string | null;
+      name?: string | null;
+      brand?: string | null;
+      range?: string | null;
+      category?: string | null;
+      barcode?: string | null;
+      imageUrl?: string | null;
+      stockHautmont?: number;
+      stockLeQuesnoy?: number;
+    };
+    price?: { unitPriceCents?: number; source?: string } | null;
+    priceMissing?: boolean;
+    priceFromRange?: boolean;
+    matchedBy?: string;
+  }) {
+    const p = data.product;
+    if (!p?.name) return;
+    const cents = data.price?.unitPriceCents;
+    const missing = Boolean(data.priceMissing) || cents == null || cents <= 0;
+    setProductId(p.id || null);
+    setProductName(p.name || "");
+    setBrandName(p.brand || "");
+    setRangeName(p.range || p.category || "Non classé");
+    if (p.barcode) setBarcode(p.barcode);
+    setLookup({
+      found: true,
+      name: p.name || undefined,
+      brand: p.brand || undefined,
+      range: p.range || undefined,
+      unitPriceCents: missing ? null : cents,
+      priceSource: data.price?.source || null,
+      priceMissing: missing,
+      priceLocked:
+        !missing && me?.role !== "ADMIN" && data.price?.source !== "GAMME",
+      priceFromRange: Boolean(data.priceFromRange),
+      imageUrl: p.imageUrl,
+    });
+    setUnitPrice(missing ? "" : ((cents || 0) / 100).toFixed(2).replace(".", ","));
+    setLookupHint(
+      `Mémoire : ${p.name}${p.brand ? ` · ${p.brand}` : ""}${
+        p.range ? ` · gamme ${p.range}` : ""
+      }${p.barcode ? ` · EAN ${p.barcode}` : " · sans EAN"}${
+        data.matchedBy ? ` (${data.matchedBy})` : ""
+      }`
+    );
+    setShowSuggestions(false);
+  }
+
+  function applyDuplicateFromLookup(data: {
+    duplicate?: {
+      lineId?: string;
+      sessionId?: string;
+      message?: string;
+      quantityCounted?: number;
+      reason?: "SAME_SESSION" | "SAME_DAY" | "WITHIN_MONTH";
+    } | null;
+  }) {
+    if (data.duplicate?.lineId && data.duplicate.message) {
+      setDuplicateInfo({
+        lineId: data.duplicate.lineId,
+        sessionId: data.duplicate.sessionId,
+        message: data.duplicate.message,
+        quantityCounted: data.duplicate.quantityCounted || 0,
+        reason: data.duplicate.reason,
+      });
+      setError(data.duplicate.message);
+      rememberLineId(data.duplicate.lineId);
+    } else {
+      setDuplicateInfo(null);
+    }
+  }
+
   async function lookupBarcode(code: string) {
     try {
-      const res = await fetch(`/api/inventaire/lookup?barcode=${encodeURIComponent(code)}`);
+      const sid = sessionRef.current?.id;
+      const qs = new URLSearchParams({ barcode: code });
+      if (sid) qs.set("sessionId", sid);
+      const res = await fetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return;
-      if (data.found) {
-        const cents = data.price?.unitPriceCents as number | undefined;
-        const missing = Boolean(data.priceMissing) || cents == null || cents <= 0;
-        setProductName(data.product.name || "");
-        setBrandName(data.product.brand || "");
-        setRangeName(data.product.range || "");
-        setLookup({
-          found: true,
-          name: data.product.name,
-          brand: data.product.brand,
-          range: data.product.range,
-          unitPriceCents: missing ? null : cents,
-          priceSource: data.price?.source || null,
-          priceMissing: missing,
-          priceLocked: !missing && me?.role !== "ADMIN" && data.price?.source !== "GAMME",
-          priceFromRange: Boolean(data.priceFromRange),
-          imageUrl: data.product.imageUrl,
-        });
-        setUnitPrice(missing ? "" : ((cents || 0) / 100).toFixed(2).replace(".", ","));
-        setLookupHint(
-          `${data.product.name}${data.product.brand ? ` · ${data.product.brand}` : ""}${
-            data.product.range ? ` · gamme ${data.product.range}` : ""
-          }${data.priceFromRange ? " · prix gamme" : ""} — stock : ${
-            locationCode === "LE_QUESNOY"
-              ? data.product.stockLeQuesnoy
-              : data.product.stockHautmont
-          }`
-        );
+      if (data.found && data.product?.name) {
+        applyMemoryProduct(data);
+        applyDuplicateFromLookup(data);
+        setQuantity("");
       } else {
         setLookup({
           found: false,
@@ -252,17 +333,117 @@ export function EmployeeInventoryApp() {
           priceLocked: false,
           unitPriceCents: null,
         });
+        setProductId(null);
         setUnitPrice("");
-        setProductName("");
-        setBrandName("");
-        setRangeName("");
         setLookupHint(
-          "Produit non reconnu — saisissez nom, gamme, prix et photo avant enregistrement"
+          data.message ||
+            "Code inconnu en mémoire — tapez le nom pour rechercher dans le catalogue"
         );
+        setShowSuggestions(false);
       }
     } catch {
       setLookupHint(null);
     }
+  }
+
+  async function lookupNameMemory(name: string) {
+    const q = name.trim();
+    if (q.length < 2) {
+      setNameSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    try {
+      const sid = sessionRef.current?.id;
+      const qs = new URLSearchParams({ name: q, suggest: "1" });
+      if (sid) qs.set("sessionId", sid);
+      const res = await fetch(`/api/inventaire/lookup?${qs}`);
+      const data = await res.json();
+      if (!res.ok) return;
+      const list = data.suggestions || [];
+      setNameSuggestions(list);
+      setShowSuggestions(list.length > 0);
+
+      // Auto-repérage fort : un seul match catalogue très proche
+      if (!suggestOnlyAuto(list) && list.length === 1 && (list[0].score ?? 1) >= 0.9) {
+        await selectNameSuggestion(list[0]);
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function suggestOnlyAuto(list: Array<{ score?: number }>) {
+    return list.length > 1;
+  }
+
+  async function selectNameSuggestion(s: {
+    id: string;
+    name: string;
+    brand?: string | null;
+    range?: string | null;
+    barcode?: string | null;
+    imageUrl?: string | null;
+    unitPriceCents?: number | null;
+    source?: string;
+  }) {
+    const sid = sessionRef.current?.id;
+    setQuantity("");
+    setShowSuggestions(false);
+    // Re-fetch fiche complète si id catalogue
+    if (s.source !== "session" && s.id && !s.id.startsWith("mem-")) {
+      const qs = new URLSearchParams({ name: s.name });
+      if (sid) qs.set("sessionId", sid);
+      if (s.barcode) qs.set("barcode", s.barcode);
+      const res = await fetch(`/api/inventaire/lookup?${qs}`);
+      const data = await res.json();
+      if (res.ok && data.found) {
+        applyMemoryProduct(data);
+        applyDuplicateFromLookup(data);
+        setMessage("Fiche remplie — saisissez la quantité puis Enregistrer");
+        return;
+      }
+    }
+    if (s.barcode && sid) {
+      await lookupBarcode(s.barcode);
+      setQuantity("");
+      return;
+    }
+    setProductId(s.id.startsWith("mem-") ? null : s.id);
+    setProductName(s.name);
+    setBrandName(s.brand || "");
+    setRangeName(s.range || "Non classé");
+    if (s.barcode) setBarcode(s.barcode);
+    const missing = s.unitPriceCents == null || s.unitPriceCents <= 0;
+    setLookup({
+      found: true,
+      name: s.name,
+      brand: s.brand || undefined,
+      range: s.range || undefined,
+      unitPriceCents: missing ? null : s.unitPriceCents,
+      priceSource: "CATALOGUE",
+      priceMissing: missing,
+      priceLocked: !missing && me?.role !== "ADMIN",
+      imageUrl: s.imageUrl,
+    });
+    setUnitPrice(
+      missing ? "" : ((s.unitPriceCents || 0) / 100).toFixed(2).replace(".", ",")
+    );
+    setLookupHint(
+      `Mémoire : ${s.name}${s.barcode ? ` · EAN ${s.barcode}` : " · sans EAN"}`
+    );
+    setMessage("Fiche remplie — saisissez la quantité puis Enregistrer");
+  }
+
+  function onProductNameChange(value: string) {
+    setProductName(value);
+    setProductId(null);
+    if (nameLookupTimer.current != null) {
+      window.clearTimeout(nameLookupTimer.current);
+    }
+    nameLookupTimer.current = window.setTimeout(() => {
+      void lookupNameMemory(value);
+    }, 280);
   }
 
   async function startSession() {
@@ -295,22 +476,33 @@ export function EmployeeInventoryApp() {
     if (!session) return;
     const qty = parseInt(quantity, 10);
     const code = barcode.trim();
-    if (code.length < 6) {
-      setError("Code-barres obligatoire");
+    if (code.length < 6 && !productId) {
+      setError("Code-barres ou produit mémoire requis");
       return;
     }
     if (!productName.trim()) {
       setError("Nom du produit obligatoire");
       return;
     }
-    if (isNaN(qty) || qty < 0) {
-      setError("Quantité invalide");
+    if (quantity.trim() === "" || isNaN(qty) || qty < 0) {
+      setError("Quantité obligatoire");
       return;
     }
     if (!unitPrice.trim()) {
       setError("Prix manquant — saisissez le tarif avant enregistrement");
       return;
     }
+
+    // Doublon hors session courante (même jour / < 30 j) : bloqué
+    if (
+      duplicateInfo &&
+      duplicateInfo.reason !== "SAME_SESSION" &&
+      !(me?.role === "ADMIN")
+    ) {
+      setError(duplicateInfo.message);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -320,8 +512,43 @@ export function EmployeeInventoryApp() {
         return;
       }
 
+      // Doublon même session : mise à jour quantité (pas de nouvelle ligne)
+      if (duplicateInfo?.reason === "SAME_SESSION" && duplicateInfo.lineId) {
+        const res = await fetch(
+          `/api/inventaire/sessions/${session.id}/lines/${duplicateInfo.lineId}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              quantityCounted: qty,
+              reason: "correction quantité anti-doublon",
+            }),
+          }
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Mise à jour impossible");
+        rememberLineId(data.line.id);
+        if (pendingPhoto) {
+          const form = new FormData();
+          form.set("file", pendingPhoto);
+          form.set("lineId", data.line.id);
+          await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
+            method: "POST",
+            body: form,
+          });
+        }
+        setMessage(
+          `Quantité mise à jour : ${data.line.productNameSnapshot || productName} × ${qty}`
+        );
+        clearDraftLine();
+        await refreshSession(session.id);
+        barcodeRef.current?.focus();
+        return;
+      }
+
       const payload: Record<string, unknown> = {
-        barcode: code,
+        barcode: code || undefined,
+        productId: productId || undefined,
         productName: productName.trim(),
         brand: brandName.trim() || undefined,
         range: rangeName.trim() || "Non classé",
@@ -343,6 +570,37 @@ export function EmployeeInventoryApp() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
+
+      if (res.status === 409 && data.code === "DUPLICATE") {
+        const dup = data.duplicate as {
+          lineId?: string;
+          sessionId?: string;
+          reason?: "SAME_SESSION" | "SAME_DAY" | "WITHIN_MONTH";
+          quantityCounted?: number;
+          message?: string;
+        } | null;
+        setDuplicateInfo(
+          dup?.lineId
+            ? {
+                lineId: dup.lineId,
+                sessionId: dup.sessionId,
+                message: data.error || dup.message || "Doublon",
+                quantityCounted: dup.quantityCounted || 0,
+                reason: dup.reason,
+              }
+            : null
+        );
+        if (dup?.reason === "SAME_SESSION" && dup.lineId) {
+          setError(
+            `${data.error} — saisissez la nouvelle quantité puis « Mettre à jour ».`
+          );
+          rememberLineId(dup.lineId);
+        } else {
+          setError(data.error || "Produit déjà inventorié");
+        }
+        return;
+      }
+
       if (!res.ok) throw new Error(data.error || "Erreur ligne");
 
       const lineId = data.line.id as string;
@@ -383,8 +641,28 @@ export function EmployeeInventoryApp() {
 
   async function uploadPhoto(file: File) {
     setPhotoFile(file);
-    setMessage("Photo ajoutée (optionnelle) — vous pouvez Enregistrer");
+    setMessage("Analyse de la photo…");
     setError(null);
+    try {
+      const { detectBarcodeFromImageFile } = await import(
+        "@/lib/inventory/photo-barcode"
+      );
+      const code = await detectBarcodeFromImageFile(file);
+      if (code) {
+        setBarcode(code);
+        await lookupBarcode(code);
+        setQuantity("");
+        setMessage(
+          `Photo → EAN ${code} — nom et fiche remplis automatiquement (saisir la quantité)`
+        );
+        return;
+      }
+      setMessage(
+        "Photo ajoutée — aucun code-barres lu : tapez le nom pour repérage mémoire"
+      );
+    } catch {
+      setMessage("Photo prête — saisissez ou recherchez le nom");
+    }
   }
 
   async function completeSession() {
@@ -412,8 +690,8 @@ export function EmployeeInventoryApp() {
   }
 
   /**
-   * Scan caméra continu : détecte le code-barres SANS photo,
-   * enregistre automatiquement si nom + prix connus ; sinon pause pour saisie.
+   * Scan caméra : EAN connu en mémoire → remplit TOUT sauf la quantité.
+   * Pas d'enregistrement auto. Anti-doublon signalé.
    */
   const onBarcodeScanned = useCallback(async (code: string): Promise<boolean | void> => {
     const cleaned = code.trim();
@@ -421,119 +699,34 @@ export function EmployeeInventoryApp() {
     scanBusyRef.current = true;
 
     const current = sessionRef.current;
-    if (!current || current.status !== "OPEN") {
-      setBarcode(cleaned);
-      setMessage(`Code détecté : ${cleaned}`);
-      scanBusyRef.current = false;
-      return false;
-    }
-
     setBarcode(cleaned);
     setError(null);
+    setDuplicateInfo(null);
 
     try {
-      const existing = (current.lines || []).find(
-        (l) => (l.barcode || "").trim() === cleaned
-      );
-
-      // Même code déjà scanné → +1 auto (sans photo)
-      if (existing && existing.unitPriceCents != null && existing.unitPriceCents > 0) {
-        const nextQty = existing.quantityCounted + 1;
-        const res = await fetch(
-          `/api/inventaire/sessions/${current.id}/lines/${existing.id}`,
-          {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              quantityCounted: nextQty,
-              reason: "scan_auto_increment",
-            }),
-          }
-        );
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || "Erreur incrément");
-        rememberLineId(existing.id);
-        setMessage(
-          `✓ ${existing.productNameSnapshot || existing.product?.name || cleaned} → × ${nextQty}`
-        );
-        await refreshSession(current.id);
-        clearDraftLine();
-        return true; // continuer le scan
+      if (!current || current.status !== "OPEN") {
+        setMessage(`Code détecté : ${cleaned}`);
+        return false;
       }
 
       const lookRes = await fetch(
-        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}`
+        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}`
       );
       const look = await lookRes.json();
       if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
 
-      const cents = look.price?.unitPriceCents as number | undefined;
-      const priceMissing = Boolean(look.priceMissing) || cents == null || cents <= 0;
-      const role = meRef.current?.role;
-      const loc = locationCodeRef.current;
-
-      if (look.found) {
-        const name = look.product.name || "";
-        const brand = look.product.brand || "";
-        const range = look.product.range || look.product.category || "Non classé";
-        setProductName(name);
-        setBrandName(brand);
-        setRangeName(range);
-        setLookup({
-          found: true,
-          name,
-          brand,
-          range,
-          unitPriceCents: priceMissing ? null : cents,
-          priceSource: look.price?.source || null,
-          priceMissing,
-          priceLocked: !priceMissing && role !== "ADMIN" && look.price?.source !== "GAMME",
-          priceFromRange: Boolean(look.priceFromRange),
-          imageUrl: look.product.imageUrl,
-        });
-        setLookupHint(
-          `${name}${brand ? ` · ${brand}` : ""}${range ? ` · gamme ${range}` : ""}`
-        );
-
-        if (priceMissing || !name) {
-          setUnitPrice("");
-          setQuantity("1");
-          setMessage(`Complétez prix/nom pour ${cleaned} puis Enregistrer`);
-          setError(priceMissing ? "Prix manquant — scan en pause" : "Nom manquant — scan en pause");
-          return false;
-        }
-
-        setUnitPrice(((cents || 0) / 100).toFixed(2).replace(".", ","));
-
-        const payload: Record<string, unknown> = {
-          barcode: cleaned,
-          productName: name,
-          brand: brand || undefined,
-          range,
-          quantityCounted: 1,
-          unitPriceCents: cents,
-          priceSource: look.price?.source || "CATALOGUE",
-          applyToRange: false,
-        };
-
-        const res = await fetch(`/api/inventaire/sessions/${current.id}/lines`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Erreur enregistrement");
-
-        rememberLineId(data.line.id);
+      if (look.found && look.product?.name) {
+        applyMemoryProduct(look);
+        applyDuplicateFromLookup(look);
+        setQuantity("");
         setMessage(
-          `✓ ${name} × 1 · ${formatEuroFromCents(data.line.unitPriceCents)} — enregistré auto`
+          look.duplicate
+            ? `Fiche remplie — ${look.duplicate.message}`
+            : `Fiche remplie automatiquement — saisissez la quantité puis Enregistrer`
         );
-        await refreshSession(current.id);
-        clearDraftLine();
-        return true; // caméra reste ouverte pour le prochain code
+        return false;
       }
 
-      // Produit inconnu → pause pour saisie manuelle
       setLookup({
         found: false,
         priceMissing: true,
@@ -543,12 +736,12 @@ export function EmployeeInventoryApp() {
       setProductName("");
       setBrandName("");
       setRangeName("");
+      setProductId(null);
       setUnitPrice("");
-      setQuantity("1");
-      setLookupHint("Produit inconnu — saisissez nom, gamme et prix (photo optionnelle)");
-      setMessage(`Code ${cleaned} inconnu — saisie manuelle`);
-      setError("Produit inconnu — scan en pause");
-      void loc;
+      setQuantity("");
+      setLookupHint("EAN inconnu — photo du produit ou saisie du nom pour repérage mémoire");
+      setMessage(`Code ${cleaned} inconnu en mémoire`);
+      setError("Non trouvé — prenez une photo ou tapez le nom");
       return false;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur scan");
@@ -556,7 +749,7 @@ export function EmployeeInventoryApp() {
     } finally {
       scanBusyRef.current = false;
     }
-  }, [refreshSession]);
+  }, []);
 
   function requestStoreChange(code: StoreCode) {
     if (session && session.status === "OPEN" && code !== locationCode) {
@@ -667,9 +860,12 @@ export function EmployeeInventoryApp() {
                     setBarcode(e.target.value);
                     setLookupHint(null);
                     setLookup(null);
+                    setDuplicateInfo(null);
                   }}
                   onBlur={() => {
-                    if (barcode.trim().length >= 6) void lookupBarcode(barcode.trim());
+                    if (barcode.trim().length >= 6) {
+                      void lookupBarcode(barcode.trim()).then(() => setQuantity(""));
+                    }
                   }}
                   inputMode="numeric"
                   placeholder="Scanner ou saisir l’EAN"
@@ -685,10 +881,31 @@ export function EmployeeInventoryApp() {
                 </button>
               </div>
               <p className="mt-1.5 text-xs text-gray-500">
-                Scan auto : la caméra détecte et enregistre chaque code-barres toute seule — aucune photo à prendre.
+                Scan auto : détecte l’EAN, remplit nom / marque / gamme / prix — vous saisissez uniquement la quantité.
               </p>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
+            {duplicateInfo ? (
+              <div
+                className={`rounded-xl px-3 py-2 text-sm ${
+                  duplicateInfo.reason === "SAME_SESSION"
+                    ? "bg-amber-50 text-amber-950 ring-1 ring-amber-200"
+                    : "bg-red-50 text-red-900 ring-1 ring-red-200"
+                }`}
+              >
+                <p className="font-semibold">Anti-doublon</p>
+                <p className="mt-0.5">{duplicateInfo.message}</p>
+                {duplicateInfo.reason === "SAME_SESSION" ? (
+                  <p className="mt-1 text-xs">
+                    Ancienne qté : {duplicateInfo.quantityCounted} — entrez la nouvelle puis « Mettre à jour ».
+                  </p>
+                ) : (
+                  <p className="mt-1 text-xs">
+                    Impossible de recréer ce produit (même jour ou &lt; 30 jours).
+                  </p>
+                )}
+              </div>
+            ) : null}
             {lookup?.imageUrl ? (
               <div className="relative inline-block overflow-hidden rounded-lg ring-1 ring-gray-200">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -704,14 +921,38 @@ export function EmployeeInventoryApp() {
             ) : null}
 
             <div className="grid grid-cols-1 gap-3">
-              <label className="block">
+              <label className="relative block">
                 <span className="text-sm font-medium">Nom produit *</span>
                 <input
                   className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
                   value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  placeholder="Nom affiché sur la photo / emballage"
+                  onChange={(e) => onProductNameChange(e.target.value)}
+                  onFocus={() => {
+                    if (nameSuggestions.length > 0) setShowSuggestions(true);
+                  }}
+                  placeholder="Tapez pour rechercher en mémoire / photo"
+                  autoComplete="off"
                 />
+                {showSuggestions && nameSuggestions.length > 0 ? (
+                  <ul className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+                    {nameSuggestions.map((s) => (
+                      <li key={`${s.source || "c"}-${s.id}`}>
+                        <button
+                          type="button"
+                          className="flex w-full flex-col items-start px-3 py-2 text-left text-sm hover:bg-emerald-50"
+                          onClick={() => void selectNameSuggestion(s)}
+                        >
+                          <span className="font-medium text-gray-900">{s.name}</span>
+                          <span className="text-xs text-gray-500">
+                            {[s.brand, s.range, s.barcode ? `EAN ${s.barcode}` : null, s.unitPriceLabel]
+                              .filter(Boolean)
+                              .join(" · ")}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <label className="block">
@@ -750,6 +991,7 @@ export function EmployeeInventoryApp() {
                   className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
+                  placeholder="À saisir"
                 />
               </label>
               <label className="block">
@@ -801,7 +1043,7 @@ export function EmployeeInventoryApp() {
             <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3">
               <p className="text-sm font-medium text-gray-800">Photo produit (optionnelle)</p>
               <p className="mt-1 text-xs text-gray-500">
-                Pas besoin de photo pour le scan auto. Vous pouvez en ajouter une pour afficher le nom dessus.
+                Si un code-barres est lisible sur la photo, le nom et la fiche sont remplis automatiquement.
               </p>
               {photoPreview ? (
                 <div className="relative mt-2 inline-block overflow-hidden rounded-xl ring-1 ring-gray-200">
@@ -840,14 +1082,20 @@ export function EmployeeInventoryApp() {
                 type="button"
                 disabled={
                   loading ||
-                  barcode.trim().length < 6 ||
+                  (barcode.trim().length < 6 && !productId) ||
                   !productName.trim() ||
-                  !unitPrice.trim()
+                  !unitPrice.trim() ||
+                  quantity.trim() === "" ||
+                  (Boolean(duplicateInfo) &&
+                    duplicateInfo?.reason !== "SAME_SESSION" &&
+                    me?.role !== "ADMIN")
                 }
                 onClick={() => void addLine()}
                 className="rounded-xl bg-emerald-700 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
               >
-                Enregistrer
+                {duplicateInfo?.reason === "SAME_SESSION"
+                  ? "Mettre à jour la quantité"
+                  : "Enregistrer"}
               </button>
             </div>
             <input
