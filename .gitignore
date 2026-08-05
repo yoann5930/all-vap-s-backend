@@ -60,3 +60,4 @@ prisma/*.db-journal
 mobile/inventaire-webview/app/build/
 mobile/inventaire-webview/.gradle/
 mobile/inventaire-webview/local.properties
+public/apps/*.apk.idsig
