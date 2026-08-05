@@ -3,7 +3,7 @@
   "short_name": "Inventaire",
   "description": "Inventaire boutiques Hautmont et Le Quesnoy",
   "start_url": "/inventaire",
-  "scope": "/inventaire",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",

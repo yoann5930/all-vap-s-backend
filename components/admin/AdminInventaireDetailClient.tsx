@@ -184,6 +184,15 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
   }
   if (!inv) return null;
 
+  const summary = inv.summary || {
+    referenceCount: 0,
+    totalQuantity: 0,
+    totalValueCents: 0,
+    missingPriceCount: 0,
+    unknownProductCount: 0,
+    photoCount: 0,
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -288,9 +297,10 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
             </tr>
           </thead>
           <tbody>
-            {inv.lines.map((l) => {
+            {(inv.lines || []).map((l) => {
+              const photos = l.photos || [];
               const thumb =
-                l.photos[0]?.publicUrl || l.photoPath || l.catalogImageUrl || l.product?.imageUrl;
+                photos[0]?.publicUrl || l.photoPath || l.catalogImageUrl || l.product?.imageUrl;
               const name = l.productNameSnapshot || l.product?.name || "Produit inconnu";
               return (
                 <tr key={l.id} className="border-b align-top last:border-0">
@@ -323,9 +333,9 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
                     {l.notes ? (
                       <p className="mt-1 text-xs text-gray-600">Note : {l.notes}</p>
                     ) : null}
-                    {l.photos[0] ? (
+                    {photos[0] ? (
                       <a
-                        href={l.photos[0].publicUrl}
+                        href={photos[0].publicUrl}
                         download
                         className="mt-1 inline-block text-xs font-semibold text-emerald-800"
                       >
@@ -367,24 +377,24 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
       </div>
 
       <div className="grid gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Meta label="Références" value={String(inv.summary.referenceCount)} />
-        <Meta label="Quantité totale" value={String(inv.summary.totalQuantity)} />
+        <Meta label="Références" value={String(summary.referenceCount)} />
+        <Meta label="Quantité totale" value={String(summary.totalQuantity)} />
         <Meta
           label="Valeur totale estimée"
-          value={formatEuroFromCents(inv.summary.totalValueCents)}
+          value={formatEuroFromCents(summary.totalValueCents)}
         />
-        <Meta label="Sans prix" value={String(inv.summary.missingPriceCount)} />
-        <Meta label="Produits inconnus" value={String(inv.summary.unknownProductCount)} />
-        <Meta label="Photos jointes" value={String(inv.summary.photoCount)} />
+        <Meta label="Sans prix" value={String(summary.missingPriceCount)} />
+        <Meta label="Produits inconnus" value={String(summary.unknownProductCount)} />
+        <Meta label="Photos jointes" value={String(summary.photoCount)} />
       </div>
 
       <section>
         <h2 className="text-lg font-semibold text-gray-900">Journal d’audit</h2>
-        {inv.inventoryAudits.length === 0 ? (
+        {(inv.inventoryAudits || []).length === 0 ? (
           <p className="mt-2 text-sm text-gray-500">Aucune entrée d’audit inventaire.</p>
         ) : (
           <ul className="mt-3 space-y-2">
-            {inv.inventoryAudits.map((a) => (
+            {(inv.inventoryAudits || []).map((a) => (
               <li
                 key={a.id}
                 className="rounded-lg border border-gray-100 bg-white px-3 py-2 text-xs text-gray-700"

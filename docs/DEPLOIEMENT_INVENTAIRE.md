@@ -4,12 +4,13 @@
 
 | Accès | URL |
 |---|---|
-| **Login** | https://jazz-boots-donated-filters.trycloudflare.com/login |
-| **Employés** | https://jazz-boots-donated-filters.trycloudflare.com/inventaire |
-| **Admin** | https://jazz-boots-donated-filters.trycloudflare.com/admin |
-| **Inventaires (Yoann)** | https://jazz-boots-donated-filters.trycloudflare.com/admin/inventaires |
+| **Login** | https://authorities-lamb-films-chain.trycloudflare.com/login |
+| **Employés** | https://authorities-lamb-films-chain.trycloudflare.com/inventaire |
+| **Admin** | https://authorities-lamb-films-chain.trycloudflare.com/admin |
+| **Inventaires (Yoann)** | https://authorities-lamb-films-chain.trycloudflare.com/admin/inventaires |
 
-> Ce tunnel reste actif tant que l’environnement Cursor tourne.  
+> Les quick tunnels Cloudflare changent d’hostname à chaque redémarrage de `cloudflared`.  
+> Si la page ne charge plus : vérifier `/tmp/cf-tunnel.log` (ou relancer le tunnel) — ne pas réutiliser une ancienne URL.  
 > Pour une URL **permanente** (indépendante de Cursor), suivre Vercel ci-dessous.
 
 Cible DNS : `https://inventaire.allvaps.fr`

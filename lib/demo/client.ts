@@ -2,6 +2,7 @@ import { getDemoStore, getModelArray, nextId, now, type ModelName } from "./stor
 import {
   aggregateRecords,
   applyInclude,
+  applySelect,
   applyUpdateData,
   findUniqueWhere,
   matchWhere,
@@ -26,6 +27,10 @@ function createModelDelegate(model: ModelName) {
       const store = getDemoStore();
       const record = findUniqueWhere(store, model, args.where as RecordLike);
       if (!record) return null;
+      // Prisma: select XOR include — honorer select évite de fuir passwordHash via /api/auth/me
+      if (args.select) {
+        return applySelect(store, model, record, args.select as RecordLike);
+      }
       let out: RecordLike = args.include
         ? applyInclude(store, model, record, args.include as RecordLike)
         : { ...record };

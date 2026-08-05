@@ -73,7 +73,7 @@ export function AdminInventoryClient() {
     setOnline(navigator.onLine);
     const on = () => {
       setOnline(true);
-      void flushOfflineInventoryQueue();
+      void flushOfflineInventoryQueue("/api/admin/inventory/sessions");
     };
     const off = () => setOnline(false);
     window.addEventListener("online", on);
@@ -81,7 +81,7 @@ export function AdminInventoryClient() {
     if ("serviceWorker" in navigator) {
       void navigator.serviceWorker.register("/sw.js").catch(() => undefined);
     }
-    void flushOfflineInventoryQueue();
+    void flushOfflineInventoryQueue("/api/admin/inventory/sessions");
     return () => {
       window.removeEventListener("online", on);
       window.removeEventListener("offline", off);

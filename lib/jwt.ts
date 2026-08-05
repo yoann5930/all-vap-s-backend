@@ -9,6 +9,25 @@ function isLocalAppUrl(): boolean {
   return /localhost|127\.0\.0\.1/i.test(appUrl);
 }
 
+/**
+ * Secure cookie si la requête est réellement en HTTPS (tunnel Cloudflare, prod),
+ * pas seulement selon NODE_ENV / APP_URL (souvent localhost en démo tunnel).
+ */
+async function cookieSecureFlag(): Promise<boolean> {
+  try {
+    const h = await headers();
+    const xf = (h.get("x-forwarded-proto") || "").split(",")[0].trim().toLowerCase();
+    if (xf === "https") return true;
+    if (xf === "http") return false;
+    const host = (h.get("host") || "").toLowerCase();
+    if (host.includes("localhost") || host.startsWith("127.0.0.1")) return false;
+  } catch {
+    /* hors contexte requête */
+  }
+  if (isLocalAppUrl()) return false;
+  return process.env.NODE_ENV === "production";
+}
+
 /** Lazy secret — ne pas throw au import (sinon `next build` plante sans env Vercel). */
 function getJwtSecret(): Uint8Array {
   const secret = process.env.JWT_SECRET;
@@ -63,9 +82,10 @@ export async function verifyToken(token: string): Promise<JwtPayload | null> {
 
 export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
+  const secure = await cookieSecureFlag();
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
+    secure,
     sameSite: "lax",
     maxAge: 60 * 60 * 2,
     path: "/",
@@ -74,9 +94,10 @@ export async function setAuthCookie(token: string) {
 
 export async function setRefreshCookie(rawToken: string) {
   const cookieStore = await cookies();
+  const secure = await cookieSecureFlag();
   cookieStore.set(REFRESH_COOKIE, rawToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
+    secure,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * REFRESH_DAYS,
     path: "/",
@@ -85,8 +106,10 @@ export async function setRefreshCookie(rawToken: string) {
 
 export async function clearAuthCookie() {
   const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
-  cookieStore.delete(REFRESH_COOKIE);
+  const secure = await cookieSecureFlag();
+  // delete() seul peut laisser un cookie Secure/non-Secure orphelin selon le contexte
+  cookieStore.set(COOKIE_NAME, "", { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 });
+  cookieStore.set(REFRESH_COOKIE, "", { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 });
 }
 
 /** Crée un refresh token DB + cookie. */

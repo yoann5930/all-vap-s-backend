@@ -146,7 +146,7 @@ export function sortRecords(records: RecordLike[], orderBy?: OrderBy): RecordLik
   });
 }
 
-function applySelect(store: DemoStore, model: ModelName, record: RecordLike, select?: RecordLike): RecordLike {
+export function applySelect(store: DemoStore, model: ModelName, record: RecordLike, select?: RecordLike): RecordLike {
   if (!select) return { ...record };
   const out: RecordLike = {};
   for (const [key, val] of Object.entries(select)) {

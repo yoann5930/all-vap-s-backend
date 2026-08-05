@@ -43,7 +43,9 @@ export function AuthForm({ mode }: AuthFormProps) {
       }
 
       const params = new URLSearchParams(window.location.search);
-      const next = params.get("next");
+      const rawNext = params.get("next");
+      const next =
+        rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
 
       if (data.user?.mustChangePassword) {
         window.location.assign(

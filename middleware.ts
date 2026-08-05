@@ -90,7 +90,10 @@ export async function middleware(request: NextRequest) {
     res.cookies.set(MAINTENANCE_COOKIE, bypassSecret, {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      // Tunnel HTTPS : x-forwarded-proto=https même si NODE_ENV=development
+      secure:
+        request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() === "https" ||
+        process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
