@@ -18,8 +18,8 @@ export default function AccesInventairePage() {
         </p>
         <h1 className="mt-2 text-3xl font-bold">Accès inventaire</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Choisissez votre espace. Utilisez toujours le lien HTTPS fourni par Yoann
-          (les anciennes adresses tunnel expirent).
+          Utilisez toujours les adresses officielles figées fournies par Yoann
+          (elles ne changent plus).
         </p>
       </div>
 

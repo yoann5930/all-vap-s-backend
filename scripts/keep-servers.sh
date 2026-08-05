@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
-# Garde Next.js + tunnel Cloudflare actifs (relance auto si crash).
+# Garde Next.js actif. Tunnel Cloudflare : URL VERROUILLÉE — ne pas régénérer.
+# Règle obligatoire : https://minnesota-join-powerpoint-heritage.trycloudflare.com
 set -u
 cd /workspace
 
+FIXED_TUNNEL_URL="https://minnesota-join-powerpoint-heritage.trycloudflare.com"
 mkdir -p /tmp/allvaps-keepalive
 LOG_NEXT=/tmp/allvaps-keepalive/next.log
 LOG_CF=/tmp/allvaps-keepalive/cloudflared.log
 URL_FILE=/tmp/allvaps-keepalive/tunnel-url.txt
+LOCK_FILE=/workspace/data/FIXED_TUNNEL_URL.txt
 
-ensure_cloudflared() {
+echo "$FIXED_TUNNEL_URL" > "$URL_FILE"
+echo "$FIXED_TUNNEL_URL" > "$LOCK_FILE"
+
+ensure_cloudflared_bin() {
   if [ ! -x /tmp/cloudflared ]; then
     curl -sL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /tmp/cloudflared
     chmod +x /tmp/cloudflared
   fi
+}
+
+health_local_ok() {
+  code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 3 http://127.0.0.1:3000/api/health || echo 000)
+  [ "$code" = "200" ]
+}
+
+fixed_tunnel_ok() {
+  code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$FIXED_TUNNEL_URL/api/health" || echo 000)
+  [ "$code" = "200" ]
 }
 
 start_next() {
@@ -21,57 +37,54 @@ start_next() {
   echo $! > /tmp/allvaps-keepalive/next.pid
 }
 
-start_tunnel() {
-  ensure_cloudflared
-  echo "[keepalive $(date -Is)] start tunnel" | tee -a "$LOG_CF"
-  /tmp/cloudflared tunnel --protocol http2 --url http://127.0.0.1:3000 >>"$LOG_CF" 2>&1 &
-  echo $! > /tmp/allvaps-keepalive/cloudflared.pid
-}
-
-health_ok() {
-  code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 3 http://127.0.0.1:3000/api/health || echo 000)
-  [ "$code" = "200" ]
-}
-
-refresh_url() {
-  # extrait la dernière URL trycloudflare des logs
-  url=$(grep -oE 'https://[a-zA-Z0-9.-]+\.trycloudflare\.com' "$LOG_CF" 2>/dev/null | tail -1 || true)
-  if [ -n "${url:-}" ]; then
-    echo "$url" > "$URL_FILE"
+# IMPORTANT : on ne démarre un tunnel QUE s’il n’y en a aucun.
+# On ne tue JAMAIS un cloudflared existant (sinon nouvelle URL = interdit).
+ensure_tunnel_process() {
+  if pgrep -f 'cloudflared tunnel --protocol http2 --url http://127.0.0.1:3000' >/dev/null; then
+    echo "[keepalive $(date -Is)] cloudflared déjà actif — on ne le relance pas (URL figée)" | tee -a "$LOG_CF"
+    return 0
   fi
+  echo "[keepalive $(date -Is)] ALERTE: aucun cloudflared. URL figée probablement morte." | tee -a "$LOG_CF"
+  echo "[keepalive] NE PAS démarrer un nouveau quick tunnel sans accord utilisateur (changerait l’URL)." | tee -a "$LOG_CF"
+  # Ne démarre PAS automatiquement un nouveau tunnel.
+  return 1
 }
 
-# Tue d’anciennes instances gérées
+# Ne tue PAS cloudflared au démarrage
 if [ -f /tmp/allvaps-keepalive/next.pid ]; then
-  kill "$(cat /tmp/allvaps-keepalive/next.pid)" 2>/dev/null || true
+  old=$(cat /tmp/allvaps-keepalive/next.pid 2>/dev/null || true)
+  if [ -n "${old:-}" ]; then
+    kill "$old" 2>/dev/null || true
+  fi
 fi
-if [ -f /tmp/allvaps-keepalive/cloudflared.pid ]; then
-  kill "$(cat /tmp/allvaps-keepalive/cloudflared.pid)" 2>/dev/null || true
-fi
+# Uniquement next — jamais pkill cloudflared ici
 pkill -f 'next dev --port 3000' 2>/dev/null || true
-pkill -f 'cloudflared tunnel --protocol http2' 2>/dev/null || true
 sleep 1
 
+ensure_cloudflared_bin
 start_next
 sleep 4
-start_tunnel
+ensure_tunnel_process || true
 
-echo "[keepalive] boucle de surveillance démarrée"
+echo "[keepalive] surveillance démarrée — URL verrouillée: $FIXED_TUNNEL_URL"
 while true; do
-  if ! health_ok; then
-    echo "[keepalive $(date -Is)] next down → restart" | tee -a "$LOG_NEXT"
+  if ! health_local_ok; then
+    echo "[keepalive $(date -Is)] next down → restart (tunnel intact)" | tee -a "$LOG_NEXT"
     pkill -f 'next dev --port 3000' 2>/dev/null || true
     sleep 1
     start_next
     sleep 5
   fi
 
-  if ! pgrep -f 'cloudflared tunnel --protocol http2' >/dev/null; then
-    echo "[keepalive $(date -Is)] tunnel down → restart" | tee -a "$LOG_CF"
-    start_tunnel
-    sleep 4
+  if ! fixed_tunnel_ok; then
+    echo "[keepalive $(date -Is)] URL FIGÉE KO ($FIXED_TUNNEL_URL) — pas de nouveau tunnel auto" | tee -a "$LOG_CF"
+    # Si le process a disparu, on signale seulement
+    if ! pgrep -f 'cloudflared tunnel --protocol http2 --url http://127.0.0.1:3000' >/dev/null; then
+      echo "[keepalive] cloudflared absent. Intervention manuelle + accord utilisateur requis." | tee -a "$LOG_CF"
+    fi
+  else
+    echo "$FIXED_TUNNEL_URL" > "$URL_FILE"
   fi
 
-  refresh_url
   sleep 8
 done
