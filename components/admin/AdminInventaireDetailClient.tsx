@@ -315,21 +315,24 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
                         />
                       </button>
                     ) : (
-                      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gray-100 text-[10px] text-gray-500">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-red-50 text-[10px] font-semibold text-red-700">
                         Sans photo
                       </div>
                     )}
                   </td>
                   <td className="px-3 py-3">
-                    <p className="font-medium text-gray-900">{name}</p>
+                    <p className="font-semibold text-gray-900">{name}</p>
                     <p className="text-xs text-gray-500">
-                      {[l.brandSnapshot, l.rangeSnapshot, l.categorySnapshot]
+                      {[l.brandSnapshot, l.rangeSnapshot ? `gamme ${l.rangeSnapshot}` : null]
                         .filter(Boolean)
                         .join(" · ") || "—"}
                     </p>
                     <p className="text-xs text-gray-500">
                       {[l.formatSnapshot, l.nicotineSnapshot].filter(Boolean).join(" · ") || ""}
                     </p>
+                    {l.priceSource ? (
+                      <p className="text-[11px] text-gray-400">tarif {l.priceSource}</p>
+                    ) : null}
                     {l.notes ? (
                       <p className="mt-1 text-xs text-gray-600">Note : {l.notes}</p>
                     ) : null}
@@ -343,7 +346,9 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
                       </a>
                     ) : null}
                   </td>
-                  <td className="px-3 py-3 font-mono text-xs">{l.barcode || "—"}</td>
+                  <td className="px-3 py-3 font-mono text-xs font-semibold text-gray-900">
+                    {l.barcode || "—"}
+                  </td>
                   <td className="px-3 py-3 font-semibold">{l.quantityCounted}</td>
                   <td className="px-3 py-3">
                     {formatEuroFromCents(l.unitPriceCents)}

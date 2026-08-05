@@ -8,6 +8,7 @@ import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
 import { writeAuditLog } from "@/lib/audit/log";
 import { writeInventoryAudit } from "@/lib/inventory/inventory-audit";
+import { isLineComplete, summarizeInventoryLines } from "@/lib/inventory/session-summary";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -24,7 +25,10 @@ export async function POST(request: NextRequest, context: Ctx) {
     const { id } = await context.params;
     const session = await prisma.inventorySession.findUnique({
       where: { id },
-      include: { location: true, lines: true },
+      include: {
+        location: true,
+        lines: { include: { photos: true } },
+      },
     });
     if (!session) throw new Error("NOT_FOUND");
     if (session.status !== "OPEN") {
@@ -38,6 +42,34 @@ export async function POST(request: NextRequest, context: Ctx) {
     const code = session.location.code;
     if (!isStoreStockCode(code)) {
       return jsonResponse({ error: "Emplacement session non boutique" }, 400);
+    }
+
+    const summary = summarizeInventoryLines(session.lines);
+    if (session.lines.length === 0) {
+      return jsonResponse({ error: "Aucune ligne à clôturer" }, 400);
+    }
+    if (summary.incompleteCount > 0) {
+      return jsonResponse(
+        {
+          error:
+            "Clôture interdite : chaque ligne doit avoir un code-barres, un prix et une photo produit",
+          incompleteCount: summary.incompleteCount,
+          missingBarcodeCount: summary.missingBarcodeCount,
+          missingPriceCount: summary.missingPriceCount,
+          missingPhotoCount: summary.missingPhotoCount,
+        },
+        400
+      );
+    }
+
+    const incomplete = session.lines.filter((l) => !isLineComplete(l));
+    if (incomplete.length > 0) {
+      return jsonResponse(
+        {
+          error: `${incomplete.length} ligne(s) incomplète(s) (code-barres / prix / photo)`,
+        },
+        400
+      );
     }
 
     let applied = 0;

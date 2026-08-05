@@ -7,6 +7,7 @@ export type LineLike = {
   totalValueCents?: number | null;
   productId?: string | null;
   productNameSnapshot?: string | null;
+  barcode?: string | null;
   photoPath?: string | null;
   photos?: Array<{ id: string }> | null;
   priceSource?: string | null;
@@ -17,16 +18,36 @@ export type SessionSummary = {
   totalQuantity: number;
   totalValueCents: number;
   missingPriceCount: number;
+  missingBarcodeCount: number;
+  missingPhotoCount: number;
   unknownProductCount: number;
   photoCount: number;
+  incompleteCount: number;
 };
+
+export function lineHasPhoto(line: LineLike): boolean {
+  return Boolean((line.photos && line.photos.length > 0) || line.photoPath);
+}
+
+export function isLineComplete(line: LineLike): boolean {
+  return Boolean(
+    line.barcode &&
+      String(line.barcode).trim().length >= 6 &&
+      line.unitPriceCents != null &&
+      line.unitPriceCents >= 0 &&
+      lineHasPhoto(line)
+  );
+}
 
 export function summarizeInventoryLines(lines: LineLike[]): SessionSummary {
   let totalQuantity = 0;
   let totalValue = 0;
   let missingPriceCount = 0;
+  let missingBarcodeCount = 0;
+  let missingPhotoCount = 0;
   let unknownProductCount = 0;
   let photoCount = 0;
+  let incompleteCount = 0;
 
   for (const line of lines) {
     totalQuantity += line.quantityCounted || 0;
@@ -40,9 +61,15 @@ export function summarizeInventoryLines(lines: LineLike[]): SessionSummary {
         0;
       totalValue += lineTotal;
     }
-    if (!line.productId) unknownProductCount += 1;
+    if (!line.barcode || String(line.barcode).trim().length < 6) {
+      missingBarcodeCount += 1;
+    }
+    if (!line.productId && !line.productNameSnapshot) unknownProductCount += 1;
     const fromRelation = line.photos?.length ?? 0;
-    photoCount += fromRelation > 0 ? fromRelation : line.photoPath ? 1 : 0;
+    const hasPhoto = fromRelation > 0 || Boolean(line.photoPath);
+    photoCount += hasPhoto ? 1 : 0;
+    if (!hasPhoto) missingPhotoCount += 1;
+    if (!isLineComplete(line)) incompleteCount += 1;
   }
 
   return {
@@ -50,8 +77,11 @@ export function summarizeInventoryLines(lines: LineLike[]): SessionSummary {
     totalQuantity,
     totalValueCents: totalValue,
     missingPriceCount,
+    missingBarcodeCount,
+    missingPhotoCount,
     unknownProductCount,
     photoCount,
+    incompleteCount,
   };
 }
 

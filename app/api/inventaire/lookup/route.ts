@@ -8,6 +8,7 @@ import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { requireInventoryAuth } from "@/lib/inventory/auth";
 import { resolveCatalogUnitPriceCents } from "@/lib/inventory/session-summary";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
+import { findRangeUnitPriceCents } from "@/lib/inventory/range-pricing";
 
 /** Lookup barcode inventaire — EMPLOYEE/ADMIN authentifié. */
 export async function GET(request: NextRequest) {
@@ -71,16 +72,31 @@ export async function GET(request: NextRequest) {
         confidence: match.confidence,
         price: null,
         priceMissing: true,
+        requiresManualIdentity: true,
+        message:
+          "Produit inconnu — saisissez le nom, la gamme, le prix et une photo avant enregistrement",
       });
     }
 
     const product = catalog.find((p) => p.id === match.productId);
     const dual = await getDualStockForProduct(match.productId);
     const variant = product?.variants?.[0];
-    const price =
+    let price =
       product && product.priceCents != null
         ? resolveCatalogUnitPriceCents(product)
         : null;
+
+    let priceFromRange = false;
+    if ((!price || price.cents <= 0) && product?.range) {
+      const rangePrice = await findRangeUnitPriceCents({
+        range: product.range,
+        brand: product.brand,
+      });
+      if (rangePrice) {
+        price = { cents: rangePrice.cents, source: "GAMME" };
+        priceFromRange = true;
+      }
+    }
 
     const nicotine =
       variant?.nicotineLabel ||
@@ -97,12 +113,13 @@ export async function GET(request: NextRequest) {
       method: match.method,
       confidence: match.confidence,
       priceMissing: !price || price.cents <= 0,
+      priceFromRange,
       price: price
         ? {
             unitPriceCents: price.cents,
             unitPriceLabel: formatEuroFromCents(price.cents),
             source: price.source,
-            editable: false,
+            editable: price.source === "GAMME" || user.role === "ADMIN",
           }
         : null,
       product: {
@@ -119,6 +136,13 @@ export async function GET(request: NextRequest) {
         stockHautmont: dual.hautmont.quantity,
         stockLeQuesnoy: dual.leQuesnoy.quantity,
         stockGlobal: dual.global.quantity,
+      },
+      requirements: {
+        barcode: true,
+        price: true,
+        photo: true,
+        name: true,
+        range: Boolean(product?.range),
       },
     });
   } catch (error) {

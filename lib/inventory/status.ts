@@ -31,6 +31,7 @@ export const PRICE_SOURCES = [
   "CATALOGUE",
   "SUMUP",
   "SAISIE_MANUELLE",
+  "GAMME",
   "CORRECTION_ADMIN",
 ] as const;
 
@@ -40,5 +41,6 @@ export const PRICE_SOURCE_LABELS: Record<PriceSource, string> = {
   CATALOGUE: "Catalogue",
   SUMUP: "SumUp",
   SAISIE_MANUELLE: "Saisie manuelle",
+  GAMME: "Prix gamme",
   CORRECTION_ADMIN: "Correction admin",
 };

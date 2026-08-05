@@ -16,6 +16,10 @@ import {
 } from "@/lib/inventory/pricing";
 import { resolveCatalogUnitPriceCents } from "@/lib/inventory/session-summary";
 import { PRICE_SOURCES, type PriceSource } from "@/lib/inventory/status";
+import {
+  applyUnitPriceToRange,
+  findRangeUnitPriceCents,
+} from "@/lib/inventory/range-pricing";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -75,26 +79,47 @@ export async function POST(request: NextRequest, context: Ctx) {
 
     const body = z
       .object({
-        barcode: z.string().min(1).max(64).optional(),
+        barcode: z.string().min(6).max(64),
         productId: z.string().optional(),
+        productName: z.string().min(1).max(200).optional(),
+        brand: z.string().max(120).optional(),
+        range: z.string().max(120).optional(),
         quantityCounted: z.number().int().min(0),
         photoPath: z.string().optional(),
+        photoConfirmed: z.boolean().optional(),
         notes: z.string().max(500).optional(),
         unitPriceCents: z.number().int().optional(),
         unitPrice: z.union([z.string(), z.number()]).optional(),
         priceSource: z.enum(PRICE_SOURCES).optional(),
+        applyToRange: z.boolean().optional(),
         confirmZeroPrice: z.boolean().optional(),
         confirmHighAmount: z.boolean().optional(),
         allowCatalogPriceOverride: z.boolean().optional(),
       })
       .parse(await request.json());
 
+    const barcode = body.barcode.trim();
+    if (barcode.length < 6) {
+      return jsonResponse({ error: "Code-barres obligatoire (min. 6 caractères)" }, 400);
+    }
+
+    // Photo obligatoire avant enregistrement (envoyée juste après, ou photoPath)
+    if (!body.photoConfirmed && !body.photoPath) {
+      return jsonResponse(
+        {
+          error:
+            "Photo produit obligatoire — prenez une photo avant d’enregistrer (nom / gamme / prix visibles)",
+          code: "PHOTO_REQUIRED",
+        },
+        400
+      );
+    }
+
     let productId = body.productId || null;
     let variantId: string | null = null;
-    let barcode = body.barcode || null;
-    let productNameSnapshot: string | null = null;
-    let brandSnapshot: string | null = null;
-    let rangeSnapshot: string | null = null;
+    let productNameSnapshot: string | null = body.productName?.trim() || null;
+    let brandSnapshot: string | null = body.brand?.trim() || null;
+    let rangeSnapshot: string | null = body.range?.trim() || null;
     let categorySnapshot: string | null = null;
     let formatSnapshot: string | null = null;
     let nicotineSnapshot: string | null = null;
@@ -155,8 +180,28 @@ export async function POST(request: NextRequest, context: Ctx) {
             variant.nicotineLabel ||
             (variant.nicotineMg != null ? `${variant.nicotineMg} mg` : null);
         }
-        if (!barcode) barcode = product.barcode || null;
       }
+    }
+
+    if (!productNameSnapshot) {
+      return jsonResponse(
+        {
+          error:
+            "Nom du produit obligatoire — renseignez le nom (et la gamme) avant enregistrement",
+          code: "NAME_REQUIRED",
+        },
+        400
+      );
+    }
+
+    if (!rangeSnapshot) {
+      return jsonResponse(
+        {
+          error: "Gamme obligatoire — indiquez la gamme du produit avant enregistrement",
+          code: "RANGE_REQUIRED",
+        },
+        400
+      );
     }
 
     // Résolution prix
@@ -168,6 +213,18 @@ export async function POST(request: NextRequest, context: Ctx) {
       if (body.priceSource === "CATALOGUE" || body.priceSource === "SUMUP") {
         unitPriceCents = catalogPrice.cents;
         priceSource = catalogPrice.source;
+      }
+    }
+
+    // Prix gamme si catalogue absent
+    if (unitPriceCents == null && rangeSnapshot) {
+      const rangePrice = await findRangeUnitPriceCents({
+        range: rangeSnapshot,
+        brand: brandSnapshot,
+      });
+      if (rangePrice) {
+        unitPriceCents = rangePrice.cents;
+        priceSource = "GAMME";
       }
     }
 
@@ -237,6 +294,20 @@ export async function POST(request: NextRequest, context: Ctx) {
       priceSource = "CORRECTION_ADMIN";
     }
 
+    // Un prix par gamme → appliqué à tous les produits de la gamme
+    let rangePriceApplied = 0;
+    if (body.applyToRange && rangeSnapshot && unitPriceCents > 0) {
+      const applied = await applyUnitPriceToRange({
+        range: rangeSnapshot,
+        brand: brandSnapshot,
+        unitPriceCents,
+      });
+      rangePriceApplied = applied.updated;
+      if (!priceSource || priceSource === "SAISIE_MANUELLE") {
+        priceSource = "GAMME";
+      }
+    }
+
     const totalValueCents = computeLineTotalCents(body.quantityCounted, unitPriceCents);
     const now = new Date();
 
@@ -262,7 +333,7 @@ export async function POST(request: NextRequest, context: Ctx) {
         scannedAt: now,
         notes:
           body.notes ||
-          `employé=${session.employeeName}; boutique=${session.location.code}; at=${now.toISOString()}`,
+          `employé=${session.employeeName}; boutique=${session.location.code}; gamme=${rangeSnapshot}; at=${now.toISOString()}`,
       },
       include: { product: true, photos: true },
     });
@@ -320,6 +391,7 @@ export async function POST(request: NextRequest, context: Ctx) {
           locationCode: session.location.code,
           locationName: session.location.name,
           recordedAt: now.toISOString(),
+          rangePriceApplied,
         },
       },
       201

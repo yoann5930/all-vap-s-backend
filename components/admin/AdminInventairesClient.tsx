@@ -52,9 +52,11 @@ export function AdminInventairesClient() {
   const [rows, setRows] = useState<InventaireRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [status, setStatus] = useState("");
   const [store, setStore] = useState("");
   const [q, setQ] = useState("");
+  const [resetting, setResetting] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -75,6 +77,32 @@ export function AdminInventairesClient() {
     }
   }
 
+  async function resetInventaires() {
+    const ok = window.confirm(
+      "Remise à zéro : annuler tous les inventaires EN COURS et TERMINÉS non validés ?\nLes stocks déjà appliqués ne sont pas modifiés ici."
+    );
+    if (!ok) return;
+    setResetting(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/inventaires/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true, includeCompleted: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur reset");
+      setMessage(data.message || "Inventaires remis à zéro");
+      setStatus("CANCELLED");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setResetting(false);
+    }
+  }
+
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,16 +114,29 @@ export function AdminInventairesClient() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Inventaires</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Consultation complète des sessions employés — lignes, prix, photos, audit.
+            Consultation complète — employé, boutique, code-barres, prix, photos, historique.
           </p>
         </div>
-        <Link
-          href="/admin/inventaire"
-          className="rounded-xl border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-800"
-        >
-          Saisie admin
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            disabled={resetting}
+            onClick={() => void resetInventaires()}
+            className="rounded-xl bg-red-700 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {resetting ? "Reset…" : "Remise à zéro"}
+          </button>
+          <Link
+            href="/admin/inventaire"
+            className="rounded-xl border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-800"
+          >
+            Saisie admin
+          </Link>
+        </div>
       </div>
+
+      {message && <p className="text-sm text-emerald-700">{message}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div className="flex flex-wrap gap-2 rounded-xl border border-gray-200 bg-white p-3">
         <select
@@ -136,7 +177,6 @@ export function AdminInventairesClient() {
         </button>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
       {loading ? (
         <p className="text-sm text-gray-600">Chargement…</p>
       ) : rows.length === 0 ? (
