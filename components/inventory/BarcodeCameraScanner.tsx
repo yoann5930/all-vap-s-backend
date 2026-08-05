@@ -14,6 +14,12 @@ type Props = {
   onDetected: (code: string) => void | boolean | Promise<void | boolean>;
   /** Mode continu : la caméra reste ouverte (défaut true). */
   continuous?: boolean;
+  /**
+   * Optionnel — échantillon visuel quand AUCUN code-barres n’est trouvé sur la frame.
+   * N’altère pas le chemin de détection EAN (appelé seulement si decodeFrame renvoie null).
+   * Le canvas fourni est un crop produit central (réutilisable pour matching).
+   */
+  onVisualSample?: (canvas: HTMLCanvasElement) => void | Promise<void>;
 };
 
 type ScannerControls = { stop: () => void };
@@ -81,19 +87,24 @@ export function BarcodeCameraScanner({
   onClose,
   onDetected,
   continuous = true,
+  onVisualSample,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const visualCanvasRef = useRef<HTMLCanvasElement>(null);
   const controlsRef = useRef<ScannerControls[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const loopRef = useRef<number | null>(null);
   const busyRef = useRef(false);
   const lastCodeRef = useRef<string>("");
   const lastAtRef = useRef(0);
+  const lastVisualAtRef = useRef(0);
+  const visualBusyRef = useRef(false);
   const pausedRef = useRef(false);
   const onDetectedRef = useRef(onDetected);
   const onCloseRef = useRef(onClose);
   const continuousRef = useRef(continuous);
+  const onVisualSampleRef = useRef(onVisualSample);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState("Initialisation caméra…");
   const [torchOn, setTorchOn] = useState(false);
@@ -105,14 +116,17 @@ export function BarcodeCameraScanner({
   onDetectedRef.current = onDetected;
   onCloseRef.current = onClose;
   continuousRef.current = continuous;
+  onVisualSampleRef.current = onVisualSample;
 
   useEffect(() => {
     if (!open) return;
 
     busyRef.current = false;
     pausedRef.current = false;
+    visualBusyRef.current = false;
     lastCodeRef.current = "";
     lastAtRef.current = 0;
+    lastVisualAtRef.current = 0;
     setError(null);
     setTorchOn(false);
     setTorchAvailable(false);
@@ -276,6 +290,38 @@ export function BarcodeCameraScanner({
             const code = await decodeFrame(video, canvas, zxingReader, nativeDetector);
             if (code) {
               await succeed(code);
+            } else if (
+              onVisualSampleRef.current &&
+              !visualBusyRef.current &&
+              Date.now() - lastVisualAtRef.current > 1400
+            ) {
+              // Chemin parallèle uniquement : aucun EAN sur cette frame
+              const visualCanvas = visualCanvasRef.current;
+              if (visualCanvas) {
+                const vw = video.videoWidth;
+                const vh = video.videoHeight;
+                const side = Math.floor(Math.min(vw, vh) * 0.72);
+                const sx = Math.floor((vw - side) / 2);
+                const sy = Math.floor((vh - side) / 2);
+                const size = 160;
+                visualCanvas.width = size;
+                visualCanvas.height = size;
+                const vctx = visualCanvas.getContext("2d", {
+                  willReadFrequently: true,
+                });
+                if (vctx && side > 40) {
+                  vctx.drawImage(video, sx, sy, side, side, 0, 0, size, size);
+                  lastVisualAtRef.current = Date.now();
+                  visualBusyRef.current = true;
+                  try {
+                    await onVisualSampleRef.current(visualCanvas);
+                  } catch {
+                    /* ignore matching errors */
+                  } finally {
+                    visualBusyRef.current = false;
+                  }
+                }
+              }
             }
           } catch {
             /* frame skip */
@@ -368,7 +414,11 @@ export function BarcodeCameraScanner({
         await waitForVideoFrame(video).catch(() => undefined);
         if (cancelled) return;
 
-        setHint("Détection automatique — cadrez le code dans le rectangle");
+        setHint(
+          onVisualSampleRef.current
+            ? "Cadrez le code-barres — ou le produit pour reconnaissance visuelle"
+            : "Détection automatique — cadrez le code dans le rectangle"
+        );
         // Boucle unique (BarcodeDetector natif + ZXing canvas) — pas de 2ᵉ flux caméra
         startFrameLoop();
       } catch (e) {
@@ -432,6 +482,7 @@ export function BarcodeCameraScanner({
           autoPlay
         />
         <canvas ref={canvasRef} className="hidden" aria-hidden />
+        <canvas ref={visualCanvasRef} className="hidden" aria-hidden />
         <div
           className={`pointer-events-none absolute inset-0 transition-colors duration-150 ${
             flash ? "bg-emerald-400/25" : "bg-transparent"
@@ -482,8 +533,9 @@ export function BarcodeCameraScanner({
         <div className="bg-red-600 px-4 py-3 text-sm text-white">{error}</div>
       ) : (
         <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
-          Aucune photo à prendre : présentez chaque code-barres dans le cadre —
-          détection et enregistrement automatiques en continu.
+          {onVisualSample
+            ? "Aucune photo à enregistrer : scannez l’EAN ou présentez le produit — seule la quantité sera à saisir."
+            : "Aucune photo à prendre : présentez chaque code-barres dans le cadre — détection automatique."}
         </p>
       )}
     </div>
