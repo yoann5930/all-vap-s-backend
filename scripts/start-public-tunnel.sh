@@ -1,49 +1,38 @@
 #!/usr/bin/env bash
-# Relance app locale + tunnel Cloudflare quick (HTTPS temporaire)
+# Relance Next.js local. Respecte l’URL tunnel VERROUILLÉE.
+# Ne tue / ne recrée JAMAIS cloudflared sans accord explicite (nouvelle URL).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-echo "[1/3] Next.js (DEMO_MODE=true)…"
+FIXED_URL="$(cat "$ROOT/data/FIXED_TUNNEL_URL.txt" 2>/dev/null | tr -d '[:space:]')"
+FIXED_URL="${FIXED_URL:-https://minnesota-join-powerpoint-heritage.trycloudflare.com}"
+
+echo "[1/2] Next.js…"
 pkill -f 'next dev --port 3000' 2>/dev/null || true
 sleep 1
 DEMO_MODE=true npm run dev &
 NEXT_PID=$!
 
 for i in $(seq 1 40); do
-  if curl -sf -o /dev/null http://127.0.0.1:3000/login; then
-    echo "Next OK"
+  if curl -sf -o /dev/null http://127.0.0.1:3000/api/health; then
+    echo "Next OK (pid $NEXT_PID)"
     break
   fi
   sleep 1
 done
 
-echo "[2/3] Cloudflare tunnel…"
-pkill -f 'cloudflared tunnel --protocol http2' 2>/dev/null || true
-sleep 1
-CF_BIN="${CLOUDFLARED_BIN:-/tmp/cloudflared}"
-if [[ ! -x "$CF_BIN" ]]; then
-  echo "cloudflared introuvable ($CF_BIN)" >&2
-  exit 1
-fi
-rm -f /tmp/cf-tunnel.log
-"$CF_BIN" tunnel --protocol http2 --url http://127.0.0.1:3000 2>&1 | tee /tmp/cf-tunnel.log &
-CF_PID=$!
-
-for i in $(seq 1 30); do
-  URL=$(rg -o 'https://[a-z0-9-]+\.trycloudflare\.com' /tmp/cf-tunnel.log 2>/dev/null | tail -1 || true)
-  if [[ -n "${URL:-}" ]]; then
-    echo "[3/3] Tunnel actif : $URL"
-    echo "$URL" | tee /tmp/active-tunnel-url.txt
-    for p in /login /inventaire /admin /admin/inventaires; do
-      code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 "$URL$p" || echo err)
-      echo "  $code $URL$p"
-    done
-    echo "Laisser tourner (PID next=$NEXT_PID cf=$CF_PID). Ctrl+C pour arrêter."
-    wait
-    exit 0
+echo "[2/2] Tunnel verrouillé : $FIXED_URL"
+if curl -sf -o /dev/null --max-time 15 "$FIXED_URL/api/health"; then
+  echo "Tunnel figé OK — aucun redémarrage cloudflared."
+else
+  echo "ALERTE: l’URL figée ne répond plus." >&2
+  echo "Interdit de lancer un nouveau quick tunnel (changerait l’adresse)." >&2
+  echo "Demander l’accord utilisateur avant toute nouvelle URL." >&2
+  if ! pgrep -f 'cloudflared tunnel --protocol http2 --url http://127.0.0.1:3000' >/dev/null; then
+    echo "cloudflared absent." >&2
   fi
-  sleep 1
-done
-echo "Échec obtention URL tunnel" >&2
-exit 1
+fi
+
+echo "Next tourne (PID=$NEXT_PID). Tunnel non modifié."
+wait "$NEXT_PID"
