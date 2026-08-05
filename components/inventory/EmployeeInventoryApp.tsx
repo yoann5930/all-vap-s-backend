@@ -573,7 +573,7 @@ export function EmployeeInventoryApp() {
     }
   }
 
-  /** Charge l’index visuel catalogue (endpoint produits existant, lecture seule). */
+  /** Charge l’index visuel : catalogue boutique + référence sites officiels FR. */
   async function loadVisualCatalogIndex() {
     setVisualReady(false);
     visualIndexRef.current = [];
@@ -611,11 +611,56 @@ export function EmployeeInventoryApp() {
           imageUrl: (p.imageUrl || "").trim(),
           priceCents: p.priceCents != null && p.priceCents > 0 ? p.priceCents : null,
         }))
-        .filter((p) => p.id && p.name && p.imageUrl);
+        .filter(
+          (p) =>
+            p.id &&
+            p.name &&
+            p.imageUrl &&
+            // Ignore placeholders Unsplash (inutiles pour reconnaître un e-liquide)
+            !/unsplash\.com/i.test(p.imageUrl)
+        );
 
-      const index = await buildVisualIndex(mapped, { maxProducts: 400 });
+      // Référence fabricants FR (images via proxy same-origin → hash CORS OK)
+      try {
+        const refRes = await fetch("/api/inventaire/visual-reference");
+        if (refRes.ok) {
+          const refData = await refRes.json();
+          const refs = (refData.products || []) as Array<{
+            id: string;
+            name: string;
+            brand?: string | null;
+            range?: string | null;
+            category?: string | null;
+            barcode?: string | null;
+            imageUrl?: string | null;
+          }>;
+          for (const r of refs) {
+            if (!r.imageUrl || !r.name) continue;
+            const proxied = `/api/inventaire/image-proxy?url=${encodeURIComponent(r.imageUrl)}`;
+            mapped.push({
+              id: r.id,
+              name: r.name,
+              brand: r.brand || null,
+              range: r.range || null,
+              category: r.category || r.range || null,
+              barcode: r.barcode || null,
+              imageUrl: proxied,
+              priceCents: null,
+            });
+          }
+        }
+      } catch {
+        /* référence optionnelle */
+      }
+
+      const index = await buildVisualIndex(mapped, { maxProducts: 700 });
       visualIndexRef.current = index;
       setVisualReady(index.length > 0);
+      if (index.length === 0) {
+        setRecognitionHint(
+          "Mémoire visuelle vide — scannez l’EAN ou saisissez le nom"
+        );
+      }
     } catch {
       visualIndexRef.current = [];
       setVisualReady(false);
@@ -628,6 +673,65 @@ export function EmployeeInventoryApp() {
     visualLookupBusyRef.current = true;
     setRecognitionHint("Produit reconnu");
     try {
+      const isRef =
+        String(match.id).startsWith("ref-") ||
+        (match.imageUrl || "").includes("/api/inventaire/image-proxy");
+
+      if (isRef) {
+        setProductId(null);
+        setProductName(match.name || "");
+        setBrandName(match.brand || "");
+        setRangeName(match.range || match.category || "");
+        if (match.barcode) setBarcode(match.barcode);
+        setLookup({
+          found: true,
+          name: match.name,
+          brand: match.brand || undefined,
+          range: match.range || undefined,
+          unitPriceCents: null,
+          priceSource: null,
+          priceMissing: true,
+          priceLocked: false,
+          imageUrl: match.imageUrl,
+        });
+        setUnitPrice("");
+        setQuantity("");
+        setShowSuggestions(false);
+        visualSuggestionsRef.current = [];
+        setVisualSuggestions([]);
+        try {
+          const qs = new URLSearchParams({ name: match.name });
+          const sid = sessionRef.current?.id;
+          if (sid) qs.set("sessionId", sid);
+          const res = await fetch(`/api/inventaire/lookup?${qs}`);
+          const data = await res.json();
+          if (res.ok && data.found && data.product?.name) {
+            applyMemoryProduct(data);
+            applyDuplicateFromLookup(data);
+            if (match.barcode) setBarcode(match.barcode);
+            if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+            if (
+              !(data.product.range || data.product.category) &&
+              (match.range || match.category)
+            ) {
+              setRangeName(match.range || match.category || "");
+            }
+          }
+        } catch {
+          /* garder référence */
+        }
+        setPhotoOpen(false);
+        setRecognitionHint(null);
+        setLookupHint(
+          `Référence fabricant : ${match.name}${
+            match.brand ? ` · ${match.brand}` : ""
+          }`
+        );
+        setMessage("Produit reconnu — saisissez la quantité (et le prix si manquant)");
+        focusQuantityField();
+        return;
+      }
+
       setProductId(match.id);
       setProductName(match.name || "");
       setBrandName(match.brand || "");

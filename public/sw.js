@@ -1,8 +1,9 @@
-/* All Vap's — service worker inventaire v4
+/* All Vap's — service worker inventaire v5
  * network-first ; ne cache jamais /admin ni les réponses non-200
+ * v5 : évite pages inventaire périmées après redémarrage serveur
  */
-const CACHE = "allvaps-inventory-v4";
-const SHELL = ["/icon-192.png", "/icon-512.png"];
+const CACHE = "allvaps-inventory-v5";
+const SHELL = ["/icon-192.png", "/icon-512.png", "/guides/installer-inventaire.html"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

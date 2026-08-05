@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { drawProductCropToCanvas } from "@/components/inventory/visual-product-matcher";
+import {
+  detectTorchSupport,
+  setCameraTorch,
+} from "@/lib/inventory/camera-torch";
 
 type Props = {
   open: boolean;
@@ -74,6 +78,7 @@ export function VisualRecognitionCamera({
   const [ready, setReady] = useState(false);
   const [torchOn, setTorchOn] = useState(false);
   const [torchAvailable, setTorchAvailable] = useState(true);
+  const [torchHint, setTorchHint] = useState<string | null>(null);
 
   onFrameRef.current = onFrame;
   onBarcodeFoundRef.current = onBarcodeFound;
@@ -89,6 +94,7 @@ export function VisualRecognitionCamera({
     setReady(false);
     setTorchOn(false);
     setTorchAvailable(true);
+    setTorchHint(null);
 
     let cancelled = false;
 
@@ -209,6 +215,8 @@ export function VisualRecognitionCamera({
           return;
         }
         streamRef.current = stream;
+        const track = stream.getVideoTracks()[0];
+        setTorchAvailable(detectTorchSupport(track));
         video.srcObject = stream;
         video.setAttribute("playsinline", "true");
         video.setAttribute("webkit-playsinline", "true");
@@ -245,18 +253,21 @@ export function VisualRecognitionCamera({
 
   async function toggleTorch() {
     const track = streamRef.current?.getVideoTracks()[0];
-    if (!track) return;
-    const next = !torchOn;
-    try {
-      await track.applyConstraints({
-        // @ts-expect-error torch non typé partout
-        advanced: [{ torch: next }],
-      });
-      setTorchOn(next);
-    } catch {
-      setTorchAvailable(false);
-      setTorchOn(false);
+    if (!track) {
+      setTorchHint("Caméra non prête — réessayez dans 1 seconde");
+      return;
     }
+    const next = !torchOn;
+    const result = await setCameraTorch(track, next);
+    if (result.ok) {
+      setTorchOn(result.on);
+      setTorchAvailable(true);
+      setTorchHint(result.on ? "Flash allumé" : null);
+      return;
+    }
+    setTorchOn(false);
+    if (result.unsupported) setTorchAvailable(false);
+    setTorchHint(result.message || "Flash non disponible sur cet appareil");
   }
 
   if (!open) return null;
@@ -301,18 +312,17 @@ export function VisualRecognitionCamera({
           {status || "Présentez la face avant du produit devant la caméra"}
         </p>
         <div className="flex gap-2">
-          {torchAvailable ? (
-            <button
-              type="button"
-              onClick={() => void toggleTorch()}
-              className={`rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
-                torchOn ? "bg-amber-500" : "bg-white/15"
-              }`}
-              aria-pressed={torchOn}
-            >
-              {torchOn ? "Flash ON" : "Flash"}
-            </button>
-          ) : null}
+          <button
+            type="button"
+            onClick={() => void toggleTorch()}
+            className={`min-w-[7rem] rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
+              torchOn ? "bg-amber-500" : "bg-white/15"
+            }`}
+            aria-pressed={torchOn}
+            aria-label={torchOn ? "Éteindre le flash" : "Allumer le flash"}
+          >
+            {torchOn ? "Flash ON" : "Flash"}
+          </button>
           <button
             type="button"
             onClick={onClose}
@@ -321,6 +331,9 @@ export function VisualRecognitionCamera({
             Fermer
           </button>
         </div>
+        {torchHint ? (
+          <p className="text-center text-xs text-amber-200">{torchHint}</p>
+        ) : null}
         <p className="pb-2 text-center text-xs text-white/70">
           Aucune photo prise ni enregistrée — analyse du flux en mémoire uniquement.
         </p>

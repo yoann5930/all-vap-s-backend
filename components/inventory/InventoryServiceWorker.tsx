@@ -28,7 +28,7 @@ export function InventoryServiceWorker() {
           const keys = await caches.keys();
           await Promise.all(
             keys
-              .filter((k) => k.startsWith("allvaps-inventory-") && k !== "allvaps-inventory-v4")
+              .filter((k) => k.startsWith("allvaps-inventory-") && k !== "allvaps-inventory-v5")
               .map((k) => caches.delete(k))
           );
         }

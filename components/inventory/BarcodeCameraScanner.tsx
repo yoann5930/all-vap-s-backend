@@ -6,6 +6,10 @@ import {
   BrowserMultiFormatOneDReader,
 } from "@zxing/browser";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
+import {
+  detectTorchSupport,
+  setCameraTorch,
+} from "@/lib/inventory/camera-torch";
 
 type Props = {
   open: boolean;
@@ -115,7 +119,8 @@ export function BarcodeCameraScanner({
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState("Initialisation caméra…");
   const [torchOn, setTorchOn] = useState(false);
-  const [torchAvailable, setTorchAvailable] = useState(false);
+  const [torchAvailable, setTorchAvailable] = useState(true);
+  const [torchHint, setTorchHint] = useState<string | null>(null);
   const [flash, setFlash] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
   const [count, setCount] = useState(0);
@@ -137,7 +142,8 @@ export function BarcodeCameraScanner({
     lastVisualAtRef.current = 0;
     setError(null);
     setTorchOn(false);
-    setTorchAvailable(false);
+    setTorchAvailable(true);
+    setTorchHint(null);
     setFlash(false);
     setRecent([]);
     setCount(0);
@@ -399,28 +405,7 @@ export function BarcodeCameraScanner({
         streamRef.current = stream;
 
         const track = stream.getVideoTracks()[0];
-        // Flash : ZXing OU contrainte torch native (certains Android/Samsung)
-        let torchOk = BrowserCodeReader.mediaStreamIsTorchCompatible(stream);
-        if (!torchOk && track) {
-          try {
-            const caps = track.getCapabilities?.() as
-              | { torch?: boolean }
-              | undefined;
-            torchOk = Boolean(caps?.torch);
-          } catch {
-            torchOk = false;
-          }
-        }
-        // Afficher le bouton même si la capacité est incertaine (iOS/Android variables)
-        setTorchAvailable(true);
-        if (!torchOk) {
-          // Marqueur soft : on tentera au clic ; si échec on masquera
-          (streamRef.current as MediaStream & { __torchLikely?: boolean }).__torchLikely =
-            false;
-        } else {
-          (streamRef.current as MediaStream & { __torchLikely?: boolean }).__torchLikely =
-            true;
-        }
+        setTorchAvailable(detectTorchSupport(track));
 
         if (track) {
           try {
@@ -476,25 +461,31 @@ export function BarcodeCameraScanner({
   async function toggleTorch() {
     const stream = streamRef.current;
     const track = stream?.getVideoTracks()[0];
-    if (!track) return;
+    if (!track) {
+      setTorchHint("Caméra non prête — réessayez dans 1 seconde");
+      return;
+    }
     const next = !torchOn;
+    // ZXing d’abord (certains Android)
     try {
       await BrowserCodeReader.mediaStreamSetTorch(track, next);
       setTorchOn(next);
+      setTorchAvailable(true);
+      setTorchHint(next ? "Flash allumé" : null);
       return;
     } catch {
-      /* fallback native */
+      /* fallback natif */
     }
-    try {
-      await track.applyConstraints({
-        // @ts-expect-error torch non typé partout
-        advanced: [{ torch: next }],
-      });
-      setTorchOn(next);
-    } catch {
-      setTorchAvailable(false);
-      setTorchOn(false);
+    const result = await setCameraTorch(track, next);
+    if (result.ok) {
+      setTorchOn(result.on);
+      setTorchAvailable(true);
+      setTorchHint(result.on ? "Flash allumé" : null);
+      return;
     }
+    setTorchOn(false);
+    if (result.unsupported) setTorchAvailable(false);
+    setTorchHint(result.message || "Flash non disponible sur cet appareil");
   }
 
   if (!open) return null;
@@ -558,10 +549,9 @@ export function BarcodeCameraScanner({
           <button
             type="button"
             onClick={() => void toggleTorch()}
-            disabled={!torchAvailable && torchOn === false && !streamRef.current}
-            className={`rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
+            className={`min-w-[7rem] rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
               torchOn ? "bg-amber-500" : "bg-white/15"
-            }`}
+            } ${!torchAvailable && !torchOn ? "opacity-80" : ""}`}
             aria-pressed={torchOn}
             aria-label={torchOn ? "Éteindre le flash" : "Allumer le flash"}
           >
@@ -575,6 +565,9 @@ export function BarcodeCameraScanner({
             Terminer le scan
           </button>
         </div>
+        {torchHint ? (
+          <p className="text-center text-xs text-amber-200">{torchHint}</p>
+        ) : null}
       </div>
 
       {error ? (
