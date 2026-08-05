@@ -1533,8 +1533,9 @@ export function EmployeeInventoryApp() {
             <div className="rounded-xl border border-dashed border-emerald-300 bg-emerald-50/50 p-3">
               <p className="text-sm font-medium text-gray-900">Photo</p>
               <p className="mt-1 text-xs text-gray-600">
-                Ouvre la caméra pour reconnaître automatiquement l’étiquette. Aucune photo
-                n’est prise ni enregistrée.
+                Caméra visuelle : catalogue local puis sites officiels fabricants
+                (Liquidarom, LiquideLab, E-Tasty, Juice 66, Vape 47…). Images
+                fabricants en lecture seule. Aucune photo n’est enregistrée.
                 {visualReady ? " · Mémoire visuelle prête" : " · Préparation mémoire…"}
               </p>
               <button

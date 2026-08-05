@@ -413,7 +413,7 @@ export async function searchExternalProducts(params: {
  * Autorisation client : images utilisées en lecture seule pour identification inventaire.
  */
 const OFFICIAL_BRAND_DOMAINS: Array<{ keys: string[]; domains: string[]; brand: string }> = [
-  { keys: ["pulp"], domains: ["pulp.fr", "www.pulp.fr"], brand: "Pulp" },
+  { keys: ["pulp"], domains: ["pulp.fr", "www.pulp.fr", "boutique.pulp.fr"], brand: "Pulp" },
   { keys: ["alfaliquid", "alfa liquid"], domains: ["alfaliquid.com", "www.alfaliquid.com"], brand: "Alfaliquid" },
   {
     keys: ["liquidarom", "liquide arom", "liquid arom"],
@@ -566,7 +566,7 @@ async function duckDuckGoOfficialSiteSearch(
     if (host !== allowed && !host.endsWith(`.${allowed}`)) continue;
 
     const title = stripTags(m[2]).slice(0, 160);
-    if (!title || title.length < 3) continue;
+    if (!title || title.length < 3 || isJunkProductTitle(title, brand)) continue;
     // Ignore pages génériques / bruit SEO
     if (
       /^(accueil|home|login|compte|panier|cart|www\.|index)$/i.test(title) ||
@@ -623,18 +623,42 @@ function absoluteUrl(href: string, domain: string): string | null {
 /** Extrait une image produit depuis un bloc HTML (Prestashop / JSON-LD). */
 function extractImageFromBlock(block: string, domain: string): string | null {
   const candidates = [
-    block.match(/data-full-size-image-url=["']([^"']+)["']/i)?.[1],
-    block.match(/data-image-large-src=["']([^"']+)["']/i)?.[1],
-    block.match(/data-src=["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
-    block.match(/src=["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
+    block.match(/data-full-size-image-url\s*=\s*["']([^"']+)["']/i)?.[1],
+    block.match(/data-image-large-src\s*=\s*["']([^"']+)["']/i)?.[1],
+    block.match(/data-src\s*=\s*["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
+    block.match(/src\s*=\s*["']([^"']+\.(?:jpg|jpeg|png|webp)[^"']*)["']/i)?.[1],
   ];
   for (const c of candidates) {
     if (!c) continue;
-    if (/logo|icon|sprite|placeholder|lazy|blank/i.test(c)) continue;
+    if (/logo|icon|sprite|placeholder|lazy|blank|menu_icon/i.test(c)) continue;
     const abs = absoluteUrl(c, domain);
     if (abs) return abs;
   }
   return null;
+}
+
+/** Titres génériques / pages non produit (à ignorer). */
+function isJunkProductTitle(title: string, brand: string): boolean {
+  const t = title.trim();
+  if (t.length < 5) return true;
+  if (
+    /catalogue|commandes?|accueil|home|login|compte|panier|cart|contact|livraison|mentions|cgv|blog|fabricant|depuis\s+\d{4}|flavors?\s*$|\.pdf\b|^pdf\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  const lower = t.toLowerCase();
+  const brandLower = brand.toLowerCase();
+  if (lower === brandLower) return true;
+  // "Marque — slogan" / "Marque - Accueil"
+  if (
+    lower.startsWith(brandLower) &&
+    /^[-–—:]/.test(t.slice(brand.length).trim())
+  ) {
+    return true;
+  }
+  return false;
 }
 
 /** Extrait des produits depuis HTML (JSON-LD + liens produit Prestashop/Shopify-like). */
@@ -663,6 +687,7 @@ function parseOfficialHtmlProducts(
           if (!/Product/i.test(type)) continue;
           const name = cleanText(item.name as string);
           if (!name) continue;
+          if (isJunkProductTitle(name, brand)) continue;
           if (tokensMatchScore(name, query) < 0.34) continue;
           const key = name.toLowerCase();
           if (seen.has(key)) continue;
@@ -717,6 +742,7 @@ function parseOfficialHtmlProducts(
         [])[1] || "";
     const title = stripTags(titleRaw).slice(0, 160);
     if (!title) continue;
+    if (isJunkProductTitle(title, brand)) continue;
     // Accepte si au moins un token match OU si la requête est très courte (marque seule)
     const score = tokensMatchScore(title, query);
     if (score < 0.2 && query.trim().split(/\s+/).length > 1) continue;
@@ -752,7 +778,8 @@ function parseOfficialHtmlProducts(
   let lm: RegExpExecArray | null;
   while ((lm = linkRe.exec(html)) && hits.length < 5) {
     const title = stripTags(lm[2] || lm[4] || "").slice(0, 160);
-    if (!title || tokensMatchScore(title, query) < 0.34) continue;
+    if (!title || isJunkProductTitle(title, brand)) continue;
+    if (tokensMatchScore(title, query) < 0.34) continue;
     const key = title.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
@@ -776,7 +803,7 @@ function parseOfficialHtmlProducts(
     let fm: RegExpExecArray | null;
     while ((fm = fallbackRe.exec(html)) && hits.length < 5) {
       const title = stripTags(fm[2] || "").slice(0, 160);
-      if (!title || title.length < 4) continue;
+      if (!title || title.length < 4 || isJunkProductTitle(title, brand)) continue;
       if (tokensMatchScore(title, query) < 0.4) continue;
       const key = title.toLowerCase();
       if (seen.has(key)) continue;
