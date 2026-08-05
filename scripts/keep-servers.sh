@@ -10,7 +10,7 @@ set -u
 cd /workspace
 
 FIXED_TUNNEL_URL="$(tr -d '[:space:]' < data/FIXED_TUNNEL_URL.txt 2>/dev/null || true)"
-FIXED_TUNNEL_URL="${FIXED_TUNNEL_URL:-https://tries-digital-raw-aus.trycloudflare.com}"
+FIXED_TUNNEL_URL="${FIXED_TUNNEL_URL:-https://heather-auctions-they-leu.trycloudflare.com}"
 
 mkdir -p /tmp/allvaps-keepalive
 LOG_NEXT=/tmp/allvaps-keepalive/next.log

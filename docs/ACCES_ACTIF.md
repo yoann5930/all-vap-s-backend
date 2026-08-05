@@ -1,20 +1,20 @@
-# Accès public inventaire — URL ACTIVE
+# Accès public inventaire — URL ACTIVE (FIGÉE)
 
-Mis à jour : 2026-08-05 (codes reconduits — alphanumériques téléphone)
+Mis à jour : 2026-08-05
 
-## URL à utiliser MAINTENANT
+## URL à utiliser — JAMAIS CHANGER
 
-**https://ppm-geometry-antique-ban.trycloudflare.com**
+**https://heather-auctions-they-leu.trycloudflare.com**
 
 | Page | Lien |
 |---|---|
-| Accueil accès | https://ppm-geometry-antique-ban.trycloudflare.com/acces |
-| Login | https://ppm-geometry-antique-ban.trycloudflare.com/login |
-| Inventaire employés | https://ppm-geometry-antique-ban.trycloudflare.com/inventaire |
-| Admin inventaires | https://ppm-geometry-antique-ban.trycloudflare.com/admin/inventaires |
+| Accueil accès | https://heather-auctions-they-leu.trycloudflare.com/acces |
+| Login | https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire |
+| Inventaire employés | https://heather-auctions-they-leu.trycloudflare.com/inventaire |
+| Admin inventaires | https://heather-auctions-they-leu.trycloudflare.com/admin/inventaires |
 
-Les anciennes URLs `*.trycloudflare.com` **expirent** à chaque redémarrage.
-N’utilisez que cette URL.
+Source de vérité : `data/FIXED_TUNNEL_URL.txt`  
+Interdit de publier / basculer vers une autre URL sans OK explicite.
 
 ## Comptes (emails)
 
@@ -25,8 +25,4 @@ N’utilisez que cette URL.
 | Aurélien Daillez | `aurelien.daillez@allvaps.fr` | EMPLOYEE |
 | Yoann | `yoann@allvaps.fr` | ADMIN |
 
-Mots de passe temporaires **reconduits** (12 caractères, lettres/chiffres uniquement — sans `$` `!` `@`).
-Remis à Yoann hors Git (fichier local `.local/` + artefact agent).
-
-Sur le login : bouton **Afficher le mot de passe** pour vérifier la saisie téléphone.
-En mode démo tunnel, connexion directe sans forcer le changement de mot de passe.
+Mots de passe temporaires remis à Yoann hors Git (fichier local `.local/`).

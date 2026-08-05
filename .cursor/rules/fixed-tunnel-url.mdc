@@ -1,14 +1,17 @@
 # URL tunnel inventaire — VERROUILLÉES + serveurs toujours allumés
 
-## Adresses figées
+## Adresses figées (JAMAIS changer sans OK explicite)
 
-- Accès : https://tries-digital-raw-aus.trycloudflare.com/acces
-- Inventaire : https://tries-digital-raw-aus.trycloudflare.com/inventaire
-- Login : https://tries-digital-raw-aus.trycloudflare.com/login?next=/inventaire
+- Accès : https://heather-auctions-they-leu.trycloudflare.com/acces
+- Inventaire : https://heather-auctions-they-leu.trycloudflare.com/inventaire
+- Login : https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
+
+Source : `data/FIXED_TUNNEL_URL.txt`
 
 ## Serveurs
 
 Ne s’arrêtent que sur demande (`scripts/stop-servers.sh`).
+Ne jamais lancer un 2ᵉ `cloudflared` quick tunnel (nouvelle URL = violation).
 
 ## Application Android
 

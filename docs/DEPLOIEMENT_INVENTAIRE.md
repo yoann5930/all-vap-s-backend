@@ -1,20 +1,20 @@
 # Déploiement permanent All Vap's Inventaire
 
-## URL temporaire actuelle (tunnel Cloudflare — actif)
+## URL FIGÉE (tunnel Cloudflare — ne jamais changer)
 
 | Accès | URL |
 |---|---|
-| **Login** | https://ppm-geometry-antique-ban.trycloudflare.com/login |
-| **Employés** | https://ppm-geometry-antique-ban.trycloudflare.com/inventaire |
-| **Admin** | https://ppm-geometry-antique-ban.trycloudflare.com/admin |
-| **Inventaires (Yoann)** | https://ppm-geometry-antique-ban.trycloudflare.com/admin/inventaires |
-| **Accès** | https://ppm-geometry-antique-ban.trycloudflare.com/acces |
+| **Login** | https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire |
+| **Employés** | https://heather-auctions-they-leu.trycloudflare.com/inventaire |
+| **Admin** | https://heather-auctions-they-leu.trycloudflare.com/admin |
+| **Inventaires (Yoann)** | https://heather-auctions-they-leu.trycloudflare.com/admin/inventaires |
+| **Accès** | https://heather-auctions-they-leu.trycloudflare.com/acces |
 
-> Les quick tunnels Cloudflare changent d’hostname à chaque redémarrage de `cloudflared`.  
-> Si la page ne charge plus : vérifier `/tmp/cf-tunnel.log` (ou relancer le tunnel) — ne pas réutiliser une ancienne URL.  
-> Pour une URL **permanente** (indépendante de Cursor), suivre Vercel ci-dessous.
+> Source de vérité : `data/FIXED_TUNNEL_URL.txt`  
+> **Interdit** de relancer un quick tunnel (nouvelle URL) sans OK explicite.  
+> Ne jamais pkill cloudflared sauf demande utilisateur (`scripts/stop-servers.sh`).
 
-Cible DNS : `https://inventaire.allvaps.fr`
+Cible DNS long terme : `https://inventaire.allvaps.fr`
 
 ---
 
