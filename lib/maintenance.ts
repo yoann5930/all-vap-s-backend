@@ -32,6 +32,7 @@ export function isMaintenanceExemptPath(pathname: string): boolean {
   if (pathname === "/mot-de-passe-oublie") return true;
   if (pathname === "/changer-mot-de-passe") return true;
   if (pathname === "/inventaire" || pathname.startsWith("/inventaire/")) return true;
+  if (pathname === "/acces" || pathname.startsWith("/acces/")) return true;
   if (pathname.startsWith("/admin")) return true;
   if (pathname.startsWith("/api/inventaire")) return true;
   if (pathname.startsWith("/api/admin")) return true;

@@ -165,9 +165,6 @@ export function EmployeeInventoryApp() {
     const off = () => setOnline(false);
     window.addEventListener("online", on);
     window.addEventListener("offline", off);
-    if ("serviceWorker" in navigator) {
-      void navigator.serviceWorker.register("/sw.js").catch(() => undefined);
-    }
     return () => {
       window.removeEventListener("online", on);
       window.removeEventListener("offline", off);

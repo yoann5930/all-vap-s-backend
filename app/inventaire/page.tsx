@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EmployeeInventoryApp } from "@/components/inventory/EmployeeInventoryApp";
+import { InventoryServiceWorker } from "@/components/inventory/InventoryServiceWorker";
 
 export const metadata: Metadata = {
   title: "Inventaire All Vap's",
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function InventairePage() {
-  return <EmployeeInventoryApp />;
+  return (
+    <>
+      <InventoryServiceWorker />
+      <EmployeeInventoryApp />
+    </>
+  );
 }

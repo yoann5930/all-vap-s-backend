@@ -77,7 +77,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           {mode === "login"
-            ? "Accédez à votre espace client All Vap's"
+            ? "Employés inventaire et administration All Vap's"
             : "Rejoignez la communauté All Vap's"}
         </p>
 

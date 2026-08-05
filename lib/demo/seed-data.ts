@@ -88,7 +88,7 @@ export function buildDemoSeed(): DemoStore {
       phone: null,
       role: s.role,
       active: true,
-      mustChangePassword: true,
+      mustChangePassword: false, // démo tunnel : accès immédiat (prod seed force le changement)
       allowedStores: s.allowedStores,
       lastLoginAt: null,
       emailVerified: true,
