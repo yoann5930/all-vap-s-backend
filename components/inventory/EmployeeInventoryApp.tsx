@@ -106,8 +106,6 @@ export function EmployeeInventoryApp() {
   const [quantity, setQuantity] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [applyToRange, setApplyToRange] = useState(true);
-  const [pendingPhoto, setPendingPhoto] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [lookup, setLookup] = useState<LookupState | null>(null);
   const [lookupHint, setLookupHint] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -119,7 +117,7 @@ export function EmployeeInventoryApp() {
   const [scannerOpen, setScannerOpen] = useState(false);
   const [visualSuggestions, setVisualSuggestions] = useState<VisualMatch[]>([]);
   const [visualReady, setVisualReady] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [recognitionHint, setRecognitionHint] = useState<string | null>(null);
   const lastLineIdRef = useRef<string | null>(null);
   const barcodeRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
@@ -130,6 +128,7 @@ export function EmployeeInventoryApp() {
   const nameLookupTimer = useRef<number | null>(null);
   const visualIndexRef = useRef<VisualIndexedProduct[]>([]);
   const visualMatchBusyRef = useRef(false);
+  const visualLookupBusyRef = useRef(false);
   const lastVisualAutoIdRef = useRef<string>("");
 
   sessionRef.current = session;
@@ -251,16 +250,8 @@ export function EmployeeInventoryApp() {
     setLookup(null);
     setLookupHint(null);
     setConfirmZero(false);
-    setPendingPhoto(null);
     setVisualSuggestions([]);
-    if (photoPreview) URL.revokeObjectURL(photoPreview);
-    setPhotoPreview(null);
-  }
-
-  function setPhotoFile(file: File | null) {
-    if (photoPreview) URL.revokeObjectURL(photoPreview);
-    setPendingPhoto(file);
-    setPhotoPreview(file ? URL.createObjectURL(file) : null);
+    setRecognitionHint(null);
   }
 
   function applyMemoryProduct(data: {
@@ -415,71 +406,84 @@ export function EmployeeInventoryApp() {
   }
 
   async function applyVisualProduct(match: VisualMatch) {
-    const sid = sessionRef.current?.id;
-    // Priorité EAN → lookup mémoire existant (remplit prix, doublon, etc.)
-    if (match.barcode && match.barcode.trim().length >= 6) {
-      const ok = await lookupBarcode(match.barcode.trim());
-      if (ok) {
-        setMessage(
-          `Produit reconnu visuellement — ${match.name}. Saisissez la quantité.`
-        );
-        setVisualSuggestions([]);
-        return;
-      }
-    }
-
-    const qs = new URLSearchParams({ name: match.name });
-    if (sid) qs.set("sessionId", sid);
+    if (visualLookupBusyRef.current) return;
+    visualLookupBusyRef.current = true;
     try {
-      const res = await fetch(`/api/inventaire/lookup?${qs}`);
-      const data = await res.json();
-      if (res.ok && data.found && data.product?.name) {
-        applyMemoryProduct(data);
-        applyDuplicateFromLookup(data);
-        if (match.barcode) setBarcode(match.barcode);
-        focusQuantityField();
-        setMessage(
-          `Produit reconnu visuellement — ${match.name}. Saisissez la quantité.`
-        );
-        setVisualSuggestions([]);
-        return;
+      const sid = sessionRef.current?.id;
+      // Priorité EAN → lookup mémoire existant (remplit prix, doublon, etc.)
+      if (match.barcode && match.barcode.trim().length >= 6) {
+        const ok = await lookupBarcode(match.barcode.trim());
+        if (ok) {
+          setRecognitionHint(null);
+          setMessage(
+            `Produit reconnu — ${match.name}. Saisissez uniquement la quantité.`
+          );
+          setVisualSuggestions([]);
+          return;
+        }
       }
-    } catch {
-      /* fallback local */
-    }
 
-    // Fallback local si lookup nom échoue
-    const missing = match.priceCents == null || match.priceCents <= 0;
-    setProductId(match.id);
-    setProductName(match.name);
-    setBrandName(match.brand || "");
-    setRangeName(match.range || match.category || "Non classé");
-    if (match.barcode) setBarcode(match.barcode);
-    setLookup({
-      found: true,
-      name: match.name,
-      brand: match.brand || undefined,
-      range: match.range || undefined,
-      unitPriceCents: missing ? null : match.priceCents,
-      priceSource: "CATALOGUE",
-      priceMissing: missing,
-      priceLocked: !missing && meRef.current?.role !== "ADMIN",
-      imageUrl: match.imageUrl,
-    });
-    setUnitPrice(
-      missing ? "" : ((match.priceCents || 0) / 100).toFixed(2).replace(".", ",")
-    );
-    setLookupHint(`Reconnaissance visuelle : ${match.name}`);
-    focusQuantityField();
-    setVisualSuggestions([]);
-    setMessage(`Produit reconnu — saisissez la quantité puis Enregistrer`);
+      const qs = new URLSearchParams({ name: match.name });
+      if (sid) qs.set("sessionId", sid);
+      try {
+        const res = await fetch(`/api/inventaire/lookup?${qs}`);
+        const data = await res.json();
+        if (res.ok && data.found && data.product?.name) {
+          applyMemoryProduct(data);
+          applyDuplicateFromLookup(data);
+          if (match.barcode) setBarcode(match.barcode);
+          focusQuantityField();
+          setRecognitionHint(null);
+          setMessage(
+            `Produit reconnu — ${match.name}. Saisissez uniquement la quantité.`
+          );
+          setVisualSuggestions([]);
+          return;
+        }
+      } catch {
+        /* fallback local */
+      }
+
+      // Fallback local si lookup nom échoue
+      const missing = match.priceCents == null || match.priceCents <= 0;
+      setProductId(match.id);
+      setProductName(match.name);
+      setBrandName(match.brand || "");
+      setRangeName(match.range || match.category || "Non classé");
+      if (match.barcode) setBarcode(match.barcode);
+      setLookup({
+        found: true,
+        name: match.name,
+        brand: match.brand || undefined,
+        range: match.range || undefined,
+        unitPriceCents: missing ? null : match.priceCents,
+        priceSource: "CATALOGUE",
+        priceMissing: missing,
+        priceLocked: !missing && meRef.current?.role !== "ADMIN",
+        imageUrl: match.imageUrl,
+      });
+      setUnitPrice(
+        missing ? "" : ((match.priceCents || 0) / 100).toFixed(2).replace(".", ",")
+      );
+      setLookupHint(`Reconnaissance visuelle : ${match.name}`);
+      focusQuantityField();
+      setVisualSuggestions([]);
+      setRecognitionHint(null);
+      setMessage(`Produit reconnu — saisissez uniquement la quantité`);
+    } finally {
+      visualLookupBusyRef.current = false;
+    }
   }
 
   const onVisualSample = async (canvas: HTMLCanvasElement) => {
     if (visualMatchBusyRef.current) return;
     if (scanBusyRef.current) return;
+    if (visualLookupBusyRef.current) return;
     const index = visualIndexRef.current;
-    if (!index.length) return;
+    if (!index.length) {
+      setRecognitionHint("Produit non reconnu");
+      return;
+    }
 
     visualMatchBusyRef.current = true;
     try {
@@ -488,22 +492,25 @@ export function EmployeeInventoryApp() {
         maxDistance: 14,
       });
       const decision = decideVisualAction(matches);
-      if (decision.mode === "none") return;
+
+      if (decision.mode === "none") {
+        setRecognitionHint("Produit non reconnu");
+        return;
+      }
 
       if (decision.mode === "auto" && decision.picks[0]) {
         const pick = decision.picks[0];
         if (pick.id === lastVisualAutoIdRef.current) return;
         lastVisualAutoIdRef.current = pick.id;
+        setRecognitionHint(`Reconnu : ${pick.name}`);
         setScannerOpen(false);
         await applyVisualProduct(pick);
         return;
       }
 
       if (decision.mode === "suggest") {
+        setRecognitionHint("Plusieurs produits possibles — choisissez");
         setVisualSuggestions(decision.picks);
-        setMessage(
-          `${decision.picks.length} produits possibles — choisissez dans la liste`
-        );
       }
     } finally {
       visualMatchBusyRef.current = false;
@@ -694,15 +701,6 @@ export function EmployeeInventoryApp() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Mise à jour impossible");
         rememberLineId(data.line.id);
-        if (pendingPhoto) {
-          const form = new FormData();
-          form.set("file", pendingPhoto);
-          form.set("lineId", data.line.id);
-          await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
-            method: "POST",
-            body: form,
-          });
-        }
         setMessage(
           `Quantité mise à jour : ${data.line.productNameSnapshot || productName} × ${qty}`
         );
@@ -772,20 +770,6 @@ export function EmployeeInventoryApp() {
       const lineId = data.line.id as string;
       rememberLineId(lineId);
 
-      if (pendingPhoto) {
-        const form = new FormData();
-        form.set("file", pendingPhoto);
-        form.set("lineId", lineId);
-        const photoRes = await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
-          method: "POST",
-          body: form,
-        });
-        if (!photoRes.ok) {
-          const photoData = await photoRes.json().catch(() => ({}));
-          setError(photoData.error || "Ligne enregistrée, mais photo refusée");
-        }
-      }
-
       const when = new Date().toLocaleString("fr-FR");
       const name = data.line.productNameSnapshot || productName;
       const rangeNote =
@@ -802,33 +786,6 @@ export function EmployeeInventoryApp() {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function uploadPhoto(file: File) {
-    setPhotoFile(file);
-    setMessage("Analyse de la photo…");
-    setError(null);
-    try {
-      const { detectBarcodeFromImageFile } = await import(
-        "@/lib/inventory/photo-barcode"
-      );
-      const code = await detectBarcodeFromImageFile(file);
-      if (code) {
-        setBarcode(code);
-        const ok = await lookupBarcode(code);
-        setMessage(
-          ok
-            ? `Photo → EAN ${code} — fiche remplie (saisir la quantité)`
-            : `Photo → EAN ${code} — produit inconnu, tapez le nom`
-        );
-        return;
-      }
-      setMessage(
-        "Photo ajoutée (optionnelle) — aucun code-barres : tapez le nom ou utilisez Scan auto"
-      );
-    } catch {
-      setMessage("Photo prête — saisissez ou recherchez le nom");
     }
   }
 
@@ -888,6 +845,7 @@ export function EmployeeInventoryApp() {
         applyMemoryProduct(look);
         applyDuplicateFromLookup(look);
         focusQuantityField();
+        setRecognitionHint(null);
         setMessage(
           look.duplicate
             ? `Fiche remplie — ${look.duplicate.message}`
@@ -909,11 +867,12 @@ export function EmployeeInventoryApp() {
       setUnitPrice("");
       setQuantity("");
       setLookupHint(
-        "EAN inconnu — présentez le produit pour reconnaissance visuelle, ou tapez le nom"
+        "EAN inconnu — présentez le produit devant la caméra, ou tapez le nom"
       );
-      setMessage(`Code ${cleaned} inconnu en mémoire`);
-      setError("Non trouvé — reconnaissance visuelle ou saisie du nom");
-      return false;
+      setMessage(`Code ${cleaned} inconnu — analyse visuelle en cours…`);
+      setRecognitionHint("Produit non reconnu");
+      // Garder la caméra ouverte pour la reconnaissance visuelle continue
+      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur scan");
       return false;
@@ -1044,16 +1003,21 @@ export function EmployeeInventoryApp() {
                 <button
                   type="button"
                   disabled={loading}
-                  onClick={() => setScannerOpen(true)}
+                  onClick={() => {
+                    setRecognitionHint(null);
+                    setVisualSuggestions([]);
+                    lastVisualAutoIdRef.current = "";
+                    setScannerOpen(true);
+                  }}
                   className="shrink-0 rounded-xl bg-emerald-700 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
-                  aria-label="Scan automatique à la caméra"
+                  aria-label="Caméra intelligente — EAN et reconnaissance produit"
                 >
-                  Scan auto
+                  Caméra
                 </button>
               </div>
               <p className="mt-1.5 text-xs text-gray-500">
-                Scan auto : EAN → fiche complète ; sans EAN → reconnaissance visuelle catalogue.
-                Vous ne saisissez que la quantité.
+                Caméra intelligente : analyse continue (EAN + produit). Aucune photo
+                enregistrée. Vous ne saisissez que la quantité.
                 {visualReady ? " · Mémoire visuelle prête" : session ? " · Préparation visuelle…" : ""}
               </p>
             </label>
@@ -1146,7 +1110,7 @@ export function EmployeeInventoryApp() {
                   onFocus={() => {
                     if (nameSuggestions.length > 0) setShowSuggestions(true);
                   }}
-                  placeholder="Tapez pour rechercher en mémoire / photo"
+                  placeholder="Tapez pour rechercher en mémoire"
                   autoComplete="off"
                 />
                 {showSuggestions && nameSuggestions.length > 0 ? (
@@ -1258,43 +1222,6 @@ export function EmployeeInventoryApp() {
               </label>
             ) : null}
 
-            <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3">
-              <p className="text-sm font-medium text-gray-800">Photo (jamais obligatoire)</p>
-              <p className="mt-1 text-xs text-gray-500">
-                La caméra Scan auto suffit (EAN ou reconnaissance visuelle). Aucune photo n’est enregistrée si vous n’en ajoutez pas.
-              </p>
-              {photoPreview ? (
-                <div className="relative mt-2 inline-block overflow-hidden rounded-xl ring-1 ring-gray-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photoPreview}
-                    alt={productName.trim() || "Aperçu produit"}
-                    className="h-40 w-40 object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pb-2 pt-8">
-                    <p className="text-sm font-semibold leading-tight text-white">
-                      {productName.trim() || "Nom à renseigner"}
-                    </p>
-                    {(brandName || rangeName) && (
-                      <p className="mt-0.5 text-[11px] text-white/80">
-                        {[brandName, rangeName ? `gamme ${rangeName}` : null]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ) : null}
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => fileRef.current?.click()}
-                className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-sm font-semibold disabled:opacity-50"
-              >
-                {pendingPhoto ? "Changer la photo" : "Ajouter une photo (optionnel)"}
-              </button>
-            </div>
-
             <div className="grid grid-cols-1 gap-2">
               <button
                 type="button"
@@ -1316,18 +1243,6 @@ export function EmployeeInventoryApp() {
                   : "Enregistrer"}
               </button>
             </div>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              capture="environment"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) void uploadPhoto(f);
-                e.target.value = "";
-              }}
-            />
             <button
               type="button"
               disabled={loading}
@@ -1450,9 +1365,14 @@ export function EmployeeInventoryApp() {
       <BarcodeCameraScanner
         open={scannerOpen}
         continuous
-        onClose={() => setScannerOpen(false)}
+        onClose={() => {
+          setScannerOpen(false);
+          setRecognitionHint(null);
+        }}
         onDetected={onBarcodeScanned}
         onVisualSample={visualReady ? onVisualSample : undefined}
+        recognitionHint={recognitionHint}
+        visualIntervalMs={300}
       />
     </div>
   );

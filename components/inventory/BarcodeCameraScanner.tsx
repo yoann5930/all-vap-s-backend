@@ -20,6 +20,10 @@ type Props = {
    * Le canvas fourni est un crop produit central (réutilisable pour matching).
    */
   onVisualSample?: (canvas: HTMLCanvasElement) => void | Promise<void>;
+  /** Message de reconnaissance visuelle (ex. « Produit non reconnu ») — n’affecte pas l’EAN. */
+  recognitionHint?: string | null;
+  /** Intervalle mini entre analyses visuelles (ms). Défaut 300 (~3/s). */
+  visualIntervalMs?: number;
 };
 
 type ScannerControls = { stop: () => void };
@@ -88,6 +92,8 @@ export function BarcodeCameraScanner({
   onDetected,
   continuous = true,
   onVisualSample,
+  recognitionHint = null,
+  visualIntervalMs = 300,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -105,6 +111,7 @@ export function BarcodeCameraScanner({
   const onCloseRef = useRef(onClose);
   const continuousRef = useRef(continuous);
   const onVisualSampleRef = useRef(onVisualSample);
+  const visualIntervalRef = useRef(visualIntervalMs);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState("Initialisation caméra…");
   const [torchOn, setTorchOn] = useState(false);
@@ -117,6 +124,7 @@ export function BarcodeCameraScanner({
   onCloseRef.current = onClose;
   continuousRef.current = continuous;
   onVisualSampleRef.current = onVisualSample;
+  visualIntervalRef.current = Math.max(200, Math.min(500, visualIntervalMs));
 
   useEffect(() => {
     if (!open) return;
@@ -293,9 +301,10 @@ export function BarcodeCameraScanner({
             } else if (
               onVisualSampleRef.current &&
               !visualBusyRef.current &&
-              Date.now() - lastVisualAtRef.current > 1400
+              Date.now() - lastVisualAtRef.current > visualIntervalRef.current
             ) {
               // Chemin parallèle uniquement : aucun EAN sur cette frame
+              // Analyse en mémoire uniquement — aucune image enregistrée
               const visualCanvas = visualCanvasRef.current;
               if (visualCanvas) {
                 const vw = video.videoWidth;
@@ -303,7 +312,7 @@ export function BarcodeCameraScanner({
                 const side = Math.floor(Math.min(vw, vh) * 0.72);
                 const sx = Math.floor((vw - side) / 2);
                 const sy = Math.floor((vh - side) / 2);
-                const size = 160;
+                const size = 192;
                 visualCanvas.width = size;
                 visualCanvas.height = size;
                 const vctx = visualCanvas.getContext("2d", {
@@ -416,7 +425,7 @@ export function BarcodeCameraScanner({
 
         setHint(
           onVisualSampleRef.current
-            ? "Cadrez le code-barres — ou le produit pour reconnaissance visuelle"
+            ? "Analyse continue — EAN ou produit devant la caméra"
             : "Détection automatique — cadrez le code dans le rectangle"
         );
         // Boucle unique (BarcodeDetector natif + ZXing canvas) — pas de 2ᵉ flux caméra
@@ -461,8 +470,11 @@ export function BarcodeCameraScanner({
     <div className="fixed inset-0 z-[80] flex flex-col bg-black">
       <div className="flex items-center justify-between gap-3 px-4 py-3 text-white">
         <div>
-          <p className="text-sm font-semibold">Scan automatique</p>
+          <p className="text-sm font-semibold">Caméra intelligente</p>
           <p className="text-xs text-white/70">{hint}</p>
+          {recognitionHint ? (
+            <p className="mt-1 text-xs font-semibold text-amber-300">{recognitionHint}</p>
+          ) : null}
         </div>
         <button
           type="button"
@@ -534,7 +546,7 @@ export function BarcodeCameraScanner({
       ) : (
         <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
           {onVisualSample
-            ? "Aucune photo à enregistrer : scannez l’EAN ou présentez le produit — seule la quantité sera à saisir."
+            ? "Aucune photo enregistrée — analyse du flux en mémoire (EAN + reconnaissance produit). Saisissez ensuite uniquement la quantité."
             : "Aucune photo à prendre : présentez chaque code-barres dans le cadre — détection automatique."}
         </p>
       )}
