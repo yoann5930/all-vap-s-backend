@@ -48,15 +48,13 @@ export async function POST(request: NextRequest, context: Ctx) {
     if (session.lines.length === 0) {
       return jsonResponse({ error: "Aucune ligne à clôturer" }, 400);
     }
-    if (summary.incompleteCount > 0) {
+    if (summary.missingBarcodeCount > 0 || summary.missingPriceCount > 0) {
       return jsonResponse(
         {
           error:
-            "Clôture interdite : chaque ligne doit avoir un code-barres, un prix et une photo produit",
-          incompleteCount: summary.incompleteCount,
+            "Clôture interdite : chaque ligne doit avoir un code-barres et un prix",
           missingBarcodeCount: summary.missingBarcodeCount,
           missingPriceCount: summary.missingPriceCount,
-          missingPhotoCount: summary.missingPhotoCount,
         },
         400
       );
@@ -66,7 +64,7 @@ export async function POST(request: NextRequest, context: Ctx) {
     if (incomplete.length > 0) {
       return jsonResponse(
         {
-          error: `${incomplete.length} ligne(s) incomplète(s) (code-barres / prix / photo)`,
+          error: `${incomplete.length} ligne(s) incomplète(s) (code-barres / prix / nom)`,
         },
         400
       );

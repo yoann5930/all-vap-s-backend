@@ -35,7 +35,7 @@ export function isLineComplete(line: LineLike): boolean {
       String(line.barcode).trim().length >= 6 &&
       line.unitPriceCents != null &&
       line.unitPriceCents >= 0 &&
-      lineHasPhoto(line)
+      (line.productNameSnapshot || line.productId)
   );
 }
 

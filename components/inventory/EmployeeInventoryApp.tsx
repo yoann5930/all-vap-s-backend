@@ -303,10 +303,6 @@ export function EmployeeInventoryApp() {
       setError("Nom du produit obligatoire");
       return;
     }
-    if (!rangeName.trim()) {
-      setError("Gamme obligatoire");
-      return;
-    }
     if (isNaN(qty) || qty < 0) {
       setError("Quantité invalide");
       return;
@@ -315,15 +311,11 @@ export function EmployeeInventoryApp() {
       setError("Prix manquant — saisissez le tarif avant enregistrement");
       return;
     }
-    if (!pendingPhoto) {
-      setError("Photo produit obligatoire avant enregistrement");
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
       if (!navigator.onLine) {
-        setError("Connexion requise pour enregistrer (code-barres + prix + photo)");
+        setError("Connexion requise pour enregistrer");
         setLoading(false);
         return;
       }
@@ -332,10 +324,9 @@ export function EmployeeInventoryApp() {
         barcode: code,
         productName: productName.trim(),
         brand: brandName.trim() || undefined,
-        range: rangeName.trim(),
+        range: rangeName.trim() || "Non classé",
         quantityCounted: qty,
         confirmZeroPrice: confirmZero,
-        photoConfirmed: true,
         applyToRange: applyToRange && Boolean(rangeName.trim()),
       };
       if (lookup?.priceLocked && lookup.unitPriceCents != null) {
@@ -357,19 +348,18 @@ export function EmployeeInventoryApp() {
       const lineId = data.line.id as string;
       rememberLineId(lineId);
 
-      const form = new FormData();
-      form.set("file", pendingPhoto);
-      form.set("lineId", lineId);
-      const photoRes = await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
-        method: "POST",
-        body: form,
-      });
-      const photoData = await photoRes.json().catch(() => ({}));
-      if (!photoRes.ok) {
-        throw new Error(
-          photoData.error ||
-            "Ligne créée mais photo refusée — ajoutez la photo depuis la liste ou recommencez"
-        );
+      if (pendingPhoto) {
+        const form = new FormData();
+        form.set("file", pendingPhoto);
+        form.set("lineId", lineId);
+        const photoRes = await fetch(`/api/inventaire/sessions/${session.id}/photos`, {
+          method: "POST",
+          body: form,
+        });
+        if (!photoRes.ok) {
+          const photoData = await photoRes.json().catch(() => ({}));
+          setError(photoData.error || "Ligne enregistrée, mais photo refusée");
+        }
       }
 
       const when = new Date().toLocaleString("fr-FR");
@@ -392,16 +382,15 @@ export function EmployeeInventoryApp() {
   }
 
   async function uploadPhoto(file: File) {
-    // Photo liée à la saisie en cours (obligatoire avant Enregistrer)
     setPhotoFile(file);
-    setMessage("Photo prête — vérifiez nom / gamme / prix puis Enregistrer");
+    setMessage("Photo ajoutée (optionnelle) — vous pouvez Enregistrer");
     setError(null);
   }
 
   async function completeSession() {
     if (!session) return;
     const ok = window.confirm(
-      `Terminer l'inventaire ${session.location.name} ?\nChaque ligne doit avoir code-barres + prix + photo.\nLes quantités seront appliquées à cette boutique.`
+      `Terminer l'inventaire ${session.location.name} ?\nChaque ligne doit avoir code-barres + prix.\nLes quantités seront appliquées à cette boutique.`
     );
     if (!ok) return;
     setLoading(true);
@@ -423,24 +412,151 @@ export function EmployeeInventoryApp() {
   }
 
   /**
-   * Scan caméra : remplit code-barres + fiche (nom/gamme/prix).
-   * N’enregistre PAS sans photo — ferme le scan pour prise de photo produit.
+   * Scan caméra continu : détecte le code-barres SANS photo,
+   * enregistre automatiquement si nom + prix connus ; sinon pause pour saisie.
    */
   const onBarcodeScanned = useCallback(async (code: string): Promise<boolean | void> => {
     const cleaned = code.trim();
     if (!cleaned || scanBusyRef.current) return;
     scanBusyRef.current = true;
+
+    const current = sessionRef.current;
+    if (!current || current.status !== "OPEN") {
+      setBarcode(cleaned);
+      setMessage(`Code détecté : ${cleaned}`);
+      scanBusyRef.current = false;
+      return false;
+    }
+
     setBarcode(cleaned);
     setError(null);
-    setMessage(`Code détecté : ${cleaned} — complétez photo + tarif puis Enregistrer`);
+
     try {
-      await lookupBarcode(cleaned);
+      const existing = (current.lines || []).find(
+        (l) => (l.barcode || "").trim() === cleaned
+      );
+
+      // Même code déjà scanné → +1 auto (sans photo)
+      if (existing && existing.unitPriceCents != null && existing.unitPriceCents > 0) {
+        const nextQty = existing.quantityCounted + 1;
+        const res = await fetch(
+          `/api/inventaire/sessions/${current.id}/lines/${existing.id}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              quantityCounted: nextQty,
+              reason: "scan_auto_increment",
+            }),
+          }
+        );
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Erreur incrément");
+        rememberLineId(existing.id);
+        setMessage(
+          `✓ ${existing.productNameSnapshot || existing.product?.name || cleaned} → × ${nextQty}`
+        );
+        await refreshSession(current.id);
+        clearDraftLine();
+        return true; // continuer le scan
+      }
+
+      const lookRes = await fetch(
+        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}`
+      );
+      const look = await lookRes.json();
+      if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
+
+      const cents = look.price?.unitPriceCents as number | undefined;
+      const priceMissing = Boolean(look.priceMissing) || cents == null || cents <= 0;
+      const role = meRef.current?.role;
+      const loc = locationCodeRef.current;
+
+      if (look.found) {
+        const name = look.product.name || "";
+        const brand = look.product.brand || "";
+        const range = look.product.range || look.product.category || "Non classé";
+        setProductName(name);
+        setBrandName(brand);
+        setRangeName(range);
+        setLookup({
+          found: true,
+          name,
+          brand,
+          range,
+          unitPriceCents: priceMissing ? null : cents,
+          priceSource: look.price?.source || null,
+          priceMissing,
+          priceLocked: !priceMissing && role !== "ADMIN" && look.price?.source !== "GAMME",
+          priceFromRange: Boolean(look.priceFromRange),
+          imageUrl: look.product.imageUrl,
+        });
+        setLookupHint(
+          `${name}${brand ? ` · ${brand}` : ""}${range ? ` · gamme ${range}` : ""}`
+        );
+
+        if (priceMissing || !name) {
+          setUnitPrice("");
+          setQuantity("1");
+          setMessage(`Complétez prix/nom pour ${cleaned} puis Enregistrer`);
+          setError(priceMissing ? "Prix manquant — scan en pause" : "Nom manquant — scan en pause");
+          return false;
+        }
+
+        setUnitPrice(((cents || 0) / 100).toFixed(2).replace(".", ","));
+
+        const payload: Record<string, unknown> = {
+          barcode: cleaned,
+          productName: name,
+          brand: brand || undefined,
+          range,
+          quantityCounted: 1,
+          unitPriceCents: cents,
+          priceSource: look.price?.source || "CATALOGUE",
+          applyToRange: false,
+        };
+
+        const res = await fetch(`/api/inventaire/sessions/${current.id}/lines`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Erreur enregistrement");
+
+        rememberLineId(data.line.id);
+        setMessage(
+          `✓ ${name} × 1 · ${formatEuroFromCents(data.line.unitPriceCents)} — enregistré auto`
+        );
+        await refreshSession(current.id);
+        clearDraftLine();
+        return true; // caméra reste ouverte pour le prochain code
+      }
+
+      // Produit inconnu → pause pour saisie manuelle
+      setLookup({
+        found: false,
+        priceMissing: true,
+        priceLocked: false,
+        unitPriceCents: null,
+      });
+      setProductName("");
+      setBrandName("");
+      setRangeName("");
+      setUnitPrice("");
+      setQuantity("1");
+      setLookupHint("Produit inconnu — saisissez nom, gamme et prix (photo optionnelle)");
+      setMessage(`Code ${cleaned} inconnu — saisie manuelle`);
+      setError("Produit inconnu — scan en pause");
+      void loc;
+      return false;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur scan");
+      return false;
     } finally {
       scanBusyRef.current = false;
     }
-    return false; // pause caméra → saisie photo / validation
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationCode, me?.role]);
+  }, [refreshSession]);
 
   function requestStoreChange(code: StoreCode) {
     if (session && session.status === "OPEN" && code !== locationCode) {
@@ -569,17 +685,22 @@ export function EmployeeInventoryApp() {
                 </button>
               </div>
               <p className="mt-1.5 text-xs text-gray-500">
-                Scan auto détecte le code. Enregistrement seulement avec nom + gamme + prix + photo.
+                Scan auto : la caméra détecte et enregistre chaque code-barres toute seule — aucune photo à prendre.
               </p>
             </label>
             {lookupHint && <p className="text-sm text-gray-600">{lookupHint}</p>}
             {lookup?.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={lookup.imageUrl}
-                alt=""
-                className="h-20 w-20 rounded-lg object-cover ring-1 ring-gray-200"
-              />
+              <div className="relative inline-block overflow-hidden rounded-lg ring-1 ring-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={lookup.imageUrl}
+                  alt={productName || lookup.name || "Produit"}
+                  className="h-24 w-24 object-cover"
+                />
+                <span className="absolute inset-x-0 bottom-0 bg-black/70 px-1.5 py-1 text-[10px] font-semibold leading-tight text-white">
+                  {productName || lookup.name || "Produit"}
+                </span>
+              </div>
             ) : null}
 
             <div className="grid grid-cols-1 gap-3">
@@ -603,12 +724,12 @@ export function EmployeeInventoryApp() {
                   />
                 </label>
                 <label className="block">
-                  <span className="text-sm font-medium">Gamme *</span>
+                  <span className="text-sm font-medium">Gamme</span>
                   <input
                     className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
                     value={rangeName}
                     onChange={(e) => setRangeName(e.target.value)}
-                    placeholder="Gamme"
+                    placeholder="Gamme (auto si connue)"
                   />
                 </label>
               </div>
@@ -678,9 +799,9 @@ export function EmployeeInventoryApp() {
             ) : null}
 
             <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3">
-              <p className="text-sm font-medium text-gray-800">Photo produit *</p>
+              <p className="text-sm font-medium text-gray-800">Photo produit (optionnelle)</p>
               <p className="mt-1 text-xs text-gray-500">
-                La photo affiche le nom du produit. Vérifiez nom, gamme et prix avant d’enregistrer.
+                Pas besoin de photo pour le scan auto. Vous pouvez en ajouter une pour afficher le nom dessus.
               </p>
               {photoPreview ? (
                 <div className="relative mt-2 inline-block overflow-hidden rounded-xl ring-1 ring-gray-200">
@@ -703,18 +824,14 @@ export function EmployeeInventoryApp() {
                     )}
                   </div>
                 </div>
-              ) : (
-                <p className="mt-2 text-xs font-semibold text-amber-800">
-                  Aucune photo — enregistrement bloqué
-                </p>
-              )}
+              ) : null}
               <button
                 type="button"
                 disabled={loading}
                 onClick={() => fileRef.current?.click()}
                 className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-sm font-semibold disabled:opacity-50"
               >
-                {pendingPhoto ? "Changer la photo" : "Prendre / choisir la photo"}
+                {pendingPhoto ? "Changer la photo" : "Ajouter une photo (optionnel)"}
               </button>
             </div>
 
@@ -725,14 +842,12 @@ export function EmployeeInventoryApp() {
                   loading ||
                   barcode.trim().length < 6 ||
                   !productName.trim() ||
-                  !rangeName.trim() ||
-                  !unitPrice.trim() ||
-                  !pendingPhoto
+                  !unitPrice.trim()
                 }
                 onClick={() => void addLine()}
                 className="rounded-xl bg-emerald-700 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
               >
-                Enregistrer (code + prix + photo)
+                Enregistrer
               </button>
             </div>
             <input

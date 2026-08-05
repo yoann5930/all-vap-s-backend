@@ -483,7 +483,7 @@ export function BarcodeCameraScanner({
       ) : (
         <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
           Aucune photo à prendre : présentez chaque code-barres dans le cadre —
-          détection et enregistrement automatiques.
+          détection et enregistrement automatiques en continu.
         </p>
       )}
     </div>

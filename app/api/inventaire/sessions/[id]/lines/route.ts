@@ -103,18 +103,6 @@ export async function POST(request: NextRequest, context: Ctx) {
       return jsonResponse({ error: "Code-barres obligatoire (min. 6 caractères)" }, 400);
     }
 
-    // Photo obligatoire avant enregistrement (envoyée juste après, ou photoPath)
-    if (!body.photoConfirmed && !body.photoPath) {
-      return jsonResponse(
-        {
-          error:
-            "Photo produit obligatoire — prenez une photo avant d’enregistrer (nom / gamme / prix visibles)",
-          code: "PHOTO_REQUIRED",
-        },
-        400
-      );
-    }
-
     let productId = body.productId || null;
     let variantId: string | null = null;
     let productNameSnapshot: string | null = body.productName?.trim() || null;
@@ -194,14 +182,9 @@ export async function POST(request: NextRequest, context: Ctx) {
       );
     }
 
+    // Gamme optionnelle à l’enregistrement auto : fallback catégorie / Non classé
     if (!rangeSnapshot) {
-      return jsonResponse(
-        {
-          error: "Gamme obligatoire — indiquez la gamme du produit avant enregistrement",
-          code: "RANGE_REQUIRED",
-        },
-        400
-      );
+      rangeSnapshot = categorySnapshot || "Non classé";
     }
 
     // Résolution prix
