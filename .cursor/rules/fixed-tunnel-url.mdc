@@ -1,27 +1,21 @@
-# URL tunnel inventaire — VERROUILLÉES (règle obligatoire)
+# URL tunnel inventaire — VERROUILLÉES + serveurs toujours allumés
 
-## Interdiction
-
-**NE JAMAIS** changer, remplacer, ni régénérer ces adresses :
+## Adresses figées (ne jamais changer)
 
 - Accès : https://heather-auctions-they-leu.trycloudflare.com/acces
 - Inventaire : https://heather-auctions-they-leu.trycloudflare.com/inventaire
 - Login : https://heather-auctions-they-leu.trycloudflare.com/login?next=/inventaire
 
-Base : `https://heather-auctions-they-leu.trycloudflare.com`
+Fichier : `data/FIXED_TUNNEL_URL.txt`
 
-## Pourquoi
+## Serveurs — ne s’arrêtent que sur demande
 
-Un redémarrage de `cloudflared` (quick tunnel) crée une **nouvelle** URL aléatoire et casse l’accès téléphone / formation. Ces URLs sont figées pour l’équipe.
+1. **Ne jamais** arrêter Next.js ni `cloudflared` sauf demande explicite de l’utilisateur.
+2. Superviseur : `scripts/ensure-servers.sh` / `scripts/keep-servers.sh` (ignore Ctrl+C).
+3. Arrêt volontaire uniquement : `bash scripts/stop-servers.sh` (+ `--also-tunnel` si demandé).
+4. Ne jamais `pkill cloudflared` ni tuer un Next healthy pendant le travail courant.
+5. Ne pas annoncer d’autre URL `*.trycloudflare.com`.
 
-## Comportement obligatoire pour tout agent / script
+## Si l’URL figée meurt
 
-1. **Ne jamais** `pkill` / `kill` le process `cloudflared` qui sert cette URL, sauf panne totale **et** instruction explicite de l’utilisateur acceptant une nouvelle URL.
-2. Le script `scripts/keep-servers.sh` ne doit relancer **que** Next.js si besoin ; le tunnel reste intact tant que l’URL verrouillée répond HTTP 200.
-3. Avant toute action serveur : vérifier `https://heather-auctions-they-leu.trycloudflare.com/api/health`.
-4. Ne pas annoncer d’autre URL `*.trycloudflare.com` dans les réponses utilisateur.
-5. Fichier de vérité : `data/FIXED_TUNNEL_URL.txt` et `scripts/keep-servers.sh` (`FIXED_TUNNEL_URL`).
-
-## Si le tunnel meurt vraiment
-
-Prévenir l’utilisateur que l’URL figée est morte ; **ne pas** en inventer une nouvelle sans son accord explicite (« OK pour changer l’adresse »).
+Prévenir l’utilisateur ; **aucun** nouveau tunnel sans accord explicite (« OK »).
