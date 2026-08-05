@@ -7,7 +7,9 @@ import {
 } from "@zxing/browser";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
 import {
+  applyContinuousFocus,
   detectTorchSupport,
+  openInventoryCamera,
   setCameraTorch,
 } from "@/lib/inventory/camera-torch";
 
@@ -353,32 +355,6 @@ export function BarcodeCameraScanner({
       }, 150);
     }
 
-    async function openCamera(): Promise<MediaStream> {
-      const attempts: MediaStreamConstraints[] = [
-        {
-          audio: false,
-          video: {
-            facingMode: { ideal: "environment" },
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
-          },
-        },
-        { audio: false, video: { facingMode: "environment" } },
-        { audio: false, video: true },
-      ];
-      let lastError: unknown;
-      for (const constraints of attempts) {
-        try {
-          return await navigator.mediaDevices.getUserMedia(constraints);
-        } catch (e) {
-          lastError = e;
-        }
-      }
-      throw lastError instanceof Error
-        ? lastError
-        : new Error("Impossible d’ouvrir la caméra");
-    }
-
     async function start() {
       let video = videoRef.current;
       for (let i = 0; i < 20 && !video; i++) {
@@ -397,7 +373,7 @@ export function BarcodeCameraScanner({
           return;
         }
 
-        const stream = await openCamera();
+        const stream = await openInventoryCamera({ width: 1280, height: 720 });
         if (cancelled) {
           stream.getTracks().forEach((t) => t.stop());
           return;
@@ -406,17 +382,7 @@ export function BarcodeCameraScanner({
 
         const track = stream.getVideoTracks()[0];
         setTorchAvailable(detectTorchSupport(track));
-
-        if (track) {
-          try {
-            await track.applyConstraints({
-              // @ts-expect-error focusMode avancé
-              advanced: [{ focusMode: "continuous" }],
-            });
-          } catch {
-            /* non supporté */
-          }
-        }
+        await applyContinuousFocus(track, false);
 
         video.srcObject = stream;
         video.setAttribute("playsinline", "true");
@@ -466,26 +432,24 @@ export function BarcodeCameraScanner({
       return;
     }
     const next = !torchOn;
-    // ZXing d’abord (certains Android)
+    // ZXing peut « réussir » sans allumer le flash → on vérifie TOUJOURS ensuite
     try {
       await BrowserCodeReader.mediaStreamSetTorch(track, next);
-      setTorchOn(next);
-      setTorchAvailable(true);
-      setTorchHint(next ? "Flash allumé" : null);
-      return;
     } catch {
-      /* fallback natif */
+      /* fallback natif ci-dessous */
     }
     const result = await setCameraTorch(track, next);
     if (result.ok) {
       setTorchOn(result.on);
       setTorchAvailable(true);
       setTorchHint(result.on ? "Flash allumé" : null);
+      // Re-applique le focus sans éteindre la torche
+      await applyContinuousFocus(track, result.on);
       return;
     }
     setTorchOn(false);
     if (result.unsupported) setTorchAvailable(false);
-    setTorchHint(result.message || "Flash non disponible sur cet appareil");
+    setTorchHint(result.message || "Flash non disponible — caméra arrière requise");
   }
 
   if (!open) return null;

@@ -7,7 +7,7 @@ import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 /**
  * GET /api/inventaire/visual-reference
- * Catalogue de référence FR (sites officiels) pour reconnaissance visuelle.
+ * Catalogue de référence FR + hash perceptuels précalculés (reconnaissance offline).
  */
 export async function GET(request: NextRequest) {
   try {
@@ -25,25 +25,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const path = join(process.cwd(), "data", "vape-fr-reference-products.json");
-    let raw: string;
-    try {
-      raw = await readFile(path, "utf8");
-    } catch {
-      return jsonResponse({
-        version: 0,
-        products: [],
-        total: 0,
-        withImage: 0,
-        message: "Fichier de référence absent — lancez scripts/build-vape-fr-reference.ts",
-      });
-    }
+    // Préférer le fichier avec hash (reconnaissance 100% sans proxy client)
+    const hashPath = join(process.cwd(), "data", "vape-fr-visual-hashes.json");
+    const refPath = join(process.cwd(), "data", "vape-fr-reference-products.json");
 
-    const data = JSON.parse(raw) as {
+    let data: {
       version?: number;
       generatedAt?: string;
       total?: number;
       withImage?: number;
+      withHash?: number;
       brands?: Record<string, number>;
       products?: Array<{
         id: string;
@@ -52,11 +43,30 @@ export async function GET(request: NextRequest) {
         range: string | null;
         barcode: string | null;
         imageUrl: string | null;
-        source: string;
+        source?: string;
+        hash?: number[];
+        colorHist?: number[];
       }>;
-    };
+    } | null = null;
 
-    const products = (data.products || [])
+    try {
+      data = JSON.parse(await readFile(hashPath, "utf8"));
+    } catch {
+      try {
+        data = JSON.parse(await readFile(refPath, "utf8"));
+      } catch {
+        return jsonResponse({
+          version: 0,
+          products: [],
+          total: 0,
+          withImage: 0,
+          withHash: 0,
+          message: "Fichier de référence absent",
+        });
+      }
+    }
+
+    const products = (data?.products || [])
       .filter((p) => p.imageUrl && p.name)
       .slice(0, 800)
       .map((p) => ({
@@ -69,14 +79,22 @@ export async function GET(request: NextRequest) {
         imageUrl: p.imageUrl,
         priceCents: null as number | null,
         source: p.source,
+        hash: Array.isArray(p.hash) && p.hash.length === 8 ? p.hash : null,
+        colorHist:
+          Array.isArray(p.colorHist) && p.colorHist.length === 64
+            ? p.colorHist
+            : null,
       }));
 
+    const withHash = products.filter((p) => p.hash && p.colorHist).length;
+
     return jsonResponse({
-      version: data.version || 1,
-      generatedAt: data.generatedAt || null,
-      total: data.total || products.length,
-      withImage: data.withImage || products.length,
-      brands: data.brands || {},
+      version: data?.version || 1,
+      generatedAt: data?.generatedAt || null,
+      total: data?.total || products.length,
+      withImage: products.length,
+      withHash,
+      brands: data?.brands || {},
       products,
     });
   } catch (error) {

@@ -1,7 +1,7 @@
 /**
  * Reconnaissance visuelle légère côté client (inventaire mobile).
- * Compare une image caméra aux vignettes catalogue déjà connues.
- * Aucune dépendance ML — hash perceptuel 8×8 + distance de Hamming.
+ * Compare une image caméra aux vignettes catalogue / référence fabricants.
+ * Hash perceptuel 8×8 + histogramme couleur.
  */
 
 export type VisualCatalogProduct = {
@@ -17,6 +17,8 @@ export type VisualCatalogProduct = {
 
 export type VisualIndexedProduct = VisualCatalogProduct & {
   hash: Uint8Array;
+  /** Histogramme RGB 4×4×4 = 64 bins, normalisé 0–255 */
+  colorHist: Uint8Array;
 };
 
 export type VisualMatch = VisualCatalogProduct & {
@@ -25,6 +27,7 @@ export type VisualMatch = VisualCatalogProduct & {
 };
 
 const HASH_SIZE = 8;
+const HIST_BINS = 4; // 4^3 = 64
 
 function average(values: number[]) {
   if (values.length === 0) return 0;
@@ -59,11 +62,30 @@ export function perceptualHashFromImageData(data: ImageData): Uint8Array {
   }
 
   const mean = average(grays);
-  const out = new Uint8Array(HASH_SIZE); // 8 octets = 64 bits
+  const out = new Uint8Array(HASH_SIZE);
   for (let i = 0; i < 64; i++) {
     if (grays[i] >= mean) {
       out[i >> 3] |= 1 << (i & 7);
     }
+  }
+  return out;
+}
+
+/** Histogramme couleur compact (64 bins). */
+export function colorHistFromImageData(data: ImageData): Uint8Array {
+  const hist = new Float32Array(HIST_BINS * HIST_BINS * HIST_BINS);
+  const { data: pixels, width, height } = data;
+  const n = width * height;
+  for (let i = 0; i < n; i++) {
+    const o = i * 4;
+    const ri = Math.min(HIST_BINS - 1, (pixels[o] * HIST_BINS) >> 8);
+    const gi = Math.min(HIST_BINS - 1, (pixels[o + 1] * HIST_BINS) >> 8);
+    const bi = Math.min(HIST_BINS - 1, (pixels[o + 2] * HIST_BINS) >> 8);
+    hist[ri * HIST_BINS * HIST_BINS + gi * HIST_BINS + bi] += 1;
+  }
+  const out = new Uint8Array(hist.length);
+  for (let i = 0; i < hist.length; i++) {
+    out[i] = Math.min(255, Math.round((hist[i] / n) * 255 * 8));
   }
   return out;
 }
@@ -81,27 +103,105 @@ export function hammingDistance(a: Uint8Array, b: Uint8Array): number {
   return dist;
 }
 
-async function loadImageElement(url: string): Promise<HTMLImageElement | null> {
+/** Distance L1 normalisée 0–1 entre histogrammes. */
+export function colorHistDistance(a: Uint8Array, b: Uint8Array): number {
+  const n = Math.min(a.length, b.length);
+  let sum = 0;
+  for (let i = 0; i < n; i++) sum += Math.abs(a[i] - b[i]);
+  return sum / (n * 255);
+}
+
+function loadFromSrc(src: string, crossOrigin: boolean): Promise<HTMLImageElement | null> {
   return new Promise((resolve) => {
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    if (crossOrigin) img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = () => resolve(null);
-    img.src = url;
+    img.src = src;
   });
 }
 
-function hashFromImage(img: HTMLImageElement): Uint8Array | null {
+function featuresFromImage(img: HTMLImageElement): {
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+} | null {
   try {
     const canvas = document.createElement("canvas");
-    canvas.width = HASH_SIZE * 8;
-    canvas.height = HASH_SIZE * 8;
+    canvas.width = 64;
+    canvas.height = 64;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return null;
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    return perceptualHashFromImageData(
-      ctx.getImageData(0, 0, canvas.width, canvas.height)
-    );
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(img, 0, 0, 64, 64);
+    const data = ctx.getImageData(0, 0, 64, 64);
+    return {
+      hash: perceptualHashFromImageData(data),
+      colorHist: colorHistFromImageData(data),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Charge + hashe une image.
+ * IMPORTANT : /api/inventaire/image-proxy exige les cookies inventaire
+ * → fetch credentials + blob. On hashe AVANT revokeObjectURL (sinon WebView Android = hash vide).
+ */
+async function loadImageFeatures(url: string): Promise<{
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+} | null> {
+  const sameOrigin =
+    url.startsWith("/") ||
+    (typeof window !== "undefined" && url.startsWith(window.location.origin));
+
+  let img: HTMLImageElement | null = null;
+  let objUrl: string | null = null;
+
+  try {
+    if (sameOrigin) {
+      const res = await fetch(url, {
+        credentials: "include",
+        cache: "force-cache",
+      });
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      if (blob.size < 80) return null;
+      // Certains proxies renvoient octet-stream
+      objUrl = URL.createObjectURL(blob);
+      img = await loadFromSrc(objUrl, false);
+    } else {
+      img = await loadFromSrc(url, true);
+    }
+    if (!img) return null;
+    return featuresFromImage(img);
+  } catch {
+    return null;
+  } finally {
+    if (objUrl) URL.revokeObjectURL(objUrl);
+  }
+}
+
+function featuresFromCanvas(canvas: HTMLCanvasElement): {
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+} | null {
+  try {
+    const tmp = document.createElement("canvas");
+    tmp.width = 64;
+    tmp.height = 64;
+    const ctx = tmp.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return null;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(canvas, 0, 0, 64, 64);
+    const data = ctx.getImageData(0, 0, 64, 64);
+    return {
+      hash: perceptualHashFromImageData(data),
+      colorHist: colorHistFromImageData(data),
+    };
   } catch {
     return null;
   }
@@ -110,14 +210,13 @@ function hashFromImage(img: HTMLImageElement): Uint8Array | null {
 /** Prépare l’index visuel à partir des produits catalogue (avec imageUrl). */
 export async function buildVisualIndex(
   products: VisualCatalogProduct[],
-  options?: { maxProducts?: number }
+  options?: { maxProducts?: number; onProgress?: (done: number, total: number) => void }
 ): Promise<VisualIndexedProduct[]> {
-  const max = options?.maxProducts ?? 400;
+  const max = options?.maxProducts ?? 700;
   const withImage = products
     .filter((p) => Boolean(p.imageUrl?.trim()) && Boolean(p.name?.trim()))
     .slice(0, max);
 
-  // Une seule image à hasher par URL (plusieurs produits peuvent partager la même vignette)
   const byUrl = new Map<string, VisualCatalogProduct[]>();
   for (const p of withImage) {
     const url = p.imageUrl.trim();
@@ -128,19 +227,19 @@ export async function buildVisualIndex(
 
   const indexed: VisualIndexedProduct[] = [];
   const urls = [...byUrl.keys()];
+  let done = 0;
 
-  // Charge par lots pour limiter la pression réseau / mémoire
-  const batchSize = 8;
+  const batchSize = 6;
   for (let i = 0; i < urls.length; i += batchSize) {
     const batch = urls.slice(i, i + batchSize);
     await Promise.all(
       batch.map(async (url) => {
-        const img = await loadImageElement(url);
-        if (!img) return;
-        const hash = hashFromImage(img);
-        if (!hash) return;
+        const feat = await loadImageFeatures(url);
+        done += 1;
+        options?.onProgress?.(done, urls.length);
+        if (!feat) return;
         for (const p of byUrl.get(url) || []) {
-          indexed.push({ ...p, hash });
+          indexed.push({ ...p, hash: feat.hash, colorHist: feat.colorHist });
         }
       })
     );
@@ -151,7 +250,7 @@ export async function buildVisualIndex(
 
 /**
  * Compare un canvas (frame caméra) à l’index.
- * score = 1 - distance/64
+ * Combine distance Hamming + histogramme couleur.
  */
 export function matchVisualCanvas(
   canvas: HTMLCanvasElement,
@@ -159,24 +258,22 @@ export function matchVisualCanvas(
   options?: { limit?: number; maxDistance?: number }
 ): VisualMatch[] {
   if (!index.length) return [];
-  const ctx = canvas.getContext("2d", { willReadFrequently: true });
-  if (!ctx || canvas.width < 16 || canvas.height < 16) return [];
+  if (canvas.width < 16 || canvas.height < 16) return [];
 
-  let hash: Uint8Array;
-  try {
-    hash = perceptualHashFromImageData(
-      ctx.getImageData(0, 0, canvas.width, canvas.height)
-    );
-  } catch {
-    return [];
-  }
+  const feat = featuresFromCanvas(canvas);
+  if (!feat) return [];
 
-  const maxDistance = options?.maxDistance ?? 14;
+  const maxDistance = options?.maxDistance ?? 20;
   const limit = options?.limit ?? 8;
 
   const scored = index
     .map((p) => {
-      const distance = hammingDistance(hash, p.hash);
+      const distance = hammingDistance(feat.hash, p.hash);
+      const colorDist = colorHistDistance(feat.colorHist, p.colorHist);
+      // Score combiné : pHash prioritaire, couleur en renfort
+      const hashScore = 1 - distance / 64;
+      const colorScore = 1 - colorDist;
+      const score = hashScore * 0.72 + colorScore * 0.28;
       return {
         id: p.id,
         name: p.name,
@@ -187,13 +284,12 @@ export function matchVisualCanvas(
         imageUrl: p.imageUrl,
         priceCents: p.priceCents,
         distance,
-        score: 1 - distance / 64,
+        score,
       };
     })
-    .filter((m) => m.distance <= maxDistance)
-    .sort((a, b) => a.distance - b.distance || b.score - a.score);
+    .filter((m) => m.distance <= maxDistance || m.score >= 0.55)
+    .sort((a, b) => b.score - a.score || a.distance - b.distance);
 
-  // Déduplique par id produit
   const seen = new Set<string>();
   const unique: VisualMatch[] = [];
   for (const m of scored) {
@@ -240,9 +336,8 @@ export function sharpenCatalogImageUrl(url: string): string {
 }
 
 /**
- * Décide auto-remplissage vs suggestions :
- * - 1 match clairement meilleur → auto
- * - plusieurs proches / même image → suggestions
+ * Décide auto-remplissage vs suggestions.
+ * Seuils calibrés pour photo téléphone vs vignette catalogue.
  */
 export function decideVisualAction(matches: VisualMatch[]): {
   mode: "none" | "auto" | "suggest";
@@ -250,20 +345,23 @@ export function decideVisualAction(matches: VisualMatch[]): {
 } {
   if (!matches.length) return { mode: "none", picks: [] };
   const best = matches[0];
-  // Même vignette partagée par plusieurs produits → jamais d’auto-remplissage
   const sameImage = matches.filter((m) => m.imageUrl === best.imageUrl);
-  if (sameImage.length > 1) {
+  if (sameImage.length > 1 && best.score < 0.82) {
     return { mode: "suggest", picks: sameImage.slice(0, 6) };
   }
   const second = matches[1];
-  const clearWinner =
-    best.distance <= 7 && (!second || second.distance - best.distance >= 5);
-  if (clearWinner) return { mode: "auto", picks: [best] };
-  if (matches.length >= 2 && best.distance <= 11) {
-    return { mode: "suggest", picks: matches.slice(0, 5) };
+  const gap = second ? best.score - second.score : best.score;
+
+  // Auto si net (photo téléphone vs vignette web = distances plus larges)
+  if (best.score >= 0.74 && best.distance <= 14 && gap >= 0.04) {
+    return { mode: "auto", picks: [best] };
   }
-  // Auto seul si match très net
-  if (best.distance <= 5) return { mode: "auto", picks: [best] };
-  if (best.distance <= 10) return { mode: "suggest", picks: matches.slice(0, 4) };
+  if (best.distance <= 8 && (!second || second.distance - best.distance >= 3)) {
+    return { mode: "auto", picks: [best] };
+  }
+  // Suggestions si plausible
+  if (best.score >= 0.52 || best.distance <= 22) {
+    return { mode: "suggest", picks: matches.slice(0, 6) };
+  }
   return { mode: "none", picks: [] };
 }

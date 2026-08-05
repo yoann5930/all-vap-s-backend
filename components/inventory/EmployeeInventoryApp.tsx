@@ -621,7 +621,7 @@ export function EmployeeInventoryApp() {
             !/unsplash\.com/i.test(p.imageUrl)
         );
 
-      // Référence fabricants FR (images via proxy same-origin → hash CORS OK)
+      // Référence fabricants FR — hash précalculés (prioritaires) + proxy pour affichage
       try {
         const refRes = await fetch("/api/inventaire/visual-reference");
         if (refRes.ok) {
@@ -634,12 +634,15 @@ export function EmployeeInventoryApp() {
             category?: string | null;
             barcode?: string | null;
             imageUrl?: string | null;
+            hash?: number[] | null;
+            colorHist?: number[] | null;
           }>;
+          const preIndexed: VisualIndexedProduct[] = [];
           for (const r of refs) {
             if (!r.imageUrl || !r.name) continue;
             const sharp = sharpenCatalogImageUrl(r.imageUrl);
             const proxied = `/api/inventaire/image-proxy?url=${encodeURIComponent(sharp)}`;
-            mapped.push({
+            const base = {
               id: r.id,
               name: r.name,
               brand: r.brand || null,
@@ -647,21 +650,62 @@ export function EmployeeInventoryApp() {
               category: r.category || r.range || null,
               barcode: r.barcode || null,
               imageUrl: proxied,
-              priceCents: null,
-            });
+              priceCents: null as number | null,
+            };
+            if (
+              Array.isArray(r.hash) &&
+              r.hash.length === 8 &&
+              Array.isArray(r.colorHist) &&
+              r.colorHist.length === 64
+            ) {
+              preIndexed.push({
+                ...base,
+                hash: Uint8Array.from(r.hash),
+                colorHist: Uint8Array.from(r.colorHist),
+              });
+            } else {
+              mapped.push(base);
+            }
+          }
+          if (preIndexed.length) {
+            visualIndexRef.current = preIndexed;
+            setVisualReady(true);
+            setRecognitionHint(null);
+            setLookupHint(
+              `Mémoire visuelle : ${preIndexed.length} références prêtes`
+            );
           }
         }
       } catch {
         /* référence optionnelle */
       }
 
-      const index = await buildVisualIndex(mapped, { maxProducts: 700 });
-      visualIndexRef.current = index;
-      setVisualReady(index.length > 0);
-      if (index.length === 0) {
+      // Complète avec images catalogue boutique (hors Unsplash) si besoin
+      const index = await buildVisualIndex(mapped, {
+        maxProducts: 700,
+        onProgress: (done, total) => {
+          if (done === total || done % 25 === 0) {
+            setRecognitionHint(`Mémoire visuelle boutique ${done}/${total}…`);
+          }
+        },
+      });
+      const merged = [...visualIndexRef.current, ...index];
+      // dédup par id
+      const seen = new Set<string>();
+      const unique = merged.filter((p) => {
+        if (seen.has(p.id)) return false;
+        seen.add(p.id);
+        return true;
+      });
+      visualIndexRef.current = unique;
+      setVisualReady(unique.length > 0);
+      if (unique.length === 0) {
         setRecognitionHint(
           "Mémoire visuelle vide — scannez l’EAN ou saisissez le nom"
         );
+      } else {
+        setRecognitionHint(null);
+        setLookupHint(`Mémoire visuelle : ${unique.length} produits prêts`);
       }
     } catch {
       visualIndexRef.current = [];
@@ -831,7 +875,7 @@ export function EmployeeInventoryApp() {
       if (index.length) {
         const matches = matchVisualCanvas(canvas, index, {
           limit: 8,
-          maxDistance: 12,
+          maxDistance: 22,
         });
         const decision = decideVisualAction(matches);
 

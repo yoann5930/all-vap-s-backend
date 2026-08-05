@@ -53,6 +53,9 @@ prisma/*.db-journal
 *credentials*.txt
 *credentials*.json
 
+# cache images pour build hash visuel (binaires)
+/data/.visual-image-cache/
+
 # Android inventaire build (APK publié dans public/apps)
 mobile/inventaire-webview/app/build/
 mobile/inventaire-webview/.gradle/

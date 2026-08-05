@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { drawProductCropToCanvas } from "@/components/inventory/visual-product-matcher";
 import {
+  applyContinuousFocus,
   detectTorchSupport,
+  openInventoryCamera,
   setCameraTorch,
 } from "@/lib/inventory/camera-torch";
 
@@ -109,32 +111,6 @@ export function VisualRecognitionCamera({
       if (video) video.srcObject = null;
     }
 
-    async function openCamera(): Promise<MediaStream> {
-      const attempts: MediaStreamConstraints[] = [
-        {
-          audio: false,
-          video: {
-            facingMode: { ideal: "environment" },
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
-          },
-        },
-        { audio: false, video: { facingMode: "environment" } },
-        { audio: false, video: true },
-      ];
-      let lastError: unknown;
-      for (const constraints of attempts) {
-        try {
-          return await navigator.mediaDevices.getUserMedia(constraints);
-        } catch (e) {
-          lastError = e;
-        }
-      }
-      throw lastError instanceof Error
-        ? lastError
-        : new Error("Impossible d’ouvrir la caméra");
-    }
-
     async function analyzeOnce() {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -209,7 +185,7 @@ export function VisualRecognitionCamera({
           setError("Caméra non disponible (HTTPS requis).");
           return;
         }
-        const stream = await openCamera();
+        const stream = await openInventoryCamera({ width: 1920, height: 1080 });
         if (cancelled) {
           stream.getTracks().forEach((t) => t.stop());
           return;
@@ -217,6 +193,7 @@ export function VisualRecognitionCamera({
         streamRef.current = stream;
         const track = stream.getVideoTracks()[0];
         setTorchAvailable(detectTorchSupport(track));
+        await applyContinuousFocus(track, false);
         video.srcObject = stream;
         video.setAttribute("playsinline", "true");
         video.setAttribute("webkit-playsinline", "true");
@@ -263,11 +240,14 @@ export function VisualRecognitionCamera({
       setTorchOn(result.on);
       setTorchAvailable(true);
       setTorchHint(result.on ? "Flash allumé" : null);
+      await applyContinuousFocus(track, result.on);
       return;
     }
     setTorchOn(false);
     if (result.unsupported) setTorchAvailable(false);
-    setTorchHint(result.message || "Flash non disponible sur cet appareil");
+    setTorchHint(
+      result.message || "Flash non disponible — caméra arrière requise"
+    );
   }
 
   if (!open) return null;
@@ -317,7 +297,7 @@ export function VisualRecognitionCamera({
             onClick={() => void toggleTorch()}
             className={`min-w-[7rem] rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
               torchOn ? "bg-amber-500" : "bg-white/15"
-            }`}
+            } ${!torchAvailable && !torchOn ? "opacity-80" : ""}`}
             aria-pressed={torchOn}
             aria-label={torchOn ? "Éteindre le flash" : "Allumer le flash"}
           >

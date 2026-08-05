@@ -12,6 +12,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "liquidelab.com",
   "e-tasty.fr",
   "vapair.pro",
+  "vapair.fr",
   "vape47.com",
   "pulp.fr",
   "alfaliquid.com",
