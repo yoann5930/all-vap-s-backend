@@ -7,19 +7,58 @@ import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inv
 
 type StoreCode = "HAUTMONT" | "LE_QUESNOY";
 
+interface InventoryLine {
+  id: string;
+  barcode: string | null;
+  quantityCounted: number;
+  photoPath?: string | null;
+  createdAt?: string;
+  product?: {
+    id: string;
+    name: string;
+    barcode?: string | null;
+    imageUrl?: string | null;
+    priceCents?: number | null;
+    promoPriceCents?: number | null;
+  } | null;
+}
+
 interface Session {
   id: string;
   employeeName: string;
   status: string;
+  startedAt?: string;
+  completedAt?: string | null;
   location: { code: string; name: string };
-  lines?: Array<{
-    id: string;
-    barcode: string | null;
-    quantityCounted: number;
-    product?: { name: string } | null;
-    photoPath?: string | null;
-  }>;
+  lines?: InventoryLine[];
   _count?: { lines: number };
+}
+
+const EUR = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+
+/** Prix unitaire effectif (promo prioritaire) en centimes, ou null si inconnu. */
+function unitPriceCents(line: InventoryLine): number | null {
+  const p = line.product;
+  if (!p) return null;
+  const cents = p.promoPriceCents ?? p.priceCents;
+  return typeof cents === "number" ? cents : null;
+}
+
+function formatCents(cents: number | null): string {
+  return cents == null ? "—" : EUR.format(cents / 100);
+}
+
+function sessionTotalCents(session: Session): number {
+  return (session.lines || []).reduce((sum, l) => {
+    const unit = unitPriceCents(l);
+    return unit == null ? sum : sum + unit * l.quantityCounted;
+  }, 0);
+}
+
+function formatDateTime(iso?: string | null): string {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? "—" : d.toLocaleString("fr-FR");
 }
 
 export function AdminInventoryClient() {
@@ -346,14 +385,140 @@ export function AdminInventoryClient() {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div>
-        <h2 className="text-sm font-semibold text-gray-800">Sessions récentes</h2>
-        <ul className="mt-2 space-y-2 text-sm text-gray-600">
-          {sessions.slice(0, 10).map((s) => (
-            <li key={s.id} className="rounded-lg border border-gray-100 px-3 py-2">
-              {s.employeeName} · {s.location.name} · {s.status} · {s._count?.lines ?? 0} lignes
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-semibold text-gray-900">
+            Inventaires enregistrés
+          </h2>
+          <button
+            type="button"
+            onClick={() => void loadSessions()}
+            className="text-sm text-brand-700 underline"
+          >
+            Rafraîchir
+          </button>
+        </div>
+        <p className="mt-1 text-sm text-gray-500">
+          Chaque ligne comptée : produit, code-barres, quantité, prix unitaire, valeur
+          totale, photo, employé, boutique, date et heure.
+        </p>
+
+        {sessions.length === 0 ? (
+          <p className="mt-4 rounded-lg border border-dashed border-gray-200 px-3 py-6 text-center text-sm text-gray-500">
+            Aucun inventaire enregistré pour l&apos;instant.
+          </p>
+        ) : (
+          <div className="mt-4 space-y-5">
+            {sessions.map((s) => (
+              <section
+                key={s.id}
+                className="overflow-hidden rounded-xl border border-gray-200 bg-white"
+              >
+                <header className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 bg-gray-50 px-4 py-3">
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {s.employeeName}
+                      <span className="ml-2 rounded-full bg-brand-100 px-2 py-0.5 text-xs font-medium text-brand-800">
+                        {s.location.name}
+                      </span>
+                      <span
+                        className={`ml-2 rounded-full px-2 py-0.5 text-xs font-medium ${
+                          s.status === "COMPLETED"
+                            ? "bg-emerald-100 text-emerald-800"
+                            : s.status === "CANCELLED"
+                              ? "bg-gray-200 text-gray-700"
+                              : "bg-amber-100 text-amber-900"
+                        }`}
+                      >
+                        {s.status}
+                      </span>
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {formatDateTime(s.startedAt)} · {s._count?.lines ?? s.lines?.length ?? 0} ligne(s)
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-gray-500">Valeur totale comptée</p>
+                    <p className="font-semibold text-gray-900">
+                      {formatCents(sessionTotalCents(s))}
+                    </p>
+                  </div>
+                </header>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b bg-white text-xs uppercase tracking-wide text-gray-500">
+                        <th className="px-3 py-2">Photo</th>
+                        <th className="px-3 py-2">Produit</th>
+                        <th className="px-3 py-2">Code-barres</th>
+                        <th className="px-3 py-2 text-right">Qté</th>
+                        <th className="px-3 py-2 text-right">Prix unitaire</th>
+                        <th className="px-3 py-2 text-right">Valeur totale</th>
+                        <th className="px-3 py-2">Employé</th>
+                        <th className="px-3 py-2">Boutique</th>
+                        <th className="px-3 py-2">Date &amp; heure</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(s.lines || []).length === 0 ? (
+                        <tr>
+                          <td colSpan={9} className="px-3 py-4 text-center text-gray-400">
+                            Aucune ligne comptée
+                          </td>
+                        </tr>
+                      ) : (
+                        (s.lines || []).map((l) => {
+                          const unit = unitPriceCents(l);
+                          const total = unit == null ? null : unit * l.quantityCounted;
+                          return (
+                            <tr key={l.id} className="border-b last:border-0 align-middle">
+                              <td className="px-3 py-2">
+                                {l.photoPath ? (
+                                  <a href={l.photoPath} target="_blank" rel="noreferrer">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={l.photoPath}
+                                      alt="Photo inventaire"
+                                      className="h-12 w-12 rounded-md border border-gray-200 object-cover"
+                                    />
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-300">—</span>
+                                )}
+                              </td>
+                              <td className="px-3 py-2 font-medium text-gray-900">
+                                {l.product?.name || (
+                                  <span className="font-normal text-gray-400">Non reconnu</span>
+                                )}
+                              </td>
+                              <td className="px-3 py-2 font-mono text-xs text-gray-700">
+                                {l.barcode || l.product?.barcode || "—"}
+                              </td>
+                              <td className="px-3 py-2 text-right tabular-nums">
+                                {l.quantityCounted}
+                              </td>
+                              <td className="px-3 py-2 text-right tabular-nums">
+                                {formatCents(unit)}
+                              </td>
+                              <td className="px-3 py-2 text-right font-semibold tabular-nums">
+                                {formatCents(total)}
+                              </td>
+                              <td className="px-3 py-2 text-gray-700">{s.employeeName}</td>
+                              <td className="px-3 py-2 text-gray-700">{s.location.name}</td>
+                              <td className="px-3 py-2 text-xs text-gray-600">
+                                {formatDateTime(l.createdAt)}
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

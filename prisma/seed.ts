@@ -121,12 +121,22 @@ async function main() {
     { name: "Drip Tip 510 Delrin", slug: "drip-tip-510-delrin", sku: "AV-DT-002", category: "drip-tips", imageUrl: IMG.accessory, priceCents: 590, stock: 45, salesCount: 30 },
   ];
 
-  for (const product of products) {
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
     const categoryId = categoryMap[product.category];
+    // Code-barres déterministe (EAN-13, préfixe démo 340) pour permettre le scan
+    // en inventaire → résolution produit (nom, prix) même sans import SumUp réel.
+    const base = `340${String(1_000_000_000 + i).slice(-9)}`;
+    const digits = base.split("").map(Number);
+    const checksum =
+      (10 -
+        (digits.reduce((sum, d, idx) => sum + d * (idx % 2 === 0 ? 1 : 3), 0) % 10)) %
+      10;
+    const barcode = `${base}${checksum}`;
     await prisma.product.upsert({
       where: { slug: product.slug },
-      update: { ...product, categoryId },
-      create: { ...product, categoryId },
+      update: { ...product, barcode, categoryId },
+      create: { ...product, barcode, categoryId },
     });
   }
 
