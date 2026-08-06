@@ -329,7 +329,7 @@ export function AdminUsersClient() {
 
   function renderStatus(u: UserRow) {
     return (
-      <div className="admin-users-badges">
+      <div className="admin-users-badges admin-users-badges--status">
         <Badge tone={u.active ? "success" : "danger"}>{u.active ? "ACTIF" : "INACTIF"}</Badge>
         {u.mustChangePassword ? <Badge tone="warning">MDP À CHANGER</Badge> : null}
       </div>

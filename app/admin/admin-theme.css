@@ -394,9 +394,18 @@ select.admin-input {
   min-width: 12rem;
   max-width: 18rem;
 }
-.admin-users-table td:last-child {
+.admin-users-table td:last-child,
+.admin-users-table th:last-child {
   white-space: nowrap;
-  min-width: 28rem;
+  min-width: 26rem;
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #121924;
+  box-shadow: -8px 0 16px rgba(0, 0, 0, 0.35);
+}
+.admin-users-table tbody tr:hover td:last-child {
+  background: #161e2a;
 }
 .admin-users-sort {
   display: inline-flex;
@@ -446,26 +455,28 @@ select.admin-input {
   text-align: center;
 }
 .admin-users-badges {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   gap: 0.35rem;
   align-items: center;
+  max-width: 100%;
 }
 .admin-users-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 5.5rem;
+  min-width: 4.75rem;
   min-height: 1.55rem;
-  padding: 0.2rem 0.65rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 999px;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 650;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1.2;
   border: 1px solid transparent;
+  flex: 0 0 auto;
 }
 .admin-users-badge--neutral {
   color: var(--adm-muted);
@@ -478,7 +489,7 @@ select.admin-input {
   border-color: rgba(43, 203, 120, 0.28);
 }
 .admin-users-badge--warning {
-  min-width: 7.5rem;
+  min-width: 7.25rem;
   color: #f6c56b;
   background: rgba(240, 160, 32, 0.12);
   border-color: rgba(240, 160, 32, 0.3);
@@ -494,10 +505,14 @@ select.admin-input {
   border-color: rgba(47, 124, 255, 0.3);
 }
 .admin-users-badge--gold {
-  min-width: 6.5rem;
+  min-width: 5.75rem;
   color: #e2c89a;
   background: var(--adm-gold-soft);
   border-color: rgba(196, 165, 116, 0.35);
+}
+.admin-users-badges--status,
+.admin-users-card-row .admin-users-badges {
+  flex-wrap: wrap;
 }
 .admin-users-badge--toggle {
   cursor: pointer;
@@ -520,9 +535,9 @@ select.admin-input {
   border: 1px solid var(--adm-border-strong);
   background: rgba(255, 255, 255, 0.03);
   color: var(--adm-text);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  padding: 0.4rem 0.55rem;
+  padding: 0.38rem 0.45rem;
   line-height: 1.2;
   transition: background 140ms ease, border-color 140ms ease;
 }
