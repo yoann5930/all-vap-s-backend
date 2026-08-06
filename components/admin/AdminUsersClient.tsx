@@ -20,7 +20,6 @@ const INVENTAIRE_HOME_URL = "https://inventaire.allvaps.fr";
 /** Route de connexion employé détectée dans l’app. */
 const INVENTAIRE_LOGIN_URL = "https://inventaire.allvaps.fr/login?next=/inventaire";
 const PAGE_SIZE = 10;
-const MASK = "••••••";
 
 type UserRow = {
   id: string;
@@ -306,12 +305,12 @@ export function AdminUsersClient() {
       if (data.temporaryPassword && typeof data.temporaryPassword === "string") {
         const u = users.find((x) => x.id === userId);
         setSecureModal({
-          title: "Nouveau code généré",
+          title: "Code réinitialisé",
           employeeName: u ? displayName(u) : "Employé",
           email: u?.email || data.user?.email || "",
           code: data.temporaryPassword,
         });
-        setMessage("Nouveau code généré — affiché une seule fois. L’ancien code est invalidé.");
+        setMessage("Code réinitialisé — affiché une seule fois. L’ancien code est invalidé.");
       } else {
         setMessage(okMsg || "Mise à jour enregistrée");
       }
@@ -323,9 +322,9 @@ export function AdminUsersClient() {
     }
   }
 
-  async function generateNewCode(u: UserRow) {
+  async function resetAccessCode(u: UserRow) {
     const ok = window.confirm(
-      `Générer un nouveau code pour ${displayName(u)} ?\n\nL’ancien code sera immédiatement invalidé. Le nouveau s’affichera une seule fois.`
+      `Réinitialiser le code de ${displayName(u)} ?\n\nL’ancien code sera immédiatement invalidé. Le nouveau s’affichera une seule fois.`
     );
     if (!ok) return;
     await patch(u.id, { resetPassword: true });
@@ -395,10 +394,10 @@ export function AdminUsersClient() {
           type="button"
           disabled={loading}
           className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-800 hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => void generateNewCode(u)}
+          onClick={() => void resetAccessCode(u)}
         >
           <RefreshCw className="h-3.5 w-3.5" />
-          Générer un nouveau code
+          Réinitialiser le code
         </button>
         <button
           type="button"
@@ -591,9 +590,8 @@ export function AdminUsersClient() {
           <table className="min-w-full text-left text-sm">
             <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
               <tr>
-                <th className="px-4 py-3">Nom employé</th>
+                <th className="px-4 py-3">Nom de l’employé</th>
                 <th className="px-4 py-3">Adresse e-mail</th>
-                <th className="px-4 py-3">Code d’accès</th>
                 <th className="px-4 py-3">Statut</th>
                 <th className="px-4 py-3">Dernière connexion</th>
                 <th className="px-4 py-3">Actions</th>
@@ -602,14 +600,14 @@ export function AdminUsersClient() {
             <tbody>
               {listLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                  <td colSpan={5} className="px-4 py-10 text-center text-gray-500">
                     <Loader2 className="mx-auto h-5 w-5 animate-spin" />
                     <span className="mt-2 block text-sm">Chargement des accès…</span>
                   </td>
                 </tr>
               ) : pageRows.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                  <td colSpan={5} className="px-4 py-10 text-center text-gray-500">
                     Aucun employé trouvé.
                   </td>
                 </tr>
@@ -641,6 +639,7 @@ export function AdminUsersClient() {
                           <div className="font-medium text-gray-900">{displayName(u)}</div>
                           <div className="text-[11px] text-gray-400">
                             {u.role === "ADMIN" ? "Administrateur" : "Employé"}
+                            {u.mustChangePassword ? " · code à changer" : ""}
                           </div>
                         </div>
                       )}
@@ -657,14 +656,6 @@ export function AdminUsersClient() {
                       ) : (
                         <span className="text-gray-700">{u.email}</span>
                       )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <code className="rounded bg-gray-100 px-2 py-1 font-mono text-xs text-gray-600">
-                        {MASK}
-                      </code>
-                      {u.mustChangePassword ? (
-                        <p className="mt-1 text-[11px] text-amber-700">Changement obligatoire</p>
-                      ) : null}
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -754,12 +745,6 @@ export function AdminUsersClient() {
                 </span>
               </div>
               <div className="mt-3 space-y-2 border-t border-gray-100 pt-3">
-                <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">
-                  Code d’accès
-                </p>
-                <code className="rounded bg-gray-100 px-2 py-1 font-mono text-xs text-gray-600">
-                  {MASK}
-                </code>
                 <p className="text-xs text-gray-500">
                   Dernière connexion : {formatLoginDate(u.lastLoginAt)}
                 </p>
