@@ -73,12 +73,42 @@ const createSchema = z.object({
   phone: z.string().max(30).optional().nullable(),
 });
 
-/** Création employé + code temporaire (renvoyé une seule fois, jamais loggé). */
+/** Création employé OU bootstrap des comptes démo (action dédiée). */
 export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
     const auth = await requireAuth("ADMIN");
-    const data = createSchema.parse(await request.json());
+    const body = await request.json();
+
+    if (body?.action === "ensure_access_codes") {
+      const { ensureInventoryStaffAccessCodes } = await import(
+        "@/lib/admin/ensure-inventory-staff"
+      );
+      const result = await ensureInventoryStaffAccessCodes();
+      await writeAuditLog({
+        user: auth,
+        action: "USER_ENSURE_ACCESS_CODES",
+        ip: clientIp(request),
+        metadata: {
+          staffCount: result.staffCount,
+          issuedCount: result.issued.length,
+        },
+      });
+      return jsonResponse({
+        staffCount: result.staffCount,
+        users: result.users,
+        issued: result.issued.map((i) => ({
+          userId: i.userId,
+          email: i.email,
+          firstName: i.firstName,
+          lastName: i.lastName,
+          temporaryPassword: i.temporaryPassword,
+          created: i.created,
+        })),
+      });
+    }
+
+    const data = createSchema.parse(body);
 
     const existing = await prisma.user.findUnique({
       where: { email: data.email.toLowerCase() },

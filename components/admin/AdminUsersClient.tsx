@@ -190,9 +190,12 @@ export function AdminUsersClient() {
     active: true,
   });
 
-  /** Fenêtre sécurisée one-shot — effacée à la fermeture. */
+  /** Fenêtre sécurisée one-shot — le clair reste aussi en session tableau jusqu’au refresh. */
   const [secureModal, setSecureModal] = useState<SecureCodeModalState | null>(null);
+  /** Codes émis cette session (création / reset) — jamais lus depuis la base. */
+  const [issuedCodes, setIssuedCodes] = useState<Record<string, string>>({});
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [ensured, setEnsured] = useState(false);
 
   const [editId, setEditId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ firstName: "", lastName: "", email: "" });
@@ -200,6 +203,18 @@ export function AdminUsersClient() {
   const closeSecureModal = useCallback(() => {
     setSecureModal(null);
   }, []);
+
+  function rememberIssued(userId: string, code: string, meta?: { name: string; email: string; title: string }) {
+    setIssuedCodes((prev) => ({ ...prev, [userId]: code }));
+    if (meta) {
+      setSecureModal({
+        title: meta.title,
+        employeeName: meta.name,
+        email: meta.email,
+        code,
+      });
+    }
+  }
 
   const load = useCallback(async () => {
     setListLoading(true);
@@ -212,8 +227,10 @@ export function AdminUsersClient() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur de chargement");
       setUsers(data.users || []);
+      return (data.users || []) as UserRow[];
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur de chargement");
+      return [] as UserRow[];
     } finally {
       setListLoading(false);
     }
@@ -222,6 +239,61 @@ export function AdminUsersClient() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  /** Si aucun employé : créer les comptes démo + afficher les codes émis une fois. */
+  useEffect(() => {
+    if (listLoading || ensured || search || statusFilter !== "all") return;
+    if (users.length > 0) {
+      setEnsured(true);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/admin/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "ensure_access_codes" }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Bootstrap impossible");
+        if (cancelled) return;
+        const nextIssued: Record<string, string> = {};
+        for (const row of data.issued || []) {
+          if (row.userId && row.temporaryPassword) {
+            nextIssued[row.userId] = row.temporaryPassword;
+          }
+        }
+        if (Object.keys(nextIssued).length) {
+          setIssuedCodes((prev) => ({ ...prev, ...nextIssued }));
+          const first = (data.issued || [])[0];
+          if (first?.temporaryPassword) {
+            setSecureModal({
+              title: "Comptes démo créés — codes temporaires",
+              employeeName: [first.firstName, first.lastName].filter(Boolean).join(" "),
+              email: first.email,
+              code: first.temporaryPassword,
+            });
+          }
+          setMessage(
+            `${Object.keys(nextIssued).length} code(s) généré(s) pour les nouveaux comptes. Notez-les maintenant.`
+          );
+        }
+        await load();
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : "Erreur bootstrap");
+      } finally {
+        if (!cancelled) {
+          setEnsured(true);
+          setLoading(false);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [listLoading, users.length, ensured, search, statusFilter, load]);
 
   useEffect(() => {
     setPage(1);
@@ -273,7 +345,13 @@ export function AdminUsersClient() {
       setForm({ firstName: "", lastName: "", email: "", accessCode: "", active: true });
       setShowAdd(false);
       setMessage("Employé créé. Notez le code temporaire avant de fermer la fenêtre.");
-      if (typeof data.temporaryPassword === "string" && data.temporaryPassword) {
+      if (typeof data.temporaryPassword === "string" && data.temporaryPassword && data.user?.id) {
+        rememberIssued(data.user.id, data.temporaryPassword, {
+          title: "Code d’accès créé",
+          name,
+          email,
+        });
+      } else if (typeof data.temporaryPassword === "string" && data.temporaryPassword) {
         setSecureModal({
           title: "Code d’accès créé",
           employeeName: name,
@@ -304,11 +382,10 @@ export function AdminUsersClient() {
       setEditId(null);
       if (data.temporaryPassword && typeof data.temporaryPassword === "string") {
         const u = users.find((x) => x.id === userId);
-        setSecureModal({
+        rememberIssued(userId, data.temporaryPassword, {
           title: "Code réinitialisé",
-          employeeName: u ? displayName(u) : "Employé",
+          name: u ? displayName(u) : "Employé",
           email: u?.email || data.user?.email || "",
-          code: data.temporaryPassword,
         });
         setMessage("Code réinitialisé — affiché une seule fois. L’ancien code est invalidé.");
       } else {
@@ -360,8 +437,50 @@ export function AdminUsersClient() {
   }
 
   function ActionsCell({ u }: { u: UserRow }) {
+    const code = issuedCodes[u.id];
     return (
       <div className="flex flex-wrap gap-1.5">
+        <button
+          type="button"
+          disabled={loading || !code}
+          className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-40"
+          title={code ? "Copier le code" : "Aucun code affiché — réinitialisez pour en générer un"}
+          onClick={() => {
+            if (!code) return;
+            void copyText(code).then(() => flashCopy(`code-${u.id}`));
+          }}
+        >
+          {copiedKey === `code-${u.id}` ? (
+            <Check className="h-3.5 w-3.5 text-emerald-600" />
+          ) : (
+            <Copy className="h-3.5 w-3.5" />
+          )}
+          Copier le code
+        </button>
+        <button
+          type="button"
+          disabled={loading}
+          className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-800 hover:bg-gray-50 disabled:opacity-50"
+          onClick={() => void resetAccessCode(u)}
+        >
+          <RefreshCw className="h-3.5 w-3.5" />
+          Réinitialiser le code
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+          title={`Copier ${INVENTAIRE_HOME_URL}`}
+          onClick={() => {
+            void copyText(INVENTAIRE_HOME_URL).then(() => flashCopy(`url-${u.id}`));
+          }}
+        >
+          {copiedKey === `url-${u.id}` ? (
+            <Check className="h-3.5 w-3.5 text-emerald-600" />
+          ) : (
+            <Link2 className="h-3.5 w-3.5" />
+          )}
+          Copier l’adresse de connexion
+        </button>
         {editId === u.id ? (
           <>
             <button
@@ -393,15 +512,6 @@ export function AdminUsersClient() {
         <button
           type="button"
           disabled={loading}
-          className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-800 hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => void resetAccessCode(u)}
-        >
-          <RefreshCw className="h-3.5 w-3.5" />
-          Réinitialiser le code
-        </button>
-        <button
-          type="button"
-          disabled={loading}
           className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-xs font-medium ${
             u.active
               ? "border-amber-200 text-amber-900 hover:bg-amber-50"
@@ -424,21 +534,6 @@ export function AdminUsersClient() {
               <UserCheck className="h-3.5 w-3.5" /> Réactiver
             </>
           )}
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
-          title={`Copier ${INVENTAIRE_HOME_URL}`}
-          onClick={() => {
-            void copyText(INVENTAIRE_HOME_URL).then(() => flashCopy(`url-${u.id}`));
-          }}
-        >
-          {copiedKey === `url-${u.id}` ? (
-            <Check className="h-3.5 w-3.5 text-emerald-600" />
-          ) : (
-            <Link2 className="h-3.5 w-3.5" />
-          )}
-          Copier l’adresse de connexion
         </button>
       </div>
     );
@@ -590,8 +685,9 @@ export function AdminUsersClient() {
           <table className="min-w-full text-left text-sm">
             <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
               <tr>
-                <th className="px-4 py-3">Nom de l’employé</th>
+                <th className="px-4 py-3">Nom</th>
                 <th className="px-4 py-3">Adresse e-mail</th>
+                <th className="px-4 py-3">Code d’accès actuel</th>
                 <th className="px-4 py-3">Statut</th>
                 <th className="px-4 py-3">Dernière connexion</th>
                 <th className="px-4 py-3">Actions</th>
@@ -600,14 +696,14 @@ export function AdminUsersClient() {
             <tbody>
               {listLoading ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
                     <Loader2 className="mx-auto h-5 w-5 animate-spin" />
                     <span className="mt-2 block text-sm">Chargement des accès…</span>
                   </td>
                 </tr>
               ) : pageRows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
                     Aucun employé trouvé.
                   </td>
                 </tr>
@@ -655,6 +751,17 @@ export function AdminUsersClient() {
                         />
                       ) : (
                         <span className="text-gray-700">{u.email}</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {issuedCodes[u.id] ? (
+                        <code className="break-all rounded bg-amber-50 px-2 py-1 font-mono text-xs font-semibold text-amber-950">
+                          {issuedCodes[u.id]}
+                        </code>
+                      ) : (
+                        <span className="text-xs text-gray-400" title="Hash bcrypt non relisible">
+                          — (réinitialiser pour afficher)
+                        </span>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -745,6 +852,16 @@ export function AdminUsersClient() {
                 </span>
               </div>
               <div className="mt-3 space-y-2 border-t border-gray-100 pt-3">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-gray-400">
+                  Code d’accès actuel
+                </p>
+                {issuedCodes[u.id] ? (
+                  <code className="break-all rounded bg-amber-50 px-2 py-1 font-mono text-xs font-semibold text-amber-950">
+                    {issuedCodes[u.id]}
+                  </code>
+                ) : (
+                  <span className="text-xs text-gray-400">— (réinitialiser pour afficher)</span>
+                )}
                 <p className="text-xs text-gray-500">
                   Dernière connexion : {formatLoginDate(u.lastLoginAt)}
                 </p>
