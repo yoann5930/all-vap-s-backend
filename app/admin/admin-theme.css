@@ -357,18 +357,35 @@ select.admin-input {
 }
 .admin-users-table {
   width: 100%;
+  min-width: 1100px;
   border-collapse: separate;
   border-spacing: 0;
-  table-layout: auto;
+  table-layout: fixed;
   font-size: 0.875rem;
 }
 .admin-users-table th,
 .admin-users-table td {
-  padding: 0.85rem 0.9rem;
+  padding: 0.75rem 0.65rem;
   vertical-align: middle;
   border-bottom: 1px solid var(--adm-border);
-  white-space: nowrap;
+  overflow: hidden;
 }
+.admin-users-table th:nth-child(1),
+.admin-users-table td:nth-child(1) { width: 11%; }
+.admin-users-table th:nth-child(2),
+.admin-users-table td:nth-child(2) { width: 16%; }
+.admin-users-table th:nth-child(3),
+.admin-users-table td:nth-child(3) { width: 8%; }
+.admin-users-table th:nth-child(4),
+.admin-users-table td:nth-child(4) { width: 14%; }
+.admin-users-table th:nth-child(5),
+.admin-users-table td:nth-child(5) { width: 12%; }
+.admin-users-table th:nth-child(6),
+.admin-users-table td:nth-child(6) { width: 11%; }
+.admin-users-table th:nth-child(7),
+.admin-users-table td:nth-child(7) { width: 7%; }
+.admin-users-table th:nth-child(8),
+.admin-users-table td:nth-child(8) { width: 21%; }
 .admin-users-table th {
   position: sticky;
   top: 0;
@@ -385,27 +402,12 @@ select.admin-input {
   background: rgba(255, 255, 255, 0.025);
 }
 .admin-users-table td:first-child,
-.admin-users-table th:first-child {
-  white-space: normal;
-  min-width: 9.5rem;
-}
 .admin-users-table td:nth-child(2) {
   white-space: normal;
-  min-width: 12rem;
-  max-width: 18rem;
+  overflow-wrap: anywhere;
 }
-.admin-users-table td:last-child,
-.admin-users-table th:last-child {
-  white-space: nowrap;
-  min-width: 26rem;
-  position: sticky;
-  right: 0;
-  z-index: 2;
-  background: #121924;
-  box-shadow: -8px 0 16px rgba(0, 0, 0, 0.35);
-}
-.admin-users-table tbody tr:hover td:last-child {
-  background: #161e2a;
+.admin-users-table td:last-child {
+  overflow: visible;
 }
 .admin-users-sort {
   display: inline-flex;
@@ -520,10 +522,9 @@ select.admin-input {
 }
 .admin-users-actions {
   display: flex;
-  flex-wrap: nowrap;
+  flex-flow: row wrap;
   align-items: center;
-  gap: 0.35rem;
-  min-width: max-content;
+  gap: 0.3rem;
 }
 .admin-users-btn {
   display: inline-flex;
