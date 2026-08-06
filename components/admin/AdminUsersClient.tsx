@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import "@/app/admin/admin-theme.css";
 
 type UserRow = {
@@ -670,43 +670,51 @@ export function AdminUsersClient() {
                   onClick={() => toggleSort("sessions")}
                   className="admin-users-col-hide-lg"
                 />
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="admin-users-empty">
+                  <td colSpan={7} className="admin-users-empty">
                     Aucun utilisateur ne correspond aux filtres.
                   </td>
                 </tr>
               ) : (
                 filtered.map((u) => (
-                  <tr key={u.id}>
-                    <td>
-                      <div className="admin-users-name">{displayName(u)}</div>
-                      {renderInlinePanels(u)}
-                    </td>
-                    <td>
-                      <div className="admin-users-email" title={u.email}>
-                        {u.email}
-                      </div>
-                    </td>
-                    <td>
-                      <Badge tone={u.role === "ADMIN" ? "info" : "neutral"}>
-                        {roleLabel(u.role)}
-                      </Badge>
-                    </td>
-                    <td className="admin-users-col-hide-md">{renderStores(u)}</td>
-                    <td>{renderStatus(u)}</td>
-                    <td className="admin-users-col-hide-lg admin-users-nowrap">
-                      {formatLastLogin(u.lastLoginAt)}
-                    </td>
-                    <td className="admin-users-col-hide-lg admin-users-sessions">
-                      {u._count?.inventorySessions ?? 0}
-                    </td>
-                    <td>{renderActions(u)}</td>
-                  </tr>
+                  <Fragment key={u.id}>
+                    <tr>
+                      <td>
+                        <div className="admin-users-name">{displayName(u)}</div>
+                      </td>
+                      <td>
+                        <div className="admin-users-email" title={u.email}>
+                          {u.email}
+                        </div>
+                      </td>
+                      <td>
+                        <Badge tone={u.role === "ADMIN" ? "info" : "neutral"}>
+                          {roleLabel(u.role)}
+                        </Badge>
+                      </td>
+                      <td className="admin-users-col-hide-md">{renderStores(u)}</td>
+                      <td>{renderStatus(u)}</td>
+                      <td className="admin-users-col-hide-lg admin-users-nowrap">
+                        {formatLastLogin(u.lastLoginAt)}
+                      </td>
+                      <td className="admin-users-col-hide-lg admin-users-sessions">
+                        {u._count?.inventorySessions ?? 0}
+                      </td>
+                    </tr>
+                    <tr className="admin-users-actions-row">
+                      <td colSpan={7}>
+                        <div className="admin-users-actions-bar">
+                          <span className="admin-users-actions-label">Actions</span>
+                          {renderActions(u)}
+                        </div>
+                        {renderInlinePanels(u)}
+                      </td>
+                    </tr>
+                  </Fragment>
                 ))
               )}
             </tbody>
