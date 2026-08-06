@@ -6,17 +6,6 @@ import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inv
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
-import {
-  EMPTY_TAXONOMY_VALUE,
-  InventoryProductTypeFields,
-  type InventoryTaxonomyValue,
-} from "@/components/inventory/InventoryProductTypeFields";
-import {
-  OHM_VALUE_REQUIRED,
-  RESISTANCE_IDENTIFICATION_REQUIRED,
-  recognizeProductFamily,
-} from "@/lib/catalog/resistance-identification";
-import { getTaxonomySubtype } from "@/lib/catalog/vape-taxonomy";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import { authFetch, clearAccessToken } from "@/lib/auth-client";
 import {
@@ -96,8 +85,6 @@ export function EmployeeInventoryApp() {
   const [brandName, setBrandName] = useState("");
   const [rangeName, setRangeName] = useState("");
   const [productId, setProductId] = useState<string | null>(null);
-  const [taxonomy, setTaxonomy] = useState<InventoryTaxonomyValue>(EMPTY_TAXONOMY_VALUE);
-  const [resistanceFlow, setResistanceFlow] = useState(false);
   const [nameSuggestions, setNameSuggestions] = useState<
     Array<{
       id: string;
@@ -311,53 +298,6 @@ export function EmployeeInventoryApp() {
         console.info("[inventaire:identify]", data.diagnostics);
       }
 
-      const family = data.familyRecognition as
-        | {
-            taxonomyGroupCode?: string | null;
-            taxonomySubtypeCode?: string | null;
-            resistanceValueOhm?: string | null;
-            powerRangeMinW?: number | null;
-            powerRangeMaxW?: number | null;
-            coilTechnology?: string | null;
-            unitsPerPack?: number | null;
-            formatMl?: number | null;
-            flow?: string | null;
-            blockingConflicts?: string[];
-            primaryCategory?: string | null;
-          }
-        | undefined;
-      if (family?.flow === RESISTANCE_IDENTIFICATION_REQUIRED || family?.taxonomyGroupCode === "RESISTANCES") {
-        setResistanceFlow(true);
-        setTaxonomy((prev) => ({
-          ...prev,
-          groupCode: family.taxonomyGroupCode || "RESISTANCES",
-          subtypeCode: family.taxonomySubtypeCode || prev.subtypeCode || "RES_PREBUILT",
-          resistanceValueOhm:
-            family.resistanceValueOhm?.replace(/[^\d.,]/g, "") || prev.resistanceValueOhm,
-          powerRangeMinW:
-            family.powerRangeMinW != null ? String(family.powerRangeMinW) : prev.powerRangeMinW,
-          powerRangeMaxW:
-            family.powerRangeMaxW != null ? String(family.powerRangeMaxW) : prev.powerRangeMaxW,
-          coilTechnology: family.coilTechnology || prev.coilTechnology,
-          unitsPerPack:
-            family.unitsPerPack != null ? String(family.unitsPerPack) : prev.unitsPerPack,
-        }));
-        if (family.blockingConflicts?.includes(OHM_VALUE_REQUIRED)) {
-          setRecognitionHint("Résistance détectée — valeur en ohms obligatoire (photo latérale)");
-        } else {
-          setRecognitionHint(
-            `Résistance détectée${family.resistanceValueOhm ? ` · ${family.resistanceValueOhm}` : ""}`
-          );
-        }
-      } else if (family?.taxonomyGroupCode && family.taxonomyGroupCode !== "TO_VERIFY") {
-        setTaxonomy((prev) => ({
-          ...prev,
-          groupCode: family.taxonomyGroupCode || "",
-          subtypeCode: family.taxonomySubtypeCode || "",
-          volumeMl: family.formatMl != null ? String(family.formatMl) : prev.volumeMl,
-        }));
-      }
-
       const list = (data.suggestions || []) as IdentifySuggestion[];
       if (data.autoFill && data.suggestion) {
         photoRecognizedRef.current = true;
@@ -469,6 +409,7 @@ export function EmployeeInventoryApp() {
       try {
         const res = await authFetch("/api/auth/me");
         if (!res.ok) {
+          clearAccessToken();
           router.replace("/login?next=/inventaire");
           return;
         }
@@ -535,8 +476,6 @@ export function EmployeeInventoryApp() {
     setBrandName("");
     setRangeName("");
     setProductId(null);
-    setTaxonomy(EMPTY_TAXONOMY_VALUE);
-    setResistanceFlow(false);
     setNameSuggestions([]);
     setShowSuggestions(false);
     setDuplicateInfo(null);
@@ -673,12 +612,12 @@ export function EmployeeInventoryApp() {
     const run = (async () => {
     try {
       let list: unknown[] = [];
-      const legacyRes = await fetch("/api/products?legacy=true");
+      const legacyRes = await authFetch("/api/products?legacy=true");
       if (legacyRes.ok) {
         const data = await legacyRes.json();
         list = Array.isArray(data) ? data : data.products || [];
       } else {
-        const pageRes = await fetch("/api/products?limit=48");
+        const pageRes = await authFetch("/api/products?limit=48");
         if (pageRes.ok) {
           const data = await pageRes.json();
           list = data.products || [];
@@ -1196,18 +1135,6 @@ export function EmployeeInventoryApp() {
   function onProductNameChange(value: string) {
     setProductName(value);
     setProductId(null);
-    const family = recognizeProductFamily(value);
-    if (family.flow === RESISTANCE_IDENTIFICATION_REQUIRED) {
-      setResistanceFlow(true);
-      setTaxonomy((prev) => ({
-        ...prev,
-        groupCode: family.taxonomyGroupCode || "RESISTANCES",
-        subtypeCode: family.taxonomySubtypeCode || prev.subtypeCode || "RES_PREBUILT",
-        resistanceValueOhm:
-          family.resistanceValueOhm?.replace(/[^\d.,]/g, "") || prev.resistanceValueOhm,
-        coilTechnology: family.coilTechnology || prev.coilTechnology,
-      }));
-    }
     if (nameLookupTimer.current != null) {
       window.clearTimeout(nameLookupTimer.current);
     }
@@ -1261,20 +1188,6 @@ export function EmployeeInventoryApp() {
     }
     if (!unitPrice.trim()) {
       setError("Prix manquant — saisissez le tarif avant enregistrement");
-      return;
-    }
-
-    const needsOhm =
-      taxonomy.groupCode === "RESISTANCES" ||
-      taxonomy.subtypeCode === "CART_INTEGRATED" ||
-      taxonomy.subtypeCode === "POD_INTEGRATED" ||
-      resistanceFlow;
-    if (needsOhm && !taxonomy.resistanceValueOhm.trim()) {
-      setError("Valeur en ohms obligatoire pour une résistance / cartouche intégrée");
-      return;
-    }
-    if (needsOhm && taxonomy.groupCode === "ACCESSORIES") {
-      setError("Une résistance ne doit pas être classée en Accessoires");
       return;
     }
 
@@ -1336,9 +1249,6 @@ export function EmployeeInventoryApp() {
         return;
       }
 
-      const subtype = taxonomy.groupCode
-        ? getTaxonomySubtype(taxonomy.groupCode, taxonomy.subtypeCode)
-        : undefined;
       const payload: Record<string, unknown> = {
         barcode: code || undefined,
         productId: productId || undefined,
@@ -1348,27 +1258,6 @@ export function EmployeeInventoryApp() {
         quantityCounted: qty,
         confirmZeroPrice: confirmZero,
         applyToRange: applyToRange && Boolean(rangeName.trim()),
-        taxonomyGroup: taxonomy.groupCode || undefined,
-        taxonomySubtype: taxonomy.subtypeCode || undefined,
-        categorySnapshot: subtype?.label || taxonomy.groupCode || undefined,
-        formatSnapshot: taxonomy.resistanceValueOhm
-          ? `${taxonomy.resistanceValueOhm.replace(",", ".")} Ω`
-          : taxonomy.volumeMl
-            ? `${taxonomy.volumeMl} ml`
-            : undefined,
-        resistanceValueOhm: taxonomy.resistanceValueOhm
-          ? Number(taxonomy.resistanceValueOhm.replace(",", "."))
-          : undefined,
-        coilTechnology: taxonomy.coilTechnology || undefined,
-        unitsPerPack: taxonomy.unitsPerPack
-          ? Number(taxonomy.unitsPerPack)
-          : undefined,
-        powerRangeMinW: taxonomy.powerRangeMinW
-          ? Number(taxonomy.powerRangeMinW)
-          : undefined,
-        powerRangeMaxW: taxonomy.powerRangeMaxW
-          ? Number(taxonomy.powerRangeMaxW)
-          : undefined,
       };
       if (lookup?.priceLocked && lookup.unitPriceCents != null) {
         payload.unitPriceCents = lookup.unitPriceCents;
@@ -1815,27 +1704,6 @@ export function EmployeeInventoryApp() {
                   />
                 </label>
               </div>
-
-              <InventoryProductTypeFields
-                value={taxonomy}
-                resistanceFlow={resistanceFlow}
-                ohmRequired={
-                  resistanceFlow ||
-                  taxonomy.groupCode === "RESISTANCES" ||
-                  taxonomy.subtypeCode === "CART_INTEGRATED" ||
-                  taxonomy.subtypeCode === "POD_INTEGRATED"
-                }
-                onChange={(next) => {
-                  setTaxonomy(next);
-                  if (
-                    next.groupCode === "RESISTANCES" ||
-                    next.subtypeCode === "CART_INTEGRATED" ||
-                    next.subtypeCode === "POD_INTEGRATED"
-                  ) {
-                    setResistanceFlow(true);
-                  }
-                }}
-              />
             </div>
 
             {lookup?.priceMissing && (
