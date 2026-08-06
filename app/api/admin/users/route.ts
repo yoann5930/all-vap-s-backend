@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { randomBytes } from "node:crypto";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { hashPassword, sanitizeUser } from "@/lib/auth";
+import { generateTempAccessCode } from "@/lib/admin/temp-access-code";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { assertSameOrigin } from "@/lib/security";
 import { writeAuditLog } from "@/lib/audit/log";
@@ -14,15 +14,6 @@ import {
 } from "@/lib/catalog/normalize";
 
 const storeEnum = z.enum([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]);
-
-/** Mot de passe temporaire — jamais journalisé. */
-function tempPassword(): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$";
-  const bytes = randomBytes(14);
-  let out = "";
-  for (let i = 0; i < 14; i++) out += alphabet[bytes[i]! % alphabet.length];
-  return out;
-}
 
 /** Liste comptes inventaire (EMPLOYEE + ADMIN). Pas de passwordHash. */
 export async function GET(request: NextRequest) {
@@ -94,7 +85,7 @@ export async function POST(request: NextRequest) {
     });
     if (existing) throw new Error("EMAIL_EXISTS");
 
-    const plain = data.accessCode?.trim() || tempPassword();
+    const plain = data.accessCode?.trim() || generateTempAccessCode();
     if (plain.length < 8) {
       return jsonResponse(
         { error: "Le code d’accès doit contenir au moins 8 caractères." },
@@ -198,7 +189,7 @@ export async function PATCH(request: NextRequest) {
     let temporaryPassword: string | undefined;
     let passwordHash: string | undefined;
     if (data.resetPassword) {
-      temporaryPassword = tempPassword();
+      temporaryPassword = generateTempAccessCode();
       passwordHash = await hashPassword(temporaryPassword);
     }
 
