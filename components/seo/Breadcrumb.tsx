@@ -16,13 +16,15 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <>
       <JsonLd data={breadcrumbSchema(items)} />
-      <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-gray-500">
-        <ol className="flex flex-wrap items-center gap-1">
+      <nav aria-label="Fil d'Ariane" className="mb-6 overflow-x-auto text-sm text-gray-500 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <ol className="flex min-w-0 flex-nowrap items-center gap-1 sm:flex-wrap">
           {items.map((item, i) => (
-            <li key={item.path} className="flex items-center gap-1">
-              {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-gray-400" />}
+            <li key={item.path} className="flex shrink-0 items-center gap-1">
+              {i > 0 && <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-400" />}
               {i === items.length - 1 ? (
-                <span className="font-medium text-vap-black">{item.name}</span>
+                <span className="max-w-[12rem] truncate font-medium text-vap-black sm:max-w-none">
+                  {item.name}
+                </span>
               ) : (
                 <Link href={item.path} className="hover:text-brand-700">
                   {item.name}

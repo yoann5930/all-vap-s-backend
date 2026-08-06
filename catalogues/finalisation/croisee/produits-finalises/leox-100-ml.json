@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxbpc003putw4sijrsxw2",
+  "catalogName": "Leox 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "sourceUrls": [
+    "https://airmust.com/100ml/2668-6313-ferox-leox-100ml-3701719511982.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Ferox • Leox 100ml",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml",
+  "nicotineBoostOptions": "1–2 boosters (doc airmust 100 ml)",
+  "ean": "3701719511982",
+  "eanConfidence": "official_site",
+  "flavorNotes": "Mûre, cerise noire, fruit du dragon",
+  "photoUrl": "https://airmust.com/8451-cover_fullhd/ferox-leox-100ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/leox-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+  "seo": {
+    "title": "Ferox • Leox 100ml | All Vap's",
+    "description": "Ferox • Leox 100ml — AirMust — Ferox — 50/50 — Mûre, cerise noire, fruit du dragon"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:28.097Z",
+  "finalizedVia": "recherche-web"
+}

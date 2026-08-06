@@ -1,0 +1,175 @@
+{
+  "date": "2026-07-30T13:20:26.227Z",
+  "fabricant": "Biarritz Lab",
+  "gamme": "Double Dragon",
+  "source": "https://biarritz-lab.com/collections/double-dragon",
+  "formats": [
+    "50ml",
+    "100ml"
+  ],
+  "nicotine": "0 mg uniquement (confirmé site officiel)",
+  "officialCount": 11,
+  "publishedCount": 11,
+  "published": [
+    {
+      "id": "cms6euct600gkutmkr6qwsm8f",
+      "officialName": "FRUIT DU DRAGON CERISE",
+      "aromas": "Fruit du dragon - Cerise",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-cerise",
+      "sumupProductId": "487b5604-8696-4848-a033-6343c0acc1fc",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-cerise.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-cerise-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6euctc00glutmk1uitza0l",
+      "officialName": "FRUIT DU DRAGON FRAISE",
+      "aromas": "Fruit du dragon - Fraise",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-fraise",
+      "sumupProductId": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-fraise-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucth00gmutmki5lj2tpe",
+      "officialName": "FRUIT DU DRAGON FRAMBOISE",
+      "aromas": "Fruit du dragon - Framboise",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-framboise",
+      "sumupProductId": "ae4de27a-4afc-407e-b244-5866da7196fd",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-framboise.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-framboise-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucto00gnutmkd39xrtow",
+      "officialName": "FRUIT DU DRAGON LIMONADE",
+      "aromas": "Fruit du dragon - Limonade",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-limonade",
+      "sumupProductId": "8fec163c-48c0-4eaa-90b7-47f749b4e063",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-limonade.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-limonade-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6euctt00goutmkypkix4j3",
+      "officialName": "FRUIT DU DRAGON MANDARINE",
+      "aromas": "Fruit du dragon - Mandarine",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-mandarine",
+      "sumupProductId": "765cc625-27bb-46c2-b6c2-6e92fab33feb",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mandarine.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-mandarine-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6euctz00gputmkfvre4opv",
+      "officialName": "FRUIT DU DRAGON MÛRE",
+      "aromas": "Fruit du dragon - Mure",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-mure",
+      "sumupProductId": "40b75c8b-5ff2-49b9-ae01-1ad3434da1eb",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mure.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-mure-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucu600gqutmkbowomhjf",
+      "officialName": "FRUIT DU DRAGON PASSION",
+      "aromas": "Fruit du dragon - Passion",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-passion",
+      "sumupProductId": "23b5ab3d-11e3-431a-aeb5-ff58b89ca406",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-passion.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-passion-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucub00grutmku8oswk4i",
+      "officialName": "FRUIT DU DRAGON PÊCHE",
+      "aromas": "Fruit du dragon - Pêche",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-peche",
+      "sumupProductId": "ba8a826b-a977-4543-9072-05c55fb7c94f",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-peche.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-peche-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucui00gsutmklkymi1xy",
+      "officialName": "FRUIT DU DRAGON VANILLE",
+      "aromas": "Fruit du dragon - Vanille",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-vanille",
+      "sumupProductId": "fa2ab1af-7392-4bdf-a91e-fd5dc43d87ba",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-vanille.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-vanilla-ice-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eucun00gtutmktzfb3z12",
+      "officialName": "FRUIT DU DRAGON VIOLETTE",
+      "aromas": "Fruit du dragon - Violette",
+      "format": "50ml",
+      "slug": "double-dragon-50ml-fruit-du-dragon-violette",
+      "sumupProductId": "8b2fed0c-9972-4a2e-b6df-90dbd21d39be",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-violette.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fruit-du-dragon-violette-double-dragon-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6euij101pbutmklyx9mu11",
+      "officialName": "TRIPLE DRAGON",
+      "aromas": "Fruit du dragon - Energy drink",
+      "format": "100ml",
+      "slug": "double-dragon-100ml-triple-dragon",
+      "sumupProductId": "9c64b404-58fa-460f-a072-ba92d1070258",
+      "priceCentsSumup": 2490,
+      "priceOfficialEuros": 21.9,
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/100ml/triple-dragon.webp",
+      "officialUrl": "https://biarritz-lab.com/products/triple-dragon-double-dragon-100-ml-00-mg",
+      "availableOfficial": true
+    }
+  ],
+  "skipped": [
+    {
+      "name": "Double dragons fruit du dragons vanille 50 ml",
+      "reason": "doublon_handle_fruit-du-dragon-vanilla-ice-double-dragon-50-ml-00-mg"
+    }
+  ],
+  "unpublishedExtras": [],
+  "missingOfficial": [],
+  "wrongRangeMix": [],
+  "pricePolicy": "Prix boutique = prix SumUp existant. Prix fabricant officiel 18,90 € (50 ml) / 21,90 € (100 ml Triple Dragon) notés pour référence.",
+  "controlUrls": [
+    "http://localhost:3000/fabricants/biarritz-lab",
+    "http://localhost:3000/gammes/double-dragon?fabricant=biarritz-lab",
+    "http://localhost:3000/e-liquides"
+  ],
+  "noSumupWrite": true,
+  "separatedFromOtherBlRanges": true
+}

@@ -1,0 +1,16 @@
+{
+  "productId": "cms96dg8p003suto8n6icokt7",
+  "catalogName": "Café Noisette 50 ml",
+  "name": "Café Noisette 50 ml",
+  "manufacturer": "Liquide Lab",
+  "range": "Big Kawa",
+  "formatMl": 50,
+  "nicotine": null,
+  "ean": "5407007433414",
+  "sumupProductId": "2359899a-4bac-4b5b-b230-58fb47f38b5c",
+  "photoUrl": "/media/products/liquide-lab/big-kawa/cafe-noisette-50-ml.png",
+  "missingFields": [
+    "nicotine"
+  ],
+  "complete": false
+}

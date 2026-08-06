@@ -1,0 +1,28 @@
+{
+  "selected": [
+    {
+      "id": "cms6eudq900o9utmkqw3r9do2",
+      "slug": "one-taste-fruits-rouges-mentholes-10ml",
+      "name": "Fruits Rouges 10ml - Sels...",
+      "stock": 36,
+      "priceCents": 690,
+      "brand": "e.Tasty"
+    },
+    {
+      "id": "cms6euh4l01exutmkjrfwsdbf",
+      "slug": "one-taste-pop-corn-10ml",
+      "name": "Popcorn 10ml 0mg e-tasty",
+      "stock": 28,
+      "priceCents": 690,
+      "brand": "e.Tasty"
+    },
+    {
+      "id": "cms6eugxw01deutmkbawauvro",
+      "slug": "one-taste-peche-10ml",
+      "name": "Peche 10ml 0mg e-tasty",
+      "stock": 112,
+      "priceCents": 690,
+      "brand": "e.Tasty"
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "generatedAt": "2026-07-31T21:25:39.733Z",
+  "manufacturersTotal": 35,
+  "logosOk": 13,
+  "logosMissing": 22,
+  "rangesTotal": 75,
+  "coversOk": 37,
+  "coversMissing": 38,
+  "publishedMissingCover": [],
+  "mfrMissing": [
+    "AVAP (avap) website=https://www.avap.fr/",
+    "Alfa (alfa) website=—",
+    "Aromes & Secrets (aromes-secrets) website=https://www.aromesetsecrets.com/",
+    "Budz Vape (budz-vape) website=—",
+    "Cloud Vapor (cloud-vapor) website=https://www.cloud-vapor.com/",
+    "Fruity Cool (fruity-cool) website=—",
+    "Fruizee (fruizee) website=https://www.fruizee.fr/",
+    "Guilab (guilab) website=https://www.guilab.fr/",
+    "Illusion (illusion) website=—",
+    "Juice 66 (juice-66) website=https://www.juice66.fr/",
+    "KF Studio (kf-studio) website=—",
+    "Le Maudit (le-maudit) website=—",
+    "MDS Juice (mds-juice) website=—",
+    "MG Vape (mg-vape) website=—",
+    "Made In Vape Distrib (made-in-vape-distrib) website=—",
+    "Mukk Mukk (mukk-mukk) website=—",
+    "OverDrive Juices (overdrive-juices) website=—",
+    "Revenge Juices (revenge-juices) website=https://www.revengejuices.com/",
+    "Swoke (swoke) website=https://www.swoke.fr/",
+    "Vape City (vape-city) website=—",
+    "Vape Maker (vape-maker) website=—",
+    "Yum E-Bot (yum-ebot) website=—"
+  ],
+  "mfrOk": [
+    "AirMust (airmust) → /media/manufacturers/airmust/logo-on-dark.webp",
+    "Biarritz Lab (biarritz-lab) → /media/manufacturers/biarritz-lab/logo-on-dark.webp",
+    "Cookin Cloud (cookin-cloud) → /media/manufacturers/cookin-cloud/logo.webp",
+    "Eliquid France (eliquid-france) → /media/manufacturers/eliquid-france/logo.webp",
+    "Liquidarom (liquidarom) → /media/manufacturers/liquidarom/logo.webp",
+    "Liquide Lab (liquide-lab) → /media/manufacturers/liquide-lab/logo.webp",
+    "Liquideo (liquideo) → /media/manufacturers/liquideo/logo.webp",
+    "Protect (protect) → /media/manufacturers/protect/logo.webp",
+    "Raneki Liquide (raneki-liquide) → /media/manufacturers/raneki-liquide/logo.webp",
+    "T-Juice (t-juice) → /media/manufacturers/t-juice/logo.webp",
+    "The FUU (the-fuu) → /media/manufacturers/the-fuu/logo.webp",
+    "Vape 47 (vape-47) → /media/manufacturers/vape-47/logo.webp",
+    "e.Tasty (e-tasty) → /media/manufacturers/e-tasty/logo.webp"
+  ],
+  "rangeMissing": [
+    {
+      "mfr": "avap",
+      "range": "Devil",
+      "slug": "devil-avap"
+    },
+    {
+      "mfr": "airmust",
+      "range": "L'Ovalie",
+      "slug": "l-ovalie-airmust"
+    },
+    {
+      "mfr": "airmust",
+      "range": "UNIK",
+      "slug": "unik-airmust"
+    },
+    {
+      "mfr": "alfa",
+      "range": "Granita Soft",
+      "slug": "granita-soft-alfa"
+    },
+    {
+      "mfr": "aromes-secrets",
+      "range": "Mythologie",
+      "slug": "mythologie-aromes-secrets"
+    },
+    {
+      "mfr": "cloud-vapor",
+      "range": "Call of Vape",
+      "slug": "call-of-vape"
+    },
+    {
+      "mfr": "cloud-vapor",
+      "range": "Grand Taste City",
+      "slug": "grand-taste-city-cloud-vapor"
+    },
+    {
+      "mfr": "illusion",
+      "range": "Illusion",
+      "slug": "illusion"
+    },
+    {
+      "mfr": "juice-66",
+      "range": "66 Juice",
+      "slug": "66-juice-juice-66"
+    },
+    {
+      "mfr": "juice-66",
+      "range": "Juice 66",
+      "slug": "juice-66"
+    },
+    {
+      "mfr": "liquidarom",
+      "range": "Edition Collection",
+      "slug": "edition-collection"
+    },
+    {
+      "mfr": "liquide-lab",
+      "range": "Réserve Héritage",
+      "slug": "reserve-heritage"
+    },
+    {
+      "mfr": "liquideo",
+      "range": "Skavidos",
+      "slug": "skavidos"
+    },
+    {
+      "mfr": "mds-juice",
+      "range": "MDS Juice",
+      "slug": "mds-juice"
+    },
+    {
+      "mfr": "made-in-vape-distrib",
+      "range": "MIV Distrib",
+      "slug": "miv-distrib-made-in-vape-distrib"
+    },
+    {
+      "mfr": "overdrive-juices",
+      "range": "OverDrive Juices",
+      "slug": "overdrive-juices-overdrive-juices"
+    },
+    {
+      "mfr": "raneki-liquide",
+      "range": "Kyoto Storm",
+      "slug": "kyoto-storm"
+    },
+    {
+      "mfr": "raneki-liquide",
+      "range": "Olympe",
+      "slug": "olympe"
+    },
+    {
+      "mfr": "revenge-juices",
+      "range": "OverDrive",
+      "slug": "overdrive"
+    },
+    {
+      "mfr": "revenge-juices",
+      "range": "Revenge Juices",
+      "slug": "revenge-juices-revenge-juices"
+    },
+    {
+      "mfr": "swoke",
+      "range": "Force Vape",
+      "slug": "force-vape-swoke"
+    },
+    {
+      "mfr": "vape-47",
+      "range": "Furiosa Skinz",
+      "slug": "furiosa-skinz"
+    },
+    {
+      "mfr": "vape-47",
+      "range": "L'Invapable",
+      "slug": "linvapable"
+    },
+    {
+      "mfr": "vape-maker",
+      "range": "Kaiju",
+      "slug": "kaiju"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Amalgam",
+      "slug": "amalgam"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Amazone",
+      "slug": "amazone"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Call Me Biggy",
+      "slug": "call-me-biggy"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Deep Seas",
+      "slug": "deep-seas"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Do It Yourself",
+      "slug": "do-it-yourself"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Easy",
+      "slug": "easy"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Gameover",
+      "slug": "gameover"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "La Cueillette de Louise",
+      "slug": "la-cueillette-de-louise"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Les Maxis Malins",
+      "slug": "les-maxis-malins"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Loly Yumy",
+      "slug": "loly-yumy"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Sept",
+      "slug": "sept"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Shootiz",
+      "slug": "shootiz"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Summer Spicy",
+      "slug": "summer-spicy"
+    },
+    {
+      "mfr": "e-tasty",
+      "range": "Windy Juice",
+      "slug": "windy-juice"
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * @deprecated Bouton micro central retiré de l’UI publique AVA.
+ * Préférer ConversationStatus + écoute permanente (ImmersiveAvaScreen).
+ */
 import { motion } from "framer-motion";
 import { Mic, MicOff } from "lucide-react";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
@@ -10,18 +14,27 @@ interface VoiceAssistantProps {
   onToggleMic: () => void;
 }
 
+/** @deprecated Ne plus monter dans le parcours client. */
 export function VoiceAssistant({ state, disabled, onToggleMic }: VoiceAssistantProps) {
   const isListening = state === "listening";
   const isSpeaking = state === "speaking";
   const isThinking = state === "thinking";
+  const isIdle = state === "idle";
+
+  const ariaLabel = isListening
+    ? "Couper le microphone"
+    : isIdle
+      ? "Activer le microphone"
+      : "Réactiver le microphone";
 
   return (
     <motion.button
       type="button"
       onClick={onToggleMic}
       disabled={disabled || isSpeaking || isThinking}
-      aria-label={isListening ? "Arrêter le micro" : "Parler à AVA"}
-      className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full focus:outline-none disabled:opacity-35"
+      aria-label={ariaLabel}
+      title={ariaLabel}
+      className="relative hidden h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full focus:outline-none disabled:opacity-35"
       whileHover={{ scale: disabled ? 1 : 1.05 }}
       whileTap={{ scale: disabled ? 1 : 0.95 }}
       animate={
@@ -59,7 +72,11 @@ export function VoiceAssistant({ state, disabled, onToggleMic }: VoiceAssistantP
             : "border-cyan-500/35 bg-cyan-950/40 text-cyan-300/85 hover:border-cyan-400/55 hover:text-cyan-100"
         }`}
       >
-        {isListening ? <MicOff className="h-7 w-7" strokeWidth={1.5} /> : <Mic className="h-7 w-7" strokeWidth={1.5} />}
+        {isListening ? (
+          <MicOff className="h-7 w-7" strokeWidth={1.5} />
+        ) : (
+          <Mic className="h-7 w-7" strokeWidth={1.5} />
+        )}
       </span>
     </motion.button>
   );

@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gx9t3000rutw4q9tu7bld",
+  "catalogName": "Atlas 50 ml",
+  "officialName": "Atlas 50 ml — Saint Flava",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "flavor": "Pastèque, bubblegum",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Atlas Saint Flava — pastèque Densuke et bubblegum. Swoke 40/60 0 mg.",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/atlas-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/atlas-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/saint-flava/atlas.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:51:07.646Z",
+  "notes": [
+    "EAN 6410945972456 invalidé (conflit ou bruit page liée)"
+  ]
+}

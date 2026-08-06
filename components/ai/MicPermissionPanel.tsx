@@ -17,6 +17,8 @@ interface MicPermissionPanelProps {
   onActivateMic: () => void;
   onToggleSettingsHelp: () => void;
   onPermissionGranted?: () => void;
+  /** Continuer sans micro (clavier / sous-titres) */
+  onContinueWithText?: () => void;
 }
 
 export function MicPermissionPanel({
@@ -26,12 +28,13 @@ export function MicPermissionPanel({
   onActivateMic,
   onToggleSettingsHelp,
   onPermissionGranted,
+  onContinueWithText,
 }: MicPermissionPanelProps) {
   const browser = detectBrowser();
   const helpSteps = BROWSER_MIC_HELP[browser];
 
   const showDenied = status === "denied" && !isPrompting;
-  const showPrompt = isPrompting || status === "prompting";
+  const showPrompt = isPrompting || status === "prompting" || status === "unknown";
   const showUnsupported = status === "unsupported";
   const showModal = showDenied || showPrompt || showUnsupported;
 
@@ -85,32 +88,74 @@ export function MicPermissionPanel({
               <Mic className="h-6 w-6 text-cyan-300" strokeWidth={1.5} />
             </div>
 
-            <h3 className="text-sm font-medium tracking-wide text-cyan-100/90">Accès au microphone</h3>
+            <h3 className="text-sm font-medium tracking-wide text-cyan-100/90">
+              Micro pour converser avec AVA
+            </h3>
 
             {showUnsupported && (
-              <p className="mt-3 text-[12px] leading-relaxed text-cyan-400/60">{MIC_MESSAGES.unsupported}</p>
-            )}
-
-            {showPrompt && !showUnsupported && (
-              <p className="mt-3 text-[12px] leading-relaxed text-cyan-300/70">{MIC_MESSAGES.prompt}</p>
-            )}
-
-            {showDenied && (
               <>
-                <p className="mt-3 text-[12px] leading-relaxed text-cyan-300/65">{MIC_MESSAGES.denied}</p>
+                <p className="mt-3 text-[12px] leading-relaxed text-cyan-400/60">
+                  {MIC_MESSAGES.unsupported}
+                </p>
+                {onContinueWithText ? (
+                  <button
+                    type="button"
+                    onClick={onContinueWithText}
+                    className="mt-5 min-h-10 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-5 py-2 text-[12px] font-medium text-cyan-100"
+                  >
+                    Continuer par écrit
+                  </button>
+                ) : null}
+              </>
+            )}
 
+            {showPrompt && !showUnsupported && !showDenied && (
+              <>
+                <p className="mt-3 text-[12px] leading-relaxed text-cyan-300/70">
+                  {MIC_MESSAGES.prompt}. Vous pouvez aussi écrire — le micro n&apos;écoute
+                  que pendant cette fenêtre AVA.
+                </p>
                 <div className="mt-5 flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
                   <button
                     type="button"
                     onClick={onActivateMic}
-                    className="rounded-full border border-cyan-400/40 bg-cyan-500/15 px-5 py-2 text-[12px] font-medium text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-500/25"
+                    className="min-h-10 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-5 py-2 text-[12px] font-medium text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-500/25"
                   >
-                    Activer le micro
+                    Autoriser le micro
                   </button>
+                  {onContinueWithText ? (
+                    <button
+                      type="button"
+                      onClick={onContinueWithText}
+                      className="min-h-10 rounded-full border border-cyan-700/40 px-5 py-2 text-[12px] text-cyan-400/70 transition hover:border-cyan-500/45 hover:text-cyan-300"
+                    >
+                      Continuer par écrit
+                    </button>
+                  ) : null}
+                </div>
+              </>
+            )}
+
+            {showDenied && (
+              <>
+                <p className="mt-3 text-[12px] leading-relaxed text-cyan-300/65">
+                  {MIC_MESSAGES.denied}
+                </p>
+
+                <div className="mt-5 flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
+                  {onContinueWithText ? (
+                    <button
+                      type="button"
+                      onClick={onContinueWithText}
+                      className="min-h-10 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-5 py-2 text-[12px] font-medium text-cyan-100"
+                    >
+                      Continuer par écrit
+                    </button>
+                  ) : null}
                   <button
                     type="button"
                     onClick={onToggleSettingsHelp}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-full border border-cyan-700/40 px-5 py-2 text-[12px] text-cyan-400/70 transition hover:border-cyan-500/45 hover:text-cyan-300"
+                    className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-cyan-700/40 px-5 py-2 text-[12px] text-cyan-400/70 transition hover:border-cyan-500/45 hover:text-cyan-300"
                   >
                     <Settings className="h-3.5 w-3.5" />
                     Paramètres navigateur

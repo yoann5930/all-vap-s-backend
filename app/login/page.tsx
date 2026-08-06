@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { AuthForm } from "@/components/auth/AuthForm";
 
 export const metadata = {
@@ -7,7 +8,9 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <AuthForm mode="login" />
+      <Suspense fallback={<div className="text-center text-[#A7B0BC]">Chargement…</div>}>
+        <AuthForm mode="login" />
+      </Suspense>
     </div>
   );
 }

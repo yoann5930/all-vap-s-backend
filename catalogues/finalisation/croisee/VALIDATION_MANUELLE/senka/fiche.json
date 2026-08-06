@@ -1,0 +1,152 @@
+{
+  "productId": "cms96cva3000juto861bzosuz",
+  "catalogName": "Senka",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "officialName": "66 Juice",
+  "formatMl": null,
+  "pgVg": null,
+  "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": null,
+  "photoSource": "",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/juice-66-66-juice.webp",
+  "status": "incomplet",
+  "missingFields": [
+    "formatMl",
+    "pgVg",
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "juice-66",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "66-juice-juice-66",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "juice-66",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "66-juice-juice-66",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/senka.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/senka.json",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/senka.json",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/senka.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/senka.json",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/senka.json",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "66 Juice",
+      "confidence": "exact_id"
+    }
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:34.926Z"
+}

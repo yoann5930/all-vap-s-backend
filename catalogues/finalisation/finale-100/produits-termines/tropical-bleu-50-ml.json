@@ -1,0 +1,37 @@
+{
+  "productId": "cms96dgr1004luto8qsinbkvi",
+  "catalogName": "Tropical Bleu 50 ml",
+  "manufacturer": "Alfa",
+  "range": "Granita Soft",
+  "sourceUrls": [
+    "https://www.travers-shop.com/fr/e-liquides/415-granita-soft-tropical-blue-50ml-eliquides.html",
+    "https://www.aromes-et-liquides.fr/en/alfaliquid-e-liquid/19301-alfaliquid-granita-soft-tropical-bleu-50ml.html",
+    "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Tropical Bleu 50 ml — Granita Soft (Alfaliquid)",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; boosters 10 ml 20 mg",
+  "ean": "3662572946260",
+  "eanConfidence": "retailer",
+  "flavorNotes": null,
+  "photoUrl": "https://www.travers-shop.com/836-thickbox_default/granita-soft-tropical-bleu-50ml-eliquides.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/tropical-bleu-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+  "seo": {
+    "title": "Tropical Bleu 50 ml — Granita Soft (Alfaliquid) | All Vap's",
+    "description": "Tropical Bleu 50 ml — Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:19.988Z",
+  "finalizedVia": "recherche-web"
+}

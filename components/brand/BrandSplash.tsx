@@ -14,6 +14,14 @@ export function BrandSplash() {
     if (typeof window === "undefined") return;
     const seen = sessionStorage.getItem(SPLASH_KEY);
     if (seen) return;
+    // Failsafe : ne jamais laisser le splash bloquer l'UI
+    const preferReduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    )?.matches;
+    if (preferReduced) {
+      sessionStorage.setItem(SPLASH_KEY, "1");
+      return;
+    }
     setVisible(true);
     const t1 = setTimeout(() => setPhase("hold"), 600);
     const t2 = setTimeout(() => setPhase("out"), 2000);
@@ -21,10 +29,15 @@ export function BrandSplash() {
       sessionStorage.setItem(SPLASH_KEY, "1");
       setVisible(false);
     }, 2600);
+    const hardStop = setTimeout(() => {
+      sessionStorage.setItem(SPLASH_KEY, "1");
+      setVisible(false);
+    }, 4000);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      clearTimeout(hardStop);
     };
   }, []);
 

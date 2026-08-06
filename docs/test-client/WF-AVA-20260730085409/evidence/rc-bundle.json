@@ -1,0 +1,189 @@
+{
+  "delivery": "RELAIS_COLIS",
+  "orderId": "cms7a2h80003xutawygtznvqc",
+  "isAudit": true,
+  "paymentStatus": "PAID",
+  "checkoutId": "TEST_cms7a2h80003xutawygtznvqc",
+  "documentTypes": [
+    "INVOICE",
+    "ORDER_FORM",
+    "PREP_SLIP"
+  ],
+  "documentCount": 3,
+  "uniqueDocTypes": true,
+  "prepSlip": {
+    "id": "cms7a2po1005rutawva55gebe",
+    "orderId": "cms7a2h80003xutawygtznvqc",
+    "type": "PREP_SLIP",
+    "fileName": "prep_slip-YGTZNVQC.pdf",
+    "storagePath": "storage\\orders\\cms7a2h80003xutawygtznvqc\\prep_slip-YGTZNVQC.pdf",
+    "mimeType": "application/pdf",
+    "sizeBytes": 1818,
+    "invoiceNumber": "AV-2026-00006",
+    "gmailMessageId": null,
+    "gmailLabel": null,
+    "emailedToCustomer": false,
+    "emailedInternal": true,
+    "emailedToAva": false,
+    "createdAt": "2026-07-30T08:55:01.489Z"
+  },
+  "emails": [
+    {
+      "type": "payment_confirmation",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Paiement confirmé — commande All Vap's n°YGTZNVQC",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "payment-confirmation:cms7a2h80003xutawygtznvqc"
+    },
+    {
+      "type": "admin_new_order",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Nouvelle commande payée — All Vap's n°YGTZNVQC",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "admin-new-order:cms7a2h80003xutawygtznvqc"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a2h80003xutawygtznvqc:customer"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a2h80003xutawygtznvqc:manager"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a2h80003xutawygtznvqc:ava"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00006 — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a2h80003xutawygtznvqc:customer"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00006 — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a2h80003xutawygtznvqc:manager"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00006 — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a2h80003xutawygtznvqc:ava"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de préparation — All Vap's n°YGTZNVQC · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:PREP_SLIP:cms7a2h80003xutawygtznvqc:manager"
+    },
+    {
+      "type": "admin_notification",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Préparation expédition relais-colis — étiquette à importer — All Vap's",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "shipment-manager:cms7a2qgc0064utaw0e6fhzcc:pending_label:none"
+    }
+  ],
+  "emailIdempotentKeysUnique": true,
+  "shipments": [
+    {
+      "id": "cms7a2qgc0064utaw0e6fhzcc",
+      "orderId": "cms7a2h80003xutawygtznvqc",
+      "carrier": "relais-colis",
+      "status": "pending_label",
+      "mode": "assisted",
+      "idempotencyKey": "shipment:cms7a2h80003xutawygtznvqc:relais-colis",
+      "trackingNumber": null,
+      "externalShipmentId": null,
+      "relayPointId": null,
+      "relayLabel": "Point relais TEST RELAIS_COLIS — NE PAS EXPÉDIER — WF-AVA-20260730085409",
+      "labelStoragePath": null,
+      "labelFileName": null,
+      "labelMimeType": "application/pdf",
+      "qrAvailable": false,
+      "qrStoragePath": null,
+      "packDataJson": {
+        "items": [
+          {
+            "qty": 1,
+            "sku": null,
+            "name": "Fruits Rouges 10ml - Sels..."
+          },
+          {
+            "qty": 1,
+            "sku": null,
+            "name": "Popcorn 10ml 0mg e-tasty"
+          }
+        ],
+        "orderId": "cms7a2h80003xutawygtznvqc",
+        "orderRef": "YGTZNVQC",
+        "preparedAt": "2026-07-30T08:55:02.501Z",
+        "customerName": "Client Workflow rc",
+        "deliveryMethod": "RELAIS_COLIS",
+        "shippingAddress": "Point relais TEST RELAIS_COLIS — NE PAS EXPÉDIER — WF-AVA-20260730085409",
+        "customerEmailMasked": "a***@gmail.com",
+        "weightGramsEstimate": 200
+      },
+      "lastError": "API relais-colis non configurée. Saisissez le n° de suivi manuellement après création d'étiquette hors site.",
+      "emailedToManager": true,
+      "createdAt": "2026-07-30T08:55:02.508Z",
+      "updatedAt": "2026-07-30T08:55:03.412Z"
+    }
+  ],
+  "import1": {
+    "ok": true,
+    "reused": false,
+    "shipment": {
+      "id": "cms7a2qgc0064utaw0e6fhzcc",
+      "status": "label_ready",
+      "carrier": "relais-colis",
+      "trackingNumber": "TEST-RC-TZNVQC",
+      "mode": "assisted",
+      "emailedToManager": true,
+      "qrAvailable": false
+    }
+  },
+  "import2": {
+    "ok": true,
+    "reused": true,
+    "shipment": {
+      "id": "cms7a2qgc0064utaw0e6fhzcc",
+      "status": "label_ready",
+      "carrier": "relais-colis",
+      "trackingNumber": "TEST-RC-TZNVQC",
+      "mode": "assisted",
+      "emailedToManager": true,
+      "qrAvailable": false
+    }
+  },
+  "artifactsCount": 11,
+  "memoryOk": true,
+  "avaReply": "Dernière commande : YGTZNVQC — statut PAID — 17.70 € — livraison RELAIS_COLIS — le 30/07/2026 10:54:50.",
+  "prepNeverToCustomerHeuristic": false,
+  "laPosteExcluded": true
+}

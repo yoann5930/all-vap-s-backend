@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9we0017utw4r7t8uw6f",
+  "catalogName": "Ruby 50 ml",
+  "name": "Ruby 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/vape-47/ruby-x-furiosa-eggz-v2.webp",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

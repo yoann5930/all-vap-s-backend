@@ -1,0 +1,1827 @@
+{
+  "date": "2026-07-29T21:09:29.773Z",
+  "hierarchy": "fabricant → gamme → format → produit",
+  "tree": {
+    "biarritz-lab": {
+      "fabricant": "Biarritz Lab",
+      "slug": "biarritz-lab",
+      "status": "verifie",
+      "gammes": {
+        "mamita": {
+          "gamme": "Mamita",
+          "slug": "mamita",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Biarritz-Bowl_de_Cereales",
+                  "nom": "Bowl de Céréales",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Bowl_de_Cereales_Coco",
+                  "nom": "Bowl de Céréales Coco",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Bowl_de_Cereales_Marshmallow",
+                  "nom": "Bowl de Céréales Marshmallow",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Bowl_de_Cereales_Noisette_Pecan_Creme",
+                  "nom": "Bowl de Céréales Noisette Pécan Crème",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Cafe_Creme",
+                  "nom": "Café Crème",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Cafe_Stout",
+                  "nom": "Café Stout",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Cafe_Vanille_Custard",
+                  "nom": "Café Vanille Custard",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Cake_Caramel_Fume",
+                  "nom": "Cake Caramel Fumé",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Cookie_Choco_Noisette",
+                  "nom": "Cookie Choco Noisette",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Custard_Vanille_Pecan",
+                  "nom": "Custard Vanille Pécan",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Financier_Pistache",
+                  "nom": "Financier Pistache",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Biarritz-Fraises_a_la_Creme",
+                  "nom": "Fraises à la Crème",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "cloud-vapor": {
+      "fabricant": "Cloud Vapor",
+      "slug": "cloud-vapor",
+      "status": "partiel",
+      "gammes": {
+        "call-of-vape": {
+          "gamme": "Call of Vape",
+          "slug": "call-of-vape",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Cloud_Vapor-Zombie",
+                  "nom": "Zombie",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "cookin-cloud": {
+      "fabricant": "Cookin Cloud",
+      "slug": "cookin-cloud",
+      "status": "a_verifier",
+      "gammes": {
+        "myst": {
+          "gamme": "Myst",
+          "slug": "myst",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Crazy_Bird",
+                  "nom": "Da Crazy Bird",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Crusty_King",
+                  "nom": "Da Crusty King",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Good_Snake",
+                  "nom": "Da Good Snake",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Loving_Witch",
+                  "nom": "Da Loving Witch",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Smoky_Eye",
+                  "nom": "Da Smoky Eye",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Cookin_Cloud-Da_Sweet_Face",
+                  "nom": "Da Sweet Face",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "illusion": {
+      "fabricant": "Illusion",
+      "slug": "illusion",
+      "status": "a_verifier",
+      "gammes": {
+        "illusion": {
+          "gamme": "Illusion",
+          "slug": "illusion",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Illusion-Skylor",
+                  "nom": "Skylor",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Illusion-Zephyr",
+                  "nom": "Zephyr",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "juice-66": {
+      "fabricant": "Juice 66",
+      "slug": "juice-66",
+      "status": "a_verifier",
+      "gammes": {
+        "juice-66": {
+          "gamme": "Juice 66",
+          "slug": "juice-66",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Juice_66-Frost",
+                  "nom": "Frost",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Juice_66-Snow",
+                  "nom": "Snow",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "liquidarom": {
+      "fabricant": "Liquidarom",
+      "slug": "liquidarom",
+      "status": "verifie",
+      "gammes": {
+        "edition-collection": {
+          "gamme": "Edition Collection",
+          "slug": "edition-collection",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-0032",
+                  "nom": "Edition Collection - Miss Blue",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "ice-cool-x": {
+          "gamme": "Ice Cool X",
+          "slug": "ice-cool-x",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-0040",
+                  "nom": "Ice Cool X - Blackberry Raspberry",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0038",
+                  "nom": "Ice Cool X - Blackcurrant Raspberry Grape",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0036",
+                  "nom": "Ice Cool X - Blue Raspberry Pitaya",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0039",
+                  "nom": "Ice Cool X - Mixed Red Berries",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0037",
+                  "nom": "Ice Cool X - Watermelon Lemon",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "ice-cool": {
+          "gamme": "Ice Cool",
+          "slug": "ice-cool",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-0015",
+                  "nom": "Ice Cool - Ananas Kiwi jaune",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0011",
+                  "nom": "Ice Cool - Cactus citronné Framboise Fruit du dragon",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "a_verifier",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0001",
+                  "nom": "Ice Cool - Cassis Citron",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0006",
+                  "nom": "Ice Cool - Cassis Framboise Raisin",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0020",
+                  "nom": "Ice Cool - Cassis Mangue",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0021",
+                  "nom": "Ice Cool - Citron Pastèque",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0010",
+                  "nom": "Ice Cool - Citron vert Orange sanguine",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0012",
+                  "nom": "Ice Cool - Cocktail exotique",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0005",
+                  "nom": "Ice Cool - Cola Pomme",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0014",
+                  "nom": "Ice Cool - Extra Fruits rouges",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0013",
+                  "nom": "Ice Cool - Fraise Framboise Basilic",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0022",
+                  "nom": "Ice Cool - Framboise bleue Pitaya",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0003",
+                  "nom": "Ice Cool - Framboise des bois",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "a_verifier",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "ean_manquant",
+                    "sumup_a_valider"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0007",
+                  "nom": "Ice Cool - Fruit du dragon Fruits rouges",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0018",
+                  "nom": "Ice Cool - Fruit du serpent Framboise",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0023",
+                  "nom": "Ice Cool - Grenade tropicale",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0019",
+                  "nom": "Ice Cool - Kiwi Banane",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0009",
+                  "nom": "Ice Cool - Mangue Passion",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0008",
+                  "nom": "Ice Cool - Mûre Framboise",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "a_verifier",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "ean_manquant",
+                    "sumup_a_valider"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0017",
+                  "nom": "Ice Cool - Pastèque Fruits rouges",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0016",
+                  "nom": "Ice Cool - Pêche Myrtille",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0002",
+                  "nom": "Ice Cool - Pêche Raisin",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": []
+                },
+                {
+                  "idMaster": "AV-0004",
+                  "nom": "Ice Cool - Pomme verte Orange",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "a_verifier",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "ean_manquant",
+                    "sumup_a_valider"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "les-collegues": {
+          "gamme": "Les Collègues",
+          "slug": "les-collegues",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-0024",
+                  "nom": "Les Collègues - La Coquette",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:faux_positif_photo_tchatcheur"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0030",
+                  "nom": "Les Collègues - La Mimi",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:faux_positif_photo_tchatcheur"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0025",
+                  "nom": "Les Collègues - Le Balèze",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:faux_positif_photo_tchatcheur"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0026",
+                  "nom": "Les Collègues - Le Charmeur",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:faux_positif_photo_tchatcheur"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0031",
+                  "nom": "Les Collègues - Le ChocoStar",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0029",
+                  "nom": "Les Collègues - Le Flambeur",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0027",
+                  "nom": "Les Collègues - Le Funkie",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0028",
+                  "nom": "Les Collègues - Le Tchatcheur",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "les-essentiels": {
+          "gamme": "Les Essentiels",
+          "slug": "les-essentiels",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-0035",
+                  "nom": "Les Essentiels - Le P'tit Blond",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_mauvais_format_retiree"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0034",
+                  "nom": "Les Essentiels - Mojito des îles",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-0033",
+                  "nom": "Les Essentiels - Pastis 13",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_mauvais_format_retiree"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "mds-juice": {
+      "fabricant": "MDS Juice",
+      "slug": "mds-juice",
+      "status": "partiel",
+      "gammes": {
+        "mds-juice": {
+          "gamme": "MDS Juice",
+          "slug": "mds-juice",
+          "formats": {
+            "format-a-verifier": {
+              "format": "format-a-verifier",
+              "produits": [
+                {
+                  "idMaster": "AV-MDS_Juic-Beast",
+                  "nom": "Beast",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Berrywood",
+                  "nom": "Berrywood",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Black_Summer",
+                  "nom": "Black Summer",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Blue",
+                  "nom": "Blue",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Dark_Rainbow",
+                  "nom": "Dark Rainbow",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Delicious",
+                  "nom": "Delicious",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Draco",
+                  "nom": "Draco",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Enigma",
+                  "nom": "Enigma",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Gold",
+                  "nom": "Gold",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Green",
+                  "nom": "Green",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Lime",
+                  "nom": "Lime",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Mojito",
+                  "nom": "Mojito",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Mystery",
+                  "nom": "Mystery",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Mystery_Ice",
+                  "nom": "Mystery Ice",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Pink",
+                  "nom": "Pink",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Purple",
+                  "nom": "Purple",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Red_Wedding",
+                  "nom": "Red Wedding",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Silver_Wing",
+                  "nom": "Silver Wing",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Sunburst",
+                  "nom": "Sunburst",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Sunny",
+                  "nom": "Sunny",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Velvet",
+                  "nom": "Velvet",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-MDS_Juic-Virgo",
+                  "nom": "Virgo",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "raneki-liquide": {
+      "fabricant": "Raneki Liquide",
+      "slug": "raneki-liquide",
+      "status": "partiel",
+      "gammes": {
+        "kyoto-storm": {
+          "gamme": "Kyoto Storm",
+          "slug": "kyoto-storm",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Raneki_Liquide-Akashi",
+                  "nom": "Akashi",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Hanzo",
+                  "nom": "Hanzo",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Maneki",
+                  "nom": "Maneki",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Musashi",
+                  "nom": "Musashi",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Ryujin",
+                  "nom": "Ryujin",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Teruha",
+                  "nom": "Teruha",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_Liquide-Zenko",
+                  "nom": "Zenko",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:faux_positif_logo_fabricant"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "olympe": {
+          "gamme": "Olympe",
+          "slug": "olympe",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Raneki_L-Aphrodite",
+                  "nom": "Aphrodite",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_L-Athena",
+                  "nom": "Athéna",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_L-Hades",
+                  "nom": "Hadès",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_L-Poseidon",
+                  "nom": "Poséidon",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Raneki_L-Zeus",
+                  "nom": "Zeus",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "t-juice": {
+      "fabricant": "T-Juice",
+      "slug": "t-juice",
+      "status": "verifie",
+      "gammes": {
+        "t-juice-50-ml": {
+          "gamme": "T-Juice 50 mL",
+          "slug": "t-juice-50-ml",
+          "formats": {
+            "format-a-verifier": {
+              "format": "format-a-verifier",
+              "produits": [
+                {
+                  "idMaster": "AV-T_Juice-Raven_Blue",
+                  "nom": "Raven Blue",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "vape-47": {
+      "fabricant": "Vape 47",
+      "slug": "vape-47",
+      "status": "verifie",
+      "gammes": {
+        "enfer": {
+          "gamme": "Enfer",
+          "slug": "enfer",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Blue",
+                  "nom": "Enfer Blue",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Dragon",
+                  "nom": "Enfer Dragon",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Green",
+                  "nom": "Enfer Green",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Mango",
+                  "nom": "Enfer Mango",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Original",
+                  "nom": "Enfer Original",
+                  "catalogStatus": "valide",
+                  "photoStatus": "officielle",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Pink",
+                  "nom": "Enfer Pink",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Purple",
+                  "nom": "Enfer Purple",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Red",
+                  "nom": "Enfer Red",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Ultimate_Freeze",
+                  "nom": "Enfer Ultimate Freeze",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Enfer_Yellow",
+                  "nom": "Enfer Yellow",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "furiosa-eggz": {
+          "gamme": "Furiosa Eggz",
+          "slug": "furiosa-eggz",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Vape_47-Aria",
+                  "nom": "Aria",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Doom",
+                  "nom": "Doom",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Falkor",
+                  "nom": "Falkor",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Griffon",
+                  "nom": "Griffon",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Ivy",
+                  "nom": "Ivy",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Juno",
+                  "nom": "Juno",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Lothar_V2",
+                  "nom": "Lothar V2",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Nova",
+                  "nom": "Nova",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Ruby",
+                  "nom": "Ruby",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Ryu",
+                  "nom": "Ryu",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Soko",
+                  "nom": "Soko",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Ultron",
+                  "nom": "Ultron",
+                  "catalogStatus": "a_verifier",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "a_valider",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "sumup_a_valider"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Volta",
+                  "nom": "Volta",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "furiosa-skinz": {
+          "gamme": "Furiosa Skinz",
+          "slug": "furiosa-skinz",
+          "formats": {
+            "format-a-verifier": {
+              "format": "format-a-verifier",
+              "produits": [
+                {
+                  "idMaster": "AV-Vape_47-Kaiser",
+                  "nom": "Kaiser",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "format_a_verifier",
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "linvapable": {
+          "gamme": "L'Invapable",
+          "slug": "linvapable",
+          "formats": {
+            "100ml": {
+              "format": "100ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Vape_47-Kansas_Rouge",
+                  "nom": "Baron Rouge",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Hyper_Dragon",
+                  "nom": "Hyper Dragon",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape47-polar_vortex",
+                  "nom": "Polar Vortex",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                },
+                {
+                  "idMaster": "AV-Vape_47-Ultra_Fraise",
+                  "nom": "Ultra Fraise",
+                  "catalogStatus": "valide",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "match_auto",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "pg_vg_a_verifier",
+                    "db:photo_officielle_manquante"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "vape-maker": {
+      "fabricant": "Vape Maker",
+      "slug": "vape-maker",
+      "status": "a_verifier",
+      "gammes": {
+        "kaiju": {
+          "gamme": "Kaiju",
+          "slug": "kaiju",
+          "formats": {
+            "50ml": {
+              "format": "50ml",
+              "produits": [
+                {
+                  "idMaster": "AV-Vape_Maker-Kaiju_references_non_lues",
+                  "nom": "Kaiju (références non lues)",
+                  "catalogStatus": "hors_sumup",
+                  "photoStatus": "manquante",
+                  "sumupStatus": "absent_sumup",
+                  "anomalies": [
+                    "photo_manquante",
+                    "ean_manquant",
+                    "absent_de_sumup",
+                    "pg_vg_a_verifier"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

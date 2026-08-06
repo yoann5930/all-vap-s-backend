@@ -1,0 +1,37 @@
+{
+  "id": "cms9gxd5c0057utw4gqk8wocq",
+  "slug": "dragon-fruits-rouges-50-fruizee-max",
+  "nom": "Dragon Fruits Rouges 50 ml",
+  "description": "Officiel Fruizee Max — SumUp à lier.",
+  "seo": {
+    "title": "Dragon Fruits Rouges 50 ml | Eliquid France | All Vap's",
+    "description": "Officiel Fruizee Max — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "Eliquid France",
+    "gamme": "Fruizee Max",
+    "saveur": "Dragon Fruits Rouges",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/liquidarom/ice-cool/50ml/fruit-du-dragon-fruits-rouges.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\ice-cool\\50ml\\fruit-du-dragon-fruits-rouges.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\eliquid-france\\ranges\\fruizee-max-eliquid-france.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/dragon-fruits-rouges-50-fruizee-max.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/eliquid-france__fruizee-max-eliquid-france.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

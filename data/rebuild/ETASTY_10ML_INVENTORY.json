@@ -1,0 +1,1254 @@
+{
+  "date": "2026-07-29T22:51:59.580Z",
+  "totalETasty": 245,
+  "total10ml": 178,
+  "published10ml": 0,
+  "aVerifier10ml": 178,
+  "withOfficialPhoto10ml": 134,
+  "wronglyPhoto50or100": [],
+  "byFamily": {
+    "ETASTY_ONE_TASTE": 134,
+    "ETASTY_A_VERIFIER": 44
+  },
+  "byExplicitRange": {
+    "sans_libelle_gamme": 178
+  },
+  "flavorGroups": [
+    {
+      "key": "One Taste::ananas",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Ananas 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-0mg-e-tasty-6b857cbf.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::barbe à papa",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Barbe À Papa 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/barbe-a-papa-10ml-0mg-e-tasty-788d60c3.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::bonbon carnival",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Bonbon carnival 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-0mg-e-tasty-1145745b.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::bonbon violette",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Bonbon violette 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-0mg-e-tasty-d0d0073c.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cafe expresso",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cafe Expresso 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-0mg-e-tasty-b10b812f.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cafe speculos",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cafe speculos 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-0mg-e-tasty-32308b16.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::caramel doré",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Caramel doré 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-0mg-e-tasty-c716ac24.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cassis frais",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cassis frais 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-0mg-e-tasty-4ac194fb.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cerise noire",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cerise noire 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-0mg-e-tasty-016e2d61.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cerise noire sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Cerise noire 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty-5ce02e22.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cherry cola",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cherry cola 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cherry-cola-10ml-0mg-e-tasty-f9f7a126.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::chlorophylle",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Chlorophylle 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/chlorophylle-10ml-0mg-e-tasty-a6108e84.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::citron givree",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Citron givree 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/citron-givree-10ml-0mg-e-tasty-a7469b06.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::citron vert",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Citron vert 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/citron-vert-10ml-0mg-e-tasty-4729c9e8.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::cookie gourmand",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Cookie gourmand 10 ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cookie-gourmand-10-ml-0mg-e-tasty-9f3e8b79.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fraise sauvage sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Fraise sauvage 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fraise-sauvage-10ml-10mg-sel-de-nicotine-e-tasty-ec55b1ac.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fraise sauvege",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fraise sauvege 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fraise-sauvege-10ml-0mg-e-tasty-8422c861.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::framboise sauvage",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Framboise sauvage 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/framboise-sauvage-10ml-0mg-e-tasty-1a938bcd.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruit du serpent",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fruit Du Serpent 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruit-du-serpent-10ml-0mg-e-tasty-1f59b39e.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruit du dragon",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fruit du dragon 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruit-du-dragon-10ml-0mg-e-tasty-2a1b6c18.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruit du dragon sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Fruit du dragon 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruit-du-dragon-10ml-10mg-sel-de-nicotine-e-tasty-48ee10c0.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruits rouges anisés",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fruits Rouges Anisés 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruits-rouges-anises-10ml-0mg-e-tasty-56e82180.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruits rouges mentholes",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fruits Rouges mentholes 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruits-rouges-mentholes-10ml-0mg-e-tasty-a4600ef9.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruits rouges",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Fruits rouges 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruits-rouges-10ml-0mg-e-tasty-84f5db66.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::fruits rouges sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Fruits rouges 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruits-rouges-10ml-10mg-sel-de-nicotine-e-tasty-8635ac01.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::harrison",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Harrison 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/harrison-10ml-0mg-e-tasty-a6cf18a1.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::kenton",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Kenton 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/kenton-10ml-0mg-e-tasty-cf380212.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::mangue juteuse",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Mangue juteuse 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/mangue-juteuse-10ml-0mg-e-tasty-bcbcd6bd.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::menthe fraiche",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Menthe Fraiche 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/menthe-fraiche-10ml-0mg-e-tasty-896ee6ed.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::menthe fraiche sel de nicotine",
+      "count": 2,
+      "nicotines": [
+        5,
+        10
+      ],
+      "published": 0,
+      "sample": "Menthe fraiche 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/menthe-fraiche-10ml-10mg-sel-de-nicotine-e-tasty-4dc89205.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::menthe fraiche10ml sel de nicotine",
+      "count": 1,
+      "nicotines": [
+        20
+      ],
+      "published": 0,
+      "sample": "Menthe fraiche10ml 20mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/menthe-fraiche10ml-20mg-sel-de-nicotine-e-tasty-356a8bfb.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::menthe polaire",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Menthe polaire 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/menthe-polaire-10ml-0mg-e-tasty-fa40f0f1.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::menthe polaire sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Menthe polaire 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/menthe-polaire-10ml-10mg-sel-de-nicotine-e-tasty-5c1099a2.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::myrtille sauvage",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Myrtille sauvage 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/myrtille-sauvage-10ml-0mg-e-tasty-87feec62.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::pamplemousse",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Pamplemousse 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/pamplemousse-10ml-0mg-e-tasty-2924e1f0.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "One Taste::pasteque juteuse",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Pasteque juteuse 10ml 0mg e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/pasteque-juteuse-10ml-0mg-e-tasty-309ac698.webp",
+      "imageStatus": "official",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_one_taste_par_match_saveur"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::peche",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Peche 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::poire juteuse",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Poire juteuse 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::pomme croquante",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Pomme croquante 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::pop cola",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Pop cola 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::popcorn",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Popcorn 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::popcorn sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Popcorn 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::raisin exquis",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Raisin exquis 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::united",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "United 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::united sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "United 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::vanille dore",
+      "count": 4,
+      "nicotines": [
+        0,
+        3,
+        6,
+        12
+      ],
+      "published": 0,
+      "sample": "Vanille dore 10ml 0mg e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::vanille dorée sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Vanille dorée 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    },
+    {
+      "key": "ETASTY_A_VERIFIER::virginia sel de nicotine",
+      "count": 3,
+      "nicotines": [
+        5,
+        10,
+        20
+      ],
+      "published": 0,
+      "sample": "Virginia 10ml 10mg sel de nicotine e-tasty",
+      "imageUrl": null,
+      "imageStatus": "pending",
+      "catalogStatus": "a_verifier",
+      "importAnomaly": "gamme_non_declarable"
+    }
+  ],
+  "sampleAVerifier": [
+    {
+      "name": "Ananas 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-0mg-e-tasty-6b857cbf.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "6b857cbf-f338-4fc2-a923-918e1b035fd8",
+      "barcode": "902201000103",
+      "variants": 1
+    },
+    {
+      "name": "Ananas 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-12mg-e-tasty-902d25d8.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "902d25d8-976d-4577-bc27-0ae8efaada37",
+      "barcode": "902201120108",
+      "variants": 1
+    },
+    {
+      "name": "Ananas 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-3mg-e-tasty-09588527.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "09588527-5993-47a7-b691-6e69cd9de420",
+      "barcode": "902201030100",
+      "variants": 1
+    },
+    {
+      "name": "Ananas 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-6mg-e-tasty-da6e6521.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "da6e6521-ca13-4c29-ad5d-3a003574a8de",
+      "barcode": "902201060107",
+      "variants": 1
+    },
+    {
+      "name": "Barbe À Papa 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/barbe-a-papa-10ml-0mg-e-tasty-788d60c3.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "788d60c3-9d84-4d60-ae5f-5fe2f9df318c",
+      "barcode": "3701418828954",
+      "variants": 1
+    },
+    {
+      "name": "Barbe À Papa 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/barbe-a-papa-10ml-12mg-e-tasty-60cb7f97.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "60cb7f97-98a7-40f2-90cf-b466f30151a7",
+      "barcode": "3701418828985",
+      "variants": 1
+    },
+    {
+      "name": "Barbe À Papa 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/barbe-a-papa-10ml-3mg-e-tasty-2e11448e.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "2e11448e-f089-4058-aa09-6eccae9f2f33",
+      "barcode": "3701418828961",
+      "variants": 1
+    },
+    {
+      "name": "Barbe À Papa 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/barbe-a-papa-10ml-6mg-e-tasty-2b251c95.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "2b251c95-e6fd-4692-aed5-7d5d3c667769",
+      "barcode": "3701418828978",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon carnival 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-0mg-e-tasty-1145745b.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "1145745b-5807-4e78-bffb-e4027d5407e3",
+      "barcode": "3701418819044",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon carnival 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-12mg-e-tasty-00b690f2.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "00b690f2-b34c-47ed-a36c-31ae19fef477",
+      "barcode": "3701418800158",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon carnival 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-3mg-e-tasty-4510cf91.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "4510cf91-9bc1-42b9-8195-a63cc7ab6b2a",
+      "barcode": "3701418800134",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon carnival 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-6mg-e-tasty-7a11c53b.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "7a11c53b-ecc0-444e-9e11-99c31136d5d8",
+      "barcode": "3701418800141",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon violette 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-0mg-e-tasty-d0d0073c.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "d0d0073c-0cf8-4a54-9a4f-cc92698f4851",
+      "barcode": "3701418865393",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon violette 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-12mg-e-tasty-b0671c2a.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "b0671c2a-fff7-4f5f-a154-c4a6fa8afeed",
+      "barcode": "3701418865362",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon violette 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-3mg-e-tasty-80502afd.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "80502afd-19e9-4869-a491-7ce5f5563383",
+      "barcode": "3701418865386",
+      "variants": 1
+    },
+    {
+      "name": "Bonbon violette 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-6mg-e-tasty-63cfb3c7.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "63cfb3c7-0ae1-42b8-a9c5-f225a06088db",
+      "barcode": "3701418865379",
+      "variants": 1
+    },
+    {
+      "name": "Cafe Expresso 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-0mg-e-tasty-b10b812f.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "b10b812f-163d-4f71-96a7-ff2deb70bc31",
+      "barcode": "3701418812106",
+      "variants": 1
+    },
+    {
+      "name": "Cafe Expresso 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-12mg-e-tasty-44d412ac.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "44d412ac-a96b-4fe9-bba2-78e1002b9dbc",
+      "barcode": "3701418812137",
+      "variants": 1
+    },
+    {
+      "name": "Cafe Expresso 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-3mg-e-tasty-021cf62c.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "021cf62c-b0dd-4583-9fa2-8197158dc382",
+      "barcode": "3701418812113",
+      "variants": 1
+    },
+    {
+      "name": "Cafe Expresso 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-6mg-e-tasty-2d5ecccb.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "2d5ecccb-69e0-4356-b54a-9c5d27d9a9c7",
+      "barcode": "3701418812120",
+      "variants": 1
+    },
+    {
+      "name": "Cafe speculos 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-0mg-e-tasty-32308b16.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "32308b16-8f5f-4ce6-8019-f682761e8529",
+      "barcode": "3701418800318",
+      "variants": 1
+    },
+    {
+      "name": "Cafe speculos 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-12mg-e-tasty-185b808e.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "185b808e-e096-4ab8-beae-5bd8ec8ae1cf",
+      "barcode": "3701418800288",
+      "variants": 1
+    },
+    {
+      "name": "Cafe speculos 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-3mg-e-tasty-1846a56f.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "1846a56f-1ee1-417d-b799-6d05b03148e4",
+      "barcode": "3701418800301",
+      "variants": 1
+    },
+    {
+      "name": "Cafe speculos 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-6mg-e-tasty-1e338432.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "1e338432-92cf-4f75-9ab9-b8c2e2b249e0",
+      "barcode": "3701418800295",
+      "variants": 1
+    },
+    {
+      "name": "Caramel doré 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-0mg-e-tasty-c716ac24.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "c716ac24-834c-4504-bb5f-40b51cf05899",
+      "barcode": "3701418800271",
+      "variants": 1
+    },
+    {
+      "name": "Caramel doré 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-12mg-e-tasty-d272b092.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "d272b092-54af-4ed7-9094-519f51bd0733",
+      "barcode": "3701418800240",
+      "variants": 1
+    },
+    {
+      "name": "Caramel doré 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-3mg-e-tasty-a707591c.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "a707591c-3a10-47ab-a9c3-5da671445b7f",
+      "barcode": "3701418800264",
+      "variants": 1
+    },
+    {
+      "name": "Caramel doré 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-6mg-e-tasty-0097e53b.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "0097e53b-a73f-45d2-abf6-7bceec22083e",
+      "barcode": "3701418800257",
+      "variants": 1
+    },
+    {
+      "name": "Cassis frais 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-0mg-e-tasty-4ac194fb.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "4ac194fb-62ea-4fcf-80dd-12fec0bb1149",
+      "barcode": "3701418829036",
+      "variants": 1
+    },
+    {
+      "name": "Cassis frais 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-12mg-e-tasty-5545f924.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "5545f924-2360-4c9b-b1b2-38190ff8fc06",
+      "barcode": "3701418829067",
+      "variants": 1
+    },
+    {
+      "name": "Cassis frais 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-3mg-e-tasty-5f7e7c2a.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "5f7e7c2a-5059-4f19-b863-c24cd4a0317f",
+      "barcode": "3701418829043",
+      "variants": 1
+    },
+    {
+      "name": "Cassis frais 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-6mg-e-tasty-e58a6a66.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "e58a6a66-4a38-453d-9344-0ed57dbafa9a",
+      "barcode": "3701418829050",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-0mg-e-tasty-016e2d61.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "016e2d61-92f8-439a-8b34-b743c0a92503",
+      "barcode": "3701418800233",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 10mg sel de nicotine e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty-5ce02e22.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "5ce02e22-ea7d-486e-846d-6f76e76a6193",
+      "barcode": "3701418820460",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 12mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-12mg-e-tasty-536c2a5a.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "536c2a5a-bc51-4c06-949d-72dfc84d659a",
+      "barcode": "3701418800202",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 20mg sel de nicotine e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-20mg-sel-de-nicotine-e-tasty-1e9e53df.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "1e9e53df-eed8-4f20-8da1-2357918518f2",
+      "barcode": "3701418820361",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 3mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-3mg-e-tasty-cbee1523.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "cbee1523-ec70-4519-bf12-0f266fd0768d",
+      "barcode": "3701418800226",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 5mg sel de nicotine e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-5mg-sel-de-nicotine-e-tasty-8df897a2.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "8df897a2-6413-40dc-b6e5-9fcd593c7793",
+      "barcode": "3701418821405",
+      "variants": 1
+    },
+    {
+      "name": "Cerise noire 10ml 6mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-6mg-e-tasty-8ba100ce.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "8ba100ce-ee01-443d-8e77-63e6d2a9c6ff",
+      "barcode": "3701418800219",
+      "variants": 1
+    },
+    {
+      "name": "Cherry cola 10ml 0mg e-tasty",
+      "family": "ETASTY_ONE_TASTE",
+      "range": "One Taste",
+      "anomaly": "gamme_one_taste_par_match_saveur",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cherry-cola-10ml-0mg-e-tasty-f9f7a126.webp",
+      "imageStatus": "official",
+      "priceCents": 690,
+      "sumupProductId": "f9f7a126-9547-4d4e-8bdb-a5a412496644",
+      "barcode": "3701418800196",
+      "variants": 1
+    }
+  ]
+}

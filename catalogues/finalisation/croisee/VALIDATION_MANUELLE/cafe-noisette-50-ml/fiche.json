@@ -1,0 +1,179 @@
+{
+  "productId": "cms96dg8p003suto8n6icokt7",
+  "catalogName": "Café Noisette 50 ml",
+  "manufacturer": "Liquide Lab",
+  "range": "Big Kawa",
+  "officialName": "Big Kawa (Liquide Lab) — café",
+  "formatMl": 50,
+  "pgVg": null,
+  "nicotineSoldAs": "Non publié sur liquidelab.com (B2B)",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": null,
+  "photoSource": "",
+  "bannerLocal": null,
+  "status": "incomplet",
+  "missingFields": [
+    "pgVg",
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "liquide-lab",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "big-kawa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "50 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv.json",
+      "field": "range",
+      "value": "big-kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv_start.json",
+      "field": "range",
+      "value": "big-kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/cafe-noisette-50-ml.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/cafe-noisette-50-ml.json",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/cafe-noisette-50-ml.json",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/cafe-noisette-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/cafe-noisette-50-ml.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/cafe-noisette-50-ml.json",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/cafe-noisette-50-ml.json",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/cafe-noisette-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Big Kawa",
+      "confidence": "exact_id"
+    }
+  ],
+  "notes": [],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:20.124Z"
+}

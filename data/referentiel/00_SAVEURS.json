@@ -1,0 +1,596 @@
+{
+  "date": "2026-07-29T21:09:29.778Z",
+  "total": 118,
+  "items": [
+    {
+      "saveur": "A_VERIFIER (fiche aromatique sur vape47.com)",
+      "nom_normalise": "a verifier fiche aromatique sur vape47 com",
+      "exemples_produits": "Doom | Falkor | Griffon | Ivy | Juno | Ryu | Soko | Ultron | Volta"
+    },
+    {
+      "saveur": "Akashi",
+      "nom_normalise": "akashi",
+      "exemples_produits": "Akashi"
+    },
+    {
+      "saveur": "Ananas Kiwi Jaune",
+      "nom_normalise": "ananas kiwi jaune",
+      "exemples_produits": "Ice Cool - Ananas Kiwi jaune"
+    },
+    {
+      "saveur": "Baie de goji, framboise bleue, goyave",
+      "nom_normalise": "baie de goji framboise bleue goyave",
+      "exemples_produits": "Athéna"
+    },
+    {
+      "saveur": "Baies Bleues - Eucalyptus - Menthol",
+      "nom_normalise": "baies bleues eucalyptus menthol",
+      "exemples_produits": "Polar Vortex"
+    },
+    {
+      "saveur": "Baies bleues, raisin, menthol noir",
+      "nom_normalise": "baies bleues raisin menthol noir",
+      "exemples_produits": "Aria"
+    },
+    {
+      "saveur": "Beast",
+      "nom_normalise": "beast",
+      "exemples_produits": "Beast"
+    },
+    {
+      "saveur": "Berrywood",
+      "nom_normalise": "berrywood",
+      "exemples_produits": "Berrywood"
+    },
+    {
+      "saveur": "Biscuit, café, caramel",
+      "nom_normalise": "biscuit cafe caramel",
+      "exemples_produits": "Da Crazy Bird"
+    },
+    {
+      "saveur": "Black Summer",
+      "nom_normalise": "black summer",
+      "exemples_produits": "Black Summer"
+    },
+    {
+      "saveur": "Blackberry Raspberry",
+      "nom_normalise": "blackberry raspberry",
+      "exemples_produits": "Ice Cool X - Blackberry Raspberry"
+    },
+    {
+      "saveur": "Blackcurrant Raspberry Grape",
+      "nom_normalise": "blackcurrant raspberry grape",
+      "exemples_produits": "Ice Cool X - Blackcurrant Raspberry Grape"
+    },
+    {
+      "saveur": "Blue",
+      "nom_normalise": "blue",
+      "exemples_produits": "Blue"
+    },
+    {
+      "saveur": "Blue + menthol",
+      "nom_normalise": "blue menthol",
+      "exemples_produits": "Enfer Blue"
+    },
+    {
+      "saveur": "Blue Raspberry Pitaya",
+      "nom_normalise": "blue raspberry pitaya",
+      "exemples_produits": "Ice Cool X - Blue Raspberry Pitaya"
+    },
+    {
+      "saveur": "Bowl de Céréales",
+      "nom_normalise": "bowl de cereales",
+      "exemples_produits": "Bowl de Céréales"
+    },
+    {
+      "saveur": "Bowl de Céréales Coco",
+      "nom_normalise": "bowl de cereales coco",
+      "exemples_produits": "Bowl de Céréales Coco"
+    },
+    {
+      "saveur": "Bowl de Céréales Marshmallow",
+      "nom_normalise": "bowl de cereales marshmallow",
+      "exemples_produits": "Bowl de Céréales Marshmallow"
+    },
+    {
+      "saveur": "Bowl de Céréales Noisette Pécan Crème",
+      "nom_normalise": "bowl de cereales noisette pecan creme",
+      "exemples_produits": "Bowl de Céréales Noisette Pécan Crème"
+    },
+    {
+      "saveur": "Cactus Fruit du dragon & Aloe Vera",
+      "nom_normalise": "cactus fruit du dragon et aloe vera",
+      "exemples_produits": "Ice Cool - Cactus citronné Framboise Fruit du dragon"
+    },
+    {
+      "saveur": "Café Crème",
+      "nom_normalise": "cafe creme",
+      "exemples_produits": "Café Crème"
+    },
+    {
+      "saveur": "Café Stout",
+      "nom_normalise": "cafe stout",
+      "exemples_produits": "Café Stout"
+    },
+    {
+      "saveur": "Café Vanille Custard",
+      "nom_normalise": "cafe vanille custard",
+      "exemples_produits": "Café Vanille Custard"
+    },
+    {
+      "saveur": "Cake Caramel Fumé",
+      "nom_normalise": "cake caramel fume",
+      "exemples_produits": "Cake Caramel Fumé"
+    },
+    {
+      "saveur": "Cassis Citron",
+      "nom_normalise": "cassis citron",
+      "exemples_produits": "Ice Cool - Cassis Citron"
+    },
+    {
+      "saveur": "Cassis, framboise, acérola",
+      "nom_normalise": "cassis framboise acerola",
+      "exemples_produits": "Nova"
+    },
+    {
+      "saveur": "Cassis Framboise Raisin",
+      "nom_normalise": "cassis framboise raisin",
+      "exemples_produits": "Ice Cool - Cassis Framboise Raisin"
+    },
+    {
+      "saveur": "Cassis Mangue",
+      "nom_normalise": "cassis mangue",
+      "exemples_produits": "Ice Cool - Cassis Mangue"
+    },
+    {
+      "saveur": "Cerise, fruit du dragon, cassis",
+      "nom_normalise": "cerise fruit du dragon cassis",
+      "exemples_produits": "Ruby"
+    },
+    {
+      "saveur": "Chocolat blanc, pistache",
+      "nom_normalise": "chocolat blanc pistache",
+      "exemples_produits": "Da Good Snake"
+    },
+    {
+      "saveur": "Citron Pastèque",
+      "nom_normalise": "citron pasteque",
+      "exemples_produits": "Ice Cool - Citron Pastèque"
+    },
+    {
+      "saveur": "Citron vert - Orange sanguine",
+      "nom_normalise": "citron vert orange sanguine",
+      "exemples_produits": "Ice Cool - Citron vert Orange sanguine"
+    },
+    {
+      "saveur": "Cocktail Exotique",
+      "nom_normalise": "cocktail exotique",
+      "exemples_produits": "Ice Cool - Cocktail exotique"
+    },
+    {
+      "saveur": "Cola Pomme",
+      "nom_normalise": "cola pomme",
+      "exemples_produits": "Ice Cool - Cola Pomme"
+    },
+    {
+      "saveur": "Confiture de lait",
+      "nom_normalise": "confiture de lait",
+      "exemples_produits": "Da Smoky Eye"
+    },
+    {
+      "saveur": "Cookie Choco Noisette",
+      "nom_normalise": "cookie choco noisette",
+      "exemples_produits": "Cookie Choco Noisette"
+    },
+    {
+      "saveur": "Custard Vanille Pécan",
+      "nom_normalise": "custard vanille pecan",
+      "exemples_produits": "Custard Vanille Pécan"
+    },
+    {
+      "saveur": "Da Loving Witch",
+      "nom_normalise": "da loving witch",
+      "exemples_produits": "Da Loving Witch"
+    },
+    {
+      "saveur": "Da Sweet Face",
+      "nom_normalise": "da sweet face",
+      "exemples_produits": "Da Sweet Face"
+    },
+    {
+      "saveur": "Dark Rainbow",
+      "nom_normalise": "dark rainbow",
+      "exemples_produits": "Dark Rainbow"
+    },
+    {
+      "saveur": "Delicious",
+      "nom_normalise": "delicious",
+      "exemples_produits": "Delicious"
+    },
+    {
+      "saveur": "Draco",
+      "nom_normalise": "draco",
+      "exemples_produits": "Draco"
+    },
+    {
+      "saveur": "Dragon + menthol",
+      "nom_normalise": "dragon menthol",
+      "exemples_produits": "Enfer Dragon"
+    },
+    {
+      "saveur": "Enigma",
+      "nom_normalise": "enigma",
+      "exemples_produits": "Enigma"
+    },
+    {
+      "saveur": "Extra Fruits Rouges",
+      "nom_normalise": "extra fruits rouges",
+      "exemples_produits": "Ice Cool - Extra Fruits rouges"
+    },
+    {
+      "saveur": "Financier Pistache",
+      "nom_normalise": "financier pistache",
+      "exemples_produits": "Financier Pistache"
+    },
+    {
+      "saveur": "Fraise Framboise Basilic",
+      "nom_normalise": "fraise framboise basilic",
+      "exemples_produits": "Ice Cool - Fraise Framboise Basilic"
+    },
+    {
+      "saveur": "Fraise - Kiwi - Frais",
+      "nom_normalise": "fraise kiwi frais",
+      "exemples_produits": "Ultra Fraise"
+    },
+    {
+      "saveur": "Fraises à la Crème",
+      "nom_normalise": "fraises a la creme",
+      "exemples_produits": "Fraises à la Crème"
+    },
+    {
+      "saveur": "Framboise Bleue Pitaya",
+      "nom_normalise": "framboise bleue pitaya",
+      "exemples_produits": "Ice Cool - Framboise bleue Pitaya"
+    },
+    {
+      "saveur": "Framboise Fraise des Bois",
+      "nom_normalise": "framboise fraise des bois",
+      "exemples_produits": "Ice Cool - Framboise des bois"
+    },
+    {
+      "saveur": "Frost",
+      "nom_normalise": "frost",
+      "exemples_produits": "Frost"
+    },
+    {
+      "saveur": "Fruit du dragon Fruits rouges",
+      "nom_normalise": "fruit du dragon fruits rouges",
+      "exemples_produits": "Ice Cool - Fruit du dragon Fruits rouges"
+    },
+    {
+      "saveur": "Fruit du dragon - Grenade - Frais",
+      "nom_normalise": "fruit du dragon grenade frais",
+      "exemples_produits": "Hyper Dragon"
+    },
+    {
+      "saveur": "Fruit du dragon, passion",
+      "nom_normalise": "fruit du dragon passion",
+      "exemples_produits": "Poséidon"
+    },
+    {
+      "saveur": "Fruit du Serpent Framboise",
+      "nom_normalise": "fruit du serpent framboise",
+      "exemples_produits": "Ice Cool - Fruit du serpent Framboise"
+    },
+    {
+      "saveur": "Fruit du serpent, framboise bleue, goyave",
+      "nom_normalise": "fruit du serpent framboise bleue goyave",
+      "exemples_produits": "Hadès"
+    },
+    {
+      "saveur": "Fruits rouges - Menthol - Eucalyptus",
+      "nom_normalise": "fruits rouges menthol eucalyptus",
+      "exemples_produits": "Baron Rouge"
+    },
+    {
+      "saveur": "Gold",
+      "nom_normalise": "gold",
+      "exemples_produits": "Gold"
+    },
+    {
+      "saveur": "Green",
+      "nom_normalise": "green",
+      "exemples_produits": "Green"
+    },
+    {
+      "saveur": "Green + menthol",
+      "nom_normalise": "green menthol",
+      "exemples_produits": "Enfer Green"
+    },
+    {
+      "saveur": "Grenade Tropicale",
+      "nom_normalise": "grenade tropicale",
+      "exemples_produits": "Ice Cool - Grenade tropicale"
+    },
+    {
+      "saveur": "Hanzo",
+      "nom_normalise": "hanzo",
+      "exemples_produits": "Hanzo"
+    },
+    {
+      "saveur": "Kaiju (références non lues)",
+      "nom_normalise": "kaiju references non lues",
+      "exemples_produits": "Kaiju (références non lues)"
+    },
+    {
+      "saveur": "Kaiser",
+      "nom_normalise": "kaiser",
+      "exemples_produits": "Kaiser"
+    },
+    {
+      "saveur": "Kiwi Banane",
+      "nom_normalise": "kiwi banane",
+      "exemples_produits": "Ice Cool - Kiwi Banane"
+    },
+    {
+      "saveur": "La Coquette",
+      "nom_normalise": "la coquette",
+      "exemples_produits": "Les Collègues - La Coquette"
+    },
+    {
+      "saveur": "La Mimi",
+      "nom_normalise": "la mimi",
+      "exemples_produits": "Les Collègues - La Mimi"
+    },
+    {
+      "saveur": "Le Balèze",
+      "nom_normalise": "le baleze",
+      "exemples_produits": "Les Collègues - Le Balèze"
+    },
+    {
+      "saveur": "Le Charmeur",
+      "nom_normalise": "le charmeur",
+      "exemples_produits": "Les Collègues - Le Charmeur"
+    },
+    {
+      "saveur": "Le ChocoStar",
+      "nom_normalise": "le chocostar",
+      "exemples_produits": "Les Collègues - Le ChocoStar"
+    },
+    {
+      "saveur": "Le Flambeur",
+      "nom_normalise": "le flambeur",
+      "exemples_produits": "Les Collègues - Le Flambeur"
+    },
+    {
+      "saveur": "Le Funkie",
+      "nom_normalise": "le funkie",
+      "exemples_produits": "Les Collègues - Le Funkie"
+    },
+    {
+      "saveur": "Le P'tit Blond",
+      "nom_normalise": "le ptit blond",
+      "exemples_produits": "Les Essentiels - Le P'tit Blond"
+    },
+    {
+      "saveur": "Le Tchatcheur",
+      "nom_normalise": "le tchatcheur",
+      "exemples_produits": "Les Collègues - Le Tchatcheur"
+    },
+    {
+      "saveur": "Lime",
+      "nom_normalise": "lime",
+      "exemples_produits": "Lime"
+    },
+    {
+      "saveur": "Lothar V2",
+      "nom_normalise": "lothar v2",
+      "exemples_produits": "Lothar V2"
+    },
+    {
+      "saveur": "Maneki",
+      "nom_normalise": "maneki",
+      "exemples_produits": "Maneki"
+    },
+    {
+      "saveur": "Mango + menthol",
+      "nom_normalise": "mango menthol",
+      "exemples_produits": "Enfer Mango"
+    },
+    {
+      "saveur": "Mangue Passion",
+      "nom_normalise": "mangue passion",
+      "exemples_produits": "Ice Cool - Mangue Passion"
+    },
+    {
+      "saveur": "Menthol",
+      "nom_normalise": "menthol",
+      "exemples_produits": "Enfer Original | Enfer Ultimate Freeze"
+    },
+    {
+      "saveur": "Miss Blue",
+      "nom_normalise": "miss blue",
+      "exemples_produits": "Edition Collection - Miss Blue"
+    },
+    {
+      "saveur": "Mixed Berries",
+      "nom_normalise": "mixed berries",
+      "exemples_produits": "Ice Cool X - Mixed Red Berries"
+    },
+    {
+      "saveur": "Mojito",
+      "nom_normalise": "mojito",
+      "exemples_produits": "Mojito"
+    },
+    {
+      "saveur": "Mojito des îles",
+      "nom_normalise": "mojito des iles",
+      "exemples_produits": "Les Essentiels - Mojito des îles"
+    },
+    {
+      "saveur": "Mûre Framboise",
+      "nom_normalise": "mure framboise",
+      "exemples_produits": "Ice Cool - Mûre Framboise"
+    },
+    {
+      "saveur": "Musashi",
+      "nom_normalise": "musashi",
+      "exemples_produits": "Musashi"
+    },
+    {
+      "saveur": "Myrtille, cassis, mûre, raisin",
+      "nom_normalise": "myrtille cassis mure raisin",
+      "exemples_produits": "Zeus"
+    },
+    {
+      "saveur": "Mystery",
+      "nom_normalise": "mystery",
+      "exemples_produits": "Mystery"
+    },
+    {
+      "saveur": "Mystery Ice",
+      "nom_normalise": "mystery ice",
+      "exemples_produits": "Mystery Ice"
+    },
+    {
+      "saveur": "Pastèque Fruits Rouges",
+      "nom_normalise": "pasteque fruits rouges",
+      "exemples_produits": "Ice Cool - Pastèque Fruits rouges"
+    },
+    {
+      "saveur": "Pastis 13",
+      "nom_normalise": "pastis 13",
+      "exemples_produits": "Les Essentiels - Pastis 13"
+    },
+    {
+      "saveur": "Pêche, gummy",
+      "nom_normalise": "peche gummy",
+      "exemples_produits": "Aphrodite"
+    },
+    {
+      "saveur": "Pêche Myrtille",
+      "nom_normalise": "peche myrtille",
+      "exemples_produits": "Ice Cool - Pêche Myrtille"
+    },
+    {
+      "saveur": "Pêche Raisin",
+      "nom_normalise": "peche raisin",
+      "exemples_produits": "Ice Cool - Pêche Raisin"
+    },
+    {
+      "saveur": "Pink",
+      "nom_normalise": "pink",
+      "exemples_produits": "Pink"
+    },
+    {
+      "saveur": "Pink + menthol",
+      "nom_normalise": "pink menthol",
+      "exemples_produits": "Enfer Pink"
+    },
+    {
+      "saveur": "Pomme Verte Orange",
+      "nom_normalise": "pomme verte orange",
+      "exemples_produits": "Ice Cool - Pomme verte Orange"
+    },
+    {
+      "saveur": "Popcorn caramel",
+      "nom_normalise": "popcorn caramel",
+      "exemples_produits": "Da Crusty King"
+    },
+    {
+      "saveur": "Purple",
+      "nom_normalise": "purple",
+      "exemples_produits": "Purple"
+    },
+    {
+      "saveur": "Purple + menthol",
+      "nom_normalise": "purple menthol",
+      "exemples_produits": "Enfer Purple"
+    },
+    {
+      "saveur": "Raven Blue",
+      "nom_normalise": "raven blue",
+      "exemples_produits": "Raven Blue"
+    },
+    {
+      "saveur": "Red + menthol",
+      "nom_normalise": "red menthol",
+      "exemples_produits": "Enfer Red"
+    },
+    {
+      "saveur": "Red Wedding",
+      "nom_normalise": "red wedding",
+      "exemples_produits": "Red Wedding"
+    },
+    {
+      "saveur": "Ryujin",
+      "nom_normalise": "ryujin",
+      "exemples_produits": "Ryujin"
+    },
+    {
+      "saveur": "Silver Wing",
+      "nom_normalise": "silver wing",
+      "exemples_produits": "Silver Wing"
+    },
+    {
+      "saveur": "Skylor",
+      "nom_normalise": "skylor",
+      "exemples_produits": "Skylor"
+    },
+    {
+      "saveur": "Snow",
+      "nom_normalise": "snow",
+      "exemples_produits": "Snow"
+    },
+    {
+      "saveur": "Sunburst",
+      "nom_normalise": "sunburst",
+      "exemples_produits": "Sunburst"
+    },
+    {
+      "saveur": "Sunny",
+      "nom_normalise": "sunny",
+      "exemples_produits": "Sunny"
+    },
+    {
+      "saveur": "Teruha",
+      "nom_normalise": "teruha",
+      "exemples_produits": "Teruha"
+    },
+    {
+      "saveur": "Velvet",
+      "nom_normalise": "velvet",
+      "exemples_produits": "Velvet"
+    },
+    {
+      "saveur": "Virgo",
+      "nom_normalise": "virgo",
+      "exemples_produits": "Virgo"
+    },
+    {
+      "saveur": "Watermelon Lemon",
+      "nom_normalise": "watermelon lemon",
+      "exemples_produits": "Ice Cool X - Watermelon Lemon"
+    },
+    {
+      "saveur": "Yellow + menthol",
+      "nom_normalise": "yellow menthol",
+      "exemples_produits": "Enfer Yellow"
+    },
+    {
+      "saveur": "Zenko",
+      "nom_normalise": "zenko",
+      "exemples_produits": "Zenko"
+    },
+    {
+      "saveur": "Zephyr",
+      "nom_normalise": "zephyr",
+      "exemples_produits": "Zephyr"
+    },
+    {
+      "saveur": "Zombie",
+      "nom_normalise": "zombie",
+      "exemples_produits": "Zombie"
+    }
+  ]
+}

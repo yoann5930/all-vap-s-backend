@@ -1,0 +1,16 @@
+{
+  "productId": "cms96dg92003uuto8ct4u3tbj",
+  "catalogName": "Café Caramel 50 ml",
+  "name": "Café Caramel 50 ml",
+  "manufacturer": "Liquide Lab",
+  "range": "Big Kawa",
+  "formatMl": 50,
+  "nicotine": null,
+  "ean": "5407007432646",
+  "sumupProductId": "a585669e-a003-4bcb-8021-8e6a0d13c205",
+  "photoUrl": "/media/products/liquide-lab/big-kawa/cafe-caramel-50-ml.jpg",
+  "missingFields": [
+    "nicotine"
+  ],
+  "complete": false
+}

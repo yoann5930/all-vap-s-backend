@@ -1,0 +1,96 @@
+{
+  "date": "2026-07-29T21:09:29.776Z",
+  "total": 15,
+  "items": [
+    {
+      "id_marque": "BRD-mamita",
+      "nom": "Mamita",
+      "fabricant": "Biarritz Lab",
+      "nom_normalise": "mamita"
+    },
+    {
+      "id_marque": "BRD-liquidarom",
+      "nom": "Liquidarom",
+      "fabricant": "Liquidarom",
+      "nom_normalise": "liquidarom"
+    },
+    {
+      "id_marque": "BRD-mds_juice",
+      "nom": "MDS Juice",
+      "fabricant": "MDS Juice",
+      "nom_normalise": "mds juice"
+    },
+    {
+      "id_marque": "BRD-raneki_liquide",
+      "nom": "Raneki Liquide",
+      "fabricant": "Raneki Liquide",
+      "nom_normalise": "raneki liquide"
+    },
+    {
+      "id_marque": "BRD-furiosa_eggz",
+      "nom": "Furiosa Eggz",
+      "fabricant": "Vape 47",
+      "nom_normalise": "furiosa eggz"
+    },
+    {
+      "id_marque": "BRD-myst",
+      "nom": "Myst",
+      "fabricant": "Cookin Cloud",
+      "nom_normalise": "myst"
+    },
+    {
+      "id_marque": "BRD-raneki",
+      "nom": "Raneki",
+      "fabricant": "Raneki Liquide",
+      "nom_normalise": "raneki"
+    },
+    {
+      "id_marque": "BRD-cloud_vapor",
+      "nom": "Cloud Vapor",
+      "fabricant": "Cloud Vapor",
+      "nom_normalise": "cloud vapor"
+    },
+    {
+      "id_marque": "BRD-furiosa_skinz",
+      "nom": "Furiosa Skinz",
+      "fabricant": "Vape 47",
+      "nom_normalise": "furiosa skinz"
+    },
+    {
+      "id_marque": "BRD-enfer",
+      "nom": "Enfer",
+      "fabricant": "Vape 47",
+      "nom_normalise": "enfer"
+    },
+    {
+      "id_marque": "BRD-linvapable",
+      "nom": "L'Invapable",
+      "fabricant": "Vape 47",
+      "nom_normalise": "linvapable"
+    },
+    {
+      "id_marque": "BRD-illusion",
+      "nom": "Illusion",
+      "fabricant": "Illusion",
+      "nom_normalise": "illusion"
+    },
+    {
+      "id_marque": "BRD-juice_66",
+      "nom": "Juice 66",
+      "fabricant": "Juice 66",
+      "nom_normalise": "juice 66"
+    },
+    {
+      "id_marque": "BRD-t_juice",
+      "nom": "T-Juice",
+      "fabricant": "T-Juice",
+      "nom_normalise": "t juice"
+    },
+    {
+      "id_marque": "BRD-kaiju",
+      "nom": "Kaiju",
+      "fabricant": "Vape Maker",
+      "nom_normalise": "kaiju"
+    }
+  ]
+}

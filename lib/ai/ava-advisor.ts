@@ -1,25 +1,43 @@
 import prisma from "@/lib/prisma";
-import { stores } from "@/lib/stores";
+import { stores, getStoreById, type Store } from "@/lib/stores";
+import { formatStorePhone } from "@/lib/stores/nearest";
+import { searchStoreByCityOrPostal } from "@/lib/stores/geocode-fr";
+import type { PreferredStoreId } from "@/lib/stores/preferred-store";
 import { getVapeProfile, upsertVapeProfile, addRecommendation } from "@/lib/vape-profile/service";
 import { extractProfileUpdates, mergeProfileUpdates } from "@/lib/vape-profile/learning";
-import { emptyVapeProfile, MEDICAL_DISCLAIMER } from "@/lib/vape-profile/types";
+import { emptyVapeProfile } from "@/lib/vape-profile/types";
 import { getPersonalizedRecommendations } from "@/lib/recommendations/engine";
 import {
-  searchCatalog,
-  searchCatalogAlternatives,
-  recommendForProfile,
   type CatalogProduct,
 } from "@/lib/ai/catalog-search";
+import {
+  loadCatalogForAva,
+  mergeContextFromMessage,
+  parseProductReference,
+  searchProductsForAva,
+  searchNearbyAlternatives,
+  buildAvaProductAnswer,
+  buildClarificationAnswer,
+  buildOutOfStockAnswer,
+  emptyConversationContext,
+  type AvaConversationContext,
+} from "@/lib/ai/ava";
 import { isAgeConfirmed, AGE_REFUSAL } from "@/lib/ai/sales-script";
 import {
   AVA_GREETING,
   AVA_SUGGESTIONS,
-  AVA_NO_EXACT_MATCH,
   AVA_NAME_REPLY,
 } from "@/lib/ai/ava-constants";
 import { parseCatalogSpecs } from "@/lib/ai/ava-speech-utils";
 
 export { AVA_GREETING, AVA_SUGGESTIONS } from "@/lib/ai/ava-constants";
+
+export type AvaChatOptions = {
+  /** Boutique mémorisée côté client uniquement (jamais de GPS). */
+  preferredStoreId?: PreferredStoreId | null;
+  /** Mémoire de conversation temporaire (session client). */
+  conversationContext?: AvaConversationContext | null;
+};
 
 export interface AvaProductCard {
   id: string;
@@ -35,6 +53,7 @@ export interface AvaProductCard {
   nicotine: string | null;
   pgVg: string | null;
   volume: string | null;
+  variantId?: string | null;
 }
 
 export interface AvaReply {
@@ -43,6 +62,41 @@ export interface AvaReply {
   products: AvaProductCard[];
   blocked?: boolean;
   speaking?: boolean;
+  conversationContext?: AvaConversationContext;
+  /** Médiathèque pédagogique (cartes UI) — médias souvent encore DRAFT. */
+  videoRecommendations?: Array<{
+    id: string;
+    title: string;
+    shortTitle?: string;
+    description: string;
+    formatType: string;
+    durationSeconds: number;
+    safetyNotice: string;
+    videoPath: string | null;
+    thumbnailPath?: string | null;
+    fallbackText: string;
+    chapters?: { id: string; title: string; startSeconds: number }[];
+    status: string;
+    sourceStatus: string;
+    mediaReady?: boolean;
+    reason?: string;
+    followUpQuestion?: string;
+  }>;
+  hardwareAssistance?: {
+    phase: string;
+    showMediaUploader: boolean;
+    showDeviceConfirmation: boolean;
+    photoButtons?: ReadonlyArray<{ id: string; label: string }>;
+    candidates: Array<{
+      manufacturer: string;
+      model: string;
+      modelSlug: string;
+      imageUrl: string | null;
+      distinguishingFeatures: string[];
+    }>;
+    deviceContext: unknown;
+    diagnosticSession?: import("@/lib/ava/diagnostic-session").DiagnosticSession;
+  };
 }
 
 function toCard(p: CatalogProduct, reason: string): AvaProductCard {
@@ -61,6 +115,7 @@ function toCard(p: CatalogProduct, reason: string): AvaProductCard {
     nicotine: specs.nicotine,
     pgVg: specs.pgVg,
     volume: specs.volume,
+    variantId: null,
   };
 }
 
@@ -100,23 +155,64 @@ async function loadCatalog(): Promise<CatalogProduct[]> {
   });
 }
 
-function storeInfo(text: string): string | null {
+function nearestStoreSentence(store: Store): string {
+  const place =
+    store.id === "le-quesnoy" ? "celle du Quesnoy" : "celle de Hautmont";
+  return `La boutique All Vap's la plus proche de chez vous est ${place}. Vous pouvez la joindre au ${formatStorePhone(store.phone)}.`;
+}
+
+function storeDetailsBlock(store: Store): string {
+  return `${store.name}\n${store.address}, ${store.postalCode} ${store.city}\n${formatStorePhone(store.phone)}\n\nHoraires :\n${store.hours.join("\n")}`;
+}
+
+async function storeInfo(
+  text: string,
+  preferredStoreId?: PreferredStoreId | null
+): Promise<string | null> {
   const lower = text.toLowerCase();
-  if (!/boutique|magasin|horaire|adresse|où|ou trouver|contact|téléphone|telephone/i.test(lower)) {
-    return null;
-  }
+  const asksStore =
+    /boutique|magasin|horaire|adresse|où|ou trouver|contact|téléphone|telephone|proche|près de|pres de|itin[eé]raire/i.test(
+      lower
+    );
+  if (!asksStore) return null;
 
-  const storeMatch = stores.find(
-    (s) => lower.includes(s.city.toLowerCase()) || lower.includes(s.id.replace("-", " "))
+  const named = stores.find(
+    (s) =>
+      lower.includes(s.city.toLowerCase()) ||
+      lower.includes(s.id.replace("-", " ")) ||
+      (s.id === "le-quesnoy" && /quesnoy/.test(lower)) ||
+      (s.id === "hautmont" && /hautmont/.test(lower))
   );
-
-  if (storeMatch) {
-    return `${storeMatch.name}\n${storeMatch.address}, ${storeMatch.postalCode} ${storeMatch.city}\n${storeMatch.phone}\n\nHoraires :\n${storeMatch.hours.join("\n")}`;
+  if (named) {
+    return storeDetailsBlock(named);
   }
 
-  return stores
-    .map((s) => `• ${s.name} — ${s.address}, ${s.city}\n  ${s.hours[0]} · ${s.phone}`)
-    .join("\n\n");
+  // Ville / CP dans le message (sans stocker de GPS)
+  const postalOrCity = text.match(/\b\d{5}\b/)?.[0] || text.trim();
+  if (
+    /\b\d{5}\b/.test(text) ||
+    /ville|code\s*postal|j['’]habite|habite|pr[eè]s de|proche de/i.test(lower)
+  ) {
+    const found = await searchStoreByCityOrPostal(postalOrCity);
+    if (found.ok) {
+      const s = found.result.store;
+      return `${nearestStoreSentence(s)}\n\n${storeDetailsBlock(s)}`;
+    }
+  }
+
+  if (preferredStoreId) {
+    const preferred = getStoreById(preferredStoreId);
+    if (preferred) {
+      return `${nearestStoreSentence(preferred)}\n\n${storeDetailsBlock(preferred)}\n\nL'autre boutique : ${
+        preferred.id === "hautmont" ? "All Vap's Le Quesnoy" : "All Vap's Hautmont"
+      }.`;
+    }
+  }
+
+  return "Pouvez-vous m'indiquer votre ville ou votre code postal afin que je vous oriente vers la boutique la plus proche ?\n\nNos boutiques :\n" +
+    stores
+      .map((s) => `• ${s.name} — ${s.address}, ${s.city}\n  ${s.hours[0]} · ${formatStorePhone(s.phone)}`)
+      .join("\n\n");
 }
 
 function loyaltyInfo(text: string): string | null {
@@ -129,6 +225,17 @@ function savInfo(text: string): string | null {
     return null;
   }
   return "SAV All Vap's : diagnostic en boutique Hautmont et Le Quesnoy. Apportez votre facture — on teste et on vous oriente.";
+}
+
+function isHardwareAssistanceMessage(text: string): boolean {
+  // Import synchrone via require pattern avoided — simple heuristic before async import
+  const t = text.toLowerCase();
+  if (/(e-?liquide|saveur|fruit[ée]|promos?)\b/.test(t) && !/(résistance|pod|box|fuit|allume|vapeur)/.test(t)) {
+    return false;
+  }
+  return /(pod|box|kit|vape|vapoteuse|cigarette|fuit|glouglou|atomizer|résistance|resistance|cartouche|ne s['']?allume|ne marche|goût de brûlé|gout de brule|chauffe|batterie gonfl)/i.test(
+    t
+  );
 }
 
 function isNameQuestion(text: string): boolean {
@@ -159,22 +266,28 @@ function productReply(
 }
 
 export async function initAva(userId?: string) {
-  let greeting = AVA_GREETING;
+  let greeting = pickGuestGreeting();
   let suggestions = [...AVA_SUGGESTIONS];
 
   if (userId) {
-    const user = await prisma.user.findUnique({ where: { id: userId }, select: { firstName: true } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { firstName: true, lastName: true },
+    });
     const profile = (await getVapeProfile(userId)) ?? emptyVapeProfile();
+    const display =
+      user?.firstName?.trim() ||
+      (user?.lastName?.trim() ? `Monsieur ${user.lastName.trim()}` : null);
 
-    if (user?.firstName) {
-      greeting = `Bonjour ${user.firstName}, je m'appelle Ava.\n\nQue recherchez-vous ?`;
+    if (display) {
+      greeting = pickNamedGreeting(display);
     }
 
     if (profile.gdprConsent && profile.preferredFlavors.length > 0) {
       const products = await loadCatalog();
       const newRecs = getPersonalizedRecommendations(products, profile, { limit: 1, newOnly: true });
       if (newRecs.length > 0) {
-        greeting += `\n\nUne nouveauté pourrait vous plaire : ${newRecs[0].product.name}.`;
+        greeting += ` Une nouveauté pourrait vous plaire : ${newRecs[0].product.name}.`;
         suggestions = ["Voir la nouveauté", ...AVA_SUGGESTIONS.slice(0, 3)];
       }
     }
@@ -188,7 +301,30 @@ export async function initAva(userId?: string) {
   };
 }
 
-export async function chatAva(userId: string | undefined, message: string): Promise<AvaReply> {
+function pickGuestGreeting(): string {
+  const list = [
+    "Bonjour, je m'appelle Ava. Comment puis-je vous aider aujourd'hui ?",
+    "Bonjour ! Je suis Ava. Que recherchez-vous ?",
+    "Bienvenue chez All Vap's. Je m'appelle Ava — dites-moi ce que vous cherchez.",
+  ];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function pickNamedGreeting(name: string): string {
+  const list = [
+    `Bonjour ${name}, comment allez-vous ? Qu'est-ce que vous recherchez aujourd'hui ?`,
+    `Bonjour ${name} ! Ravie de vous revoir. Je peux vous aider à trouver quelque chose ?`,
+    `Rebonjour ${name}. Que puis-je vous proposer aujourd'hui ?`,
+    `Bonjour ${name}. Dites-moi ce dont vous avez envie, je regarde dans le catalogue.`,
+  ];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+export async function chatAva(
+  userId: string | undefined,
+  message: string,
+  options?: AvaChatOptions
+): Promise<AvaReply> {
   const text = message.toLowerCase();
 
   const ageCheck = isAgeConfirmed(message);
@@ -208,17 +344,86 @@ export async function chatAva(userId: string | undefined, message: string): Prom
   // Jamais orienter vers le budget — ignorer ces questions côté réponses Ava
   if (/quel\s+est\s+votre\s+budget|combien\s+(souhaitez|voulez)|gamme\s+de\s+prix|budget\s*\?/i.test(text)) {
     return {
-      content: "Les prix sont indiqués sur chaque produit. Dites-moi plutôt ce que vous cherchez.",
+      content:
+        "Les prix sont affichés juste en dessous des produits. Dites-moi plutôt ce que vous cherchez.",
       suggestions: AVA_SUGGESTIONS,
       products: [],
       speaking: true,
     };
   }
 
-  const store = storeInfo(message);
+  // Continuité d’un parcours rapide déjà démarré (avant FAQ boutique)
+  {
+    const { continueQuickFlow, getQuickFlowFromContext } = await import("@/lib/ava/quick-flows");
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    const existingFlow =
+      !prevCtx.diagnosticSession?.active ? getQuickFlowFromContext(prevCtx) : null;
+    if (existingFlow) {
+      const step = continueQuickFlow(existingFlow, message);
+      let ctx: AvaConversationContext = {
+        ...prevCtx,
+        turn: (prevCtx.turn ?? 0) + 1,
+        quickFlow: step.continueFlow ? step.state : null,
+        lastQuestion: step.content,
+      };
+      if (!step.continueFlow && step.catalogHint) {
+        const { loadCatalogForAva } = await import("@/lib/ai/ava/load-catalog");
+        const { searchProductsForAva } = await import("@/lib/ai/ava/product-search");
+        const { buildAvaProductAnswer } = await import("@/lib/ai/ava/response-builder");
+        const catalog = await loadCatalogForAva();
+        const criteria = {
+          rawQuery: message,
+          category: step.catalogHint.category ?? null,
+          flavorFamily:
+            (step.catalogHint.flavorFamily as AvaConversationContext["flavorFamily"]) ?? null,
+          flavorTerms: step.catalogHint.flavorTerms ?? [],
+          freshness: step.catalogHint.freshness ?? null,
+          nicotineMg: null as number | null,
+          volumeMl: null as number | null,
+          needsClarification: null as null,
+          clarificationQuestion: null as null,
+        };
+        const ranked = searchProductsForAva(catalog, criteria).filter((r) => {
+          const blob =
+            `${r.product.name} ${r.product.brand ?? ""} ${r.product.category}`.toLowerCase();
+          return !/\bpuff\b|\bjnr\b|jetable|dispos/.test(blob);
+        });
+        if (ranked.length > 0) {
+          const built = buildAvaProductAnswer(ranked.slice(0, 4), criteria);
+          ctx = {
+            ...ctx,
+            category: criteria.category,
+            flavorFamily: criteria.flavorFamily,
+            flavorTerms: criteria.flavorTerms,
+            freshness: criteria.freshness,
+            lastProposedProductIds: built.products.map((p) => p.id),
+            lastProposedNames: built.products.map((p) => p.name),
+          };
+          return {
+            content: `${step.content}\n\n${built.content}`,
+            suggestions: built.suggestions,
+            products: built.products,
+            speaking: true,
+            conversationContext: ctx,
+          };
+        }
+      }
+      return {
+        content: step.content,
+        suggestions: step.suggestions,
+        products: [],
+        speaking: true,
+        conversationContext: ctx,
+      };
+    }
+  }
+
+  const store = await storeInfo(message, options?.preferredStoreId);
   if (store) {
     return {
-      content: `Voici nos boutiques :\n\n${store}`,
+      content: store.startsWith("Pouvez-vous") || store.startsWith("La boutique")
+        ? store
+        : `Voici nos boutiques :\n\n${store}`,
       suggestions: ["E-liquide fruité", "Je débute", "Promotions"],
       products: [],
     };
@@ -230,14 +435,274 @@ export async function chatAva(userId: string | undefined, message: string): Prom
   }
 
   const sav = savInfo(message);
-  if (sav) {
+  if (sav && !isHardwareAssistanceMessage(message)) {
     return { content: sav, suggestions: ["Nos magasins", "Voir le matériel"], products: [] };
   }
 
-  const products = await loadCatalog();
-  let profile = userId ? (await getVapeProfile(userId)) ?? emptyVapeProfile() : emptyVapeProfile();
+  // Mémoire métier vape (~15 ans) — culture / technique / législation / sécurité
+  {
+    const {
+      isVapeKnowledgeQuestion,
+      searchVapeKnowledge,
+      formatKnowledgeAnswer,
+    } = await import("@/lib/ava/vape-knowledge");
+    if (isVapeKnowledgeQuestion(message)) {
+      const hits = searchVapeKnowledge(message, 2);
+      if (hits.length > 0 && hits[0].score >= 4) {
+        return {
+          content: formatKnowledgeAnswer(hits),
+          suggestions: [
+            "Je débute",
+            "Différence MTL / DL",
+            "Sels ou nicotine classique",
+            "Voir le catalogue",
+          ],
+          products: [],
+          speaking: true,
+        };
+      }
+    }
+  }
 
-  if (userId) {
+  // Médiathèque pédagogique — recommandation (texte de secours si média pas encore fourni)
+  {
+    const { matchVideosForContext, formatVideoReply } = await import("@/lib/ava/video/videoMatcher");
+    const { isExcludedVideoContext } = await import("@/lib/ava/video/videoSafety");
+    if (!isExcludedVideoContext(message).excluded) {
+      const prevCtx = options?.conversationContext ?? emptyConversationContext();
+      const recs = matchVideosForContext({
+        message,
+        deviceFamily: null,
+        deviceModel: prevCtx.deviceModel ?? null,
+        deviceConfirmed: Boolean(prevCtx.confirmedDevice),
+        diagnosticActive: Boolean(prevCtx.diagnosticSession?.active),
+        allowDraftFallbackText: true,
+      });
+      if (recs.length > 0 && /video|vidéo|tuto|tutoriel|reconstructible|rta\b|rda\b|check\s*atomizer|montre/i.test(message)) {
+        const text = formatVideoReply(recs);
+        if (text) {
+          return {
+            content: text,
+            suggestions: [
+              "Le problème est résolu",
+              "Continuer le diagnostic",
+              "Nos magasins",
+            ],
+            products: [],
+            speaking: true,
+            conversationContext: {
+              ...prevCtx,
+              // ne pas ouvrir le catalogue
+            },
+            videoRecommendations: recs.map((r) => ({
+              ...r.video,
+              reason: r.reason,
+              followUpQuestion: r.followUpQuestion,
+              safetyNotice: r.video.safetyNotice,
+            })),
+          };
+        }
+      }
+    }
+  }
+
+  // Mode assistance matériel (priorité session diagnostic → jamais catalogue implicite)
+  {
+    const { runHardwareDiagnostic } = await import("@/lib/ava/hardware-diagnostic");
+    const { detectHardwareIntent } = await import("@/lib/ava/hardware-intent-detector");
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    const prevSession = prevCtx.diagnosticSession ?? null;
+    const deviceContext =
+      prevCtx.confirmedDevice ??
+      null;
+    const forceDiagnostic =
+      Boolean(prevSession?.active) ||
+      detectHardwareIntent(message).isHardware ||
+      /check\s*atomizer|drag\s*6|voopoo/i.test(message);
+
+    if (forceDiagnostic) {
+      const diag = runHardwareDiagnostic({
+        message,
+        deviceContext,
+        diagnosticSession: prevSession,
+      });
+      if (diag.assistanceMode && diag.content) {
+        return {
+          content: diag.content,
+          suggestions:
+            diag.suggestions?.slice(0, 4) ||
+            (diag.showMediaUploader
+              ? ["Ajouter une photo", "Nos magasins", "Continuer"]
+              : ["Nos magasins", "Oui, c'est la Drag 6", "Ce n'est pas celui-ci"]),
+          products: [],
+          speaking: true,
+          conversationContext: {
+            ...prevCtx,
+            deviceModel: diag.deviceContext
+              ? `${diag.deviceContext.manufacturer} ${diag.deviceContext.model}`
+              : prevCtx.deviceModel ?? null,
+            manufacturer: diag.deviceContext?.manufacturer ?? prevCtx.manufacturer,
+            confirmedDevice: diag.deviceContext,
+            diagnosticSession: diag.diagnosticSession,
+            lastQuestion: diag.diagnosticSession.lastQuestion,
+          },
+          hardwareAssistance: {
+            phase: diag.phase,
+            showMediaUploader: diag.showMediaUploader || diag.diagnosticSession.active,
+            showDeviceConfirmation: diag.showDeviceConfirmation,
+            photoButtons: diag.photoButtons ?? [],
+            candidates: diag.candidates.map((c) => ({
+              manufacturer: c.manufacturer,
+              model: c.model,
+              modelSlug: `${c.manufacturerSlug}-${c.modelSlug}`,
+              imageUrl: c.images.front ?? null,
+              distinguishingFeatures: c.distinguishingFeatures ?? [],
+            })),
+            deviceContext: diag.deviceContext,
+            diagnosticSession: diag.diagnosticSession,
+          },
+        };
+      }
+      // assistanceMode false mais session venait d'être fermée pour catalogue → laisser passer
+      if (diag.blockProductSearch && diag.content) {
+        return {
+          content: diag.content,
+          suggestions: diag.suggestions ?? ["Continuer"],
+          products: [],
+          speaking: true,
+          conversationContext: {
+            ...prevCtx,
+            confirmedDevice: diag.deviceContext,
+            diagnosticSession: diag.diagnosticSession,
+          },
+        };
+      }
+    }
+  }
+
+  // Démarrage d’une action rapide (après diagnostic actif)
+  {
+    const { matchQuickIntentFromMessage, startQuickFlow } = await import(
+      "@/lib/ava/quick-flows"
+    );
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    if (!prevCtx.diagnosticSession?.active) {
+      const matchedIntent = matchQuickIntentFromMessage(message);
+      if (matchedIntent) {
+        const started = startQuickFlow(matchedIntent);
+        if (started) {
+          return {
+            content: started.content,
+            suggestions: started.suggestions,
+            products: [],
+            speaking: true,
+            conversationContext: {
+              ...prevCtx,
+              turn: (prevCtx.turn ?? 0) + 1,
+              quickFlow: started.state,
+              lastQuestion: started.content,
+              diagnosticSession: null,
+            },
+          };
+        }
+      }
+    }
+  }
+
+  if (
+    userId &&
+    /\b(commande|commandes|colis|livraison|suivi|où\s+en\s+est|statut)\b/i.test(text)
+  ) {
+    const { getCustomerOrdersForAva, formatOrdersForAvaPrompt } = await import(
+      "@/lib/ai/ava/customer-orders"
+    );
+    const orders = await getCustomerOrdersForAva(userId, 5);
+    return {
+      content:
+        orders.length === 0
+          ? "Je ne trouve aucune commande associée à votre compte pour le moment."
+          : `Voici vos commandes récentes :\n${formatOrdersForAvaPrompt(orders)}`,
+      suggestions: ["Voir mon compte", "Voir la boutique"],
+      products: [],
+      speaking: true,
+    };
+  }
+
+  const merged = mergeContextFromMessage(
+    options?.conversationContext,
+    message,
+    options?.preferredStoreId ?? options?.conversationContext?.preferredStoreId ?? null
+  );
+  let ctx = merged.context;
+  const criteria = merged;
+
+  // Référence à un produit déjà proposé (« le deuxième »)
+  const refIdx = parseProductReference(message, ctx.lastProposedNames);
+  if (refIdx != null && ctx.lastProposedProductIds[refIdx]) {
+    const catalog = await loadCatalogForAva();
+    const product = catalog.find((p) => p.id === ctx.lastProposedProductIds[refIdx]);
+    if (product) {
+      const ranked = [
+        {
+          product,
+          score: 100,
+          matchedVariant: product.variants.find((v) => v.stock > 0) ?? product.variants[0] ?? null,
+          reason: "sélection",
+          needsVerification: product.catalogStatus === "a_verifier",
+          outOfStockExact: product.availableQuantity <= 0,
+        },
+      ];
+      if (ranked[0].outOfStockExact) {
+        return {
+          content: buildOutOfStockAnswer(product.name),
+          suggestions: ["Alternative", "Autre saveur", "Nos magasins"],
+          products: [],
+          conversationContext: ctx,
+          speaking: true,
+        };
+      }
+      const built = buildAvaProductAnswer(ranked, criteria);
+      return {
+        content: built.content,
+        suggestions: built.suggestions,
+        products: built.products,
+        conversationContext: ctx,
+        speaking: true,
+      };
+    }
+  }
+
+  if (criteria.needsClarification && criteria.clarificationQuestion) {
+    const clar = buildClarificationAnswer(criteria.clarificationQuestion);
+    return {
+      ...clar,
+      conversationContext: ctx,
+      speaking: true,
+    };
+  }
+
+  // Recherche catalogue réelle
+  const catalog = await loadCatalogForAva();
+
+  if (/promo|promotion|solde|offre/i.test(text)) {
+    criteria.promoOnly = true;
+  }
+  if (/nouveaut|nouveau|new/i.test(text)) {
+    criteria.newOnly = true;
+  }
+
+  // Résistance sans modèle → déjà clarification device
+  let ranked = searchProductsForAva(catalog, criteria);
+  let usedAlternatives = false;
+
+  if (ranked.length === 0) {
+    ranked = searchNearbyAlternatives(catalog, criteria);
+    usedAlternatives = ranked.length > 0;
+  }
+
+  // Profil connecté en dernier recours
+  if (ranked.length === 0 && userId) {
+    let profile = (await getVapeProfile(userId)) ?? emptyVapeProfile();
     const updates = extractProfileUpdates(message);
     if (Object.keys(updates).length > 0) {
       profile = mergeProfileUpdates(profile, updates);
@@ -247,159 +712,64 @@ export async function chatAva(userId: string | undefined, message: string): Prom
         personalizedEnabled: true,
       });
     }
-  }
-
-  let picks: CatalogProduct[] = [];
-  let intro = "";
-  let reason = "catalogue";
-  let usedAlternatives = false;
-
-  const runSearch = (q: string, opts?: Parameters<typeof searchCatalog>[2]) =>
-    searchCatalog(products, q, { limit: 4, ...opts });
-
-  if (/promo|promotion|solde|offre/i.test(text)) {
-    picks = runSearch(message, { promoOnly: true });
-    intro = "Voici nos promotions du moment.";
-    reason = "promotion";
-  } else if (/nouveaut|nouveau|new/i.test(text)) {
-    picks = runSearch(message, { newOnly: true });
-    intro = "Voici nos nouveautés.";
-    reason = "nouveauté";
-  } else if (/r[ée]sistance|coil|mesh/i.test(text)) {
-    picks = runSearch(message, { category: "resistance" });
-    if (picks.length === 0) picks = runSearch(message);
-    if (picks.length === 0) picks = runSearch("résistance coil");
-    intro = /vaporesso/i.test(text)
-      ? "Voici les résistances Vaporesso disponibles."
-      : "Voici les résistances qui correspondent.";
-    reason = "résistance";
-  } else if (/accu|batterie|18650|21700/i.test(text)) {
-    picks = runSearch(message, { category: "accu" });
-    if (picks.length === 0) picks = runSearch(message);
-    intro = "Voici les accus et batteries disponibles.";
-    reason = "batterie";
-  } else if (/chargeur/i.test(text)) {
-    picks = runSearch(message);
-    intro = "Voici nos chargeurs.";
-    reason = "chargeur";
-  } else if (/clearomiseur|clearo|atomiseur/i.test(text)) {
-    picks = runSearch(message);
-    intro = "Voici les clearomiseurs disponibles.";
-    reason = "clearomiseur";
-  } else if (/\bdiy\b|base\s+diy|ar[ôo]me/i.test(text)) {
-    picks = runSearch(message, { category: "diy" });
-    if (picks.length === 0) picks = runSearch("diy base arôme");
-    intro = "Voici notre sélection DIY.";
-    reason = "DIY";
-  } else if (/\bpuff\b|jetable/i.test(text)) {
-    picks = runSearch(message);
-    if (picks.length === 0) picks = runSearch("puff");
-    intro = "Voici les puffs disponibles.";
-    reason = "puff";
-  } else if (/d[ée]but|commenc|premier|starter|nouveau vapoteur/i.test(text)) {
-    picks = runSearch("kit pod starter cigarette débutant");
-    intro = "Voici des kits simples pour bien démarrer.";
-    reason = "débutant";
-  } else if (/arr[êe]t\s+(du\s+)?tabac|sevrage|gros\s+fumeur|petit\s+fumeur/i.test(text)) {
-    picks = runSearch("pod kit MTL nicotine");
-    intro =
-      /gros\s+fumeur/i.test(text)
-        ? "Pour un gros fumeur, voici des pods adaptés à un tirage serré."
-        : /petit\s+fumeur/i.test(text)
-          ? "Pour un petit fumeur, voici des options douces pour commencer."
-          : "Voici des kits adaptés pour accompagner l'arrêt du tabac.";
-    reason = "accompagnement";
-  } else if (/tirage\s+serr[ée]|mtl/i.test(text)) {
-    picks = runSearch("pod MTL kit tirage serré");
-    intro = "Voici des modèles en tirage serré (MTL).";
-    reason = "MTL";
-  } else if (/tirage\s+a[ée]rien|sub.?ohm|\bdl\b/i.test(text)) {
-    picks = runSearch("box DL subohm");
-    intro = "Voici des modèles en tirage aérien (DL).";
-    reason = "DL";
-  } else if (
-    /frais\s*rouge|fruits?\s*rouges?|menthe|mangue|citron|vanille|classic|fruit|liquide|e-liquid|eliquide|saveur|gourmand|menthol/i.test(
-      text
-    )
-  ) {
-    picks = runSearch(message);
-    if (picks.length === 0 && userId && profile.gdprConsent) {
-      picks = recommendForProfile(products, profile, 4);
-      reason = "selon votre profil";
-    }
-    if (/frais\s*rouge/i.test(text)) intro = "Voici les e-liquides Frais Rouge disponibles dans notre boutique.";
-    else if (/fruits?\s*rouges?/i.test(text)) intro = "Voici les e-liquides Fruits Rouges disponibles.";
-    else if (/menthe/i.test(text)) intro = "Voici les e-liquides menthe disponibles.";
-    else if (/diy/i.test(text)) intro = "Voici notre sélection DIY.";
-    else intro = "Voici les e-liquides qui correspondent à votre recherche.";
-    reason = reason === "selon votre profil" ? reason : "saveur";
-  } else if (/cigarette|[ée]lectronique|pod|box|mod|mat[ée]riel|kit(?!\s*diy)/i.test(text)) {
-    picks = runSearch(message);
-    intro = "Voici les modèles qui pourraient vous convenir.";
-    reason = "matériel";
-  } else if (userId && profile.gdprConsent) {
-    const recs = getPersonalizedRecommendations(products, profile, { limit: 3 });
-    if (recs.length > 0) {
-      picks = recs.map((r) => ({
-        ...r.product,
-        imageUrl: (r.product as CatalogProduct).imageUrl ?? null,
-      }));
-      intro = "Voici ce qui correspond le mieux à votre profil.";
-      reason = "profil";
+    if (profile.gdprConsent) {
+      const legacy = await loadCatalog();
+      const recs = getPersonalizedRecommendations(legacy, profile, { limit: 3 });
+      ranked = recs
+        .map((r) => {
+          const full = catalog.find((p) => p.id === r.product.id);
+          if (!full || full.availableQuantity <= 0) return null;
+          return {
+            product: full,
+            score: 50,
+            matchedVariant: full.variants.find((v) => v.stock > 0) ?? null,
+            reason: "profil",
+            needsVerification: full.catalogStatus === "a_verifier",
+            outOfStockExact: false,
+          };
+        })
+        .filter(Boolean) as typeof ranked;
     }
   }
 
-  const exactCount = picks.length;
+  if (ranked.length > 0) {
+    const built = buildAvaProductAnswer(ranked, criteria, {
+      alternatives: usedAlternatives,
+    });
+    ctx = {
+      ...ctx,
+      lastProposedProductIds: built.products.map((p) => p.id),
+      lastProposedNames: built.suggestions.length
+        ? built.suggestions
+        : built.products.map((p) => p.name),
+      lastQuestion: null,
+    };
 
-  if (picks.length === 0) {
-    picks = searchCatalogAlternatives(products, message, 4);
-    if (picks.length > 0) {
-      usedAlternatives = true;
-      intro = AVA_NO_EXACT_MATCH;
-      reason = "alternatives";
-    }
-  } else if (exactCount > 0) {
-    // Si la requête est très spécifique et le meilleur score faible → alternatives message
-    // (géré déjà par search si score > 0)
-  }
-
-  if (picks.length === 0 && /voir la nouveaut/i.test(text) && userId) {
-    const recs = getPersonalizedRecommendations(products, profile, { limit: 1, newOnly: true });
-    if (recs.length) {
-      picks = recs.map((r) => ({
-        ...r.product,
-        imageUrl: (r.product as CatalogProduct).imageUrl ?? null,
-      }));
-      intro = "Voici la nouveauté repérée pour vous.";
-      reason = "nouveauté";
-    }
-  }
-
-  if (picks.length > 0) {
     if (userId) {
-      for (const p of picks.slice(0, 3)) {
-        await addRecommendation(userId, p.id, reason, 1, "ava");
+      try {
+        for (const p of built.products) {
+          await addRecommendation(userId, p.id, built.products[0]?.reason ?? "catalogue", 1, "ava");
+        }
+      } catch (err) {
+        console.error("[ava] addRecommendation failed", err);
       }
     }
 
-    const finalIntro =
-      usedAlternatives || !intro
-        ? intro || AVA_NO_EXACT_MATCH
-        : intro;
-
-    return productReply(
-      finalIntro,
-      picks,
-      reason,
-      picks.slice(0, 3).map((p) => p.name)
-    );
+    return {
+      content: built.content,
+      suggestions: built.suggestions,
+      products: built.products,
+      conversationContext: ctx,
+      speaking: true,
+    };
   }
 
   return {
     content:
-      "Dites-moi ce que vous cherchez : une saveur, un DIY, une puff, une résistance ou une cigarette électronique. " +
-      MEDICAL_DISCLAIMER,
+      "Je n'ai pas trouvé de produit disponible pour cette demande. Précisez une saveur, un format ou un type de matériel — je regarde dans le catalogue.",
     suggestions: AVA_SUGGESTIONS,
     products: [],
+    conversationContext: ctx,
+    speaking: true,
   };
 }

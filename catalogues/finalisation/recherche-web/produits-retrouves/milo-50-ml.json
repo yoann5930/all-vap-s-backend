@@ -1,0 +1,45 @@
+{
+  "productId": "cms9gx9s9000nutw4af16auny",
+  "catalogName": "Milo 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/e-liquide-swoke/17239-milo-50ml-saint-flava.html",
+    "https://www.chti-vapoteur.fr/50-ml/4037-10500-saint-flava-milo-king-size-3111577004425.html",
+    "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [
+    "EAN conflictuel pass1 invalidé — non inventé",
+    "EAN conflictuels 6410943215678 vs 3111577004425 — non retenu"
+  ],
+  "officialName": "Milo 50 ml — Saint Flava",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml",
+  "nicotineBoostOptions": "1–2 boosters",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSources": [
+    "6410943215678 (A&L/Eleciga)",
+    "3111577004425 (Chti-Vapoteur)"
+  ],
+  "flavorNotes": "Deux EAN distincts selon revendeurs — non appliqué",
+  "photoUrl": "https://assets.aromes-et-liquides.fr/51549-thickbox_default/milo-50ml-saint-flava.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/milo-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+  "seo": {
+    "title": "Milo 50 ml — Saint Flava (Swoke) | All Vap's",
+    "description": "Milo 50 ml — Saint Flava (Swoke) — Swoke — Saint Flava — 40/60 — Deux EAN distincts selon revendeurs — non appliqué"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:16.060Z"
+}

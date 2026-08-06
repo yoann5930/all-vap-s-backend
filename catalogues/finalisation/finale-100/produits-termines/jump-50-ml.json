@@ -1,0 +1,39 @@
+{
+  "productId": "cms9gxbzo004butw4gyznce6y",
+  "catalogName": "Jump 50 ml",
+  "manufacturer": "AirMust",
+  "range": "Press Start",
+  "sourceUrls": [
+    "https://airmust.com/",
+    "https://airmust.com/formats/2698-6342-press-start-jump-50ml-3701719512279.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-press-start.svg",
+  "officialName": "Press Start - Jump 50ml",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (50 ml typique shortfill — confirmer page produit)",
+  "nicotineBoostOptions": "Boosters selon flacon",
+  "flavorNotes": "Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude",
+  "formatMl": 50,
+  "seo": {
+    "title": "Press Start (AirMust) | All Vap's",
+    "description": "Press Start (AirMust) — AirMust — Press Start — 50/50 — Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.058Z",
+  "ean": "3701719512279",
+  "eanConfidence": "official_site",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/jump-50-ml.jpg",
+  "photoUrl": "https://airmust.com/8522-cover_fullhd/press-start-jump-50ml.jpg",
+  "finalizedVia": "recherche-web"
+}

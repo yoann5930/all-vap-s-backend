@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxcfk004lutw4rrjxrpup",
+  "catalogName": "Red Devil 100 ml",
+  "officialName": "Red Devil 100 ml — Devil (AVAP)",
+  "manufacturer": "AVAP",
+  "range": "Devil",
+  "flavor": "Fruits rouges, réglisse, absinthe",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml shortfill",
+  "nicotineBoost": "boosters selon flacon",
+  "description": "Red Devil 100 ml AVAP — même profil aromatique que le 50 ml. EAN 100 ml non confirmé.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/red-devil-100-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/red-devil-100-ml/banniere.webp",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/en/devil-e-liquid/11981-red-devil-50-ml-avap.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:49.116Z"
+}

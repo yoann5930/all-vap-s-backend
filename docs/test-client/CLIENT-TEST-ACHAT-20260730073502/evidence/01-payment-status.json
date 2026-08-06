@@ -1,0 +1,11 @@
+{
+  "status1": {
+    "status": "PAID",
+    "provider": "viva"
+  },
+  "status2": {
+    "status": "PAID",
+    "provider": "viva"
+  },
+  "redirectUrl": "http://localhost:3000/checkout/success?orderId=cms7785hz000fut045ykhjjby&paid=test"
+}

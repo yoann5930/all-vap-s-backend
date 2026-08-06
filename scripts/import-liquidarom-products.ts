@@ -16,6 +16,11 @@ async function main() {
   }
   const stats = await importBundledLiquidarom(dryRun);
   console.log(JSON.stringify(stats, null, 2));
+  console.log(
+    `[liquidarom] résumé: lues=${stats.read} créés=${stats.created} maj=${stats.updated} ` +
+      `inchangés=${stats.unchanged} images=${stats.imagesLinked} sans_image=${stats.imagesMissing} ` +
+      `doublons_évités=${stats.duplicatesAvoided} ava=${stats.avaMetaUpserted}`
+  );
   if (stats.errors.length) {
     console.log("[liquidarom] erreurs (max 20):");
     stats.errors.slice(0, 20).forEach((e) => console.log(" -", e));

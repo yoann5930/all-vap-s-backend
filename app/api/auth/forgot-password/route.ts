@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     }
 
     return jsonResponse({
-      message: "Si cet email existe, un lien de réinitialisation a été envoyé.",
+      message: "Si un compte correspond à cette adresse, un e-mail de réinitialisation a été envoyé.",
     });
   } catch (error) {
     return handleApiError(error);

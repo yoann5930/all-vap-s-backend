@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbqg003xutw4mz0y5a4q",
+  "catalogName": "Grizz 100 ml",
+  "name": "Grizz 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml (100 dans 120)",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/ferox-airmust/grizz-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

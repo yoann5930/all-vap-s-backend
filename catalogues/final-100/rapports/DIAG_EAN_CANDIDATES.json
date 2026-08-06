@@ -1,0 +1,2123 @@
+[
+  {
+    "name": "Greensound 100 ml",
+    "productId": "cms9gxbdt002vutw4v0bxerrn",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510893",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Greensound 200ml - Hopper",
+        "barcode": "3701719510893",
+        "id": "59d93855-020c-494f-93f7-3e214d51c588",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Greensound 100 ml",
+        "ean": "",
+        "id": "cms9gxbdt002vutw4v0bxerrn",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Purplenuclear 100 ml",
+    "productId": "cms9gxbe4002xutw4z9kjqc8v",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510909",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Purplenuclear 200ml - Hopper",
+        "barcode": "3701719510909",
+        "id": "e6a0151b-4967-4832-80a2-c3fee669f1f1",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Purplenuclear 100 ml",
+        "ean": "",
+        "id": "cms9gxbe4002xutw4z9kjqc8v",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Yellowstorm 100 ml",
+    "productId": "cms9gxber0031utw4ahkm4448",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510923",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Yellowstorm 200ml - Hopper",
+        "barcode": "3701719510923",
+        "id": "17bd0ce5-6d51-4b02-8cdf-f2299b0cce03",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Yellowstorm 100 ml",
+        "ean": "",
+        "id": "cms9gxber0031utw4ahkm4448",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bluevolt 200 ml",
+    "productId": "cms9gxbf00033utw4d82rf9u7",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510886",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Bluevolt 200ml - Hopper",
+        "barcode": "3701719510886",
+        "id": "f6e037fa-fba5-4a5f-8dcd-5bfee3f71c21",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bluevolt 200 ml",
+        "ean": "",
+        "id": "cms9gxbf00033utw4d82rf9u7",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Purplenuclear 200 ml",
+    "productId": "cms9gxbfj0037utw4bnkpvqmu",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510909",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Purplenuclear 200ml - Hopper",
+        "barcode": "3701719510909",
+        "id": "e6a0151b-4967-4832-80a2-c3fee669f1f1",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Purplenuclear 200 ml",
+        "ean": "",
+        "id": "cms9gxbfj0037utw4bnkpvqmu",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Redfire 200 ml",
+    "productId": "cms9gxbfu0039utw4mnwqo3q6",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510916",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Redfire 200ml - Hopper",
+        "barcode": "3701719510916",
+        "id": "0f397482-4dd3-4d4f-8ff2-5d713cdabceb",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Redfire 200 ml",
+        "ean": "",
+        "id": "cms9gxbfu0039utw4mnwqo3q6",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Aspik 60 ml",
+    "productId": "cms9gxbo9003jutw4d38hzkst",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510527",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Aspik 60ml - Airmust",
+        "barcode": "3701719510527",
+        "id": "749faeb8-9f3b-4da5-89e4-1591050a69eb",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Aspik 60 ml",
+        "ean": "",
+        "id": "cms9gxbo9003jutw4d38hzkst",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Krak 60 ml",
+    "productId": "cms9gxboh003lutw4d8viuvxg",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510558",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Krak 60ml - Airmust",
+        "barcode": "3701719510558",
+        "id": "8a729859-9464-4890-bafc-9f5ef322ba02",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Krak 60 ml",
+        "ean": "",
+        "id": "cms9gxboh003lutw4d8viuvxg",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Grizz 60 ml",
+    "productId": "cms9gxbp0003nutw4toms3epp",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510589",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Grizz 60ml - Airmust",
+        "barcode": "3701719510589",
+        "id": "e78292fa-63cd-43fe-b423-9a39d7f46f5a",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Grizz 60 ml",
+        "ean": "",
+        "id": "cms9gxbp0003nutw4toms3epp",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Konga 100 ml",
+    "productId": "cms9gxbpv003tutw4dyiv4el7",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510619",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Konga 60ml - Airmust",
+        "barcode": "3701719510619",
+        "id": "4db25839-f8ce-405f-b251-8462cdcd5637",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Konga 100 ml",
+        "ean": "",
+        "id": "cms9gxbpv003tutw4dyiv4el7",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Hippox 100 ml",
+    "productId": "cms9gxbq5003vutw4zupdmx6j",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510497",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Hippox 60ml - Airmust",
+        "barcode": "3701719510497",
+        "id": "f2b2343a-c80e-4001-8580-e0003877bbc3",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Hippox 100 ml",
+        "ean": "",
+        "id": "cms9gxbq5003vutw4zupdmx6j",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Grizz 100 ml",
+    "productId": "cms9gxbqg003xutw4mz0y5a4q",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510589",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Grizz 60ml - Airmust",
+        "barcode": "3701719510589",
+        "id": "e78292fa-63cd-43fe-b423-9a39d7f46f5a",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Grizz 100 ml",
+        "ean": "",
+        "id": "cms9gxbqg003xutw4mz0y5a4q",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Krak 100 ml",
+    "productId": "cms9gxbqp003zutw4zig3u8p1",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510558",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Krak 60ml - Airmust",
+        "barcode": "3701719510558",
+        "id": "8a729859-9464-4890-bafc-9f5ef322ba02",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Krak 100 ml",
+        "ean": "",
+        "id": "cms9gxbqp003zutw4zig3u8p1",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Aspik 100 ml",
+    "productId": "cms9gxbr10041utw4chkucjme",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510527",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Aspik 60ml - Airmust",
+        "barcode": "3701719510527",
+        "id": "749faeb8-9f3b-4da5-89e4-1591050a69eb",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Aspik 100 ml",
+        "ean": "",
+        "id": "cms9gxbr10041utw4chkucjme",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bluevolt 100 ml",
+    "productId": "cms9gxbdj002tutw4b70fp0st",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510886",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Bluevolt 200ml - Hopper",
+        "barcode": "3701719510886",
+        "id": "f6e037fa-fba5-4a5f-8dcd-5bfee3f71c21",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bluevolt 100 ml",
+        "ean": "",
+        "id": "cms9gxbdj002tutw4b70fp0st",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Redfire 100 ml",
+    "productId": "cms9gxbeh002zutw4niayvxzj",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510916",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Redfire 200ml - Hopper",
+        "barcode": "3701719510916",
+        "id": "0f397482-4dd3-4d4f-8ff2-5d713cdabceb",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Redfire 100 ml",
+        "ean": "",
+        "id": "cms9gxbeh002zutw4niayvxzj",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Greensound 200 ml",
+    "productId": "cms9gxbf80035utw44urczrsd",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510893",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Greensound 200ml - Hopper",
+        "barcode": "3701719510893",
+        "id": "59d93855-020c-494f-93f7-3e214d51c588",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Greensound 200 ml",
+        "ean": "",
+        "id": "cms9gxbf80035utw44urczrsd",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Yellowstorm 200 ml",
+    "productId": "cms9gxbg2003butw4wcseseg9",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719510923",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Yellowstorm 200ml - Hopper",
+        "barcode": "3701719510923",
+        "id": "17bd0ce5-6d51-4b02-8cdf-f2299b0cce03",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Yellowstorm 200 ml",
+        "ean": "",
+        "id": "cms9gxbg2003butw4wcseseg9",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Leox 60 ml",
+    "productId": "cms9gxbno003futw43gkelkoj",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719511975",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Ferox - Leox 60ml - Airmust",
+        "barcode": "3701719511975",
+        "id": "863b1b33-8966-46f3-99d3-85a23a8a657b",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Leox 60 ml",
+        "ean": "",
+        "id": "cms9gxbno003futw43gkelkoj",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Fruits Rouges 60 ml",
+    "productId": "cms96d3ij001tuto8m3peencv",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 8,
+    "sumupTop": [
+      {
+        "name": "Twenty fruits rouges",
+        "barcode": "3701418867106",
+        "id": "5bd58ece-81ab-44dd-9b85-ff10c5bfbb37",
+        "s": 0.6666666666666666,
+        "core": true
+      },
+      {
+        "name": "Fruits Rouges 60ml - Unik",
+        "barcode": "3760336258663",
+        "id": "7ded763c-1644-4fb5-9ccc-5d9877d88fc0",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Fruits rouges 50 ml Iceberg",
+        "barcode": "5407007432776",
+        "id": "c881ab84-8b68-4413-b7c1-d0736758962c",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Kuix Fruits rouges 50ml",
+        "barcode": "5407007430055",
+        "id": "f3e1d9b4-a271-48a3-ba39-a18946f3cf30",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Fruits Rouges 60 ml",
+        "ean": "",
+        "id": "cms96d3ij001tuto8m3peencv",
+        "s": 1
+      },
+      {
+        "name": "Twenty fruits rouges",
+        "ean": "3701418867106",
+        "id": "cms6euiku01plutmk3poyj1pf",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Pomme Harmonie 60 ml",
+    "productId": "cms96d3ju0023uto88j8fowyq",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719500054",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Pomme harmonie 60ml - Unik",
+        "barcode": "3701719500054",
+        "id": "67102e82-ed79-45e3-a85a-e033cf00d5ab",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Pomme Harmonie 60 ml",
+        "ean": "",
+        "id": "cms96d3ju0023uto88j8fowyq",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Poire 60 ml",
+    "productId": "cms96d3k30025uto8yv4jrn77",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 8,
+    "sumupTop": [
+      {
+        "name": "Pomme Poire 50 ml Iceberg",
+        "barcode": "5407007432875",
+        "id": "e0480f21-6161-4919-9b7a-89af6036a1c1",
+        "s": 0.25,
+        "core": true
+      },
+      {
+        "name": "Prodigy pomme poire cactus",
+        "barcode": "3760387435969",
+        "id": "5a9e2c37-1eb4-4da7-8dac-149116db894e",
+        "s": 0.25,
+        "core": true
+      },
+      {
+        "name": "Fruity cool fraise poire peche",
+        "barcode": "1826200350214",
+        "id": "4e5f0979-5f6e-46b9-87e9-4894e80fa4b9",
+        "s": 0.2,
+        "core": true
+      },
+      {
+        "name": "Poire Abricot Fraise 50ml GlaGla",
+        "barcode": "5407007433773",
+        "id": "b2ab7b93-0120-4be5-9869-9acded06bfce",
+        "s": 0.2,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Poire 60 ml",
+        "ean": "",
+        "id": "cms96d3k30025uto8yv4jrn77",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Menthe Glaciale 60 ml",
+    "productId": "cms96d3kc0027uto8puqw152i",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Menthe glaciale 50 ml Iceberg",
+        "barcode": "5407007432721",
+        "id": "8b40e750-31bf-4323-8d8a-7e9f1d682ac6",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Menthe glaciale 60ml - Unik",
+        "barcode": "3760336258953",
+        "id": "8703043c-cb9e-43f7-802a-429b642d7355",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Menthe Glaciale 60 ml",
+        "ean": "",
+        "id": "cms96d3kc0027uto8puqw152i",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Framboise 60 ml",
+    "productId": "cms96d3ll002huto8x6b5lqli",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 8,
+    "sumupTop": [
+      {
+        "name": "Alfa framboise",
+        "barcode": "3662572307085",
+        "id": "0fa390eb-108c-472d-97c5-dcca2d2921c8",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Framboise (50mL)",
+        "barcode": "1392013008685",
+        "id": "5b934ab9-f476-41c2-ab38-7ba5731636fc",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Tourtelle framboise",
+        "barcode": "3080216048543",
+        "id": "0daed4b4-6e3f-4b38-ab2c-6ece40b7c932",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Framboise 50 ml Iceberg",
+        "barcode": "5407007432738",
+        "id": "7486be59-30f5-4342-8acb-b0beeb03c743",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Framboise 60 ml",
+        "ean": "",
+        "id": "cms96d3ll002huto8x6b5lqli",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Pêche 60 ml",
+    "productId": "cms96d3j2001xuto8f2ydmmtt",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 8,
+    "sumupTop": [
+      {
+        "name": "Pêche 60ml - Unik",
+        "barcode": "3760336259738",
+        "id": "eb636d77-6636-4fda-86d4-14758ecd34d4",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "Twenty  double pêche",
+        "barcode": "3701418867090",
+        "id": "a6374ad6-4ed1-43d3-9aad-5c68d393deff",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "Bananoisee  50ml - Péché Gourmand",
+        "barcode": "5407007436262",
+        "id": "f2dc1c64-f42c-463b-b927-c258c0acf318",
+        "s": 0.25,
+        "core": true
+      },
+      {
+        "name": "Framboiserie 50ml - Péché Gourmand",
+        "barcode": "5407007436286",
+        "id": "a050771e-e084-4716-9c67-bd462358f267",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Pêche 60 ml",
+        "ean": "",
+        "id": "cms96d3j2001xuto8f2ydmmtt",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Pure Passion 60 ml",
+    "productId": "cms96d3jc001zuto8luaxamoo",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719500047",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Pure Passion 60ml - Unik",
+        "barcode": "3701719500047",
+        "id": "7e1e59e9-93e4-4715-8d28-930222ec87ed",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Pure Passion 60 ml",
+        "ean": "",
+        "id": "cms96d3jc001zuto8luaxamoo",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Mangue 60 ml",
+    "productId": "cms96d3jk0021uto8ltuky9ti",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 8,
+    "sumupTop": [
+      {
+        "name": "Mangue 50 ml Iceberg",
+        "barcode": "5407007432905",
+        "id": "1c590281-132b-4717-8694-fa807aa2610c",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "Mangue 60ml - Unik",
+        "barcode": "3701719500030",
+        "id": "1678662d-b9d5-46cf-b769-c55105c6bcb1",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "Prodigy double mangue",
+        "barcode": "3760387435938",
+        "id": "52c3af90-325f-4ae9-8417-ac0134be1d1a",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "protect mangue ananas 50ml",
+        "barcode": "3760365431075",
+        "id": "530c243a-d494-4460-964a-17c0143cd95b",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Mangue 60 ml",
+        "ean": "",
+        "id": "cms96d3jk0021uto8ltuky9ti",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Raisin Noir 60 ml",
+    "productId": "cms96d3ku002buto8oz61esyx",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3701719500061",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Raisin Noir 60ml - Unik",
+        "barcode": "3701719500061",
+        "id": "b5474388-d102-4e61-ae05-92d532d6329a",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Raisin Noir 60 ml",
+        "ean": "",
+        "id": "cms96d3ku002buto8oz61esyx",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Custard Vanille 60 ml",
+    "productId": "cms96d3l4002duto8ofm7zl8u",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Mamita - Café Vanille Custard - 50 ml",
+        "barcode": "3701760601281",
+        "id": "68c32f20-2763-4167-98e7-00686259829a",
+        "s": 0.4,
+        "core": true
+      },
+      {
+        "name": "Mamita - Custard Vanille Pécan - 50 ml",
+        "barcode": "3701760601298",
+        "id": "238179b3-aa22-407e-ac87-63d39bc53e9b",
+        "s": 0.4,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Custard Vanille 60 ml",
+        "ean": "",
+        "id": "cms96d3l4002duto8ofm7zl8u",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Menthe du Jardin 60 ml",
+    "productId": "cms96d3lb002futo8fkwu1eka",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3760336259660",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Menthe du jardin 60ml - Unik",
+        "barcode": "3760336259660",
+        "id": "ecacda04-8c48-4608-9498-48035fcb2186",
+        "s": 0.6,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Menthe du Jardin 60 ml",
+        "ean": "",
+        "id": "cms96d3lb002futo8fkwu1eka",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Pêche Abricot 50 ml",
+    "productId": "cms96dgph004buto8d198fwbs",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 4,
+    "sumupTop": [
+      {
+        "name": "Tarte Abricot 50ml Péché Gourmand",
+        "barcode": "5407007436279",
+        "id": "c30a01d4-2147-48db-97cc-b0a0f29b61fa",
+        "s": 0.4,
+        "core": true
+      },
+      {
+        "name": "protect brasse abricot peche 50ml",
+        "barcode": "3760365431365",
+        "id": "862b02cc-2ecd-41ef-bbb0-14680081f532",
+        "s": 0.4,
+        "core": true
+      },
+      {
+        "name": "Granita soft peche abricot 50ml - Alfa liquid",
+        "barcode": "3662572344233",
+        "id": "36a01d4b-7f98-4967-8138-65402806569a",
+        "s": 0.2857142857142857,
+        "core": true
+      },
+      {
+        "name": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+        "barcode": "3701760601175",
+        "id": "393cdf01-db95-432a-bdb4-620674f931d7",
+        "s": 0.2222222222222222,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Pêche Abricot 50 ml",
+        "ean": "",
+        "id": "cms96dgph004buto8d198fwbs",
+        "s": 1
+      },
+      {
+        "name": "Pêche Framboise 50 ml",
+        "ean": "",
+        "id": "cms9gxd4c0051utw4e3e2id17",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Fraise Fruit du Dragon 50 ml",
+    "productId": "cms96dgq6004futo8o3olofk5",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Double dragon 50ml - fruit du dragon fraise",
+        "barcode": "3701760601069",
+        "id": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+        "s": 0.6666666666666666,
+        "core": true
+      },
+      {
+        "name": "Fruit du dragon grenade 50 ml Iceberg",
+        "barcode": "5407007433513",
+        "id": "96948516-1bb5-4418-bb54-14b28e595df5",
+        "s": 0.6666666666666666,
+        "core": false
+      },
+      {
+        "name": "mexican cartel 50 ML fruit du dragon fraise mure",
+        "barcode": "3701760600239",
+        "id": "6853c0c4-e596-4b95-92ff-a7ed52fa675e",
+        "s": 0.625,
+        "core": true
+      },
+      {
+        "name": "Fruit du serpent 50 ml Iceberg",
+        "barcode": "5407007433599",
+        "id": "d194040c-7f4c-4cd2-9e3c-59913cb18d69",
+        "s": 0.6,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Fraise Fruit du Dragon 50 ml",
+        "ean": "",
+        "id": "cms96dgq6004futo8o3olofk5",
+        "s": 1
+      },
+      {
+        "name": "Double dragon 50ml - fruit du dragon fraise",
+        "ean": "3701760601069",
+        "id": "cms6euctc00glutmk1uitza0l",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Fruit du dragon grenade 50 ml Iceberg",
+        "ean": "5407007433513",
+        "id": "cms6eudp900o1utmkjy4jv3kw",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Citron Vert Melon 50 ml",
+    "productId": "cms96dgqh004huto8nv7esxjq",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3662572946284",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Citron orange 50 ml Iceberg",
+        "barcode": "5407007433605",
+        "id": "fcd8a125-847b-4981-b055-3162883de22c",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Granita soft citron vert melon 50ml - Alfa liquid",
+        "barcode": "3662572946284",
+        "id": "f8845764-9da4-4cbb-99b1-8ece6a641ce2",
+        "s": 0.375,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Citron Vert Melon 50 ml",
+        "ean": "",
+        "id": "cms96dgqh004huto8nv7esxjq",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Mûre Cassis 50 ml",
+    "productId": "cms96dgqr004juto8b4foj32h",
+    "enrichEan": "3662572325935",
+    "eanConfidence": "retailer",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Framboise Cassis Mûre 50 ml - Vape City",
+        "barcode": "3664886086700",
+        "id": "bcba0bc3-c6f9-4b47-aa33-6aa3189a760e",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Mure myrtille 50 ml Iceberg",
+        "barcode": "5407007432851",
+        "id": "fd248288-5206-41a4-add8-afc4e18a874f",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Cassis mure frais Blue hopper 200ml",
+        "barcode": "370171950177",
+        "id": "adcd61cc-97f8-47aa-a32a-49399bca7a3a",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Mûre Cassis 50 ml",
+        "ean": "",
+        "id": "cms96dgqr004juto8b4foj32h",
+        "s": 1
+      },
+      {
+        "name": "Citron Cassis 50 ml",
+        "ean": "",
+        "id": "cms9gxd3q004xutw4bh803c25",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Red Devil 100 ml",
+    "productId": "cms9gxcfk004lutw4rrjxrpup",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Red devil 100ml - avap",
+        "barcode": "3760075768539",
+        "id": "38bf2236-e6b6-45ac-b113-e5a1265765ea",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Red Devil By Avap 50ml 00mg",
+        "barcode": "3760075760045",
+        "id": "837c3224-ec8f-490c-b546-3416c68083b3",
+        "s": 0.4,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Red Devil 100 ml",
+        "ean": "",
+        "id": "cms9gxcfk004lutw4rrjxrpup",
+        "s": 1
+      },
+      {
+        "name": "Red Devil 50 ml",
+        "ean": "",
+        "id": "cms9gxcf7004jutw4aod0kf6c",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Mint & Dragon fruit 50 ml",
+    "productId": "cms9gxcw5004nutw4qnsas72n",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "3760202035626",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Dragon rouge 50 ml Iceberg",
+        "barcode": "5407007433490",
+        "id": "bafde36b-e395-446d-b1a4-5f2fa8852678",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Fruit du dragon grenade 50 ml Iceberg",
+        "barcode": "5407007433513",
+        "id": "96948516-1bb5-4418-bb54-14b28e595df5",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Mint et dragon fruit 50ml - Mintaia",
+        "barcode": "3760202035626",
+        "id": "fcbd3cf9-1406-4c8e-a0a9-5e9691be73a8",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Mint & Dragon fruit 50 ml",
+        "ean": "",
+        "id": "cms9gxcw5004nutw4qnsas72n",
+        "s": 1
+      },
+      {
+        "name": "Dragon Fruit 50 ml",
+        "ean": "",
+        "id": "cms9gxczn004tutw467q6otlg",
+        "s": 0.75
+      },
+      {
+        "name": "Fraise Fruit du Dragon 50 ml",
+        "ean": "",
+        "id": "cms96dgq6004futo8o3olofk5",
+        "s": 0.6
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Senka",
+    "productId": "cms96cva3000juto861bzosuz",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Senka",
+        "ean": "",
+        "id": "cms96cva3000juto861bzosuz",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Yuluma",
+    "productId": "cms96cv9n000huto852mjfs8t",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Yuluma",
+        "ean": "",
+        "id": "cms96cv9n000huto852mjfs8t",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Café Frappé 50 ml",
+    "productId": "cms96dg8g003quto89pjgiunm",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "5407007436156",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Mamita - Café Stout - 50 ml",
+        "barcode": "3701760601182",
+        "id": "557875dc-e211-4ae6-8f76-f8fc67320f72",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Big Kawa cafe frapper 50ml",
+        "barcode": "5407007436156",
+        "id": "1a6b5d29-e702-4f4e-a2ab-f6ee72a1894e",
+        "s": 0.2,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Café Frappé 50 ml",
+        "ean": "",
+        "id": "cms96dg8g003quto89pjgiunm",
+        "s": 1
+      },
+      {
+        "name": "Café Caramel 50 ml",
+        "ean": "",
+        "id": "cms96dg92003uuto8ct4u3tbj",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Café Noisette 50 ml",
+        "ean": "",
+        "id": "cms96dg8p003suto8n6icokt7",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Café Noisette 50 ml",
+    "productId": "cms96dg8p003suto8n6icokt7",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "5407007433414",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Mamita - Café Stout - 50 ml",
+        "barcode": "3701760601182",
+        "id": "557875dc-e211-4ae6-8f76-f8fc67320f72",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Big Kawa cafe noisette 50ml",
+        "barcode": "5407007433414",
+        "id": "2359899a-4bac-4b5b-b230-58fb47f38b5c",
+        "s": 0.4,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Café Noisette 50 ml",
+        "ean": "",
+        "id": "cms96dg8p003suto8n6icokt7",
+        "s": 1
+      },
+      {
+        "name": "Café Caramel 50 ml",
+        "ean": "",
+        "id": "cms96dg92003uuto8ct4u3tbj",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Café Frappé 50 ml",
+        "ean": "",
+        "id": "cms96dg8g003quto89pjgiunm",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Café Caramel 50 ml",
+    "productId": "cms96dg92003uuto8ct4u3tbj",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Mamita - Café Stout - 50 ml",
+        "barcode": "3701760601182",
+        "id": "557875dc-e211-4ae6-8f76-f8fc67320f72",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Big Kawa cafe Caramel 50ml",
+        "barcode": "5407007432646",
+        "id": "a585669e-a003-4bcb-8021-8e6a0d13c205",
+        "s": 0.4,
+        "core": true
+      },
+      {
+        "name": "Cafe glace caramel 50ml - crazy juice",
+        "barcode": "3662572903799",
+        "id": "94f7c5a1-388c-4ade-a4a0-8cb8e6784b77",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Café Caramel 50 ml",
+        "ean": "",
+        "id": "cms96dg92003uuto8ct4u3tbj",
+        "s": 1
+      },
+      {
+        "name": "Café Frappé 50 ml",
+        "ean": "",
+        "id": "cms96dg8g003quto89pjgiunm",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Café Noisette 50 ml",
+        "ean": "",
+        "id": "cms96dg8p003suto8n6icokt7",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Force Violette 100 ml",
+    "productId": "cms9gx9k6000hutw4iw8rdoba",
+    "enrichEan": null,
+    "eanConfidence": "conflict",
+    "uniqueCoreBarcode": "6410949831858",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Force violette force vape",
+        "barcode": "6410949831858",
+        "id": "551c4d61-0213-4278-b987-edd5d0e6c437",
+        "s": 0.6666666666666666,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Force Violette 100 ml",
+        "ean": "",
+        "id": "cms9gx9k6000hutw4iw8rdoba",
+        "s": 1
+      },
+      {
+        "name": "Force Jaune 100 ml",
+        "ean": "",
+        "id": "cms9gx9ih000dutw4jp0n7ihj",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Force Noire 100 ml",
+        "ean": "",
+        "id": "cms9gx9j1000futw4bt2www4b",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Milo 50 ml",
+    "productId": "cms9gx9s9000nutw4af16auny",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Milos 50ml - Aromes & secrets",
+        "barcode": "3701396857403",
+        "id": "4823940d-ecd6-487a-9231-64f1180f3ba7",
+        "s": 0,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Milo 50 ml",
+        "ean": "",
+        "id": "cms9gx9s9000nutw4af16auny",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Pyro 50 ml",
+    "productId": "cms9gx9sp000putw44vlnkgd3",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Pyro 50 ml",
+        "ean": "",
+        "id": "cms9gx9sp000putw44vlnkgd3",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Candy 50 ml",
+    "productId": "cms9gx9tg000tutw4ymtit729",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Colamoon Cosmic Candy 50ml",
+        "barcode": "3760379960882",
+        "id": "ffec5515-23a3-4a44-bb03-d62fcebd4a97",
+        "s": 0.25,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Candy 50 ml",
+        "ean": "",
+        "id": "cms9gx9tg000tutw4ymtit729",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Candy Gold Edition 50 ml",
+    "productId": "cms9gx9tz000vutw4idpu2oni",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Candy Gold Edition 50 ml",
+        "ean": "",
+        "id": "cms9gx9tz000vutw4idpu2oni",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Xena 50 ml",
+    "productId": "cms9gx9ud000xutw4r882v2ss",
+    "enrichEan": null,
+    "eanConfidence": "conflict",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Xena 50 ml",
+        "ean": "",
+        "id": "cms9gx9ud000xutw4r882v2ss",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Yumi 50 ml",
+    "productId": "cms9gx9ur000zutw4muap1dwc",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Yumi 50 ml",
+        "ean": "",
+        "id": "cms9gx9ur000zutw4muap1dwc",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Lilya 50 ml",
+    "productId": "cms9gx9vz0015utw43lobsks0",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Lilya 50 ml",
+        "ean": "",
+        "id": "cms9gx9vz0015utw43lobsks0",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Ruby 50 ml",
+    "productId": "cms9gx9we0017utw4r7t8uw6f",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Ruby 50 ml",
+        "ean": "",
+        "id": "cms9gx9we0017utw4r7t8uw6f",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Vigo 50 ml",
+    "productId": "cms9gx9wt0019utw4irgbxyqa",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Vigo 50 ml",
+        "ean": "",
+        "id": "cms9gx9wt0019utw4irgbxyqa",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bisou Red 50 ml",
+    "productId": "cms9gxa6o001futw4kdvzdeva",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": "6410948642790",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "bisous red swoke",
+        "barcode": "6410948642790",
+        "id": "4f68be8b-af4b-4607-a0bf-16de6b82ed52",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bisou Red 50 ml",
+        "ean": "",
+        "id": "cms9gxa6o001futw4kdvzdeva",
+        "s": 1
+      },
+      {
+        "name": "Bisou Black 50 ml",
+        "ean": "",
+        "id": "cms9gxa71001hutw4zvhltm60",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Bisou Pink 50 ml",
+        "ean": "",
+        "id": "cms9gxa6b001dutw4rqovwy0p",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bisou Black 50 ml",
+    "productId": "cms9gxa71001hutw4zvhltm60",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Bisou Black Swoke 50ml Swoke",
+        "barcode": "",
+        "id": "bc584d4d-17eb-4f05-94de-b1005bfd0151",
+        "s": 0.5,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bisou Black 50 ml",
+        "ean": "",
+        "id": "cms9gxa71001hutw4zvhltm60",
+        "s": 1
+      },
+      {
+        "name": "Bisou Pink 50 ml",
+        "ean": "",
+        "id": "cms9gxa6b001dutw4rqovwy0p",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Bisou Red 50 ml",
+        "ean": "",
+        "id": "cms9gxa6o001futw4kdvzdeva",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bisou Yellow 50 ml",
+    "productId": "cms9gxa7g001jutw43yc86w8j",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Bisou Yellow 50 ml",
+        "ean": "",
+        "id": "cms9gxa7g001jutw43yc86w8j",
+        "s": 1
+      },
+      {
+        "name": "Bisou Black 50 ml",
+        "ean": "",
+        "id": "cms9gxa71001hutw4zvhltm60",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Bisou Pink 50 ml",
+        "ean": "",
+        "id": "cms9gxa6b001dutw4rqovwy0p",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bisou V2 50 ml",
+    "productId": "cms9gxa7q001lutw470n0r7s6",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Bisou pink swoke",
+        "barcode": "6410945358588",
+        "id": "ac1a927b-42ae-4d72-a2f5-34e93496f995",
+        "s": 0.3333333333333333,
+        "core": true
+      },
+      {
+        "name": "Bisou Black Swoke 50ml Swoke",
+        "barcode": "",
+        "id": "bc584d4d-17eb-4f05-94de-b1005bfd0151",
+        "s": 0.25,
+        "core": true
+      },
+      {
+        "name": "bisous red swoke",
+        "barcode": "6410948642790",
+        "id": "4f68be8b-af4b-4607-a0bf-16de6b82ed52",
+        "s": 0,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bisou V2 50 ml",
+        "ean": "",
+        "id": "cms9gxa7q001lutw470n0r7s6",
+        "s": 1
+      },
+      {
+        "name": "Bisou Black 50 ml",
+        "ean": "",
+        "id": "cms9gxa71001hutw4zvhltm60",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Bisou Pink 50 ml",
+        "ean": "",
+        "id": "cms9gxa6b001dutw4rqovwy0p",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Atlas 50 ml",
+    "productId": "cms9gx9t3000rutw4q9tu7bld",
+    "enrichEan": null,
+    "eanConfidence": "conflict",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Atlas 50 ml",
+        "ean": "",
+        "id": "cms9gx9t3000rutw4q9tu7bld",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Drago 50 ml",
+    "productId": "cms9gx9v40011utw4m964ureu",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 4,
+    "sumupTop": [
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "drago omg 50 ml - the MDS juice",
+        "barcode": "1826200340871",
+        "id": "99737699-e8ec-495d-90f9-3ea4b8949046",
+        "s": 0.3333333333333333,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Drago 50 ml",
+        "ean": "",
+        "id": "cms9gx9v40011utw4m964ureu",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Frost 50 ml",
+    "productId": "cms9gx9vi0013utw4hund92s9",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 2,
+    "sumupTop": [
+      {
+        "name": "Juice 66 - Frost - 50 ml",
+        "barcode": "667619831144",
+        "id": "041c5a27-38da-4d07-9181-0ba9ff5a639d",
+        "s": 0.5,
+        "core": true
+      },
+      {
+        "name": "Mila 50 ml",
+        "barcode": "3760344652293",
+        "id": "81b1dafa-b77e-437c-b2cd-47ded18d4b51",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Pablo 50 ml",
+        "barcode": "3760344652262",
+        "id": "51990e50-164e-449b-a519-6f6ed13a980a",
+        "s": 0.5,
+        "core": false
+      },
+      {
+        "name": "Émilio 50 ml",
+        "barcode": "3760344652279",
+        "id": "8503cee7-cc5c-485d-b69c-cbf193f9680d",
+        "s": 0.5,
+        "core": false
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Frost 50 ml",
+        "ean": "",
+        "id": "cms9gx9vi0013utw4hund92s9",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Bisou Pink 50 ml",
+    "productId": "cms9gxa6b001dutw4rqovwy0p",
+    "enrichEan": null,
+    "eanConfidence": "conflict",
+    "uniqueCoreBarcode": "6410945358588",
+    "uniqueCoreCount": 1,
+    "sumupTop": [
+      {
+        "name": "Bisou pink swoke",
+        "barcode": "6410945358588",
+        "id": "ac1a927b-42ae-4d72-a2f5-34e93496f995",
+        "s": 0.6666666666666666,
+        "core": true
+      }
+    ],
+    "magasinTop": [
+      {
+        "name": "Bisou Pink 50 ml",
+        "ean": "",
+        "id": "cms9gxa6b001dutw4rqovwy0p",
+        "s": 1
+      },
+      {
+        "name": "Bisou Black 50 ml",
+        "ean": "",
+        "id": "cms9gxa71001hutw4zvhltm60",
+        "s": 0.6666666666666666
+      },
+      {
+        "name": "Bisou Red 50 ml",
+        "ean": "",
+        "id": "cms9gxa6o001futw4kdvzdeva",
+        "s": 0.6666666666666666
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Force Verte",
+    "productId": "cms96cuxg000duto8hhncr475",
+    "enrichEan": null,
+    "eanConfidence": "conflict",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Force Verte",
+        "ean": "",
+        "id": "cms96cuxg000duto8hhncr475",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  },
+  {
+    "name": "Sour Sorbet",
+    "productId": "cms96dhnv004wuto8813gy228",
+    "enrichEan": null,
+    "eanConfidence": "missing",
+    "uniqueCoreBarcode": null,
+    "uniqueCoreCount": 0,
+    "sumupTop": [],
+    "magasinTop": [
+      {
+        "name": "Sour Sorbet",
+        "ean": "",
+        "id": "cms96dhnv004wuto8813gy228",
+        "s": 1
+      }
+    ],
+    "refHit": null
+  }
+]

@@ -1,0 +1,139 @@
+{
+  "date": "2026-07-29T23:50:18.965Z",
+  "total": 6,
+  "produitsMasterSansFormatClair": 24,
+  "produitsValidesSansFormat": 0,
+  "note": "Les formats sans preuve produit restent listés comme standards métier ; un produit sans contenance claire reste a_verifier.",
+  "items": [
+    {
+      "code": "10ml",
+      "label": "10 ml",
+      "ml": 10,
+      "status": "valide",
+      "sources": [
+        "referentiel_standard",
+        "gamme:RNG-liquidarom-ice_cool",
+        "gamme:RNG-liquide_lab-iceberg"
+      ],
+      "productCountMaster": 0,
+      "productCountValides": 8,
+      "gammes": [
+        "Ice Cool",
+        "Iceberg"
+      ]
+    },
+    {
+      "code": "20ml",
+      "label": "20 ml",
+      "ml": 20,
+      "status": "valide",
+      "sources": [
+        "referentiel_standard",
+        "gamme:RNG-e_tasty-twenty",
+        "site_officiel_e_tasty"
+      ],
+      "productCountMaster": 5,
+      "productCountValides": 0,
+      "gammes": [
+        "Twenty"
+      ]
+    },
+    {
+      "code": "30ml",
+      "label": "30 ml",
+      "ml": 30,
+      "status": "valide",
+      "sources": [
+        "referentiel_standard",
+        "gamme:RNG-vape_47-enfer"
+      ],
+      "productCountMaster": 0,
+      "productCountValides": 0,
+      "gammes": [
+        "Enfer"
+      ]
+    },
+    {
+      "code": "50ml",
+      "label": "50 ml",
+      "ml": 50,
+      "status": "valide",
+      "sources": [
+        "referentiel_standard",
+        "gamme:RNG-biarritz_lab-mamita",
+        "gamme:RNG-liquidarom-ice_cool",
+        "gamme:RNG-liquidarom-ice_cool_x",
+        "gamme:RNG-liquidarom-les_collegues",
+        "gamme:RNG-liquidarom-edition_collection",
+        "gamme:RNG-liquidarom-les_essentiels",
+        "gamme:RNG-liquide_lab-iceberg",
+        "gamme:RNG-mds_juice-mds_juice",
+        "gamme:RNG-raneki_liquide-olympe",
+        "gamme:RNG-t_juice-t_juice_50_ml",
+        "gamme:RNG-vape_47-enfer",
+        "gamme:RNG-vape_47-furiosa_eggz",
+        "gamme:RNG-vape_47-linvapable",
+        "gamme:RNG-raneki_liquide-kyoto_storm",
+        "gamme:RNG-vape_47-furiosa_skinz",
+        "gamme:RNG-cookin_cloud-myst",
+        "gamme:RNG-vape_maker-kaiju",
+        "master_products"
+      ],
+      "productCountMaster": 99,
+      "productCountValides": 79,
+      "gammes": [
+        "Mamita",
+        "Ice Cool",
+        "Ice Cool X",
+        "Les Collègues",
+        "Edition Collection",
+        "Les Essentiels",
+        "Iceberg",
+        "MDS Juice",
+        "Olympe",
+        "T-Juice 50 mL",
+        "Enfer",
+        "Furiosa Eggz",
+        "L'Invapable",
+        "Kyoto Storm",
+        "Furiosa Skinz",
+        "Myst",
+        "Kaiju"
+      ]
+    },
+    {
+      "code": "70ml",
+      "label": "70 ml",
+      "ml": 70,
+      "status": "valide",
+      "sources": [
+        "gamme:RNG-raneki_liquide-olympe"
+      ],
+      "productCountMaster": 0,
+      "productCountValides": 0,
+      "gammes": [
+        "Olympe"
+      ]
+    },
+    {
+      "code": "100ml",
+      "label": "100 ml",
+      "ml": 100,
+      "status": "valide",
+      "sources": [
+        "referentiel_standard",
+        "gamme:RNG-liquidarom-ice_cool",
+        "gamme:RNG-mds_juice-mds_juice",
+        "gamme:RNG-vape_47-linvapable",
+        "master_products"
+      ],
+      "productCountMaster": 4,
+      "productCountValides": 4,
+      "gammes": [
+        "Ice Cool",
+        "MDS Juice",
+        "L'Invapable"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+Images: 277
+Dir: D:\all vaps\all-vap-s-backend\public\media\products
+rembg: yes
+fruits: on (34 assets)
+mode: write
+[1/277] biarritz-lab\mamita\50ml\bowl-de-cereales-noisette-pecan-creme.webp [noisette+pecan+custard] ... ok
+[2/277] biarritz-lab\mamita\50ml\cafe-stout.webp [cafe] ... ok
+[3/277] biarritz-lab\mamita\50ml\cafe-vanille-custard.webp [vanille+cafe+custard] ... ok
+[4/277] biarritz-lab\mamita\50ml\cookie-choco-noisette.webp [cookie+choco+noisette] ... ok
+[5/277] biarritz-lab\mamita\50ml\custard-vanille-pecan.webp [vanille+pecan+custard] ... ok
+[6/277] e-tasty\bankiz\50ml\bako-50ml-bankiz-etasty-4b61c05d.webp [no-fruit] ... ok
+[7/277] e-tasty\bankiz\50ml\bako-extra-frais-50ml-bankiz-etasty-29f32181.webp [no-fruit] ... ok
+[8/277] e-tasty\bankiz\50ml\bisto-50ml-bankiz-etasty-acd84145.webp [no-fruit] ... ok
+[9/277] e-tasty\bankiz\50ml\bisto-extra-frais-50ml-bankiz-etasty-15bbf5ed.webp [no-fruit] ... ok
+[10/277] e-tasty\bankiz\50ml\freho-50ml-bankiz-etasty-9ccc1b45.webp [no-fruit] ... ok
+[11/277] e-tasty\bankiz\50ml\freho-extra-frais-50ml-bankiz-etasty-d68633ab.webp [no-fruit] ... ok
+[12/277] e-tasty\bankiz\50ml\kalio-50ml-bankiz-etasty-9eb7ee04.webp [no-fruit] ... ok
+[13/277] e-tasty\bankiz\50ml\kalio-extra-frais-50ml-bankiz-etasty-63a3ee59.webp [no-fruit] ... ok
+[14/277] e-tasty\bankiz\50ml\peik-bankiz-e-tasty-50ml-d77f7ceb.webp [no-fruit] ... ok
+[15/277] e-tasty\bankiz\50ml\peik-extra-frais-bankiz-e-tasty-50ml-b45afc45.webp [no-fruit] ... ok
+[16/277] e-tasty\bankiz\50ml\serko-50ml-bankiz-etasty-50a1c2b8.webp [no-fruit] ... ok
+[17/277] e-tasty\bankiz\50ml\serko-extra-frais-50ml-bankiz-etasty-61ca3fd3.webp [no-fruit] ... ok
+[18/277] e-tasty\bankiz\50ml\siko-50ml-bankiz-etasty-c65a93fd.webp [no-fruit] ... ok
+[19/277] e-tasty\bankiz\50ml\siko-extra-frais-50ml-bankiz-etasty-ad1373c1.webp [no-fruit] ... ok
+[20/277] e-tasty\freezy-crush\50ml\diavita-freezy-crush-e-tasty-1755a337.webp [no-fruit] ... ok
+[21/277] e-tasty\freezy-crush\50ml\felicita-freezy-crush-e-tasty-60894e4c.webp [no-fruit] ... ok
+[22/277] e-tasty\freezy-crush\50ml\limonata-freezy-crush-e-tasty-d79c1bdd.webp [no-fruit] ... ok
+[23/277] e-tasty\gang-organise\50ml\e-tasty-gang-organise-iris-la-perchee-50ml-c1b8c20b.webp [no-fruit] ... ok
+[24/277] e-tasty\gang-organise\50ml\e-tasty-gang-organise-rick-la-castagne-50ml-576e914f.webp [no-fruit] ... error
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\gang-organise\50ml\e-tasty-gang-organise-rick-la-castagne-50ml-576e914f.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\gang-organise\50ml\e-tasty-gang-organise-rick-la-castagne-50ml-576e914f.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\gang-organise\50ml\e-tasty-gang-organise-rick-la-castagne-50ml-576e914f.webp: write error
+system error: Invalid argument
+[25/277] e-tasty\gang-organise\50ml\e-tasty-gang-organise-sam-la-menace-50ml-0680ae0e.webp [no-fruit] ... ok
+[26/277] e-tasty\gang-organise\50ml\e-tasty-gang-organise-sophie-la-casse-cou-50ml-8cfce52c.webp [no-fruit] ... ok
+[27/277] e-tasty\god-fall-city\100ml\adess-100ml-godfallcity-e-tasty-7bc8a4f3.webp [no-fruit] ... ok
+[28/277] e-tasty\god-fall-city\100ml\dzeus-100ml-godfallcity-e-tasty-5b6d63d6.webp [no-fruit] ... ok
+[29/277] e-tasty\god-fall-city\100ml\posei-100ml-godfallcity-e-tasty-86ccad0b.webp [no-fruit] ... ok
+[30/277] e-tasty\god-fall-city\100ml\thena-100ml-godfallcity-e-tasty-18b87d08.webp [no-fruit] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\inspiration\50ml\amani-50ml-inspiration-e-tasty-4de8682e.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\inspiration\50ml\amani-50ml-inspiration-e-tasty-4de8682e.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\inspiration\50ml\amani-50ml-inspiration-e-tasty-4de8682e.webp: write error
+system error: Invalid argument
+[31/277] e-tasty\inspiration\50ml\amani-50ml-inspiration-e-tasty-4de8682e.webp [no-fruit] ... error
+[32/277] e-tasty\inspiration\50ml\azura-50-ml-inspiration-e-tasty-3e4fd911.webp [no-fruit] ... ok
+[33/277] e-tasty\inspiration\50ml\carmi-50-ml-inspiration-e-tasty-e405b3ab.webp [no-fruit] ... ok
+[34/277] e-tasty\inspiration\50ml\kaheli-50ml-inspiration-e-tasty-0624dd84.webp [no-fruit] ... ok
+[35/277] e-tasty\inspiration\50ml\napela-50-ml-inspiration-e-tasty-1bcde668.webp [no-fruit] ... ok
+[36/277] e-tasty\inspiration\50ml\opali-50-ml-inspiration-e-tasty-486a4843.webp [no-fruit] ... ok
+[37/277] e-tasty\letters\100ml\concentre-letters-a-e-tasty-fc9840cb.webp [no-fruit] ... ok
+[38/277] e-tasty\letters\100ml\concentre-letters-b-e-tasty-fa3cc705.webp [no-fruit] ... ok
+[39/277] e-tasty\letters\100ml\concentre-letters-c-e-tasty-029db3fb.webp [no-fruit] ... ok
+[40/277] e-tasty\letters\unknown\concentre-letters-a-e-tasty-fc9840cb.webp [no-fruit] ... ok
+[41/277] e-tasty\letters\unknown\concentre-letters-b-e-tasty-fa3cc705.webp [no-fruit] ... ok
+[42/277] e-tasty\letters\unknown\concentre-letters-c-e-tasty-029db3fb.webp [no-fruit] ... ok
+[43/277] e-tasty\numbers\30ml\concentre-numbers10-30ml-e-tasty-c33a6217.webp [no-fruit] ... ok
+[44/277] e-tasty\numbers\30ml\concentre-numbers11-30ml-e-tasty-0d74aace.webp [no-fruit] ... ok
+[45/277] e-tasty\one-taste\10ml\ananas-10ml-0mg-e-tasty-6b857cbf.webp [ananas] ... ok
+[46/277] e-tasty\one-taste\10ml\ananas-10ml-12mg-e-tasty-902d25d8.webp [ananas] ... ok
+[47/277] e-tasty\one-taste\10ml\ananas-10ml-3mg-e-tasty-09588527.webp [ananas] ... ok
+[48/277] e-tasty\one-taste\10ml\ananas-10ml-6mg-e-tasty-da6e6521.webp [ananas] ... ok
+[49/277] e-tasty\one-taste\10ml\barbe-a-papa-10ml-0mg-e-tasty-788d60c3.webp [barbe-a-papa] ... ok
+[50/277] e-tasty\one-taste\10ml\barbe-a-papa-10ml-12mg-e-tasty-60cb7f97.webp [barbe-a-papa] ... ok
+[51/277] e-tasty\one-taste\10ml\barbe-a-papa-10ml-3mg-e-tasty-2e11448e.webp [barbe-a-papa] ... ok
+[52/277] e-tasty\one-taste\10ml\barbe-a-papa-10ml-6mg-e-tasty-2b251c95.webp [barbe-a-papa] ... ok
+[53/277] e-tasty\one-taste\10ml\bonbon-carnival-10ml-0mg-e-tasty-1145745b.webp [no-fruit] ... ok
+[54/277] e-tasty\one-taste\10ml\bonbon-carnival-10ml-12mg-e-tasty-00b690f2.webp [no-fruit] ... ok
+[55/277] e-tasty\one-taste\10ml\bonbon-carnival-10ml-3mg-e-tasty-4510cf91.webp [no-fruit] ... ok
+[56/277] e-tasty\one-taste\10ml\bonbon-carnival-10ml-6mg-e-tasty-7a11c53b.webp [no-fruit] ... ok
+[57/277] e-tasty\one-taste\10ml\bonbon-violette-10ml-0mg-e-tasty-d0d0073c.webp [no-fruit] ... ok
+[58/277] e-tasty\one-taste\10ml\bonbon-violette-10ml-12mg-e-tasty-b0671c2a.webp [no-fruit] ... ok
+[59/277] e-tasty\one-taste\10ml\bonbon-violette-10ml-3mg-e-tasty-80502afd.webp [no-fruit] ... ok
+[60/277] e-tasty\one-taste\10ml\bonbon-violette-10ml-6mg-e-tasty-63cfb3c7.webp [no-fruit] ... ok
+[61/277] e-tasty\one-taste\10ml\cafe-expresso-10ml-0mg-e-tasty-b10b812f.webp [cafe] ... ok
+[62/277] e-tasty\one-taste\10ml\cafe-expresso-10ml-12mg-e-tasty-44d412ac.webp [cafe] ... ok
+[63/277] e-tasty\one-taste\10ml\cafe-expresso-10ml-3mg-e-tasty-021cf62c.webp [cafe] ... ok
+[64/277] e-tasty\one-taste\10ml\cafe-expresso-10ml-6mg-e-tasty-2d5ecccb.webp [cafe] ... ok
+[65/277] e-tasty\one-taste\10ml\cafe-speculos-10ml-0mg-e-tasty-32308b16.webp [cafe] ... ok
+[66/277] e-tasty\one-taste\10ml\cafe-speculos-10ml-12mg-e-tasty-185b808e.webp [cafe] ... ok
+[67/277] e-tasty\one-taste\10ml\cafe-speculos-10ml-3mg-e-tasty-1846a56f.webp [cafe] ... ok
+[68/277] e-tasty\one-taste\10ml\cafe-speculos-10ml-6mg-e-tasty-1e338432.webp [cafe] ... ok
+[69/277] e-tasty\one-taste\10ml\caramel-dore-10ml-0mg-e-tasty-c716ac24.webp [caramel] ... ok
+[70/277] e-tasty\one-taste\10ml\caramel-dore-10ml-12mg-e-tasty-d272b092.webp [caramel] ... ok
+[71/277] e-tasty\one-taste\10ml\caramel-dore-10ml-3mg-e-tasty-a707591c.webp [caramel] ... ok
+[72/277] e-tasty\one-taste\10ml\caramel-dore-10ml-6mg-e-tasty-0097e53b.webp [caramel] ... ok
+[73/277] e-tasty\one-taste\10ml\cassis-frais-10ml-0mg-e-tasty-4ac194fb.webp [cassis] ... ok
+[74/277] e-tasty\one-taste\10ml\cassis-frais-10ml-12mg-e-tasty-5545f924.webp [cassis] ... ok
+[75/277] e-tasty\one-taste\10ml\cassis-frais-10ml-3mg-e-tasty-5f7e7c2a.webp [cassis] ... ok
+[76/277] e-tasty\one-taste\10ml\cassis-frais-10ml-6mg-e-tasty-e58a6a66.webp [cassis] ... ok
+[77/277] e-tasty\one-taste\10ml\cerise-noire-10ml-0mg-e-tasty-016e2d61.webp [cerise] ... ok
+[78/277] e-tasty\one-taste\10ml\cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty-5ce02e22.webp [cerise] ... ok
+[79/277] e-tasty\one-taste\10ml\cerise-noire-10ml-12mg-e-tasty-536c2a5a.webp [cerise] ... ok
+[80/277] e-tasty\one-taste\10ml\cerise-noire-10ml-20mg-sel-de-nicotine-e-tasty-1e9e53df.webp [cerise] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\cerise-noire-10ml-3mg-e-tasty-cbee1523.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\cerise-noire-10ml-3mg-e-tasty-cbee1523.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\cerise-noire-10ml-3mg-e-tasty-cbee1523.webp: write error
+system error: Invalid argument
+[81/277] e-tasty\one-taste\10ml\cerise-noire-10ml-3mg-e-tasty-cbee1523.webp [cerise] ... error
+[82/277] e-tasty\one-taste\10ml\cerise-noire-10ml-5mg-sel-de-nicotine-e-tasty-8df897a2.webp [cerise] ... ok
+[83/277] e-tasty\one-taste\10ml\cerise-noire-10ml-6mg-e-tasty-8ba100ce.webp [cerise] ... ok
+[84/277] e-tasty\one-taste\10ml\cherry-cola-10ml-0mg-e-tasty-f9f7a126.webp [cerise+pomme+citron] ... ok
+[85/277] e-tasty\one-taste\10ml\cherry-cola-10ml-12mg-e-tasty-f6ac3cae.webp [cerise+pomme+citron] ... ok
+[86/277] e-tasty\one-taste\10ml\cherry-cola-10ml-3mg-e-tasty-d957769d.webp [cerise+pomme+citron] ... ok
+[87/277] e-tasty\one-taste\10ml\cherry-cola-10ml-6mg-e-tasty-35ce5ad5.webp [cerise+pomme+citron] ... ok
+[88/277] e-tasty\one-taste\10ml\chlorophylle-10ml-0mg-e-tasty-a6108e84.webp [no-fruit] ... ok
+[89/277] e-tasty\one-taste\10ml\chlorophylle-10ml-12mg-e-tasty-9e7ffcb5.webp [no-fruit] ... ok
+[90/277] e-tasty\one-taste\10ml\chlorophylle-10ml-3mg-e-tasty-d446201b.webp [no-fruit] ... ok
+[91/277] e-tasty\one-taste\10ml\chlorophylle-10ml-6mg-e-tasty-a9bbd44e.webp [no-fruit] ... ok
+[92/277] e-tasty\one-taste\10ml\citron-givree-10ml-0mg-e-tasty-a7469b06.webp [citron] ... ok
+[93/277] e-tasty\one-taste\10ml\citron-givree-10ml-12mg-e-tasty-efcc3c06.webp [citron] ... ok
+[94/277] e-tasty\one-taste\10ml\citron-givree-10ml-3mg-e-tasty-e82ab740.webp [citron] ... ok
+[95/277] e-tasty\one-taste\10ml\citron-givree-10ml-6mg-e-tasty-3d3f1bec.webp [citron] ... ok
+[96/277] e-tasty\one-taste\10ml\citron-vert-10ml-0mg-e-tasty-4729c9e8.webp [citron-vert+citron] ... ok
+[97/277] e-tasty\one-taste\10ml\citron-vert-10ml-12mg-e-tasty-77f3ab57.webp [citron-vert+citron] ... ok
+[98/277] e-tasty\one-taste\10ml\citron-vert-10ml-3mg-e-tasty-c8040a17.webp [citron-vert+citron] ... ok
+[99/277] e-tasty\one-taste\10ml\citron-vert-10ml-6mg-e-tasty-55dc42b6.webp [citron-vert+citron] ... ok
+[100/277] e-tasty\one-taste\10ml\cookie-gourmand-10-ml-0mg-e-tasty-9f3e8b79.webp [cookie+choco] ... ok
+[101/277] e-tasty\one-taste\10ml\cookie-gourmand-10-ml-3mg-e-tasty-6d694c39.webp [cookie+choco] ... ok
+[102/277] e-tasty\one-taste\10ml\cookie-gourmand-10-ml-6mg-e-tasty-fe31cce8.webp [cookie+choco] ... ok
+[103/277] e-tasty\one-taste\10ml\cookie-gourmand-10ml-12mg-e-tasty-06ae9232.webp [cookie+choco] ... ok
+[104/277] e-tasty\one-taste\10ml\fraise-sauvage-10ml-10mg-sel-de-nicotine-e-tasty-ec55b1ac.webp [fraise] ... ok
+[105/277] e-tasty\one-taste\10ml\fraise-sauvage-10ml-20mg-sel-de-nicotine-e-tasty-a557206a.webp [fraise] ... ok
+[106/277] e-tasty\one-taste\10ml\fraise-sauvage-10ml-5mg-sel-de-nicotine-e-tasty-6a24a8c2.webp [fraise] ... ok
+[107/277] e-tasty\one-taste\10ml\fraise-sauvege-10ml-0mg-e-tasty-8422c861.webp [fraise] ... ok
+[108/277] e-tasty\one-taste\10ml\fraise-sauvege-10ml-12mg-e-tasty-34a5b4eb.webp [fraise] ... ok
+[109/277] e-tasty\one-taste\10ml\fraise-sauvege-10ml-3mg-e-tasty-30789472.webp [fraise] ... ok
+[110/277] e-tasty\one-taste\10ml\fraise-sauvege-10ml-6mg-e-tasty-ed1d49da.webp [fraise] ... ok
+[111/277] e-tasty\one-taste\10ml\framboise-sauvage-10ml-0mg-e-tasty-1a938bcd.webp [framboise] ... ok
+[112/277] e-tasty\one-taste\10ml\framboise-sauvage-10ml-12mg-e-tasty-7f9ad735.webp [framboise] ... ok
+[113/277] e-tasty\one-taste\10ml\framboise-sauvage-10ml-3mg-e-tasty-8a9818ad.webp [framboise] ... ok
+[114/277] e-tasty\one-taste\10ml\framboise-sauvage-10ml-6mg-e-tasty-ffe128cf.webp [framboise] ... ok
+[115/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-0mg-e-tasty-2a1b6c18.webp [fruit-du-dragon+pitaya] ... ok
+[116/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-10mg-sel-de-nicotine-e-tasty-48ee10c0.webp [fruit-du-dragon+pitaya] ... ok
+[117/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-12mg-e-tasty-b3a0adbf.webp [fruit-du-dragon+pitaya] ... ok
+[118/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-20mg-sel-de-nicotine-e-tasty-aad85146.webp [fruit-du-dragon+pitaya] ... ok
+[119/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-3mg-e-tasty-fdf327c6.webp [fruit-du-dragon+pitaya] ... ok
+[120/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-5mg-sel-de-nicotine-e-tasty-37b4c926.webp [fruit-du-dragon+pitaya] ... ok
+[121/277] e-tasty\one-taste\10ml\fruit-du-dragon-10ml-6mg-e-tasty-31f5b788.webp [fruit-du-dragon+pitaya] ... ok
+[122/277] e-tasty\one-taste\10ml\fruit-du-serpent-10ml-0mg-e-tasty-1f59b39e.webp [no-fruit] ... ok
+[123/277] e-tasty\one-taste\10ml\fruit-du-serpent-10ml-12mg-e-tasty-07d5b354.webp [no-fruit] ... ok
+[124/277] e-tasty\one-taste\10ml\fruit-du-serpent-10ml-3mg-e-tasty-0093f054.webp [no-fruit] ... ok
+[125/277] e-tasty\one-taste\10ml\fruit-du-serpent-10ml-6mg-e-tasty-840b376f.webp [no-fruit] ... ok
+[126/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-0mg-e-tasty-84f5db66.webp [fraise+framboise+myrtille] ... ok
+[127/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-10mg-sel-de-nicotine-e-tasty-8635ac01.webp [fraise+framboise+myrtille] ... ok
+[128/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-12mg-e-tasty-c63e2605.webp [fraise+framboise+myrtille] ... ok
+[129/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-20mg-sel-de-nicotine-e-tasty-36186b28.webp [fraise+framboise+myrtille] ... ok
+[130/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-3mg-e-tasty-9821d8d4.webp [fraise+framboise+myrtille] ... ok
+[131/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-5mg-sel-de-nicotine-e-tasty-3d8bf1a1.webp [fraise+framboise+myrtille] ... ok
+[132/277] e-tasty\one-taste\10ml\fruits-rouges-10ml-6mg-e-tasty-9588f894.webp [fraise+framboise+myrtille] ... ok
+[133/277] e-tasty\one-taste\10ml\fruits-rouges-anises-10ml-0mg-e-tasty-56e82180.webp [fraise+framboise+myrtille] ... ok
+[134/277] e-tasty\one-taste\10ml\fruits-rouges-anises-10ml-12mg-e-tasty-e7ef62bb.webp [fraise+framboise+myrtille] ... ok
+[135/277] e-tasty\one-taste\10ml\fruits-rouges-anises-10ml-3mg-e-tasty-8fb3e10b.webp [fraise+framboise+myrtille] ... ok
+[136/277] e-tasty\one-taste\10ml\fruits-rouges-anises-10ml-6mg-e-tasty-13bbb96a.webp [fraise+framboise+myrtille] ... ok
+[137/277] e-tasty\one-taste\10ml\fruits-rouges-mentholes-10ml-0mg-e-tasty-a4600ef9.webp [fraise+framboise+myrtille] ... ok
+[138/277] e-tasty\one-taste\10ml\fruits-rouges-mentholes-10ml-12mg-e-tasty-160133bd.webp [fraise+framboise+myrtille] ... ok
+[139/277] e-tasty\one-taste\10ml\fruits-rouges-mentholes-10ml-3mg-e-tasty-16092f79.webp [fraise+framboise+myrtille] ... ok
+[140/277] e-tasty\one-taste\10ml\fruits-rouges-mentholes-10ml-6mg-e-tasty-dc7b938b.webp [fraise+framboise+myrtille] ... ok
+[141/277] e-tasty\one-taste\10ml\harrison-10ml-0mg-e-tasty-a6cf18a1.webp [tabac] ... ok
+[142/277] e-tasty\one-taste\10ml\harrison-10ml-12mg-e-tasty-e3c8b320.webp [tabac] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\harrison-10ml-3mg-e-tasty-71a1707b.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\harrison-10ml-3mg-e-tasty-71a1707b.webp: unable to open for write
+[143/277] e-tasty\one-taste\10ml\harrison-10ml-3mg-e-tasty-71a1707b.webp [tabac] ... error
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\harrison-10ml-3mg-e-tasty-71a1707b.webp: write error
+system error: Invalid argument
+[144/277] e-tasty\one-taste\10ml\harrison-10ml-6mg-e-tasty-53a1d68c.webp [tabac] ... ok
+[145/277] e-tasty\one-taste\10ml\kenton-10ml-0mg-e-tasty-cf380212.webp [no-fruit] ... ok
+[146/277] e-tasty\one-taste\10ml\kenton-10ml-12mg-e-tasty-fd4ed6b3.webp [no-fruit] ... ok
+[147/277] e-tasty\one-taste\10ml\kenton-10ml-3mg-e-tasty-14649916.webp [no-fruit] ... ok
+[148/277] e-tasty\one-taste\10ml\kenton-10ml-6mg-e-tasty-2887c441.webp [no-fruit] ... ok
+[149/277] e-tasty\one-taste\10ml\mangue-juteuse-10ml-0mg-e-tasty-bcbcd6bd.webp [mangue] ... ok
+[150/277] e-tasty\one-taste\10ml\mangue-juteuse-10ml-12mg-e-tasty-edee4750.webp [mangue] ... ok
+[151/277] e-tasty\one-taste\10ml\mangue-juteuse-10ml-3mg-e-tasty-320830dd.webp [mangue] ... ok
+[152/277] e-tasty\one-taste\10ml\mangue-juteuse-10ml-6mg-e-tasty-25f008dc.webp [mangue] ... ok
+[153/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-0mg-e-tasty-896ee6ed.webp [menthe] ... ok
+[154/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-10mg-sel-de-nicotine-e-tasty-4dc89205.webp [menthe] ... ok
+[155/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-12mg-e-tasty-b611d1c6.webp [menthe] ... ok
+[156/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-3mg-e-tasty-39fdd871.webp [menthe] ... ok
+[157/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-5mg-sel-de-nicotine-e-tasty-cc4f1e39.webp [menthe] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\menthe-fraiche-10ml-6mg-e-tasty-af5cc300.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\menthe-fraiche-10ml-6mg-e-tasty-af5cc300.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\menthe-fraiche-10ml-6mg-e-tasty-af5cc300.webp: write error
+system error: Invalid argument
+[158/277] e-tasty\one-taste\10ml\menthe-fraiche-10ml-6mg-e-tasty-af5cc300.webp [menthe] ... error
+[159/277] e-tasty\one-taste\10ml\menthe-fraiche10ml-20mg-sel-de-nicotine-e-tasty-356a8bfb.webp [menthe] ... ok
+[160/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-0mg-e-tasty-fa40f0f1.webp [menthe] ... ok
+[161/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-10mg-sel-de-nicotine-e-tasty-5c1099a2.webp [menthe] ... ok
+[162/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-12mg-e-tasty-506f9d39.webp [menthe] ... ok
+[163/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-20mg-sel-de-nicotine-e-tasty-00876561.webp [menthe] ... ok
+[164/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-3mg-e-tasty-dc617a79.webp [menthe] ... ok
+[165/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-5mg-sel-de-nicotine-e-tasty-5cbfb649.webp [menthe] ... ok
+[166/277] e-tasty\one-taste\10ml\menthe-polaire-10ml-6mg-e-tasty-e857c82d.webp [menthe] ... ok
+[167/277] e-tasty\one-taste\10ml\myrtille-sauvage-10ml-0mg-e-tasty-87feec62.webp [myrtille] ... ok
+[168/277] e-tasty\one-taste\10ml\myrtille-sauvage-10ml-12mg-e-tasty-ece31fda.webp [myrtille] ... ok
+[169/277] e-tasty\one-taste\10ml\myrtille-sauvage-10ml-3mg-e-tasty-78cb110d.webp [myrtille] ... ok
+[170/277] e-tasty\one-taste\10ml\myrtille-sauvage-10ml-6mg-e-tasty-e4c57d61.webp [myrtille] ... ok
+[171/277] e-tasty\one-taste\10ml\pamplemousse-10ml-0mg-e-tasty-2924e1f0.webp [no-fruit] ... ok
+[172/277] e-tasty\one-taste\10ml\pamplemousse-10ml-12mg-e-tasty-eb66fdc0.webp [no-fruit] ... ok
+[173/277] e-tasty\one-taste\10ml\pamplemousse-10ml-3mg-e-tasty-685195d6.webp [no-fruit] ... ok
+[174/277] e-tasty\one-taste\10ml\pamplemousse-10ml-6mg-e-tasty-33ef071f.webp [no-fruit] ... ok
+[175/277] e-tasty\one-taste\10ml\pasteque-juteuse-10ml-0mg-e-tasty-309ac698.webp [pasteque] ... ok
+[176/277] e-tasty\one-taste\10ml\pasteque-juteuse-10ml-12mg-e-tasty-8aada3ac.webp [pasteque] ... ok
+[177/277] e-tasty\one-taste\10ml\pasteque-juteuse-10ml-3mg-e-tasty-4812d333.webp [pasteque] ... ok
+[178/277] e-tasty\one-taste\10ml\pasteque-juteuse-10ml-6mg-e-tasty-e39aa202.webp [pasteque] ... ok
+[179/277] e-tasty\one-taste\10ml\peche-10ml-0mg-e-tasty-f94f4e55.webp [peche] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\peche-10ml-12mg-e-tasty-af645edb.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\peche-10ml-12mg-e-tasty-af645edb.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\peche-10ml-12mg-e-tasty-af645edb.webp: write error
+system error: Invalid argument
+[180/277] e-tasty\one-taste\10ml\peche-10ml-12mg-e-tasty-af645edb.webp [peche] ... error
+[181/277] e-tasty\one-taste\10ml\peche-10ml-3mg-e-tasty-0cb05bf8.webp [peche] ... ok
+[182/277] e-tasty\one-taste\10ml\peche-10ml-6mg-e-tasty-c5baee4a.webp [peche] ... ok
+[183/277] e-tasty\one-taste\10ml\poire-juteuse-10ml-0mg-e-tasty-0f8ee7ae.webp [no-fruit] ... ok
+[184/277] e-tasty\one-taste\10ml\poire-juteuse-10ml-12mg-e-tasty-5df172ba.webp [no-fruit] ... ok
+[185/277] e-tasty\one-taste\10ml\poire-juteuse-10ml-3mg-e-tasty-cf4b2677.webp [no-fruit] ... ok
+[186/277] e-tasty\one-taste\10ml\poire-juteuse-10ml-6mg-e-tasty-c308ab2b.webp [no-fruit] ... ok
+[187/277] e-tasty\one-taste\10ml\pop-cola-10ml-0mg-e-tasty-cd00587d.webp [pomme+citron] ... ok
+[188/277] e-tasty\one-taste\10ml\pop-cola-10ml-12mg-e-tasty-52ba52b1.webp [pomme+citron] ... ok
+[189/277] e-tasty\one-taste\10ml\pop-cola-10ml-3mg-e-tasty-2833a2c8.webp [pomme+citron] ... ok
+[190/277] e-tasty\one-taste\10ml\pop-cola-10ml-6mg-e-tasty-6102ea03.webp [pomme+citron] ... ok
+[191/277] e-tasty\one-taste\10ml\popcorn-10ml-0mg-e-tasty-a2bee0b1.webp [popcorn] ... ok
+[192/277] e-tasty\one-taste\10ml\popcorn-10ml-10mg-sel-de-nicotine-e-tasty-30a3f392.webp [popcorn] ... ok
+[193/277] e-tasty\one-taste\10ml\popcorn-10ml-12mg-e-tasty-e8e97799.webp [popcorn] ... ok
+[194/277] e-tasty\one-taste\10ml\popcorn-10ml-20mg-sel-de-nicotine-e-tasty-b6a6c46d.webp [popcorn] ... ok
+[195/277] e-tasty\one-taste\10ml\popcorn-10ml-3mg-e-tasty-9c8ea960.webp [popcorn] ... ok
+[196/277] e-tasty\one-taste\10ml\popcorn-10ml-5mg-sel-de-nicotine-e-tasty-2563b1d7.webp [popcorn] ... ok
+[197/277] e-tasty\one-taste\10ml\popcorn-10ml-6mg-e-tasty-a24c87b8.webp [popcorn] ... ok
+[198/277] e-tasty\one-taste\10ml\raisin-exquis-10ml-0mg-e-tasty-38294a84.webp [raisin] ... ok
+[199/277] e-tasty\one-taste\10ml\raisin-exquis-10ml-12mg-e-tasty-cf73c21d.webp [raisin] ... ok
+[200/277] e-tasty\one-taste\10ml\raisin-exquis-10ml-3mg-e-tasty-2120f0bd.webp [raisin] ... ok
+[201/277] e-tasty\one-taste\10ml\raisin-exquis-10ml-6mg-e-tasty-570b0e5a.webp [raisin] ... ok
+[202/277] e-tasty\one-taste\10ml\united-10ml-0mg-e-tasty-07bb1657.webp [tabac] ... ok
+[203/277] e-tasty\one-taste\10ml\united-10ml-10mg-sel-de-nicotine-e-tasty-47218ce8.webp [tabac] ... ok
+[204/277] e-tasty\one-taste\10ml\united-10ml-12mg-e-tasty-a2f1c4a8.webp [tabac] ... ok
+[205/277] e-tasty\one-taste\10ml\united-10ml-20mg-sel-de-nicotine-e-tasty-4f65cf27.webp [tabac] ... ok
+[206/277] e-tasty\one-taste\10ml\united-10ml-3mg-e-tasty-4cf5ef79.webp [tabac] ... ok
+[207/277] e-tasty\one-taste\10ml\united-10ml-5mg-sel-de-nicotine-e-tasty-86abdbc3.webp [tabac] ... ok
+[208/277] e-tasty\one-taste\10ml\united-10ml-6mg-e-tasty-c4ca9a10.webp [tabac] ... ok
+ERROR D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\vanille-dore-10ml-0mg-e-tasty-24f7ecdc.webp: D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\vanille-dore-10ml-0mg-e-tasty-24f7ecdc.webp: unable to open for write
+system error: Invalid argument
+D:\all vaps\all-vap-s-backend\public\media\products\e-tasty\one-taste\10ml\vanille-dore-10ml-0mg-e-tasty-24f7ecdc.webp: write error
+[209/277] e-tasty\one-taste\10ml\vanille-dore-10ml-0mg-e-tasty-24f7ecdc.webp [vanille] ... error
+system error: Invalid argument
+[210/277] e-tasty\one-taste\10ml\vanille-dore-10ml-12mg-e-tasty-45061a7f.webp [vanille] ... ok
+[211/277] e-tasty\one-taste\10ml\vanille-dore-10ml-3mg-e-tasty-78425079.webp [vanille] ... ok
+[212/277] e-tasty\one-taste\10ml\vanille-dore-10ml-6mg-e-tasty-3132021d.webp [vanille] ... ok
+[213/277] e-tasty\one-taste\10ml\vanille-doree-10ml-10mg-sel-de-nicotine-e-tasty-c0c3123f.webp [vanille] ... ok
+[214/277] e-tasty\one-taste\10ml\vanille-doree-10ml-20mg-sel-de-nicotine-e-tasty-7afdc453.webp [vanille] ... ok
+[215/277] e-tasty\one-taste\10ml\vanille-doree-10ml-5mg-sel-de-nicotine-e-tasty-800bea80.webp [vanille] ... ok
+[216/277] e-tasty\one-taste\10ml\virginia-10ml-10mg-sel-de-nicotine-e-tasty-2d288a99.webp [tabac] ... ok
+[217/277] e-tasty\one-taste\10ml\virginia-10ml-20mg-sel-de-nicotine-e-tasty-acf86ffa.webp [tabac] ... ok
+[218/277] e-tasty\one-taste\10ml\virginia-10ml-5mg-sel-de-nicotine-e-tasty-8e5171b4.webp [tabac] ... ok
+[219/277] e-tasty\one-taste\50ml\e-tasty-one-taste-bonbon-carnaval-50ml-6da0aae8.webp [no-fruit] ... ok
+[220/277] e-tasty\one-taste\50ml\e-tasty-one-taste-cafe-expresso-50ml-eeb62be4.webp [cafe] ... ok
+[221/277] e-tasty\one-taste\50ml\e-tasty-one-taste-cassis-frais-50ml-83821075.webp [cassis] ... ok
+[222/277] e-tasty\one-taste\50ml\e-tasty-one-taste-cerise-noir-50ml-4d87d208.webp [cerise] ... ok
+[223/277] e-tasty\one-taste\50ml\e-tasty-one-taste-citron-givre-50ml-42c72fb4.webp [citron] ... ok
+[224/277] e-tasty\one-taste\50ml\e-tasty-one-taste-fraise-sauvage-50ml-73f57f94.webp [fraise] ... ok
+[225/277] e-tasty\one-taste\50ml\e-tasty-one-taste-framboise-sauvage-50ml-cdc52ff1.webp [framboise] ... ok
+[226/277] e-tasty\one-taste\50ml\e-tasty-one-taste-fruit-du-dragon-50ml-af56cb77.webp [fruit-du-dragon+pitaya] ... ok
+[227/277] e-tasty\one-taste\50ml\e-tasty-one-taste-fruits-rouges-50ml-2569dca9.webp [fraise+framboise+myrtille] ... ok
+[228/277] e-tasty\one-taste\50ml\e-tasty-one-taste-menthe-fraiche-50ml-0388cf2c.webp [menthe] ... ok
+[229/277] e-tasty\one-taste\50ml\e-tasty-one-taste-menthe-polaire-50ml-d3f4c220.webp [menthe] ... ok
+[230/277] e-tasty\one-taste\50ml\e-tasty-one-taste-pasteque-juteuse-50ml-ed29c07f.webp [pasteque] ... ok
+[231/277] e-tasty\smoke-wars\50ml\chew-king-50ml-smoke-wars-e-tasty-509bd96d.webp [no-fruit] ... ok
+[232/277] e-tasty\smoke-wars\50ml\master-yob-50ml-smoke-wars-e-tasty-812363d3.webp [no-fruit] ... ok
+[233/277] e-tasty\twenty\20ml\twenty-double-peche-20ml.webp [peche] ... ok
+[234/277] e-tasty\twenty\20ml\twenty-fruit-du-dragon-cerise-20ml.webp [fruit-du-dragon+pitaya+cerise] ... ok
+[235/277] e-tasty\twenty\20ml\twenty-fruits-rouges-20ml.webp [fraise+framboise+myrtille] ... ok
+[236/277] e-tasty\twenty\20ml\twenty-limonade-citron-cassis-20ml.webp [cassis+citron] ... ok
+[237/277] e-tasty\twenty\20ml\twenty-menthe-polaire-20ml.webp [menthe] ... ok
+[238/277] liquidarom\ice-cool-x\50ml\blackberry-raspberry.webp [framboise+mure] ... ok
+[239/277] liquidarom\ice-cool-x\50ml\blackcurrant-raspberry-grape.webp [framboise+cassis+raisin] ... ok
+[240/277] liquidarom\ice-cool-x\50ml\blue-raspberry-pitaya.webp [fruit-du-dragon+pitaya+framboise] ... ok
+[241/277] liquidarom\ice-cool-x\50ml\cassis-framboise.webp [framboise+cassis] ... ok
+[242/277] liquidarom\ice-cool-x\50ml\citron-pasteque.webp [pasteque+citron] ... ok
+[243/277] liquidarom\ice-cool-x\50ml\framboise-bleu-pitaya.webp [fruit-du-dragon+pitaya+framboise] ... ok
+[244/277] liquidarom\ice-cool-x\50ml\mix-fruits-rouges.webp [fraise+framboise+myrtille] ... ok
+[245/277] liquidarom\ice-cool-x\50ml\mixed-red-berries.webp [fraise+framboise+myrtille] ... ok
+[246/277] liquidarom\ice-cool-x\50ml\mure-framboise.webp [framboise+mure] ... ok
+[247/277] liquidarom\ice-cool-x\50ml\watermelon-lemon.webp [pasteque+citron] ... ok
+[248/277] liquidarom\ice-cool\50ml\ananas-kiwi-jaune.webp [ananas+kiwi] ... ok
+[249/277] liquidarom\ice-cool\50ml\cassis-citron.webp [cassis+citron] ... ok
+[250/277] liquidarom\ice-cool\50ml\cassis-framboise-raisin.webp [framboise+cassis+raisin] ... ok
+[251/277] liquidarom\ice-cool\50ml\cassis-mangue.webp [cassis+mangue] ... ok
+[252/277] liquidarom\ice-cool\50ml\citron-pasteque.webp [pasteque+citron] ... ok
+[253/277] liquidarom\ice-cool\50ml\citron-vert-orange-sanguine.webp [citron-vert+citron+orange] ... ok
+[254/277] liquidarom\ice-cool\50ml\cocktail-exotique.webp [mangue+passion+ananas] ... ok
+[255/277] liquidarom\ice-cool\50ml\cola-pomme.webp [pomme+citron] ... ok
+[256/277] liquidarom\ice-cool\50ml\extra-fruits-rouges.webp [fraise+framboise+myrtille] ... ok
+[257/277] liquidarom\ice-cool\50ml\fraise-framboise-basilic.webp [fraise+framboise] ... ok
+[258/277] liquidarom\ice-cool\50ml\framboise-bleue-pitaya.webp [fruit-du-dragon+pitaya+framboise] ... ok
+[259/277] liquidarom\ice-cool\50ml\fruit-du-dragon-fruits-rouges.webp [fruit-du-dragon+pitaya+fraise] ... ok
+[260/277] liquidarom\ice-cool\50ml\fruit-du-serpent-framboise.webp [framboise] ... ok
+[261/277] liquidarom\ice-cool\50ml\grenade-tropical.webp [grenade+mangue+passion] ... ok
+[262/277] liquidarom\ice-cool\50ml\grenade-tropicale.webp [grenade+mangue+passion] ... ok
+[263/277] liquidarom\ice-cool\50ml\kiwi-banane.webp [kiwi+banane] ... ok
+[264/277] liquidarom\ice-cool\50ml\mangue-passion.webp [mangue+passion] ... ok
+[265/277] liquidarom\ice-cool\50ml\pasteque-fruits-rouges.webp [fraise+framboise+myrtille] ... ok
+[266/277] liquidarom\ice-cool\50ml\peche-raisin.webp [peche+raisin] ... ok
+[267/277] liquidarom\ice-cool\50ml\pitaya-framboise-bleue.webp [fruit-du-dragon+pitaya+framboise] ... ok
+[268/277] liquidarom\les-collegues\50ml\le-chocostar.webp [choco] ... ok
+[269/277] liquidarom\les-collegues\50ml\le-flambeur.webp [no-fruit] ... ok
+[270/277] liquidarom\les-collegues\50ml\le-funkie.webp [no-fruit] ... ok
+[271/277] liquidarom\les-collegues\50ml\le-tchatcheur.webp [no-fruit] ... ok
+[272/277] liquidarom\les-collegues\50ml\les-collegues-le-chocostar.webp [choco] ... ok
+[273/277] liquidarom\les-collegues\50ml\les-collegues-le-flambeur.webp [no-fruit] ... ok
+[274/277] liquidarom\les-collegues\50ml\les-collegues-le-funkie.webp [no-fruit] ... ok
+[275/277] liquidarom\les-collegues\50ml\les-collegues-le-tchatcheur.webp [no-fruit] ... ok
+[276/277] liquidarom\les-essentiels\50ml\mojito-des-iles.webp [citron-vert+menthe] ... ok
+[277/277] vape-47\enfer\10ml\original.webp [no-fruit] ... ok
+
+Done. ok=270 skip=0 err=7

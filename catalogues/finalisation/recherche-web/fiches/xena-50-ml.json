@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gx9ud000xutw4r882v2ss",
+  "catalogName": "Xena 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "sourceUrls": [
+    "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+  "officialName": "Saint Flava (Swoke) 50 ml",
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+  "nicotineBoostOptions": "1–2 boosters",
+  "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+  "formatMl": 50,
+  "seo": {
+    "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+    "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:18.521Z"
+}

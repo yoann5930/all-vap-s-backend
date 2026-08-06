@@ -19,7 +19,9 @@ export interface Store {
   lat: number;
   lng: number;
   hours: string[];
+  /** Photos boutique — vides tant que les médias officiels ne sont pas fournis. */
   photos: string[];
+  /** Avis Google — uniquement via API Places réelle ; jamais inventés. */
   googleReviews: GoogleReview[];
 }
 
@@ -41,16 +43,8 @@ export const stores: Store[] = [
     lat: 50.2508,
     lng: 3.9217,
     hours: ["Lundi – Samedi : 10h – 19h", "Dimanche : Fermé"],
-    googleReviews: [
-      { author: "Marc D.", rating: 5, text: "Excellent accueil et très bons conseils pour débuter la vape.", date: "2025-11-12" },
-      { author: "Sophie L.", rating: 5, text: "Large choix d'e-liquides et équipe très professionnelle.", date: "2025-10-03" },
-      { author: "Julien P.", rating: 4, text: "Boutique bien achalandée, retrait commande rapide.", date: "2025-09-18" },
-    ],
-    photos: [
-      "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&q=80",
-      "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=800&q=80",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
-    ],
+    googleReviews: [],
+    photos: [],
   },
   {
     id: "le-quesnoy",
@@ -69,16 +63,8 @@ export const stores: Store[] = [
     lat: 50.2488,
     lng: 3.6365,
     hours: ["Lundi – Samedi : 10h – 19h", "Dimanche : Fermé"],
-    googleReviews: [
-      { author: "Claire M.", rating: 5, text: "Magasin au top, conseils personnalisés et produits de qualité.", date: "2025-11-20" },
-      { author: "Thomas R.", rating: 5, text: "Toujours de bons conseils et un excellent rapport qualité-prix.", date: "2025-08-07" },
-      { author: "Émilie B.", rating: 4, text: "Belle boutique, personnel à l'écoute.", date: "2025-07-15" },
-    ],
-    photos: [
-      "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=800&q=80",
-      "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&q=80",
-      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80",
-    ],
+    googleReviews: [],
+    photos: [],
   },
 ];
 

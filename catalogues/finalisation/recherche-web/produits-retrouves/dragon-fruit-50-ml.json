@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxczn004tutw467q6otlg",
+  "catalogName": "Dragon Fruit 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Lemon'Time",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/lemon-time/774-dragon-fruit-50ml-3760202002420.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-lemon-time.svg",
+  "officialName": "Lemon'Time — Dragon Fruit 50mL",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill",
+  "nicotineBoostOptions": "≈3 mg (1×10ml 18mg) ; ≈6 mg (2 boosters) — doc ELFR",
+  "flavorNotes": null,
+  "ean": "3760202002420",
+  "eanConfidence": "official_site",
+  "formatMl": 50,
+  "photoUrl": "https://www.eliquid-france.com/4181-full_default/dragon-fruit-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/dragon-fruit-50-ml.jpg",
+  "seo": {
+    "title": "Lemon'Time — Dragon Fruit 50mL | All Vap's",
+    "description": "Lemon'Time — Dragon Fruit 50mL — Eliquid France — Lemon'Time — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.940Z"
+}

@@ -8,7 +8,11 @@ import {
   clearAuthCookie,
   type JwtPayload,
 } from "@/lib/jwt";
-import { sendAccountConfirmationEmail } from "@/lib/email";
+import {
+  sendAccountConfirmationEmail,
+  sendAccountCreatedEmail,
+  sendAdminNewRegistrationEmail,
+} from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import type { Role } from "@prisma/client";
 
@@ -28,6 +32,7 @@ export async function registerUser(data: {
   password: string;
   firstName?: string;
   lastName?: string;
+  phone?: string;
 }) {
   const existing = await prisma.user.findUnique({
     where: { email: data.email.toLowerCase() },
@@ -45,6 +50,7 @@ export async function registerUser(data: {
       passwordHash,
       firstName: data.firstName,
       lastName: data.lastName,
+      phone: data.phone || null,
       emailVerified: false,
     },
   });
@@ -60,13 +66,32 @@ export async function registerUser(data: {
 
   const confirmUrl = `${getSiteUrl()}/confirmer-compte?token=${confirmToken}`;
   try {
+    await sendAccountCreatedEmail({
+      to: user.email,
+      firstName: user.firstName,
+      customerId: user.id,
+    });
+  } catch {
+    console.error("[auth] welcome email failed");
+  }
+  try {
     await sendAccountConfirmationEmail({
       to: user.email,
       confirmUrl,
       firstName: user.firstName,
+      customerId: user.id,
     });
-  } catch (err) {
-    console.error("[auth] confirmation email failed:", err);
+  } catch {
+    console.error("[auth] confirmation email failed");
+  }
+  try {
+    await sendAdminNewRegistrationEmail({
+      email: user.email,
+      firstName: user.firstName,
+      customerId: user.id,
+    });
+  } catch {
+    console.error("[auth] admin registration email failed");
   }
 
   const payload: JwtPayload = {
@@ -112,13 +137,26 @@ export async function confirmUserEmail(token: string) {
   });
 }
 
-export async function loginUser(email: string, password: string) {
+export async function loginUser(
+  email: string,
+  password: string,
+  options?: { totpToken?: string }
+) {
   const user = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
   });
 
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
     throw new Error("INVALID_CREDENTIALS");
+  }
+
+  if (user.role === "ADMIN" && user.twoFactorEnabled && user.totpSecret) {
+    if (!options?.totpToken) {
+      throw new Error("2FA_REQUIRED");
+    }
+    const { verifySync } = await import("otplib");
+    const check = await verifySync({ token: options.totpToken, secret: user.totpSecret });
+    if (!check.valid) throw new Error("2FA_INVALID");
   }
 
   const payload: JwtPayload = {
@@ -131,7 +169,13 @@ export async function loginUser(email: string, password: string) {
   await setAuthCookie(token);
   await issueRefreshToken(user.id);
 
-  return { user: sanitizeUser(user), token };
+  return {
+    user: sanitizeUser(user),
+    token,
+    emailVerified: user.emailVerified,
+    mustChangePassword: user.mustChangePassword,
+    twoFactorEnabled: user.twoFactorEnabled,
+  };
 }
 
 export async function logoutUser() {
@@ -147,6 +191,8 @@ function sanitizeUser(user: {
   phone?: string | null;
   role: Role;
   emailVerified?: boolean;
+  mustChangePassword?: boolean;
+  twoFactorEnabled?: boolean;
   createdAt: Date;
 }) {
   return {
@@ -156,7 +202,9 @@ function sanitizeUser(user: {
     lastName: user.lastName,
     phone: user.phone ?? null,
     role: user.role,
-    emailVerified: user.emailVerified ?? true,
+    emailVerified: user.emailVerified ?? false,
+    mustChangePassword: user.mustChangePassword ?? false,
+    twoFactorEnabled: user.twoFactorEnabled ?? false,
     createdAt: user.createdAt,
   };
 }

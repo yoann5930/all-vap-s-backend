@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxcw5004nutw4qnsas72n",
+  "catalogName": "Mint & Dragon fruit 50 ml",
+  "officialName": "Mintaïa — Mint & Dragon fruit 50mL",
+  "manufacturer": "Eliquid France",
+  "range": "Mintaïa",
+  "flavor": "Menthe, fruit du dragon",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml shortfill",
+  "nicotineBoost": "≈3 / ≈6 mg via boosters 18 mg/ml",
+  "description": "Mintaïa Mint & Dragon fruit — Eliquid France 50 ml 50/50 0 mg.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/mint-dragon-fruit-50-ml/photo.jpg",
+  "bannerLocal": "catalogues/validation-finale/mint-dragon-fruit-50-ml/banniere.webp",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:49.580Z"
+}

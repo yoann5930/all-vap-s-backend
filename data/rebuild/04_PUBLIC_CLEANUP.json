@@ -1,0 +1,33 @@
+{
+  "date": "2026-07-29T22:01:29.622Z",
+  "etape": 4,
+  "before": {
+    "visible": 33,
+    "promo": 3,
+    "isNew": 3,
+    "best": 3,
+    "active": 91
+  },
+  "updatedRows": 2554,
+  "after": {
+    "visible": 0,
+    "promo": 0,
+    "isNew": 0,
+    "best": 0,
+    "valides": 91
+  },
+  "icedNameFixes": [
+    {
+      "id": "cms6euie501obutmkb2ywb8zo",
+      "from": "The twin venom iced 50ml - Revenge Juices",
+      "to": "The twin venom Ice 50ml - Revenge Juices"
+    },
+    {
+      "id": "cms6euiem01oeutmkzoxe1bgv",
+      "from": "The undertaker iced 50ml - Revenge Juices",
+      "to": "The undertaker Ice 50ml - Revenge Juices"
+    }
+  ],
+  "highSchoolFlagged": [],
+  "rule": "Aucun produit public tant que PUBLISHED non reconstruit. Site vide préféré."
+}

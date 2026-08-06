@@ -1,0 +1,38 @@
+{
+  "productId": "cms96dgpu004duto8ih7klwp7",
+  "catalogName": "Virgin Mojito 50 ml",
+  "manufacturer": "Alfa",
+  "range": "Granita Soft",
+  "sourceUrls": [
+    "https://www.lca-distribution.com/granita-soft/18018-virgin-mojito-50ml-granita-soft-by-alfaliquid-0mg.html",
+    "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [
+    "Fetch échoué: https://www.lca-distribution.com/granita-soft/18018-virgin-mojito-50ml-granita-soft-by-alfaliquid-0mg.html"
+  ],
+  "officialName": "Virgin Mojito 50 ml — Granita Soft (Alfaliquid)",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill ; aussi 10 ml en 0/3/6/12 mg/ml",
+  "nicotineBoostOptions": "Shortfill : 0 ; ~3,3 ; ~5,7 mg/ml",
+  "ean": "3662572344226",
+  "eanConfidence": "official_distributor",
+  "flavorNotes": "Citron vert, menthe, fraîcheur",
+  "photoUrl": "https://www.alfaliquid.com/111598-large_default/peche-abricot-granita-soft.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/virgin-mojito-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+  "seo": {
+    "title": "Virgin Mojito 50 ml — Granita Soft (Alfaliquid) | All Vap's",
+    "description": "Virgin Mojito 50 ml — Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50 — Citron vert, menthe, fraîcheur"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:18.873Z",
+  "finalizedVia": "recherche-web"
+}

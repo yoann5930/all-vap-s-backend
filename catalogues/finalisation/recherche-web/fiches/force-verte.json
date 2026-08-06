@@ -1,0 +1,36 @@
+{
+  "productId": "cms96cuxg000duto8hhncr475",
+  "catalogName": "Force Verte",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "sourceUrls": [
+    "https://swoke.net/force-vape/force-noire.html"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "formatMl"
+  ],
+  "notes": [],
+  "officialName": "Force Verte — Force Vape (Swoke)",
+  "formatMl": null,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "Format catalogue ambigu (pas de ml dans le nom)",
+  "nicotineBoostOptions": "Selon référence exacte",
+  "ean": "6410949705432",
+  "eanConfidence": "retailer",
+  "flavorNotes": "Existence gamme Force Vape confirmée ; format/EAN de cette fiche catalogue non tranché",
+  "photoUrl": "https://swoke.b-cdn.net/425-large_default/force-noire.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+  "seo": {
+    "title": "Force Verte — Force Vape (Swoke) | All Vap's",
+    "description": "Force Verte — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — Existence gamme Force Vape confirmée ; format/EAN de cette fiche catalogue non tranché"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.172Z"
+}

@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gx9tg000tutw4ymtit729",
+  "catalogName": "Candy 50 ml",
+  "officialName": "Candy 50 ml — Saint Flava",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "flavor": "Candy",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Candy Saint Flava Swoke — 50 ml shortfill 40/60 0 mg.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/candy-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/candy-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/saint-flava/",
+    "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:56.595Z"
+}

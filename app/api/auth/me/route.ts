@@ -19,6 +19,8 @@ export async function GET() {
         phone: true,
         role: true,
         emailVerified: true,
+        mustChangePassword: true,
+        twoFactorEnabled: true,
         createdAt: true,
       },
     });

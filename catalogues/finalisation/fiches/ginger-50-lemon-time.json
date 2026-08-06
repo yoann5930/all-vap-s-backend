@@ -1,0 +1,36 @@
+{
+  "id": "cms9gxd00004vutw4wxbu1flz",
+  "slug": "ginger-50-lemon-time",
+  "nom": "Ginger 50 ml",
+  "description": "Officiel Lemon'Time — SumUp à lier.",
+  "seo": {
+    "title": "Ginger 50 ml | Eliquid France | All Vap's",
+    "description": "Officiel Lemon'Time — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "Eliquid France",
+    "gamme": "Lemon'Time",
+    "saveur": "Ginger",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\eliquid-france\\ranges\\lemon-time-eliquid-france.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/eliquid-france__lemon-time-eliquid-france.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

@@ -1,0 +1,2857 @@
+{
+  "byRec": {
+    "PAS_EAN_SUMUP": 26,
+    "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle": 28,
+    "MULTI_EAN": 7
+  },
+  "report": [
+    {
+      "productId": "cms9gxbdt002vutw4v0bxerrn",
+      "name": "Greensound 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbe4002xutw4z9kjqc8v",
+      "name": "Purplenuclear 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxber0031utw4ahkm4448",
+      "name": "Yellowstorm 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbf00033utw4d82rf9u7",
+      "name": "Bluevolt 200 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Bluevolt 200ml - Hopper",
+          "barcode": "3701719510886",
+          "id": "f6e037fa-fba5-4a5f-8dcd-5bfee3f71c21"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510886",
+          "owners": [
+            {
+              "id": "cms6eubkn0077utmkh9nlgk9y",
+              "name": "Bluevolt 200ml - Hopper",
+              "isActive": false,
+              "sumupProductId": "f6e037fa-fba5-4a5f-8dcd-5bfee3f71c21",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "bluevolt-200ml-hopper-f6e037fa"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbfj0037utw4bnkpvqmu",
+      "name": "Purplenuclear 200 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Purplenuclear 200ml - Hopper",
+          "barcode": "3701719510909",
+          "id": "e6a0151b-4967-4832-80a2-c3fee669f1f1"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510909",
+          "owners": [
+            {
+              "id": "cms6euhak01g4utmkj3ure6lf",
+              "name": "Purplenuclear 200ml - Hopper",
+              "isActive": false,
+              "sumupProductId": "e6a0151b-4967-4832-80a2-c3fee669f1f1",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "purplenuclear-200ml-hopper-e6a0151b"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbfu0039utw4mnwqo3q6",
+      "name": "Redfire 200 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Redfire 200ml - Hopper",
+          "barcode": "3701719510916",
+          "id": "0f397482-4dd3-4d4f-8ff2-5d713cdabceb"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510916",
+          "owners": [
+            {
+              "id": "cms6euhm301ijutmkszlvcrxr",
+              "name": "Redfire 200ml - Hopper",
+              "isActive": false,
+              "sumupProductId": "0f397482-4dd3-4d4f-8ff2-5d713cdabceb",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "redfire-200ml-hopper-0f397482"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbo9003jutw4d38hzkst",
+      "name": "Aspik 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Ferox - Aspik 60ml - Airmust",
+          "barcode": "3701719510527",
+          "id": "749faeb8-9f3b-4da5-89e4-1591050a69eb"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510527",
+          "owners": [
+            {
+              "id": "cms6eudbd00klutmktfov8bps",
+              "name": "Ferox - Aspik 60ml - Airmust",
+              "isActive": false,
+              "sumupProductId": "749faeb8-9f3b-4da5-89e4-1591050a69eb",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "ferox-aspik-60ml-airmust-749faeb8"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxboh003lutw4d8viuvxg",
+      "name": "Krak 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Ferox - Krak 60ml - Airmust",
+          "barcode": "3701719510558",
+          "id": "8a729859-9464-4890-bafc-9f5ef322ba02"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510558",
+          "owners": [
+            {
+              "id": "cms6eudbv00kputmkt3jghcu6",
+              "name": "Ferox - Krak 60ml - Airmust",
+              "isActive": false,
+              "sumupProductId": "8a729859-9464-4890-bafc-9f5ef322ba02",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "ferox-krak-60ml-airmust-8a729859"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbp0003nutw4toms3epp",
+      "name": "Grizz 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Ferox - Grizz 60ml - Airmust",
+          "barcode": "3701719510589",
+          "id": "e78292fa-63cd-43fe-b423-9a39d7f46f5a"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510589",
+          "owners": [
+            {
+              "id": "cms6eudbh00kmutmk5yn3ih14",
+              "name": "Ferox - Grizz 60ml - Airmust",
+              "isActive": false,
+              "sumupProductId": "e78292fa-63cd-43fe-b423-9a39d7f46f5a",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "ferox-grizz-60ml-airmust-e78292fa"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbpv003tutw4dyiv4el7",
+      "name": "Konga 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbq5003vutw4zupdmx6j",
+      "name": "Hippox 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbqg003xutw4mz0y5a4q",
+      "name": "Grizz 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbqp003zutw4zig3u8p1",
+      "name": "Krak 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbr10041utw4chkucjme",
+      "name": "Aspik 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbdj002tutw4b70fp0st",
+      "name": "Bluevolt 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbeh002zutw4niayvxzj",
+      "name": "Redfire 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxbf80035utw44urczrsd",
+      "name": "Greensound 200 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Greensound 200ml - Hopper",
+          "barcode": "3701719510893",
+          "id": "59d93855-020c-494f-93f7-3e214d51c588"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510893",
+          "owners": [
+            {
+              "id": "cms6eue9r00sjutmklzhiic08",
+              "name": "Greensound 200ml - Hopper",
+              "isActive": false,
+              "sumupProductId": "59d93855-020c-494f-93f7-3e214d51c588",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "greensound-200ml-hopper-59d93855"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbg2003butw4wcseseg9",
+      "name": "Yellowstorm 200 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Yellowstorm 200ml - Hopper",
+          "barcode": "3701719510923",
+          "id": "17bd0ce5-6d51-4b02-8cdf-f2299b0cce03"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719510923",
+          "owners": [
+            {
+              "id": "cms6euj8t01u7utmkccitzfpf",
+              "name": "Yellowstorm 200ml - Hopper",
+              "isActive": false,
+              "sumupProductId": "17bd0ce5-6d51-4b02-8cdf-f2299b0cce03",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "yellowstorm-200ml-hopper-17bd0ce5"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxbno003futw43gkelkoj",
+      "name": "Leox 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Ferox - Leox 60ml - Airmust",
+          "barcode": "3701719511975",
+          "id": "863b1b33-8966-46f3-99d3-85a23a8a657b"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719511975",
+          "owners": [
+            {
+              "id": "cms6eudby00kqutmkbgqrciwl",
+              "name": "Ferox - Leox 60ml - Airmust",
+              "isActive": false,
+              "sumupProductId": "863b1b33-8966-46f3-99d3-85a23a8a657b",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "ferox-leox-60ml-airmust-863b1b33"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3ij001tuto8m3peencv",
+      "name": "Fruits Rouges 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Fruits Rouges 60ml - Unik",
+          "barcode": "3760336258663",
+          "id": "7ded763c-1644-4fb5-9ccc-5d9877d88fc0"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336258663",
+          "owners": [
+            {
+              "id": "cms6eudpn00o4utmksu7dhoeu",
+              "name": "Fruits Rouges 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "7ded763c-1644-4fb5-9ccc-5d9877d88fc0",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "fruits-rouges-60ml-unik-7ded763c"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3ju0023uto88j8fowyq",
+      "name": "Pomme Harmonie 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Pomme harmonie 60ml - Unik",
+          "barcode": "3701719500054",
+          "id": "67102e82-ed79-45e3-a85a-e033cf00d5ab"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719500054",
+          "owners": [
+            {
+              "id": "cms6euh3n01equtmklbqk0r6e",
+              "name": "Pomme harmonie 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "67102e82-ed79-45e3-a85a-e033cf00d5ab",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "pomme-harmonie-60ml-unik-67102e82"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3k30025uto8yv4jrn77",
+      "name": "Poire 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Pomme poire 60ml - Le primeur",
+          "barcode": "3760336257116",
+          "id": "10bdcdd4-7c2f-476f-97b8-96147d23c275"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336257116",
+          "owners": [
+            {
+              "id": "cms6euh3r01erutmk3tb6ctcr",
+              "name": "Pomme poire 60ml - Le primeur",
+              "isActive": false,
+              "sumupProductId": "10bdcdd4-7c2f-476f-97b8-96147d23c275",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "pomme-poire-60ml-le-primeur-10bdcdd4"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3kc0027uto8puqw152i",
+      "name": "Menthe Glaciale 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Menthe glaciale 60ml - Unik",
+          "barcode": "3760336258953",
+          "id": "8703043c-cb9e-43f7-802a-429b642d7355"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336258953",
+          "owners": [
+            {
+              "id": "cms6eug7a017dutmkcyljo5cn",
+              "name": "Menthe glaciale 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "8703043c-cb9e-43f7-802a-429b642d7355",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "menthe-glaciale-60ml-unik-8703043c"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3ll002huto8x6b5lqli",
+      "name": "Framboise 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Framboise 60ml - Unik",
+          "barcode": "3760336259318",
+          "id": "a07cfa4b-4143-4399-803b-ab0d04478b3b"
+        },
+        {
+          "name": "Framboise bleue litchi  60ml - le primeur",
+          "barcode": "3760336257154",
+          "id": "6eb45592-d226-44aa-bd3d-b0f1d9f2f65e"
+        },
+        {
+          "name": "Framboise passion 60ml - Le primeur",
+          "barcode": "3760336257147",
+          "id": "a695503a-5d03-46bd-a2ed-efa000a11354"
+        },
+        {
+          "name": "Pitaya framboise - fresh-60ml - Le primeur",
+          "barcode": "3701719501846",
+          "id": "36f31a08-0598-4155-aab3-0745e9dd4336"
+        },
+        {
+          "name": "pitaya framboise juicy & fresh 60ml",
+          "barcode": "3760336256447",
+          "id": "66907b10-afa2-46e2-95b4-a7ee5a8b2654"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336259318",
+          "owners": [
+            {
+              "id": "cms6eudhq00m6utmkkppi0mcw",
+              "name": "Framboise 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "a07cfa4b-4143-4399-803b-ab0d04478b3b",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "framboise-60ml-unik-a07cfa4b"
+            }
+          ]
+        },
+        {
+          "barcode": "3760336257154",
+          "owners": [
+            {
+              "id": "cms6eudi900mautmkbdeuc216",
+              "name": "Framboise bleue litchi  60ml - le primeur",
+              "isActive": false,
+              "sumupProductId": "6eb45592-d226-44aa-bd3d-b0f1d9f2f65e",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "framboise-bleue-litchi-60ml-le-primeur-6eb45592"
+            }
+          ]
+        },
+        {
+          "barcode": "3760336257147",
+          "owners": [
+            {
+              "id": "cms6eudid00mbutmkhyka1hwh",
+              "name": "Framboise passion 60ml - Le primeur",
+              "isActive": false,
+              "sumupProductId": "a695503a-5d03-46bd-a2ed-efa000a11354",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "framboise-passion-60ml-le-primeur-a695503a"
+            }
+          ]
+        },
+        {
+          "barcode": "3701719501846",
+          "owners": [
+            {
+              "id": "cms6euh1k01ebutmkpg6is9zo",
+              "name": "Pitaya framboise - fresh-60ml - Le primeur",
+              "isActive": false,
+              "sumupProductId": "36f31a08-0598-4155-aab3-0745e9dd4336",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "pitaya-framboise-fresh-60ml-le-primeur-36f31a08"
+            }
+          ]
+        },
+        {
+          "barcode": "3760336256447",
+          "owners": [
+            {
+              "id": "cms6eujie01w4utmk46i7obq4",
+              "name": "pitaya framboise juicy & fresh 60ml",
+              "isActive": false,
+              "sumupProductId": "66907b10-afa2-46e2-95b4-a7ee5a8b2654",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "pitaya-framboise-juicy-fresh-60ml-66907b10"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms96d3j2001xuto8f2ydmmtt",
+      "name": "Pêche 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Pêche 60ml - Unik",
+          "barcode": "3760336259738",
+          "id": "eb636d77-6636-4fda-86d4-14758ecd34d4"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336259738",
+          "owners": [
+            {
+              "id": "cms6euhbl01gdutmkfesxgb86",
+              "name": "Pêche 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "eb636d77-6636-4fda-86d4-14758ecd34d4",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "peche-60ml-unik-eb636d77"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [
+        {
+          "id": "cms6euf4500z9utmkehav7kea",
+          "name": "Kuix mango peche 10mg",
+          "barcode": "5407007436606",
+          "sumupProductId": "eb145a4f-268f-4572-99de-7f8b9f4c7ee4",
+          "volumeMl": null,
+          "imageUrl": null
+        },
+        {
+          "id": "cms6euf4a00zautmke27ge7vz",
+          "name": "Kuix mango peche 20mg",
+          "barcode": "5407007435616",
+          "sumupProductId": "4a1eede1-1d80-48b1-a811-23c63becd584",
+          "volumeMl": null,
+          "imageUrl": null
+        }
+      ],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3jc001zuto8luaxamoo",
+      "name": "Pure Passion 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Pure Passion 60ml - Unik",
+          "barcode": "3701719500047",
+          "id": "7e1e59e9-93e4-4715-8d28-930222ec87ed"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719500047",
+          "owners": [
+            {
+              "id": "cms6euh9u01fzutmkdt2cdck8",
+              "name": "Pure Passion 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "7e1e59e9-93e4-4715-8d28-930222ec87ed",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "pure-passion-60ml-unik-7e1e59e9"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3jk0021uto8ltuky9ti",
+      "name": "Mangue 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Cassis mangue - fresh-60ml - Le primeur",
+          "barcode": "3701719501792",
+          "id": "cd4c9803-da80-4a9e-9089-46d29ea0b2f2"
+        },
+        {
+          "name": "Mangue 60ml - Unik",
+          "barcode": "3701719500030",
+          "id": "1678662d-b9d5-46cf-b769-c55105c6bcb1"
+        },
+        {
+          "name": "mangue cassis juicy & fresh 60ml",
+          "barcode": "3760336256454",
+          "id": "6f289322-8323-4be7-b2c9-89f7d2d9b4c6"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719501792",
+          "owners": [
+            {
+              "id": "cms6eubz900aeutmk42xo7d02",
+              "name": "Cassis mangue - fresh-60ml - Le primeur",
+              "isActive": false,
+              "sumupProductId": "cd4c9803-da80-4a9e-9089-46d29ea0b2f2",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "cassis-mangue-fresh-60ml-le-primeur-cd4c9803"
+            }
+          ]
+        },
+        {
+          "barcode": "3701719500030",
+          "owners": [
+            {
+              "id": "cms6eug3e016iutmk02dy8euq",
+              "name": "Mangue 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "1678662d-b9d5-46cf-b769-c55105c6bcb1",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mangue-60ml-unik-1678662d"
+            }
+          ]
+        },
+        {
+          "barcode": "3760336256454",
+          "owners": [
+            {
+              "id": "cms6eujf101vhutmk8t0klydj",
+              "name": "mangue cassis juicy & fresh 60ml",
+              "isActive": false,
+              "sumupProductId": "6f289322-8323-4be7-b2c9-89f7d2d9b4c6",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mangue-cassis-juicy-fresh-60ml-6f289322"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms96d3ku002buto8oz61esyx",
+      "name": "Raisin Noir 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Raisin Noir 60ml - Unik",
+          "barcode": "3701719500061",
+          "id": "b5474388-d102-4e61-ae05-92d532d6329a"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701719500061",
+          "owners": [
+            {
+              "id": "cms6euhcw01goutmk681hqbr3",
+              "name": "Raisin Noir 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "b5474388-d102-4e61-ae05-92d532d6329a",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "raisin-noir-60ml-unik-b5474388"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96d3l4002duto8ofm7zl8u",
+      "name": "Custard Vanille 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms96d3lb002futo8fkwu1eka",
+      "name": "Menthe du Jardin 60 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Menthe du jardin 60ml - Unik",
+          "barcode": "3760336259660",
+          "id": "ecacda04-8c48-4608-9498-48035fcb2186"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760336259660",
+          "owners": [
+            {
+              "id": "cms6eug6g0177utmkemuvo8i7",
+              "name": "Menthe du jardin 60ml - Unik",
+              "isActive": false,
+              "sumupProductId": "ecacda04-8c48-4608-9498-48035fcb2186",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "menthe-du-jardin-60ml-unik-ecacda04"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96dgph004buto8d198fwbs",
+      "name": "Pêche Abricot 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+          "barcode": "3701760601175",
+          "id": "393cdf01-db95-432a-bdb4-620674f931d7"
+        },
+        {
+          "name": "Granita soft peche abricot 50ml - Alfa liquid",
+          "barcode": "3662572344233",
+          "id": "36a01d4b-7f98-4967-8138-65402806569a"
+        },
+        {
+          "name": "Tarte Abricot 50ml Péché Gourmand",
+          "barcode": "5407007436279",
+          "id": "c30a01d4-2147-48db-97cc-b0a0f29b61fa"
+        },
+        {
+          "name": "protect brasse abricot peche 50ml",
+          "barcode": "3760365431365",
+          "id": "862b02cc-2ecd-41ef-bbb0-14680081f532"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701760601175",
+          "owners": [
+            {
+              "id": "cms6eudnk00noutmk4wdaixk2",
+              "name": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+              "isActive": true,
+              "sumupProductId": "393cdf01-db95-432a-bdb4-620674f931d7",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/yellow-fruits.webp",
+              "slug": "le-fruit-defendu-50ml-yellow-fruits"
+            }
+          ]
+        },
+        {
+          "barcode": "3662572344233",
+          "owners": [
+            {
+              "id": "cms6eue7v00s1utmk6q62y12c",
+              "name": "Granita soft peche abricot 50ml - Alfa liquid",
+              "isActive": false,
+              "sumupProductId": "36a01d4b-7f98-4967-8138-65402806569a",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "granita-soft-peche-abricot-50ml-alfa-liquid-36a01d4b"
+            }
+          ]
+        },
+        {
+          "barcode": "5407007436279",
+          "owners": [
+            {
+              "id": "cms6euib101nqutmkflf0hsxc",
+              "name": "Tarte Abricot 50ml Péché Gourmand",
+              "isActive": true,
+              "sumupProductId": "c30a01d4-2147-48db-97cc-b0a0f29b61fa",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "tarte-abricot-50ml-peche-gourmand-c30a01d4"
+            }
+          ]
+        },
+        {
+          "barcode": "3760365431365",
+          "owners": [
+            {
+              "id": "cms6eujio01w6utmktklyua76",
+              "name": "protect brasse abricot peche 50ml",
+              "isActive": false,
+              "sumupProductId": "862b02cc-2ecd-41ef-bbb0-14680081f532",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "protect-brasse-abricot-peche-50ml-862b02cc"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms96dgq6004futo8o3olofk5",
+      "name": "Fraise Fruit du Dragon 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Double dragon 50ml - fruit du dragon fraise",
+          "barcode": "3701760601069",
+          "id": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4"
+        },
+        {
+          "name": "Granita soft fraise fruit du dragon 50ml - Alfa liquid",
+          "barcode": "3662572946253",
+          "id": "dc145e01-afd4-4438-aebd-8a9ffc05f125"
+        },
+        {
+          "name": "mexican cartel 50 ML fruit du dragon fraise mure",
+          "barcode": "3701760600239",
+          "id": "6853c0c4-e596-4b95-92ff-a7ed52fa675e"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701760601069",
+          "owners": [
+            {
+              "id": "cms6euctc00glutmk1uitza0l",
+              "name": "Double dragon 50ml - fruit du dragon fraise",
+              "isActive": true,
+              "sumupProductId": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-fraise"
+            }
+          ]
+        },
+        {
+          "barcode": "3662572946253",
+          "owners": [
+            {
+              "id": "cms6eue7800rwutmkjr42burq",
+              "name": "Granita soft fraise fruit du dragon 50ml - Alfa liquid",
+              "isActive": false,
+              "sumupProductId": "dc145e01-afd4-4438-aebd-8a9ffc05f125",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "granita-soft-fraise-fruit-du-dragon-50ml-alfa-liquid-dc145e01"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600239",
+          "owners": [
+            {
+              "id": "cms6eujfm01vlutmkmqkzrcrk",
+              "name": "mexican cartel 50 ML fruit du dragon fraise mure",
+              "isActive": false,
+              "sumupProductId": "6853c0c4-e596-4b95-92ff-a7ed52fa675e",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mexican-cartel-50-ml-fruit-du-dragon-fraise-mure-6853c0c4"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [
+        {
+          "id": "cms6euctc00glutmk1uitza0l",
+          "name": "Double dragon 50ml - fruit du dragon fraise",
+          "barcode": "3701760601069",
+          "sumupProductId": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp"
+        }
+      ],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms96dgqh004huto8nv7esxjq",
+      "name": "Citron Vert Melon 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Granita soft citron vert melon 50ml - Alfa liquid",
+          "barcode": "3662572946284",
+          "id": "f8845764-9da4-4cbb-99b1-8ece6a641ce2"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3662572946284",
+          "owners": [
+            {
+              "id": "cms6eue6y00ruutmkkdnw9u5g",
+              "name": "Granita soft citron vert melon 50ml - Alfa liquid",
+              "isActive": false,
+              "sumupProductId": "f8845764-9da4-4cbb-99b1-8ece6a641ce2",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "granita-soft-citron-vert-melon-50ml-alfa-liquid-f8845764"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96dgqr004juto8b4foj32h",
+      "name": "Mûre Cassis 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Framboise Cassis Mûre 50 ml - Vape City",
+          "barcode": "3664886086700",
+          "id": "bcba0bc3-c6f9-4b47-aa33-6aa3189a760e"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3664886086700",
+          "owners": [
+            {
+              "id": "cms6eudhz00m8utmk9t9o9zb6",
+              "name": "Framboise Cassis Mûre 50 ml - Vape City",
+              "isActive": false,
+              "sumupProductId": "bcba0bc3-c6f9-4b47-aa33-6aa3189a760e",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "framboise-cassis-mure-50-ml-vape-city-bcba0bc3"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxcfk004lutw4rrjxrpup",
+      "name": "Red Devil 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Red devil 100ml - avap",
+          "barcode": "3760075768539",
+          "id": "38bf2236-e6b6-45ac-b113-e5a1265765ea"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760075768539",
+          "owners": [
+            {
+              "id": "cms6euhlo01igutmkctqvl978",
+              "name": "Red devil 100ml - avap",
+              "isActive": false,
+              "sumupProductId": "38bf2236-e6b6-45ac-b113-e5a1265765ea",
+              "manufacturerId": "cms96d3x2002ruto8dwacr753",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "red-devil-100ml-avap-38bf2236"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxcw5004nutw4qnsas72n",
+      "name": "Mint & Dragon fruit 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Mint et dragon fruit 50ml - Mintaia",
+          "barcode": "3760202035626",
+          "id": "fcbd3cf9-1406-4c8e-a0a9-5e9691be73a8"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760202035626",
+          "owners": [
+            {
+              "id": "cms6euga30181utmk43pi050x",
+              "name": "Mint et dragon fruit 50ml - Mintaia",
+              "isActive": false,
+              "sumupProductId": "fcbd3cf9-1406-4c8e-a0a9-5e9691be73a8",
+              "manufacturerId": "cms96d7so002yuto83u8dk8xl",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mint-et-dragon-fruit-50ml-mintaia-fcbd3cf9"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96cva3000juto861bzosuz",
+      "name": "Senka",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms96cv9n000huto852mjfs8t",
+      "name": "Yuluma",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms96dg8g003quto89pjgiunm",
+      "name": "Café Frappé 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Big Kawa cafe frapper 50ml",
+          "barcode": "5407007436156",
+          "id": "1a6b5d29-e702-4f4e-a2ab-f6ee72a1894e"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "5407007436156",
+          "owners": [
+            {
+              "id": "cms6eubg80068utmkz0x8w0of",
+              "name": "Big Kawa cafe frapper 50ml",
+              "isActive": false,
+              "sumupProductId": "1a6b5d29-e702-4f4e-a2ab-f6ee72a1894e",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "big-kawa-cafe-frapper-50ml-1a6b5d29"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96dg8p003suto8n6icokt7",
+      "name": "Café Noisette 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Big Kawa cafe noisette 50ml",
+          "barcode": "5407007433414",
+          "id": "2359899a-4bac-4b5b-b230-58fb47f38b5c"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "5407007433414",
+          "owners": [
+            {
+              "id": "cms6eubgd0069utmks94bxixp",
+              "name": "Big Kawa cafe noisette 50ml",
+              "isActive": false,
+              "sumupProductId": "2359899a-4bac-4b5b-b230-58fb47f38b5c",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "big-kawa-cafe-noisette-50ml-2359899a"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96dg92003uuto8ct4u3tbj",
+      "name": "Café Caramel 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Big Kawa cafe Caramel 50ml",
+          "barcode": "5407007432646",
+          "id": "a585669e-a003-4bcb-8021-8e6a0d13c205"
+        },
+        {
+          "name": "Cafe glace caramel 50ml - crazy juice",
+          "barcode": "3662572903799",
+          "id": "94f7c5a1-388c-4ade-a4a0-8cb8e6784b77"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "5407007432646",
+          "owners": [
+            {
+              "id": "cms6eubg30067utmk9gq1112p",
+              "name": "Big Kawa cafe Caramel 50ml",
+              "isActive": false,
+              "sumupProductId": "a585669e-a003-4bcb-8021-8e6a0d13c205",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "big-kawa-cafe-caramel-50ml-a585669e"
+            }
+          ]
+        },
+        {
+          "barcode": "3662572903799",
+          "owners": [
+            {
+              "id": "cms6eubu9009dutmkpnlph1ag",
+              "name": "Cafe glace caramel 50ml - crazy juice",
+              "isActive": false,
+              "sumupProductId": "94f7c5a1-388c-4ade-a4a0-8cb8e6784b77",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "cafe-glace-caramel-50ml-crazy-juice-94f7c5a1"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms9gx9k6000hutw4iw8rdoba",
+      "name": "Force Violette 100 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Force violette force vape",
+          "barcode": "6410949831858",
+          "id": "551c4d61-0213-4278-b987-edd5d0e6c437"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "6410949831858",
+          "owners": [
+            {
+              "id": "cms6eudfo00lqutmk1trwcegw",
+              "name": "Force violette force vape",
+              "isActive": false,
+              "sumupProductId": "551c4d61-0213-4278-b987-edd5d0e6c437",
+              "manufacturerId": "cms96cusk0003uto86kxb7uvu",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "force-violette-force-vape-551c4d61"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gx9s9000nutw4af16auny",
+      "name": "Milo 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Milos 50ml - Aromes & secrets",
+          "barcode": "3701396857403",
+          "id": "4823940d-ecd6-487a-9231-64f1180f3ba7"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3701396857403",
+          "owners": [
+            {
+              "id": "cms6eug99017tutmk4rsaaj3g",
+              "name": "Milos 50ml - Aromes & secrets",
+              "isActive": false,
+              "sumupProductId": "4823940d-ecd6-487a-9231-64f1180f3ba7",
+              "manufacturerId": "cms96cvb7000kuto8691nkc4a",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "milos-50ml-aromes-secrets-4823940d"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gx9sp000putw44vlnkgd3",
+      "name": "Pyro 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9tg000tutw4ymtit729",
+      "name": "Candy 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "COLA LALA CANDY CO. VAPE MAKER 50ML",
+          "barcode": "",
+          "id": "42ae175a-6f62-43f9-8007-4f3b25a64373"
+        },
+        {
+          "name": "Colamoon Cosmic Candy 50ml",
+          "barcode": "3760379960882",
+          "id": "ffec5515-23a3-4a44-bb03-d62fcebd4a97"
+        },
+        {
+          "name": "FIZZYPPLE CANDY CO. VAPE MAKER 50ML",
+          "barcode": "",
+          "id": "7e2d548e-b906-491b-9603-a2786fec73e2"
+        },
+        {
+          "name": "Smily Candy 50ml Loly Yumy",
+          "barcode": "3701418839745",
+          "id": "86e9d86a-8a61-4569-9fd7-9db758b2910e"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760379960882",
+          "owners": [
+            {
+              "id": "cms6eucca00d3utmkquw1x7kt",
+              "name": "Colamoon Cosmic Candy 50ml",
+              "isActive": false,
+              "sumupProductId": "ffec5515-23a3-4a44-bb03-d62fcebd4a97",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "colamoon-cosmic-candy-50ml-1785349242869"
+            }
+          ]
+        },
+        {
+          "barcode": "3701418839745",
+          "owners": [
+            {
+              "id": "cms6euhyn01lbutmkwhbg1s48",
+              "name": "Smily Candy 50ml Loly Yumy",
+              "isActive": false,
+              "sumupProductId": "86e9d86a-8a61-4569-9fd7-9db758b2910e",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "smily-candy-50ml-loly-yumy-86e9d86a"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [
+        {
+          "id": "cms9gx9tz000vutw4idpu2oni",
+          "name": "Candy Gold Edition 50 ml",
+          "barcode": null,
+          "sumupProductId": null,
+          "volumeMl": 50,
+          "imageUrl": null
+        }
+      ],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms9gx9tz000vutw4idpu2oni",
+      "name": "Candy Gold Edition 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9ud000xutw4r882v2ss",
+      "name": "Xena 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9ur000zutw4muap1dwc",
+      "name": "Yumi 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9vz0015utw43lobsks0",
+      "name": "Lilya 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9we0017utw4r7t8uw6f",
+      "name": "Ruby 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9wt0019utw4irgbxyqa",
+      "name": "Vigo 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxa6o001futw4kdvzdeva",
+      "name": "Bisou Red 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "bisous red swoke",
+          "barcode": "6410948642790",
+          "id": "4f68be8b-af4b-4607-a0bf-16de6b82ed52"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "6410948642790",
+          "owners": [
+            {
+              "id": "cms6eujbs01uvutmkr4q6isnc",
+              "name": "bisous red swoke",
+              "isActive": false,
+              "sumupProductId": "4f68be8b-af4b-4607-a0bf-16de6b82ed52",
+              "manufacturerId": "cms96cusk0003uto86kxb7uvu",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "bisous-red-swoke-4f68be8b"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxa71001hutw4zvhltm60",
+      "name": "Bisou Black 50 ml",
+      "hasBarcode": false,
+      "hasSumup": true,
+      "sumupProductId": "bc584d4d-17eb-4f05-94de-b1005bfd0151",
+      "candidates": [
+        {
+          "name": "Bisou Black Swoke 50ml Swoke",
+          "barcode": "",
+          "id": "bc584d4d-17eb-4f05-94de-b1005bfd0151"
+        }
+      ],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxa7g001jutw43yc86w8j",
+      "name": "Bisou Yellow 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gxa7q001lutw470n0r7s6",
+      "name": "Bisou V2 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9t3000rutw4q9tu7bld",
+      "name": "Atlas 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms9gx9v40011utw4m964ureu",
+      "name": "Drago 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "BLOODY DRAGON XTRA FRESH ELIQUIDFRANCE FRUIZEE 50ML 00MG",
+          "barcode": "3760202004660",
+          "id": "ed8bd590-324c-49d4-aee8-141fddc7ff09"
+        },
+        {
+          "name": "Bloody Dragon 50ml - Fruizee by ELIQUID France",
+          "barcode": "",
+          "id": "4f84606d-d721-49eb-b6ab-a74037212142"
+        },
+        {
+          "name": "Cloud Vapor Dragon 50ml Kung Freeze",
+          "barcode": "3664726022561",
+          "id": "6f07d9dc-01ee-45f1-b753-43bdd3460730"
+        },
+        {
+          "name": "DRAGOO 50ml - les maxis malins",
+          "barcode": "3701418862422",
+          "id": "e937ead4-bfc3-42d6-89c6-498f0d2bee3e"
+        },
+        {
+          "name": "Deus Ex Machina 50ml - Fruit du dragon - Vap Air",
+          "barcode": "3760370649274",
+          "id": "69d21066-2c81-4075-8e2e-6911f5d88b86"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon cerise",
+          "barcode": "3701760600994",
+          "id": "487b5604-8696-4848-a033-6343c0acc1fc"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon fraise",
+          "barcode": "3701760601069",
+          "id": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon framboise",
+          "barcode": "3701760600666",
+          "id": "ae4de27a-4afc-407e-b244-5866da7196fd"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon limonade",
+          "barcode": "3760375111523",
+          "id": "8fec163c-48c0-4eaa-90b7-47f749b4e063"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon mandarine",
+          "barcode": "3701760601014",
+          "id": "765cc625-27bb-46c2-b6c2-6e92fab33feb"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon mure",
+          "barcode": "3701760601021",
+          "id": "40b75c8b-5ff2-49b9-ae01-1ad3434da1eb"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon passion",
+          "barcode": "3701760600673",
+          "id": "23b5ab3d-11e3-431a-aeb5-ff58b89ca406"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon peche",
+          "barcode": "3701760601007",
+          "id": "ba8a826b-a977-4543-9072-05c55fb7c94f"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon vanilla ice",
+          "barcode": "3760375111516",
+          "id": "fa2ab1af-7392-4bdf-a91e-fd5dc43d87ba"
+        },
+        {
+          "name": "Double dragon 50ml - fruit du dragon violette",
+          "barcode": "3701760600680",
+          "id": "8b2fed0c-9972-4a2e-b6df-90dbd21d39be"
+        },
+        {
+          "name": "Double dragons fruit du dragons vanille 50 ml",
+          "barcode": "",
+          "id": "c12ece7d-9e9e-4f4b-8a2c-fbaf9235055b"
+        },
+        {
+          "name": "Dragon 50ML - ENFER",
+          "barcode": "3701450403867",
+          "id": "63a02e14-6041-47c1-b0b4-149784a1a9a3"
+        },
+        {
+          "name": "Dragon Saiyen Vapors 50ml Swoke",
+          "barcode": "6379137083670",
+          "id": "3cb23356-5818-46d8-8d2e-fc3e335578a1"
+        },
+        {
+          "name": "Dragon cassis citron 50ml GlaGla",
+          "barcode": "5407007433780",
+          "id": "94fd66a7-6d9d-4f89-bcca-095d52a46f9d"
+        },
+        {
+          "name": "Dragon fraise 50ml - Fruizee Max",
+          "barcode": "3760202040644",
+          "id": "248a8ab2-6cee-4df3-b93f-def9510fdaeb"
+        },
+        {
+          "name": "Dragon fruits rouges 50ml - Fruizee Max",
+          "barcode": "3760202040651",
+          "id": "e84487cf-face-42ea-8e16-07662bc8b429"
+        },
+        {
+          "name": "Dragon menthe vert 50ml GlaGla",
+          "barcode": "5407007433759",
+          "id": "f9cd274e-5dc1-4120-bd57-3e87e82ef563"
+        },
+        {
+          "name": "Dragon rouge 50 ml Iceberg",
+          "barcode": "5407007433490",
+          "id": "bafde36b-e395-446d-b1a4-5f2fa8852678"
+        },
+        {
+          "name": "Drakora 50ml - Le bonbon fruit du dragon - Al-Kimiya",
+          "barcode": "3760349610878",
+          "id": "4ae31063-a416-42a9-a7a5-95403123f71b"
+        },
+        {
+          "name": "E-Tasty One Taste - Fruit Du Dragon 50ml",
+          "barcode": "3701418815251",
+          "id": "af56cb77-e6a1-4486-aaa1-b39e9aeb2bcd"
+        },
+        {
+          "name": "Framboise Bleue Fruit Du Dragon 50 ml - Vape City",
+          "barcode": "3664886086687",
+          "id": "43900121-00de-4df5-ab33-999a0ea1e790"
+        },
+        {
+          "name": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+          "barcode": "3701760601427",
+          "id": "c0190fa0-be86-4f2c-97ca-7c6656e416a0"
+        },
+        {
+          "name": "Fruit du Dragon Jaune Framboise bleue  50ml - Frais -  Le Petit Verger",
+          "barcode": "3701396844632",
+          "id": "c2b6706c-5d11-480d-b4df-72dbe81e0125"
+        },
+        {
+          "name": "Fruit du dragon Fruits rouges 50ml Le Petit Verger",
+          "barcode": "3701396838365",
+          "id": "9f91da8f-73eb-4bb5-93a6-bc1a49720660"
+        },
+        {
+          "name": "Fruit du dragon grenade 50 ml Iceberg",
+          "barcode": "5407007433513",
+          "id": "96948516-1bb5-4418-bb54-14b28e595df5"
+        },
+        {
+          "name": "Fruit du dragon jaune Framboise Bleue 50ml Le Petit Verger",
+          "barcode": "3701396843406",
+          "id": "a3edc9f5-2041-4961-bccf-1183de6a418d"
+        },
+        {
+          "name": "Granita soft fraise fruit du dragon 50ml - Alfa liquid",
+          "barcode": "3662572946253",
+          "id": "dc145e01-afd4-4438-aebd-8a9ffc05f125"
+        },
+        {
+          "name": "Ice Cool Cactus Aloe Vera & Fruit du Dragon 50 ml",
+          "barcode": "3760316564203",
+          "id": "1f6fc192-5b1e-42c4-b405-284ca9946310"
+        },
+        {
+          "name": "Le dragon d enfer 50ml - Enfer",
+          "barcode": "3701450406462",
+          "id": "6ee30221-873f-4412-a81b-d71b25787cba"
+        },
+        {
+          "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du dragon Fruits rouges - 50 ml",
+          "barcode": "3760316561233",
+          "id": "874d773d-c541-4abf-8bef-b7cec67ffcd9"
+        },
+        {
+          "name": "Liquideo Dragon Mangue Cassis 50 Ml - Dragonzz",
+          "barcode": "3663159308372",
+          "id": "49f861ab-0b17-4cb7-96e8-305b3f02a90e"
+        },
+        {
+          "name": "Liquideo Dragon Myrtille Framboise 50 Ml - Dragonzz",
+          "barcode": "3663159308358",
+          "id": "54b7c2b8-a51b-4d0d-89c9-48edb8effc55"
+        },
+        {
+          "name": "Liquideo Dragon fruits rouges 50 Ml - Dragonzz",
+          "barcode": "3663159308365",
+          "id": "751ee292-7380-4431-aaf1-9f09e195ef24"
+        },
+        {
+          "name": "Mint et dragon fruit 50ml - Mintaia",
+          "barcode": "3760202035626",
+          "id": "fcbd3cf9-1406-4c8e-a0a9-5e9691be73a8"
+        },
+        {
+          "name": "Miss blue fruit du dragon givre 50ml",
+          "barcode": "3760316569468",
+          "id": "ab64a28d-a6e7-49f8-bd41-fd71fab119ac"
+        },
+        {
+          "name": "Nectarine Fruit Du Dragon 50ml Le Petit Verger",
+          "barcode": "3701396819579",
+          "id": "de535b41-f1b8-473a-a522-fe0ade77d07d"
+        },
+        {
+          "name": "Nectarine Fruit du Dragon 50ml - Frais - Le Petit Verger",
+          "barcode": "3701396842669",
+          "id": "0207f5c2-1626-487f-9b05-03a9fb0a4c01"
+        },
+        {
+          "name": "Peche fruit du dragon 50ml - crazy juice",
+          "barcode": "3662572330908",
+          "id": "fcc96948-f58c-462d-b37a-d3cb6e39866e"
+        },
+        {
+          "name": "Protect la libellules limonade fruit du dragon",
+          "barcode": "3760365433338",
+          "id": "9ec744b7-15cd-4830-8758-bf89197ed896"
+        },
+        {
+          "name": "T-Juice - Dragon energy 50ml",
+          "barcode": "9509749191662",
+          "id": "763ba352-aaf9-46c5-9975-788c9349be5c"
+        },
+        {
+          "name": "The Dragon Secret Garden Secrets Lab 50ml 00mg",
+          "barcode": "3760379962275",
+          "id": "1311fae0-b9df-45c1-acf7-5fd38cd4ddda"
+        },
+        {
+          "name": "drago omg 50 ml - the MDS juice",
+          "barcode": "1826200340871",
+          "id": "99737699-e8ec-495d-90f9-3ea4b8949046"
+        },
+        {
+          "name": "dragon blast hellfest 50ml - cloud vapor",
+          "barcode": "3664726027207",
+          "id": "11917eea-819d-4ed3-a372-336ff8ce253d"
+        },
+        {
+          "name": "mexican cartel 50 ML fruit du dragon fraise mure",
+          "barcode": "3701760600239",
+          "id": "6853c0c4-e596-4b95-92ff-a7ed52fa675e"
+        },
+        {
+          "name": "protect nectarine fruit du dragon 50ml",
+          "barcode": "3760365431150",
+          "id": "7b677526-f30e-44f7-bd36-9aeb66272d6f"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "3760202004660",
+          "owners": [
+            {
+              "id": "cms6eub9v004putmky86a86l0",
+              "name": "BLOODY DRAGON XTRA FRESH ELIQUIDFRANCE FRUIZEE 50ML 00MG",
+              "isActive": false,
+              "sumupProductId": "ed8bd590-324c-49d4-aee8-141fddc7ff09",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "bloody-dragon-xtra-fresh-eliquidfrance-fruizee-50ml-00mg-1785349241485"
+            }
+          ]
+        },
+        {
+          "barcode": "3664726022561",
+          "owners": [
+            {
+              "id": "cms6euc9000cgutmk3oqfi8cz",
+              "name": "Cloud Vapor Dragon 50ml Kung Freeze",
+              "isActive": false,
+              "sumupProductId": "6f07d9dc-01ee-45f1-b753-43bdd3460730",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "cloud-vapor-dragon-50ml-kung-freeze-6f07d9dc"
+            }
+          ]
+        },
+        {
+          "barcode": "3701418862422",
+          "owners": [
+            {
+              "id": "cms6euck400eputmkrifv5i2x",
+              "name": "DRAGOO 50ml - les maxis malins",
+              "isActive": false,
+              "sumupProductId": "e937ead4-bfc3-42d6-89c6-498f0d2bee3e",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "dragoo-50ml-les-maxis-malins-e937ead4"
+            }
+          ]
+        },
+        {
+          "barcode": "3760370649274",
+          "owners": [
+            {
+              "id": "cms6eucp000frutmk3golfmcg",
+              "name": "Deus Ex Machina 50ml - Fruit du dragon - Vap Air",
+              "isActive": false,
+              "sumupProductId": "69d21066-2c81-4075-8e2e-6911f5d88b86",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "deus-ex-machina-50ml-fruit-du-dragon-vap-air-69d21066"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600994",
+          "owners": [
+            {
+              "id": "cms6euct600gkutmkr6qwsm8f",
+              "name": "Double dragon 50ml - fruit du dragon cerise",
+              "isActive": true,
+              "sumupProductId": "487b5604-8696-4848-a033-6343c0acc1fc",
+              "manufacturerId": "cms6nxppx0000utv8f0xj2c10",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-cerise.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-cerise"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760601069",
+          "owners": [
+            {
+              "id": "cms6euctc00glutmk1uitza0l",
+              "name": "Double dragon 50ml - fruit du dragon fraise",
+              "isActive": true,
+              "sumupProductId": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-fraise"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600666",
+          "owners": [
+            {
+              "id": "cms6eucth00gmutmki5lj2tpe",
+              "name": "Double dragon 50ml - fruit du dragon framboise",
+              "isActive": true,
+              "sumupProductId": "ae4de27a-4afc-407e-b244-5866da7196fd",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-framboise.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-framboise"
+            }
+          ]
+        },
+        {
+          "barcode": "3760375111523",
+          "owners": [
+            {
+              "id": "cms6eucto00gnutmkd39xrtow",
+              "name": "Double dragon 50ml - fruit du dragon limonade",
+              "isActive": true,
+              "sumupProductId": "8fec163c-48c0-4eaa-90b7-47f749b4e063",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-limonade.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-limonade"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760601014",
+          "owners": [
+            {
+              "id": "cms6euctt00goutmkypkix4j3",
+              "name": "Double dragon 50ml - fruit du dragon mandarine",
+              "isActive": true,
+              "sumupProductId": "765cc625-27bb-46c2-b6c2-6e92fab33feb",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mandarine.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-mandarine"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760601021",
+          "owners": [
+            {
+              "id": "cms6euctz00gputmkfvre4opv",
+              "name": "Double dragon 50ml - fruit du dragon mure",
+              "isActive": true,
+              "sumupProductId": "40b75c8b-5ff2-49b9-ae01-1ad3434da1eb",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mure.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-mure"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600673",
+          "owners": [
+            {
+              "id": "cms6eucu600gqutmkbowomhjf",
+              "name": "Double dragon 50ml - fruit du dragon passion",
+              "isActive": true,
+              "sumupProductId": "23b5ab3d-11e3-431a-aeb5-ff58b89ca406",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-passion.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-passion"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760601007",
+          "owners": [
+            {
+              "id": "cms6eucub00grutmku8oswk4i",
+              "name": "Double dragon 50ml - fruit du dragon peche",
+              "isActive": true,
+              "sumupProductId": "ba8a826b-a977-4543-9072-05c55fb7c94f",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-peche.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-peche"
+            }
+          ]
+        },
+        {
+          "barcode": "3760375111516",
+          "owners": [
+            {
+              "id": "cms6eucui00gsutmklkymi1xy",
+              "name": "Double dragon 50ml - fruit du dragon vanilla ice",
+              "isActive": true,
+              "sumupProductId": "fa2ab1af-7392-4bdf-a91e-fd5dc43d87ba",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-vanille.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-vanille"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600680",
+          "owners": [
+            {
+              "id": "cms6eucun00gtutmktzfb3z12",
+              "name": "Double dragon 50ml - fruit du dragon violette",
+              "isActive": true,
+              "sumupProductId": "8b2fed0c-9972-4a2e-b6df-90dbd21d39be",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-violette.webp",
+              "slug": "double-dragon-50ml-fruit-du-dragon-violette"
+            }
+          ]
+        },
+        {
+          "barcode": "3701450403867",
+          "owners": [
+            {
+              "id": "cms6eucvb00gxutmka3cu0lhw",
+              "name": "Dragon 50ML - ENFER",
+              "isActive": true,
+              "sumupProductId": "63a02e14-6041-47c1-b0b4-149784a1a9a3",
+              "manufacturerId": "cms6l07qn000eutvwgcbf75sj",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/vape-47/dragon-50ml-enfer-63a02e14.webp",
+              "slug": "dragon-50ml-enfer-63a02e14"
+            }
+          ]
+        },
+        {
+          "barcode": "6379137083670",
+          "owners": [
+            {
+              "id": "cms6eucvl00gzutmkqqnjoqih",
+              "name": "Dragon Saiyen Vapors 50ml Swoke",
+              "isActive": false,
+              "sumupProductId": "3cb23356-5818-46d8-8d2e-fc3e335578a1",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "dragon-saiyen-vapors-50ml-swoke-1785349243564"
+            }
+          ]
+        },
+        {
+          "barcode": "5407007433780",
+          "owners": [
+            {
+              "id": "cms6eucw300h3utmkod3z1nz2",
+              "name": "Dragon cassis citron 50ml GlaGla",
+              "isActive": true,
+              "sumupProductId": "94fd66a7-6d9d-4f89-bcca-095d52a46f9d",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "dragon-cassis-citron-50ml-glagla-94fd66a7"
+            }
+          ]
+        },
+        {
+          "barcode": "3760202040644",
+          "owners": [
+            {
+              "id": "cms6eucwg00h5utmkuj1u4pn0",
+              "name": "Dragon fraise 50ml - Fruizee Max",
+              "isActive": false,
+              "sumupProductId": "248a8ab2-6cee-4df3-b93f-def9510fdaeb",
+              "manufacturerId": "cms96d7so002yuto83u8dk8xl",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "dragon-fraise-50ml-fruizee-max-248a8ab2"
+            }
+          ]
+        },
+        {
+          "barcode": "3760202040651",
+          "owners": [
+            {
+              "id": "cms6eucwl00h6utmkapohadg0",
+              "name": "Dragon fruits rouges 50ml - Fruizee Max",
+              "isActive": false,
+              "sumupProductId": "e84487cf-face-42ea-8e16-07662bc8b429",
+              "manufacturerId": "cms96d7so002yuto83u8dk8xl",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "dragon-fruits-rouges-50ml-fruizee-max-e84487cf"
+            }
+          ]
+        },
+        {
+          "barcode": "5407007433759",
+          "owners": [
+            {
+              "id": "cms6eucwt00h7utmkg0buhsri",
+              "name": "Dragon menthe vert 50ml GlaGla",
+              "isActive": true,
+              "sumupProductId": "f9cd274e-5dc1-4120-bd57-3e87e82ef563",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "dragon-menthe-vert-50ml-glagla-f9cd274e"
+            }
+          ]
+        },
+        {
+          "barcode": "5407007433490",
+          "owners": [
+            {
+              "id": "cms6eucwz00h8utmkl1cqqf3h",
+              "name": "Dragon rouge 50 ml Iceberg",
+              "isActive": true,
+              "sumupProductId": "bafde36b-e395-446d-b1a4-5f2fa8852678",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "dragon-rouge-50-ml-iceberg-bafde36b"
+            }
+          ]
+        },
+        {
+          "barcode": "3760349610878",
+          "owners": [
+            {
+              "id": "cms6eucxb00hautmkwz0ucubv",
+              "name": "Drakora 50ml - Le bonbon fruit du dragon - Al-Kimiya",
+              "isActive": false,
+              "sumupProductId": "4ae31063-a416-42a9-a7a5-95403123f71b",
+              "manufacturerId": "cms6l07qy000iutvwl04cb1s1",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "drakora-50ml-le-bonbon-fruit-du-dragon-al-kimiya-4ae31063"
+            }
+          ]
+        },
+        {
+          "barcode": "3701418815251",
+          "owners": [
+            {
+              "id": "cms6eud1m00i7utmkkjxa7mta",
+              "name": "E-Tasty One Taste - Fruit Du Dragon 50ml",
+              "isActive": true,
+              "sumupProductId": "af56cb77-e6a1-4486-aaa1-b39e9aeb2bcd",
+              "manufacturerId": "cms6nxppx0000utv8f0xj2c10",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/e-tasty/one-taste/50ml/e-tasty-one-taste-fruit-du-dragon-50ml-af56cb77.webp",
+              "slug": "e-tasty-one-taste-fruit-du-dragon-50ml-af56cb77"
+            }
+          ]
+        },
+        {
+          "barcode": "3664886086687",
+          "owners": [
+            {
+              "id": "cms6eudhu00m7utmk52vtvhhj",
+              "name": "Framboise Bleue Fruit Du Dragon 50 ml - Vape City",
+              "isActive": false,
+              "sumupProductId": "43900121-00de-4df5-ab33-999a0ea1e790",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "framboise-bleue-fruit-du-dragon-50-ml-vape-city-43900121"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760601427",
+          "owners": [
+            {
+              "id": "cms6eudn600nlutmkq9tof08r",
+              "name": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+              "isActive": true,
+              "sumupProductId": "c0190fa0-be86-4f2c-97ca-7c6656e416a0",
+              "manufacturerId": "cms6l07py0005utvwtzadxgq5",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/satan-ananas.webp",
+              "slug": "le-fruit-defendu-50ml-satan-ananas"
+            }
+          ]
+        },
+        {
+          "barcode": "3701396844632",
+          "owners": [
+            {
+              "id": "cms6eudo200nsutmks8q0fh1o",
+              "name": "Fruit du Dragon Jaune Framboise bleue  50ml - Frais -  Le Petit Verger",
+              "isActive": false,
+              "sumupProductId": "c2b6706c-5d11-480d-b4df-72dbe81e0125",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "fruit-du-dragon-jaune-framboise-bleue-50ml-frais-le-petit-verger-c2b6706c"
+            }
+          ]
+        },
+        {
+          "barcode": "3701396838365",
+          "owners": [
+            {
+              "id": "cms6eudp500o0utmk1jyh7gxy",
+              "name": "Fruit du dragon Fruits rouges 50ml Le Petit Verger",
+              "isActive": false,
+              "sumupProductId": "9f91da8f-73eb-4bb5-93a6-bc1a49720660",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "fruit-du-dragon-fruits-rouges-50ml-le-petit-verger-9f91da8f"
+            }
+          ]
+        },
+        {
+          "barcode": "5407007433513",
+          "owners": [
+            {
+              "id": "cms6eudp900o1utmkjy4jv3kw",
+              "name": "Fruit du dragon grenade 50 ml Iceberg",
+              "isActive": true,
+              "sumupProductId": "96948516-1bb5-4418-bb54-14b28e595df5",
+              "manufacturerId": "cms6l07qb0009utvw1ytmf9ve",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "fruit-du-dragon-grenade-50-ml-iceberg-96948516"
+            }
+          ]
+        },
+        {
+          "barcode": "3701396843406",
+          "owners": [
+            {
+              "id": "cms6eudpd00o2utmk8ph498ct",
+              "name": "Fruit du dragon jaune Framboise Bleue 50ml Le Petit Verger",
+              "isActive": false,
+              "sumupProductId": "a3edc9f5-2041-4961-bccf-1183de6a418d",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "fruit-du-dragon-jaune-framboise-bleue-50ml-le-petit-verger-a3edc9f5"
+            }
+          ]
+        },
+        {
+          "barcode": "3662572946253",
+          "owners": [
+            {
+              "id": "cms6eue7800rwutmkjr42burq",
+              "name": "Granita soft fraise fruit du dragon 50ml - Alfa liquid",
+              "isActive": false,
+              "sumupProductId": "dc145e01-afd4-4438-aebd-8a9ffc05f125",
+              "manufacturerId": "cms96dgex0045uto84eg2wu08",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "granita-soft-fraise-fruit-du-dragon-50ml-alfa-liquid-dc145e01"
+            }
+          ]
+        },
+        {
+          "barcode": "3760316564203",
+          "owners": [
+            {
+              "id": "cms6eueg000u2utmk1rosbklu",
+              "name": "Ice Cool Cactus Aloe Vera & Fruit du Dragon 50 ml",
+              "isActive": false,
+              "sumupProductId": "1f6fc192-5b1e-42c4-b405-284ca9946310",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "ice-cool-cactus-aloe-vera-fruit-du-dragon-50-ml-1f6fc192"
+            }
+          ]
+        },
+        {
+          "barcode": "3701450406462",
+          "owners": [
+            {
+              "id": "cms6eufb8010sutmkl4xr1rlp",
+              "name": "Le dragon d enfer 50ml - Enfer",
+              "isActive": true,
+              "sumupProductId": "6ee30221-873f-4412-a81b-d71b25787cba",
+              "manufacturerId": "cms6l07qn000eutvwgcbf75sj",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/vape-47/le-dragon-d-enfer-50ml-enfer-6ee30221.webp",
+              "slug": "le-dragon-d-enfer-50ml-enfer-6ee30221"
+            }
+          ]
+        },
+        {
+          "barcode": "3760316561233",
+          "owners": [
+            {
+              "id": "cms6eueh400uautmkm4nxf16x",
+              "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du dragon Fruits rouges - 50 ml",
+              "isActive": true,
+              "sumupProductId": "874d773d-c541-4abf-8bef-b7cec67ffcd9",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": 50,
+              "imageUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-dragon-fruits-rouges.webp",
+              "slug": "ice-cool-fruit-du-dragon-fruits-rouges-50ml-874d773d"
+            }
+          ]
+        },
+        {
+          "barcode": "3663159308372",
+          "owners": [
+            {
+              "id": "cms6eufex011iutmki77wazyy",
+              "name": "Liquideo Dragon Mangue Cassis 50 Ml - Dragonzz",
+              "isActive": false,
+              "sumupProductId": "49f861ab-0b17-4cb7-96e8-305b3f02a90e",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "liquideo-dragon-mangue-cassis-50-ml-dragonzz-49f861ab"
+            }
+          ]
+        },
+        {
+          "barcode": "3663159308358",
+          "owners": [
+            {
+              "id": "cms6euff2011jutmk3zkj4qpj",
+              "name": "Liquideo Dragon Myrtille Framboise 50 Ml - Dragonzz",
+              "isActive": false,
+              "sumupProductId": "54b7c2b8-a51b-4d0d-89c9-48edb8effc55",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "liquideo-dragon-myrtille-framboise-50-ml-dragonzz-54b7c2b8"
+            }
+          ]
+        },
+        {
+          "barcode": "3663159308365",
+          "owners": [
+            {
+              "id": "cms6euff7011kutmkejpatx22",
+              "name": "Liquideo Dragon fruits rouges 50 Ml - Dragonzz",
+              "isActive": false,
+              "sumupProductId": "751ee292-7380-4431-aaf1-9f09e195ef24",
+              "manufacturerId": "cms6l07q30006utvwh7iel2cj",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "liquideo-dragon-fruits-rouges-50-ml-dragonzz-751ee292"
+            }
+          ]
+        },
+        {
+          "barcode": "3760202035626",
+          "owners": [
+            {
+              "id": "cms6euga30181utmk43pi050x",
+              "name": "Mint et dragon fruit 50ml - Mintaia",
+              "isActive": false,
+              "sumupProductId": "fcbd3cf9-1406-4c8e-a0a9-5e9691be73a8",
+              "manufacturerId": "cms96d7so002yuto83u8dk8xl",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mint-et-dragon-fruit-50ml-mintaia-fcbd3cf9"
+            }
+          ]
+        },
+        {
+          "barcode": "3760316569468",
+          "owners": [
+            {
+              "id": "cms6eugam0185utmkewpfnlcu",
+              "name": "Miss blue fruit du dragon givre 50ml",
+              "isActive": false,
+              "sumupProductId": "ab64a28d-a6e7-49f8-bd41-fd71fab119ac",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "miss-blue-fruit-du-dragon-givre-50ml-ab64a28d"
+            }
+          ]
+        },
+        {
+          "barcode": "3701396819579",
+          "owners": [
+            {
+              "id": "cms6eugh2019jutmkcksa7v2m",
+              "name": "Nectarine Fruit Du Dragon 50ml Le Petit Verger",
+              "isActive": false,
+              "sumupProductId": "de535b41-f1b8-473a-a522-fe0ade77d07d",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "nectarine-fruit-du-dragon-50ml-le-petit-verger-de535b41"
+            }
+          ]
+        },
+        {
+          "barcode": "3701396842669",
+          "owners": [
+            {
+              "id": "cms6eugh6019kutmkey2spl2d",
+              "name": "Nectarine Fruit du Dragon 50ml - Frais - Le Petit Verger",
+              "isActive": false,
+              "sumupProductId": "0207f5c2-1626-487f-9b05-03a9fb0a4c01",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "nectarine-fruit-du-dragon-50ml-frais-le-petit-verger-0207f5c2"
+            }
+          ]
+        },
+        {
+          "barcode": "3662572330908",
+          "owners": [
+            {
+              "id": "cms6eugyl01djutmkpxjlkf4r",
+              "name": "Peche fruit du dragon 50ml - crazy juice",
+              "isActive": false,
+              "sumupProductId": "fcc96948-f58c-462d-b37a-d3cb6e39866e",
+              "manufacturerId": "cms96cyij001futo83pc5xgfd",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "peche-fruit-du-dragon-50ml-crazy-juice-fcc96948"
+            }
+          ]
+        },
+        {
+          "barcode": "3760365433338",
+          "owners": [
+            {
+              "id": "cms6euh9m01fxutmkhpeg3sqs",
+              "name": "Protect la libellules limonade fruit du dragon",
+              "isActive": false,
+              "sumupProductId": "9ec744b7-15cd-4830-8758-bf89197ed896",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "protect-la-libellules-limonade-fruit-du-dragon-9ec744b7"
+            }
+          ]
+        },
+        {
+          "barcode": "9509749191662",
+          "owners": [
+            {
+              "id": "cms6eui8501n8utmkrjgl21e7",
+              "name": "T-Juice - Dragon energy 50ml",
+              "isActive": false,
+              "sumupProductId": "763ba352-aaf9-46c5-9975-788c9349be5c",
+              "manufacturerId": "cms6l07qm000dutvwkokfc016",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "t-juice-dragon-energy-50ml-763ba352"
+            }
+          ]
+        },
+        {
+          "barcode": "3760379962275",
+          "owners": [
+            {
+              "id": "cms6euicu01o1utmkqjtz0wl0",
+              "name": "The Dragon Secret Garden Secrets Lab 50ml 00mg",
+              "isActive": false,
+              "sumupProductId": "1311fae0-b9df-45c1-acf7-5fd38cd4ddda",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "the-dragon-secret-garden-secrets-lab-50ml-00mg-1311fae0"
+            }
+          ]
+        },
+        {
+          "barcode": "1826200340871",
+          "owners": [
+            {
+              "id": "cms6eujd401v4utmkcxj5odlb",
+              "name": "drago omg 50 ml - the MDS juice",
+              "isActive": false,
+              "sumupProductId": "99737699-e8ec-495d-90f9-3ea4b8949046",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "drago-omg-50-ml-the-mds-juice-99737699"
+            }
+          ]
+        },
+        {
+          "barcode": "3664726027207",
+          "owners": [
+            {
+              "id": "cms6eujda01v5utmk02z6xk8b",
+              "name": "dragon blast hellfest 50ml - cloud vapor",
+              "isActive": false,
+              "sumupProductId": "11917eea-819d-4ed3-a372-336ff8ce253d",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "dragon-blast-hellfest-50ml-cloud-vapor-11917eea"
+            }
+          ]
+        },
+        {
+          "barcode": "3701760600239",
+          "owners": [
+            {
+              "id": "cms6eujfm01vlutmkmqkzrcrk",
+              "name": "mexican cartel 50 ML fruit du dragon fraise mure",
+              "isActive": false,
+              "sumupProductId": "6853c0c4-e596-4b95-92ff-a7ed52fa675e",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "mexican-cartel-50-ml-fruit-du-dragon-fraise-mure-6853c0c4"
+            }
+          ]
+        },
+        {
+          "barcode": "3760365431150",
+          "owners": [
+            {
+              "id": "cms6eujjk01wcutmkbdkz6mck",
+              "name": "protect nectarine fruit du dragon 50ml",
+              "isActive": false,
+              "sumupProductId": "7b677526-f30e-44f7-bd36-9aeb66272d6f",
+              "manufacturerId": null,
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "protect-nectarine-fruit-du-dragon-50ml-7b677526"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [
+        {
+          "id": "cms6euct600gkutmkr6qwsm8f",
+          "name": "Double dragon 50ml - fruit du dragon cerise",
+          "barcode": "3701760600994",
+          "sumupProductId": "487b5604-8696-4848-a033-6343c0acc1fc",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-cerise.webp"
+        },
+        {
+          "id": "cms6euctc00glutmk1uitza0l",
+          "name": "Double dragon 50ml - fruit du dragon fraise",
+          "barcode": "3701760601069",
+          "sumupProductId": "bcb6e342-a1ac-4cbe-a0f7-cdc181b6a4d4",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp"
+        },
+        {
+          "id": "cms6eucth00gmutmki5lj2tpe",
+          "name": "Double dragon 50ml - fruit du dragon framboise",
+          "barcode": "3701760600666",
+          "sumupProductId": "ae4de27a-4afc-407e-b244-5866da7196fd",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-framboise.webp"
+        },
+        {
+          "id": "cms6eucto00gnutmkd39xrtow",
+          "name": "Double dragon 50ml - fruit du dragon limonade",
+          "barcode": "3760375111523",
+          "sumupProductId": "8fec163c-48c0-4eaa-90b7-47f749b4e063",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-limonade.webp"
+        },
+        {
+          "id": "cms6euctt00goutmkypkix4j3",
+          "name": "Double dragon 50ml - fruit du dragon mandarine",
+          "barcode": "3701760601014",
+          "sumupProductId": "765cc625-27bb-46c2-b6c2-6e92fab33feb",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mandarine.webp"
+        },
+        {
+          "id": "cms6euctz00gputmkfvre4opv",
+          "name": "Double dragon 50ml - fruit du dragon mure",
+          "barcode": "3701760601021",
+          "sumupProductId": "40b75c8b-5ff2-49b9-ae01-1ad3434da1eb",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-mure.webp"
+        },
+        {
+          "id": "cms6eucu600gqutmkbowomhjf",
+          "name": "Double dragon 50ml - fruit du dragon passion",
+          "barcode": "3701760600673",
+          "sumupProductId": "23b5ab3d-11e3-431a-aeb5-ff58b89ca406",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-passion.webp"
+        },
+        {
+          "id": "cms6eucub00grutmku8oswk4i",
+          "name": "Double dragon 50ml - fruit du dragon peche",
+          "barcode": "3701760601007",
+          "sumupProductId": "ba8a826b-a977-4543-9072-05c55fb7c94f",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-peche.webp"
+        },
+        {
+          "id": "cms6eucui00gsutmklkymi1xy",
+          "name": "Double dragon 50ml - fruit du dragon vanilla ice",
+          "barcode": "3760375111516",
+          "sumupProductId": "fa2ab1af-7392-4bdf-a91e-fd5dc43d87ba",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-vanille.webp"
+        },
+        {
+          "id": "cms6eucun00gtutmktzfb3z12",
+          "name": "Double dragon 50ml - fruit du dragon violette",
+          "barcode": "3701760600680",
+          "sumupProductId": "8b2fed0c-9972-4a2e-b6df-90dbd21d39be",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-violette.webp"
+        },
+        {
+          "id": "cms6eucvb00gxutmka3cu0lhw",
+          "name": "Dragon 50ML - ENFER",
+          "barcode": "3701450403867",
+          "sumupProductId": "63a02e14-6041-47c1-b0b4-149784a1a9a3",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/vape-47/dragon-50ml-enfer-63a02e14.webp"
+        },
+        {
+          "id": "cms6eucw300h3utmkod3z1nz2",
+          "name": "Dragon cassis citron 50ml GlaGla",
+          "barcode": "5407007433780",
+          "sumupProductId": "94fd66a7-6d9d-4f89-bcca-095d52a46f9d",
+          "volumeMl": 50,
+          "imageUrl": null
+        },
+        {
+          "id": "cms6eucwt00h7utmkg0buhsri",
+          "name": "Dragon menthe vert 50ml GlaGla",
+          "barcode": "5407007433759",
+          "sumupProductId": "f9cd274e-5dc1-4120-bd57-3e87e82ef563",
+          "volumeMl": 50,
+          "imageUrl": null
+        },
+        {
+          "id": "cms6eucwz00h8utmkl1cqqf3h",
+          "name": "Dragon rouge 50 ml Iceberg",
+          "barcode": "5407007433490",
+          "sumupProductId": "bafde36b-e395-446d-b1a4-5f2fa8852678",
+          "volumeMl": 50,
+          "imageUrl": null
+        },
+        {
+          "id": "cms6eud1m00i7utmkkjxa7mta",
+          "name": "E-Tasty One Taste - Fruit Du Dragon 50ml",
+          "barcode": "3701418815251",
+          "sumupProductId": "af56cb77-e6a1-4486-aaa1-b39e9aeb2bcd",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/e-tasty/one-taste/50ml/e-tasty-one-taste-fruit-du-dragon-50ml-af56cb77.webp"
+        },
+        {
+          "id": "cms6eudn600nlutmkq9tof08r",
+          "name": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+          "barcode": "3701760601427",
+          "sumupProductId": "c0190fa0-be86-4f2c-97ca-7c6656e416a0",
+          "volumeMl": 50,
+          "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/satan-ananas.webp"
+        },
+        {
+          "id": "cms6eudp900o1utmkjy4jv3kw",
+          "name": "Fruit du dragon grenade 50 ml Iceberg",
+          "barcode": "5407007433513",
+          "sumupProductId": "96948516-1bb5-4418-bb54-14b28e595df5",
+          "volumeMl": 50,
+          "imageUrl": null
+        }
+      ],
+      "recommendation": "MULTI_EAN"
+    },
+    {
+      "productId": "cms9gx9vi0013utw4hund92s9",
+      "name": "Frost 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Juice 66 - Frost - 50 ml",
+          "barcode": "667619831144",
+          "id": "041c5a27-38da-4d07-9181-0ba9ff5a639d"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "667619831144",
+          "owners": [
+            {
+              "id": "cms6eudkn00mtutmkitntq894",
+              "name": "Juice 66 - Frost - 50 ml",
+              "isActive": true,
+              "sumupProductId": "041c5a27-38da-4d07-9181-0ba9ff5a639d",
+              "manufacturerId": "cms6l07qy000iutvwl04cb1s1",
+              "volumeMl": 50,
+              "imageUrl": null,
+              "slug": "frost-0mg-100ml-icebreak-by-juice-66-041c5a27"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [
+        {
+          "id": "cms6eudkn00mtutmkitntq894",
+          "name": "Juice 66 - Frost - 50 ml",
+          "barcode": "667619831144",
+          "sumupProductId": "041c5a27-38da-4d07-9181-0ba9ff5a639d",
+          "volumeMl": 50,
+          "imageUrl": null
+        }
+      ],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms9gxa6b001dutw4rqovwy0p",
+      "name": "Bisou Pink 50 ml",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [
+        {
+          "name": "Bisou pink swoke",
+          "barcode": "6410945358588",
+          "id": "ac1a927b-42ae-4d72-a2f5-34e93496f995"
+        }
+      ],
+      "barcodeOwners": [
+        {
+          "barcode": "6410945358588",
+          "owners": [
+            {
+              "id": "cms6eubh6006gutmk6geihyc7",
+              "name": "Bisou pink swoke",
+              "isActive": false,
+              "sumupProductId": "ac1a927b-42ae-4d72-a2f5-34e93496f995",
+              "manufacturerId": "cms96cusk0003uto86kxb7uvu",
+              "volumeMl": null,
+              "imageUrl": null,
+              "slug": "bisou-pink-swoke-ac1a927b"
+            }
+          ]
+        }
+      ],
+      "nearDuplicates": [],
+      "recommendation": "DOUBLON: EAN déjà sur autre fiche — fusionner/désactiver la fiche sans EAN après validation manuelle"
+    },
+    {
+      "productId": "cms96cuxg000duto8hhncr475",
+      "name": "Force Verte",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    },
+    {
+      "productId": "cms96dhnv004wuto8813gy228",
+      "name": "Sour Sorbet",
+      "hasBarcode": false,
+      "hasSumup": false,
+      "sumupProductId": null,
+      "candidates": [],
+      "barcodeOwners": [],
+      "nearDuplicates": [],
+      "recommendation": "PAS_EAN_SUMUP"
+    }
+  ]
+}

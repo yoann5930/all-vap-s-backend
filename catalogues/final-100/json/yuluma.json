@@ -1,0 +1,19 @@
+{
+  "productId": "cms96cv9n000huto852mjfs8t",
+  "catalogName": "Yuluma",
+  "name": "Yuluma",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "formatMl": null,
+  "nicotine": null,
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": null,
+  "missingFields": [
+    "ean",
+    "format",
+    "nicotine",
+    "photo"
+  ],
+  "complete": false
+}

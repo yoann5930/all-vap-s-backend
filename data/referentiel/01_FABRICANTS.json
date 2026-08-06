@@ -1,0 +1,372 @@
+{
+  "date": "2026-07-29T22:35:16.752Z",
+  "total": 16,
+  "verifie": 5,
+  "partiel": 6,
+  "aVerifier": 5,
+  "items": [
+    {
+      "id": "MFR-biarritz_lab",
+      "nom": "Biarritz Lab",
+      "slug": "biarritz-lab",
+      "slugDossier": "Biarritz_Lab",
+      "site": "https://biarritz-lab.com/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Mamita",
+        "Double Dragon",
+        "Le Fruit Défendu",
+        "NEON JUICE",
+        "Fruits and Fun"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 12,
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "dossierLocal": "Biarritz_Lab",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 12,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-liquideo",
+      "nom": "Liquideo",
+      "slug": "liquideo",
+      "slugDossier": "Liquideo",
+      "site": "https://www.liquideo.com/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Liquideo",
+        "Skavidos"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 0,
+      "status": "partiel",
+      "statusSource": "PARTIELLEMENT_VERIFIE",
+      "dossierLocal": "Liquideo",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 0,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-cloud_vapor",
+      "nom": "Cloud Vapor",
+      "slug": "cloud-vapor",
+      "slugDossier": "Cloud_Vapor",
+      "site": "https://www.cloud-vapor.com/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Cloud Vapor"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 1,
+      "status": "partiel",
+      "statusSource": "PARTIELLEMENT_VERIFIE",
+      "dossierLocal": "Cloud_Vapor",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 1,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-liquidarom",
+      "nom": "Liquidarom",
+      "slug": "liquidarom",
+      "slugDossier": "Liquidarom",
+      "site": "https://www.liquidarom.com/",
+      "pays": "France",
+      "email": "À vérifier (contact via site)",
+      "marquesDeclarees": [
+        "Liquidarom"
+      ],
+      "gammesCountMaster": 5,
+      "produitsCountMaster": 40,
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "dossierLocal": "Liquidarom",
+      "packshotsLocaux": 63,
+      "fichesProduitsLocales": 42,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-liquide_lab",
+      "nom": "Liquide Lab",
+      "slug": "liquide-lab",
+      "slugDossier": "Liquide_Lab",
+      "site": "https://liquidelab.com/",
+      "pays": "Belgique / France",
+      "email": "djibril@liquidelab.com (public site)",
+      "marquesDeclarees": [
+        "Iceberg",
+        "GlaGla",
+        "Kuix",
+        "Péché Gourmand",
+        "Big Kawa",
+        "Réserve Héritage",
+        "Elikuid",
+        "O'JLab"
+      ],
+      "gammesCountMaster": 6,
+      "produitsCountMaster": 0,
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "dossierLocal": "Liquide_Lab",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 0,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-mds_juice",
+      "nom": "MDS Juice",
+      "slug": "mds-juice",
+      "slugDossier": "MDS_Juice",
+      "site": null,
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "The MDS Juice",
+        "MDS Juice"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 22,
+      "status": "partiel",
+      "statusSource": "PARTIELLEMENT_VERIFIE",
+      "dossierLocal": "MDS_Juice",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 22,
+      "anomalies": [
+        "site_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-raneki_liquide",
+      "nom": "Raneki Liquide",
+      "slug": "raneki-liquide",
+      "slugDossier": "Raneki_Liquide",
+      "site": "https://www.ranekiliquide.com/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Raneki",
+        "Olymp / Olympe"
+      ],
+      "gammesCountMaster": 2,
+      "produitsCountMaster": 12,
+      "status": "partiel",
+      "statusSource": "PARTIELLEMENT_VERIFIE",
+      "dossierLocal": "Raneki_Liquide",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 12,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-revenge_juices",
+      "nom": "Revenge Juices",
+      "slug": "revenge-juices",
+      "slugDossier": "Revenge_Juices",
+      "site": null,
+      "pays": null,
+      "email": null,
+      "marquesDeclarees": [
+        "Revenge Juices"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 0,
+      "status": "partiel",
+      "statusSource": "PARTIELLEMENT_VERIFIE",
+      "dossierLocal": "Revenge_Juices",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 0,
+      "anomalies": [
+        "site_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-t_juice",
+      "nom": "T-Juice",
+      "slug": "t-juice",
+      "slugDossier": "T-Juice",
+      "site": "https://www.t-juice.com/",
+      "pays": "Royaume-Uni",
+      "email": null,
+      "marquesDeclarees": [
+        "T-Juice"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 1,
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "dossierLocal": "T-Juice",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 1,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-vape_47",
+      "nom": "Vape 47",
+      "slug": "vape-47",
+      "slugDossier": "Vape_47",
+      "site": "https://www.vape47.com/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Enfer",
+        "Les Fruits d'Enfer",
+        "Furiosa Eggz",
+        "Furiosa Skinz",
+        "L'Invapable",
+        "Furiosa Classics",
+        "ÆTHER"
+      ],
+      "gammesCountMaster": 5,
+      "produitsCountMaster": 28,
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "dossierLocal": "Vape_47",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 29,
+      "anomalies": []
+    },
+    {
+      "id": "MFR-cookin_cloud",
+      "nom": "Cookin Cloud",
+      "slug": "cookin-cloud",
+      "slugDossier": "Cookin_Cloud",
+      "site": null,
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Myst",
+        "Cookin' Cloud"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 6,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "dossierLocal": "Cookin_Cloud",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 6,
+      "anomalies": [
+        "site_a_verifier",
+        "statut_fabricant_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-vape_maker",
+      "nom": "Vape Maker",
+      "slug": "vape-maker",
+      "slugDossier": "Vape_Maker",
+      "site": null,
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "Kaiju"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 1,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "dossierLocal": "Vape_Maker",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 1,
+      "anomalies": [
+        "site_a_verifier",
+        "statut_fabricant_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-illusion",
+      "nom": "Illusion",
+      "slug": "illusion",
+      "slugDossier": "Illusion",
+      "site": null,
+      "pays": null,
+      "email": null,
+      "marquesDeclarees": [
+        "Illusion"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 2,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "dossierLocal": "Illusion",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 2,
+      "anomalies": [
+        "site_a_verifier",
+        "statut_fabricant_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-juice_66",
+      "nom": "Juice 66",
+      "slug": "juice-66",
+      "slugDossier": "Juice_66",
+      "site": null,
+      "pays": null,
+      "email": null,
+      "marquesDeclarees": [
+        "Juice 66"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 2,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "dossierLocal": "Juice_66",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 2,
+      "anomalies": [
+        "site_a_verifier",
+        "statut_fabricant_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-empire",
+      "nom": "Empire",
+      "slug": "empire",
+      "slugDossier": "Empire",
+      "site": null,
+      "pays": null,
+      "email": null,
+      "marquesDeclarees": [
+        "Empire"
+      ],
+      "gammesCountMaster": 1,
+      "produitsCountMaster": 0,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "dossierLocal": "Empire",
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 0,
+      "anomalies": [
+        "site_a_verifier",
+        "statut_fabricant_a_verifier"
+      ]
+    },
+    {
+      "id": "MFR-e_tasty",
+      "nom": "e.Tasty",
+      "slug": "e-tasty",
+      "slugDossier": "E_Tasty",
+      "site": "https://pro.e-tasty.fr/",
+      "pays": "France",
+      "email": null,
+      "marquesDeclarees": [
+        "e.Tasty"
+      ],
+      "gammesCountMaster": 6,
+      "produitsCountMaster": 0,
+      "status": "partiel",
+      "statusSource": "SITE_OFFICIEL_PRO + SUMUP_STOCK",
+      "dossierLocal": null,
+      "packshotsLocaux": 0,
+      "fichesProduitsLocales": 0,
+      "anomalies": [
+        "hors_master_dossier_complet",
+        "photos_a_associer"
+      ]
+    }
+  ]
+}

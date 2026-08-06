@@ -1,0 +1,688 @@
+[
+  {
+    "id": "cms96dg8g003quto89pjgiunm",
+    "name": "Café Frappé 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa"
+  },
+  {
+    "id": "cms96dg8p003suto8n6icokt7",
+    "name": "Café Noisette 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa"
+  },
+  {
+    "id": "cms96dg92003uuto8ct4u3tbj",
+    "name": "Café Caramel 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa"
+  },
+  {
+    "id": "cms9gx9ih000dutw4jp0n7ihj",
+    "name": "Force Jaune 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms9gx9j1000futw4bt2www4b",
+    "name": "Force Noire 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms9gx9k6000hutw4iw8rdoba",
+    "name": "Force Violette 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms9gx9s9000nutw4af16auny",
+    "name": "Milo 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9sp000putw44vlnkgd3",
+    "name": "Pyro 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms96dgph004buto8d198fwbs",
+    "name": "Pêche Abricot 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms9gx9tg000tutw4ymtit729",
+    "name": "Candy 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9tz000vutw4idpu2oni",
+    "name": "Candy Gold Edition 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9ud000xutw4r882v2ss",
+    "name": "Xena 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9ur000zutw4muap1dwc",
+    "name": "Yumi 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms96dgpu004duto8ih7klwp7",
+    "name": "Virgin Mojito 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms96dgq6004futo8o3olofk5",
+    "name": "Fraise Fruit du Dragon 50 ml",
+    "reason": "impossible_auto: nicotine, ean, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms96dgqh004huto8nv7esxjq",
+    "name": "Citron Vert Melon 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms96dgqr004juto8b4foj32h",
+    "name": "Mûre Cassis 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms96dgr1004luto8qsinbkvi",
+    "name": "Tropical Bleu 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle, banniere_gamme",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft"
+  },
+  {
+    "id": "cms9gx9vz0015utw43lobsks0",
+    "name": "Lilya 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9we0017utw4r7t8uw6f",
+    "name": "Ruby 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9wt0019utw4irgbxyqa",
+    "name": "Vigo 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms96dhnv004wuto8813gy228",
+    "name": "Sour Sorbet",
+    "reason": "impossible_auto: nicotine, ean, format, photo_officielle",
+    "manufacturer": "T-Juice",
+    "range": "T-Juice 50 mL"
+  },
+  {
+    "id": "cms9gxa6o001futw4kdvzdeva",
+    "name": "Bisou Red 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Bisou"
+  },
+  {
+    "id": "cms9gxa71001hutw4zvhltm60",
+    "name": "Bisou Black 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Bisou"
+  },
+  {
+    "id": "cms9gxa7g001jutw43yc86w8j",
+    "name": "Bisou Yellow 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Bisou"
+  },
+  {
+    "id": "cms9gxa7q001lutw470n0r7s6",
+    "name": "Bisou V2 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Bisou"
+  },
+  {
+    "id": "cms9gxayd0027utw4138s8jlt",
+    "name": "Adess 100 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "e.Tasty",
+    "range": "Godfall City"
+  },
+  {
+    "id": "cms9gxayo0029utw4rpl0hfgh",
+    "name": "Dzeus 100 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "e.Tasty",
+    "range": "Godfall City"
+  },
+  {
+    "id": "cms9gxayx002butw4dbqz11ls",
+    "name": "Posei 100 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "e.Tasty",
+    "range": "Godfall City"
+  },
+  {
+    "id": "cms9gxaz9002dutw4vmoy4zz1",
+    "name": "Thena 100 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "e.Tasty",
+    "range": "Godfall City"
+  },
+  {
+    "id": "cms9gxbdt002vutw4v0bxerrn",
+    "name": "Greensound 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbe4002xutw4z9kjqc8v",
+    "name": "Purplenuclear 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxber0031utw4ahkm4448",
+    "name": "Yellowstorm 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbf00033utw4d82rf9u7",
+    "name": "Bluevolt 200 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbfj0037utw4bnkpvqmu",
+    "name": "Purplenuclear 200 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbfu0039utw4mnwqo3q6",
+    "name": "Redfire 200 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbny003hutw44zk72zwb",
+    "name": "Sharx 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbo9003jutw4d38hzkst",
+    "name": "Aspik 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxboh003lutw4d8viuvxg",
+    "name": "Krak 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbp0003nutw4toms3epp",
+    "name": "Grizz 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbpc003putw4sijrsxw2",
+    "name": "Leox 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbpm003rutw4quy48bhz",
+    "name": "Sharx 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbpv003tutw4dyiv4el7",
+    "name": "Konga 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbq5003vutw4zupdmx6j",
+    "name": "Hippox 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbqg003xutw4mz0y5a4q",
+    "name": "Grizz 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbqp003zutw4zig3u8p1",
+    "name": "Krak 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbr10041utw4chkucjme",
+    "name": "Aspik 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxbyc0043utw4e0kl0ycd",
+    "name": "Paka Paka 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Press Start"
+  },
+  {
+    "id": "cms9gxbyn0045utw4f56k7lwt",
+    "name": "Dunky 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Press Start"
+  },
+  {
+    "id": "cms9gxbz00047utw4bm4rib0x",
+    "name": "Speed 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Press Start"
+  },
+  {
+    "id": "cms9gxbzd0049utw4t5h5uh48",
+    "name": "Sword 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Press Start"
+  },
+  {
+    "id": "cms9gxbzo004butw4gyznce6y",
+    "name": "Jump 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Press Start"
+  },
+  {
+    "id": "cms9gxcf7004jutw4aod0kf6c",
+    "name": "Red Devil 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AVAP",
+    "range": "Devil"
+  },
+  {
+    "id": "cms9gxcfk004lutw4rrjxrpup",
+    "name": "Red Devil 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AVAP",
+    "range": "Devil"
+  },
+  {
+    "id": "cms9gxcw5004nutw4qnsas72n",
+    "name": "Mint & Dragon fruit 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Mintaïa"
+  },
+  {
+    "id": "cms9gxczn004tutw467q6otlg",
+    "name": "Dragon Fruit 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Lemon'Time"
+  },
+  {
+    "id": "cms9gxd3q004xutw4bh803c25",
+    "name": "Citron Cassis 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd42004zutw48hofa27n",
+    "name": "Citron Mandarine 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd4c0051utw4e3e2id17",
+    "name": "Pêche Framboise 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd4o0053utw4a2l1hi59",
+    "name": "Cola Pomme 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd4z0055utw42y2x1bjj",
+    "name": "Dragon Fraise 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd5c0057utw4gqk8wocq",
+    "name": "Dragon Fruits Rouges 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd5n0059utw433b1drbv",
+    "name": "Fraise Framboise 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd60005butw46u8dr3dr",
+    "name": "Fruits Rouges Raisin 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd6a005dutw4pp4k0r4k",
+    "name": "Fruits Rouges Yuzu 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd6l005futw41f007ft6",
+    "name": "Mangue Passion 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd6w005hutw4p11h5eqw",
+    "name": "Menthe Givrée 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gxd76005jutw4sbrnfuko",
+    "name": "Triple Mangue 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Fruizee Max"
+  },
+  {
+    "id": "cms9gx9t3000rutw4q9tu7bld",
+    "name": "Atlas 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9v40011utw4m964ureu",
+    "name": "Drago 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gx9vi0013utw4hund92s9",
+    "name": "Frost 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava"
+  },
+  {
+    "id": "cms9gxa6b001dutw4rqovwy0p",
+    "name": "Bisou Pink 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Bisou"
+  },
+  {
+    "id": "cms9gxbdj002tutw4b70fp0st",
+    "name": "Bluevolt 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbeh002zutw4niayvxzj",
+    "name": "Redfire 100 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbf80035utw44urczrsd",
+    "name": "Greensound 200 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbg2003butw4wcseseg9",
+    "name": "Yellowstorm 200 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper"
+  },
+  {
+    "id": "cms9gxbno003futw43gkelkoj",
+    "name": "Leox 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "Ferox"
+  },
+  {
+    "id": "cms9gxcwg004putw4onrqcqch",
+    "name": "Mint & Raspberry 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Mintaïa"
+  },
+  {
+    "id": "cms9gxcz9004rutw4tkob52sj",
+    "name": "Peach 50 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "Eliquid France",
+    "range": "Lemon'Time"
+  },
+  {
+    "id": "cms9gxd00004vutw4wxbu1flz",
+    "name": "Ginger 50 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Eliquid France",
+    "range": "Lemon'Time"
+  },
+  {
+    "id": "cms96cva3000juto861bzosuz",
+    "name": "Senka",
+    "reason": "impossible_auto: nicotine, ean, format, photo_officielle",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice"
+  },
+  {
+    "id": "cms96cuwc0009uto8j45cdpdr",
+    "name": "Force Bleue",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms96cux1000buto85w0heeas",
+    "name": "Force Rouge",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms96cuxg000duto8hhncr475",
+    "name": "Force Verte",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "Swoke",
+    "range": "Force Vape"
+  },
+  {
+    "id": "cms96cv9n000huto852mjfs8t",
+    "name": "Yuluma",
+    "reason": "impossible_auto: nicotine, ean, format, photo_officielle",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice"
+  },
+  {
+    "id": "cms96d3ij001tuto8m3peencv",
+    "name": "Fruits Rouges 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3it001vuto8gdcgxobb",
+    "name": "Popcorn 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3ju0023uto88j8fowyq",
+    "name": "Pomme Harmonie 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3k30025uto8yv4jrn77",
+    "name": "Poire 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3kc0027uto8puqw152i",
+    "name": "Menthe Glaciale 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3ll002huto8x6b5lqli",
+    "name": "Framboise 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3j2001xuto8f2ydmmtt",
+    "name": "Pêche 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3jc001zuto8luaxamoo",
+    "name": "Pure Passion 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3jk0021uto8ltuky9ti",
+    "name": "Mangue 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3kl0029uto8m7jhfync",
+    "name": "Fraise Sauvage 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3ku002buto8oz61esyx",
+    "name": "Raisin Noir 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3l4002duto8ofm7zl8u",
+    "name": "Custard Vanille 60 ml",
+    "reason": "impossible_auto: nicotine, ean",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  },
+  {
+    "id": "cms96d3lb002futo8fkwu1eka",
+    "name": "Menthe du Jardin 60 ml",
+    "reason": "impossible_auto: nicotine, ean, photo_officielle",
+    "manufacturer": "AirMust",
+    "range": "UNIK"
+  }
+]

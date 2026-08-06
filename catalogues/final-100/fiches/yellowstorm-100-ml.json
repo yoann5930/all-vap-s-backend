@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxber0031utw4ahkm4448",
+  "catalogName": "Yellowstorm 100 ml",
+  "name": "Yellowstorm 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Blue Hopper",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/blue-hopper-airmust/yellowstorm-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

@@ -3,6 +3,7 @@ import { cookies, headers } from "next/headers";
 import type { Role } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { generateSecureToken, hashToken } from "@/lib/security";
+import { isStaffRole, roleAtLeast } from "@/lib/admin/roles";
 
 function isLocalAppUrl(): boolean {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
@@ -171,9 +172,24 @@ export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {
   if (!user) {
     throw new Error("UNAUTHORIZED");
   }
-  if (requiredRole && user.role !== requiredRole && user.role !== "ADMIN") {
-    throw new Error("FORBIDDEN");
+  if (requiredRole) {
+    // ADMIN legacy et PROPRIETAIRE passent pour les gates "ADMIN"
+    if (requiredRole === "ADMIN") {
+      if (!roleAtLeast(user.role, "ADMIN")) throw new Error("FORBIDDEN");
+    } else if (requiredRole === "EMPLOYE") {
+      if (!isStaffRole(user.role)) throw new Error("FORBIDDEN");
+    } else if (user.role !== requiredRole && !roleAtLeast(user.role, requiredRole)) {
+      throw new Error("FORBIDDEN");
+    }
   }
+  return user;
+}
+
+/** Accès back-office : EMPLOYE, ADMIN ou PROPRIETAIRE. */
+export async function requireStaff(): Promise<JwtPayload> {
+  const user = await getAuthUser();
+  if (!user) throw new Error("UNAUTHORIZED");
+  if (!isStaffRole(user.role)) throw new Error("FORBIDDEN");
   return user;
 }
 

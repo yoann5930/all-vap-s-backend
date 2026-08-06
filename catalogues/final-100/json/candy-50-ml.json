@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9tg000tutw4ymtit729",
+  "catalogName": "Candy 50 ml",
+  "name": "Candy 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/saint-flava-swoke/candy-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

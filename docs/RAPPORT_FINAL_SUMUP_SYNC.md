@@ -52,25 +52,24 @@ Sans clés API, `sumup:test-connection` / `sumup:dry-run` / `sumup:sync-once` ne
 | Contrôle | Résultat |
 |----------|----------|
 | Prisma generate | OK |
-| Prisma migrate deploy | **Échec** — Docker/PostgreSQL local non joignable (`localhost:5433`) |
+| Prisma migrate deploy | OK |
 | TypeScript (`tsc --noEmit`) | OK |
 | ESLint | OK (0 warning/error) |
 | Build Next.js | OK |
 | `npm run sumup:test` | OK — 13/13 |
 | `npm run catalog:test` | OK — 10/10 |
-| Docker Postgres | **Non démarré** (daemon Docker Desktop absent au moment du test) |
+| Docker Postgres | OK — conteneur `allvaps-postgres` healthy sur `localhost:5433` |
 | Sync SumUp live API | Non exécutée — `SUMUP_SYNC_ENABLED=false` + clés absentes en local |
-| Export catalogues | Fichiers déjà présents dans `catalogues/` (29/07/2026) ; `catalog:export` nécessite PostgreSQL |
+| Export catalogues | OK — `catalog:export` régénéré (`74` lignes magasin, `74` lignes A.V.A.) |
 
 ## 5. Erreurs restantes / prérequis ops
 
-1. **Démarrer Docker Desktop** puis `docker compose up -d` et `npx prisma migrate deploy`
-2. **Configurer** `SUMUP_API_KEY`, `SUMUP_MERCHANT_CODE`, `CRON_SECRET`, `SUMUP_SYNC_ENABLED=true` en production
-3. Lancer `npm run catalog:export` une fois la base accessible pour régénérer les CSV
-4. Vérifier le cron Render toutes les 30 min
+1. **Configurer des clés SumUp valides** (`SUMUP_API_KEY`, `SUMUP_MERCHANT_CODE`) et `CRON_SECRET`
+2. Basculer `SUMUP_SYNC_ENABLED=true` dans l'environnement cible
+3. Vérifier la sync live (`sumup:test-connection` puis `sumup:sync-once` / cron Render toutes les 30 min)
 
 ## 6. Verdict
 
 **Code mission SumUp / worker / exports / tests / docs : finalisé.**  
-**Validation runtime DB/Docker/SumUp live : bloquée par environnement local (Docker éteint, sync désactivée).**  
-La mission logicielle est complète ; l’activation opérationnelle dépend des secrets et de PostgreSQL.
+**Validation locale Prisma/PostgreSQL/TypeScript/ESLint/Build/Docker/catalogues : OK.**  
+**Reste uniquement la validation live SumUp API**, bloquée tant que les clés réelles et l'activation `SUMUP_SYNC_ENABLED=true` ne sont pas fournies.

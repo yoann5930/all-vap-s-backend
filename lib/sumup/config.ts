@@ -13,6 +13,14 @@ export type SumUpSyncConfig = {
   catalogueMagasinPath: string;
   catalogueAvaPath: string;
   cronSecret: string;
+  /** csv = import Articles officiel uniquement */
+  catalogMode: "csv";
+  /**
+   * disabled = pas d'écriture stock SumUp (aucune API publique documentée).
+   * Ne jamais activer sans accès partenaire officiel SumUp.
+   */
+  stockWriteMode: "disabled" | "partner_official";
+  allowNegativeStock: boolean;
 };
 
 function envBool(key: string, fallback = false): boolean {
@@ -28,6 +36,7 @@ function envInt(key: string, fallback: number): number {
 
 export function getSumUpSyncConfig(): SumUpSyncConfig {
   const root = process.cwd();
+  const writeMode = (process.env.SUMUP_STOCK_WRITE_MODE || "disabled").trim().toLowerCase();
   return {
     apiKey: (process.env.SUMUP_API_KEY || "").trim(),
     merchantCode: (process.env.SUMUP_MERCHANT_CODE || "").trim(),
@@ -44,6 +53,9 @@ export function getSumUpSyncConfig(): SumUpSyncConfig {
       process.env.CATALOGUE_AVA_PATH || "./catalogues/catalogue-ava-all-vaps.csv"
     ),
     cronSecret: (process.env.CRON_SECRET || process.env.SUMUP_CRON_SECRET || "").trim(),
+    catalogMode: "csv",
+    stockWriteMode: writeMode === "partner_official" ? "partner_official" : "disabled",
+    allowNegativeStock: envBool("ALLOW_NEGATIVE_STOCK", false),
   };
 }
 

@@ -72,12 +72,13 @@ export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
   }
 
   return (
-    <>
+    <div className="relative md:hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="rounded-xl p-2.5 text-white/55 transition-colors hover:bg-white/5 hover:text-brand-400 lg:hidden"
+        className="rounded-xl p-2.5 text-white/55 transition-colors hover:bg-white/5 hover:text-brand-400"
         aria-label="Rechercher"
+        aria-expanded={open}
       >
         <Search className="h-5 w-5" />
       </button>
@@ -85,32 +86,47 @@ export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
       {open && (
         <form
           onSubmit={handleSubmit}
-          className="absolute inset-x-4 top-full z-50 mt-2 md:hidden"
+          className="absolute right-0 top-full z-50 mt-2 w-[min(100vw-2rem,20rem)]"
+          role="search"
         >
           <div className="relative">
+            <label htmlFor="header-search-mobile" className="sr-only">
+              Rechercher un produit, une marque
+            </label>
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A7B0BC]" />
             <input
+              id="header-search-mobile"
               type="search"
+              enterKeyHint="search"
               placeholder="Rechercher…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               autoFocus
               className={cn(
-                "w-full rounded-xl border border-white/10 bg-[#0B1016] py-3 pl-11 pr-10 text-sm text-[#F5F7FA]",
+                "w-full rounded-xl border border-white/10 bg-[#0B1016] py-3 pl-11 pr-20 text-sm text-[#F5F7FA]",
                 "placeholder:text-[#A7B0BC]/70 focus:border-brand-500/50 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
               )}
             />
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A7B0BC] hover:text-white"
-              aria-label="Fermer"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
+            <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-0.5">
+              <button
+                type="submit"
+                className="rounded-lg px-2 py-1.5 text-xs font-medium text-brand-300 hover:bg-white/5"
+                aria-label="Lancer la recherche"
+              >
+                OK
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="rounded-lg p-1.5 text-[#A7B0BC] hover:text-white"
+                aria-label="Fermer"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
         </form>
       )}
-    </>
+    </div>
   );
 }

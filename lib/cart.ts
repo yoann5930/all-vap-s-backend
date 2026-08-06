@@ -1,13 +1,28 @@
 export interface CartItem {
   productId: string;
+  /** Variante nicotine sélectionnée (obligatoire si le produit a plusieurs dosages) */
+  variantId?: string | null;
   name: string;
   slug: string;
   priceCents: number;
   imageUrl?: string | null;
   quantity: number;
+  nicotineLabel?: string | null;
+  barcode?: string | null;
+  sumupProductId?: string | null;
+  sumupVariantId?: string | null;
+  /** Champs d'éligibilité offre 10 ml (calcul panier client + serveur) */
+  category?: string | null;
+  productType?: string | null;
+  volumeMl?: number | null;
+  promotion10mlEligible?: boolean | null;
 }
 
 const CART_KEY = "allvaps_cart";
+
+function lineKey(item: { productId: string; variantId?: string | null }): string {
+  return `${item.productId}::${item.variantId || ""}`;
+}
 
 export function getCart(): CartItem[] {
   if (typeof window === "undefined") return [];
@@ -26,10 +41,18 @@ export function saveCart(items: CartItem[]): void {
 
 export function addToCart(item: Omit<CartItem, "quantity">, quantity = 1): CartItem[] {
   const cart = getCart();
-  const existing = cart.find((i) => i.productId === item.productId);
+  const key = lineKey(item);
+  const existing = cart.find((i) => lineKey(i) === key);
 
   if (existing) {
     existing.quantity += quantity;
+    // Rafraîchir métadonnées offre si présentes
+    if (item.promotion10mlEligible != null) {
+      existing.promotion10mlEligible = item.promotion10mlEligible;
+      existing.volumeMl = item.volumeMl;
+      existing.productType = item.productType;
+      existing.category = item.category;
+    }
   } else {
     cart.push({ ...item, quantity });
   }
@@ -38,17 +61,23 @@ export function addToCart(item: Omit<CartItem, "quantity">, quantity = 1): CartI
   return cart;
 }
 
-export function updateCartQuantity(productId: string, quantity: number): CartItem[] {
-  const cart = getCart().map((item) =>
-    item.productId === productId ? { ...item, quantity } : item
-  ).filter((item) => item.quantity > 0);
+export function updateCartQuantity(
+  productId: string,
+  quantity: number,
+  variantId?: string | null
+): CartItem[] {
+  const key = lineKey({ productId, variantId });
+  const cart = getCart()
+    .map((item) => (lineKey(item) === key ? { ...item, quantity } : item))
+    .filter((item) => item.quantity > 0);
 
   saveCart(cart);
   return cart;
 }
 
-export function removeFromCart(productId: string): CartItem[] {
-  const cart = getCart().filter((item) => item.productId !== productId);
+export function removeFromCart(productId: string, variantId?: string | null): CartItem[] {
+  const key = lineKey({ productId, variantId });
+  const cart = getCart().filter((item) => lineKey(item) !== key);
   saveCart(cart);
   return cart;
 }

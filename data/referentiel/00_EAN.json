@@ -1,0 +1,73 @@
+{
+  "date": "2026-07-29T21:09:29.779Z",
+  "connus": 6,
+  "aCompleter": 121,
+  "connusItems": [
+    {
+      "id_all_vaps": "AV-0001",
+      "ean": "3760283588059",
+      "code_barres": "3760283588059",
+      "nom": "Ice Cool - Cassis Citron",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283588059 / PTS0000000004",
+      "niveau_confiance": "ELEVE"
+    },
+    {
+      "id_all_vaps": "AV-0006",
+      "ean": "3760283588042",
+      "code_barres": "3760283588042",
+      "nom": "Ice Cool - Cassis Framboise Raisin",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283588042 / PTS0000000002",
+      "niveau_confiance": "ELEVE"
+    },
+    {
+      "id_all_vaps": "AV-0020",
+      "ean": "3760283588035",
+      "code_barres": "3760283588035",
+      "nom": "Ice Cool - Cassis Mangue",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283588035 / PTS0000000005",
+      "niveau_confiance": "ELEVE"
+    },
+    {
+      "id_all_vaps": "AV-0013",
+      "ean": "3760283587991",
+      "code_barres": "3760283587991",
+      "nom": "Ice Cool - Fraise Framboise Basilic",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283587991 / PTS0000000010",
+      "niveau_confiance": "ELEVE"
+    },
+    {
+      "id_all_vaps": "AV-0009",
+      "ean": "3760283588028",
+      "code_barres": "3760283588028",
+      "nom": "Ice Cool - Mangue Passion",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283588028 / PTS0000000003",
+      "niveau_confiance": "ELEVE"
+    },
+    {
+      "id_all_vaps": "AV-0002",
+      "ean": "3760283588004",
+      "code_barres": "3760283588004",
+      "nom": "Ice Cool - Pêche Raisin",
+      "fabricant": "Liquidarom",
+      "marque": "Liquidarom",
+      "gamme": "Ice Cool",
+      "reference_fabricant": "3760283588004 / PTS0000000006",
+      "niveau_confiance": "ELEVE"
+    }
+  ]
+}

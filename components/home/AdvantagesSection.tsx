@@ -10,7 +10,7 @@ const advantages = [
   {
     icon: ShieldCheck,
     title: "Paiement sécurisé",
-    description: "Transactions protégées via Viva.com.",
+    description: "Transactions protégées par paiement sécurisé.",
   },
   {
     icon: Users,

@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxbno003futw43gkelkoj",
+  "catalogName": "Leox 60 ml",
+  "officialName": "Ferox • Leox 60ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Mûre, cerise noire, fruit du dragon",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (60 dans 75)",
+  "nicotineBoost": "1 → 3 ; 2 → 6 mg/ml",
+  "description": "Ferox Leox 60 ml — mûre, cerise noire, fruit du dragon. AirMust.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": null,
+  "bannerLocal": "catalogues/validation-finale/leox-60-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/296-60ml"
+  ],
+  "missingFields": [
+    "photo",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:43.123Z"
+}

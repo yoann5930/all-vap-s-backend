@@ -26,14 +26,7 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
     estimatedDays: "2-4 jours",
     icon: "store",
   },
-  {
-    id: "COLISSIMO",
-    name: "Colissimo",
-    description: "Livraison à domicile",
-    priceCents: 590,
-    estimatedDays: "1-3 jours",
-    icon: "truck",
-  },
+  // La Poste / Colissimo : EXCLUS — aucun développement ni offre en ligne.
   {
     id: "STORE_PICKUP",
     name: "Retrait boutique",
@@ -43,6 +36,11 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
     icon: "map-pin",
   },
 ];
+
+/** Options proposées au checkout (La Poste exclue). */
+export function getPublicShippingOptions(): ShippingOption[] {
+  return SHIPPING_OPTIONS.filter((o) => o.id !== "COLISSIMO");
+}
 
 export function getShippingOption(method: DeliveryMethod): ShippingOption | undefined {
   return SHIPPING_OPTIONS.find((o) => o.id === method);
@@ -69,8 +67,10 @@ export function getTrackingUrl(
   }
 }
 
+/**
+ * @deprecated Ne plus inventer de numéros de suivi. Conservé pour compat lecture ancienne data.
+ */
 export function makeLocalTracking(prefix: string, orderId: string): string {
   const short = orderId.slice(-8).toUpperCase();
-  const stamp = Date.now().toString(36).toUpperCase();
-  return `AV-${prefix}-${stamp}-${short}`;
+  return `AV-LEGACY-${prefix}-${short}`;
 }

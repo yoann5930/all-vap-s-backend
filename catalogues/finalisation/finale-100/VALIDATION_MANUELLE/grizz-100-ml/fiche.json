@@ -1,0 +1,201 @@
+{
+  "productId": "cms9gxbqg003xutw4mz0y5a4q",
+  "catalogName": "Grizz 100 ml",
+  "fullName": "Grizz 100 ml",
+  "manufacturer": "Ferox",
+  "range": "Ferox",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": null,
+  "photoSource": null,
+  "bannerLocal": null,
+  "status": "validation_manuelle",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "Ferox",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "Ferox",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Grizz 100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "Ferox",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "Ferox",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/grizz-100-ml/fiche.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/grizz-100-ml/fiche.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/grizz-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/grizz-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Grizz 100 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Grizz 100 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Grizz 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Grizz 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:44.850Z"
+}

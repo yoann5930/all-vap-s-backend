@@ -8,6 +8,7 @@ import { assertSameOrigin } from "@/lib/security";
 const loginSchema = z.object({
   email: z.string().email().max(254),
   password: z.string().min(1).max(128),
+  totpToken: z.string().min(6).max(12).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -37,7 +38,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await loginUser(data.email, data.password);
+    const result = await loginUser(data.email, data.password, {
+      totpToken: data.totpToken,
+    });
     return jsonResponse(result);
   } catch (error) {
     return handleApiError(error);

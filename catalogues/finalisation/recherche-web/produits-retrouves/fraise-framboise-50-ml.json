@@ -1,0 +1,34 @@
+{
+  "productId": "cms9gxd5n0059utw433b1drbv",
+  "catalogName": "Fraise Framboise 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1493-fraise-framboise-50ml-3760202040668.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Fraise, Framboise | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040668",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://www.eliquid-france.com/5089-full_default/fraise-framboise-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/fraise-framboise-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Fraise, Framboise | Fruizee Max 50mL | All Vap's",
+    "description": "Fraise, Framboise | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.963Z"
+}

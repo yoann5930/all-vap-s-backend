@@ -1,0 +1,94 @@
+{
+  "productId": "cms96d3kc0027uto8puqw152i",
+  "catalogName": "Menthe Glaciale 60 ml",
+  "fullName": "Menthe Glaciale 60 ml",
+  "manufacturer": "UNIK",
+  "range": "UNIK",
+  "formatMl": 60,
+  "pgVg": null,
+  "nicotineSoldAs": null,
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": null,
+  "photoSource": null,
+  "bannerLocal": null,
+  "status": "validation_manuelle",
+  "missingFields": [
+    "nicotine",
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Menthe Glaciale 60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 3
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Menthe Glaciale 60 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Menthe Glaciale 60 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Menthe Glaciale 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Menthe Glaciale 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:47.699Z"
+}

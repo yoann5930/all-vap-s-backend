@@ -1,0 +1,36 @@
+{
+  "id": "cms96cuxg000duto8hhncr475",
+  "slug": "force-verte-x-force-vape",
+  "nom": "Force Verte",
+  "description": "Fiche catalogue officielle (Force Vape) — stock SumUp à lier.",
+  "seo": {
+    "title": "Force Verte | Swoke | All Vap's",
+    "description": "Fiche catalogue officielle (Force Vape) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "Swoke",
+    "gamme": "Force Vape",
+    "saveur": "Force Verte",
+    "format": "100 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\ranges\\force-vape-swoke.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/swoke__force-vape-swoke.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

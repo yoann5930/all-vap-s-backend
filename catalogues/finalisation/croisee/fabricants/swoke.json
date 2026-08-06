@@ -1,0 +1,34 @@
+{
+  "name": "Swoke",
+  "productsIncomplete": [
+    "Force Violette 100 ml",
+    "Milo 50 ml",
+    "Pyro 50 ml",
+    "Candy 50 ml",
+    "Candy Gold Edition 50 ml",
+    "Xena 50 ml",
+    "Yumi 50 ml",
+    "Lilya 50 ml",
+    "Ruby 50 ml",
+    "Vigo 50 ml",
+    "Bisou Red 50 ml",
+    "Bisou Black 50 ml",
+    "Bisou Yellow 50 ml",
+    "Bisou V2 50 ml",
+    "Atlas 50 ml",
+    "Drago 50 ml",
+    "Frost 50 ml",
+    "Bisou Pink 50 ml",
+    "Force Verte"
+  ],
+  "sources": [
+    "prisma:Manufacturer",
+    "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+    "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+    "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+    "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+    "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+    "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+    "catalogues/finalisation/produits-corriges/impossibles.json"
+  ]
+}

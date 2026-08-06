@@ -1,0 +1,14 @@
+{
+  "name": "allvaps-sumup-stock-sync",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @allvaps/api dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "db:generate": "pnpm --filter @allvaps/api prisma generate",
+    "db:migrate": "pnpm --filter @allvaps/api prisma migrate dev"
+  }
+}

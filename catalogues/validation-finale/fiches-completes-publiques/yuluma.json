@@ -1,0 +1,37 @@
+{
+  "productId": "cms96cv9n000huto852mjfs8t",
+  "catalogName": "Yuluma",
+  "officialName": "Yuluma — 66 Juice",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "flavor": "Yuluma",
+  "formatMl": null,
+  "pgVg": "non trouvé publiquement",
+  "nicotine": "non trouvé publiquement",
+  "nicotineBoost": null,
+  "description": "Yuluma / Juice 66 — données publiques insuffisantes.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": null,
+  "bannerLocal": "catalogues/validation-finale/yuluma/banniere.svg",
+  "sourceUrls": [],
+  "missingFields": [
+    "format",
+    "nicotine",
+    "pgVg",
+    "photo",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:49.825Z"
+}

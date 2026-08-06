@@ -64,11 +64,14 @@ assert(auto.decision === "AUTO" && auto.productId === "p1", "match exact AUTO");
 const unmatched = matchSumUpProductLine({ name: "Produit Inexistant XYZ", quantity: 1 }, catalog);
 assert(unmatched.decision === "UNMATCHED" || unmatched.decision === "REVIEW", "non-match");
 
-// --- Config chemins catalogues ---
-const cfg = getSumUpSyncConfig();
-assert(cfg.syncIntervalSeconds === 1800 || cfg.syncIntervalSeconds > 0, "intervalle sync défini");
-assert(cfg.catalogueMagasinPath.includes("catalogue-magasin"), "chemin magasin");
-assert(cfg.catalogueAvaPath.includes("catalogue-ava"), "chemin ava");
+  // Config chemins catalogues ---
+  const cfg = getSumUpSyncConfig();
+  assert(cfg.syncIntervalSeconds === 1800 || cfg.syncIntervalSeconds > 0, "intervalle sync défini");
+  assert(cfg.catalogueMagasinPath.includes("catalogue-magasin"), "chemin magasin");
+  assert(cfg.catalogueAvaPath.includes("catalogue-ava"), "chemin ava");
+  assert(cfg.stockWriteMode === "disabled" || cfg.stockWriteMode === "partner_official", "stockWriteMode");
+  assert(cfg.catalogMode === "csv", "catalogMode=csv");
+  assert(cfg.allowNegativeStock === false || typeof cfg.allowNegativeStock === "boolean", "allowNegativeStock");
 
 // --- Rapport fichier ---
 const report = writeSumUpSyncReport({

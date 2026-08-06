@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gxbqp003zutw4zig3u8p1",
+  "catalogName": "Krak 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "sourceUrls": [
+    "https://airmust.com/296-60ml",
+    "https://airmust.com/297-100ml-ferox"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "notes": [
+    "Format 100 ml lu depuis le nom catalogue"
+  ],
+  "officialName": "Ferox (AirMust) — produit catalogue",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+  "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+  "ean": null,
+  "eanConfidence": "missing",
+  "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+  "seo": {
+    "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+    "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:29.192Z"
+}

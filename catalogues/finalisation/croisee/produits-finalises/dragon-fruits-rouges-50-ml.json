@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxd5c0057utw4gqk8wocq",
+  "catalogName": "Dragon Fruits Rouges 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/247-fruizee-max",
+    "https://www.eliquid-france.com/fruizee-max/1492-dragon-fruits-rouges-50ml.html",
+    "https://www.vapo-shop.fr/e-liquides-fruizee-max/3693-dragon-fruits-rouges-50ml-fruizee-max-fruizee-3760202040651.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Fruizee Max — Dragon Fruits Rouges 50ml",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml",
+  "nicotineBoostOptions": "boosters",
+  "ean": "3760202040651",
+  "eanConfidence": "retailer",
+  "flavorNotes": "EAN à extraire depuis la fiche produit officielle (non inventé)",
+  "photoUrl": "https://www.eliquid-france.com/5087-full_default/dragon-fruits-rouges-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/dragon-fruits-rouges-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Dragon, Fruits rouges | Fruizee Max 50mL | All Vap's",
+    "description": "Dragon, Fruits rouges | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50 — EAN à extraire depuis la fiche produit officielle (non inventé)"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.960Z",
+  "finalizedVia": "recherche-web"
+}

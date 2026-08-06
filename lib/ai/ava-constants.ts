@@ -14,7 +14,7 @@ export const AVA_SUGGESTIONS = [
 ];
 
 export const AVA_NO_EXACT_MATCH =
-  "Je n'ai pas trouvé exactement ce produit. Voici les alternatives les plus proches disponibles.";
+  "Je n'ai pas l'exacte référence, mais voici des options proches à découvrir juste en dessous.";
 
 export const AVA_NAME_REPLY = "Je m'appelle Ava.";
 

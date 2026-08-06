@@ -1,0 +1,72 @@
+{
+  "date": "2026-07-29T23:03:09.967Z",
+  "found10ml": 178,
+  "integratedPublished": 166,
+  "flavorProducts": 44,
+  "variantsNicotine": 166,
+  "photosAssociated": 166,
+  "sumupAssociated": 166,
+  "withEan": 166,
+  "aVerifierCount": 12,
+  "aVerifier": [
+    {
+      "name": "Barbe À Papa 10ml 0mg e-tasty",
+      "importAnomaly": "photo_officielle_10ml_indisponible_mapping_site_errone"
+    },
+    {
+      "name": "Barbe À Papa 10ml 12mg e-tasty",
+      "importAnomaly": "photo_officielle_10ml_indisponible_mapping_site_errone"
+    },
+    {
+      "name": "Barbe À Papa 10ml 3mg e-tasty",
+      "importAnomaly": "photo_officielle_10ml_indisponible_mapping_site_errone"
+    },
+    {
+      "name": "Barbe À Papa 10ml 6mg e-tasty",
+      "importAnomaly": "photo_officielle_10ml_indisponible_mapping_site_errone"
+    },
+    {
+      "name": "Harrison 10ml 0mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Harrison 10ml 12mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Harrison 10ml 3mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Harrison 10ml 6mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Pomme croquante 10ml 0mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Pomme croquante 10ml 12mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Pomme croquante 10ml 3mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    },
+    {
+      "name": "Pomme croquante 10ml 6mg e-tasty",
+      "importAnomaly": "saveur_absente_catalogue_officiel_10ml"
+    }
+  ],
+  "controlUrls": {
+    "format10ml": "http://localhost:3000/formats/10ml",
+    "oneTaste": "http://localhost:3000/gammes/one-taste?fabricant=e-tasty",
+    "fabricant": "http://localhost:3000/fabricants/e-tasty",
+    "search": "http://localhost:3000/api/search?q=one+taste+10ml"
+  },
+  "notes": [
+    "Barbe à papa 10ml : titre présent sur pro.e-tasty.fr mais image/product ID mappés vers Poire juteuse — non publié (pas de photo 10ml fiable).",
+    "Harrison / Pomme croquante : absents du catalogue officiel One Taste actuel — À vérifier.",
+    "Aucune photo 50ml/100ml utilisée pour un 10ml publié."
+  ]
+}

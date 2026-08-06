@@ -1,0 +1,36 @@
+{
+  "id": "cms9gxbyn0045utw4f56k7lwt",
+  "slug": "dunky-50-press-start",
+  "nom": "Dunky 50 ml",
+  "description": "Officiel Press Start — SumUp à lier.",
+  "seo": {
+    "title": "Dunky 50 ml | AirMust | All Vap's",
+    "description": "Officiel Press Start — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "AirMust",
+    "gamme": "Press Start",
+    "saveur": "Dunky",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\airmust\\ranges\\press-start-airmust.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/airmust__press-start-airmust.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

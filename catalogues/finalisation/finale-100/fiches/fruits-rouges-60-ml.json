@@ -1,0 +1,144 @@
+{
+  "productId": "cms96d3ij001tuto8m3peencv",
+  "catalogName": "Fruits Rouges 60 ml",
+  "fullName": "Fruits Rouges 60 ml",
+  "manufacturer": "UNIK",
+  "range": "UNIK",
+  "formatMl": 60,
+  "pgVg": null,
+  "nicotineSoldAs": null,
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/fruits-rouges-60-ml.webp",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/unik-unik.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "nicotine",
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Fruits Rouges 60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/fruits-rouges-60-ml/fruits-rouges-60-ml.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/fruits-rouges-60-ml/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/photos/fruits-rouges-60-unik.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/photos/fruits-rouges-60-unik.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/fruits-rouges-60-ml/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/fruits-rouges-60-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/fruits-rouges-60-ml.webp",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Fruits Rouges 60 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Fruits Rouges 60 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Fruits Rouges 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Fruits Rouges 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 fruits-rouges-60-ml.webp",
+    "Photo fichier score=1.00 fruits-rouges-60-ml.webp",
+    "Photo fichier score=0.90 fruits-rouges-60-unik.webp"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:47.263Z"
+}

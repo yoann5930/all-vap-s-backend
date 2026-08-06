@@ -6,6 +6,10 @@ import { Sparkles } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { Card, CardBody } from "@/components/ui/Card";
 import { getEffectivePrice } from "@/lib/products/queries";
+import {
+  PRODUCT_CARD_IMAGE_QUALITY,
+  isPreoptimizedProductMedia,
+} from "@/lib/catalog/product-image-display";
 
 interface RecommendationItem {
   product: {
@@ -53,9 +57,27 @@ export function PersonalizedRecommendations({
           <Link key={r.product.id} href={`/boutique/${r.product.slug}`}>
             <Card className="h-full transition-shadow hover:shadow-md">
               <CardBody>
-                <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+                <div className="relative aspect-square overflow-hidden rounded-lg bg-[#0B1016]">
                   {r.product.imageUrl ? (
-                    <Image src={r.product.imageUrl} alt={r.product.name} fill className="object-cover" sizes="200px" />
+                    isPreoptimizedProductMedia(r.product.imageUrl) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={r.product.imageUrl}
+                        alt={r.product.name}
+                        className="absolute inset-0 h-full w-full object-contain p-2"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <Image
+                        src={r.product.imageUrl}
+                        alt={r.product.name}
+                        fill
+                        className="object-contain p-2"
+                        sizes="200px"
+                        quality={PRODUCT_CARD_IMAGE_QUALITY}
+                      />
+                    )
                   ) : null}
                 </div>
                 <p className="mt-3 font-medium">{r.product.name}</p>

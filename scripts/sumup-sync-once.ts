@@ -1,4 +1,5 @@
 #!/usr/bin/env tsx
+import "./load-env";
 import prisma from "../lib/prisma";
 import { runSumUpSync } from "../lib/sumup/sync-service";
 

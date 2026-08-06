@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxa7q001lutw470n0r7s6",
+  "catalogName": "Bisou V2 50 ml",
+  "name": "Bisou V2 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Bisou",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/bisou-swoke/bisou-v2-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

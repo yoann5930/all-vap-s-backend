@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbdj002tutw4b70fp0st",
+  "catalogName": "Bluevolt 100 ml",
+  "name": "Bluevolt 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Blue Hopper",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/blue-hopper-airmust/bluevolt-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

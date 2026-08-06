@@ -1,0 +1,37 @@
+{
+  "id": "cms96cva3000juto861bzosuz",
+  "slug": "senka-x-66-juice",
+  "nom": "Senka",
+  "description": "Fiche catalogue officielle (66 Juice) — stock SumUp à lier.",
+  "seo": {
+    "title": "Senka | Juice 66 | All Vap's",
+    "description": "Fiche catalogue officielle (66 Juice) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "format",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "Juice 66",
+    "gamme": "66 Juice",
+    "saveur": "Senka",
+    "format": null,
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\juice-66\\ranges\\66-juice-juice-66.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/juice-66__66-juice-juice-66.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

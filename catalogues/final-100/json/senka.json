@@ -1,0 +1,19 @@
+{
+  "productId": "cms96cva3000juto861bzosuz",
+  "catalogName": "Senka",
+  "name": "Senka",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "formatMl": null,
+  "nicotine": null,
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": null,
+  "missingFields": [
+    "ean",
+    "format",
+    "nicotine",
+    "photo"
+  ],
+  "complete": false
+}

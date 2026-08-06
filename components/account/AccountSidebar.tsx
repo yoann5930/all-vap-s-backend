@@ -10,23 +10,17 @@ import {
   Gift,
   User,
   Sparkles,
-  Ticket,
   Headphones,
-  FileText,
-  History,
 } from "lucide-react";
 
 const items = [
   { href: "/account", label: "Vue d'ensemble", icon: User },
   { href: "/account/commandes", label: "Commandes", icon: Package },
-  { href: "/account/commandes", label: "Historique", icon: History },
   { href: "/favoris", label: "Favoris", icon: Heart },
   { href: "/account/adresses", label: "Adresses", icon: MapPin },
   { href: "/account/fidelite", label: "Points fidélité", icon: Gift },
-  { href: "/account/fidelite", label: "Coupons", icon: Ticket },
-  { href: "/contact", label: "Support", icon: Headphones },
-  { href: "/account/commandes", label: "Factures", icon: FileText },
   { href: "/compte/profil-vape", label: "Profil vape", icon: Sparkles },
+  { href: "/contact", label: "Support", icon: Headphones },
 ];
 
 export function AccountSidebar() {

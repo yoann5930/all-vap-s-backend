@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StockMovementType {
+  RECEIPT
+  POS_SALE
+  WEB_RESERVATION
+  WEB_SALE
+  WEB_RELEASE
+  REFUND
+  CORRECTION
+  INVENTORY
+}
+
+enum ReconciliationStatus {
+  PENDING
+  RESOLVED
+  FAILED
+  IGNORED
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  brand       String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  variants    Variant[]
+}
+
+model Variant {
+  id             String   @id @default(cuid())
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku            String   @unique
+  barcode        String?  @unique
+  label          String
+  priceCents     Int
+  stockOnHand    Int      @default(0)
+  stockReserved  Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  aliases        ProductAlias[]
+  movements      StockMovement[]
+  reservations   StockReservation[]
+}
+
+model ProductAlias {
+  id        String   @id @default(cuid())
+  variantId String
+  variant   Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  source    String
+  value     String
+  createdAt DateTime @default(now())
+
+  @@unique([source, value])
+}
+
+model StockMovement {
+  id               String            @id @default(cuid())
+  variantId        String
+  variant          Variant           @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  type             StockMovementType
+  quantityDelta    Int
+  quantityBefore   Int
+  quantityAfter    Int
+  source           String
+  externalId       String?
+  idempotencyKey   String            @unique
+  metadata         Json?
+  createdAt        DateTime          @default(now())
+
+  @@index([variantId, createdAt])
+  @@index([source, externalId])
+}
+
+model StockReservation {
+  id             String   @id @default(cuid())
+  orderId        String
+  variantId      String
+  variant        Variant  @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  quantity       Int
+  expiresAt      DateTime
+  confirmedAt    DateTime?
+  releasedAt     DateTime?
+  idempotencyKey String   @unique
+  createdAt      DateTime @default(now())
+
+  @@index([orderId])
+  @@index([expiresAt])
+}
+
+model ExternalEvent {
+  id             String   @id @default(cuid())
+  provider       String
+  externalId     String
+  eventType      String
+  payload        Json
+  processedAt    DateTime?
+  error          String?
+  createdAt      DateTime @default(now())
+
+  @@unique([provider, externalId, eventType])
+}
+
+model SyncCursor {
+  id        String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model ReconciliationTask {
+  id          String               @id @default(cuid())
+  kind        String
+  status      ReconciliationStatus @default(PENDING)
+  externalId  String?
+  payload     Json
+  error       String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}

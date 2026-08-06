@@ -1,0 +1,14 @@
+{
+  "status": 200,
+  "body": {
+    "ok": true,
+    "audit": {
+      "enabled": true,
+      "campaignId": "CLIENT-TEST-ACHAT-20260730073502",
+      "activatedAt": "2026-07-30T07:35:05.431Z",
+      "expiresAt": "2026-07-30T19:35:05.431Z",
+      "allowOutOfStock": false
+    },
+    "message": "Mode AUDIT_ONLY activé. Conservez le secret hors Git. Les commandes audit sont exclues du CA."
+  }
+}

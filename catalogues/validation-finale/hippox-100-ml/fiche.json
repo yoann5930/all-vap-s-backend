@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxbq5003vutw4zupdmx6j",
+  "catalogName": "Hippox 100 ml",
+  "officialName": "Ferox • Hippox 100ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Mix Tropical Givré",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Ferox Hippox 100 ml — mix tropical givré. AirMust.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": null,
+  "bannerLocal": "catalogues/validation-finale/hippox-100-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/297-100ml-ferox"
+  ],
+  "missingFields": [
+    "photo",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:39.115Z"
+}

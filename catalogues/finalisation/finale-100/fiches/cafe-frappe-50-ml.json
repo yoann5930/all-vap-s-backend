@@ -1,0 +1,147 @@
+{
+  "productId": "cms96dg8g003quto89pjgiunm",
+  "catalogName": "Café Frappé 50 ml",
+  "fullName": "Café Frappé 50 ml",
+  "manufacturer": "Big Kawa",
+  "range": "Big Kawa",
+  "formatMl": 50,
+  "pgVg": null,
+  "nicotineSoldAs": "Non publié sur liquidelab.com (B2B)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": null,
+  "photoSource": null,
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/big-kawa-big-kawa.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "Big Kawa",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "Big Kawa",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Café Frappé 50 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "50 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "Big Kawa",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "50 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "Liquide Lab",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "Big Kawa",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/cafe-frappe-50-ml.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/cafe-frappe-50-ml.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/cafe-frappe-50-ml/fiche.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/cafe-frappe-50-ml.json",
+      "field": "nicotine",
+      "value": "Non publié sur liquidelab.com (B2B)",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Café Frappé 50 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Café Frappé 50 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Café Frappé 50 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Café Frappé 50 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:39.615Z"
+}

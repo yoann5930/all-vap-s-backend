@@ -1,0 +1,37 @@
+{
+  "productId": "cms96dgq6004futo8o3olofk5",
+  "catalogName": "Fraise Fruit du Dragon 50 ml",
+  "manufacturer": "Alfa",
+  "range": "Granita Soft",
+  "sourceUrls": [
+    "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Photo reprise depuis finalisation locale antérieure (déjà validée)",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+  "officialName": "Granita Soft (Alfaliquid)",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+  "nicotineBoostOptions": "shortfill 1–2 boosters ; 10 ml prêts à vaper",
+  "flavorNotes": null,
+  "formatMl": 50,
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+  "seo": {
+    "title": "Granita Soft (Alfaliquid) | All Vap's",
+    "description": "Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:19.239Z"
+}

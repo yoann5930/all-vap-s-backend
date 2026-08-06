@@ -1,0 +1,210 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> all-vaps@1.0.0 build
+> prisma generate && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Ô£ö Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 1.16s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+
+   Ôû▓ Next.js 15.5.22
+   - Environments: .env.production.local, .env.local, .env
+
+   Creating an optimized production build ...
+(node:27116) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///D:/all%20vaps/all-vap-s-backend/tailwind.config.ts?id=1785760971164 is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\D:\all vaps\all-vap-s-backend\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ Ô£ô Compiled successfully in 79s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/103) ...
+   Generating static pages (25/103) 
+prisma:error 
+Invalid `prisma.product.findMany()` invocation:
+
+
+Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+
+Please make sure to provide valid database credentials for the database server at the configured address.
+   Generating static pages (51/103) 
+   Generating static pages (77/103) 
+ Ô£ô Generating static pages (103/103)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size  First Load JS
+Ôöî ãÆ /                                     8.45 kB         168 kB
+Ôö£ Ôùï /_not-found                             357 B         103 kB
+Ôö£ Ôùï /account                               1.7 kB         114 kB
+Ôö£ Ôùï /account/adresses                     2.18 kB         115 kB
+Ôö£ Ôùï /account/commandes                    2.23 kB         115 kB
+Ôö£ Ôùï /account/fidelite                     2.14 kB         117 kB
+Ôö£ Ôùï /account/profil-vape                    357 B         103 kB
+Ôö£ ãÆ /admin                                  196 B         106 kB
+Ôö£ ãÆ /admin/activite                         357 B         103 kB
+Ôö£ ãÆ /admin/ai                               743 B         283 kB
+Ôö£ ãÆ /admin/alertes                          196 B         106 kB
+Ôö£ ãÆ /admin/ava-gestion                    2.19 kB         108 kB
+Ôö£ ãÆ /admin/ava-materiel                   4.58 kB         107 kB
+Ôö£ ãÆ /admin/banners                        1.19 kB         109 kB
+Ôö£ ãÆ /admin/catalog                        3.04 kB         116 kB
+Ôö£ ãÆ /admin/catalog-hub                    3.12 kB         109 kB
+Ôö£ ãÆ /admin/catalog-images                 1.84 kB         104 kB
+Ôö£ ãÆ /admin/coupons                          568 B         103 kB
+Ôö£ ãÆ /admin/customers                        579 B         103 kB
+Ôö£ ãÆ /admin/documents                        357 B         103 kB
+Ôö£ ãÆ /admin/emails                           357 B         103 kB
+Ôö£ ãÆ /admin/expeditions                    2.07 kB         115 kB
+Ôö£ ãÆ /admin/fidelite                       2.53 kB         115 kB
+Ôö£ ãÆ /admin/import                         2.97 kB         116 kB
+Ôö£ ãÆ /admin/login                          2.78 kB         121 kB
+Ôö£ ãÆ /admin/notifications                  2.58 kB         108 kB
+Ôö£ ãÆ /admin/notifications/historique         810 B         107 kB
+Ôö£ ãÆ /admin/orders                         2.07 kB         115 kB
+Ôö£ ãÆ /admin/orders/[id]                    2.07 kB         115 kB
+Ôö£ ãÆ /admin/parametres                       357 B         103 kB
+Ôö£ ãÆ /admin/parametres/notifications         357 B         103 kB
+Ôö£ ãÆ /admin/preparation                      196 B         106 kB
+Ôö£ ãÆ /admin/preparation/[id]               2.02 kB         113 kB
+Ôö£ ãÆ /admin/products                       4.89 kB         118 kB
+Ôö£ ãÆ /admin/promotions                     2.41 kB         105 kB
+Ôö£ ãÆ /admin/rapports                       1.72 kB         108 kB
+Ôö£ ãÆ /admin/recherche                        196 B         106 kB
+Ôö£ ãÆ /admin/reviews                        1.59 kB         114 kB
+Ôö£ ãÆ /admin/security                       2.93 kB         121 kB
+Ôö£ ãÆ /admin/stocks                         4.03 kB         117 kB
+Ôö£ ãÆ /admin/sumup-catalog                  3.23 kB         116 kB
+Ôö£ ãÆ /admin/sumup-import                   2.99 kB         116 kB
+Ôö£ ãÆ /admin/sumup-sync                     3.46 kB         116 kB
+Ôö£ ãÆ /admin/sumup-sync/historique          1.26 kB         107 kB
+Ôö£ ãÆ /admin/transporteurs                    357 B         103 kB
+Ôö£ ãÆ /api/account/addresses                  357 B         103 kB
+Ôö£ ãÆ /api/account/loyalty                    357 B         103 kB
+Ôö£ ãÆ /api/account/profile                    357 B         103 kB
+Ôö£ ãÆ /api/account/recommendations            357 B         103 kB
+Ôö£ ãÆ /api/account/vape-profile               357 B         103 kB
+Ôö£ ãÆ /api/admin/audit-mode                   357 B         103 kB
+Ôö£ ãÆ /api/admin/ava-gestion                  357 B         103 kB
+Ôö£ ãÆ /api/admin/ava-memory                   357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog                      357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/export-excel         357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/images               357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/liquidarom-import    357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/schema-sync          357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/sumup-import         357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/sumup-raw            357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/sumup-sync           357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/sync-runs            357 B         103 kB
+Ôö£ ãÆ /api/admin/catalog/unified-import       357 B         103 kB
+Ôö£ ãÆ /api/admin/customers                    357 B         103 kB
+Ôö£ ãÆ /api/admin/devices                      357 B         103 kB
+Ôö£ ãÆ /api/admin/documents/[id]               357 B         103 kB
+Ôö£ ãÆ /api/admin/email/test                   357 B         103 kB
+Ôö£ ãÆ /api/admin/import                       357 B         103 kB
+Ôö£ ãÆ /api/admin/loyalty/lookup               357 B         103 kB
+Ôö£ ãÆ /api/admin/notifications                357 B         103 kB
+Ôö£ ãÆ /api/admin/orders                       357 B         103 kB
+Ôö£ ãÆ /api/admin/promotions                   357 B         103 kB
+Ôö£ ãÆ /api/admin/refunds                      357 B         103 kB
+Ôö£ ãÆ /api/admin/reports                      357 B         103 kB
+Ôö£ ãÆ /api/admin/reviews                      357 B         103 kB
+Ôö£ ãÆ /api/admin/security                     357 B         103 kB
+Ôö£ ãÆ /api/admin/shipments                    357 B         103 kB
+Ôö£ ãÆ /api/admin/stats                        357 B         103 kB
+Ôö£ ãÆ /api/admin/stocks                       357 B         103 kB
+Ôö£ ãÆ /api/admin/stocks/sync                  357 B         103 kB
+Ôö£ ãÆ /api/admin/sumup-sync/history           357 B         103 kB
+Ôö£ ãÆ /api/admin/sumup-sync/status            357 B         103 kB
+Ôö£ ãÆ /api/admin/users                        357 B         103 kB
+Ôö£ ãÆ /api/ai                                 357 B         103 kB
+Ôö£ ãÆ /api/ai-assistant                       357 B         103 kB
+Ôö£ ãÆ /api/auth/confirm                       357 B         103 kB
+Ôö£ ãÆ /api/auth/forgot-password               357 B         103 kB
+Ôö£ ãÆ /api/auth/login                         357 B         103 kB
+Ôö£ ãÆ /api/auth/logout                        357 B         103 kB
+Ôö£ ãÆ /api/auth/me                            357 B         103 kB
+Ôö£ ãÆ /api/auth/refresh                       357 B         103 kB
+Ôö£ ãÆ /api/auth/register                      357 B         103 kB
+Ôö£ ãÆ /api/auth/reset-password                357 B         103 kB
+Ôö£ ãÆ /api/ava/analyze-hardware               357 B         103 kB
+Ôö£ ãÆ /api/ava/device-identify                357 B         103 kB
+Ôö£ ãÆ /api/ava/device-support                 357 B         103 kB
+Ôö£ ãÆ /api/ava/media                          357 B         103 kB
+Ôö£ ãÆ /api/banners                            357 B         103 kB
+Ôö£ ãÆ /api/categories                         357 B         103 kB
+Ôö£ ãÆ /api/contact                            357 B         103 kB
+Ôö£ ãÆ /api/coupons                            357 B         103 kB
+Ôö£ ãÆ /api/cron/daily-report                  357 B         103 kB
+Ôö£ ãÆ /api/cron/sumup-sync                    357 B         103 kB
+Ôö£ ãÆ /api/favorites                          357 B         103 kB
+Ôö£ ãÆ /api/gateway/android-sms                357 B         103 kB
+Ôö£ ãÆ /api/health                             357 B         103 kB
+Ôö£ ãÆ /api/health/details                     357 B         103 kB
+Ôö£ ãÆ /api/health/live                        357 B         103 kB
+Ôö£ ãÆ /api/health/ready                       357 B         103 kB
+Ôö£ ãÆ /api/loyalty/scan                       357 B         103 kB
+Ôö£ ãÆ /api/newsletter                         357 B         103 kB
+Ôö£ ãÆ /api/orders                             357 B         103 kB
+Ôö£ ãÆ /api/payments/checkout                  357 B         103 kB
+Ôö£ ãÆ /api/payments/status                    357 B         103 kB
+Ôö£ ãÆ /api/products                           357 B         103 kB
+Ôö£ ãÆ /api/products/[id]                      357 B         103 kB
+Ôö£ ãÆ /api/reviews                            357 B         103 kB
+Ôö£ ãÆ /api/search                             357 B         103 kB
+Ôö£ ãÆ /api/shipping/options                   357 B         103 kB
+Ôö£ ãÆ /api/stock/validate                     357 B         103 kB
+Ôö£ ãÆ /api/stores/nearest                     357 B         103 kB
+Ôö£ ãÆ /api/sumup/checkout                     357 B         103 kB
+Ôö£ ãÆ /api/sumup/webhook                      357 B         103 kB
+Ôö£ ãÆ /api/viva/webhook                       357 B         103 kB
+Ôö£ ãÆ /boutique                             6.87 kB         132 kB
+Ôö£ ãÆ /boutique/[slug]                      6.22 kB         131 kB
+Ôö£ Ôùï /boutiques                              185 B         111 kB
+Ôö£ ãÆ /boutiques/[slug]                       185 B         111 kB
+Ôö£ Ôùï /cart                                 5.79 kB         124 kB
+Ôö£ Ôùï /catalogue-en-preparation               196 B         106 kB
+Ôö£ Ôùï /cgv                                    196 B         106 kB
+Ôö£ Ôùï /checkout                              5.5 kB         121 kB
+Ôö£ Ôùï /checkout/pay                         2.15 kB         111 kB
+Ôö£ Ôùï /checkout/success                     2.47 kB         115 kB
+Ôö£ Ôùï /compte/profil-vape                   5.73 kB         125 kB
+Ôö£ Ôùï /confirmer-compte                     1.76 kB         114 kB
+Ôö£ Ôùï /contact                               3.5 kB         116 kB
+Ôö£ ãÆ /e-liquides                            1.6 kB         113 kB
+Ôö£ ãÆ /fabricants/[slug]                      185 B         111 kB
+Ôö£ Ôùï /faq                                    170 B         106 kB
+Ôö£ Ôùï /favoris                              1.53 kB         127 kB
+Ôö£ ãÆ /formats/[code]                         170 B         106 kB
+Ôö£ ãÆ /gammes/[slug]                          190 B         125 kB
+Ôö£ Ôùï /ia                                   1.25 kB         283 kB
+Ôö£ Ôùï /login                                  175 B         116 kB
+Ôö£ Ôùï /maintenance                            492 B         108 kB
+Ôö£ Ôùï /manifest.webmanifest                   357 B         103 kB
+Ôö£ Ôùï /meilleures-ventes                      357 B         103 kB
+Ôö£ Ôùï /mentions-legales                       196 B         106 kB
+Ôö£ Ôùï /mot-de-passe-oublie                   2.2 kB         115 kB
+Ôö£ Ôùï /nouveautes                             357 B         103 kB
+Ôö£ Ôùï /politique-confidentialite              196 B         106 kB
+Ôö£ Ôùï /products                               357 B         103 kB
+Ôö£ ãÆ /products/[slug]                        357 B         103 kB
+Ôö£ ãÆ /promotions                             191 B         125 kB
+Ôö£ Ôùï /register                               175 B         116 kB
+Ôö£ Ôùï /robots.txt                             357 B         103 kB
+Ôöö Ôùï /sitemap.xml                            357 B         103 kB
++ First Load JS shared by all              102 kB
+  Ôö£ chunks/1255-cf02c4775860a5ab.js         46 kB
+  Ôö£ chunks/4bd1b696-100b9d70ed4e49c1.js   54.2 kB
+  Ôöö other shared chunks (total)           2.22 kB
+
+
+ãÆ Middleware                                41 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+

@@ -1,0 +1,74 @@
+{
+  "actifs": 409,
+  "actifsComplets": 218,
+  "catalogPct": 53.3,
+  "dupEan": 0,
+  "dupSumup": 0,
+  "dupNames": 0,
+  "mfrMix": 2,
+  "photoMismatch": 36,
+  "mixDetails": [
+    {
+      "product": "Raneki Liquide - Olympe - Athéna - 50 ml",
+      "productMfr": "Raneki Liquide",
+      "range": "Godfall City",
+      "rangeMfrId": "cms6nxppx0000utv8f0xj2c10"
+    },
+    {
+      "product": "Raneki Liquide - Olympe - Poséidon - 50 ml",
+      "productMfr": "Raneki Liquide",
+      "range": "Godfall City",
+      "rangeMfrId": "cms6nxppx0000utv8f0xj2c10"
+    }
+  ],
+  "photoDetails": [
+    {
+      "product": "Popcorn 10ml 0mg e-tasty",
+      "mfr": "airmust",
+      "folder": "e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/popcorn-10ml-0mg-e-tasty-a2bee0b1.webp"
+    },
+    {
+      "product": "Liquidarom - Ice Cool - Ice Cool - Pêche Raisin - 50 ml",
+      "mfr": "airmust",
+      "folder": "liquidarom",
+      "imageUrl": "/media/products/liquidarom/ice-cool/50ml/peche-raisin.webp"
+    },
+    {
+      "product": "E-Tasty One Taste - Fruits rouges 50ml",
+      "mfr": "alfa",
+      "folder": "e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/50ml/e-tasty-one-taste-fruits-rouges-50ml-2569dca9.webp"
+    },
+    {
+      "product": "Peche 10ml 0mg e-tasty",
+      "mfr": "airmust",
+      "folder": "e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/peche-10ml-0mg-e-tasty-f94f4e55.webp"
+    },
+    {
+      "product": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+      "mfr": "airmust",
+      "folder": "biarritz-lab",
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/yellow-fruits.webp"
+    },
+    {
+      "product": "Liquidarom - Ice Cool - Ice Cool - Extra Fruits rouges - 50 ml",
+      "mfr": "alfa",
+      "folder": "liquidarom",
+      "imageUrl": "/media/products/liquidarom/ice-cool/50ml/extra-fruits-rouges.webp"
+    },
+    {
+      "product": "Double dragon 50ml - fruit du dragon framboise",
+      "mfr": "alfa",
+      "folder": "biarritz-lab",
+      "imageUrl": "/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-framboise.webp"
+    },
+    {
+      "product": "Fruits rouges 10ml 0mg e-tasty",
+      "mfr": "alfa",
+      "folder": "e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/fruits-rouges-10ml-0mg-e-tasty-84f5db66.webp"
+    }
+  ]
+}

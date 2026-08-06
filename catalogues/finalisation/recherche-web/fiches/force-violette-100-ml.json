@@ -1,0 +1,39 @@
+{
+  "productId": "cms9gx9k6000hutw4iw8rdoba",
+  "catalogName": "Force Violette 100 ml",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "sourceUrls": [
+    "https://joshnoaco.fr/100-ml/15353-force-jaune-100ml-force-vape-swoke-6410947308338.html",
+    "https://swoke.net/force-vape/force-noire.html"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [
+    "EAN 6410947308338 était celui de Force Jaune — invalidé"
+  ],
+  "officialName": "Force Violette 100 ml — Force Vape",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml (100 dans 120)",
+  "nicotineBoostOptions": "boosters",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "flavorNotes": "Baies rouges, goumi, violette — EAN 100 ml non trouvé de façon univoque",
+  "photoUrl": "https://joshnoaco.fr/39979-large_default/force-jaune-100ml-force-vape-swoke.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+  "seo": {
+    "title": "Force Violette 100 ml — Force Vape (Swoke) | All Vap's",
+    "description": "Force Violette 100 ml — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — Baies rouges, goumi, violette — EAN 100 ml non trouvé de façon univoque"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:15.879Z"
+}

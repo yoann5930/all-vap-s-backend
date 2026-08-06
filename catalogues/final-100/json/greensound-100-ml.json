@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbdt002vutw4v0bxerrn",
+  "catalogName": "Greensound 100 ml",
+  "name": "Greensound 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Blue Hopper",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/blue-hopper-airmust/greensound-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

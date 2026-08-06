@@ -1,0 +1,29 @@
+{
+  "date": "2026-07-29T22:13:02.320Z",
+  "gamme": "Ice Cool",
+  "fabricant": "Liquidarom",
+  "publishedCount": 18,
+  "published": [
+    "Ice Cool - Ananas Kiwi jaune",
+    "Ice Cool - Cassis Citron",
+    "Ice Cool - Cassis Framboise Raisin",
+    "Ice Cool - Cassis Mangue",
+    "Ice Cool - Citron Pastèque",
+    "Ice Cool - Citron vert Orange sanguine",
+    "Ice Cool - Cocktail exotique",
+    "Ice Cool - Cola Pomme",
+    "Ice Cool - Extra Fruits rouges",
+    "Ice Cool - Fraise Framboise Basilic",
+    "Ice Cool - Framboise bleue Pitaya",
+    "Ice Cool - Fruit du dragon Fruits rouges",
+    "Ice Cool - Fruit du serpent Framboise",
+    "Ice Cool - Grenade tropicale",
+    "Ice Cool - Kiwi Banane",
+    "Ice Cool - Mangue Passion",
+    "Ice Cool - Pastèque Fruits rouges",
+    "Ice Cool - Pêche Raisin"
+  ],
+  "skipped": [],
+  "controlUrl": "http://localhost:3000/gammes/ice-cool",
+  "homeUntouched": true
+}

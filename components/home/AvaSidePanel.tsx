@@ -1,30 +1,33 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { Mic, Truck, ShieldCheck, Gift, MessageCircle } from "lucide-react";
-
-const SUGGESTIONS = [
-  "Je débute la vape",
-  "Quel taux de nicotine choisir ?",
-  "Quels sont les meilleurs fruits ?",
-  "Quel matériel pour commencer ?",
-];
+import {
+  AVA_QUICK_ACTION_ORDER,
+  AVA_QUICK_ACTIONS,
+  openAvaWithIntent,
+  type AvaQuickIntent,
+} from "@/lib/ava/quick-actions";
 
 const BENEFITS = [
   { icon: Truck, title: "LIVRAISON RAPIDE", subtitle: "24/48h avec suivi" },
-  { icon: ShieldCheck, title: "PAIEMENT SÉCURISÉ", subtitle: "Viva.com" },
+  { icon: ShieldCheck, title: "PAIEMENT SÉCURISÉ", subtitle: "Carte bancaire" },
   { icon: Gift, title: "PROGRAMME FIDÉLITÉ", subtitle: "Des avantages exclusifs" },
   { icon: MessageCircle, title: "CONSEILS D'EXPERTS", subtitle: "En boutique et en ligne" },
 ];
 
-function openAva() {
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new Event("allvaps:open-ava"));
-  }
-}
-
 /** Panneau A.V.A. — colonne droite maquette */
 export function AvaSidePanel({ showBenefits = true }: { showBenefits?: boolean }) {
+  const [openingIntent, setOpeningIntent] = useState<AvaQuickIntent | null>(null);
+
+  function handleQuick(intent: AvaQuickIntent) {
+    if (openingIntent) return;
+    setOpeningIntent(intent);
+    openAvaWithIntent(intent);
+    window.setTimeout(() => setOpeningIntent(null), 800);
+  }
+
   return (
     <aside className="flex w-full flex-col gap-4">
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0B1016]/95 shadow-[0_0_40px_rgba(0,174,239,0.08)]">
@@ -52,25 +55,30 @@ export function AvaSidePanel({ showBenefits = true }: { showBenefits?: boolean }
           </div>
 
           <div className="space-y-2">
-            {SUGGESTIONS.map((label) => (
-              <button
-                key={label}
-                type="button"
-                onClick={openAva}
-                className="w-full rounded-full border border-white/10 bg-transparent px-3 py-2 text-left text-[12px] text-[#A7B0BC] transition-colors hover:border-brand-500/40 hover:text-brand-300"
-              >
-                {label}
-              </button>
-            ))}
+            {AVA_QUICK_ACTION_ORDER.map((intent) => {
+              const label = AVA_QUICK_ACTIONS[intent].label;
+              return (
+                <button
+                  key={intent}
+                  type="button"
+                  disabled={openingIntent !== null}
+                  onClick={() => handleQuick(intent)}
+                  className="w-full rounded-full border border-white/10 bg-transparent px-3 py-2 text-left text-[12px] text-[#A7B0BC] transition-colors hover:border-brand-500/40 hover:text-brand-300 disabled:opacity-60"
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           <button
             type="button"
-            onClick={openAva}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-3 text-sm font-semibold text-premium-black transition-colors hover:bg-brand-400"
+            disabled={openingIntent !== null}
+            onClick={() => handleQuick("OPEN_GENERAL_CHAT")}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-3 text-sm font-semibold text-premium-black transition-colors hover:bg-brand-400 disabled:opacity-60"
           >
             <Mic className="h-4 w-4" />
-            Discuter avec A.V.A.
+            {AVA_QUICK_ACTIONS.OPEN_GENERAL_CHAT.label}
           </button>
           <p className="text-center text-[10px] text-[#A7B0BC]/70">Réponse instantanée 24/7</p>
         </div>

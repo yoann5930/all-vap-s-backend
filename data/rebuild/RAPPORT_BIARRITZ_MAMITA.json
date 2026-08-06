@@ -1,0 +1,47 @@
+{
+  "date": "2026-07-30T00:43:35.238Z",
+  "fabricant": "Biarritz Lab",
+  "gamme": "Mamita",
+  "format": "50ml",
+  "publishedCount": 5,
+  "published": [
+    {
+      "id": "cms6eug1u0167utmkrgnc6d9z",
+      "name": "Bowl de Céréales Noisette Pécan Crème — Mamita — 50 ml",
+      "slug": "mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "sumupProductId": "6724a4dc-11ce-4ac1-aed6-7db00a8259bd"
+    },
+    {
+      "id": "cms6eug1z0168utmkmnta63rm",
+      "name": "Café Stout — Mamita — 50 ml",
+      "slug": "mamita-50ml-cafe-stout-557875dc",
+      "sumupProductId": "557875dc-e211-4ae6-8f76-f8fc67320f72"
+    },
+    {
+      "id": "cms6eug230169utmkvwrieer6",
+      "name": "Café Vanille Custard — Mamita — 50 ml",
+      "slug": "mamita-50ml-cafe-vanille-custard-68c32f20",
+      "sumupProductId": "68c32f20-2763-4167-98e7-00686259829a"
+    },
+    {
+      "id": "cms6eug2i016cutmkw0nyhouo",
+      "name": "Cookie Choco Noisette — Mamita — 50 ml",
+      "slug": "mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "sumupProductId": "dd2c2826-6f62-4198-9d59-b834b3d21a7d"
+    },
+    {
+      "id": "cms6eug27016autmkbb5868tu",
+      "name": "Custard Vanille Pécan — Mamita — 50 ml",
+      "slug": "mamita-50ml-custard-vanille-pecan-238179b3",
+      "sumupProductId": "238179b3-aa22-407e-ac87-63d39bc53e9b"
+    }
+  ],
+  "skipped": [],
+  "unpublishedExtras": [],
+  "controlUrls": [
+    "http://localhost:3000/fabricants/biarritz-lab",
+    "http://localhost:3000/gammes/mamita?fabricant=biarritz-lab"
+  ],
+  "noSumupWrite": true,
+  "noDuplicates": true
+}

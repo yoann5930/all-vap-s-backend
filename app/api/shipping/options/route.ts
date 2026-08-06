@@ -1,10 +1,10 @@
 import { jsonResponse } from "@/lib/api-utils";
-import { SHIPPING_OPTIONS } from "@/lib/shipping";
+import { getPublicShippingOptions } from "@/lib/shipping";
 
-/** Options de livraison publiques (frais + délais). */
+/** Options de livraison publiques (La Poste / Colissimo exclus). */
 export async function GET() {
   return jsonResponse({
-    options: SHIPPING_OPTIONS.map((o) => ({
+    options: getPublicShippingOptions().map((o) => ({
       id: o.id,
       name: o.name,
       description: o.description,

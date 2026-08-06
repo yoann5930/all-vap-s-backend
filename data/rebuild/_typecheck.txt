@@ -1,0 +1,12 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> all-vaps@1.0.0 typecheck
+> tsc --noEmit
+
+components/products/ProductCard.tsx(38,39): error TS2345: Argument of type 'ProductCardData' is not assignable to parameter of type 'ZeroMixProductInput'.
+  Types of property 'rangeRef' are incompatible.
+    Type '{ id?: string | undefined; name: string; slug?: string | undefined; manufacturerId?: string | null | undefined; manufacturer?: { id?: string | undefined; slug?: string | undefined; } | null | undefined; } | null | undefined' is not assignable to type '{ id: string; slug: string; manufacturerId?: string | null | undefined; manufacturer?: { id?: string | undefined; slug?: string | undefined; } | null | undefined; } | null | undefined'.
+      Type '{ id?: string | undefined; name: string; slug?: string | undefined; manufacturerId?: string | null | undefined; manufacturer?: { id?: string | undefined; slug?: string | undefined; } | null | undefined; }' is not assignable to type '{ id: string; slug: string; manufacturerId?: string | null | undefined; manufacturer?: { id?: string | undefined; slug?: string | undefined; } | null | undefined; }'.
+        Types of property 'id' are incompatible.
+          Type 'string | undefined' is not assignable to type 'string'.
+            Type 'undefined' is not assignable to type 'string'.

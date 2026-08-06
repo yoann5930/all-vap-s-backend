@@ -67,8 +67,16 @@ const updateSchema = z.object({
   brand: z.string().optional().nullable(),
   categoryId: z.string().optional().nullable(),
   brandId: z.string().optional().nullable(),
-  imageUrl: z.string().url().optional().nullable(),
-  images: z.array(z.string().url()).optional(),
+  imageUrl: z
+    .string()
+    .refine((v) => /^https?:\/\//i.test(v) || v.startsWith("/"), "URL image invalide")
+    .optional()
+    .nullable(),
+  images: z
+    .array(
+      z.string().refine((v) => /^https?:\/\//i.test(v) || v.startsWith("/"), "URL image invalide")
+    )
+    .optional(),
   priceCents: z.number().int().positive().optional(),
   promoPriceCents: z.number().int().positive().optional().nullable(),
   stock: z.number().int().min(0).optional(),
@@ -87,6 +95,35 @@ export async function PATCH(
     await requireAuth("ADMIN");
     const { id } = await params;
     const data = updateSchema.parse(await request.json());
+
+    if (data.imageUrl) {
+      const existing = await prisma.product.findUnique({
+        where: { id },
+        select: {
+          name: true,
+          brand: true,
+          slug: true,
+          range: true,
+          productType: true,
+          manufacturer: { select: { slug: true, name: true } },
+          rangeRef: { select: { slug: true } },
+        },
+      });
+      if (existing) {
+        const { ensureProductImageEtastyStyle } = await import(
+          "@/lib/catalog/normalize-product-image"
+        );
+        data.imageUrl = await ensureProductImageEtastyStyle({
+          sourceUrl: data.imageUrl,
+          productName: data.name || existing.name,
+          brand: data.brand ?? existing.brand ?? existing.manufacturer?.name,
+          manufacturerSlug: existing.manufacturer?.slug,
+          rangeSlug: existing.rangeRef?.slug || existing.range,
+          format: existing.productType,
+          productSlug: existing.slug,
+        });
+      }
+    }
 
     const product = await prisma.product.update({ where: { id }, data });
     return jsonResponse(product);

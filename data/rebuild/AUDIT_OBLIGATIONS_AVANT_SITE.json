@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-01T02:59:31.652Z",
+  "verdict": "OK_POUR_SITE",
+  "onlineTotal": 172,
+  "onlineEliquides": 172,
+  "violationCount": 0,
+  "warningCount": 11,
+  "obligations": {
+    "sumup_lie": "sumupProductId + sumupName obligatoires en ligne",
+    "photo_officielle": "imageStatus official|validated + fichier /media/",
+    "pas_invention_nom": "name compatible sumupName ou preuve URL officielle",
+    "pas_invention_ean": "EAN seulement si valide / présent — jamais inventé",
+    "anti_doublons": "1 sumupProductId = 1 produit online",
+    "push_sumup": "CSV outbox_sumup à importer dans SumUp Articles (pas d'API catalogue)"
+  },
+  "sumupFiles": {
+    "inboxExports": 1,
+    "outboxPushReady": true,
+    "outboxPath": "D:\\all vaps\\all-vap-s-backend\\outbox_sumup\\LATEST_items-push_ALLVAPS.csv"
+  },
+  "violations": [],
+  "warningsSample": [
+    {
+      "rule": "ean13_format",
+      "name": "Citron vert 10ml 0mg e-tasty",
+      "barcode": "901101000107"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Peche 10ml 0mg e-tasty",
+      "barcode": "902301000102"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "United 10ml 0mg e-tasty",
+      "barcode": "900401000107"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Fruits rouges 10ml 0mg e-tasty",
+      "barcode": "901001000108"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Menthe Fraiche 10ml 0mg e-tasty",
+      "barcode": "900701000104"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Fraise sauvege 10ml 0mg e-tasty",
+      "barcode": "900601000105"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Kenton 10ml 0mg e-tasty",
+      "barcode": "902601000109"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Menthe polaire 10ml 0mg e-tasty",
+      "barcode": "900801000103"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Vanille dore 10ml 0mg e-tasty",
+      "barcode": "901201000106"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Ananas 10ml 0mg e-tasty",
+      "barcode": "902201000103"
+    },
+    {
+      "rule": "ean13_format",
+      "name": "Framboise sauvage 10ml 0mg e-tasty",
+      "barcode": "901601000102"
+    }
+  ],
+  "eanAbsentCount": 0,
+  "eanInvalidCount": 11
+}

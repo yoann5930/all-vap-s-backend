@@ -1,0 +1,30 @@
+{
+  "date": "2026-07-29T23:43:29.664Z",
+  "groups": 2,
+  "merged": 6,
+  "primaries": [
+    {
+      "name": "Barbe À Papa — One Taste — 10 ml",
+      "slug": "one-taste-barbe-a-papa-10ml",
+      "variants": 4,
+      "dosages": [
+        0,
+        3,
+        6,
+        12
+      ]
+    },
+    {
+      "name": "Harrison — One Taste — 10 ml",
+      "slug": "one-taste-harrison-10ml",
+      "variants": 4,
+      "dosages": [
+        0,
+        3,
+        6,
+        12
+      ]
+    }
+  ],
+  "skippedSingleton": 57
+}

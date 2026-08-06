@@ -1,0 +1,136 @@
+{
+  "productId": "cms96cva3000juto861bzosuz",
+  "catalogName": "Senka",
+  "fullName": "Senka",
+  "manufacturer": "66 Juice",
+  "range": "66 Juice",
+  "formatMl": null,
+  "pgVg": null,
+  "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": null,
+  "photoSource": null,
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/66-juice-66-juice.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "format",
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Senka",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/senka.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/senka.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/senka/fiche.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/senka.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Senka» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Senka» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Senka» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Senka» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:46.811Z"
+}

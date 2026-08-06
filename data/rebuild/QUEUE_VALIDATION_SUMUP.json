@@ -1,0 +1,268 @@
+[
+  {
+    "nomSumUp": "Ananamorphe 50ml - Modjo Vapors by Liquidarom",
+    "identifiantSumUp": "6d835b4c-24f1-4c02-b9a6-ce3e8c058e11",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Ananamorphe 50ml - Modjo Vapors by Liquidarom",
+    "candidats": [
+      {
+        "id": "cms6euay6002futmkqpfviq8w",
+        "name": "Ananamorphe 50ml - Modjo Vapors by Liquidarom",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "BLOODY SUMMER ELIQUIDFRANCE FRUIZEE 50ML 00MG",
+    "identifiantSumUp": "cc31491d-d289-43d9-a476-adc5d9e1f723",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "BLOODY SUMMER ELIQUIDFRANCE FRUIZEE 50ML 00MG",
+    "candidats": [
+      {
+        "id": "cms6euba8004tutmkh48nubig",
+        "name": "BLOODY SUMMER ELIQUIDFRANCE FRUIZEE 50ML 00MG",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Bisou Black Swoke 50ml Swoke",
+    "identifiantSumUp": "bc584d4d-17eb-4f05-94de-b1005bfd0151",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Bisou Black Swoke 50ml Swoke",
+    "candidats": [
+      {
+        "id": "cms6eubgv006dutmkj4b0d5hx",
+        "name": "Bisou Black Swoke 50ml Swoke",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Bloody Dragon 50ml - Fruizee by ELIQUID France",
+    "identifiantSumUp": "4f84606d-d721-49eb-b6ab-a74037212142",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Bloody Dragon 50ml - Fruizee by ELIQUID France",
+    "candidats": [
+      {
+        "id": "cms6eubjl006zutmk245gtsun",
+        "name": "Bloody Dragon 50ml - Fruizee by ELIQUID France",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Booster 50/50 Sel de nicotine Liquideo 10ml 20mg",
+    "identifiantSumUp": "b90f4561-3db4-42cc-b3c4-4e12564aabab",
+    "ean": "",
+    "categorie": "18.D.I.Y",
+    "produitCatalogueCandidat": "Booster 50/50 Sel de nicotine Liquideo 10ml 20mg",
+    "candidats": [
+      {
+        "id": "cms6eubmp007outmkrq0e22jw",
+        "name": "Booster 50/50 Sel de nicotine Liquideo 10ml 20mg",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Breezer Saiyen Vapors 50ml Swoke",
+    "identifiantSumUp": "0d8fa941-26fd-451c-bdff-4815d844ced0",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Breezer Saiyen Vapors 50ml Swoke",
+    "candidats": [
+      {
+        "id": "cms6eubp40087utmkigpgupnz",
+        "name": "Breezer Saiyen Vapors 50ml Swoke",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "COLA LALA CANDY CO. VAPE MAKER 50ML",
+    "identifiantSumUp": "42ae175a-6f62-43f9-8007-4f3b25a64373",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "COLA LALA CANDY CO. VAPE MAKER 50ML",
+    "candidats": [
+      {
+        "id": "cms6eubro008uutmkj5fusf3k",
+        "name": "COLA LALA CANDY CO. VAPE MAKER 50ML",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Chocolat Obsession 50ml - Absolut by Vape Maker",
+    "identifiantSumUp": "dff87fb7-5f2f-4ed0-a574-483529fe5b7e",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Chocolat Obsession 50ml - Absolut by Vape Maker",
+    "candidats": [
+      {
+        "id": "cms6euc4w00bjutmk39ny4o4t",
+        "name": "Chocolat Obsession 50ml - Absolut by Vape Maker",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Chocolate Vanilla 50ml - Suprême by Vape Maker",
+    "identifiantSumUp": "d5eecfc8-d9f9-4f5f-98a2-4f595131f68d",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Chocolate Vanilla 50ml - Suprême by Vape Maker",
+    "candidats": [
+      {
+        "id": "cms6euc5700bmutmkt5obhly4",
+        "name": "Chocolate Vanilla 50ml - Suprême by Vape Maker",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "FIZZYPPLE CANDY CO. VAPE MAKER 50ML",
+    "identifiantSumUp": "7e2d548e-b906-491b-9603-a2786fec73e2",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "FIZZYPPLE CANDY CO. VAPE MAKER 50ML",
+    "candidats": [
+      {
+        "id": "cms6eud9800k2utmk1vzy2i90",
+        "name": "FIZZYPPLE CANDY CO. VAPE MAKER 50ML",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Frozen Paipai Saiyen Vapors 50ml Swoke",
+    "identifiantSumUp": "b957453c-17e9-4c00-a115-665d6e5ded2c",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Frozen Paipai Saiyen Vapors 50ml Swoke",
+    "candidats": [
+      {
+        "id": "cms6eudls00n7utmkdjuj2srk",
+        "name": "Frozen Paipai Saiyen Vapors 50ml Swoke",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Itank T 6ml Vaporesso",
+    "identifiantSumUp": "86f366b4-3703-42f8-aa54-c6f66b8f84ea",
+    "ean": "",
+    "categorie": "03.atomiseur",
+    "produitCatalogueCandidat": "Itank T 6ml Vaporesso",
+    "candidats": [
+      {
+        "id": "cms6euen500vlutmkweftib1o",
+        "name": "Itank T 6ml Vaporesso",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Necromancer 50ml - Tribal Lords by Tribal Force",
+    "identifiantSumUp": "6ac4c0f1-69de-4768-a75f-4c9f0652c0fb",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Necromancer 50ml - Tribal Lords by Tribal Force",
+    "candidats": [
+      {
+        "id": "cms6euggm019futmkwlok0f9l",
+        "name": "Necromancer 50ml - Tribal Lords by Tribal Force",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  },
+  {
+    "nomSumUp": "Thief 50ml - Tribal Lords by Tribal Force",
+    "identifiantSumUp": "76581542-dd57-42fb-b852-81d319f9c429",
+    "ean": "",
+    "categorie": "06.E-liquide 50ml",
+    "produitCatalogueCandidat": "Thief 50ml - Tribal Lords by Tribal Force",
+    "candidats": [
+      {
+        "id": "cms6euif601oiutmkgl0kkgrj",
+        "name": "Thief 50ml - Tribal Lords by Tribal Force",
+        "sumupProductId": null
+      }
+    ],
+    "scoreCorrespondance": 75,
+    "raisonBlocage": "nom_normalise_strict",
+    "statut": "MATCH_STRICT_NAME",
+    "actionProposee": "valider_manuellement_avant_liaison_sumup",
+    "validationRequise": true
+  }
+]

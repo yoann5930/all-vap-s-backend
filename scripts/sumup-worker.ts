@@ -3,6 +3,7 @@
  * Worker SumUp — boucle serveur (Docker / Render worker / PM2).
  * Ne démarre que si SUMUP_SYNC_ENABLED=true.
  */
+import "./load-env";
 import prisma from "../lib/prisma";
 import { getSumUpSyncConfig } from "../lib/sumup/config";
 import { runSumUpSync } from "../lib/sumup/sync-service";

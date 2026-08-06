@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ProductCard } from "@/components/products/ProductCard";
+import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
+import { rangeCoverUrl } from "@/lib/catalog/range-cover";
+import { filterProductsZeroMix } from "@/lib/catalog/zero-mix-gate";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 
@@ -27,9 +30,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 /**
- * Page gamme catalogue.
- * Affiche UNIQUEMENT les produits publiés de CETTE gamme.
- * N'affecte pas la page d'accueil.
+ * Niveau 3 — produits officiels de CETTE gamme uniquement.
  */
 export default async function GammePage({ params, searchParams }: Props) {
   const { slug } = await params;
@@ -48,31 +49,23 @@ export default async function GammePage({ params, searchParams }: Props) {
 
   if (!range) notFound();
 
-  // Filtre strict gamme : rangeId OU (range name + family) pour Ice Cool
-  const products = await prisma.product.findMany({
+  if (!isRangeCatalogEligible(readRangeOfficialGate(range as unknown as Record<string, unknown>))) {
+    notFound();
+  }
+
+  const productsRaw = await prisma.product.findMany({
     where: {
       visibleOnline: true,
       isActive: true,
       catalogStatus: { in: ["valide", "actif"] },
-      OR: [
-        { rangeId: range.id },
-        {
-          AND: [
-            { range: { equals: range.name, mode: "insensitive" } },
-            ...(range.slug === "ice-cool"
-              ? [{ productFamily: "ICE_COOL" as const }]
-              : []),
-          ],
-        },
-      ],
-      // Jamais Ice Cool X sur page Ice Cool
+      rangeId: range.id,
+      manufacturerId: range.manufacturerId ?? undefined,
       ...(range.slug === "ice-cool"
         ? {
             NOT: {
               OR: [
                 { productFamily: "ICE_COOL_X" },
                 { name: { contains: "Ice Cool X", mode: "insensitive" } },
-                { range: { contains: "Ice Cool X", mode: "insensitive" } },
               ],
             },
           }
@@ -82,13 +75,28 @@ export default async function GammePage({ params, searchParams }: Props) {
       flavors: true,
       variants: true,
       catalogImages: { orderBy: { sortOrder: "asc" } },
-      rangeRef: true,
+      manufacturer: { select: { id: true, slug: true, name: true } },
+      rangeRef: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          manufacturerId: true,
+          manufacturer: { select: { id: true, slug: true } },
+        },
+      },
     },
     orderBy: { name: "asc" },
   });
 
+  const { ok: products } = filterProductsZeroMix(productsRaw);
+
+  // Couverture gamme obligatoire
+  if (!rangeCoverUrl(range.manufacturer?.slug, range.slug)) {
+    notFound();
+  }
+
   const fab = range.manufacturer;
-  const formats = [...new Set(products.map((p) => p.productType).filter(Boolean))];
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
@@ -101,9 +109,20 @@ export default async function GammePage({ params, searchParams }: Props) {
         ]}
       />
 
+      <p className="mt-4 flex flex-wrap gap-4 text-sm">
+        {fab ? (
+          <Link href={`/fabricants/${fab.slug}`} className="text-brand-400 hover:text-brand-300">
+            ← Retour aux gammes {fab.name}
+          </Link>
+        ) : null}
+        <Link href="/e-liquides" className="text-[#A7B0BC] hover:text-white">
+          ← Retour aux fabricants
+        </Link>
+      </p>
+
       <section className="relative mt-4 overflow-hidden rounded-2xl border border-white/8">
         <div
-          className="relative min-h-[180px] px-6 py-12 sm:px-10"
+          className="relative min-h-[160px] px-6 py-10 sm:px-10"
           style={{
             background:
               "radial-gradient(ellipse 55% 70% at 75% 40%, rgba(0,174,239,0.18) 0%, transparent 55%), #0B1016",
@@ -115,11 +134,6 @@ export default async function GammePage({ params, searchParams }: Props) {
           <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
             {range.name}
           </h1>
-          <p className="mt-3 text-sm text-[#A7B0BC]">
-            {products.length} produit{products.length > 1 ? "s" : ""} publié
-            {products.length > 1 ? "s" : ""}
-            {formats.length ? ` · Format${formats.length > 1 ? "s" : ""} : ${formats.join(", ")}` : ""}
-          </p>
         </div>
       </section>
 
@@ -137,15 +151,6 @@ export default async function GammePage({ params, searchParams }: Props) {
           </div>
         )}
       </section>
-
-      <div className="mt-10">
-        <Link
-          href={fab ? `/fabricants/${fab.slug}` : "/e-liquides"}
-          className="text-sm text-brand-400"
-        >
-          ← Retour {fab ? fab.name : "e-liquides"}
-        </Link>
-      </div>
     </div>
   );
 }

@@ -1,0 +1,37 @@
+{
+  "id": "cms9gxayx002butw4dbqz11ls",
+  "slug": "posei-100-godfall-city",
+  "nom": "Posei 100 ml",
+  "description": "Officiel Godfall City — SumUp à lier.",
+  "seo": {
+    "title": "Posei 100 ml | e.Tasty | All Vap's",
+    "description": "Officiel Godfall City — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "e.Tasty",
+    "gamme": "Godfall City",
+    "saveur": "Posei",
+    "format": "100 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/e-tasty/god-fall-city/100ml/posei-100ml-godfallcity-e-tasty-86ccad0b.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\e-tasty\\god-fall-city\\100ml\\posei-100ml-godfallcity-e-tasty-86ccad0b.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\e-tasty\\ranges\\god-fall-city.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/posei-100-godfall-city.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/e-tasty__god-fall-city.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

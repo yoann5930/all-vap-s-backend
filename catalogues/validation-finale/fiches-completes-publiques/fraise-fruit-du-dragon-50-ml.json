@@ -1,0 +1,35 @@
+{
+  "productId": "cms96dgq6004futo8o3olofk5",
+  "catalogName": "Fraise Fruit du Dragon 50 ml",
+  "officialName": "Granita Soft — Fraise Fruit du Dragon 50 ml",
+  "manufacturer": "Alfaliquid",
+  "range": "Granita Soft",
+  "flavor": "Fraise, fruit du dragon, fraîcheur",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml shortfill",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Granita Soft Fraise Fruit du Dragon — Alfaliquid, 50 ml, 50/50, 0 mg.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/fraise-fruit-du-dragon-50-ml/photo.webp",
+  "bannerLocal": "catalogues/validation-finale/fraise-fruit-du-dragon-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://www.lca-distribution.com/granita-soft/"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:46.516Z"
+}

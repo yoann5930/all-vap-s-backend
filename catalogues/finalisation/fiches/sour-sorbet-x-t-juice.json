@@ -1,0 +1,37 @@
+{
+  "id": "cms96dhnv004wuto8813gy228",
+  "slug": "sour-sorbet-x-t-juice",
+  "nom": "Sour Sorbet",
+  "description": "Fiche catalogue officielle (T-Juice) — stock SumUp à lier.",
+  "seo": {
+    "title": "Sour Sorbet | T-Juice | All Vap's",
+    "description": "Fiche catalogue officielle (T-Juice) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "format",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "T-Juice",
+    "gamme": "T-Juice 50 mL",
+    "saveur": "Sour Sorbet",
+    "format": null,
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\t-juice\\ranges\\t-juice-50-ml.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/t-juice__t-juice-50-ml.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

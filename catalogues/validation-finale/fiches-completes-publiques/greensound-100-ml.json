@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxbdt002vutw4v0bxerrn",
+  "catalogName": "Greensound 100 ml",
+  "officialName": "HOPPER • Greensound 100ml",
+  "manufacturer": "AirMust",
+  "range": "Hopper",
+  "flavor": "Fraise, kiwi",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "1 booster → ~1,8 mg/ml ; 2 → ~3,3 mg/ml",
+  "description": "HOPPER Greensound 100 ml par AirMust — shortfill 0 mg, PG/VG 50/50, fabriqué en France.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/greensound-100-ml/photo.jpg",
+  "bannerLocal": "catalogues/validation-finale/greensound-100-ml/banniere.webp",
+  "sourceUrls": [
+    "https://airmust.com/100ml/",
+    "https://airmust.com/300-hopper",
+    "https://airmust.com/305-100ml-hopper"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:34.574Z"
+}

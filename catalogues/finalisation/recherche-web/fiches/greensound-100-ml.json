@@ -1,0 +1,40 @@
+{
+  "productId": "cms9gxbdt002vutw4v0bxerrn",
+  "catalogName": "Greensound 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Blue Hopper",
+  "sourceUrls": [
+    "https://airmust.com/300-hopper",
+    "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+    "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [
+    "Format 100 ml lu depuis le nom catalogue"
+  ],
+  "officialName": "HOPPER (AirMust) — saveur catalogue",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+  "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+  "ean": null,
+  "eanConfidence": "missing",
+  "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+  "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+  "seo": {
+    "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+    "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:25.474Z"
+}

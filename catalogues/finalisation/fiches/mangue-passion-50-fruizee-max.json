@@ -1,0 +1,37 @@
+{
+  "id": "cms9gxd6l005futw41f007ft6",
+  "slug": "mangue-passion-50-fruizee-max",
+  "nom": "Mangue Passion 50 ml",
+  "description": "Officiel Fruizee Max — SumUp à lier.",
+  "seo": {
+    "title": "Mangue Passion 50 ml | Eliquid France | All Vap's",
+    "description": "Officiel Fruizee Max — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "Eliquid France",
+    "gamme": "Fruizee Max",
+    "saveur": "Mangue Passion",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/liquidarom/ice-cool/50ml/mangue-passion.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\ice-cool\\50ml\\mangue-passion.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\eliquid-france\\ranges\\fruizee-max-eliquid-france.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/mangue-passion-50-fruizee-max.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/eliquid-france__fruizee-max-eliquid-france.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

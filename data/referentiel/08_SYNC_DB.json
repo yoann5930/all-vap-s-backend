@@ -1,0 +1,15 @@
+{
+  "date": "2026-07-29T21:13:15.185Z",
+  "manufacturers": 15,
+  "brands": 35,
+  "ranges": 27,
+  "formats": 5,
+  "productsLinked": 91,
+  "productsSkipped": 36,
+  "formatsApplied": 77,
+  "validesSansFormat": 14,
+  "validesSansManufacturer": 0,
+  "frontBloque": true,
+  "formatsNonProuvesRemisANull": 14,
+  "note": "14 produits (MDS + Kaiser) : format MASTER a_verifier → productType null en DB"
+}

@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9t3000rutw4q9tu7bld",
+  "catalogName": "Atlas 50 ml",
+  "name": "Atlas 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/saint-flava-swoke/atlas-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

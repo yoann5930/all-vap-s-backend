@@ -18,9 +18,12 @@ interface Order {
 }
 
 const statusLabels: Record<string, { label: string; variant: "default" | "success" | "warning" | "danger" }> = {
-  PENDING: { label: "En attente", variant: "warning" },
-  PAID: { label: "Payée", variant: "success" },
+  PENDING: { label: "Commande reçue — paiement en attente", variant: "warning" },
+  PAID: { label: "Paiement confirmé", variant: "success" },
+  PREPARING: { label: "En cours de préparation", variant: "warning" },
+  PREPARED: { label: "Préparée", variant: "default" },
   SHIPPED: { label: "Expédiée", variant: "success" },
+  AT_RELAY: { label: "Disponible en point relais", variant: "success" },
   DELIVERED: { label: "Livrée", variant: "success" },
   CANCELLED: { label: "Annulée", variant: "danger" },
   REFUNDED: { label: "Remboursée", variant: "default" },

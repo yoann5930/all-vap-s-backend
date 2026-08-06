@@ -1,0 +1,132 @@
+# Images produits à contrôler
+
+**Produits actifs avec image non OK :** 231
+
+| Statut | Nb |
+|---|---:|
+| IMAGE_WRONG_PRODUCT | 37 |
+| IMAGE_MISSING | 191 |
+| IMAGE_WRONG_FORMAT | 3 |
+
+## Extrait
+
+- **Popcorn 10ml 0mg e-tasty** — `IMAGE_WRONG_PRODUCT` · /media/products/e-tasty/one-taste/10ml/popcorn-10ml-0mg-e-tasty-a2bee0b1.webp · mfr=airmust
+- **Café Frappé 50 ml** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Café Noisette 50 ml** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Café Caramel 50 ml** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Force Jaune 100 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Force Noire 100 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Force Violette 100 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Milo 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Pyro 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Pêche Abricot 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Candy 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Candy Gold Edition 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Xena 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Yumi 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Virgin Mojito 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Fraise Fruit du Dragon 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Citron Vert Melon 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Mûre Cassis 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Tropical Bleu 50 ml** — `IMAGE_MISSING` · sans image · mfr=alfa
+- **Lilya 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Ruby 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Vigo 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Concentré letters A e-tasty** — `IMAGE_WRONG_FORMAT` · /media/products/e-tasty/letters/100ml/concentre-letters-a-e-tasty-fc9840cb.webp · mfr=e-tasty
+- **Sour Sorbet** — `IMAGE_MISSING` · sans image · mfr=t-juice
+- **Bisou Red 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Bisou Black 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Bisou Yellow 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Bisou V2 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Adess 100 ml** — `IMAGE_MISSING` · sans image · mfr=e-tasty
+- **Dzeus 100 ml** — `IMAGE_MISSING` · sans image · mfr=e-tasty
+- **Posei 100 ml** — `IMAGE_MISSING` · sans image · mfr=e-tasty
+- **Thena 100 ml** — `IMAGE_MISSING` · sans image · mfr=e-tasty
+- **Liquidarom - Ice Cool - Ice Cool - Pêche Raisin - 50 ml** — `IMAGE_WRONG_PRODUCT` · /media/products/liquidarom/ice-cool/50ml/peche-raisin.webp · mfr=airmust
+- **Greensound 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Purplenuclear 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Yellowstorm 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Bluevolt 200 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **E-Tasty One Taste - Fruits rouges 50ml** — `IMAGE_WRONG_PRODUCT` · /media/products/e-tasty/one-taste/50ml/e-tasty-one-taste-fruits-rouges-50ml-2569dca9.webp · mfr=alfa
+- **Peche 10ml 0mg e-tasty** — `IMAGE_WRONG_PRODUCT` · /media/products/e-tasty/one-taste/10ml/peche-10ml-0mg-e-tasty-f94f4e55.webp · mfr=airmust
+- **Purplenuclear 200 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Redfire 200 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab** — `IMAGE_WRONG_PRODUCT` · /media/products/biarritz-lab/le-fruit-defendu/50ml/yellow-fruits.webp · mfr=airmust
+- **Liquidarom - Ice Cool - Ice Cool - Extra Fruits rouges - 50 ml** — `IMAGE_WRONG_PRODUCT` · /media/products/liquidarom/ice-cool/50ml/extra-fruits-rouges.webp · mfr=alfa
+- **Double dragon 50ml - fruit du dragon framboise** — `IMAGE_WRONG_PRODUCT` · /media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-framboise.webp · mfr=alfa
+- **Sharx 60 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Aspik 60 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Krak 60 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Grizz 60 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Fruits rouges 10ml 0mg e-tasty** — `IMAGE_WRONG_PRODUCT` · /media/products/e-tasty/one-taste/10ml/fruits-rouges-10ml-0mg-e-tasty-84f5db66.webp · mfr=alfa
+- **Leox 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Sharx 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Konga 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Liquidarom - Ice Cool - Ice Cool - Framboise bleue Pitaya - 50 ml** — `IMAGE_WRONG_PRODUCT` · /media/products/liquidarom/ice-cool/50ml/framboise-bleue-pitaya.webp · mfr=alfa
+- **MDS Juice - Mojito** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **Hippox 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Grizz 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Krak 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Aspik 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Paka Paka 50 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Dunky 50 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Speed 50 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Sword 50 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Jump 50 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Red Devil 50 ml** — `IMAGE_MISSING` · sans image · mfr=avap
+- **Red Devil 100 ml** — `IMAGE_MISSING` · sans image · mfr=avap
+- **Myst - Da Loving Witch - 50 ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Mint & Dragon fruit 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Dragon Fruit 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **MDS Juice - Gold** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **Citron Cassis 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Citron Mandarine 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Pêche Framboise 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Cola Pomme 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Dragon Fraise 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Dragon Fruits Rouges 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Fraise Framboise 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Fruits Rouges Raisin 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Fruits Rouges Yuzu 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Mangue Passion 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Menthe Givrée 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Triple Mangue 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Atlas 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Drago 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Frost 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **Bisou Pink 50 ml** — `IMAGE_MISSING` · sans image · mfr=swoke
+- **MDS Juice - Sunny** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **MDS Juice - Delicious** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **MDS Juice - Lime** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **Bluevolt 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Redfire 100 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Greensound 200 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Yellowstorm 200 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Leox 60 ml** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Mint & Raspberry 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Peach 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **Myst - Da Crazy Bird - 50 ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Myst - Da Smoky Eye - 50 ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Ginger 50 ml** — `IMAGE_MISSING` · sans image · mfr=eliquid-france
+- **MDS Juice - Green** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **MDS Juice - Red Wedding** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **MDS Juice - Virgo** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **Concentré letters B e-tasty** — `IMAGE_WRONG_FORMAT` · /media/products/e-tasty/letters/100ml/concentre-letters-b-e-tasty-fa3cc705.webp · mfr=e-tasty
+- **MDS Juice - Pink** — `IMAGE_MISSING` · sans image · mfr=mds-juice
+- **Juice 66 - Frost - 50 ml** — `IMAGE_MISSING` · sans image · mfr=juice-66
+- **Cloud Vapor - Call of Vape - Zombie - 50 ml** — `IMAGE_MISSING` · sans image · mfr=cloud-vapor
+- **Liquidarom - Ice Cool - Ice Cool - Mangue Passion - 50 ml** — `IMAGE_WRONG_PRODUCT` · /media/products/liquidarom/ice-cool/50ml/mangue-passion.webp · mfr=airmust
+- **Myst Da Crusty King 50 Ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Myst Da Good Snake 50 Ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Myst - Da Sweet Face - 50 ml** — `IMAGE_MISSING` · sans image · mfr=cookin-cloud
+- **Juice 66 - Snow - 50 ml** — `IMAGE_MISSING` · sans image · mfr=juice-66
+- **E-Tasty One Taste - Cafe expresso 50ml** — `IMAGE_WRONG_PRODUCT` · /media/products/e-tasty/one-taste/50ml/e-tasty-one-taste-cafe-expresso-50ml-eeb62be4.webp · mfr=liquide-lab
+- **Mamita - Café Vanille Custard - 50 ml** — `IMAGE_WRONG_PRODUCT` · /media/products/biarritz-lab/mamita/50ml/cafe-vanille-custard.webp · mfr=liquide-lab
+- **Kuix pink limonade fresh 10mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Kuix love 66 fresh 20mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Fou de caramel  50ml - Péché Gourmand** — `IMAGE_MISSING` · sans image · mfr=airmust
+- **Kuix cola citron fresh 20mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Kuix mango fresh 20mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Kuix mix berry fresh 10mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Kuix menthe fresh 10mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab
+- **Kuix myrtille fresh 20mg** — `IMAGE_MISSING` · sans image · mfr=liquide-lab

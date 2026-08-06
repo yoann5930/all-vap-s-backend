@@ -6,6 +6,14 @@ import path from "node:path";
 import prisma from "@/lib/prisma";
 import { normalizeProductName, extractExplicitSpecs } from "@/lib/catalog/normalize";
 import { slugify } from "@/lib/utils";
+import { isGroupPhotoUrl } from "@/lib/catalog/images";
+import { ensureLiquidaromRanges, matchRangeSlugFromText } from "@/lib/catalog/ranges";
+import { ensureProductImageEtastyStyle } from "@/lib/catalog/normalize-product-image";
+import {
+  productPublicImagePath,
+  productFlavorSlug,
+  resolveOfficialName,
+} from "@/lib/catalog/liquidarom-meta";
 
 export type LiquidaromImportStats = {
   read: number;
@@ -14,9 +22,14 @@ export type LiquidaromImportStats = {
   skipped: number;
   unchanged: number;
   flavorsUpserted: number;
+  avaMetaUpserted: number;
+  imagesLinked: number;
+  imagesMissing: number;
+  duplicatesAvoided: number;
   withoutPrice: number;
   withoutStock: number;
   errors: string[];
+  toReview: string[];
 };
 
 function stripBom(text: string): string {
@@ -128,6 +141,25 @@ function freshnessLevel(raw: string | undefined): boolean | null {
   return null;
 }
 
+function parsePgVg(raw: string | undefined): { pg?: number; vg?: number; label?: string } {
+  if (!raw) return {};
+  const label = raw.trim();
+  const m = label.match(/(\d+)\s*\/\s*(\d+)/);
+  if (m) return { pg: parseInt(m[1], 10), vg: parseInt(m[2], 10), label };
+  return { label: label || undefined };
+}
+
+function resolveLocalImageUrl(row: Record<string, string>, range: string | null, name: string): string | null {
+  const explicit = row.imageUrl || row["imageUrl"] || "";
+  if (explicit && !isGroupPhotoUrl(explicit) && !/^image-\d+\.jpg$/i.test(explicit)) {
+    return explicit.startsWith("/") ? explicit : `/${explicit.replace(/^\/+/, "")}`;
+  }
+  const rel = productPublicImagePath({ range: range || "", commercialName: name });
+  const abs = path.join(process.cwd(), "public", rel.replace(/^\//, "").replace(/\//g, path.sep));
+  if (fs.existsSync(abs)) return rel;
+  return null;
+}
+
 function pick<T>(incoming: T | null | undefined, existing: T | null | undefined): T | null | undefined {
   if (incoming === null || incoming === undefined || incoming === "") return existing;
   return incoming;
@@ -179,14 +211,30 @@ export async function importLiquidaromFromCsv(params: {
     skipped: 0,
     unchanged: 0,
     flavorsUpserted: 0,
+    avaMetaUpserted: 0,
+    imagesLinked: 0,
+    imagesMissing: 0,
+    duplicatesAvoided: 0,
     withoutPrice: 0,
     withoutStock: 0,
     errors: [],
+    toReview: [],
   };
 
+  await ensureLiquidaromRanges();
+  const liquidaromBrand = await prisma.brand.findFirst({ where: { slug: "liquidarom" } });
+  const rangeBySlug = new Map(
+    liquidaromBrand
+      ? (
+          await prisma.productRange.findMany({ where: { brandId: liquidaromBrand.id } })
+        ).map((r) => [r.slug, r.id])
+      : []
+  );
+
   for (const row of productRows) {
-    const externalId = row["ID produit"];
-    const name = row["Nom commercial"];
+    const externalId = row["ID produit"] || row.reference;
+    const rawName = row["Nom commercial"] || row.name;
+    const name = resolveOfficialName(externalId, rawName);
     if (!externalId || !name) {
       stats.skipped++;
       stats.errors.push(`Ligne sans ID/nom`);
@@ -194,29 +242,57 @@ export async function importLiquidaromFromCsv(params: {
     }
 
     try {
-      const brandName = row["Marque"] || "Liquidarom";
-      const range = row["Sous-catégorie"] || null;
-      const categorySlug = mapCategory(row["Catégorie"] || "E-liquide");
-      const categoryName = row["Catégorie"] || "E-liquides";
-      const barcode = row["Code-barres / SKU"] || null;
+      const brandName = row["Marque"] || row.fabricant || "Liquidarom";
+      const range = row["Sous-catégorie"] || row.gamme || null;
+      const rangeSlug = range ? matchRangeSlugFromText(`${range} ${name}`) : null;
+      const rangeId = rangeSlug ? rangeBySlug.get(rangeSlug) ?? null : null;
+      const categorySlug = mapCategory(row["Catégorie"] || row.categorie || "E-liquide");
+      const categoryName = row["Catégorie"] || row.categorie || "E-liquides";
+      const barcode = row["Code-barres / SKU"] || row.ean || null;
       const priceCents = parsePriceEuros(row["Prix vente TTC (€)"]);
       const stockTotal = parseStock(row["Stock total"]);
-      const nicotineMg = parseNicotine(row["Taux nicotine (mg/ml)"]);
-      const capacityRaw = row["Format / Contenance"] || "";
+      const nicotineMg = parseNicotine(row["Taux nicotine (mg/ml)"] || row.nicotine);
+      const capacityRaw = row["Format / Contenance"] || row.format || "";
       const capacityMatch = capacityRaw.match(/(\d+(?:[.,]\d+)?)\s*ml/i);
       const capacityMl = capacityMatch ? parseFloat(capacityMatch[1].replace(",", ".")) : null;
-      const description = row["Description complète"] || row["Description courte"] || null;
-      const activeBoutique = yes(row["Actif en boutique"]);
-      const activeOnline = yes(row["Actif en ligne"]);
-      // Publier au catalogue même si stock/prix boutique restent à confirmer.
-      const isActive = true;
-      const visibleOnline = true;
-      void activeBoutique;
-      void activeOnline;
-      const normalizedName = normalizeProductName(name);
-      const specs = extractExplicitSpecs(`${name} ${capacityRaw} ${description || ""}`);
-      const slugBase = slugify(`${brandName}-${name}-${capacityRaw || externalId}`);
+      const shortDescription = row["Description courte"] || row.shortDescription || null;
+      const longDescription = row["Description complète"] || row.longDescription || null;
+      const description = longDescription || shortDescription || null;
+      const pgvg = parsePgVg(row["Ratio PG/VG"] || row.pgvg);
+      const flavorSlug = row.slug || productFlavorSlug(name);
+      const slugBase = slugify(`liquidarom-${range || "eliquide"}-${flavorSlug}-50ml`);
       const sku = externalId;
+      const imageUrlCandidateRaw = resolveLocalImageUrl(row, range, name);
+      let imageUrlCandidate = imageUrlCandidateRaw;
+      if (imageUrlCandidateRaw && !isGroupPhotoUrl(imageUrlCandidateRaw) && !dryRun) {
+        try {
+          imageUrlCandidate = await ensureProductImageEtastyStyle({
+            sourceUrl: imageUrlCandidateRaw,
+            productName: name,
+            brand: "Liquidarom",
+            manufacturerSlug: "liquidarom",
+            rangeSlug: range || undefined,
+            format: capacityMl ? `${capacityMl}ml` : "50ml",
+            productSlug: flavorSlug,
+          });
+        } catch (e) {
+          stats.errors.push(
+            `image-style ${externalId}: ${e instanceof Error ? e.message : String(e)}`
+          );
+          imageUrlCandidate = null;
+        }
+      }
+      const imageStatusRaw = (row.imageStatus || "").toLowerCase();
+      const imageDbStatus =
+        imageStatusRaw === "validated"
+          ? "validated"
+          : imageStatusRaw === "official" && imageUrlCandidate
+            ? "official"
+            : "pending";
+
+      if (/vérifier|confirmer|to_review/i.test(row.productStatus || row.imageStatus || row["Notes internes"] || "")) {
+        stats.toReview.push(`${externalId}: ${name}`);
+      }
 
       if (priceCents == null) stats.withoutPrice++;
       if (stockTotal == null) stats.withoutStock++;
@@ -224,13 +300,22 @@ export async function importLiquidaromFromCsv(params: {
       if (dryRun) {
         const existing = await prisma.product.findFirst({
           where: {
-            OR: [{ sku }, ...(barcode ? [{ barcode }] : []), { normalizedName }],
+            OR: [{ sku }, { reference: externalId }, ...(barcode ? [{ barcode }] : []), { normalizedName: normalizeProductName(name) }],
           },
         });
-        if (existing) stats.updated++;
-        else stats.created++;
+        if (existing) {
+          stats.updated++;
+          stats.duplicatesAvoided++;
+        } else stats.created++;
+        if (imageUrlCandidate) stats.imagesLinked++;
+        else stats.imagesMissing++;
         continue;
       }
+
+      const normalizedName = normalizeProductName(name);
+      const specs = extractExplicitSpecs(`${name} ${capacityRaw} ${description || ""}`);
+      const isActive = true;
+      const visibleOnline = yes(row["Actif en ligne"]) || yes(row.visibility) || true;
 
       const brand = await ensureBrand(brandName);
       const category = await ensureCategory(
@@ -242,12 +327,17 @@ export async function importLiquidaromFromCsv(params: {
         where: {
           OR: [
             { sku },
+            { reference: externalId },
             ...(barcode ? [{ barcode }] : []),
             { AND: [{ brand: brandName }, { normalizedName }] },
           ],
         },
-        include: { stockLevels: true },
+        include: { stockLevels: true, catalogImages: true },
       });
+
+      if (existing && (existing.sku === sku || existing.reference === externalId)) {
+        stats.duplicatesAvoided++;
+      }
 
       const hasSumUpStock =
         Boolean(existing?.sumupProductId) || (existing?.stockLevels?.length || 0) > 0;
@@ -267,13 +357,17 @@ export async function importLiquidaromFromCsv(params: {
 
       const data = {
         sku,
-        name: pick(name, existing?.name) as string,
+        reference: externalId,
+        name,
         normalizedName,
         description: ((pick(description, existing?.description) as string | null) ?? null),
+        shortDescription: ((pick(shortDescription, existing?.shortDescription) as string | null) ?? null),
+        longDescription: ((pick(longDescription, existing?.longDescription) as string | null) ?? null),
         category: categorySlug,
         subcategory: range,
         brand: brandName,
         range,
+        rangeId,
         productType: row["Type de produit"] || null,
         categoryId: category.id,
         brandId: brand.id,
@@ -284,6 +378,11 @@ export async function importLiquidaromFromCsv(params: {
         isActive,
         visibleOnline,
         slug: existing?.slug || slugBase,
+        sumupName: existing?.sumupName ?? null,
+        sumupReference: existing?.sumupReference ?? null,
+        sumupSku: existing?.sumupSku ?? null,
+        sumupProductId: existing?.sumupProductId ?? null,
+        sumupVariantId: existing?.sumupVariantId ?? null,
       };
 
       let productId: string;
@@ -302,7 +401,8 @@ export async function importLiquidaromFromCsv(params: {
             ...data,
             description: data.description || existing.description,
             barcode: data.barcode || existing.barcode,
-            imageUrl: existing.imageUrl,
+            imageUrl: imageUrlCandidate || existing.imageUrl,
+            imageStatus: imageUrlCandidate ? imageDbStatus : existing.imageStatus || "pending",
           },
         });
         productId = existing.id;
@@ -315,10 +415,44 @@ export async function importLiquidaromFromCsv(params: {
           slug = `${slugBase}-${n++}`;
         }
         const created = await prisma.product.create({
-          data: { ...data, slug, images: [] },
+          data: {
+            ...data,
+            slug,
+            images: [],
+            imageUrl: imageUrlCandidate,
+            imageStatus: imageUrlCandidate ? imageDbStatus : "pending",
+          },
         });
         productId = created.id;
         stats.created++;
+      }
+
+      if (imageUrlCandidate && !isGroupPhotoUrl(imageUrlCandidate)) {
+        const existingImg = await prisma.productImage.findFirst({
+          where: { productId, sortOrder: 0 },
+        });
+        if (existingImg) {
+          await prisma.productImage.update({
+            where: { id: existingImg.id },
+            data: { url: imageUrlCandidate, status: imageDbStatus },
+          });
+        } else {
+          await prisma.productImage.create({
+            data: {
+              productId,
+              url: imageUrlCandidate,
+              status: imageDbStatus,
+              sortOrder: 0,
+            },
+          });
+        }
+        await prisma.product.update({
+          where: { id: productId },
+          data: { imageUrl: imageUrlCandidate, imageStatus: imageDbStatus },
+        });
+        stats.imagesLinked++;
+      } else {
+        stats.imagesMissing++;
       }
 
       const variantName =
@@ -339,6 +473,9 @@ export async function importLiquidaromFromCsv(params: {
           data: {
             nicotineMg: nicotineMg ?? existingVariant.nicotineMg,
             capacityMl: capacityMl ?? specs.capacityMl ?? existingVariant.capacityMl,
+            pgRatio: pgvg.pg ?? existingVariant.pgRatio,
+            vgRatio: pgvg.vg ?? existingVariant.vgRatio,
+            pgVgLabel: pgvg.label ?? existingVariant.pgVgLabel,
             sku,
             barcode: barcode || existingVariant.barcode,
             active: true,
@@ -353,6 +490,9 @@ export async function importLiquidaromFromCsv(params: {
             barcode,
             nicotineMg,
             capacityMl: capacityMl ?? specs.capacityMl,
+            pgRatio: pgvg.pg,
+            vgRatio: pgvg.vg,
+            pgVgLabel: pgvg.label,
             active: true,
           },
         });
@@ -366,14 +506,18 @@ export async function importLiquidaromFromCsv(params: {
         const flavorData = {
           primaryFlavor: flavorRow["Saveur principale"] || null,
           secondaryFlavor: flavorRow["Saveur secondaire 1"] || null,
+          secondaryFlavor2: flavorRow["Saveur secondaire 2"] || null,
           flavorFamily: flavorRow["Famille de goût"] || null,
           isFresh: freshnessLevel(flavorRow["Frais / glacé"]),
           isFruity: (flavorRow["Famille de goût"] || "").toLowerCase().includes("fruit"),
           isGourmet: (flavorRow["Famille de goût"] || "").toLowerCase().includes("gourmand"),
           isMint: (flavorRow["Famille de goût"] || "").toLowerCase().includes("menthe"),
           isTobacco: (flavorRow["Famille de goût"] || "").toLowerCase().includes("tabac"),
+          freshnessLevel: flavorRow["Niveau de fraîcheur"] || null,
+          intensity: flavorRow["Intensité aromatique"] || null,
+          searchKeywords: flavorRow["Mots-clés recherchables"] || null,
           validatedManually: /valid/i.test(flavorRow["Statut validation"] || ""),
-          confidenceScore: 0.9,
+          confidenceScore: /vérifier|confirmer/i.test(flavorRow["Statut validation"] || "") ? 0.5 : 0.9,
         };
 
         if (existingFlavor) {
@@ -382,12 +526,16 @@ export async function importLiquidaromFromCsv(params: {
             data: {
               primaryFlavor: flavorData.primaryFlavor || existingFlavor.primaryFlavor,
               secondaryFlavor: flavorData.secondaryFlavor || existingFlavor.secondaryFlavor,
+              secondaryFlavor2: flavorData.secondaryFlavor2 || existingFlavor.secondaryFlavor2,
               flavorFamily: flavorData.flavorFamily || existingFlavor.flavorFamily,
               isFresh: flavorData.isFresh ?? existingFlavor.isFresh,
               isFruity: flavorData.isFruity ?? existingFlavor.isFruity,
               isGourmet: flavorData.isGourmet ?? existingFlavor.isGourmet,
               isMint: flavorData.isMint ?? existingFlavor.isMint,
               isTobacco: flavorData.isTobacco ?? existingFlavor.isTobacco,
+              freshnessLevel: flavorData.freshnessLevel || existingFlavor.freshnessLevel,
+              intensity: flavorData.intensity || existingFlavor.intensity,
+              searchKeywords: flavorData.searchKeywords || existingFlavor.searchKeywords,
             },
           });
         } else {
@@ -396,6 +544,27 @@ export async function importLiquidaromFromCsv(params: {
           });
         }
         stats.flavorsUpserted++;
+
+        const avaData = {
+          avaKeywords: flavorRow["Mots-clés recherchables"] || null,
+          avaDescription: flavorRow["Description simple pour le client"] || null,
+          avaRecommendations: flavorRow["Produits similaires"] || null,
+          avaSaveurs: [
+            flavorRow["Saveur principale"],
+            flavorRow["Saveur secondaire 1"],
+            flavorRow["Saveur secondaire 2"],
+          ]
+            .filter(Boolean)
+            .join(", "),
+          avaSimilaires: flavorRow["Produits similaires"] || null,
+          avaQuestions: flavorRow["Questions qu'A.V.A. doit poser"] || null,
+        };
+        await prisma.productAvaMeta.upsert({
+          where: { productId },
+          create: { productId, ...avaData },
+          update: avaData,
+        });
+        stats.avaMetaUpserted++;
       }
     } catch (err) {
       stats.skipped++;

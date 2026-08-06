@@ -1,4 +1,9 @@
-const VIVA_API_URL = process.env.VIVA_API_URL || "https://demo-api.vivapayments.com";
+const VIVA_API_URL =
+  process.env.VIVA_API_URL ||
+  (process.env.NODE_ENV === "production" &&
+  !/localhost|127\.0\.0\.1/i.test(process.env.NEXT_PUBLIC_APP_URL || "")
+    ? "https://api.vivapayments.com"
+    : "https://demo-api.vivapayments.com");
 
 export interface VivaCheckoutResponse {
   orderCode: number;

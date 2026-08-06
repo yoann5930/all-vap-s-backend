@@ -1,0 +1,35 @@
+{
+  "productId": "cms96d3it001vuto8gdcgxobb",
+  "catalogName": "Popcorn 60 ml",
+  "manufacturer": "AirMust",
+  "range": "UNIK",
+  "sourceUrls": [
+    "https://dev01.airmust.com/60ml/2152-5887-airmust-pop-corn-60ml-3760336258885.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "AIRMUST • Pop Corn 60ml",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml",
+  "nicotineBoostOptions": "1 → 3 mg/ml ; 2 → 6 mg/ml",
+  "ean": "3760336258885",
+  "eanConfidence": "official_site",
+  "flavorNotes": "URL staging airmust ; à valider sur airmust.com production",
+  "photoUrl": "https://dev01.airmust.com/7888-cover_fullhd/airmust-pop-corn-60ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/popcorn-60-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+  "seo": {
+    "title": "AIRMUST • Pop Corn 60ml | All Vap's",
+    "description": "AIRMUST • Pop Corn 60ml — AirMust — UNIK — 50/50 — URL staging airmust ; à valider sur airmust.com production"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.179Z",
+  "finalizedVia": "recherche-web"
+}

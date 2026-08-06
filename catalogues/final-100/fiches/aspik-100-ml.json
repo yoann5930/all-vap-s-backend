@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbr10041utw4chkucjme",
+  "catalogName": "Aspik 100 ml",
+  "name": "Aspik 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml (100 dans 120)",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/ferox-airmust/aspik-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

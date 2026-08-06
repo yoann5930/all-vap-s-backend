@@ -1,0 +1,187 @@
+{
+  "productId": "cms9gxcw5004nutw4qnsas72n",
+  "catalogName": "Mint & Dragon fruit 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Mintaïa",
+  "officialName": "Mintaïa — Mint & Dragon fruit 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": null,
+  "photoSource": "",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/eliquid-france-mintaia.webp",
+  "status": "incomplet",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "eliquid-france",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "mintaia-eliquid-france",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "50 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mint-dragon-fruit-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mint-dragon-fruit-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mint-dragon-fruit-50-ml.json",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mint-dragon-fruit-50-ml.json",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mint-dragon-fruit-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mint-dragon-fruit-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mint-dragon-fruit-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mint-dragon-fruit-50-ml.json",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mint-dragon-fruit-50-ml.json",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mint-dragon-fruit-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Eliquid France",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Mintaïa",
+      "confidence": "exact_id"
+    }
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:32.820Z"
+}

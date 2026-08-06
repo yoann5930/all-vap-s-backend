@@ -12,13 +12,22 @@ import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { isPromo10mlEligible } from "@/lib/promotions/promo-10ml";
 import { productHref } from "@/lib/catalog/product-href";
+import { isPreoptimizedProductMedia } from "@/lib/catalog/product-image-display";
+import { checkProductZeroMix } from "@/lib/catalog/zero-mix-gate";
 import type { Product, ProductFlavor, ProductVariant, ProductImage } from "@prisma/client";
 
 type ProductCardData = Product & {
   flavors?: ProductFlavor[];
   variants?: ProductVariant[];
   catalogImages?: ProductImage[];
-  rangeRef?: { name: string } | null;
+  rangeRef?: {
+    id?: string;
+    name: string;
+    slug?: string;
+    manufacturerId?: string | null;
+    manufacturer?: { id?: string; slug?: string } | null;
+  } | null;
+  manufacturer?: { id: string; slug: string; name?: string } | null;
 };
 
 interface ProductCardProps {
@@ -26,6 +35,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const zeroMix = checkProductZeroMix(product);
+  if (!zeroMix.ok) return null;
+
   const href = productHref(product.slug);
   const price = getEffectivePrice(product);
   const hasConfirmedPrice = price > 0;
@@ -101,16 +113,28 @@ export function ProductCard({ product }: ProductCardProps) {
           window.location.assign(href);
         }}
       >
-        <div className="relative aspect-[4/5] overflow-hidden bg-[#0B1016]">
+        <div className="relative aspect-[4/5] overflow-hidden bg-[radial-gradient(ellipse_at_50%_40%,rgba(0,174,239,0.08),transparent_55%),#0B1016]">
           {displayImage ? (
-            <Image
-              src={displayImage}
-              alt={product.name}
-              fill
-              className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.04]"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-              loading="lazy"
-            />
+            isPreoptimizedProductMedia(displayImage) ? (
+              // eslint-disable-next-line @next/next/no-img-element -- packshots déjà WebP haute qualité
+              <img
+                src={displayImage}
+                alt={product.name}
+                className="absolute inset-0 h-full w-full object-contain p-2 sm:p-2.5 transition-transform duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Image
+                src={displayImage}
+                alt={product.name}
+                fill
+                className="object-contain p-2 sm:p-2.5 transition-transform duration-500 group-hover:scale-[1.03]"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+                quality={90}
+                loading="lazy"
+              />
+            )
           ) : (
             <div className="relative flex h-full flex-col items-center justify-center gap-2 bg-[radial-gradient(circle_at_50%_30%,rgba(0,174,239,0.12),transparent_60%)] px-4 text-center">
               <Image

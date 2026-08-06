@@ -1,0 +1,198 @@
+{
+  "productId": "cms9gxbqg003xutw4mz0y5a4q",
+  "catalogName": "Grizz 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "officialName": "Ferox (AirMust) — produit catalogue",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": null,
+  "photoSource": "",
+  "bannerLocal": null,
+  "status": "incomplet",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "airmust",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "ferox-airmust",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "100 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "airmust",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "ferox-airmust",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/grizz-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/grizz-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Ferox",
+      "confidence": "exact_id"
+    }
+  ],
+  "notes": [
+    "Format 100 ml lu depuis le nom catalogue"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:29.176Z"
+}

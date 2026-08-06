@@ -1,0 +1,35 @@
+{
+  "id": "cms96dgqr004juto8b4foj32h",
+  "slug": "mure-cassis-50-granita-soft",
+  "nom": "Mûre Cassis 50 ml",
+  "description": "Fiche catalogue officielle (Granita Soft) — stock SumUp à lier.",
+  "seo": {
+    "title": "Mûre Cassis 50 ml | Alfa | All Vap's",
+    "description": "Fiche catalogue officielle (Granita Soft) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle",
+    "banniere_gamme"
+  ],
+  "trouve": {
+    "fabricant": "Alfa",
+    "gamme": "Granita Soft",
+    "saveur": "Mûre Cassis",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme"
+    ]
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

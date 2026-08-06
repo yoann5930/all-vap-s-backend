@@ -1,0 +1,63 @@
+{
+  "date": "2026-07-29T23:50:19.024Z",
+  "detected": 5,
+  "integrated": 5,
+  "published": 5,
+  "aVerifier": 0,
+  "photosAssociated": 5,
+  "eanAssociated": 5,
+  "sumupAssociated": 5,
+  "products": [
+    {
+      "ean": "3701418867090",
+      "name": "Double Pêche — Twenty — 20 ml",
+      "slug": "twenty-double-peche-20ml",
+      "priceCents": 1290,
+      "stock": 0,
+      "sumupProductId": "a6374ad6-4ed1-43d3-9aad-5c68d393deff",
+      "imageUrl": "/media/products/e-tasty/twenty/20ml/twenty-double-peche-20ml.webp",
+      "published": true
+    },
+    {
+      "ean": "3701418867083",
+      "name": "Fruit Du Dragon Cerise — Twenty — 20 ml",
+      "slug": "twenty-fruit-du-dragon-cerise-20ml",
+      "priceCents": 1290,
+      "stock": 0,
+      "sumupProductId": "ef995919-6d71-42c0-8a93-49f4d44d057c",
+      "imageUrl": "/media/products/e-tasty/twenty/20ml/twenty-fruit-du-dragon-cerise-20ml.webp",
+      "published": true
+    },
+    {
+      "ean": "3701418867106",
+      "name": "Fruits Rouges — Twenty — 20 ml",
+      "slug": "twenty-fruits-rouges-20ml",
+      "priceCents": 1290,
+      "stock": 0,
+      "sumupProductId": "5bd58ece-81ab-44dd-9b85-ff10c5bfbb37",
+      "imageUrl": "/media/products/e-tasty/twenty/20ml/twenty-fruits-rouges-20ml.webp",
+      "published": true
+    },
+    {
+      "ean": "3701418867076",
+      "name": "Limonade Citron Cassis — Twenty — 20 ml",
+      "slug": "twenty-limonade-citron-cassis-20ml",
+      "priceCents": 1290,
+      "stock": 0,
+      "sumupProductId": "e79bcfb9-167e-4f17-bf36-65d3cbe2fa93",
+      "imageUrl": "/media/products/e-tasty/twenty/20ml/twenty-limonade-citron-cassis-20ml.webp",
+      "published": true
+    },
+    {
+      "ean": "3701418867113",
+      "name": "Menthe Polaire — Twenty — 20 ml",
+      "slug": "twenty-menthe-polaire-20ml",
+      "priceCents": 1290,
+      "stock": 0,
+      "sumupProductId": "42352b5d-4eb3-425a-9d4c-deef832f41db",
+      "imageUrl": "/media/products/e-tasty/twenty/20ml/twenty-menthe-polaire-20ml.webp",
+      "published": true
+    }
+  ],
+  "errors": []
+}

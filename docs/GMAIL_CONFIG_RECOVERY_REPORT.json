@@ -1,0 +1,50 @@
+{
+  "project": "all-vap-s-backend",
+  "conclusion": "Credentials livraison détectés",
+  "appConfig": {
+    "enabled": true,
+    "configuredDeliverable": true,
+    "smtpHasPassword": true,
+    "smtpHostSet": true,
+    "smtpUserSet": true,
+    "transport": "smtp",
+    "testMode": true,
+    "testRecipientSet": true,
+    "fromAddress": "avaallvaps@gmail.com",
+    "adminNotifySet": true,
+    "gmailApiOAuth": false
+  },
+  "presence": {
+    "SMTP_HOST": "presente",
+    "SMTP_USER": "presente",
+    "SMTP_PASS": "vide_ou_absente",
+    "SMTP_APP_PASSWORD": "presente",
+    "MAIL_FROM_ADDRESS": "presente",
+    "MAIL_ENABLED": "presente",
+    "MAIL_TEST_MODE": "presente",
+    "MAIL_TEST_RECIPIENT": "presente",
+    "EMAIL_TRANSPORT": "presente",
+    "RESEND_API_KEY": "vide_ou_absente",
+    "ADMIN_NOTIFICATION_EMAIL": "presente",
+    "GOOGLE_GMAIL_CLIENT_ID": "vide_ou_absente",
+    "GOOGLE_GMAIL_CLIENT_SECRET": "vide_ou_absente",
+    "GOOGLE_GMAIL_REFRESH_TOKEN": "vide_ou_absente"
+  },
+  "sendResult": {
+    "ok": true,
+    "transport": "smtp",
+    "redirectedToTest": true,
+    "messageIdSet": true,
+    "reallyDelivered": true
+  },
+  "lastEmailLog": {
+    "id": "cms76lnks0000utlol86qv1ei",
+    "status": "SENT",
+    "transport": "smtp",
+    "lastErrorCode": null,
+    "recipientMasked": "a***@gmail.com",
+    "subject": "[TEST] All Vap's — Diagnostic Gmail All Vap's",
+    "createdAt": "2026-07-30T07:17:46.780Z",
+    "sentAt": "2026-07-30T07:17:47.851Z"
+  }
+}

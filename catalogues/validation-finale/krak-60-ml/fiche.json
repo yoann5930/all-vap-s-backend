@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxboh003lutw4d8viuvxg",
+  "catalogName": "Krak 60 ml",
+  "officialName": "Ferox • Krak 60ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Bubble-gum, pitaya glacé, pastèque",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (60 dans 75)",
+  "nicotineBoost": "1 → 3 mg/ml ; 2 → 6 mg/ml",
+  "description": "Ferox Krak 60 ml AirMust — bubble-gum, pitaya glacé, pastèque. 0 mg, 50/50.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/krak-60-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/krak-60-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/60ml/2549-6197-ferox-krak-60ml.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:37.807Z"
+}

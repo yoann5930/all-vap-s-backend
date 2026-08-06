@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxd6w005hutw4p11h5eqw",
+  "catalogName": "Menthe Givrée 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1497-menthe-givree-50ml-3760202040705.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Menthe givrée | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040705",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://www.eliquid-france.com/5097-full_default/menthe-givree-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/menthe-givree-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Menthe givrée | Fruizee Max 50mL | All Vap's",
+    "description": "Menthe givrée | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:32.316Z",
+  "finalizedVia": "recherche-web"
+}

@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxbny003hutw44zk72zwb",
+  "catalogName": "Sharx 60 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "sourceUrls": [
+    "https://airmust.com/60ml/2664-6309-ferox-sharx-60ml-3701719511944.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Ferox • Sharx 60ml",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (60 ml dans flacon 75 ml)",
+  "nicotineBoostOptions": "1 booster → 3 mg/ml ; 2 boosters → 6 mg/ml",
+  "ean": "3701719511944",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://airmust.com/8464-cover_fullhd/ferox-sharx-60ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/sharx-60-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+  "seo": {
+    "title": "Ferox • Sharx 60ml | All Vap's",
+    "description": "Ferox • Sharx 60ml — AirMust — Ferox — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:27.238Z",
+  "finalizedVia": "recherche-web"
+}

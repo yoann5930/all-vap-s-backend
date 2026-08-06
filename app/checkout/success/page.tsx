@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/Button";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
-  const providerHint = searchParams.get("provider");
   const [status, setStatus] = useState<string>("PENDING");
-  const [provider, setProvider] = useState<string | null>(providerHint);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +22,6 @@ function SuccessContent() {
         const res = await fetch(`/api/payments/status?orderId=${encodeURIComponent(orderId!)}`);
         const data = await res.json();
         setStatus(data.status || "PENDING");
-        if (data.provider) setProvider(data.provider);
       } catch {
         setStatus("PENDING");
       } finally {
@@ -34,9 +31,6 @@ function SuccessContent() {
 
     checkPayment();
   }, [orderId]);
-
-  const providerLabel =
-    provider === "viva" ? "Viva.com" : provider === "sumup" ? "SumUp" : "le prestataire de paiement";
 
   return (
     <div className="mx-auto max-w-lg px-4 py-16 text-center">
@@ -53,7 +47,7 @@ function SuccessContent() {
       <p className="mt-4 text-gray-600">
         {status === "PAID"
           ? "Merci pour votre achat. Vous recevrez un email de confirmation sous peu."
-          : `Votre commande a été enregistrée. Le paiement sera confirmé une fois traité par ${providerLabel}.`}
+          : "Votre commande a été enregistrée. Le paiement sera confirmé une fois traité de manière sécurisée. Aucun montant n'a été débité tant que le paiement n'est pas validé."}
       </p>
 
       {orderId && (

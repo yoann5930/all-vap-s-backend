@@ -26,6 +26,7 @@ import {
   isMainNavLinkActive,
 } from "@/lib/navigation/active-main-nav";
 import { useMainNavProductContext } from "@/components/layout/MainNavContext";
+import { openAvaWithIntent } from "@/lib/ava/quick-actions";
 
 interface AuthUser {
   id: string;
@@ -92,7 +93,7 @@ export function Header() {
   }
 
   function openAva() {
-    window.dispatchEvent(new Event("allvaps:open-ava"));
+    openAvaWithIntent("OPEN_GENERAL_CHAT");
   }
 
   return (

@@ -17,7 +17,14 @@ const CACHE_TTL_MS = 60_000;
 export async function loadCatalogCandidates(): Promise<CatalogMatchCandidate[]> {
   const now = Date.now();
   if (catalogCache && now - catalogCacheAt < CACHE_TTL_MS) return catalogCache;
+  // Liste blanche stricte : seuls les produits validés/actifs participent à la sync.
+  // Les produits a_verifier / brut_importe restent exclus (catalogue brut).
   catalogCache = await prisma.product.findMany({
+    where: {
+      isActive: true,
+      catalogStatus: { in: ["valide", "actif"] },
+      sumupProductId: { not: null },
+    },
     select: {
       id: true,
       name: true,

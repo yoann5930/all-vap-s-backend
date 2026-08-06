@@ -83,6 +83,9 @@ export async function applySumUpCsvImport(params: {
   dryRun: boolean;
   createUnmatched?: boolean;
   confirmToken: string;
+  /** Métadonnées inbox (historique + anti double-import) */
+  fileName?: string | null;
+  fileHash?: string | null;
 }): Promise<{
   applied: boolean;
   dryRun: boolean;
@@ -123,6 +126,8 @@ export async function applySumUpCsvImport(params: {
       locationCode: GLOBAL_STOCK_CODE,
       dryRun: false,
       status: "RUNNING",
+      fileName: params.fileName ?? null,
+      fileHash: params.fileHash ?? null,
     },
   });
 
@@ -350,6 +355,21 @@ export async function applySumUpCsvImport(params: {
         unmatchedCount: preview.unmatchedCount,
         duplicateCount: preview.duplicateCount,
         errorCount: errors + preview.errorCount,
+        fileName: params.fileName ?? null,
+        fileHash: params.fileHash ?? null,
+        reportJson: JSON.stringify({
+          fileName: params.fileName,
+          fileHash: params.fileHash,
+          detectedColumns: preview.detectedColumns,
+          reviewCount: preview.reviewCount,
+          locationName: preview.locationName,
+          productsModified: updated,
+          productsUnchanged: unchanged,
+          newProducts: created,
+          duplicates: preview.duplicateCount,
+          unmatched: preview.unmatchedCount,
+          errors: errors + preview.errorCount,
+        }),
       },
     });
   } catch (err) {

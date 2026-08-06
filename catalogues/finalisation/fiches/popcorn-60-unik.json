@@ -1,0 +1,37 @@
+{
+  "id": "cms96d3it001vuto8gdcgxobb",
+  "slug": "popcorn-60-unik",
+  "nom": "Popcorn 60 ml",
+  "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier.",
+  "seo": {
+    "title": "Popcorn 60 ml | AirMust | All Vap's",
+    "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "AirMust",
+    "gamme": "UNIK",
+    "saveur": "Popcorn",
+    "format": "60 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/e-tasty/one-taste/10ml/popcorn-10ml-0mg-e-tasty-a2bee0b1.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\e-tasty\\one-taste\\10ml\\popcorn-10ml-0mg-e-tasty-a2bee0b1.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\airmust\\ranges\\unik-airmust.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/popcorn-60-unik.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/airmust__unik-airmust.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

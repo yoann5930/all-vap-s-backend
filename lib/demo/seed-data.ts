@@ -161,7 +161,7 @@ export function buildDemoSeed(): DemoStore {
       lastName: "Dupont",
       phone: "0600000000",
       role: "CUSTOMER",
-      loyaltyPoints: 150,
+      loyaltyPoints: 0,
       qrCode: "qr_demo",
       createdAt: BASE,
       updatedAt: BASE,

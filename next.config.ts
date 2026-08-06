@@ -26,7 +26,10 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https:",
+      // blob: requis pour textures GLB (GLTFLoader → ObjectURL) et workers Three.js
+      "connect-src 'self' https: blob:",
+      "worker-src 'self' blob:",
+      "media-src 'self' blob: data:",
       `frame-ancestors ${isDev ? "*" : "'none'"}`,
       "base-uri 'self'",
       "form-action 'self'",
@@ -38,9 +41,12 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
-    formats: ["image/webp", "image/avif"],
-    deviceSizes: [640, 750, 828, 1080, 1200],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    formats: ["image/avif", "image/webp"],
+    // Qualités autorisées (Next 15 refuse quality= hors liste)
+    qualities: [75, 85, 90, 92],
+    // Retina / grandes cartes + PDP
+    deviceSizes: [640, 750, 828, 1080, 1200, 1536, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 512],
     minimumCacheTTL: 60 * 60 * 24 * 7,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

@@ -12,8 +12,10 @@ import * as THREE from "three";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
 
-export const AVA_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
-export const AVA_TEST_TEXTURE_PATH = "/models/ava/ava-test-texture.png";
+export const AVA_TEST_MODEL_PATH = "/models/ava/AVA_HOLOGRAM.glb";
+export const AVA_TEST_TEXTURE_PATH = "/models/ava/ava-hologram-texture.png";
+/** Ancien chemin conservé en secours */
+export const AVA_LEGACY_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
 
 /** Réglages d’affichage — ajustables uniquement ici (tête ~2.9 u → cadrage portrait) */
 const MODEL_TRANSFORM = {

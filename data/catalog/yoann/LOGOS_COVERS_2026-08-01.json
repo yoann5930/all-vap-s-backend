@@ -1,0 +1,204 @@
+{
+  "generatedAt": "2026-08-01T00:26:22.658Z",
+  "logos": [
+    {
+      "slug": "avap",
+      "status": "already_present"
+    },
+    {
+      "slug": "airmust",
+      "status": "already_present"
+    },
+    {
+      "slug": "alfa",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "aromes-secrets",
+      "status": "already_present"
+    },
+    {
+      "slug": "biarritz-lab",
+      "status": "already_present"
+    },
+    {
+      "slug": "budz-vape",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "cloud-vapor",
+      "status": "already_present"
+    },
+    {
+      "slug": "cookin-cloud",
+      "status": "already_present"
+    },
+    {
+      "slug": "eliquid-france",
+      "status": "already_present"
+    },
+    {
+      "slug": "fruity-cool",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "fruizee",
+      "status": "download_fail",
+      "source": "https://www.fruizee.fr/img/logo.png"
+    },
+    {
+      "slug": "guilab",
+      "status": "download_fail",
+      "source": "https://www.guilab.fr/img/logo.png"
+    },
+    {
+      "slug": "illusion",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "juice-66",
+      "status": "already_present"
+    },
+    {
+      "slug": "kf-studio",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "le-maudit",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "liquidarom",
+      "status": "already_present"
+    },
+    {
+      "slug": "liquide-lab",
+      "status": "already_present"
+    },
+    {
+      "slug": "liquideo",
+      "status": "already_present"
+    },
+    {
+      "slug": "mds-juice",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "mg-vape",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "made-in-vape-distrib",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "mukk-mukk",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "overdrive-juices",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "protect",
+      "status": "already_present"
+    },
+    {
+      "slug": "raneki-liquide",
+      "status": "already_present"
+    },
+    {
+      "slug": "revenge-juices",
+      "status": "download_fail",
+      "source": "https://www.revengejuices.com/img/logo.png"
+    },
+    {
+      "slug": "swoke",
+      "status": "already_present"
+    },
+    {
+      "slug": "t-juice",
+      "status": "already_present"
+    },
+    {
+      "slug": "the-fuu",
+      "status": "already_present"
+    },
+    {
+      "slug": "vape-47",
+      "status": "already_present"
+    },
+    {
+      "slug": "vape-city",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "vape-maker",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "yum-ebot",
+      "status": "SOURCE_OFFICIELLE_INTROUVABLE"
+    },
+    {
+      "slug": "e-tasty",
+      "status": "already_present"
+    }
+  ],
+  "covers": [
+    {
+      "key": "liquide-lab/big-kawa",
+      "status": "already_present"
+    },
+    {
+      "key": "liquideo/dragonzz-liquideo",
+      "status": "already_present"
+    },
+    {
+      "key": "liquideo/evolution-liquideo",
+      "status": "already_present"
+    },
+    {
+      "key": "liquideo/freeze-liquideo",
+      "status": "already_present"
+    },
+    {
+      "key": "vape-47/enfer",
+      "status": "already_present"
+    },
+    {
+      "key": "vape-47/les-fruits-d-enfer",
+      "status": "already_present"
+    },
+    {
+      "key": "vape-47/furiosa-eggz",
+      "status": "already_present"
+    },
+    {
+      "key": "t-juice/t-juice-50-ml",
+      "status": "already_present"
+    },
+    {
+      "key": "cookin-cloud/myst",
+      "status": "already_present"
+    },
+    {
+      "key": "eliquid-france/fruizee-max-eliquid-france",
+      "status": "already_present"
+    },
+    {
+      "key": "eliquid-france/lemon-time-eliquid-france",
+      "status": "already_present"
+    },
+    {
+      "key": "eliquid-france/mintaia-eliquid-france",
+      "status": "already_present"
+    }
+  ],
+  "summary": {
+    "logosOk": 35,
+    "logosMissing": 0,
+    "coversOkPublished": 40,
+    "publishedMissingCover": 0
+  }
+}

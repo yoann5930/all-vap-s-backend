@@ -1,0 +1,264 @@
+{
+  "productId": "cms96dgq6004futo8o3olofk5",
+  "catalogName": "Fraise Fruit du Dragon 50 ml",
+  "manufacturer": "Alfa",
+  "range": "Granita Soft",
+  "officialName": "Granita Soft (Alfaliquid)",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/fraise-fruit-du-dragon-50-ml.webp",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/alfa-granita-soft.svg",
+  "status": "incomplet",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "50 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/_inv.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv_start.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/fraise-fruit-du-dragon-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/fraise-fruit-du-dragon-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "confidence": "filename"
+    },
+    {
+      "source": "catalogues/finalisation/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+      "confidence": "filename"
+    },
+    {
+      "source": "public/media/products/_raw/biarritz-lab/double-dragon/fruit-du-dragon-fraise.png",
+      "field": "image",
+      "value": "public/media/products/_raw/biarritz-lab/double-dragon/fruit-du-dragon-fraise.png",
+      "confidence": "filename"
+    },
+    {
+      "source": "public/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise-thumb.webp",
+      "field": "image",
+      "value": "public/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise-thumb.webp",
+      "confidence": "filename"
+    },
+    {
+      "source": "public/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp",
+      "field": "image",
+      "value": "public/media/products/biarritz-lab/double-dragon/50ml/fruit-du-dragon-fraise.webp",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Photo reprise depuis finalisation locale antérieure (déjà validée)",
+    "Format 50 ml lu depuis le nom catalogue",
+    "Image fichier score=0.90 fraise-fruit-du-dragon-50-granita-soft.webp",
+    "Image fichier score=0.90 fraise-fruit-du-dragon-50-granita-soft.webp",
+    "Image fichier score=0.80 fruit-du-dragon-fraise.png",
+    "Image fichier score=0.80 fruit-du-dragon-fraise-thumb.webp",
+    "Image fichier score=0.80 fruit-du-dragon-fraise.webp"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:22.404Z"
+}

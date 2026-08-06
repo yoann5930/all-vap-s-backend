@@ -1,0 +1,27 @@
+[2026-07-30T07:35:02.990Z] START campaign=CLIENT-TEST-ACHAT-20260730073502 base=http://localhost:3000
+[2026-07-30T07:35:03.157Z] health ok=true email=healthy payment=payment_test_mode audit={"enabled":false,"campaignId":null,"activatedAt":null,"expiresAt":null,"allowOutOfStock":false} mailTestMode env=false
+[2026-07-30T07:35:04.754Z] admin login status=200
+[2026-07-30T07:35:05.504Z] audit activate status=200
+[2026-07-30T07:35:06.392Z] payment probe {"onlineConfigured":true,"testMode":true,"providerInternal":"viva"}
+[2026-07-30T07:35:07.342Z] --- CLIENT-TEST-01 email=a***@gmail.com delivery=STORE_PICKUP
+[2026-07-30T07:35:11.851Z] register status=201
+[2026-07-30T07:35:13.254Z] confirm status=200
+[2026-07-30T07:35:13.848Z] client login status=200
+[2026-07-30T07:35:16.883Z] order status=201
+[2026-07-30T07:35:17.627Z] payment checkout1=200 checkout2=200
+[2026-07-30T07:35:28.085Z] payment status1={"status":"PAID","provider":"viva"} status2={"status":"PAID","provider":"viva"}
+[2026-07-30T07:35:28.111Z] --- CLIENT-TEST-02 email=a***@gmail.com delivery=MONDIAL_RELAY
+[2026-07-30T07:35:31.174Z] register status=201
+[2026-07-30T07:35:31.424Z] confirm status=200
+[2026-07-30T07:35:32.040Z] client login status=200
+[2026-07-30T07:35:32.398Z] order status=201
+[2026-07-30T07:35:32.748Z] payment checkout1=200 checkout2=200
+[2026-07-30T07:35:40.961Z] payment status1={"status":"PAID","provider":"viva"} status2={"status":"PAID","provider":"viva"}
+[2026-07-30T07:35:40.973Z] --- CLIENT-TEST-03 email=a***@gmail.com delivery=RELAIS_COLIS
+[2026-07-30T07:35:44.199Z] register status=201
+[2026-07-30T07:35:44.429Z] confirm status=200
+[2026-07-30T07:35:44.991Z] client login status=200
+[2026-07-30T07:35:45.393Z] order status=201
+[2026-07-30T07:35:45.898Z] payment checkout1=200 checkout2=200
+[2026-07-30T07:35:54.151Z] payment status1={"status":"PAID","provider":"viva"} status2={"status":"PAID","provider":"viva"}
+[2026-07-30T07:35:57.992Z] DONE — données conservées, pas de nettoyage

@@ -228,6 +228,7 @@ export async function runSumUpSync(params: {
 
       let linesProcessed = 0;
       let linesSkipped = 0;
+      let applyFailures = 0;
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -306,11 +307,13 @@ export async function runSumUpSync(params: {
             data: { sumupLastSync: new Date() },
           });
         } else {
+          applyFailures++;
           stats.errors.push(`${txnId}/${match.sourceName}: ${result.message}`);
         }
       }
 
-      if (!dryRun && syncRun) {
+      // Ne fige pas la transaction si une ligne reconnue a échoué → retry au prochain passage
+      if (!dryRun && syncRun && applyFailures === 0) {
         await prisma.sumUpSyncedTransaction.create({
           data: {
             sumupTransactionId: txnId,

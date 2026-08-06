@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gx9sp000putw44vlnkgd3",
+  "catalogName": "Pyro 50 ml",
+  "officialName": "Pyro 50 ml — Saint Flava (Swoke)",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "flavor": "Fruit du démon, fruits rouges",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Saint Flava Pyro par Swoke — fruits rouges et fruit du démon. PG/VG 40/60, 0 mg.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/pyro-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/pyro-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/e-liquide-swoke/17802-pyro-50ml-saint-flava.html",
+    "https://swoke.net/saint-flava/"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:54.771Z"
+}

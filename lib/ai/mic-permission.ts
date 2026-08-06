@@ -7,7 +7,15 @@ export interface MicPermissionResult {
   status: MicPermissionStatus;
   denied?: boolean;
   message?: string;
+  /** Stream optionnel — caller doit stopper les pistes s'il ne le conserve pas */
+  stream?: MediaStream;
 }
+
+export type MicAudioConstraints = {
+  echoCancellation?: boolean;
+  noiseSuppression?: boolean;
+  autoGainControl?: boolean;
+};
 
 export function isSpeechRecognitionSupported(): boolean {
   if (typeof window === "undefined") return false;
@@ -59,16 +67,18 @@ export const BROWSER_MIC_HELP: Record<BrowserKind, string[]> = {
 };
 
 export const MIC_MESSAGES = {
-  prompt: "Autorisez le micro pour parler avec AVA",
+  prompt: "Autorisez le micro pour parler avec AVA — il sert uniquement à cette conversation",
   listening: "AVA vous écoute…",
   denied:
-    "Micro refusé. Pour parler avec AVA, autorisez le micro dans les paramètres de votre navigateur.",
+    "Micro non autorisé. Vous pouvez continuer par écrit — toutes les fonctions restent disponibles.",
   unsupported:
-    "Votre navigateur ne permet pas encore la reconnaissance vocale. Utilisez Chrome ou Edge pour parler avec AVA",
-  unavailable: "Micro indisponible sur cet appareil.",
+    "La reconnaissance vocale n'est pas disponible ici. Écrivez-moi, je suis là pour vous aider.",
+  unavailable: "Micro indisponible. Vous pouvez m'écrire sans problème.",
 } as const;
 
-export async function requestMicPermission(): Promise<MicPermissionResult> {
+export async function requestMicPermission(
+  options?: { audio?: boolean | MicAudioConstraints; keepStream?: boolean }
+): Promise<MicPermissionResult> {
   if (!isSpeechRecognitionSupported()) {
     return {
       granted: false,
@@ -81,8 +91,20 @@ export async function requestMicPermission(): Promise<MicPermissionResult> {
     return { granted: true, status: "granted" };
   }
 
+  const audio =
+    options?.audio === false
+      ? true
+      : options?.audio ?? {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        };
+
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const stream = await navigator.mediaDevices.getUserMedia({ audio });
+    if (options?.keepStream) {
+      return { granted: true, status: "granted", stream };
+    }
     stream.getTracks().forEach((t) => t.stop());
     return { granted: true, status: "granted" };
   } catch (err) {

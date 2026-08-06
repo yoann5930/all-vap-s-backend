@@ -1,0 +1,221 @@
+{
+  "productId": "cms9gxcfk004lutw4rrjxrpup",
+  "catalogName": "Red Devil 100 ml",
+  "manufacturer": "AVAP",
+  "range": "Devil",
+  "officialName": "Red Devil 100 ml — Devil (AVAP)",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/red-devil-100-ml.jpg",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/avap-devil.webp",
+  "status": "incomplet",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "avap",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "devil-avap",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "100 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "avap",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "devil-avap",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/red-devil-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/red-devil-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "AVAP",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Devil",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "Image fichier score=1.00 red-devil-100-ml.jpg"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:31.673Z"
+}

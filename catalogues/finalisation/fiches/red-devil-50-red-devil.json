@@ -1,0 +1,36 @@
+{
+  "id": "cms9gxcf7004jutw4aod0kf6c",
+  "slug": "red-devil-50-red-devil",
+  "nom": "Red Devil 50 ml",
+  "description": "Officiel Red Devil — SumUp à lier.",
+  "seo": {
+    "title": "Red Devil 50 ml | AVAP | All Vap's",
+    "description": "Officiel Red Devil — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "AVAP",
+    "gamme": "Devil",
+    "saveur": "Red Devil",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\avap\\ranges\\devil-avap.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/avap__devil-avap.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

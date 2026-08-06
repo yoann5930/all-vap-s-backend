@@ -1,0 +1,48 @@
+{
+  "mode": "apply",
+  "generatedAt": "2026-07-31T21:42:24.776Z",
+  "totalProducts": 2670,
+  "duplicateGroups": 3,
+  "onlineDuplicateGroupsBefore": 0,
+  "onlineDuplicateGroupsAfter": 0,
+  "quarantined": 3,
+  "groupsKept": 3,
+  "actions": [
+    {
+      "reason": "range_name_format",
+      "key": "cms6o23in000kut50fmbny1bf::letters a 100 ml::100",
+      "keepId": "cms6eufd50116utmkxxk04iww",
+      "keepName": "Letters A",
+      "dropIds": [
+        "cms96cw35000zuto896y68twt"
+      ],
+      "dropNames": [
+        "Letters A 100 ml"
+      ]
+    },
+    {
+      "reason": "range_name_format",
+      "key": "cms6o23in000kut50fmbny1bf::letters b 100 ml::100",
+      "keepId": "cms6eufd90117utmksdgss2iu",
+      "keepName": "Letters B",
+      "dropIds": [
+        "cms96cw3f0011uto8vao9b74f"
+      ],
+      "dropNames": [
+        "Letters B 100 ml"
+      ]
+    },
+    {
+      "reason": "range_name_format",
+      "key": "cms6o23in000kut50fmbny1bf::letters c 100 ml::100",
+      "keepId": "cms6eufdg0118utmktspszt1z",
+      "keepName": "Letters C",
+      "dropIds": [
+        "cms96cw3o0013uto8gk54cwp3"
+      ],
+      "dropNames": [
+        "Letters C 100 ml"
+      ]
+    }
+  ]
+}

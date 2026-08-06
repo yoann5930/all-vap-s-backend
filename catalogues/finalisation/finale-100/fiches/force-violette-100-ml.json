@@ -1,0 +1,275 @@
+{
+  "productId": "cms9gx9k6000hutw4iw8rdoba",
+  "catalogName": "Force Violette 100 ml",
+  "fullName": "Force Violette 100 ml",
+  "manufacturer": "Force Vape",
+  "range": "Force Vape",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml (100 dans 120)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/force-violette-100-ml.jpg",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/force-vape-force-vape.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Force Violette 100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-violette-100-ml/force-violette-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-violette-100-ml/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-violette-100-ml/fiche.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-violette-100-ml/fiche.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-violette-100-ml/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-violette-100-ml.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-violette-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-violette-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Force Violette 100 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Force Violette 100 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Force Violette 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Force Violette 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 force-violette-100-ml.jpg",
+    "Photo fichier score=1.00 force-violette-100-ml.jpg",
+    "Photo fichier score=1.00 force-violette-100-ml.jpg"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:40.131Z"
+}

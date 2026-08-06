@@ -1,0 +1,25 @@
+{
+  "options": [
+    {
+      "id": "MONDIAL_RELAY",
+      "name": "Mondial Relay",
+      "description": "Point relais près de chez vous",
+      "priceCents": 390,
+      "estimatedDays": "2-4 jours"
+    },
+    {
+      "id": "RELAIS_COLIS",
+      "name": "Relais Colis",
+      "description": "Retrait en commerçant partenaire",
+      "priceCents": 390,
+      "estimatedDays": "2-4 jours"
+    },
+    {
+      "id": "STORE_PICKUP",
+      "name": "Retrait boutique",
+      "description": "All Vap's Hautmont ou Le Quesnoy — Gratuit",
+      "priceCents": 0,
+      "estimatedDays": "Disponible sous 2h"
+    }
+  ]
+}

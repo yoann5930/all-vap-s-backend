@@ -227,6 +227,38 @@
       "sumupProductIds": [],
       "blockedUntil": "PDF notice officielle Voopoo ARGUS G2",
       "file": "voopoo-argus-g2.json"
+    },
+    {
+      "manufacturer": "VOOPOO",
+      "manufacturerSlug": "voopoo",
+      "model": "DRAG 6",
+      "modelSlug": "drag-6",
+      "family": "DRAG",
+      "aliases": [
+        "Drag 6",
+        "DRAG 6",
+        "VOOPOO Drag 6",
+        "Voopoo Drag 6",
+        "Voopoo Drag VI",
+        "Drag VI",
+        "voopoo-drag-6"
+      ],
+      "category": "box",
+      "recognitionStatus": "confirmed_by_user",
+      "sourceType": "user_provided_photos",
+      "verificationStatus": "NEEDS_OFFICIAL_DATA",
+      "verifiedAt": "2026-08-04",
+      "images": {},
+      "distinguishingFeatures": [
+        "Dernière sortie de la gamme DRAG (confirmation utilisateur)",
+        "Grand écran couleur vertical",
+        "Logo VOOPOO latéral + inscription DRAG",
+        "Logo Everest Lab face avant",
+        "Molette / commande supérieure",
+        "Finitions noires / panneau texturé"
+      ],
+      "confusionAvoid": ["DRAG S2", "DRAG 5", "Drag X", "Argus G2"],
+      "file": "voopoo-drag-6.json"
     }
   ]
 }

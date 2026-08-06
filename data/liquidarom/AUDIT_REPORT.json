@@ -1,0 +1,929 @@
+{
+  "generatedAt": "2026-07-29T02:11:41.446Z",
+  "projectPath": "D:\\all vaps\\all-vap-s-backend",
+  "dataSource": {
+    "primary": "PostgreSQL via Prisma (Product, ProductVariant, ProductFlavor, ProductImage, ProductAvaMeta)",
+    "importCsv": "data/liquidarom/*.csv",
+    "importScripts": [
+      "scripts/import-liquidarom-products.ts",
+      "lib/catalog/liquidarom-import.ts",
+      "lib/catalog/import-unified.ts"
+    ],
+    "imageResolution": "lib/catalog/images.ts → resolveProductImage()"
+  },
+  "prismaFields": {
+    "brand": "Product.brand / brandId → Brand",
+    "range": "Product.range / rangeId → ProductRange",
+    "flavors": "ProductFlavor (primaryFlavor, secondaryFlavor, isFresh, …)",
+    "image": "Product.imageUrl + ProductImage.url + imageStatus",
+    "slug": "Product.slug (unique)",
+    "reference": "Product.reference + Product.sku (AV-xxxx)",
+    "visibility": "Product.isActive + Product.visibleOnline",
+    "stock": "Product.stock + StockLevel par boutique",
+    "ava": "ProductAvaMeta (interne) + ProductFlavor.searchKeywords",
+    "sumup": "sumupProductId, sumupVariantId, sumupName, sumupReference, sumupSku"
+  },
+  "counts": {
+    "csvProducts": 40,
+    "csvAvaProfiles": 40,
+    "downloadsCsvProducts": 40,
+    "backendCsvMatchesDownloads": true,
+    "csvActiveOnline": 0,
+    "csvActiveBoutique": 40,
+    "csvWithoutPrice": 40,
+    "csvWithoutBarcode": 40,
+    "csvAllUseGroupPhotos": true,
+    "csvGroupPhotoDistribution": {
+      "image-1785228599019.jpg": 12,
+      "image-1785228630196.jpg": 11,
+      "image-1785228670994.jpg": 12,
+      "image-1785228719275.jpg": 5
+    },
+    "ranges": {
+      "Ice Cool": 23,
+      "Les Collègues": 8,
+      "Edition Collection": 1,
+      "Les Essentiels": 3,
+      "Ice Cool X": 5
+    },
+    "individualImagesInPublic": 2,
+    "groupImagesInPublic": 7,
+    "individualImagePaths": [
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-premium-card.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-premium.webp"
+    ],
+    "groupImagePaths": [
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/hero-liquidarom-ice-cool.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-rayon-01-card.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-rayon-01.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-rayon-02-card.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/ice-cool-rayon-02.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/liquidarom-selection-card.webp",
+      "D:/all vaps/all-vap-s-backend/public/products/liquidarom/liquidarom-selection.webp"
+    ],
+    "database": {
+      "connected": true,
+      "total": 0,
+      "liquidarom": 0,
+      "liquidaromVisible": 0,
+      "withoutImage": 0,
+      "withGroupImage": 0,
+      "duplicates": [],
+      "sample": []
+    }
+  },
+  "gaps": {
+    "workingFolderMissing": true,
+    "workingFolderInDownloads": true,
+    "noIndividualProductImages": false,
+    "allCsvPhotosAreGroupRefs": true,
+    "importDoesNotSetImages": true,
+    "localDbEmpty": true
+  },
+  "avaProfilesToReview": [
+    {
+      "id": "AV-0012",
+      "name": "Ice Cool - Cocktail exotique",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0014",
+      "name": "Ice Cool - Extra Fruits rouges",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0023",
+      "name": "Ice Cool - Grenade tropicale",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0024",
+      "name": "Les Collègues - La Coquette",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0025",
+      "name": "Les Collègues - Le Balèze",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0026",
+      "name": "Les Collègues - Le Charmeur",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0027",
+      "name": "Les Collègues - Le Funkie",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0028",
+      "name": "Les Collègues - Le Tchatcheur",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0029",
+      "name": "Les Collègues - Le Flambeur",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0030",
+      "name": "Les Collègues - La Mimi",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0032",
+      "name": "Edition Collection - Miss Blue",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0033",
+      "name": "Les Essentiels - Pastis 13",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0037",
+      "name": "Ice Cool X - Watermelon Lemon",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0038",
+      "name": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0039",
+      "name": "Ice Cool X - Mixed Berries",
+      "status": "À vérifier"
+    },
+    {
+      "id": "AV-0040",
+      "name": "Ice Cool X - Blackberry Raspberry",
+      "status": "À vérifier"
+    }
+  ],
+  "priorityProductsForVerification": [
+    {
+      "id": "AV-0001",
+      "name": "Ice Cool - Cassis Citron",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0002",
+      "name": "Ice Cool - Pêche Raisin",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0003",
+      "name": "Ice Cool - Framboise des bois",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0004",
+      "name": "Ice Cool - Pomme verte Orange",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0005",
+      "name": "Ice Cool - Cola Pomme",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0006",
+      "name": "Ice Cool - Cassis Framboise Raisin",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0007",
+      "name": "Ice Cool - Fruit du dragon Fruits rouges",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0008",
+      "name": "Ice Cool - Mûre Framboise",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0009",
+      "name": "Ice Cool - Mangue Passion",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0010",
+      "name": "Ice Cool - Citron vert Orange sanguine",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0011",
+      "name": "Ice Cool - Cactus citronné Framboise Fruit du dragon",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0012",
+      "name": "Ice Cool - Cocktail exotique",
+      "range": "Ice Cool",
+      "photo": "image-1785228599019.jpg",
+      "notes": "Identification depuis photo de rayon. Composition exacte à confirmer sur photo individuelle.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0013",
+      "name": "Ice Cool - Fraise Framboise Basilic",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0014",
+      "name": "Ice Cool - Extra Fruits rouges",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon. Nom lu sur photo, à confirmer sur photo individuelle.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0015",
+      "name": "Ice Cool - Ananas Kiwi jaune",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0016",
+      "name": "Ice Cool - Pêche Myrtille",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0017",
+      "name": "Ice Cool - Pastèque Fruits rouges",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0018",
+      "name": "Ice Cool - Fruit du serpent Framboise",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0019",
+      "name": "Ice Cool - Kiwi Banane",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0020",
+      "name": "Ice Cool - Cassis Mangue",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0021",
+      "name": "Ice Cool - Citron Pastèque",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0022",
+      "name": "Ice Cool - Framboise bleue Pitaya",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0023",
+      "name": "Ice Cool - Grenade tropicale",
+      "range": "Ice Cool",
+      "photo": "image-1785228630196.jpg",
+      "notes": "Identification depuis photo de rayon. Composition exacte à confirmer sur photo individuelle.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0024",
+      "name": "Les Collègues - La Coquette",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs déduites du visuel; à confirmer sur étiquette arrière.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0025",
+      "name": "Les Collègues - Le Balèze",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs déduites du visuel; à confirmer sur étiquette arrière.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0026",
+      "name": "Les Collègues - Le Charmeur",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs exactes à confirmer sur étiquette arrière.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0027",
+      "name": "Les Collègues - Le Funkie",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs déduites du visuel; à confirmer.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0028",
+      "name": "Les Collègues - Le Tchatcheur",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Ratio lu partiellement; à confirmer.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0029",
+      "name": "Les Collègues - Le Flambeur",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs déduites du visuel; à confirmer.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0030",
+      "name": "Les Collègues - La Mimi",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveurs déduites du visuel; à confirmer.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0031",
+      "name": "Les Collègues - Le ChocoStar",
+      "range": "Les Collègues",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0032",
+      "name": "Edition Collection - Miss Blue",
+      "range": "Edition Collection",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Étiquette: Fruit du dragon givré.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0033",
+      "name": "Les Essentiels - Pastis 13",
+      "range": "Les Essentiels",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon. Saveur boisson; 0 mg/ml.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0034",
+      "name": "Les Essentiels - Mojito des îles",
+      "range": "Les Essentiels",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0035",
+      "name": "Les Essentiels - Le P'tit Blond",
+      "range": "Les Essentiels",
+      "photo": "image-1785228670994.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0036",
+      "name": "Ice Cool X - Blue Raspberry Pitaya",
+      "range": "Ice Cool X",
+      "photo": "image-1785228719275.jpg",
+      "notes": "Identification depuis photo de rayon.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0037",
+      "name": "Ice Cool X - Watermelon Lemon",
+      "range": "Ice Cool X",
+      "photo": "image-1785228719275.jpg",
+      "notes": "Identification depuis photo de rayon. Nom anglais visible sur étiquette.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0038",
+      "name": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "range": "Ice Cool X",
+      "photo": "image-1785228719275.jpg",
+      "notes": "Identification depuis photo de rayon. Nom anglais visible sur étiquette.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0039",
+      "name": "Ice Cool X - Mixed Berries",
+      "range": "Ice Cool X",
+      "photo": "image-1785228719275.jpg",
+      "notes": "Identification depuis photo de rayon. Nom anglais visible sur étiquette.",
+      "status": "to_review"
+    },
+    {
+      "id": "AV-0040",
+      "name": "Ice Cool X - Blackberry Raspberry",
+      "range": "Ice Cool X",
+      "photo": "image-1785228719275.jpg",
+      "notes": "Identification depuis photo de rayon. Nom anglais visible sur étiquette.",
+      "status": "to_review"
+    }
+  ],
+  "productList": [
+    {
+      "id": "AV-0001",
+      "name": "Ice Cool - Cassis Citron",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0002",
+      "name": "Ice Cool - Pêche Raisin",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0003",
+      "name": "Ice Cool - Framboise des bois",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0004",
+      "name": "Ice Cool - Pomme verte Orange",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0005",
+      "name": "Ice Cool - Cola Pomme",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0006",
+      "name": "Ice Cool - Cassis Framboise Raisin",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0007",
+      "name": "Ice Cool - Fruit du dragon Fruits rouges",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0008",
+      "name": "Ice Cool - Mûre Framboise",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0009",
+      "name": "Ice Cool - Mangue Passion",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0010",
+      "name": "Ice Cool - Citron vert Orange sanguine",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0011",
+      "name": "Ice Cool - Cactus citronné Framboise Fruit du dragon",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0012",
+      "name": "Ice Cool - Cocktail exotique",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228599019.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0013",
+      "name": "Ice Cool - Fraise Framboise Basilic",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0014",
+      "name": "Ice Cool - Extra Fruits rouges",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0015",
+      "name": "Ice Cool - Ananas Kiwi jaune",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0016",
+      "name": "Ice Cool - Pêche Myrtille",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0017",
+      "name": "Ice Cool - Pastèque Fruits rouges",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0018",
+      "name": "Ice Cool - Fruit du serpent Framboise",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0019",
+      "name": "Ice Cool - Kiwi Banane",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0020",
+      "name": "Ice Cool - Cassis Mangue",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0021",
+      "name": "Ice Cool - Citron Pastèque",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0022",
+      "name": "Ice Cool - Framboise bleue Pitaya",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0023",
+      "name": "Ice Cool - Grenade tropicale",
+      "range": "Ice Cool",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228630196.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0024",
+      "name": "Les Collègues - La Coquette",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0025",
+      "name": "Les Collègues - Le Balèze",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0026",
+      "name": "Les Collègues - Le Charmeur",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0027",
+      "name": "Les Collègues - Le Funkie",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0028",
+      "name": "Les Collègues - Le Tchatcheur",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "40/60",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0029",
+      "name": "Les Collègues - Le Flambeur",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0030",
+      "name": "Les Collègues - La Mimi",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0031",
+      "name": "Les Collègues - Le ChocoStar",
+      "range": "Les Collègues",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "30/70",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0032",
+      "name": "Edition Collection - Miss Blue",
+      "range": "Edition Collection",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0033",
+      "name": "Les Essentiels - Pastis 13",
+      "range": "Les Essentiels",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0034",
+      "name": "Les Essentiels - Mojito des îles",
+      "range": "Les Essentiels",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "50/50",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0035",
+      "name": "Les Essentiels - Le P'tit Blond",
+      "range": "Les Essentiels",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "50/50",
+      "photo": "image-1785228670994.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0036",
+      "name": "Ice Cool X - Blue Raspberry Pitaya",
+      "range": "Ice Cool X",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228719275.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0037",
+      "name": "Ice Cool X - Watermelon Lemon",
+      "range": "Ice Cool X",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228719275.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0038",
+      "name": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "range": "Ice Cool X",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228719275.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0039",
+      "name": "Ice Cool X - Mixed Berries",
+      "range": "Ice Cool X",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228719275.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    },
+    {
+      "id": "AV-0040",
+      "name": "Ice Cool X - Blackberry Raspberry",
+      "range": "Ice Cool X",
+      "format": "50 ml",
+      "nicotine": "0",
+      "pgvg": "",
+      "photo": "image-1785228719275.jpg",
+      "activeOnline": "Non",
+      "verificationStatus": "to_review"
+    }
+  ]
+}

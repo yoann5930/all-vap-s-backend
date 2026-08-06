@@ -1,0 +1,4284 @@
+{
+  "date": "2026-07-31T11:29:15.574Z",
+  "apply": true,
+  "policy": "lib/catalog/official-sumup-policy.ts",
+  "scanned": 280,
+  "alreadyOkOnline": 15,
+  "alreadyOffline": 1,
+  "actionsCount": 264,
+  "renamedApplied": 232,
+  "unpublishedApplied": 63,
+  "wouldRename": 232,
+  "wouldUnpublish": 63,
+  "actions": [
+    {
+      "id": "cms6euefu00u1utmkyur6sk2f",
+      "slug": "ice-cool-ananas-kiwi-jaune-50ml-ee9656f8",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Ananas Kiwi jaune",
+      "nameAfter": "Ice Cool Ananas Kiwi Jaune 50ml",
+      "sumupName": "Ice Cool Ananas Kiwi Jaune 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eueib00ujutmkcovap4en",
+      "slug": "ice-cool-cassis-framboise-raisin-50ml-9b267050",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Cassis Framboise Raisin",
+      "nameAfter": "Ice Cool cassis framboise raisin 50ml",
+      "sumupName": "Ice Cool cassis framboise raisin 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euegq00u7utmkuzhjpjh9",
+      "slug": "ice-cool-fruit-du-serpent-framboise-50ml-d36e31f3",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Fruit du serpent Framboise",
+      "nameAfter": "Ice Cool FRUIT DU SERPENT FRAMBOISE 50ML",
+      "sumupName": "Ice Cool FRUIT DU SERPENT FRAMBOISE 50ML",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc6u00byutmki51nnu2o",
+      "slug": "one-taste-citron-vert-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Citron vert 10ml",
+      "nameAfter": "Citron vert 10ml 0mg e-tasty",
+      "sumupName": "Citron vert 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudmg00nfutmk117tca4i",
+      "slug": "one-taste-fruit-du-serpent-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fruit du Dragon 10ml - Sels...",
+      "nameAfter": "Fruit Du Serpent 10ml 0mg e-tasty",
+      "sumupName": "Fruit Du Serpent 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudq900o9utmkqw3r9do2",
+      "slug": "one-taste-fruits-rouges-mentholes-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fruits Rouges 10ml - Sels...",
+      "nameAfter": "Fruits Rouges mentholes 10ml 0mg e-tasty",
+      "sumupName": "Fruits Rouges mentholes 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euayn002kutmkdxsahh6f",
+      "slug": "one-taste-ananas-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Ananas 10ml",
+      "nameAfter": "Ananas 10ml 0mg e-tasty",
+      "sumupName": "Ananas 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euay3002eutmkirryi0qm",
+      "slug": "amani-50ml-inspiration-e-tasty-4de8682e",
+      "wasOnline": true,
+      "nameBefore": "Amani - 50ML",
+      "nameAfter": "Amani 50Ml Inspiration - E-Tasty",
+      "sumupName": "Amani 50Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubb10050utmkpk5ugepe",
+      "slug": "bako-50ml-bankiz-etasty-4b61c05d",
+      "wasOnline": true,
+      "nameBefore": "BAKO 50ML",
+      "nameAfter": "Bako 50ml -Bankiz- ETasty",
+      "sumupName": "Bako 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eublj007futmkem2boi87",
+      "slug": "one-taste-bonbon-carnaval-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Bonbon Carnaval...",
+      "nameAfter": "Bonbon carnival 10ml 0mg e-tasty",
+      "sumupName": "Bonbon carnival 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc2t00b3utmkj6rng077",
+      "slug": "one-taste-cherry-cola-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cherry cola 10ml",
+      "nameAfter": "Cherry cola 10ml 0mg e-tasty",
+      "sumupName": "Cherry cola 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc1500asutmk58n05b10",
+      "slug": "one-taste-cerise-noire-10ml",
+      "wasOnline": true,
+      "nameBefore": "Cerise noire 10ml - Sels de...",
+      "nameAfter": "Cerise noire 10ml 0mg e-tasty",
+      "sumupName": "Cerise noire 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubwv009vutmkc0io2ke3",
+      "slug": "one-taste-caramel-dore-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Caramel doré 10ml",
+      "nameAfter": "Caramel doré 10ml 0mg e-tasty",
+      "sumupName": "Caramel doré 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubb60051utmk9fjbshff",
+      "slug": "bako-extra-frais-50ml-bankiz-etasty-29f32181",
+      "wasOnline": true,
+      "nameBefore": "BAKO EXTRA FRAIS 50ML",
+      "nameAfter": "Bako extra frais 50ml -Bankiz- ETasty",
+      "sumupName": "Bako extra frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euefl00tzutmkiv2oxmxp",
+      "slug": "ice-cool-peche-raisin-50ml-7de2d73a",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Pêche Raisin",
+      "nameAfter": "ICE COOL Pêche Raisin 50ml",
+      "sumupName": "ICE COOL Pêche Raisin 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc4100bdutmkzwevpd3y",
+      "slug": "one-taste-chlorophylle-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Chlorophylle 10ml",
+      "nameAfter": "Chlorophylle 10ml 0mg e-tasty",
+      "sumupName": "Chlorophylle 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euce000dgutmk8u9hxzx3",
+      "slug": "concentre-numbers1-30ml-e-tasty-9962f956",
+      "wasOnline": false,
+      "nameBefore": "Numbers 01 - 30ml",
+      "nameAfter": "Concentré Numbers1 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers1 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucea00diutmklb37kdky",
+      "slug": "concentre-numbers11-30ml-e-tasty-0d74aace",
+      "wasOnline": true,
+      "nameBefore": "Numbers 11 - 30ml",
+      "nameAfter": "Concentré Numbers11 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers11 30ml - e-TASTY",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euczw00hvutmkgmvdyayb",
+      "slug": "e-tasty-one-taste-cassis-frais-50ml-83821075",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cassis frais 50ml",
+      "nameAfter": "E tasty One taste CASSIS FRAIS 50ML",
+      "sumupName": "E tasty One taste CASSIS FRAIS 50ML",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euczg00hsutmkprv4oot1",
+      "slug": "dzeus-100ml-godfallcity-e-tasty-5b6d63d6",
+      "wasOnline": true,
+      "nameBefore": "DZEUS - 100ML",
+      "nameAfter": "Dzeus 100ml - GodFallcity - E-Tasty",
+      "sumupName": "Dzeus 100ml - GodFallcity - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucto00gnutmkd39xrtow",
+      "slug": "double-dragon-50ml-fruit-du-dragon-limonade",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON LIMONADE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon limonade",
+      "sumupName": "Double dragon 50ml - fruit du dragon limonade",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euctc00glutmk1uitza0l",
+      "slug": "double-dragon-50ml-fruit-du-dragon-fraise",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON FRAISE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon fraise",
+      "sumupName": "Double dragon 50ml - fruit du dragon fraise",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucfj00drutmk12a9d4wg",
+      "slug": "concentre-letters-a-e-tasty-fc9840cb",
+      "wasOnline": false,
+      "nameBefore": "LETTERS A CONCENTRÉ 30ml",
+      "nameAfter": "Concentré letters A e-tasty",
+      "sumupName": "Concentré letters A e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euegg00u5utmk04z6bu0v",
+      "slug": "ice-cool-citron-vert-orange-sanguine-50ml-81d644b9",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Citron vert Orange sanguine",
+      "nameAfter": "Ice Cool Citron Vert Orange Sanguine 50ml",
+      "sumupName": "Ice Cool Citron Vert Orange Sanguine 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudgk00lxutmk65pzz41d",
+      "slug": "one-taste-fraise-sauvage-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Fraise Sauvage 10ml - Sels...",
+      "nameAfter": "Fraise sauvage 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Fraise sauvage 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0c00hyutmkfzxbosxh",
+      "slug": "e-tasty-gang-organise-rick-la-castagne-50ml-576e914f",
+      "wasOnline": true,
+      "nameBefore": "Rick La Castagne 50ml",
+      "nameAfter": "E-Tasty Gang Organisé - Rick la castagne 50ml",
+      "sumupName": "E-Tasty Gang Organisé - Rick la castagne 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0w00i2utmknt47a3bv",
+      "slug": "e-tasty-one-taste-bonbon-carnaval-50ml-6da0aae8",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Bonbon carnaval...",
+      "nameAfter": "E-Tasty One Taste - Bonbon carnaval 50ml",
+      "sumupName": "E-Tasty One Taste - Bonbon carnaval 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud1700i4utmk40d4t8l8",
+      "slug": "e-tasty-one-taste-cerise-noir-50ml-4d87d208",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cerise noire 50ml",
+      "nameAfter": "E-Tasty One Taste - Cerise noir 50ml",
+      "sumupName": "E-Tasty One Taste - Cerise noir 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudj500mhutmkx5573l71",
+      "slug": "freho-50ml-bankiz-etasty-9ccc1b45",
+      "wasOnline": true,
+      "nameBefore": "FREHO 50 ML",
+      "nameAfter": "Freho 50ml -Bankiz- ETasty",
+      "sumupName": "Freho 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud1b00i5utmkfs6icylf",
+      "slug": "e-tasty-one-taste-citron-givre-50ml-42c72fb4",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Citron givré 50ml",
+      "nameAfter": "E-Tasty One Taste - Citron givre 50ml",
+      "sumupName": "E-Tasty One Taste - Citron givre 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euesq00wuutmkpy10c8lc",
+      "slug": "kalio-50ml-bankiz-etasty-9eb7ee04",
+      "wasOnline": true,
+      "nameBefore": "KALIO 50 ML",
+      "nameAfter": "Kalio 50ml -Bankiz- ETasty",
+      "sumupName": "Kalio 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euebq00t2utmkalnfxc2a",
+      "slug": "one-taste-harrison-10ml",
+      "wasOnline": false,
+      "nameBefore": "ONE Taste - Harrison 10ml",
+      "nameAfter": "Harrison 10ml 0mg e-tasty",
+      "sumupName": "Harrison 10ml 0mg e-tasty",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug3s016lutmk0wu55se0",
+      "slug": "one-taste-mangue-juteuse-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Mangue juteuse...",
+      "nameAfter": "Mangue juteuse 10ml 0mg e-tasty",
+      "sumupName": "Mangue juteuse 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud1s00i8utmkjcvi0vu1",
+      "slug": "e-tasty-one-taste-fruits-rouges-50ml-2569dca9",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Fruits rouges 50ml",
+      "nameAfter": "E-Tasty One Taste - Fruits rouges 50ml",
+      "sumupName": "E-Tasty One Taste - Fruits rouges 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugej018yutmkuy2a9015",
+      "slug": "one-taste-myrtille-sauvage-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fraise Sauvage 10ml - Sels...",
+      "nameAfter": "Myrtille sauvage 10ml 0mg e-tasty",
+      "sumupName": "Myrtille sauvage 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugut01csutmkafrhlvtr",
+      "slug": "one-taste-pamplemousse-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Pamplemousse 10ml",
+      "nameAfter": "Pamplemousse 10ml 0mg e-tasty",
+      "sumupName": "Pamplemousse 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucjn00emutmke2lzy04d",
+      "slug": "diavita-freezy-crush-e-tasty-1755a337",
+      "wasOnline": true,
+      "nameBefore": "DIAVITA 50ML",
+      "nameAfter": "DIAVITA-Freezy Crush E-TASTY",
+      "sumupName": "DIAVITA-Freezy Crush E-TASTY",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euehw00ugutmkl7vahmbn",
+      "slug": "ice-cool-x-50-ml-framboise-bleu-pitaya-liquidarom-e67904cc",
+      "wasOnline": false,
+      "nameBefore": "Ice Cool X - Blue Raspberry Pitaya",
+      "nameAfter": "Ice Cool X 50 Ml FRAMBOISE BLEU PITAYA - Liquidarom",
+      "sumupName": "Ice Cool X 50 Ml FRAMBOISE BLEU PITAYA - Liquidarom",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euaot0009utmk6vbunqbv",
+      "slug": "ice-cool-pitaya-framboise-bleue-50ml-3ff88310",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Framboise bleue Pitaya",
+      "nameAfter": "ICE COOL Pitaya Framboise bleue 50ml",
+      "sumupName": "ICE COOL Pitaya Framboise bleue 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euif301ohutmkjyupygw1",
+      "slug": "thena-100ml-godfallcity-e-tasty-18b87d08",
+      "wasOnline": true,
+      "nameBefore": "THENA - 100ML",
+      "nameAfter": "Thena 100ml - GodFallcity - E-Tasty",
+      "sumupName": "Thena 100ml - GodFallcity - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euism01r3utmklc52m3t6",
+      "slug": "one-taste-vanille-dore-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Caramel doré 10ml",
+      "nameAfter": "Vanille dore 10ml 0mg e-tasty",
+      "sumupName": "Vanille dore 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euefb00txutmkjmxsrod3",
+      "slug": "ice-cool-grenade-tropical-50ml-5f52f348",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Grenade tropicale",
+      "nameAfter": "ICE COOL Grenade Tropical 50ml",
+      "sumupName": "ICE COOL Grenade Tropical 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubtc0097utmkknge9fpl",
+      "slug": "one-taste-cafe-expresso-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cafe expresso 10ml",
+      "nameAfter": "Cafe Expresso 10ml 0mg e-tasty",
+      "sumupName": "Cafe Expresso 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubm2007jutmk7bpu6i5o",
+      "slug": "one-taste-bonbon-violette-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Bonbon violette...",
+      "nameAfter": "Bonbon violette 10ml 0mg e-tasty",
+      "sumupName": "Bonbon violette 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucfa00dputmkmynn9b0a",
+      "slug": "concentre-numbers8-30ml-e-tasty-e2e88052",
+      "wasOnline": false,
+      "nameBefore": "Numbers 08 - 30ml",
+      "nameAfter": "Concentré Numbers8 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers8 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudqr00odutmkvctb22yw",
+      "slug": "one-taste-fruits-rouges-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fruits Rouges 10ml - Sels...",
+      "nameAfter": "Fruits rouges 10ml 0mg e-tasty",
+      "sumupName": "Fruits rouges 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eueuy00xcutmk15e803d6",
+      "slug": "one-taste-kenton-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Kenton 10ml",
+      "nameAfter": "Kenton 10ml 0mg e-tasty",
+      "sumupName": "Kenton 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud9600k1utmkiqwxystt",
+      "slug": "felicita-freezy-crush-e-tasty-60894e4c",
+      "wasOnline": true,
+      "nameBefore": "FELICITA 50ML",
+      "nameAfter": "FELICITA-Freezy Crush E-TASTY",
+      "sumupName": "FELICITA-Freezy Crush E-TASTY",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eujhq01vzutmkg67znlay",
+      "slug": "mojito-omg-50-ml-the-mds-juice-f0fb6b3f",
+      "wasOnline": false,
+      "nameBefore": "Mojito",
+      "nameAfter": "mojito omg 50 ml - the MDS juice",
+      "sumupName": "mojito omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eueh400uautmkm4nxf16x",
+      "slug": "ice-cool-fruit-du-dragon-fruits-rouges-50ml-874d773d",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Fruit du dragon Fruits rouges",
+      "nameAfter": "Ice Cool Fruit Du Dragon Fruits Rouges  50ml",
+      "sumupName": "Ice Cool Fruit Du Dragon Fruits Rouges  50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euesm00wtutmk1isnlrkw",
+      "slug": "kaheli-50ml-inspiration-e-tasty-0624dd84",
+      "wasOnline": true,
+      "nameBefore": "Kaheli - 50ML",
+      "nameAfter": "Kaheli 50Ml Inspiration - E-Tasty",
+      "sumupName": "Kaheli 50Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euesv00wvutmk09o19dtq",
+      "slug": "kalio-extra-frais-50ml-bankiz-etasty-63a3ee59",
+      "wasOnline": true,
+      "nameBefore": "KALIO EXTRA FRAIS 50 ML",
+      "nameAfter": "Kalio extra frais 50ml -Bankiz- ETasty",
+      "sumupName": "Kalio extra frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucun00gtutmktzfb3z12",
+      "slug": "double-dragon-50ml-fruit-du-dragon-violette",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON VIOLETTE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon violette",
+      "sumupName": "Double dragon 50ml - fruit du dragon violette",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euij101pbutmklyx9mu11",
+      "slug": "double-dragon-100ml-triple-dragon",
+      "wasOnline": true,
+      "nameBefore": "TRIPLE DRAGON — Double Dragon — 100 ml",
+      "nameAfter": "Triple dragon 100ml - fruit du dragon energy drink",
+      "sumupName": "Triple dragon 100ml - fruit du dragon energy drink",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euims01pxutmk15j7l15j",
+      "slug": "ultra-fraise-l-invapable-100ml-0mg-935640d0",
+      "wasOnline": true,
+      "nameBefore": "Ultra Fraise — L'Invapable — 100 ml",
+      "nameAfter": "Ultra Fraise L'INVAPABLE - 100ml - 0mg",
+      "sumupName": "Ultra Fraise L'INVAPABLE - 100ml - 0mg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugfh0195utmkmggh99so",
+      "slug": "myst-da-loving-witch-50ml-b3432a11",
+      "wasOnline": false,
+      "nameBefore": "Da Loving Witch",
+      "nameAfter": "Myst Da Loving Witch 50ml",
+      "sumupName": "Myst Da Loving Witch 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugnp01b5utmk5vxnjkeg",
+      "slug": "opali-50-ml-inspiration-e-tasty-486a4843",
+      "wasOnline": true,
+      "nameBefore": "OPALI 50ml",
+      "nameAfter": "Opali 50 Ml Inspiration - E-Tasty",
+      "sumupName": "Opali 50 Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eue5m00rkutmkdjb2rswk",
+      "slug": "gold-0mg-50ml-the-mds-juice-500521f7",
+      "wasOnline": false,
+      "nameBefore": "Gold",
+      "nameAfter": "Gold 0mg 50ml - The MDS Juice",
+      "sumupName": "Gold 0mg 50ml - The MDS Juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubcr005cutmkp4xqzqhe",
+      "slug": "baron-rouge-l-invapable-100ml-0mg-5ed77ff4",
+      "wasOnline": true,
+      "nameBefore": "Baron Rouge — L'Invapable — 100 ml",
+      "nameAfter": "Baron Rouge L'INVAPABLE - 100ml - 0mg",
+      "sumupName": "Baron Rouge L'INVAPABLE - 100ml - 0mg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euhwe01ksutmkmsg53ib9",
+      "slug": "serko-50ml-bankiz-etasty-50a1c2b8",
+      "wasOnline": true,
+      "nameBefore": "SERKO 50ML",
+      "nameAfter": "Serko 50ml -Bankiz- ETasty",
+      "sumupName": "Serko 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euhwj01ktutmkv6nsfkax",
+      "slug": "serko-extra-frais-50ml-bankiz-etasty-61ca3fd3",
+      "wasOnline": true,
+      "nameBefore": "SERKO EXTRA FRAIS 50ML",
+      "nameAfter": "Serko Extra Frais 50ml -Bankiz- ETasty",
+      "sumupName": "Serko Extra Frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euctt00goutmkypkix4j3",
+      "slug": "double-dragon-50ml-fruit-du-dragon-mandarine",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON MANDARINE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon mandarine",
+      "sumupName": "Double dragon 50ml - fruit du dragon mandarine",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudnu00nqutmkvl6iev85",
+      "slug": "le-fruit-defendu-50ml-ghost-riders",
+      "wasOnline": true,
+      "nameBefore": "GHOST RIDERS — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - pastèque fraise frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - pastèque fraise frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubhb006hutmke1rk830d",
+      "slug": "bisto-50ml-bankiz-etasty-acd84145",
+      "wasOnline": true,
+      "nameBefore": "BISTO 50ML",
+      "nameAfter": "Bisto 50ml -Bankiz- ETasty",
+      "sumupName": "Bisto 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eueew00tuutmkxd5tyjgp",
+      "slug": "hyper-dragon-l-invapable-100ml-0mg-be39afe1",
+      "wasOnline": true,
+      "nameBefore": "Hyper Dragon — L'Invapable — 100 ml",
+      "nameAfter": "Hyper Dragon L'INVAPABLE - 100ml - 0mg",
+      "sumupName": "Hyper Dragon L'INVAPABLE - 100ml - 0mg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eufdl0119utmkwwuulm6p",
+      "slug": "lime-0mg-50ml-the-mds-juice-396ccfa1",
+      "wasOnline": false,
+      "nameBefore": "Lime",
+      "nameAfter": "Lime 0mg 50ml - The MDS Juice",
+      "sumupName": "Lime 0mg 50ml - The MDS Juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eud1h00i6utmk9ok3gazv",
+      "slug": "e-tasty-one-taste-fraise-sauvage-50ml-73f57f94",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Fraise sauvage...",
+      "nameAfter": "E-Tasty One Taste - Fraise sauvage 50ml",
+      "sumupName": "E-Tasty One Taste - Fraise sauvage 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euct600gkutmkr6qwsm8f",
+      "slug": "double-dragon-50ml-fruit-du-dragon-cerise",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON CERISE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon cerise",
+      "sumupName": "Double dragon 50ml - fruit du dragon cerise",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugf30192utmke14he84b",
+      "slug": "myst-da-crazy-bird-50ml-3ac14d22",
+      "wasOnline": false,
+      "nameBefore": "Da Crazy Bird",
+      "nameAfter": "Myst Da Crazy Bird 50ml",
+      "sumupName": "Myst Da Crazy Bird 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujct01v2utmkbwxh18dw",
+      "slug": "dark-rainbow-omg-50-ml-the-mds-juice-d5d366e5",
+      "wasOnline": false,
+      "nameBefore": "Dark Rainbow",
+      "nameAfter": "dark rainbow omg 50 ml - the MDS juice",
+      "sumupName": "dark rainbow omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujcy01v3utmkqbvfklj0",
+      "slug": "delicious-omg-50-ml-the-mds-juice-8754258f",
+      "wasOnline": false,
+      "nameBefore": "Delicious",
+      "nameAfter": "delicious omg 50 ml - the MDS juice",
+      "sumupName": "delicious omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujer01vfutmkhp2b53n1",
+      "slug": "green-omg-50-ml-the-mds-juice-093051b5",
+      "wasOnline": false,
+      "nameBefore": "Green",
+      "nameAfter": "green omg 50 ml - the MDS juice",
+      "sumupName": "green omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euji901w3utmk3nx21feu",
+      "slug": "pink-omg-50-ml-the-mds-juice-0a4efb38",
+      "wasOnline": false,
+      "nameBefore": "Pink",
+      "nameAfter": "pink omg 50 ml - the MDS juice",
+      "sumupName": "pink omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujkb01wiutmkpsq4wngs",
+      "slug": "red-wedding-omg-50-ml-the-mds-juice-309d068b",
+      "wasOnline": false,
+      "nameBefore": "Red Wedding",
+      "nameAfter": "red wedding omg 50 ml - the MDS juice",
+      "sumupName": "red wedding omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujkq01wlutmk7l5n4ff1",
+      "slug": "sunny-omg-50-ml-the-mds-juice-ec59ca87",
+      "wasOnline": false,
+      "nameBefore": "Sunny",
+      "nameAfter": "sunny omg 50 ml - the MDS juice",
+      "sumupName": "sunny omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujku01wmutmkowexd0g2",
+      "slug": "virgo-omg-50-ml-the-mds-juice-e0dcccf0",
+      "wasOnline": false,
+      "nameBefore": "Virgo",
+      "nameAfter": "virgo omg 50 ml - the MDS juice",
+      "sumupName": "virgo omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euapj000eutmk6f86g3ku",
+      "slug": "les-collegues-le-chocostar-50ml-8f6a4813",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le ChocoStar",
+      "nameAfter": "Les Collegues - Le chocostar - 50ml",
+      "sumupName": "Les Collegues - Le chocostar - 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucfq00dsutmkqdykt3j5",
+      "slug": "concentre-letters-b-e-tasty-fa3cc705",
+      "wasOnline": false,
+      "nameBefore": "LETTERS B CONCENTRÉ 30ml",
+      "nameAfter": "Concentré letters B e-tasty",
+      "sumupName": "Concentré letters B e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucf400doutmk0r7vsedt",
+      "slug": "concentre-numbers7-30ml-e-tasty-7bfa199c",
+      "wasOnline": false,
+      "nameBefore": "Numbers 07 - 30ml",
+      "nameAfter": "Concentré Numbers7 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers7 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujkl01wkutmk556vfl9q",
+      "slug": "skinz-kaiser-100ml-furiosa-vape47-e8d25c77",
+      "wasOnline": true,
+      "nameBefore": "Kaiser — Furiosa Skinz — 100 ml",
+      "nameAfter": "skinz Kaiser 100ml - Furiosa vape47",
+      "sumupName": "skinz Kaiser 100ml - Furiosa vape47",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eueix00uoutmkh5fg5dt7",
+      "slug": "ice-cool-pasteque-fruits-rouges-50ml-a28d3b07",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Pastèque Fruits rouges",
+      "nameAfter": "Ice Cool pasteque fruits rouges 50ml",
+      "sumupName": "Ice Cool pasteque fruits rouges 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euavc001putmkmfpqe3ii",
+      "slug": "akashi-50ml-kyoto-storm-raneki-liquide-a3ba2f9b",
+      "wasOnline": false,
+      "nameBefore": "Akashi",
+      "nameAfter": "Akashi 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Akashi 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug2y016futmk08qj1ylh",
+      "slug": "maneki-50ml-kyoto-storm-raneki-liquide-26fb879f",
+      "wasOnline": false,
+      "nameBefore": "Maneki",
+      "nameAfter": "Maneki 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Maneki 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euapp000futmkxqagqxa6",
+      "slug": "les-collegues-le-tchatcheur-50ml-e8d4ac3a",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le Tchatcheur",
+      "nameAfter": "Les Collegues - Le tchatcheur - 50ml",
+      "sumupName": "Les Collegues - Le tchatcheur - 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugda018putmkdryz6wkp",
+      "slug": "mojito-des-iles-50ml-les-essentiels-f1dd0677",
+      "wasOnline": false,
+      "nameBefore": "Les Essentiels - Mojito des îles",
+      "nameAfter": "Mojito Des Îles 50ml Les Essentiels",
+      "sumupName": "Mojito Des Îles 50ml Les Essentiels",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eueik00ulutmkr345c04l",
+      "slug": "ice-cool-cocktail-exotique-50ml-0be65004",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Cocktail exotique",
+      "nameAfter": "Ice Cool cocktail exotique 50ml",
+      "sumupName": "Ice Cool cocktail exotique 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euegu00u8utmk0vft7jua",
+      "slug": "ice-cool-fraise-framboise-basilic-50ml-3a3ccff2",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Fraise Framboise Basilic",
+      "nameAfter": "Ice Cool Fraise Framboise Basilic 50ml",
+      "sumupName": "Ice Cool Fraise Framboise Basilic 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudkn00mtutmkitntq894",
+      "slug": "frost-0mg-100ml-icebreak-by-juice-66-041c5a27",
+      "wasOnline": false,
+      "nameBefore": "Frost",
+      "nameAfter": "Frost 0mg 100ml - Icebreak by Juice 66",
+      "sumupName": "Frost 0mg 100ml - Icebreak by Juice 66",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eue8i00s6utmkuv853ivg",
+      "slug": "green-50ml-enfer-31704e5e",
+      "wasOnline": true,
+      "nameBefore": "Enfer Green — 50 ml",
+      "nameAfter": "Green 50ML - ENFER",
+      "sumupName": "Green 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euhs701jsutmkbsh7mx03",
+      "slug": "ryujin-50ml-kyoto-storm-raneki-liquide-8eaa644b",
+      "wasOnline": false,
+      "nameBefore": "Ryujin",
+      "nameAfter": "Ryujin 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Ryujin 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eub87004dutmkqln7nrwu",
+      "slug": "athena-50ml-olympe-raneki-liquide-4e377f9d",
+      "wasOnline": false,
+      "nameBefore": "Athéna",
+      "nameAfter": "Athena 50ml Olympe - Raneki Liquide",
+      "sumupName": "Athena 50ml Olympe - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubwk009tutmkqwt8zg2k",
+      "slug": "call-of-vape-zombie-100ml-cloud-vapor-de303809",
+      "wasOnline": false,
+      "nameBefore": "Zombie",
+      "nameAfter": "Call of vape - zombie 100ml - Cloud Vapor",
+      "sumupName": "Call of vape - zombie 100ml - Cloud Vapor",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euebc00szutmk87oscehz",
+      "slug": "hades-50ml-olympe-raneki-liquide-3d4a8a0a",
+      "wasOnline": false,
+      "nameBefore": "Hadès",
+      "nameAfter": "Hades 50ml Olympe - Raneki Liquide",
+      "sumupName": "Hades 50ml Olympe - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euap3000butmklbabnn85",
+      "slug": "les-collegues-la-mimi-50ml-d870199f",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - La Mimi",
+      "nameAfter": "Les Collegues - La mimi - 50ml",
+      "sumupName": "Les Collegues - La mimi - 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euazr002sutmk1gwz52v7",
+      "slug": "aphrodite-50ml-olympe-raneki-liquide-46e32385",
+      "wasOnline": false,
+      "nameBefore": "Aphrodite",
+      "nameAfter": "Aphrodite 50ml Olympe - Raneki Liquide",
+      "sumupName": "Aphrodite 50ml Olympe - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug1u0167utmkrgnc6d9z",
+      "slug": "mamita-50ml-bowl-de-cereales-noisette-pecan-creme-6724a4dc",
+      "wasOnline": true,
+      "nameBefore": "Bowl de Céréales Noisette Pécan Crème — Mamita — 50 ml",
+      "nameAfter": "Mamita 50ml - bowl de cereales noisette pecan creme",
+      "sumupName": "Mamita 50ml - bowl de cereales noisette pecan creme",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugo501b8utmkheah3ncj",
+      "slug": "original-50ml-enfer-00b22b81",
+      "wasOnline": true,
+      "nameBefore": "Enfer Original — 50 ml",
+      "nameAfter": "Original 50ML - ENFER",
+      "sumupName": "Original 50ML - ENFER",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eub110032utmkffoso8hk",
+      "slug": "aria-50-ml-furiosa-eggz-v2-0da94b90",
+      "wasOnline": true,
+      "nameBefore": "Aria — Furiosa Eggz — 50 ml",
+      "nameAfter": "Aria 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Aria 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euea000slutmkjalrdliu",
+      "slug": "griffon-50-ml-furiosa-eggz-v2-380acca8",
+      "wasOnline": true,
+      "nameBefore": "Griffon — Furiosa Eggz — 50 ml",
+      "nameAfter": "Griffon 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Griffon 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucsp00ghutmkwn9sufqo",
+      "slug": "doom-50-ml-furiosa-eggz-v2-261eef2d",
+      "wasOnline": true,
+      "nameBefore": "Doom — Furiosa Eggz — 50 ml",
+      "nameAfter": "Doom 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Doom 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euapd000dutmk3cpldcif",
+      "slug": "les-collegues-le-funkie-50ml-4525a4e2",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le Funkie",
+      "nameAfter": "Les Collegues - Le Funkie - 50ml",
+      "sumupName": "Les Collegues - Le Funkie - 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euehn00ueutmknhunojya",
+      "slug": "ice-cool-x-50-ml-cassis-framboise-liquidarom-98f43776",
+      "wasOnline": false,
+      "nameBefore": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "nameAfter": "Ice Cool X 50 Ml CASSIS FRAMBOISE - liquidarom",
+      "sumupName": "Ice Cool X 50 Ml CASSIS FRAMBOISE - liquidarom",
+      "reasons": [],
+      "anomalies": [
+        "nom_invente_ou_incompatible_sumup"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euehq00ufutmketh8qgz7",
+      "slug": "ice-cool-x-50-ml-citron-pasteque-liquidarom-b444768a",
+      "wasOnline": false,
+      "nameBefore": "Ice Cool X - Watermelon Lemon",
+      "nameAfter": "Ice Cool X 50 Ml CITRON PASTEQUE - Liquidarom",
+      "sumupName": "Ice Cool X 50 Ml CITRON PASTEQUE - Liquidarom",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euei500uiutmkv8uwghiy",
+      "slug": "ice-cool-x-50-ml-mure-framboise-liquidarom-4e4af42b",
+      "wasOnline": false,
+      "nameBefore": "Ice Cool X - Blackberry Raspberry",
+      "nameAfter": "Ice Cool X 50 Ml MURE FRAMBOISE - Liquidarom",
+      "sumupName": "Ice Cool X 50 Ml MURE FRAMBOISE - Liquidarom",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euei100uhutmk1s648nqz",
+      "slug": "ice-cool-x-50-ml-mix-fruits-rouges-liquidarom-573b1fb4",
+      "wasOnline": false,
+      "nameBefore": "Ice Cool X - Mixed Red Berries",
+      "nameAfter": "Ice Cool X 50 Ml MIX FRUITS ROUGES - Liquidarom",
+      "sumupName": "Ice Cool X 50 Ml MIX FRUITS ROUGES - Liquidarom",
+      "reasons": [],
+      "anomalies": [
+        "nom_invente_ou_incompatible_sumup"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eueg500u3utmk1g220jnv",
+      "slug": "ice-cool-cassis-citron-50ml-b3c842a9",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Cassis Citron",
+      "nameAfter": "Ice Cool Cassis Citron 50ml",
+      "sumupName": "Ice Cool Cassis Citron 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eufcv0114utmk7mr1ewaz",
+      "slug": "les-collegues-50ml-la-coquette-9bfd011b",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - La Coquette",
+      "nameAfter": "Les collegues 50ml- LA COQUETTE",
+      "sumupName": "Les collegues 50ml- LA COQUETTE",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euega00u4utmkath9iruo",
+      "slug": "ice-cool-citron-pasteque-50ml-360eff89",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Citron Pastèque",
+      "nameAfter": "Ice Cool Citron Pastèque 50ml",
+      "sumupName": "Ice Cool Citron Pastèque 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euesh00wsutmk02nkba8u",
+      "slug": "juno-50-ml-furiosa-eggz-v2-9fb8ec6d",
+      "wasOnline": true,
+      "nameBefore": "Juno — Furiosa Eggz — 50 ml",
+      "nameAfter": "Juno 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Juno 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubkb0075utmkvben0bp0",
+      "slug": "blue-50ml-enfer-453fac6c",
+      "wasOnline": true,
+      "nameBefore": "Enfer Blue — 50 ml",
+      "nameAfter": "Blue 50ML - ENFER",
+      "sumupName": "Blue 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euein00umutmk6uubxpt9",
+      "slug": "ice-cool-cola-pomme-50ml-0a141931",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Cola Pomme",
+      "nameAfter": "Ice Cool cola pomme 50ml",
+      "sumupName": "Ice Cool cola pomme 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eufcq0113utmkm4qpd7ze",
+      "slug": "les-collegues-50ml-la-baleze-6ccb7544",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le Balèze",
+      "nameAfter": "Les collegues 50ml- LA BALEZE",
+      "sumupName": "Les collegues 50ml- LA BALEZE",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eufa3010hutmkri1dvypq",
+      "slug": "le-ptit-blond-50ml-les-essentiels-0946fb03",
+      "wasOnline": false,
+      "nameBefore": "Les Essentiels - Le P'tit Blond",
+      "nameAfter": "Le Ptit Blond 50ml Les Essentiels",
+      "sumupName": "Le Ptit Blond 50ml Les Essentiels",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugf70193utmkrv6h3e9i",
+      "slug": "myst-da-crusty-king-50-ml-4eeb4a94",
+      "wasOnline": false,
+      "nameBefore": "Da Crusty King",
+      "nameAfter": "Myst Da Crusty King 50 Ml",
+      "sumupName": "Myst Da Crusty King 50 Ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euge8018wutmkleskozas",
+      "slug": "musashi-50ml-kyoto-storm-raneki-liquide-b1a5e289",
+      "wasOnline": false,
+      "nameBefore": "Musashi",
+      "nameAfter": "Musashi 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Musashi 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eueig00ukutmkbmh59y0g",
+      "slug": "ice-cool-cassis-mangue-50ml-dbee0f2b",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Cassis Mangue",
+      "nameAfter": "Ice Cool cassis mangue 50ml",
+      "sumupName": "Ice Cool cassis mangue 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euejd00urutmkvv18tv1f",
+      "slug": "ice-cool-mangue-passion-50ml-b1491b29",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Mangue Passion",
+      "nameAfter": "Ice cool Mangue Passion 50ml",
+      "sumupName": "Ice cool Mangue Passion 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugfb0194utmkmkkzi5wy",
+      "slug": "myst-da-good-snake-50-ml-f4bf4d4a",
+      "wasOnline": false,
+      "nameBefore": "Da Good Snake",
+      "nameAfter": "Myst Da Good Snake 50 Ml",
+      "sumupName": "Myst Da Good Snake 50 Ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug2i016cutmkw0nyhouo",
+      "slug": "mamita-50ml-cookie-choco-noisette-dd2c2826",
+      "wasOnline": true,
+      "nameBefore": "Cookie Choco Noisette — Mamita — 50 ml",
+      "nameAfter": "Mamita 50ml cookie choco noisette",
+      "sumupName": "Mamita 50ml cookie choco noisette",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euha001g0utmk24a0h1s0",
+      "slug": "purple-50ml-enfer-44e47bb4",
+      "wasOnline": true,
+      "nameBefore": "Enfer Purple — 50 ml",
+      "nameAfter": "Purple 50ML - ENFER",
+      "sumupName": "Purple 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euenj00voutmkiir5spdr",
+      "slug": "ivy-50-ml-furiosa-eggz-v2-cd3c8b1c",
+      "wasOnline": true,
+      "nameBefore": "Ivy — Furiosa Eggz — 50 ml",
+      "nameAfter": "Ivy 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Ivy 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugfm0196utmkdt1key0d",
+      "slug": "myst-da-smoky-eye-50ml-a7cfd235",
+      "wasOnline": false,
+      "nameBefore": "Da Smoky Eye",
+      "nameAfter": "Myst Da Smoky Eye 50ml",
+      "sumupName": "Myst Da Smoky Eye 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugfq0197utmkhmn2e3cg",
+      "slug": "myst-da-sweety-face-50ml-a11c1f26",
+      "wasOnline": false,
+      "nameBefore": "Da Sweet Face",
+      "nameAfter": "Myst Da Sweety Face 50ml",
+      "sumupName": "Myst Da Sweety Face 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eui1101lqutmk4w4qml8r",
+      "slug": "snow-0mg-100ml-icebreak-by-juice-66-06544c5d",
+      "wasOnline": false,
+      "nameBefore": "Snow",
+      "nameAfter": "Snow 0mg 100ml - Icebreak By Juice 66",
+      "sumupName": "Snow 0mg 100ml - Icebreak By Juice 66",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh5u01f6utmkte842rxu",
+      "slug": "poseidon-50ml-olympe-raneki-liquide-e4840756",
+      "wasOnline": false,
+      "nameBefore": "Poséidon",
+      "nameAfter": "Poseidon 50ml Olympe - Raneki Liquide",
+      "sumupName": "Poseidon 50ml Olympe - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euebm00t1utmkbkt7gy1m",
+      "slug": "hanzo-50ml-kyoto-storm-raneki-liquide-4bc721c2",
+      "wasOnline": false,
+      "nameBefore": "Hanzo",
+      "nameAfter": "Hanzo 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Hanzo 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euhjv01i1utmkgcrjlqv7",
+      "slug": "red-50ml-enfer-417c1612",
+      "wasOnline": true,
+      "nameBefore": "Enfer Red — 50 ml",
+      "nameAfter": "Red 50ML - ENFER",
+      "sumupName": "Red 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euimm01pwutmk6cqypb7c",
+      "slug": "ultimate-freeze-50ml-enfer-a2e9b523",
+      "wasOnline": true,
+      "nameBefore": "Enfer Ultimate Freeze — 50 ml",
+      "nameAfter": "Ultimate Freeze 50ML - ENFER",
+      "sumupName": "Ultimate Freeze 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euj3901t6utmkakt2eoei",
+      "slug": "volta-50-ml-furiosa-eggz-v2-88e686fc",
+      "wasOnline": true,
+      "nameBefore": "Volta — Furiosa Eggz — 50 ml",
+      "nameAfter": "Volta 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Volta 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugfv0198utmkyitauaks",
+      "slug": "nova-50-ml-furiosa-eggz-v2-1969540c",
+      "wasOnline": true,
+      "nameBefore": "Nova — Furiosa Eggz — 50 ml",
+      "nameAfter": "NOVA 50 Ml - Furiosa Eggz V2",
+      "sumupName": "NOVA 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug33016gutmkodmv75qi",
+      "slug": "mango-50ml-enfer-08403b0c",
+      "wasOnline": true,
+      "nameBefore": "Enfer Mango — 50 ml",
+      "nameAfter": "Mango 50ML - ENFER",
+      "sumupName": "Mango 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euj8i01u5utmk7hspm30l",
+      "slug": "yellow-50ml-enfer-3475666d",
+      "wasOnline": true,
+      "nameBefore": "Enfer Yellow — 50 ml",
+      "nameAfter": "Yellow 50ML - ENFER",
+      "sumupName": "Yellow 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eud0700hxutmkt21pz3gn",
+      "slug": "e-tasty-gang-organise-iris-la-perchee-50ml-c1b8c20b",
+      "wasOnline": true,
+      "nameBefore": "Iris la perchée 50ml",
+      "nameAfter": "E-Tasty Gang Organisé - Iris la perchee 50ml",
+      "sumupName": "E-Tasty Gang Organisé - Iris la perchee 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0h00hzutmkb7r40cns",
+      "slug": "e-tasty-gang-organise-sam-la-menace-50ml-0680ae0e",
+      "wasOnline": true,
+      "nameBefore": "Sam la menace 50ml",
+      "nameAfter": "E-Tasty Gang Organisé - Sam la menace 50ml",
+      "sumupName": "E-Tasty Gang Organisé - Sam la menace 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0n00i0utmkk1h00lck",
+      "slug": "e-tasty-gang-organise-sophie-la-casse-cou-50ml-8cfce52c",
+      "wasOnline": true,
+      "nameBefore": "Sophie la casse-cou 50ml",
+      "nameAfter": "E-Tasty Gang Organisé - Sophie La Casse Cou 50ml",
+      "sumupName": "E-Tasty Gang Organisé - Sophie La Casse Cou 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0r00i1utmklin1tss7",
+      "slug": "e-tasty-gang-organise-vinc-la-malice-50ml-40888f42",
+      "wasOnline": false,
+      "nameBefore": "Vince la malice 50ml",
+      "nameAfter": "E-Tasty Gang Organisé - Vinc la malice 50ml",
+      "sumupName": "E-Tasty Gang Organisé - Vinc la malice 50ml",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eud1200i3utmku0hulq8h",
+      "slug": "e-tasty-one-taste-cafe-expresso-50ml-eeb62be4",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Café expresso 50ml",
+      "nameAfter": "E-Tasty One Taste - Cafe expresso 50ml",
+      "sumupName": "E-Tasty One Taste - Cafe expresso 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud1y00i9utmk71j4ykwa",
+      "slug": "e-tasty-one-taste-menthe-fraiche-50ml-0388cf2c",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Menthe fraiche...",
+      "nameAfter": "E-Tasty One Taste - Menthe fraiche 50ml",
+      "sumupName": "E-Tasty One Taste - Menthe fraiche 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud2400iautmk20snkh8e",
+      "slug": "e-tasty-one-taste-menthe-polaire-50ml-d3f4c220",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Menthe polaire...",
+      "nameAfter": "E-Tasty One Taste - Menthe polaire 50ml",
+      "sumupName": "E-Tasty One Taste - Menthe polaire 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugzk01dqutmkkcf9awi9",
+      "slug": "peik-bankiz-e-tasty-50ml-d77f7ceb",
+      "wasOnline": true,
+      "nameBefore": "PEIKO 50ML",
+      "nameAfter": "Peïkø- BANKIZ E-TASTY 50ml",
+      "sumupName": "Peïkø- BANKIZ E-TASTY 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euaup001jutmkzk3f5f85",
+      "slug": "adess-100ml-godfallcity-e-tasty-7bc8a4f3",
+      "wasOnline": true,
+      "nameBefore": "ADESS - 100ML",
+      "nameAfter": "Adess 100ml - GodFallcity - E-Tasty",
+      "sumupName": "Adess 100ml - GodFallcity - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucfu00dtutmk1ab9foii",
+      "slug": "concentre-letters-c-e-tasty-029db3fb",
+      "wasOnline": false,
+      "nameBefore": "LETTERS C CONCENTRÉ 30ml",
+      "nameAfter": "Concentré letters C e-tasty",
+      "sumupName": "Concentré letters C e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euap8000cutmkez6m1tps",
+      "slug": "les-collegues-le-flambeur-50ml-c66996d4",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le Flambeur",
+      "nameAfter": "Les Collegues - Le Flambeur - 50ml",
+      "sumupName": "Les Collegues - Le Flambeur - 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euegl00u6utmk3ow8xrv9",
+      "slug": "ice-cool-extra-fruits-rouges-50ml-ba251afc",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Extra Fruits rouges",
+      "nameAfter": "Ice Cool Extra Fruits Rouges 50ml",
+      "sumupName": "Ice Cool Extra Fruits Rouges 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugwg01d4utmkad3tpdxb",
+      "slug": "pastis-13-50ml-saveur-boisson-f21e40ff",
+      "wasOnline": false,
+      "nameBefore": "Les Essentiels - Pastis 13",
+      "nameAfter": "Pastis 13 50ml Saveur boisson",
+      "sumupName": "Pastis 13 50ml Saveur boisson",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eufd00115utmkqufefjs8",
+      "slug": "les-collegues-50ml-le-charmeur-e5218a92",
+      "wasOnline": false,
+      "nameBefore": "Les Collègues - Le Charmeur",
+      "nameAfter": "Les collegues 50ml- LE CHARMEUR",
+      "sumupName": "Les collegues 50ml- LE CHARMEUR",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eueff00tyutmku819m482",
+      "slug": "ice-cool-kiwi-banane-50ml-a8970620",
+      "wasOnline": true,
+      "nameBefore": "Ice Cool - Kiwi Banane",
+      "nameAfter": "ICE COOL KIWI BANANE 50ML",
+      "sumupName": "ICE COOL KIWI BANANE 50ML",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euiae01nmutmkgnv8mecx",
+      "slug": "twenty-fruit-du-dragon-cerise-20ml",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON - CERISE 20ML",
+      "nameAfter": "TWENTY fruit du dragon cerise",
+      "sumupName": "TWENTY fruit du dragon cerise",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euil101pmutmk5gocj2zl",
+      "slug": "twenty-limonade-citron-cassis-20ml",
+      "wasOnline": true,
+      "nameBefore": "LIMONADE CITRON - CASSIS 20ML",
+      "nameAfter": "Twenty limonade -cassis",
+      "sumupName": "Twenty limonade -cassis",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euikm01pkutmkpfxtlpw2",
+      "slug": "twenty-double-peche-20ml",
+      "wasOnline": true,
+      "nameBefore": "DOUBLE PECHE 20ML",
+      "nameAfter": "Twenty  double pêche",
+      "sumupName": "Twenty  double pêche",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euiku01plutmk3poyj1pf",
+      "slug": "twenty-fruits-rouges-20ml",
+      "wasOnline": true,
+      "nameBefore": "FRUITS ROUGES 20ML",
+      "nameAfter": "Twenty fruits rouges",
+      "sumupName": "Twenty fruits rouges",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euil801pnutmkntheioj0",
+      "slug": "twenty-menthe-polaire-20ml",
+      "wasOnline": true,
+      "nameBefore": "MENTHE POLAIRE 20ML",
+      "nameAfter": "Twenty. Menthe polaire",
+      "sumupName": "Twenty. Menthe polaire",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug1z0168utmkmnta63rm",
+      "slug": "mamita-50ml-cafe-stout-557875dc",
+      "wasOnline": true,
+      "nameBefore": "Café Stout — Mamita — 50 ml",
+      "nameAfter": "Mamita 50ml - cafe stout",
+      "sumupName": "Mamita 50ml - cafe stout",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug230169utmkvwrieer6",
+      "slug": "mamita-50ml-cafe-vanille-custard-68c32f20",
+      "wasOnline": true,
+      "nameBefore": "Café Vanille Custard — Mamita — 50 ml",
+      "nameAfter": "Mamita 50ml - cafe vanille custard",
+      "sumupName": "Mamita 50ml - cafe vanille custard",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug27016autmkbb5868tu",
+      "slug": "mamita-50ml-custard-vanille-pecan-238179b3",
+      "wasOnline": true,
+      "nameBefore": "Custard Vanille Pécan — Mamita — 50 ml",
+      "nameAfter": "Mamita 50ml - custard vanille pecan",
+      "sumupName": "Mamita 50ml - custard vanille pecan",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubyq00aautmkk0pqdtq2",
+      "slug": "one-taste-cassis-frais-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cassis frais 10ml",
+      "nameAfter": "Cassis frais 10ml 0mg e-tasty",
+      "sumupName": "Cassis frais 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug5t0172utmkrihg756u",
+      "slug": "one-taste-menthe-fraiche-10ml",
+      "wasOnline": true,
+      "nameBefore": "Menthe fraiche 10ml - Sels...",
+      "nameAfter": "Menthe Fraiche 10ml 0mg e-tasty",
+      "sumupName": "Menthe Fraiche 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euf8a0103utmk1m8ermrz",
+      "slug": "limonata-freezy-crush-e-tasty-d79c1bdd",
+      "wasOnline": true,
+      "nameBefore": "Limonata 50ml",
+      "nameAfter": "LIMONATA-Freezy Crush E-TASTY",
+      "sumupName": "LIMONATA-Freezy Crush E-TASTY",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euggi019eutmkyh7tqo0f",
+      "slug": "napela-50-ml-inspiration-e-tasty-1bcde668",
+      "wasOnline": true,
+      "nameBefore": "NAPELA 50ml",
+      "nameAfter": "Napela 50 Ml Inspiration - E-Tasty",
+      "sumupName": "Napela 50 Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euhxr01l5utmk3vziymeo",
+      "slug": "siko-50ml-bankiz-etasty-c65a93fd",
+      "wasOnline": true,
+      "nameBefore": "SIKO 50 ML",
+      "nameAfter": "Siko 50ml -Bankiz- ETasty",
+      "sumupName": "Siko 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud0300hwutmklrz6q64t",
+      "slug": "e-tasty-one-taste-pasteque-juteuse-50ml-ed29c07f",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Pastèque...",
+      "nameAfter": "E tasty One taste PASTEQUE JUTEUSE 50ML",
+      "sumupName": "E tasty One taste PASTEQUE JUTEUSE 50ML",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudft00lrutmkgljfbaw7",
+      "slug": "fou-de-caramel-50ml-peche-gourmand-6db80f8a",
+      "wasOnline": true,
+      "nameBefore": "Fou de caramel 50ml - Péché Gourmand",
+      "nameAfter": "Fou de caramel  50ml - Péché Gourmand",
+      "sumupName": "Fou de caramel  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudnq00nputmkmrbpgw2m",
+      "slug": "le-fruit-defendu-50ml-myrtillissime",
+      "wasOnline": true,
+      "nameBefore": "MYRTILLISSIME — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - myrtille frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - myrtille frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucui00gsutmklkymi1xy",
+      "slug": "double-dragon-50ml-fruit-du-dragon-vanille",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON VANILLE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon vanilla ice",
+      "sumupName": "Double dragon 50ml - fruit du dragon vanilla ice",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudnb00nmutmk7cd2t0dh",
+      "slug": "le-fruit-defendu-50ml-erotic-dream",
+      "wasOnline": true,
+      "nameBefore": "EROTIC DREAM — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - limonade pomme mure frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - limonade pomme mure frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucub00grutmku8oswk4i",
+      "slug": "double-dragon-50ml-fruit-du-dragon-peche",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON PÊCHE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon peche",
+      "sumupName": "Double dragon 50ml - fruit du dragon peche",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubp10086utmkhral1khx",
+      "slug": "brazo-del-mango-50ml-peche-gourmand-7186cf8d",
+      "wasOnline": true,
+      "nameBefore": "Brazo del mango 50ml - Péché Gourmand",
+      "nameAfter": "Brazo del mango  50ml - Péché Gourmand",
+      "sumupName": "Brazo del mango  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucwz00h8utmkl1cqqf3h",
+      "slug": "dragon-rouge-50-ml-iceberg-bafde36b",
+      "wasOnline": true,
+      "nameBefore": "Dragon rouge 50 ml Iceberg",
+      "nameAfter": "Dragon rouge 50 ml Iceberg",
+      "sumupName": "Dragon rouge 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eue6200rnutmk8nm2a2l5",
+      "slug": "goomy-framboise-bleu-50ml-glagla-e7de0014",
+      "wasOnline": true,
+      "nameBefore": "Goomy framboise bleu 50ml GlaGla",
+      "nameAfter": "Goomy framboise bleu 50ml GlaGla",
+      "sumupName": "Goomy framboise bleu 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugz401dnutmk8bt1f39m",
+      "slug": "peche-gourmand-tarte-tatin-8f44be83",
+      "wasOnline": false,
+      "nameBefore": "Peche gourmand tarte tatin — Péché Gourmand — 50 ml",
+      "nameAfter": "Peche gourmand tarte tatin",
+      "sumupName": "Peche gourmand tarte tatin",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh2401efutmkcpz4oati",
+      "slug": "poire-caramel-50ml-peche-gourmand-dedb92c8",
+      "wasOnline": true,
+      "nameBefore": "Poire Caramel 50ml - Péché Gourmand",
+      "nameAfter": "Poire Caramel  50ml - Péché Gourmand",
+      "sumupName": "Poire Caramel  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euibb01nsutmkcwn0a69i",
+      "slug": "tarte-pecan-50ml-peche-gourmand-8483f180",
+      "wasOnline": true,
+      "nameBefore": "Tarte pecan 50ml - Péché Gourmand",
+      "nameAfter": "Tarte pecan  50ml - Péché Gourmand",
+      "sumupName": "Tarte pecan  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euf9d010autmkcvh89q75",
+      "slug": "la-peche-d-enfer-50ml-enfer-a75e4786",
+      "wasOnline": true,
+      "nameBefore": "La peche d enfer 50ml - Enfer",
+      "nameAfter": "La peche d enfer 50ml - Enfer",
+      "sumupName": "La peche d enfer 50ml - Enfer",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eufb3010rutmksxtoeobb",
+      "slug": "le-cassis-d-enfer-50ml-enfer-f1b5491d",
+      "wasOnline": true,
+      "nameBefore": "Le cassis d enfer 50ml - Enfer",
+      "nameAfter": "Le cassis d enfer 50ml - Enfer",
+      "sumupName": "Le cassis d enfer 50ml - Enfer",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eufb8010sutmkl4xr1rlp",
+      "slug": "le-dragon-d-enfer-50ml-enfer-6ee30221",
+      "wasOnline": true,
+      "nameBefore": "Le dragon d enfer 50ml - Enfer",
+      "nameAfter": "Le dragon d enfer 50ml - Enfer",
+      "sumupName": "Le dragon d enfer 50ml - Enfer",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudn600nlutmkq9tof08r",
+      "slug": "le-fruit-defendu-50ml-satan-ananas",
+      "wasOnline": true,
+      "nameBefore": "SATAN'ANANAS — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudn200nkutmkdt3npb4b",
+      "slug": "le-fruit-defendu-50ml-fraise-d-amour",
+      "wasOnline": true,
+      "nameBefore": "FRAISE D'AMOUR — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - fraise frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - fraise frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudng00nnutmkmh5gtzx2",
+      "slug": "le-fruit-defendu-50ml-mango-sensation",
+      "wasOnline": true,
+      "nameBefore": "MANGO SENSATION — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - mangue frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - mangue frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucu600gqutmkbowomhjf",
+      "slug": "double-dragon-50ml-fruit-du-dragon-passion",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON PASSION — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon passion",
+      "sumupName": "Double dragon 50ml - fruit du dragon passion",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucgd00dyutmkdm9lqbsh",
+      "slug": "one-taste-cookie-gourmand-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cookie gourmand...",
+      "nameAfter": "Cookie gourmand 10 ml 0mg e-tasty",
+      "sumupName": "Cookie gourmand 10 ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucjj00elutmk6tz1xmbv",
+      "slug": "cereales-caramel-50ml-peche-gourmand-0a5d2589",
+      "wasOnline": true,
+      "nameBefore": "Céréales Caramel 50ml - Péché Gourmand",
+      "nameAfter": "Céréales Caramel  50ml - Péché Gourmand",
+      "sumupName": "Céréales Caramel  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugas0186utmkwxuspj1t",
+      "slug": "miss-fraisier-50ml-peche-gourmand-e8f24ee1",
+      "wasOnline": true,
+      "nameBefore": "Miss fraisier 50ml - Péché Gourmand",
+      "nameAfter": "Miss fraisier  50ml - Péché Gourmand",
+      "sumupName": "Miss fraisier  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eub8q004gutmko5bs8n6s",
+      "slug": "azura-50-ml-inspiration-e-tasty-3e4fd911",
+      "wasOnline": true,
+      "nameBefore": "AZURA 50ml",
+      "nameAfter": "Azura 50 Ml Inspiration - E-Tasty",
+      "sumupName": "Azura 50 Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucef00djutmknmmclanl",
+      "slug": "concentre-numbers2-30ml-e-tasty-d735af7c",
+      "wasOnline": false,
+      "nameBefore": "Numbers 02 - 30ml",
+      "nameAfter": "Concentré Numbers2 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers2 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euazc002putmk9ohh6sh9",
+      "slug": "ananas-kiwi-jaune-50ml-glagla-09dd94f8",
+      "wasOnline": true,
+      "nameBefore": "Ananas kiwi jaune 50ml GlaGla",
+      "nameAfter": "Ananas kiwi jaune 50ml GlaGla",
+      "sumupName": "Ananas kiwi jaune 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubc60058utmkwz6rzui4",
+      "slug": "one-taste-barbe-a-papa-10ml",
+      "wasOnline": false,
+      "nameBefore": "ONE Taste - Barbe à papa 10ml",
+      "nameAfter": "Barbe À Papa 10ml 0mg e-tasty",
+      "sumupName": "Barbe À Papa 10ml 0mg e-tasty",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubby0057utmk8z6hp8np",
+      "slug": "bananoisee-50ml-peche-gourmand-f2dc1c64",
+      "wasOnline": true,
+      "nameBefore": "Bananoisee 50ml - Péché Gourmand",
+      "nameAfter": "Bananoisee  50ml - Péché Gourmand",
+      "sumupName": "Bananoisee  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eubhh006iutmkikkpuwwq",
+      "slug": "bisto-extra-frais-50ml-bankiz-etasty-15bbf5ed",
+      "wasOnline": true,
+      "nameBefore": "BISTO EXTRA FRAIS 50ML",
+      "nameAfter": "Bisto Extra Frais 50ml -Bankiz- ETasty",
+      "sumupName": "Bisto Extra Frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubuk009futmkg56zf763",
+      "slug": "one-taste-cafe-speculos-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Café spéculos 10ml",
+      "nameAfter": "Cafe speculos 10ml 0mg e-tasty",
+      "sumupName": "Cafe speculos 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eubxm00a0utmkhqh8man8",
+      "slug": "carmi-50-ml-inspiration-e-tasty-e405b3ab",
+      "wasOnline": true,
+      "nameBefore": "CARMI 50ml",
+      "nameAfter": "Carmi 50 Ml Inspiration - E-Tasty",
+      "sumupName": "Carmi 50 Ml Inspiration - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc1x00axutmk5hutuid1",
+      "slug": "one-taste-cerise-noire-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Cerise noire 10ml - Sels de...",
+      "nameAfter": "Cerise noire 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Cerise noire 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc3w00bcutmk7ni5z1x3",
+      "slug": "chew-king-50ml-smoke-wars-e-tasty-509bd96d",
+      "wasOnline": true,
+      "nameBefore": "Chew King 50ml",
+      "nameAfter": "Chew King 50ml Smoke Wars - E Tasty",
+      "sumupName": "Chew King 50ml Smoke Wars - E Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc6000bsutmk7q510z1h",
+      "slug": "one-taste-citron-givre-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Citron givré 10ml",
+      "nameAfter": "Citron givree 10ml 0mg e-tasty",
+      "sumupName": "Citron givree 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euc5k00bputmke5dlyxeu",
+      "slug": "citron-cassis-mandarine-50-ml-iceberg-417129e6",
+      "wasOnline": true,
+      "nameBefore": "Citron Cassis Mandarine 50 ml Iceberg",
+      "nameAfter": "Citron Cassis Mandarine 50 ml Iceberg",
+      "sumupName": "Citron Cassis Mandarine 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euc5p00bqutmk24x0jyn0",
+      "slug": "citron-orange-50ml-iceberg-60d0983f",
+      "wasOnline": true,
+      "nameBefore": "Citron Orange 50ml Iceberg",
+      "nameAfter": "Citron Orange 50ml Iceberg",
+      "sumupName": "Citron Orange 50ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euc4n00bhutmks8lc0h0f",
+      "slug": "chlorywood-50-ml-iceberg-34d47ecc",
+      "wasOnline": true,
+      "nameBefore": "Chlorywood 50 ml Iceberg",
+      "nameAfter": "Chlorywood 50 ml Iceberg",
+      "sumupName": "Chlorywood 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucek00dkutmkrw9hg1vi",
+      "slug": "concentre-numbers3-30ml-e-tasty-7396988f",
+      "wasOnline": false,
+      "nameBefore": "Numbers 03 - 30ml",
+      "nameAfter": "Concentré Numbers3 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers3 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euceq00dlutmksleva7um",
+      "slug": "concentre-numbers4-30ml-e-tasty-9cd79334",
+      "wasOnline": false,
+      "nameBefore": "Numbers 04 - 30ml",
+      "nameAfter": "Concentré Numbers4 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers4 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucev00dmutmk2p8w4ylj",
+      "slug": "concentre-numbers5-30ml-e-tasty-84a0cd14",
+      "wasOnline": false,
+      "nameBefore": "Numbers 05 - 30ml",
+      "nameAfter": "Concentré Numbers5 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers5 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucf000dnutmkogukvp08",
+      "slug": "concentre-numbers6-30ml-e-tasty-e05c85d7",
+      "wasOnline": false,
+      "nameBefore": "Numbers 06 - 30ml",
+      "nameAfter": "Concentré Numbers6 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers6 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euce400dhutmkqd5az4t7",
+      "slug": "concentre-numbers10-30ml-e-tasty-c33a6217",
+      "wasOnline": true,
+      "nameBefore": "Numbers 10 - 30ml",
+      "nameAfter": "Concentré Numbers10 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers10 30ml - e-TASTY",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucff00dqutmkefugscpu",
+      "slug": "concentre-numbers9-30ml-e-tasty-f8019b5b",
+      "wasOnline": false,
+      "nameBefore": "Numbers 09 - 30ml",
+      "nameAfter": "Concentré Numbers9 30ml - e-TASTY",
+      "sumupName": "Concentré Numbers9 30ml - e-TASTY",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euci500ebutmk1k541cn9",
+      "slug": "creme-de-cafe-50ml-peche-gourmand-9df9cd5c",
+      "wasOnline": true,
+      "nameBefore": "Creme de cafe 50ml - Péché Gourmand",
+      "nameAfter": "Creme de cafe  50ml - Péché Gourmand",
+      "sumupName": "Creme de cafe  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucth00gmutmki5lj2tpe",
+      "slug": "double-dragon-50ml-fruit-du-dragon-framboise",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON FRAMBOISE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon framboise",
+      "sumupName": "Double dragon 50ml - fruit du dragon framboise",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euctz00gputmkfvre4opv",
+      "slug": "double-dragon-50ml-fruit-du-dragon-mure",
+      "wasOnline": true,
+      "nameBefore": "FRUIT DU DRAGON MÛRE — Double Dragon — 50 ml",
+      "nameAfter": "Double dragon 50ml - fruit du dragon mure",
+      "sumupName": "Double dragon 50ml - fruit du dragon mure",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eucwt00h7utmkg0buhsri",
+      "slug": "dragon-menthe-vert-50ml-glagla-f9cd274e",
+      "wasOnline": true,
+      "nameBefore": "Dragon menthe vert 50ml GlaGla",
+      "nameAfter": "Dragon menthe vert 50ml GlaGla",
+      "sumupName": "Dragon menthe vert 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucvb00gxutmka3cu0lhw",
+      "slug": "dragon-50ml-enfer-63a02e14",
+      "wasOnline": true,
+      "nameBefore": "Dragon 50ML - ENFER",
+      "nameAfter": "Dragon 50ML - ENFER",
+      "sumupName": "Dragon 50ML - ENFER",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucw300h3utmkod3z1nz2",
+      "slug": "dragon-cassis-citron-50ml-glagla-94fd66a7",
+      "wasOnline": true,
+      "nameBefore": "Dragon cassis citron 50ml GlaGla",
+      "nameAfter": "Dragon cassis citron 50ml GlaGla",
+      "sumupName": "Dragon cassis citron 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eucv000gvutmkbjf9lx13",
+      "slug": "double-zero-50-ml-iceberg-b6037556",
+      "wasOnline": true,
+      "nameBefore": "Double zero 50 ml Iceberg",
+      "nameAfter": "Double zero 50 ml Iceberg",
+      "sumupName": "Double zero 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euczq00huutmkj71mm1ma",
+      "slug": "e-tasty-one-taste-framboise-sauvage-50ml-cdc52ff1",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Fraise sauvage...",
+      "nameAfter": "E tasty ONE TASTE- FRAMBOISE SAUVAGE 50ML",
+      "sumupName": "E tasty ONE TASTE- FRAMBOISE SAUVAGE 50ML",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eud1m00i7utmkkjxa7mta",
+      "slug": "e-tasty-one-taste-fruit-du-dragon-50ml-af56cb77",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Fruit du dragon...",
+      "nameAfter": "E-Tasty One Taste - Fruit Du Dragon 50ml",
+      "sumupName": "E-Tasty One Taste - Fruit Du Dragon 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudgu00lzutmkmicxmera",
+      "slug": "one-taste-fraise-sauvage-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fraise Sauvage 10ml - Sels...",
+      "nameAfter": "Fraise sauvege 10ml 0mg e-tasty",
+      "sumupName": "Fraise sauvege 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudih00mcutmkh3n83aeq",
+      "slug": "one-taste-framboise-sauvage-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fraise Sauvage 10ml - Sels...",
+      "nameAfter": "Framboise sauvage 10ml 0mg e-tasty",
+      "sumupName": "Framboise sauvage 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudhl00m5utmkz4sfcjso",
+      "slug": "framboise-50-ml-iceberg-7486be59",
+      "wasOnline": true,
+      "nameBefore": "Framboise 50 ml Iceberg",
+      "nameAfter": "Framboise 50 ml Iceberg",
+      "sumupName": "Framboise 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudj900miutmknkcb3qfi",
+      "slug": "freho-extra-frais-50ml-bankiz-etasty-d68633ab",
+      "wasOnline": true,
+      "nameBefore": "FREHO EXTRA FRAIS 50 ML",
+      "nameAfter": "Freho extra frais 50ml -Bankiz- ETasty",
+      "sumupName": "Freho extra frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudj000mgutmkqqz4nt2j",
+      "slug": "framboiserie-50ml-peche-gourmand-a050771e",
+      "wasOnline": true,
+      "nameBefore": "Framboiserie 50ml - Péché Gourmand",
+      "nameAfter": "Framboiserie 50ml - Péché Gourmand",
+      "sumupName": "Framboiserie 50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudmy00njutmkryko7a3y",
+      "slug": "le-fruit-defendu-50ml-loving-memory",
+      "wasOnline": true,
+      "nameBefore": "LOVING MEMORY — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - cassis cerise violette frais- 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - cassis cerise violette frais- 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudo700ntutmkn4qhy9rr",
+      "slug": "one-taste-fruit-du-dragon-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fruit du Dragon 10ml - Sels...",
+      "nameAfter": "Fruit du dragon 10ml 0mg e-tasty",
+      "sumupName": "Fruit du dragon 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudnk00noutmk4wdaixk2",
+      "slug": "le-fruit-defendu-50ml-yellow-fruits",
+      "wasOnline": true,
+      "nameBefore": "YELLOW FRUITS — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudny00nrutmkcb62v498",
+      "slug": "le-fruit-defendu-50ml-peach-sex-sun",
+      "wasOnline": true,
+      "nameBefore": "PEACH SEX & SUN — Le Fruit Défendu — 50 ml",
+      "nameAfter": "Fruit defendu - pêche grenadine - 50ml - biarritz lab",
+      "sumupName": "Fruit defendu - pêche grenadine - 50ml - biarritz lab",
+      "reasons": [],
+      "anomalies": [
+        "nom_invente_ou_incompatible_sumup"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudpr00o5utmkl6z9njbw",
+      "slug": "one-taste-fruits-rouges-anises-10ml",
+      "wasOnline": true,
+      "nameBefore": "Fruits Rouges 10ml - Sels...",
+      "nameAfter": "Fruits Rouges Anisés 10ml 0mg e-tasty",
+      "sumupName": "Fruits Rouges Anisés 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudou00nyutmk303y1i5p",
+      "slug": "one-taste-fruit-du-dragon-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Fruit du Dragon 10ml - Sels...",
+      "nameAfter": "Fruit du dragon 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Fruit du dragon 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudp900o1utmkjy4jv3kw",
+      "slug": "fruit-du-dragon-grenade-50-ml-iceberg-96948516",
+      "wasOnline": true,
+      "nameBefore": "Fruit du dragon grenade 50 ml Iceberg",
+      "nameAfter": "Fruit du dragon grenade 50 ml Iceberg",
+      "sumupName": "Fruit du dragon grenade 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudph00o3utmknv3shqqz",
+      "slug": "fruit-du-serpent-50-ml-iceberg-d194040c",
+      "wasOnline": true,
+      "nameBefore": "Fruit du serpent 50 ml Iceberg",
+      "nameAfter": "Fruit du serpent 50 ml Iceberg",
+      "sumupName": "Fruit du serpent 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eudre00oiutmke1yw2ok5",
+      "slug": "one-taste-fruits-rouges-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Fruits Rouges 10ml - Sels...",
+      "nameAfter": "Fruits rouges 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Fruits rouges 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eudrn00okutmk564payb8",
+      "slug": "fruits-rouges-50-ml-iceberg-c881ab84",
+      "wasOnline": true,
+      "nameBefore": "Fruits rouges 50 ml Iceberg",
+      "nameAfter": "Fruits rouges 50 ml Iceberg",
+      "sumupName": "Fruits rouges 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eueoq00vyutmk4rnwp4kc",
+      "slug": "james-cream-50ml-peche-gourmand-24b534ff",
+      "wasOnline": true,
+      "nameBefore": "James cream 50ml - Péché Gourmand",
+      "nameAfter": "James cream  50ml - Péché Gourmand",
+      "sumupName": "James cream  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euf900108utmkpel7tbmb",
+      "slug": "la-framboise-d-enfer-50ml-enfer-3ec40322",
+      "wasOnline": true,
+      "nameBefore": "La framboise d enfer 50ml - Enfer",
+      "nameAfter": "La framboise d enfer 50ml - Enfer",
+      "sumupName": "La framboise d enfer 50ml - Enfer",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euf8w0107utmkevqo104p",
+      "slug": "la-cerise-d-enfer-50ml-enfer-3a1f3fb6",
+      "wasOnline": true,
+      "nameBefore": "La cerise d enfer 50ml - Enfer",
+      "nameAfter": "La cerise d enfer 50ml - Enfer",
+      "sumupName": "La cerise d enfer 50ml - Enfer",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug4y016uutmkf5lscse6",
+      "slug": "master-yob-50ml-smoke-wars-e-tasty-812363d3",
+      "wasOnline": true,
+      "nameBefore": "Master Yob 50ml",
+      "nameAfter": "Master Yob 50ml Smoke Wars - E Tasty",
+      "sumupName": "Master Yob 50ml Smoke Wars - E Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug38016hutmkmuudsii6",
+      "slug": "mangue-50-ml-iceberg-1c590281",
+      "wasOnline": true,
+      "nameBefore": "Mangue 50 ml Iceberg",
+      "nameAfter": "Mangue 50 ml Iceberg",
+      "sumupName": "Mangue 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eug7e017eutmkpyje7xvv",
+      "slug": "one-taste-menthe-polaire-10ml",
+      "wasOnline": true,
+      "nameBefore": "Menthe Polaire 10ml - Sels...",
+      "nameAfter": "Menthe polaire 10ml 0mg e-tasty",
+      "sumupName": "Menthe polaire 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug82017jutmkeaie5522",
+      "slug": "one-taste-menthe-polaire-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Menthe Polaire 10ml - Sels...",
+      "nameAfter": "Menthe polaire 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Menthe polaire 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug6r0179utmk0gzezvk6",
+      "slug": "one-taste-menthe-fraiche-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "Menthe fraiche 10ml - Sels...",
+      "nameAfter": "Menthe fraiche 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Menthe fraiche 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eug75017cutmknvnop25k",
+      "slug": "menthe-glaciale-50-ml-iceberg-8b40e750",
+      "wasOnline": true,
+      "nameBefore": "Menthe glaciale 50 ml Iceberg",
+      "nameAfter": "Menthe glaciale 50 ml Iceberg",
+      "sumupName": "Menthe glaciale 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugb10188utmkb4e85yxe",
+      "slug": "mixed-fruit-50ml-iceberg-b8dc3849",
+      "wasOnline": true,
+      "nameBefore": "Mixed Fruit 50ml Iceberg",
+      "nameAfter": "Mixed Fruit 50ml Iceberg",
+      "sumupName": "Mixed Fruit 50ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euge4018vutmklfndztna",
+      "slug": "mure-myrtille-50-ml-iceberg-fd248288",
+      "wasOnline": true,
+      "nameBefore": "Mure myrtille 50 ml Iceberg",
+      "nameAfter": "Mure myrtille 50 ml Iceberg",
+      "sumupName": "Mure myrtille 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euged018xutmkemxe1uo9",
+      "slug": "myrtille-coco-50ml-peche-gourmand-d5df47fc",
+      "wasOnline": true,
+      "nameBefore": "Myrtille coco 50ml - Péché Gourmand",
+      "nameAfter": "Myrtille coco  50ml - Péché Gourmand",
+      "sumupName": "Myrtille coco  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugvx01d0utmk55mbgtkk",
+      "slug": "one-taste-pasteque-juteuse-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Mangue juteuse...",
+      "nameAfter": "Pasteque juteuse 10ml 0mg e-tasty",
+      "sumupName": "Pasteque juteuse 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugzf01dputmkmzuo7xka",
+      "slug": "peik-extra-frais-bankiz-e-tasty-50ml-b45afc45",
+      "wasOnline": true,
+      "nameBefore": "PEIKO EXTRA FRAIS 50ML",
+      "nameAfter": "Peïkø extra frais- BANKIZ E-TASTY 50ml",
+      "sumupName": "Peïkø extra frais- BANKIZ E-TASTY 50ml",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eugyz01dmutmkgfnu831p",
+      "slug": "peche-gourmand-creme-brulee-2acb5191",
+      "wasOnline": false,
+      "nameBefore": "Peche gourmand creme brulee — Péché Gourmand — 50 ml",
+      "nameAfter": "Peche gourmand creme brulee",
+      "sumupName": "Peche gourmand creme brulee",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugyu01dlutmkczlspjxf",
+      "slug": "peche-gourmand-cookie-dore-fd5b22a5",
+      "wasOnline": false,
+      "nameBefore": "Peche gourmand cookie doré — Péché Gourmand — 50 ml",
+      "nameAfter": "Peche gourmand cookie doré",
+      "sumupName": "Peche gourmand cookie doré",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eugyp01dkutmkpr64didk",
+      "slug": "peche-gourmand-cerise-fondante-391bb02a",
+      "wasOnline": false,
+      "nameBefore": "Peche gourmand cerise fondante — Péché Gourmand — 50 ml",
+      "nameAfter": "Peche gourmand cerise fondante",
+      "sumupName": "Peche gourmand cerise fondante",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh2901egutmkz8oae6zh",
+      "slug": "one-taste-poire-juteuse-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Mangue juteuse...",
+      "nameAfter": "Poire juteuse 10ml 0mg e-tasty",
+      "sumupName": "Poire juteuse 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euh4101etutmkholhco24",
+      "slug": "one-taste-pop-cola-10ml",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Cherry cola 10ml",
+      "nameAfter": "Pop cola 10ml 0mg e-tasty",
+      "sumupName": "Pop cola 10ml 0mg e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euh2s01ekutmkup6f6flp",
+      "slug": "pomme-poire-50-ml-iceberg-e0480f21",
+      "wasOnline": true,
+      "nameBefore": "Pomme Poire 50 ml Iceberg",
+      "nameAfter": "Pomme Poire 50 ml Iceberg",
+      "sumupName": "Pomme Poire 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh2x01elutmkrk1m7uth",
+      "slug": "pomme-cannelle-50ml-peche-gourmand-9ca70b25",
+      "wasOnline": true,
+      "nameBefore": "Pomme cannelle 50ml - Péché Gourmand",
+      "nameAfter": "Pomme cannelle  50ml - Péché Gourmand",
+      "sumupName": "Pomme cannelle  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh1y01eeutmk0yma8akr",
+      "slug": "poire-abricot-fraise-50ml-glagla-b2ab7b93",
+      "wasOnline": true,
+      "nameBefore": "Poire Abricot Fraise 50ml GlaGla",
+      "nameAfter": "Poire Abricot Fraise 50ml GlaGla",
+      "sumupName": "Poire Abricot Fraise 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euh5o01f5utmko9yx973l",
+      "slug": "posei-100ml-godfallcity-e-tasty-86ccad0b",
+      "wasOnline": true,
+      "nameBefore": "POSEI - 100ML",
+      "nameAfter": "Posei 100ml - GodFallcity - E-Tasty",
+      "sumupName": "Posei 100ml - GodFallcity - E-Tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euh5j01f4utmkcm77gyhb",
+      "slug": "popcorn-caramel-50ml-peche-gourmand-5e405697",
+      "wasOnline": true,
+      "nameBefore": "Popcorn caramel 50ml - Péché Gourmand",
+      "nameAfter": "Popcorn caramel  50ml - Péché Gourmand",
+      "sumupName": "Popcorn caramel  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euhdk01gtutmk7uxm5xxo",
+      "slug": "raisin-fraise-50-ml-iceberg-d1aff16b",
+      "wasOnline": true,
+      "nameBefore": "Raisin fraise 50 ml Iceberg",
+      "nameAfter": "Raisin fraise 50 ml Iceberg",
+      "sumupName": "Raisin fraise 50 ml Iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euhxv01l6utmk9zey1lkk",
+      "slug": "siko-extra-frais-50ml-bankiz-etasty-ad1373c1",
+      "wasOnline": true,
+      "nameBefore": "SIKO EXTRA FRAIS 50 ML",
+      "nameAfter": "Siko extra frais 50ml -Bankiz- ETasty",
+      "sumupName": "Siko extra frais 50ml -Bankiz- ETasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6euhy701l8utmkij0wyh0k",
+      "slug": "skinz-grok-100ml-furiosa-vape47-c273007e",
+      "wasOnline": true,
+      "nameBefore": "Skinz grok 100ml - Furiosa vape47",
+      "nameAfter": "Skinz grok 100ml - Furiosa vape47",
+      "sumupName": "Skinz grok 100ml - Furiosa vape47",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euib601nrutmkvwmgisx4",
+      "slug": "tarte-au-citron-50ml-peche-gourmand-9bc9588a",
+      "wasOnline": true,
+      "nameBefore": "Tarte au citron 50ml - Péché Gourmand",
+      "nameAfter": "Tarte au citron  50ml - Péché Gourmand",
+      "sumupName": "Tarte au citron  50ml - Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": true,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euib101nqutmkflf0hsxc",
+      "slug": "tarte-abricot-50ml-peche-gourmand-c30a01d4",
+      "wasOnline": true,
+      "nameBefore": "Tarte Abricot 50ml Péché Gourmand",
+      "nameAfter": "Tarte Abricot 50ml Péché Gourmand",
+      "sumupName": "Tarte Abricot 50ml Péché Gourmand",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euikf01pjutmkqvnli776",
+      "slug": "tutti-frutti-grenadine-50ml-glagla-9f9b12f3",
+      "wasOnline": true,
+      "nameBefore": "Tutti Frutti Grenadine 50ml GlaGla",
+      "nameAfter": "Tutti Frutti Grenadine 50ml GlaGla",
+      "sumupName": "Tutti Frutti Grenadine 50ml GlaGla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euimw01pyutmk1fgb0hsy",
+      "slug": "ultron-50-ml-furiosa-eggz-2260114d",
+      "wasOnline": true,
+      "nameBefore": "Ultron 50 Ml - Furiosa Eggz",
+      "nameAfter": "Ultron 50 Ml - Furiosa Eggz",
+      "sumupName": "Ultron 50 Ml - Furiosa Eggz",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euin201pzutmklaa1qo3h",
+      "slug": "ultron-50-ml-furiosa-eggz-v2-a899233e",
+      "wasOnline": true,
+      "nameBefore": "Ultron 50 Ml - Furiosa Eggz V2",
+      "nameAfter": "Ultron 50 Ml - Furiosa Eggz V2",
+      "sumupName": "Ultron 50 Ml - Furiosa Eggz V2",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer"
+      ],
+      "needRename": false,
+      "needUnpublish": true,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6euitj01r9utmk2h7l25un",
+      "slug": "one-taste-vanille-dore-10ml-sels",
+      "wasOnline": true,
+      "nameBefore": "ONE Taste - Caramel doré 10ml",
+      "nameAfter": "Vanille dorée 10ml 5mg sel de nicotine e-tasty",
+      "sumupName": "Vanille dorée 10ml 5mg sel de nicotine e-tasty",
+      "reasons": [],
+      "anomalies": [
+        "nom_invente_ou_incompatible_sumup"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": true
+    },
+    {
+      "id": "cms6eujaa01ujutmky1ci81la",
+      "slug": "zenko-50ml-kyoto-storm-raneki-liquide-26d06f4c",
+      "wasOnline": false,
+      "nameBefore": "Zenko",
+      "nameAfter": "Zenko 50ml Kyoto Storm - Raneki Liquide",
+      "sumupName": "Zenko 50ml Kyoto Storm - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujap01umutmk9wz0ywfq",
+      "slug": "zeus-50ml-olympe-raneki-liquide-0e64ef77",
+      "wasOnline": false,
+      "nameBefore": "Zeus",
+      "nameAfter": "Zeus 50ml Olympe - Raneki Liquide",
+      "sumupName": "Zeus 50ml Olympe - Raneki Liquide",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujbh01ututmkhoua0jj3",
+      "slug": "beast-omg-50-ml-the-mds-juice-20e3533f",
+      "wasOnline": false,
+      "nameBefore": "Beast",
+      "nameAfter": "beast omg 50 ml - the MDS juice",
+      "sumupName": "beast omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujbx01uwutmkow06ui5n",
+      "slug": "black-summer-omg-50-ml-the-mds-juice-eaf1e7a4",
+      "wasOnline": false,
+      "nameBefore": "Black Summer",
+      "nameAfter": "black summer omg 50 ml - the MDS juice",
+      "sumupName": "black summer omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    },
+    {
+      "id": "cms6eujc101uxutmkpopjcqf7",
+      "slug": "blue-omg-50-ml-the-mds-juice-ec4c9a2d",
+      "wasOnline": false,
+      "nameBefore": "Blue",
+      "nameAfter": "blue omg 50 ml - the MDS juice",
+      "sumupName": "blue omg 50 ml - the MDS juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "anomalies": [
+        "photo_officielle_a_completer",
+        "nom_aligne_sumup_format"
+      ],
+      "needRename": true,
+      "needUnpublish": false,
+      "willBeOnline": false
+    }
+  ]
+}

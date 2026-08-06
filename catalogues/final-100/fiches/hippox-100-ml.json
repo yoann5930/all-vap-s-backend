@@ -1,0 +1,17 @@
+{
+  "productId": "cms9gxbq5003vutw4zupdmx6j",
+  "catalogName": "Hippox 100 ml",
+  "name": "Hippox 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": null,
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "complete": false
+}

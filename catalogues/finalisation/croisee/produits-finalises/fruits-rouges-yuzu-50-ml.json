@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxd6a005dutw4pp4k0r4k",
+  "catalogName": "Fruits Rouges Yuzu 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/247-fruizee-max",
+    "https://www.eliquid-france.com/fruizee-max/1495-fruits-rouges-yuzu-50ml.html",
+    "https://www.ciga.fr/pd-9782-fruits-rouges-yuzu-50ml-fruizee-max-3760202040682.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Fruizee Max — Fruits Rouges Yuzu 50ml",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill",
+  "nicotineBoostOptions": "1–2 boosters",
+  "ean": "3760202040682",
+  "eanConfidence": "retailer",
+  "flavorNotes": "Présent sur catalogue officiel Fruizee Max ; EAN non lu dans les extraits — extraction live",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "photoUrl": "https://www.eliquid-france.com/5093-full_default/fruits-rouges-yuzu-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/fruits-rouges-yuzu-50-ml.jpg",
+  "seo": {
+    "title": "Fruits rouges, Yuzu | Fruizee Max 50mL | All Vap's",
+    "description": "Fruits rouges, Yuzu | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50 — Présent sur catalogue officiel Fruizee Max ; EAN non lu dans les extraits — extr"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:31.681Z",
+  "finalizedVia": "recherche-web"
+}

@@ -1,0 +1,37 @@
+{
+  "productId": "cms96dg92003uuto8ct4u3tbj",
+  "catalogName": "Café Caramel 50 ml",
+  "officialName": "Big Kawa — Café Caramel 50 ml",
+  "manufacturer": "Liquide Lab",
+  "range": "Big Kawa",
+  "flavor": "Café caramel",
+  "formatMl": 50,
+  "pgVg": "non publié (site B2B)",
+  "nicotine": "non publié publiquement",
+  "nicotineBoost": null,
+  "description": "Big Kawa Café Caramel — Liquide Lab B2B.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/cafe-caramel-50-ml/photo.png",
+  "bannerLocal": "catalogues/validation-finale/cafe-caramel-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://liquidelab.com/"
+  ],
+  "missingFields": [
+    "nicotine",
+    "pgVg",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:50.480Z"
+}

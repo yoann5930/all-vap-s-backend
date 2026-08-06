@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbqp003zutw4zig3u8p1",
+  "catalogName": "Krak 100 ml",
+  "name": "Krak 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml (100 dans 120)",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/ferox-airmust/krak-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

@@ -1,0 +1,1983 @@
+{
+  "generatedAt": "2026-08-03T13:53:16.677Z",
+  "apply": true,
+  "totalProducts": 378,
+  "publishedOnline": 218,
+  "queueSizeInitial": 160,
+  "visualsAttachedThisRun": 0,
+  "publishedThisRun": 0,
+  "remainingWithoutOfficialComplete": 160,
+  "remainingByReason": {
+    "sumup_product_id_manquant": 98,
+    "photo_officielle_manquante": 62
+  },
+  "attached": [],
+  "remaining": [
+    {
+      "slug": "force-jaune-100-force-vape",
+      "name": "Force Jaune 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-noire-100-force-vape",
+      "name": "Force Noire 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-violette-100-force-vape",
+      "name": "Force Violette 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "milo-50-saint-flava",
+      "name": "Milo 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-frappe-50-big-kawa",
+      "name": "Café Frappé 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-noisette-50-big-kawa",
+      "name": "Café Noisette 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-caramel-50-big-kawa",
+      "name": "Café Caramel 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "pyro-50-saint-flava",
+      "name": "Pyro 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "candy-50-saint-flava",
+      "name": "Candy 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "candy-gold-edition-50-saint-flava",
+      "name": "Candy Gold Edition 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "peche-abricot-50-granita-soft",
+      "name": "Pêche Abricot 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "xena-50-saint-flava",
+      "name": "Xena 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "yumi-50-saint-flava",
+      "name": "Yumi 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "virgin-mojito-50-granita-soft",
+      "name": "Virgin Mojito 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fraise-fruit-du-dragon-50-granita-soft",
+      "name": "Fraise Fruit du Dragon 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "citron-vert-melon-50-granita-soft",
+      "name": "Citron Vert Melon 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "mure-cassis-50-granita-soft",
+      "name": "Mûre Cassis 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "tropical-bleu-50-granita-soft",
+      "name": "Tropical Bleu 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "lilya-50-saint-flava",
+      "name": "Lilya 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "ruby-50-saint-flava",
+      "name": "Ruby 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "vigo-50-saint-flava",
+      "name": "Vigo 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "sour-sorbet-x-t-juice",
+      "name": "Sour Sorbet",
+      "manufacturer": "t-juice",
+      "range": "t-juice-50-ml",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bisou-red-50-bisou",
+      "name": "Bisou Red 50 ml",
+      "manufacturer": "swoke",
+      "range": "bisou-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bisou-black-50-bisou",
+      "name": "Bisou Black 50 ml",
+      "manufacturer": "swoke",
+      "range": "bisou-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bisou-yellow-50-bisou",
+      "name": "Bisou Yellow 50 ml",
+      "manufacturer": "swoke",
+      "range": "bisou-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bisou-v2-50-bisou",
+      "name": "Bisou V2 50 ml",
+      "manufacturer": "swoke",
+      "range": "bisou-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "adess-100-godfall-city",
+      "name": "Adess 100 ml",
+      "manufacturer": "e-tasty",
+      "range": "god-fall-city",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "dzeus-100-godfall-city",
+      "name": "Dzeus 100 ml",
+      "manufacturer": "e-tasty",
+      "range": "god-fall-city",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "posei-100-godfall-city",
+      "name": "Posei 100 ml",
+      "manufacturer": "e-tasty",
+      "range": "god-fall-city",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "thena-100-godfall-city",
+      "name": "Thena 100 ml",
+      "manufacturer": "e-tasty",
+      "range": "god-fall-city",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "greensound-100-hopper",
+      "name": "Greensound 100 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "purplenuclear-100-hopper",
+      "name": "Purplenuclear 100 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "yellowstorm-100-hopper",
+      "name": "Yellowstorm 100 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bluevolt-200-hopper",
+      "name": "Bluevolt 200 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "purplenuclear-200-hopper",
+      "name": "Purplenuclear 200 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "redfire-200-hopper",
+      "name": "Redfire 200 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "sharx-60-ferox",
+      "name": "Sharx 60 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "aspik-60-ferox",
+      "name": "Aspik 60 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "krak-60-ferox",
+      "name": "Krak 60 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "grizz-60-ferox",
+      "name": "Grizz 60 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "leox-100-ferox",
+      "name": "Leox 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "sharx-100-ferox",
+      "name": "Sharx 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "konga-100-ferox",
+      "name": "Konga 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "hippox-100-ferox",
+      "name": "Hippox 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "grizz-100-ferox",
+      "name": "Grizz 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "mojito-omg-50-ml-the-mds-juice-f0fb6b3f",
+      "name": "MDS Juice - Mojito",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "krak-100-ferox",
+      "name": "Krak 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "aspik-100-ferox",
+      "name": "Aspik 100 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "paka-paka-50-press-start",
+      "name": "Paka Paka 50 ml",
+      "manufacturer": "airmust",
+      "range": "press-start-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "dunky-50-press-start",
+      "name": "Dunky 50 ml",
+      "manufacturer": "airmust",
+      "range": "press-start-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "speed-50-press-start",
+      "name": "Speed 50 ml",
+      "manufacturer": "airmust",
+      "range": "press-start-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "sword-50-press-start",
+      "name": "Sword 50 ml",
+      "manufacturer": "airmust",
+      "range": "press-start-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "jump-50-press-start",
+      "name": "Jump 50 ml",
+      "manufacturer": "airmust",
+      "range": "press-start-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "red-devil-50-red-devil",
+      "name": "Red Devil 50 ml",
+      "manufacturer": "avap",
+      "range": "devil-avap",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "red-devil-100-red-devil",
+      "name": "Red Devil 100 ml",
+      "manufacturer": "avap",
+      "range": "devil-avap",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "myst-da-loving-witch-50ml-b3432a11",
+      "name": "Myst - Da Loving Witch - 50 ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "mint-dragon-fruit-50-mintaia",
+      "name": "Mint & Dragon fruit 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "mintaia-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "dragon-fruit-50-lemon-time",
+      "name": "Dragon Fruit 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "lemon-time-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "citron-cassis-50-fruizee-max",
+      "name": "Citron Cassis 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "gold-0mg-50ml-the-mds-juice-500521f7",
+      "name": "MDS Juice - Gold",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "citron-mandarine-50-fruizee-max",
+      "name": "Citron Mandarine 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "peche-framboise-50-fruizee-max",
+      "name": "Pêche Framboise 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cola-pomme-50-fruizee-max",
+      "name": "Cola Pomme 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "dragon-fraise-50-fruizee-max",
+      "name": "Dragon Fraise 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "dragon-fruits-rouges-50-fruizee-max",
+      "name": "Dragon Fruits Rouges 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fraise-framboise-50-fruizee-max",
+      "name": "Fraise Framboise 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fruits-rouges-raisin-50-fruizee-max",
+      "name": "Fruits Rouges Raisin 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fruits-rouges-yuzu-50-fruizee-max",
+      "name": "Fruits Rouges Yuzu 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "mangue-passion-50-fruizee-max",
+      "name": "Mangue Passion 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "menthe-givree-50-fruizee-max",
+      "name": "Menthe Givrée 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "triple-mangue-50-fruizee-max",
+      "name": "Triple Mangue 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "fruizee-max-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "atlas-50-saint-flava",
+      "name": "Atlas 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "drago-50-saint-flava",
+      "name": "Drago 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "frost-50-saint-flava",
+      "name": "Frost 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bisou-pink-50-bisou",
+      "name": "Bisou Pink 50 ml",
+      "manufacturer": "swoke",
+      "range": "bisou-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "lime-0mg-50ml-the-mds-juice-396ccfa1",
+      "name": "MDS Juice - Lime",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "delicious-omg-50-ml-the-mds-juice-8754258f",
+      "name": "MDS Juice - Delicious",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "sunny-omg-50-ml-the-mds-juice-ec59ca87",
+      "name": "MDS Juice - Sunny",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "bluevolt-100-hopper",
+      "name": "Bluevolt 100 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "redfire-100-hopper",
+      "name": "Redfire 100 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "greensound-200-hopper",
+      "name": "Greensound 200 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "yellowstorm-200-hopper",
+      "name": "Yellowstorm 200 ml",
+      "manufacturer": "airmust",
+      "range": "blue-hopper-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "leox-60-ferox",
+      "name": "Leox 60 ml",
+      "manufacturer": "airmust",
+      "range": "ferox-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "myst-da-smoky-eye-50ml-a7cfd235",
+      "name": "Myst - Da Smoky Eye - 50 ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "mint-raspberry-50-mintaia",
+      "name": "Mint & Raspberry 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "mintaia-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "peach-50-lemon-time",
+      "name": "Peach 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "lemon-time-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "myst-da-crazy-bird-50ml-3ac14d22",
+      "name": "Myst - Da Crazy Bird - 50 ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "ginger-50-lemon-time",
+      "name": "Ginger 50 ml",
+      "manufacturer": "eliquid-france",
+      "range": "lemon-time-eliquid-france",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "pink-omg-50-ml-the-mds-juice-0a4efb38",
+      "name": "MDS Juice - Pink",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "red-wedding-omg-50-ml-the-mds-juice-309d068b",
+      "name": "MDS Juice - Red Wedding",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "virgo-omg-50-ml-the-mds-juice-e0dcccf0",
+      "name": "MDS Juice - Virgo",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "green-omg-50-ml-the-mds-juice-093051b5",
+      "name": "MDS Juice - Green",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "frost-0mg-100ml-icebreak-by-juice-66-041c5a27",
+      "name": "Juice 66 - Frost - 50 ml",
+      "manufacturer": "juice-66",
+      "range": "juice-66",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "call-of-vape-zombie-100ml-cloud-vapor-de303809",
+      "name": "Cloud Vapor - Call of Vape - Zombie - 50 ml",
+      "manufacturer": "cloud-vapor",
+      "range": "call-of-vape",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "myst-da-crusty-king-50-ml-4eeb4a94",
+      "name": "Myst Da Crusty King 50 Ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "myst-da-good-snake-50-ml-f4bf4d4a",
+      "name": "Myst Da Good Snake 50 Ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "myst-da-sweety-face-50ml-a11c1f26",
+      "name": "Myst - Da Sweet Face - 50 ml",
+      "manufacturer": "cookin-cloud",
+      "range": "myst",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "snow-0mg-100ml-icebreak-by-juice-66-06544c5d",
+      "name": "Juice 66 - Snow - 50 ml",
+      "manufacturer": "juice-66",
+      "range": "juice-66",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "fou-de-caramel-50ml-peche-gourmand-6db80f8a",
+      "name": "Fou de caramel  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "brazo-del-mango-50ml-peche-gourmand-7186cf8d",
+      "name": "Brazo del mango  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "dragon-rouge-50-ml-iceberg-bafde36b",
+      "name": "Dragon rouge 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "goomy-framboise-bleu-50ml-glagla-e7de0014",
+      "name": "Goomy framboise bleu 50ml GlaGla",
+      "manufacturer": "alfa",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "tarte-pecan-50ml-peche-gourmand-8483f180",
+      "name": "Tarte pecan  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "peche-gourmand-tarte-tatin-8f44be83",
+      "name": "Peche gourmand tarte tatin",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "poire-caramel-50ml-peche-gourmand-dedb92c8",
+      "name": "Poire Caramel  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "cereales-caramel-50ml-peche-gourmand-0a5d2589",
+      "name": "Céréales Caramel  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "miss-fraisier-50ml-peche-gourmand-e8f24ee1",
+      "name": "Miss fraisier  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "dark-rainbow-omg-50-ml-the-mds-juice-d5d366e5",
+      "name": "MDS Juice - Dark Rainbow",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "ananas-kiwi-jaune-50ml-glagla-09dd94f8",
+      "name": "Ananas kiwi jaune 50ml GlaGla",
+      "manufacturer": "liquide-lab",
+      "range": "glagla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "yuluma-x-66-juice",
+      "name": "Yuluma",
+      "manufacturer": "juice-66",
+      "range": "66-juice-juice-66",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "senka-x-66-juice",
+      "name": "Senka",
+      "manufacturer": "juice-66",
+      "range": "66-juice-juice-66",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-bleue-x-force-vape",
+      "name": "Force Bleue",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-rouge-x-force-vape",
+      "name": "Force Rouge",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-verte-x-force-vape",
+      "name": "Force Verte",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fruits-rouges-60-unik",
+      "name": "Fruits Rouges 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "popcorn-60-unik",
+      "name": "Popcorn 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "peche-60-unik",
+      "name": "Pêche 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "pure-passion-60-unik",
+      "name": "Pure Passion 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "mangue-60-unik",
+      "name": "Mangue 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "pomme-harmonie-60-unik",
+      "name": "Pomme Harmonie 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "poire-60-unik",
+      "name": "Poire 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "menthe-glaciale-60-unik",
+      "name": "Menthe Glaciale 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fraise-sauvage-60-unik",
+      "name": "Fraise Sauvage 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "raisin-noir-60-unik",
+      "name": "Raisin Noir 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "custard-vanille-60-unik",
+      "name": "Custard Vanille 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "menthe-du-jardin-60-unik",
+      "name": "Menthe du Jardin 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "framboise-60-unik",
+      "name": "Framboise 60 ml",
+      "manufacturer": "airmust",
+      "range": "unik-airmust",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "bananoisee-50ml-peche-gourmand-f2dc1c64",
+      "name": "Bananoisee  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "citron-cassis-mandarine-50-ml-iceberg-417129e6",
+      "name": "Citron Cassis Mandarine 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "citron-orange-50ml-iceberg-60d0983f",
+      "name": "Citron Orange 50ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "chlorywood-50-ml-iceberg-34d47ecc",
+      "name": "Chlorywood 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "creme-de-cafe-50ml-peche-gourmand-9df9cd5c",
+      "name": "Creme de cafe  50ml - Péché Gourmand",
+      "manufacturer": "liquide-lab",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "dragon-cassis-citron-50ml-glagla-94fd66a7",
+      "name": "Dragon cassis citron 50ml GlaGla",
+      "manufacturer": "liquide-lab",
+      "range": "glagla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "double-zero-50-ml-iceberg-b6037556",
+      "name": "Double zero 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "dragon-menthe-vert-50ml-glagla-f9cd274e",
+      "name": "Dragon menthe vert 50ml GlaGla",
+      "manufacturer": "liquide-lab",
+      "range": "glagla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "framboise-50-ml-iceberg-7486be59",
+      "name": "Framboise 50 ml Iceberg",
+      "manufacturer": "alfa",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "framboiserie-50ml-peche-gourmand-a050771e",
+      "name": "Framboiserie 50ml - Péché Gourmand",
+      "manufacturer": "alfa",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "fruit-du-serpent-50-ml-iceberg-d194040c",
+      "name": "Fruit du serpent 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "fruit-du-dragon-grenade-50-ml-iceberg-96948516",
+      "name": "Fruit du dragon grenade 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "fruits-rouges-50-ml-iceberg-c881ab84",
+      "name": "Fruits rouges 50 ml Iceberg",
+      "manufacturer": "alfa",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "james-cream-50ml-peche-gourmand-24b534ff",
+      "name": "James cream  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "mangue-50-ml-iceberg-1c590281",
+      "name": "Mangue 50 ml Iceberg",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "menthe-glaciale-50-ml-iceberg-8b40e750",
+      "name": "Menthe glaciale 50 ml Iceberg",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "mixed-fruit-50ml-iceberg-b8dc3849",
+      "name": "Mixed Fruit 50ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "myrtille-coco-50ml-peche-gourmand-d5df47fc",
+      "name": "Myrtille coco  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "mure-myrtille-50-ml-iceberg-fd248288",
+      "name": "Mure myrtille 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "peche-gourmand-cerise-fondante-391bb02a",
+      "name": "Peche gourmand cerise fondante",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "peche-gourmand-creme-brulee-2acb5191",
+      "name": "Peche gourmand creme brulee",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "peche-gourmand-cookie-dore-fd5b22a5",
+      "name": "Peche gourmand cookie doré",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "pomme-cannelle-50ml-peche-gourmand-9ca70b25",
+      "name": "Pomme cannelle  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "pomme-poire-50-ml-iceberg-e0480f21",
+      "name": "Pomme Poire 50 ml Iceberg",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "poire-abricot-fraise-50ml-glagla-b2ab7b93",
+      "name": "Poire Abricot Fraise 50ml GlaGla",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "popcorn-caramel-50ml-peche-gourmand-5e405697",
+      "name": "Popcorn caramel  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "raisin-fraise-50-ml-iceberg-d1aff16b",
+      "name": "Raisin fraise 50 ml Iceberg",
+      "manufacturer": "liquide-lab",
+      "range": "iceberg",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "tarte-au-citron-50ml-peche-gourmand-9bc9588a",
+      "name": "Tarte au citron  50ml - Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "tarte-abricot-50ml-peche-gourmand-c30a01d4",
+      "name": "Tarte Abricot 50ml Péché Gourmand",
+      "manufacturer": "airmust",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "tutti-frutti-grenadine-50ml-glagla-9f9b12f3",
+      "name": "Tutti Frutti Grenadine 50ml GlaGla",
+      "manufacturer": "liquide-lab",
+      "range": "glagla",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "black-summer-omg-50-ml-the-mds-juice-eaf1e7a4",
+      "name": "MDS Juice - Black Summer",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "blue-omg-50-ml-the-mds-juice-ec4c9a2d",
+      "name": "MDS Juice - Blue",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    },
+    {
+      "slug": "beast-omg-50-ml-the-mds-juice-20e3533f",
+      "name": "MDS Juice - Beast",
+      "manufacturer": "mds-juice",
+      "range": "mds-juice",
+      "reasons": [
+        "photo_officielle_manquante"
+      ],
+      "primaryBlock": "photo_officielle_manquante"
+    }
+  ]
+}

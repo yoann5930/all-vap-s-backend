@@ -1,0 +1,36 @@
+{
+  "productId": "cms96dhnv004wuto8813gy228",
+  "catalogName": "Sour Sorbet",
+  "officialName": "Sour Sorbet — T-Juice",
+  "manufacturer": "T-Juice",
+  "range": "T-Juice",
+  "flavor": "Sour Sorbet",
+  "formatMl": 50,
+  "pgVg": "non confirmé sur page trouvée",
+  "nicotine": "formats multiples possibles",
+  "nicotineBoost": null,
+  "description": "Sour Sorbet T-Juice — existence confirmée ; EAN/packshot exact à valider.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/sour-sorbet/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/sour-sorbet/banniere.webp",
+  "sourceUrls": [
+    "https://www.t-juice.com/"
+  ],
+  "missingFields": [
+    "pgVg",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:51:12.596Z"
+}

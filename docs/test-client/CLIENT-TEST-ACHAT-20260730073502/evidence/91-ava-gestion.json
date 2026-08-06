@@ -1,0 +1,1783 @@
+[
+  {
+    "q": "Quelle commande de test vient d’être passée ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:56",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "RÉSUMÉ — Aujourd'hui (30/07/2026)\n\nCommandes :\n- 4 commande(s) reçue(s)\n- 4 paiement(s) confirmé(s)\n- 0 paiement(s) en attente\n- 0 commande(s) annulée(s)\n\nChiffre d'affaires :\n- Total confirmé : 158,60 €\n- Panier moyen : 39,65 €\n\nPréparation :\n- 14 à préparer\n- 0 en préparation\n- 0 prête(s)\n\nLivraison :\n- 0 expédiée(s)\n- 0 en point relais\n- 0 livrée(s)\n- 0 anomalie(s) / sans MAJ\n\nAlertes :\n- 0 paiement(s) à vérifier\n- 1 alerte(s) stock\n- 0 facture(s) manquante(s)\n- 2 e-mail(s) en erreur\n\nSource : postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun\nGénéré le : 30/07/2026 09:35:56 (Europe/Paris)\nDernière sync catalogue/stock : 30/07/2026 09:23:00",
+      "links": [
+        {
+          "label": "cmrz32gba0000utxgwnbps6nh",
+          "href": "/admin/orders/cmrz32gba0000utxgwnbps6nh",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz32gza0003utxgoqicncrg",
+          "href": "/admin/orders/cmrz32gza0003utxgoqicncrg",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwdg000eutxgiw925z9p",
+          "href": "/admin/orders/cmrz3nwdg000eutxgiw925z9p",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwn3000hutxgwu395g4t",
+          "href": "/admin/orders/cmrz3nwn3000hutxgwu395g4t",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz532vq0000utqgnoky1mt8",
+          "href": "/admin/orders/cmrz532vq0000utqgnoky1mt8",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz546tb0003utqgxvl380up",
+          "href": "/admin/orders/cmrz546tb0003utqgxvl380up",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz554i30006utqgbqzn8n8a",
+          "href": "/admin/orders/cmrz554i30006utqgbqzn8n8a",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzrbguv000kuti0kkpq0yvo",
+          "href": "/admin/orders/cmrzrbguv000kuti0kkpq0yvo",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzryrmr000but64jhadml29",
+          "href": "/admin/orders/cmrzryrmr000but64jhadml29",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzs1e5w000xut64gwkvv9qp",
+          "href": "/admin/orders/cmrzs1e5w000xut64gwkvv9qp",
+          "kind": "order"
+        },
+        {
+          "label": "cms70z50o000nutaskfqkal79",
+          "href": "/admin/orders/cms70z50o000nutaskfqkal79",
+          "kind": "order"
+        },
+        {
+          "label": "cms7785hz000fut045ykhjjby",
+          "href": "/admin/orders/cms7785hz000fut045ykhjjby",
+          "kind": "order"
+        },
+        {
+          "label": "cms778ho60029ut046owwsb91",
+          "href": "/admin/orders/cms778ho60029ut046owwsb91",
+          "kind": "order"
+        },
+        {
+          "label": "cms778rnq003zut044ndgpygb",
+          "href": "/admin/orders/cms778rnq003zut044ndgpygb",
+          "kind": "order"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:56",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Le paiement a-t-il été confirmé ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:56",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "RÉSUMÉ — Aujourd'hui (30/07/2026)\n\nCommandes :\n- 4 commande(s) reçue(s)\n- 4 paiement(s) confirmé(s)\n- 0 paiement(s) en attente\n- 0 commande(s) annulée(s)\n\nChiffre d'affaires :\n- Total confirmé : 158,60 €\n- Panier moyen : 39,65 €\n\nPréparation :\n- 14 à préparer\n- 0 en préparation\n- 0 prête(s)\n\nLivraison :\n- 0 expédiée(s)\n- 0 en point relais\n- 0 livrée(s)\n- 0 anomalie(s) / sans MAJ\n\nAlertes :\n- 0 paiement(s) à vérifier\n- 1 alerte(s) stock\n- 0 facture(s) manquante(s)\n- 2 e-mail(s) en erreur\n\nSource : postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun\nGénéré le : 30/07/2026 09:35:56 (Europe/Paris)\nDernière sync catalogue/stock : 30/07/2026 09:23:00",
+      "links": [
+        {
+          "label": "cmrz32gba0000utxgwnbps6nh",
+          "href": "/admin/orders/cmrz32gba0000utxgwnbps6nh",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz32gza0003utxgoqicncrg",
+          "href": "/admin/orders/cmrz32gza0003utxgoqicncrg",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwdg000eutxgiw925z9p",
+          "href": "/admin/orders/cmrz3nwdg000eutxgiw925z9p",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwn3000hutxgwu395g4t",
+          "href": "/admin/orders/cmrz3nwn3000hutxgwu395g4t",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz532vq0000utqgnoky1mt8",
+          "href": "/admin/orders/cmrz532vq0000utqgnoky1mt8",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz546tb0003utqgxvl380up",
+          "href": "/admin/orders/cmrz546tb0003utqgxvl380up",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz554i30006utqgbqzn8n8a",
+          "href": "/admin/orders/cmrz554i30006utqgbqzn8n8a",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzrbguv000kuti0kkpq0yvo",
+          "href": "/admin/orders/cmrzrbguv000kuti0kkpq0yvo",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzryrmr000but64jhadml29",
+          "href": "/admin/orders/cmrzryrmr000but64jhadml29",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzs1e5w000xut64gwkvv9qp",
+          "href": "/admin/orders/cmrzs1e5w000xut64gwkvv9qp",
+          "kind": "order"
+        },
+        {
+          "label": "cms70z50o000nutaskfqkal79",
+          "href": "/admin/orders/cms70z50o000nutaskfqkal79",
+          "kind": "order"
+        },
+        {
+          "label": "cms7785hz000fut045ykhjjby",
+          "href": "/admin/orders/cms7785hz000fut045ykhjjby",
+          "kind": "order"
+        },
+        {
+          "label": "cms778ho60029ut046owwsb91",
+          "href": "/admin/orders/cms778ho60029ut046owwsb91",
+          "kind": "order"
+        },
+        {
+          "label": "cms778rnq003zut044ndgpygb",
+          "href": "/admin/orders/cms778rnq003zut044ndgpygb",
+          "kind": "order"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:56",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Quels e-mails ont réellement été envoyés ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:56",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "E-MAILS — Aujourd'hui (30/07/2026)\n- Envoyés : 34\n- En attente : 0\n- En erreur : 2\nDernières erreurs :\n- admin_test (30/07/2026 09:13:11) SEND_FAILED\n- admin_test (30/07/2026 08:10:02) EMAIL_NOT_CONFIGURED",
+      "links": [
+        {
+          "label": "Boîte mail",
+          "href": "/admin/emails",
+          "kind": "alert"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:56",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Quels e-mails ont réellement été reçus ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:57",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "E-MAILS — Aujourd'hui (30/07/2026)\n- Envoyés : 34\n- En attente : 0\n- En erreur : 2\nDernières erreurs :\n- admin_test (30/07/2026 09:13:11) SEND_FAILED\n- admin_test (30/07/2026 08:10:02) EMAIL_NOT_CONFIGURED",
+      "links": [
+        {
+          "label": "Boîte mail",
+          "href": "/admin/emails",
+          "kind": "alert"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:57",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Y a-t-il eu des doublons ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:57",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "RÉSUMÉ — Aujourd'hui (30/07/2026)\n\nCommandes :\n- 4 commande(s) reçue(s)\n- 4 paiement(s) confirmé(s)\n- 0 paiement(s) en attente\n- 0 commande(s) annulée(s)\n\nChiffre d'affaires :\n- Total confirmé : 158,60 €\n- Panier moyen : 39,65 €\n\nPréparation :\n- 14 à préparer\n- 0 en préparation\n- 0 prête(s)\n\nLivraison :\n- 0 expédiée(s)\n- 0 en point relais\n- 0 livrée(s)\n- 0 anomalie(s) / sans MAJ\n\nAlertes :\n- 0 paiement(s) à vérifier\n- 1 alerte(s) stock\n- 0 facture(s) manquante(s)\n- 2 e-mail(s) en erreur\n\nSource : postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun\nGénéré le : 30/07/2026 09:35:57 (Europe/Paris)\nDernière sync catalogue/stock : 30/07/2026 09:23:00",
+      "links": [
+        {
+          "label": "cmrz32gba0000utxgwnbps6nh",
+          "href": "/admin/orders/cmrz32gba0000utxgwnbps6nh",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz32gza0003utxgoqicncrg",
+          "href": "/admin/orders/cmrz32gza0003utxgoqicncrg",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwdg000eutxgiw925z9p",
+          "href": "/admin/orders/cmrz3nwdg000eutxgiw925z9p",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwn3000hutxgwu395g4t",
+          "href": "/admin/orders/cmrz3nwn3000hutxgwu395g4t",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz532vq0000utqgnoky1mt8",
+          "href": "/admin/orders/cmrz532vq0000utqgnoky1mt8",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz546tb0003utqgxvl380up",
+          "href": "/admin/orders/cmrz546tb0003utqgxvl380up",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz554i30006utqgbqzn8n8a",
+          "href": "/admin/orders/cmrz554i30006utqgbqzn8n8a",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzrbguv000kuti0kkpq0yvo",
+          "href": "/admin/orders/cmrzrbguv000kuti0kkpq0yvo",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzryrmr000but64jhadml29",
+          "href": "/admin/orders/cmrzryrmr000but64jhadml29",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzs1e5w000xut64gwkvv9qp",
+          "href": "/admin/orders/cmrzs1e5w000xut64gwkvv9qp",
+          "kind": "order"
+        },
+        {
+          "label": "cms70z50o000nutaskfqkal79",
+          "href": "/admin/orders/cms70z50o000nutaskfqkal79",
+          "kind": "order"
+        },
+        {
+          "label": "cms7785hz000fut045ykhjjby",
+          "href": "/admin/orders/cms7785hz000fut045ykhjjby",
+          "kind": "order"
+        },
+        {
+          "label": "cms778ho60029ut046owwsb91",
+          "href": "/admin/orders/cms778ho60029ut046owwsb91",
+          "kind": "order"
+        },
+        {
+          "label": "cms778rnq003zut044ndgpygb",
+          "href": "/admin/orders/cms778rnq003zut044ndgpygb",
+          "kind": "order"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:57",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Cette commande est-elle exclue des chiffres de production ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:57",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "RÉSUMÉ — Aujourd'hui (30/07/2026)\n\nCommandes :\n- 4 commande(s) reçue(s)\n- 4 paiement(s) confirmé(s)\n- 0 paiement(s) en attente\n- 0 commande(s) annulée(s)\n\nChiffre d'affaires :\n- Total confirmé : 158,60 €\n- Panier moyen : 39,65 €\n\nPréparation :\n- 14 à préparer\n- 0 en préparation\n- 0 prête(s)\n\nLivraison :\n- 0 expédiée(s)\n- 0 en point relais\n- 0 livrée(s)\n- 0 anomalie(s) / sans MAJ\n\nAlertes :\n- 0 paiement(s) à vérifier\n- 1 alerte(s) stock\n- 0 facture(s) manquante(s)\n- 2 e-mail(s) en erreur\n\nSource : postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun\nGénéré le : 30/07/2026 09:35:57 (Europe/Paris)\nDernière sync catalogue/stock : 30/07/2026 09:23:00",
+      "links": [
+        {
+          "label": "cmrz32gba0000utxgwnbps6nh",
+          "href": "/admin/orders/cmrz32gba0000utxgwnbps6nh",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz32gza0003utxgoqicncrg",
+          "href": "/admin/orders/cmrz32gza0003utxgoqicncrg",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwdg000eutxgiw925z9p",
+          "href": "/admin/orders/cmrz3nwdg000eutxgiw925z9p",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwn3000hutxgwu395g4t",
+          "href": "/admin/orders/cmrz3nwn3000hutxgwu395g4t",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz532vq0000utqgnoky1mt8",
+          "href": "/admin/orders/cmrz532vq0000utqgnoky1mt8",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz546tb0003utqgxvl380up",
+          "href": "/admin/orders/cmrz546tb0003utqgxvl380up",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz554i30006utqgbqzn8n8a",
+          "href": "/admin/orders/cmrz554i30006utqgbqzn8n8a",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzrbguv000kuti0kkpq0yvo",
+          "href": "/admin/orders/cmrzrbguv000kuti0kkpq0yvo",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzryrmr000but64jhadml29",
+          "href": "/admin/orders/cmrzryrmr000but64jhadml29",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzs1e5w000xut64gwkvv9qp",
+          "href": "/admin/orders/cmrzs1e5w000xut64gwkvv9qp",
+          "kind": "order"
+        },
+        {
+          "label": "cms70z50o000nutaskfqkal79",
+          "href": "/admin/orders/cms70z50o000nutaskfqkal79",
+          "kind": "order"
+        },
+        {
+          "label": "cms7785hz000fut045ykhjjby",
+          "href": "/admin/orders/cms7785hz000fut045ykhjjby",
+          "kind": "order"
+        },
+        {
+          "label": "cms778ho60029ut046owwsb91",
+          "href": "/admin/orders/cms778ho60029ut046owwsb91",
+          "kind": "order"
+        },
+        {
+          "label": "cms778rnq003zut044ndgpygb",
+          "href": "/admin/orders/cms778rnq003zut044ndgpygb",
+          "kind": "order"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:57",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  },
+  {
+    "q": "Quelle action doit faire l’administrateur ?",
+    "status": 200,
+    "body": {
+      "mode": "gestion",
+      "periodLabel": "Aujourd'hui (30/07/2026)",
+      "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+      "lastSyncAt": "30/07/2026 09:23:00",
+      "generatedAt": "30/07/2026 09:35:57",
+      "missingData": [
+        "colis_retournes (statut transporteur non synchronisé)",
+        "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+        "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+        "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+      ],
+      "text": "RÉSUMÉ — Aujourd'hui (30/07/2026)\n\nCommandes :\n- 4 commande(s) reçue(s)\n- 4 paiement(s) confirmé(s)\n- 0 paiement(s) en attente\n- 0 commande(s) annulée(s)\n\nChiffre d'affaires :\n- Total confirmé : 158,60 €\n- Panier moyen : 39,65 €\n\nPréparation :\n- 14 à préparer\n- 0 en préparation\n- 0 prête(s)\n\nLivraison :\n- 0 expédiée(s)\n- 0 en point relais\n- 0 livrée(s)\n- 0 anomalie(s) / sans MAJ\n\nAlertes :\n- 0 paiement(s) à vérifier\n- 1 alerte(s) stock\n- 0 facture(s) manquante(s)\n- 2 e-mail(s) en erreur\n\nSource : postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun\nGénéré le : 30/07/2026 09:35:57 (Europe/Paris)\nDernière sync catalogue/stock : 30/07/2026 09:23:00",
+      "links": [
+        {
+          "label": "cmrz32gba0000utxgwnbps6nh",
+          "href": "/admin/orders/cmrz32gba0000utxgwnbps6nh",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz32gza0003utxgoqicncrg",
+          "href": "/admin/orders/cmrz32gza0003utxgoqicncrg",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwdg000eutxgiw925z9p",
+          "href": "/admin/orders/cmrz3nwdg000eutxgiw925z9p",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz3nwn3000hutxgwu395g4t",
+          "href": "/admin/orders/cmrz3nwn3000hutxgwu395g4t",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz532vq0000utqgnoky1mt8",
+          "href": "/admin/orders/cmrz532vq0000utqgnoky1mt8",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz546tb0003utqgxvl380up",
+          "href": "/admin/orders/cmrz546tb0003utqgxvl380up",
+          "kind": "order"
+        },
+        {
+          "label": "cmrz554i30006utqgbqzn8n8a",
+          "href": "/admin/orders/cmrz554i30006utqgbqzn8n8a",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzrbguv000kuti0kkpq0yvo",
+          "href": "/admin/orders/cmrzrbguv000kuti0kkpq0yvo",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzryrmr000but64jhadml29",
+          "href": "/admin/orders/cmrzryrmr000but64jhadml29",
+          "kind": "order"
+        },
+        {
+          "label": "cmrzs1e5w000xut64gwkvv9qp",
+          "href": "/admin/orders/cmrzs1e5w000xut64gwkvv9qp",
+          "kind": "order"
+        },
+        {
+          "label": "cms70z50o000nutaskfqkal79",
+          "href": "/admin/orders/cms70z50o000nutaskfqkal79",
+          "kind": "order"
+        },
+        {
+          "label": "cms7785hz000fut045ykhjjby",
+          "href": "/admin/orders/cms7785hz000fut045ykhjjby",
+          "kind": "order"
+        },
+        {
+          "label": "cms778ho60029ut046owwsb91",
+          "href": "/admin/orders/cms778ho60029ut046owwsb91",
+          "kind": "order"
+        },
+        {
+          "label": "cms778rnq003zut044ndgpygb",
+          "href": "/admin/orders/cms778rnq003zut044ndgpygb",
+          "kind": "order"
+        }
+      ],
+      "snapshot": {
+        "period": {
+          "start": "2026-07-29T22:00:00.000Z",
+          "end": "2026-07-30T21:59:59.000Z",
+          "label": "Aujourd'hui (30/07/2026)",
+          "timezone": "Europe/Paris",
+          "key": "today"
+        },
+        "source": "postgresql:Order,OrderItem,OrderDocument,EmailLog,StockLevel,User,SyncRun",
+        "generatedAt": "30/07/2026 09:35:57",
+        "lastSyncAt": "30/07/2026 09:23:00",
+        "missing": [
+          "colis_retournes (statut transporteur non synchronisé)",
+          "anomalies_transporteur (API transporteur non connectée — détection limitée aux colis sans MAJ)",
+          "emails_sent_counts_only_smtp_or_resend (console/SKIPPED exclus)",
+          "12 e-mail(s) console/non livrés exclus des compteurs « envoyés »"
+        ],
+        "orders": {
+          "received": 4,
+          "paid": 4,
+          "pendingPayment": 0,
+          "cancelled": 0,
+          "refunded": 0
+        },
+        "revenue": {
+          "confirmedCents": 15860,
+          "confirmedLabel": "158,60 €",
+          "averageBasketCents": 3965,
+          "averageBasketLabel": "39,65 €"
+        },
+        "preparation": {
+          "toPrepare": 14,
+          "preparing": 0,
+          "prepared": 0,
+          "blocked": 0,
+          "orderIds": [
+            {
+              "id": "cmrz32gba0000utxgwnbps6nh",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz32gza0003utxgoqicncrg",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwdg000eutxgiw925z9p",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz3nwn3000hutxgwu395g4t",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz532vq0000utqgnoky1mt8",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz546tb0003utqgxvl380up",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrz554i30006utqgbqzn8n8a",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzrbguv000kuti0kkpq0yvo",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzryrmr000but64jhadml29",
+              "status": "PAID"
+            },
+            {
+              "id": "cmrzs1e5w000xut64gwkvv9qp",
+              "status": "PAID"
+            },
+            {
+              "id": "cms70z50o000nutaskfqkal79",
+              "status": "PAID"
+            },
+            {
+              "id": "cms7785hz000fut045ykhjjby",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778ho60029ut046owwsb91",
+              "status": "PAID"
+            },
+            {
+              "id": "cms778rnq003zut044ndgpygb",
+              "status": "PAID"
+            }
+          ]
+        },
+        "shipping": {
+          "shipped": 0,
+          "atRelay": 0,
+          "delivered": 0,
+          "returned": null,
+          "anomalies": 0,
+          "stale": []
+        },
+        "sales": {
+          "topProducts": [
+            {
+              "productId": "cms6eudq900o9utmkqw3r9do2",
+              "name": "Fruits Rouges 10ml - Sels...",
+              "qty": 13,
+              "revenueCents": 8970
+            },
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "qty": 6,
+              "revenueCents": 4140
+            },
+            {
+              "productId": "cms6eugxw01deutmkbawauvro",
+              "name": "Peche 10ml 0mg e-tasty",
+              "qty": 3,
+              "revenueCents": 2070
+            }
+          ],
+          "topCategories": [
+            {
+              "name": "E-liquides 10 ml",
+              "qty": 22
+            }
+          ],
+          "promotionsUsed": 0,
+          "gifts": 0
+        },
+        "stock": {
+          "low": [
+            {
+              "productId": "cms6euh4l01exutmkjrfwsdbf",
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "available": 4
+            }
+          ],
+          "out": [],
+          "negative": [],
+          "soldWithoutStock": null
+        },
+        "documents": {
+          "orderForms": 4,
+          "prepSlips": 1,
+          "deliverySlips": 1,
+          "invoices": 4,
+          "invoicesMissing": []
+        },
+        "emails": {
+          "sent": 34,
+          "pending": 0,
+          "failed": 2,
+          "lastErrors": [
+            {
+              "id": "cms76fr9i0000utjwe9a4mpbs",
+              "type": "admin_test",
+              "error": "SEND_FAILED",
+              "at": "30/07/2026 09:13:11"
+            },
+            {
+              "id": "cms746j7h0000utuosnpbifab",
+              "type": "admin_test",
+              "error": "EMAIL_NOT_CONFIGURED",
+              "at": "30/07/2026 08:10:02"
+            }
+          ]
+        },
+        "customers": {
+          "newAccounts": 5,
+          "newWhoOrdered": 4,
+          "returningWhoOrdered": 0
+        },
+        "alerts": {
+          "paymentsToCheck": [],
+          "blockedOrders": [],
+          "stockIssues": 1,
+          "emailErrors": 2,
+          "shippingAnomalies": 0
+        }
+      }
+    }
+  }
+]

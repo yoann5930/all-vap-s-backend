@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gx9s9000nutw4af16auny",
+  "catalogName": "Milo 50 ml",
+  "officialName": "Milo 50 ml — Saint Flava",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "flavor": "Melon, bubble gum",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Milo Saint Flava — melon bubble gum. 40/60. EAN conflictuels → non appliqué.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/milo-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/milo-50-ml/banniere.webp",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/e-liquide-swoke/17239-milo-50ml-saint-flava.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:52.253Z"
+}

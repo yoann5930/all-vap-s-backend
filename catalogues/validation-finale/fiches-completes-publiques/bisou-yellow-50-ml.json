@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxa7g001jutw43yc86w8j",
+  "catalogName": "Bisou Yellow 50 ml",
+  "officialName": "Bisou Yellow 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Bisou",
+  "flavor": "Bisou Yellow",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Bisou Yellow Swoke — 50 ml shortfill.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/bisou-yellow-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/bisou-yellow-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:51:05.077Z"
+}

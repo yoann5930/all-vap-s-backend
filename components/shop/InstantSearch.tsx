@@ -6,6 +6,10 @@ import Image from "next/image";
 import { Search } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { getEffectivePrice } from "@/lib/products/queries";
+import {
+  PRODUCT_THUMB_IMAGE_QUALITY,
+  isPreoptimizedProductMedia,
+} from "@/lib/catalog/product-image-display";
 
 interface SearchResult {
   id: string;
@@ -16,6 +20,8 @@ interface SearchResult {
   isPromo?: boolean;
   imageUrl?: string | null;
   category: string;
+  href?: string;
+  suggestedNic?: string | null;
 }
 
 export function InstantSearch() {
@@ -62,10 +68,17 @@ export function InstantSearch() {
       />
       {open && results.length > 0 && (
         <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-[#101720] shadow-2xl">
-          {results.map((p) => (
+          {results.map((p) => {
+            const nicMatch = query.match(/(\d+)\s*mg/i);
+            const href =
+              p.href ||
+              (nicMatch
+                ? `/boutique/${p.slug}?nic=${nicMatch[1]}`
+                : `/boutique/${p.slug}`);
+            return (
             <Link
               key={p.id}
-              href={`/boutique/${p.slug}`}
+              href={href}
               className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
               onClick={() => {
                 setOpen(false);
@@ -73,9 +86,26 @@ export function InstantSearch() {
               }}
             >
               <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-[#0B1016]">
-                {p.imageUrl && (
-                  <Image src={p.imageUrl} alt="" fill className="object-cover" sizes="40px" />
-                )}
+                {p.imageUrl &&
+                  (isPreoptimizedProductMedia(p.imageUrl) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.imageUrl}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-contain p-0.5"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Image
+                      src={p.imageUrl}
+                      alt=""
+                      fill
+                      className="object-contain p-0.5"
+                      sizes="40px"
+                      quality={PRODUCT_THUMB_IMAGE_QUALITY}
+                    />
+                  ))}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-[#F5F7FA]">{p.name}</p>
@@ -85,7 +115,8 @@ export function InstantSearch() {
                 {formatPrice(getEffectivePrice(p))}
               </span>
             </Link>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

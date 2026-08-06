@@ -1,0 +1,17 @@
+{
+  "productId": "cms9gx9wt0019utw4irgbxyqa",
+  "catalogName": "Vigo 50 ml",
+  "name": "Vigo 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": null,
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "complete": false
+}

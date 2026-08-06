@@ -53,6 +53,7 @@ async function main() {
       lastName: "All Vap's",
       role: "ADMIN",
       loyaltyPoints: 0,
+      emailVerified: true,
     },
   });
 

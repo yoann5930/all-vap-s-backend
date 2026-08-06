@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-08-01T02:59:06.851Z",
+  "apply": false,
+  "totalEliquidesActive": 378,
+  "alreadyOnline": 172,
+  "newlyPublishable": 0,
+  "publishedNow": 0,
+  "rangesCatalogVisibleEnabled": 0,
+  "visibleOnlineAfter": 172,
+  "blockedByReason": {
+    "sumup_product_id_manquant": 98,
+    "photo_officielle_manquante": 108
+  },
+  "sampleToPublish": [],
+  "note": "Les produits sans SumUp / photo officielle / prix restent hors ligne (politique officielle)."
+}

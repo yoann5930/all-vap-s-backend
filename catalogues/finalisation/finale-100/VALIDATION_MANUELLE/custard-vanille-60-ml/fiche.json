@@ -1,0 +1,158 @@
+{
+  "productId": "cms96d3l4002duto8ofm7zl8u",
+  "catalogName": "Custard Vanille 60 ml",
+  "fullName": "Custard Vanille 60 ml",
+  "manufacturer": "UNIK",
+  "range": "UNIK",
+  "formatMl": 60,
+  "pgVg": null,
+  "nicotineSoldAs": null,
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/custard-vanille-60-ml.webp",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": null,
+  "status": "validation_manuelle",
+  "missingFields": [
+    "nicotine",
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Custard Vanille 60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "60 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "UNIK",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/custard-vanille-60-ml/custard-vanille-60-ml.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/custard-vanille-60-ml/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "public/media/products/_raw/biarritz-lab/mamita/custard-vanille-pecan.png",
+      "field": "image",
+      "value": "public/media/products/_raw/biarritz-lab/mamita/custard-vanille-pecan.png",
+      "conf": 4
+    },
+    {
+      "source": "public/media/products/_backup_pre_normalize/biarritz-lab/mamita/50ml/custard-vanille-pecan.webp",
+      "field": "image",
+      "value": "public/media/products/_backup_pre_normalize/biarritz-lab/mamita/50ml/custard-vanille-pecan.webp",
+      "conf": 4
+    },
+    {
+      "source": "public/media/products/biarritz-lab/mamita/50ml/custard-vanille-pecan-thumb.webp",
+      "field": "image",
+      "value": "public/media/products/biarritz-lab/mamita/50ml/custard-vanille-pecan-thumb.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/custard-vanille-60-ml/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/custard-vanille-60-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/custard-vanille-60-ml.webp",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Custard Vanille 60 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Custard Vanille 60 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Custard Vanille 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Custard Vanille 60 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 custard-vanille-60-ml.webp",
+    "Photo fichier score=1.00 custard-vanille-60-ml.webp",
+    "Photo fichier score=0.90 custard-vanille-pecan.png",
+    "Photo fichier score=0.90 custard-vanille-pecan.webp",
+    "Photo fichier score=0.90 custard-vanille-pecan-thumb.webp"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:48.527Z"
+}

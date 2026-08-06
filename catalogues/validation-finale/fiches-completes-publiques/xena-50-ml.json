@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gx9ud000xutw4r882v2ss",
+  "catalogName": "Xena 50 ml",
+  "officialName": "Xena 50 ml — Saint Flava",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "flavor": "Granité lime, framboise bleue",
+  "formatMl": 50,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Xena Saint Flava Swoke — granité citron vert / framboise bleue. 40/60, 0 mg.",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/xena-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/xena-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/saint-flava/xena.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:57.954Z",
+  "notes": [
+    "EAN 6410940545402 invalidé (conflit ou bruit page liée)"
+  ]
+}

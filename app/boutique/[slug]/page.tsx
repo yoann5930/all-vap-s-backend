@@ -124,16 +124,29 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   // 2) Chargement produit publié — include minimal (stock chargé à part)
   const product = await prisma.product
     .findFirst({
-      where: { slug, isActive: true, visibleOnline: true },
+      where: {
+        slug,
+        isActive: true,
+        visibleOnline: true,
+        catalogStatus: { in: ["valide", "actif"] },
+      },
       include: {
         categoryRef: { select: { id: true, name: true, slug: true } },
         brandRef: { select: { id: true, name: true, slug: true } },
-        rangeRef: { select: { id: true, name: true, slug: true } },
+        rangeRef: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            manufacturerId: true,
+            manufacturer: { select: { id: true, slug: true } },
+          },
+        },
         flavors: true,
         variants: { where: { active: true } },
         catalogImages: { orderBy: { sortOrder: "asc" } },
         avaMeta: true,
-        manufacturer: { select: { name: true, slug: true } },
+        manufacturer: { select: { id: true, name: true, slug: true } },
       },
     })
     .catch((e) => {
@@ -142,6 +155,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     });
 
   if (!product) notFound();
+
+  const { checkProductZeroMix } = await import("@/lib/catalog/zero-mix-gate");
+  const zeroMix = checkProductZeroMix(product);
+  if (!zeroMix.ok) {
+    console.warn("[pdp] zero-mix reject", slug, zeroMix.reasons);
+    notFound();
+  }
 
   const navId = navIdFromProduct(product) || "e-liquides";
 
@@ -155,21 +175,33 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   let avgRating = 0;
 
   try {
-    similar = await prisma.product.findMany({
+    const similarRaw = await prisma.product.findMany({
       where: {
         isActive: true,
         visibleOnline: true,
+        catalogStatus: { in: ["valide", "actif"] },
         id: { not: product.id },
-        OR: [
-          { category: product.category },
-          ...(product.categoryId ? [{ categoryId: product.categoryId }] : []),
-          ...(product.rangeId ? [{ rangeId: product.rangeId }] : []),
-        ],
+        manufacturerId: product.manufacturerId ?? undefined,
+        ...(product.rangeId ? { rangeId: product.rangeId } : {}),
       },
-      include: CATALOG_PRODUCT_INCLUDE,
-      take: 4,
+      include: {
+        ...CATALOG_PRODUCT_INCLUDE,
+        manufacturer: { select: { id: true, slug: true, name: true } },
+        rangeRef: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            manufacturerId: true,
+            manufacturer: { select: { id: true, slug: true } },
+          },
+        },
+      },
+      take: 8,
       orderBy: { salesCount: "desc" },
     });
+    const { filterProductsZeroMix } = await import("@/lib/catalog/zero-mix-gate");
+    similar = filterProductsZeroMix(similarRaw).ok.slice(0, 4);
   } catch (e) {
     console.error("[pdp] similar products failed", slug, e);
   }

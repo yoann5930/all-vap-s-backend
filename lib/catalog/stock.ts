@@ -100,17 +100,36 @@ export async function getGlobalStockForProduct(productId: string): Promise<Globa
   });
 
   if (!level) {
+    // Miroir e-commerce (Product / Variant) — ne pas bloquer en « à confirmer »
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: {
+        stock: true,
+        variants: {
+          where: { active: true },
+          select: { id: true, stock: true },
+          orderBy: { stock: "desc" },
+        },
+      },
+    });
+    const bestVariant = product?.variants?.[0];
+    const qty = Math.max(0, bestVariant?.stock ?? product?.stock ?? 0);
+    const known = product != null;
     return {
       productId,
-      variantId: null,
-      quantity: 0,
+      variantId: bestVariant?.id ?? null,
+      quantity: qty,
       reservedQuantity: 0,
-      availableQuantity: 0,
+      availableQuantity: qty,
       lowStockThreshold: 3,
-      source: "unknown",
+      source: "legacy_mirror",
       lastSyncedAt: null,
-      known: false,
-      status: "INCONNU",
+      known,
+      status: stockStatusFromLevel({
+        known,
+        availableQuantity: qty,
+        lowStockThreshold: 3,
+      }),
     };
   }
 
@@ -245,6 +264,54 @@ export async function releaseGlobalReservation(params: {
 }
 
 /**
+ * Crée un StockLevel GLOBAL si absent (miroir Product / ProductVariant).
+ * Nécessaire pour appliquer les ventes SumUp sur le catalogue publié.
+ */
+export async function ensureProductGlobalStockLevel(productId: string) {
+  const location = await ensureGlobalStockLocation();
+  const existing = await prisma.stockLevel.findFirst({
+    where: { productId, locationId: location.id },
+    orderBy: { updatedAt: "desc" },
+  });
+  if (existing) return existing;
+
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+    include: {
+      variants: { where: { active: true }, orderBy: { createdAt: "asc" }, take: 1 },
+    },
+  });
+  if (!product) return null;
+
+  let variant = product.variants[0];
+  if (!variant) {
+    variant = await prisma.productVariant.create({
+      data: {
+        productId: product.id,
+        name: "Standard",
+        stock: product.stock,
+        active: true,
+      },
+    });
+  }
+
+  const qty = Math.max(0, variant.stock ?? product.stock ?? 0);
+  return prisma.stockLevel.create({
+    data: {
+      productId: product.id,
+      variantId: variant.id,
+      locationId: location.id,
+      quantity: qty,
+      reservedQuantity: 0,
+      availableQuantity: qty,
+      lowStockThreshold: 5,
+      source: "sumup_bootstrap",
+      lastSyncedAt: new Date(),
+    },
+  });
+}
+
+/**
  * Vente SumUp / e-commerce : diminue le stock général une seule fois (idempotent via externalReference).
  * Ne remet PAS automatiquement en stock un remboursement.
  */
@@ -264,11 +331,9 @@ export async function applyGlobalSale(params: {
   }
 
   const location = await ensureGlobalStockLocation();
-  const level = await prisma.stockLevel.findFirst({
-    where: { productId: params.productId, locationId: location.id },
-  });
+  const level = await ensureProductGlobalStockLevel(params.productId);
   if (!level) {
-    return { ok: false, message: "Produit sans stock général — aucun mouvement" };
+    return { ok: false, message: "Produit introuvable — aucun mouvement" };
   }
 
   const before = level.quantity;
@@ -310,7 +375,74 @@ export async function applyGlobalSale(params: {
     }),
   ]);
 
+  if (level.variantId) {
+    await prisma.productVariant.updateMany({
+      where: { id: level.variantId },
+      data: { stock: after },
+    });
+  }
+
   return { ok: true, message: `Stock général ${before} → ${after}` };
+}
+
+/**
+ * Remboursement SumUp : réintègre le stock général si produit identifié (idempotent).
+ */
+export async function applyGlobalRefund(params: {
+  productId: string;
+  quantity: number;
+  externalReference: string;
+  source?: string;
+}): Promise<{ ok: boolean; message: string; duplicate?: boolean }> {
+  if (params.quantity <= 0) return { ok: false, message: "Quantité invalide" };
+
+  const existing = await prisma.stockMovement.findFirst({
+    where: { externalReference: params.externalReference },
+  });
+  if (existing) {
+    return { ok: true, message: "Remboursement déjà traité", duplicate: true };
+  }
+
+  const location = await ensureGlobalStockLocation();
+  const level = await ensureProductGlobalStockLevel(params.productId);
+  if (!level) {
+    return { ok: false, message: "Produit introuvable — remboursement non appliqué" };
+  }
+
+  const before = level.quantity;
+  const after = before + params.quantity;
+  const availableAfter = computeAvailable(after, level.reservedQuantity);
+
+  await prisma.$transaction([
+    prisma.stockLevel.update({
+      where: { id: level.id },
+      data: {
+        quantity: after,
+        availableQuantity: availableAfter,
+        source: params.source || "sumup_refund",
+        lastSyncedAt: new Date(),
+      },
+    }),
+    prisma.stockMovement.create({
+      data: {
+        productId: params.productId,
+        variantId: level.variantId,
+        locationId: location.id,
+        movementType: "REFUND",
+        quantityBefore: before,
+        quantityChange: params.quantity,
+        quantityAfter: after,
+        source: params.source || "sumup_refund",
+        externalReference: params.externalReference,
+      },
+    }),
+    prisma.product.update({
+      where: { id: params.productId },
+      data: { stock: after, sumupLastSync: new Date() },
+    }),
+  ]);
+
+  return { ok: true, message: `Stock général ${before} → ${after} (remboursement)` };
 }
 
 export { GLOBAL_STOCK_CODE, GLOBAL_STOCK_NAME };

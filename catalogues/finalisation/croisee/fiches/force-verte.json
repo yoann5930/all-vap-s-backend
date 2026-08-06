@@ -1,0 +1,222 @@
+{
+  "productId": "cms96cuxg000duto8hhncr475",
+  "catalogName": "Force Verte",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "officialName": "Force Verte — Force Vape (Swoke)",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "Format catalogue ambigu (pas de ml dans le nom)",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": null,
+  "status": "incomplet",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "100 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "Image fichier score=1.00 force-verte.jpg",
+    "EAN 6410949705432 invalidé — code déjà vu en bruit de pages liées Force Vape"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:35.139Z"
+}

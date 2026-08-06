@@ -27,8 +27,8 @@ export default function CgvPage() {
         <section>
           <h2 className="text-lg font-semibold text-vap-black">Article 3 — Paiement</h2>
           <p>
-            Le paiement s&apos;effectue de manière sécurisée via Viva.com. La commande
-            est validée après confirmation du paiement.
+            Le paiement s&apos;effectue de manière sécurisée via une passerelle bancaire
+            agréée. La commande est validée après confirmation du paiement.
           </p>
         </section>
         <section>

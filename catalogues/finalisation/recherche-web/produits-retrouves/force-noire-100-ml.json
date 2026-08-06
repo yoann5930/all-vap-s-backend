@@ -1,0 +1,41 @@
+{
+  "productId": "cms9gx9j1000futw4bt2www4b",
+  "catalogName": "Force Noire 100 ml",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "sourceUrls": [
+    "https://swoke.net/force-vape/force-noire.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [
+    "EAN conflictuel page vs curated: 6410949831858 vs 6410949705432",
+    "EAN HTML page liée invalidé ; rétabli EAN retailer cité pour Force Noire"
+  ],
+  "officialName": "Force Noire 100 ml — Force Vape",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml",
+  "nicotineBoostOptions": "boosters",
+  "ean": "6410949831858",
+  "eanConfidence": "retailer",
+  "eanSources": [
+    "6410949831858",
+    "6410949705432"
+  ],
+  "flavorNotes": "EAN retailer ; fiche officielle Swoke confirme format/PGVG",
+  "photoUrl": "https://swoke.b-cdn.net/425-large_default/force-noire.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/force-noire-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+  "seo": {
+    "title": "Force Noire 100 ml — Force Vape (Swoke) | All Vap's",
+    "description": "Force Noire 100 ml — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — EAN retailer ; fiche officielle Swoke confirme format/PGVG"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:15.874Z"
+}

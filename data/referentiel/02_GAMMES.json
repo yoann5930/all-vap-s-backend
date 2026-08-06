@@ -1,0 +1,752 @@
+{
+  "date": "2026-07-29T23:50:18.967Z",
+  "total": 35,
+  "verifie": 11,
+  "aVerifier": 14,
+  "items": [
+    {
+      "id": "RNG-biarritz_lab-mamita",
+      "nom": "Mamita",
+      "slug": "mamita",
+      "fabricant": "Biarritz Lab",
+      "fabricantSlug": "biarritz-lab",
+      "description": "Gamme Mamita",
+      "site": "https://biarritz-lab.com/",
+      "formatsDeclares": "50 ml / 00 mg",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "a_verifier",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": [
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquide_lab-big_kawa",
+      "nom": "Big Kawa",
+      "slug": "big-kawa",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Gamme café/biscuit détectée sur photo rayon All Vap's. Attribution fabricant conflictuelle (INDEX Biarritz Lab vs distributeurs LiquideLab).",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "A_VERIFIER",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "Belgique / France (Liquidelab)",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": [
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquide_lab-reserve_heritage",
+      "nom": "Réserve Héritage",
+      "slug": "reserve-heritage",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Gamme détectée sur photo. Possible confusion avec Réserve Héritage (LiquideLab). À confirmer.",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "A_VERIFIER",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "Belgique / France (Liquidelab)",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": [
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquideo-skavidos",
+      "nom": "Skavidos",
+      "slug": "skavidos",
+      "fabricant": "Liquideo",
+      "fabricantSlug": "liquideo",
+      "description": "Gamme Skavidos (Dragonzz) détectée sur photo. Catalogue produit détaillé A_VERIFIER.",
+      "site": "https://www.liquideo.com/",
+      "formatsDeclares": "A_VERIFIER",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-cloud_vapor-call_of_vape",
+      "nom": "Call of Vape",
+      "slug": "call-of-vape",
+      "fabricant": "Cloud Vapor",
+      "fabricantSlug": "cloud-vapor",
+      "description": "Gamme Call of Vape",
+      "site": "https://www.cloud-vapor.com/",
+      "formatsDeclares": "À vérifier",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquidarom-ice_cool",
+      "nom": "Ice Cool",
+      "slug": "ice-cool",
+      "fabricant": "Liquidarom",
+      "fabricantSlug": "liquidarom",
+      "description": "Fruités frais sans sucralose, agent frais. PG/VG 50/50. Formats 10/50/100 ml.",
+      "site": "https://www.liquidarom.com/266-ice-cool",
+      "formatsDeclares": "10 ml, 50 ml, 100 ml",
+      "formatCodes": [
+        "10ml",
+        "50ml",
+        "100ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-liquidarom-ice_cool_x",
+      "nom": "Ice Cool X",
+      "slug": "ice-cool-x",
+      "fabricant": "Liquidarom",
+      "fabricantSlug": "liquidarom",
+      "description": "Gamme Ice Cool X| Extension Ice Cool, noms souvent en anglais sur étiquette.",
+      "site": "https://www.liquidarom.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquidarom-les_collegues",
+      "nom": "Les Collègues",
+      "slug": "les-collegues",
+      "fabricant": "Liquidarom",
+      "fabricantSlug": "liquidarom",
+      "description": "Gamme Les Collègues",
+      "site": "https://www.liquidarom.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquidarom-edition_collection",
+      "nom": "Edition Collection",
+      "slug": "edition-collection",
+      "fabricant": "Liquidarom",
+      "fabricantSlug": "liquidarom",
+      "description": "Gamme Edition Collection | Aussi appelée Edition Collector sur INDEX. Miss Blue identifié.",
+      "site": "https://www.liquidarom.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquidarom-les_essentiels",
+      "nom": "Les Essentiels",
+      "slug": "les-essentiels",
+      "fabricant": "Liquidarom",
+      "fabricantSlug": "liquidarom",
+      "description": "Gamme Les Essentiels| Pastis 13, Mojito des îles, Le P'tit Blond (photo rayon).",
+      "site": "https://www.liquidarom.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-liquide_lab-iceberg",
+      "nom": "Iceberg",
+      "slug": "iceberg",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Fruités frais 50 ml, PG/VG 50/50 selon distributeurs. Fabrication Belgique.",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "50 ml shortfill, Iceberg Salt 10 ml",
+      "formatCodes": [
+        "50ml",
+        "10ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "Belgique",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-liquide_lab-glagla",
+      "nom": "GlaGla",
+      "slug": "glagla",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Gamme GlaGla — e-liquides fruités frais 50 ml (Liquide Lab).",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "50 ml shortfill",
+      "formatCodes": ["50ml"],
+      "formatsStatus": "valide",
+      "origine": "Belgique",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-liquide_lab-kuix",
+      "nom": "Kuix",
+      "slug": "kuix",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Gamme Kuix — e-liquides 50 ml (Liquide Lab).",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "50 ml shortfill, pods 10/20 mg",
+      "formatCodes": ["50ml"],
+      "formatsStatus": "valide",
+      "origine": "Belgique",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-liquide_lab-peche_gourmand",
+      "nom": "Péché Gourmand",
+      "slug": "peche-gourmand",
+      "fabricant": "Liquide Lab",
+      "fabricantSlug": "liquide-lab",
+      "description": "Gamme Péché Gourmand — desserts gourmands 50 ml (Liquide Lab).",
+      "site": "https://liquidelab.com/",
+      "formatsDeclares": "50 ml shortfill",
+      "formatCodes": ["50ml"],
+      "formatsStatus": "valide",
+      "origine": "Belgique",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-mds_juice-mds_juice",
+      "nom": "MDS Juice",
+      "slug": "mds-juice",
+      "fabricant": "MDS Juice",
+      "fabricantSlug": "mds-juice",
+      "description": "Gamme MDS Juice| Catalogue fruité frais. Produits listés depuis kakémono All Vap's — sous-saveurs à valider.",
+      "site": null,
+      "formatsDeclares": "50 ml / 100 ml shortfill (selon distributeurs)",
+      "formatCodes": [
+        "50ml",
+        "100ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-raneki_liquide-olympe",
+      "nom": "Olympe",
+      "slug": "olympe",
+      "fabricant": "Raneki Liquide",
+      "fabricantSlug": "raneki-liquide",
+      "description": "Gamme Olympe| Aussi Orthographiée Olymp. Collaboration Bobble x Raneki. Divinités grecques (Zeus, Athéna, Hadès, Aphrodite, Poséidon…).",
+      "site": "https://www.ranekiliquide.com/",
+      "formatsDeclares": "50 ml / 70 ml selon sources",
+      "formatCodes": [
+        "50ml",
+        "70ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_DISTRIBUTEUR",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-revenge_juices-overdrive",
+      "nom": "OverDrive",
+      "slug": "overdrive",
+      "fabricant": "Revenge Juices",
+      "fabricantSlug": "revenge-juices",
+      "description": "Gamme OverDrive — dossier ZIP sans contenu produit. Complétion bloquée.",
+      "site": null,
+      "formatsDeclares": "A_VERIFIER",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": null,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-t_juice-t_juice_50_ml",
+      "nom": "T-Juice 50 mL",
+      "slug": "t-juice-50-ml",
+      "fabricant": "T-Juice",
+      "fabricantSlug": "t-juice",
+      "description": "Références 50 ml détectées sur photo. Liste saveurs A_VERIFIER depuis catalogue officiel.",
+      "site": "https://www.t-juice.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "Royaume-Uni",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-vape_47-enfer",
+      "nom": "Enfer",
+      "slug": "enfer",
+      "fabricant": "Vape 47",
+      "fabricantSlug": "vape-47",
+      "description": "Gamme Enfer — extra-frais Vape 47 (Blue, Red, Purple, Ultimate Freeze…).",
+      "site": "https://www.vape47.com/",
+      "formatsDeclares": "50 ml shortfill",
+      "formatCodes": ["50ml"],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-vape_47-fruits_d_enfer",
+      "nom": "Les Fruits d'Enfer",
+      "slug": "les-fruits-d-enfer",
+      "fabricant": "Vape 47",
+      "fabricantSlug": "vape-47",
+      "description": "Gamme Les Fruits d'Enfer — fruités extra-frais 50 ml (cerise, framboise, pêche, cassis, dragon…).",
+      "site": "https://www.vape47.com/",
+      "formatsDeclares": "50 ml shortfill",
+      "formatCodes": ["50ml"],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-vape_47-furiosa_eggz",
+      "nom": "Furiosa Eggz",
+      "slug": "furiosa-eggz",
+      "fabricant": "Vape 47",
+      "fabricantSlug": "vape-47",
+      "description": "50 ml 0 mg/ml, PG/VG 40/60 (V2). Références Aria, Ruby, Nova, etc.",
+      "site": "https://www.vape47.com/marque/furiosa-eggz/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-vape_47-linvapable",
+      "nom": "L'Invapable",
+      "slug": "linvapable",
+      "fabricant": "Vape 47",
+      "fabricantSlug": "vape-47",
+      "description": "Fort niveau de fraîcheur. Polar Vortex, Baron Rouge, Hyper Dragon, Ultra Fraise. 50/100 ml.",
+      "site": "https://www.vape47.com/marque/invapable/",
+      "formatsDeclares": "50 ml, 100 ml",
+      "formatCodes": [
+        "50ml",
+        "100ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_SITE_OFFICIEL",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-raneki_liquide-kyoto_storm",
+      "nom": "Kyoto Storm",
+      "slug": "kyoto-storm",
+      "fabricant": "Raneki Liquide",
+      "fabricantSlug": "raneki-liquide",
+      "description": "Gamme Kyoto Storm",
+      "site": "https://www.ranekiliquide.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_DISTRIBUTEUR",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-vape_47-furiosa_skinz",
+      "nom": "Furiosa Skinz",
+      "slug": "furiosa-skinz",
+      "fabricant": "Vape 47",
+      "fabricantSlug": "vape-47",
+      "description": "Gamme Furiosa Skinz",
+      "site": "https://www.vape47.com/",
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-cookin_cloud-myst",
+      "nom": "Myst",
+      "slug": "myst",
+      "fabricant": "Cookin Cloud",
+      "fabricantSlug": "cookin-cloud",
+      "description": "Gamme Myst| Gourmands Cookin' Cloud",
+      "site": null,
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "verifie",
+      "statusSource": "VERIFIE_DISTRIBUTEUR",
+      "anomalies": []
+    },
+    {
+      "id": "RNG-vape_maker-kaiju",
+      "nom": "Kaiju",
+      "slug": "kaiju",
+      "fabricant": "Vape Maker",
+      "fabricantSlug": "vape-maker",
+      "description": "Gamme Kaiju",
+      "site": null,
+      "formatsDeclares": "50 ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "valide",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-illusion-illusion",
+      "nom": "Illusion",
+      "slug": "illusion",
+      "fabricant": "Illusion",
+      "fabricantSlug": "illusion",
+      "description": "Gamme Illusion",
+      "site": null,
+      "formatsDeclares": "À vérifier",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-juice_66-juice_66",
+      "nom": "Juice 66",
+      "slug": "juice-66",
+      "fabricant": "Juice 66",
+      "fabricantSlug": "juice-66",
+      "description": "Gamme Juice 66",
+      "site": null,
+      "formatsDeclares": "À vérifier",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": "France",
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-empire-empire",
+      "nom": "Empire",
+      "slug": "empire",
+      "fabricant": "Empire",
+      "fabricantSlug": "empire",
+      "description": "Photo rayon",
+      "site": null,
+      "formatsDeclares": "A_VERIFIER",
+      "formatCodes": [],
+      "formatsStatus": "a_verifier",
+      "origine": null,
+      "status": "a_verifier",
+      "statusSource": "À vérifier",
+      "anomalies": [
+        "gamme_a_verifier",
+        "formats_a_verifier"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-one_taste",
+      "nom": "One Taste",
+      "slug": "one-taste",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme One Taste (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/15_one-taste",
+      "formatsDeclares": "10ml / 50ml",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-bankiz",
+      "nom": "Bankiz",
+      "slug": "bankiz",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Bankiz (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/44_bankiz",
+      "formatsDeclares": "10ml / 50ml",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-inspiration",
+      "nom": "Inspiration",
+      "slug": "inspiration",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Inspiration (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/33_inspiration",
+      "formatsDeclares": "50ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-god_fall_city",
+      "nom": "God Fall City",
+      "slug": "god-fall-city",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme God Fall City (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/92_godfall-city",
+      "formatsDeclares": "100ml",
+      "formatCodes": [
+        "100ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-smoke_wars",
+      "nom": "Smoke Wars",
+      "slug": "smoke-wars",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Smoke Wars (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/4_smokewars",
+      "formatsDeclares": "10ml / 50ml",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-gang_organise",
+      "nom": "Gang Organisé",
+      "slug": "gang-organise",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Gang Organisé (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/78_gang-organise",
+      "formatsDeclares": "10ml / 50ml",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-freezy_crush",
+      "nom": "Freezy Crush",
+      "slug": "freezy-crush",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Freezy Crush (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/16_freezy-crush",
+      "formatsDeclares": "50ml",
+      "formatCodes": [
+        "50ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-numbers",
+      "nom": "Numbers",
+      "slug": "numbers",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Numbers (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/51_numbers",
+      "formatsDeclares": "30ml",
+      "formatCodes": [
+        "30ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-letters",
+      "nom": "Letters",
+      "slug": "letters",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Letters (e.Tasty) — présente en stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/90_letters",
+      "formatsDeclares": "30ml",
+      "formatCodes": [
+        "30ml"
+      ],
+      "formatsStatus": "partiel",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SUMUP_LIBELLE + SITE_OFFICIEL",
+      "anomalies": [
+        "validation_photo_en_cours"
+      ]
+    },
+    {
+      "id": "RNG-e_tasty-twenty",
+      "nom": "Twenty",
+      "slug": "twenty",
+      "fabricant": "e.Tasty",
+      "fabricantSlug": "e-tasty",
+      "description": "Gamme Twenty (e.Tasty) — flacons 20 ml — stock SumUp All Vap's",
+      "site": "https://pro.e-tasty.fr/91_twenty",
+      "formatsDeclares": "20ml",
+      "formatCodes": [
+        "20ml"
+      ],
+      "formatsStatus": "verifie",
+      "origine": "France",
+      "status": "partiel",
+      "statusSource": "SITE_OFFICIEL_PRO + SUMUP_EAN",
+      "anomalies": []
+    }
+  ]
+}

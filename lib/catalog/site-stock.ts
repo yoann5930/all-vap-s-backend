@@ -8,13 +8,13 @@ export function siteStockLabel(status: StockStatus): string {
     case "STOCK_FAIBLE":
       return "Stock faible";
     case "RUPTURE":
-      return "Rupture";
+      return "Rupture de stock";
     case "INCONNU":
-      return "Disponibilité à confirmer";
+      return "Stock en cours de lecture";
     case "SYNCHRONISATION_EN_ERREUR":
-      return "Synchronisation en erreur";
+      return "Stock en cours de lecture";
     default:
-      return "Disponibilité à confirmer";
+      return "Stock en cours de lecture";
   }
 }
 

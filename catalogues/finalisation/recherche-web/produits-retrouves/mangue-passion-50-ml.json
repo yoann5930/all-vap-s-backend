@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxd6l005futw41f007ft6",
+  "catalogName": "Mangue Passion 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/247-fruizee-max",
+    "https://www.eliquid-france.com/fruizee-max/1496-mangue-passion-50ml.html",
+    "https://www.eliquid-france.com/fruizee-max/1496-mangue-passion-50ml-3760202040699.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Mangue, Passion | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040699",
+  "eanConfidence": "official_site",
+  "flavorNotes": "Présent sur catalogue officiel ; EAN via extraction live uniquement",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "photoUrl": "https://www.eliquid-france.com/5095-full_default/mangue-passion-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/mangue-passion-50-ml.jpg",
+  "seo": {
+    "title": "Mangue, Passion | Fruizee Max 50mL | All Vap's",
+    "description": "Mangue, Passion | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50 — Présent sur catalogue officiel ; EAN via extraction live uniquement"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:32.313Z"
+}

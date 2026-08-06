@@ -1,0 +1,36 @@
+{
+  "id": "cms96d3ju0023uto88j8fowyq",
+  "slug": "pomme-harmonie-60-unik",
+  "nom": "Pomme Harmonie 60 ml",
+  "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier.",
+  "seo": {
+    "title": "Pomme Harmonie 60 ml | AirMust | All Vap's",
+    "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle"
+  ],
+  "trouve": {
+    "fabricant": "AirMust",
+    "gamme": "UNIK",
+    "saveur": "Pomme Harmonie",
+    "format": "60 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\airmust\\ranges\\unik-airmust.webp"
+    ],
+    "banniereGamme": "catalogues/finalisation/bannieres/airmust__unik-airmust.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxcfk004lutw4rrjxrpup",
+  "catalogName": "Red Devil 100 ml",
+  "manufacturer": "AVAP",
+  "range": "Devil",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/en/devil-e-liquid/11981-red-devil-50-ml-avap.html"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [],
+  "officialName": "Red Devil 100 ml — Devil (AVAP)",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+  "nicotineBoostOptions": "Boosters selon flacon",
+  "ean": null,
+  "eanConfidence": "missing",
+  "flavorNotes": null,
+  "photoUrl": "https://assets.aromes-et-liquides.fr/en/35009-thickbox_default/red-devil-50-ml-avap.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/avap-devil.svg",
+  "seo": {
+    "title": "Red Devil 100 ml — Devil (AVAP) | All Vap's",
+    "description": "Red Devil 100 ml — Devil (AVAP) — AVAP — Devil — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.302Z"
+}

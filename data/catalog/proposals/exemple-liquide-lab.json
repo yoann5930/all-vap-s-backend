@@ -1,0 +1,18 @@
+{
+  "manufacturerSlug": "liquide-lab",
+  "seedUrls": [
+    "https://liquidelab.com/",
+    "https://liquidelab.com/collections/kuix",
+    "https://liquidelab.com/collections/glagla",
+    "https://liquidelab.com/collections/iceberg",
+    "https://liquidelab.com/collections/peche-gourmands"
+  ],
+  "proposedRanges": [
+    "Kuix",
+    "GlaGla",
+    "Iceberg",
+    "Péché Gourmand",
+    "Gamme Inventée XYZ"
+  ],
+  "notes": "Exemple — liste Yoann = base de recherche. Ne pas intégrer sans vérification."
+}

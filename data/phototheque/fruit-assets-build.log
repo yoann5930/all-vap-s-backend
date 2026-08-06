@@ -1,0 +1,74 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+Building 34 fruit props ÔåÆ D:\all vaps\all-vap-s-backend\public\media\products\_fruit-props
+ananas ... ok
+kiwi ... ok
+fraise ... ok
+framboise ... ok
+myrtille ... ok
+cassis ... ok
+mure ... ok
+dl fail Cherries_japanese.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+cerise ... fail download empty
+peche ... ok
+pasteque ... ok
+dl fail Mangoes_with_cross_section.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+mangue ... fail download empty
+citron ... ok
+dl fail OrangeBloss_n4.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+orange ... fail download empty
+citron-vert ... ok
+banane ... ok
+raisin ... ok
+dl fail Pomegranate_fruit_-_whole_and_open_with_seeds_-_on_white.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+grenade ... fail download empty
+dl fail Passion_fruit_cross_section.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+passion ... fail download empty
+fruit-du-dragon ... ok
+pitaya ... ok
+pomme ... ok
+dl fail Mentha_spicata0.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+menthe ... fail download empty
+vanille ... ok
+caramel ... ok
+cafe ... ok
+cookie ... ok
+choco ... ok
+noisette ... ok
+dl fail Carya_illinoinensis_MHNT.BOT.2007.25.12.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+pecan ... fail download empty
+custard ... ok
+dl fail Cornflakes_in_a_bowl.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+cereales ... fail download empty
+popcorn ... ok
+barbe-a-papa ... ok
+dl fail Nicotiana_tabacum0.jpg: Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in urlopen
+    return opene
+tabac ... fail download empty
+
+Done. ok=25 fail=9

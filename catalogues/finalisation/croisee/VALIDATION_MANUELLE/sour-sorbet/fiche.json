@@ -1,0 +1,176 @@
+{
+  "productId": "cms96dhnv004wuto8813gy228",
+  "catalogName": "Sour Sorbet",
+  "manufacturer": "T-Juice",
+  "range": "T-Juice 50 mL",
+  "officialName": "Sour Sorbet — T-Juice",
+  "formatMl": null,
+  "pgVg": null,
+  "nicotineSoldAs": "Formats multiples possibles — non tranché pour cette fiche",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/t-juice-t-juice-50-ml.webp",
+  "status": "incomplet",
+  "missingFields": [
+    "formatMl",
+    "pgVg",
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "t-juice",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "t-juice-50-ml",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "t-juice",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "t-juice-50-ml",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Image fichier score=1.00 sour-sorbet.jpg"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:23.911Z"
+}

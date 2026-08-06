@@ -81,12 +81,14 @@ export function ProductReviewsClient({ productId, initialReviews, avgRating }: P
 
       <form onSubmit={handleSubmit} className="mt-8 rounded-xl border border-wood-200/60 bg-wood-50/30 p-5">
         <h3 className="font-semibold">Laisser un avis</h3>
-        <div className="mt-3 flex gap-1">
+        <div className="mt-3 flex gap-1" role="group" aria-label="Note sur 5">
           {Array.from({ length: 5 }).map((_, i) => (
             <button
               key={i}
               type="button"
               onClick={() => setRating(i + 1)}
+              aria-label={`${i + 1} étoile${i > 0 ? "s" : ""}`}
+              aria-pressed={i < rating}
               className="text-amber-500 transition-transform hover:scale-110"
             >
               <Star className={cn("h-6 w-6", i < rating ? "fill-current" : "text-gray-300")} />

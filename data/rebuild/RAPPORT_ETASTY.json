@@ -1,0 +1,1118 @@
+{
+  "date": "2026-07-29T22:42:13.911Z",
+  "fabricant": "e.Tasty",
+  "manufacturerSlug": "e-tasty",
+  "officialRefsLoaded": 182,
+  "totalSumUp": 245,
+  "diySkipped": 4,
+  "linkedByExplicitRange": 61,
+  "linkedByOneTasteFlavorMatch": 134,
+  "leftAVerifierNoRange": 46,
+  "photosAssociated": 184,
+  "photosMissing": 11,
+  "variantsCreated": 0,
+  "variantsUpdated": 195,
+  "published": [
+    "Adess 100ml - GodFallcity - E-Tasty",
+    "Amani 50Ml Inspiration - E-Tasty",
+    "Azura 50 Ml Inspiration - E-Tasty",
+    "Bako 50ml -Bankiz- ETasty",
+    "Bako extra frais 50ml -Bankiz- ETasty",
+    "Bisto 50ml -Bankiz- ETasty",
+    "Bisto Extra Frais 50ml -Bankiz- ETasty",
+    "Carmi 50 Ml Inspiration - E-Tasty",
+    "Chew King 50ml Smoke Wars - E Tasty",
+    "Concentré Numbers10 30ml - e-TASTY",
+    "Concentré Numbers11 30ml - e-TASTY",
+    "Concentré letters A e-tasty",
+    "Concentré letters B e-tasty",
+    "Concentré letters C e-tasty",
+    "DIAVITA-Freezy Crush E-TASTY",
+    "Dzeus 100ml - GodFallcity - E-Tasty",
+    "E tasty ONE TASTE- FRAMBOISE SAUVAGE 50ML",
+    "E tasty One taste CASSIS FRAIS 50ML",
+    "E tasty One taste PASTEQUE JUTEUSE 50ML",
+    "E-Tasty Gang Organisé - Iris la perchee 50ml",
+    "E-Tasty Gang Organisé - Rick la castagne 50ml",
+    "E-Tasty Gang Organisé - Sam la menace 50ml",
+    "E-Tasty Gang Organisé - Sophie La Casse Cou 50ml",
+    "E-Tasty One Taste - Bonbon carnaval 50ml",
+    "E-Tasty One Taste - Cafe expresso 50ml",
+    "E-Tasty One Taste - Cerise noir 50ml",
+    "E-Tasty One Taste - Citron givre 50ml",
+    "E-Tasty One Taste - Fraise sauvage 50ml",
+    "E-Tasty One Taste - Fruit Du Dragon 50ml",
+    "E-Tasty One Taste - Fruits rouges 50ml",
+    "E-Tasty One Taste - Menthe fraiche 50ml",
+    "E-Tasty One Taste - Menthe polaire 50ml",
+    "FELICITA-Freezy Crush E-TASTY",
+    "Freho 50ml -Bankiz- ETasty",
+    "Freho extra frais 50ml -Bankiz- ETasty",
+    "Kaheli 50Ml Inspiration - E-Tasty",
+    "Kalio 50ml -Bankiz- ETasty",
+    "Kalio extra frais 50ml -Bankiz- ETasty",
+    "LIMONATA-Freezy Crush E-TASTY",
+    "Master Yob 50ml Smoke Wars - E Tasty",
+    "Napela 50 Ml Inspiration - E-Tasty",
+    "Opali 50 Ml Inspiration - E-Tasty",
+    "Peïkø extra frais- BANKIZ E-TASTY 50ml",
+    "Peïkø- BANKIZ E-TASTY 50ml",
+    "Posei 100ml - GodFallcity - E-Tasty",
+    "Serko 50ml -Bankiz- ETasty",
+    "Serko Extra Frais 50ml -Bankiz- ETasty",
+    "Siko 50ml -Bankiz- ETasty",
+    "Siko extra frais 50ml -Bankiz- ETasty",
+    "Thena 100ml - GodFallcity - E-Tasty"
+  ],
+  "aVerifier": [
+    {
+      "name": "Ananas 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Ananas 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Ananas 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Ananas 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Barbe À Papa 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Barbe À Papa 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Barbe À Papa 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Barbe À Papa 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Base 1L 30PG\\70VG - E-tasty",
+      "reason": "diy_base_hors_gammes_e_liquides"
+    },
+    {
+      "name": "Base 1L 50PG\\50VG - E-tasty",
+      "reason": "diy_base_hors_gammes_e_liquides"
+    },
+    {
+      "name": "Bonbon carnival 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon carnival 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon carnival 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon carnival 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon violette 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon violette 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon violette 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Bonbon violette 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe Expresso 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe Expresso 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe Expresso 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe Expresso 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe speculos 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe speculos 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe speculos 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cafe speculos 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Caramel doré 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Caramel doré 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Caramel doré 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Caramel doré 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cassis frais 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cassis frais 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cassis frais 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cassis frais 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cerise noire 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cherry cola 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cherry cola 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cherry cola 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cherry cola 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Chlorophylle 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Chlorophylle 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Chlorophylle 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Chlorophylle 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron givree 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron givree 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron givree 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron givree 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron vert 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron vert 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron vert 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Citron vert 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Concentré Numbers1 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers2 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers3 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers4 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers5 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers6 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers7 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers8 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Concentré Numbers9 30ml - e-TASTY",
+      "reason": "photo"
+    },
+    {
+      "name": "Cookie gourmand 10 ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cookie gourmand 10 ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cookie gourmand 10 ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Cookie gourmand 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "E-Tasty Gang Organisé - Vinc la malice 50ml",
+      "reason": "photo"
+    },
+    {
+      "name": "E-Tasty One Taste - United 50ml",
+      "reason": "photo"
+    },
+    {
+      "name": "Fraise sauvage 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvage 10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvage 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvege 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvege 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvege 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fraise sauvege 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Framboise sauvage 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Framboise sauvage 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Framboise sauvage 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Framboise sauvage 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit Du Serpent 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit Du Serpent 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit Du Serpent 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit Du Serpent 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruit du dragon 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges Anisés 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges Anisés 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges Anisés 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges Anisés 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges mentholes 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges mentholes 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges mentholes 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits Rouges mentholes 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Fruits rouges 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Harrison 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Harrison 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Harrison 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Harrison 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Kenton 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Kenton 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Kenton 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Kenton 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Mangue juteuse 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Mangue juteuse 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Mangue juteuse 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Mangue juteuse 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe Fraiche 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe Fraiche 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe Fraiche 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe Fraiche 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe fraiche 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe fraiche 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe fraiche10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 10mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 20mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 5mg sel de nicotine e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Menthe polaire 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Myrtille sauvage 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Myrtille sauvage 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Myrtille sauvage 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Myrtille sauvage 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pack base 3mg 50PG\\50VG - E-tasty",
+      "reason": "diy_base_hors_gammes_e_liquides"
+    },
+    {
+      "name": "Pack base 6mg 50PG\\50VG - E-tasty",
+      "reason": "diy_base_hors_gammes_e_liquides"
+    },
+    {
+      "name": "Pamplemousse 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pamplemousse 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pamplemousse 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pamplemousse 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pasteque juteuse 10ml 0mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pasteque juteuse 10ml 12mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pasteque juteuse 10ml 3mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Pasteque juteuse 10ml 6mg e-tasty",
+      "reason": "one_taste_match_saveur_non_publie"
+    },
+    {
+      "name": "Peche 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Peche 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Peche 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Peche 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Poire juteuse 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Poire juteuse 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Poire juteuse 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Poire juteuse 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pomme croquante 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pomme croquante 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pomme croquante 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pomme croquante 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pop cola 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pop cola 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pop cola 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Pop cola 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 10mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 20mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 5mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Popcorn 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Raisin exquis 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Raisin exquis 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Raisin exquis 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Raisin exquis 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Starter pack huallaga e tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Starter pack yosh e tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 10mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 20mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 5mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "United 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dore 10ml 0mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dore 10ml 12mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dore 10ml 3mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dore 10ml 6mg e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dorée 10ml 10mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dorée 10ml 20mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Vanille dorée 10ml 5mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Virginia 10ml 10mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Virginia 10ml 20mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    },
+    {
+      "name": "Virginia 10ml 5mg sel de nicotine e-tasty",
+      "reason": "gamme_non_declarable"
+    }
+  ],
+  "gammes": {
+    "one-taste": {
+      "linked": 147,
+      "published": 12,
+      "formats": [
+        "10ml",
+        "50ml"
+      ],
+      "sample": [
+        "Ananas 10ml 0mg e-tasty",
+        "Ananas 10ml 12mg e-tasty",
+        "Ananas 10ml 3mg e-tasty",
+        "Ananas 10ml 6mg e-tasty",
+        "Barbe À Papa 10ml 0mg e-tasty"
+      ]
+    },
+    "bankiz": {
+      "linked": 14,
+      "published": 14,
+      "formats": [
+        "50ml"
+      ],
+      "sample": [
+        "Bako 50ml -Bankiz- ETasty",
+        "Bako extra frais 50ml -Bankiz- ETasty",
+        "Bisto 50ml -Bankiz- ETasty",
+        "Bisto Extra Frais 50ml -Bankiz- ETasty",
+        "Freho 50ml -Bankiz- ETasty"
+      ]
+    },
+    "inspiration": {
+      "linked": 6,
+      "published": 6,
+      "formats": [
+        "50ml"
+      ],
+      "sample": [
+        "Amani 50Ml Inspiration - E-Tasty",
+        "Azura 50 Ml Inspiration - E-Tasty",
+        "Carmi 50 Ml Inspiration - E-Tasty",
+        "Kaheli 50Ml Inspiration - E-Tasty",
+        "Napela 50 Ml Inspiration - E-Tasty"
+      ]
+    },
+    "god-fall-city": {
+      "linked": 4,
+      "published": 4,
+      "formats": [
+        "100ml"
+      ],
+      "sample": [
+        "Adess 100ml - GodFallcity - E-Tasty",
+        "Dzeus 100ml - GodFallcity - E-Tasty",
+        "Posei 100ml - GodFallcity - E-Tasty",
+        "Thena 100ml - GodFallcity - E-Tasty"
+      ]
+    },
+    "smoke-wars": {
+      "linked": 2,
+      "published": 2,
+      "formats": [
+        "50ml"
+      ],
+      "sample": [
+        "Chew King 50ml Smoke Wars - E Tasty",
+        "Master Yob 50ml Smoke Wars - E Tasty"
+      ]
+    },
+    "gang-organise": {
+      "linked": 5,
+      "published": 4,
+      "formats": [
+        "50ml"
+      ],
+      "sample": [
+        "E-Tasty Gang Organisé - Iris la perchee 50ml",
+        "E-Tasty Gang Organisé - Rick la castagne 50ml",
+        "E-Tasty Gang Organisé - Sam la menace 50ml",
+        "E-Tasty Gang Organisé - Sophie La Casse Cou 50ml",
+        "E-Tasty Gang Organisé - Vinc la malice 50ml"
+      ]
+    },
+    "freezy-crush": {
+      "linked": 3,
+      "published": 3,
+      "formats": [
+        "50ml"
+      ],
+      "sample": [
+        "DIAVITA-Freezy Crush E-TASTY",
+        "FELICITA-Freezy Crush E-TASTY",
+        "LIMONATA-Freezy Crush E-TASTY"
+      ]
+    },
+    "numbers": {
+      "linked": 11,
+      "published": 2,
+      "formats": [
+        "30ml"
+      ],
+      "sample": [
+        "Concentré Numbers1 30ml - e-TASTY",
+        "Concentré Numbers10 30ml - e-TASTY",
+        "Concentré Numbers11 30ml - e-TASTY",
+        "Concentré Numbers2 30ml - e-TASTY",
+        "Concentré Numbers3 30ml - e-TASTY"
+      ]
+    },
+    "letters": {
+      "linked": 3,
+      "published": 3,
+      "formats": [
+        "100ml"
+      ],
+      "sample": [
+        "Concentré letters A e-tasty",
+        "Concentré letters B e-tasty",
+        "Concentré letters C e-tasty"
+      ]
+    }
+  },
+  "controlUrls": {
+    "fabricant": "http://localhost:3000/fabricants/e-tasty",
+    "gammes": [
+      "http://localhost:3000/gammes/one-taste?fabricant=e-tasty",
+      "http://localhost:3000/gammes/bankiz?fabricant=e-tasty",
+      "http://localhost:3000/gammes/inspiration?fabricant=e-tasty",
+      "http://localhost:3000/gammes/god-fall-city?fabricant=e-tasty",
+      "http://localhost:3000/gammes/smoke-wars?fabricant=e-tasty",
+      "http://localhost:3000/gammes/gang-organise?fabricant=e-tasty",
+      "http://localhost:3000/gammes/freezy-crush?fabricant=e-tasty",
+      "http://localhost:3000/gammes/numbers?fabricant=e-tasty",
+      "http://localhost:3000/gammes/letters?fabricant=e-tasty"
+    ]
+  },
+  "summaryExtra": {
+    "publishedETasty": 50,
+    "iceCoolIntact": 18,
+    "totalPublishedCatalog": 68,
+    "variantsETasty": 195,
+    "aVerifierBuckets": {
+      "gamme_one_taste_par_match_saveur": 134,
+      "diy_base_a_verifier": 4,
+      "photo_officielle_manquante": 11,
+      "gamme_non_declarable": 46
+    },
+    "leftoverSample": [
+      {
+        "name": "Ananas 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Ananas 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Ananas 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Ananas 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Barbe À Papa 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Barbe À Papa 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Barbe À Papa 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Barbe À Papa 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Base 1L 30PG\\70VG - E-tasty",
+        "reason": "diy_base_a_verifier"
+      },
+      {
+        "name": "Base 1L 50PG\\50VG - E-tasty",
+        "reason": "diy_base_a_verifier"
+      },
+      {
+        "name": "Bonbon carnival 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon carnival 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon carnival 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon carnival 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon violette 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon violette 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon violette 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Bonbon violette 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe Expresso 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe Expresso 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe Expresso 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe Expresso 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe speculos 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe speculos 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe speculos 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Cafe speculos 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Caramel doré 10ml 0mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Caramel doré 10ml 12mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Caramel doré 10ml 3mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      },
+      {
+        "name": "Caramel doré 10ml 6mg e-tasty",
+        "reason": "gamme_one_taste_par_match_saveur"
+      }
+    ]
+  }
+}

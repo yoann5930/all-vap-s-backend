@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="400" viewBox="0 0 1600 400">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="400" fill="url(#g)"/>
+  <text x="80" y="170" fill="#f8fafc" font-family="Georgia, serif" font-size="64">AirMust</text>
+  <text x="80" y="250" fill="#94a3b8" font-family="Georgia, serif" font-size="40">Ferox</text>
+  <text x="80" y="320" fill="#64748b" font-family="Arial, sans-serif" font-size="22">Bannière placeholder All Vap's — à remplacer par visuel officiel gamme</text>
+</svg>

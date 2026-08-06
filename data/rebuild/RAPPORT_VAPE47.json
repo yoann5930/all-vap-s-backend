@@ -1,0 +1,374 @@
+{
+  "date": "2026-07-31T11:13:24.851Z",
+  "fabricant": "Vape 47",
+  "slug": "vape-47",
+  "gammes": [
+    "Enfer",
+    "Les Fruits d'Enfer",
+    "L'Invapable",
+    "Furiosa Eggz",
+    "Furiosa Skinz"
+  ],
+  "publishedCount": 28,
+  "linkedOfflineCount": 0,
+  "skippedCount": 7,
+  "quarantinedCount": 0,
+  "byRange": {
+    "furiosa-eggz": 9,
+    "enfer": 9,
+    "linvapable": 3,
+    "furiosa-skinz": 2,
+    "les-fruits-d-enfer": 5
+  },
+  "published": [
+    {
+      "id": "cms6euimw01pyutmk1fgb0hsy",
+      "name": "Ultron 50 Ml - Furiosa Eggz",
+      "slug": "ultron-50-ml-furiosa-eggz-2260114d",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "4704745671421",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eubkb0075utmkvben0bp0",
+      "name": "Enfer Blue — 50 ml",
+      "slug": "blue-50ml-enfer-453fac6c",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450403850",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euj8i01u5utmk7hspm30l",
+      "name": "Enfer Yellow — 50 ml",
+      "slug": "yellow-50ml-enfer-3475666d",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "4704745672695",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eucsp00ghutmkwn9sufqo",
+      "name": "Doom — Furiosa Eggz — 50 ml",
+      "slug": "doom-50-ml-furiosa-eggz-v2-261eef2d",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404376",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eue8i00s6utmkuv853ivg",
+      "name": "Enfer Green — 50 ml",
+      "slug": "green-50ml-enfer-31704e5e",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450403164",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eug33016gutmkodmv75qi",
+      "name": "Enfer Mango — 50 ml",
+      "slug": "mango-50ml-enfer-08403b0c",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450401863",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euenj00voutmkiir5spdr",
+      "name": "Ivy — Furiosa Eggz — 50 ml",
+      "slug": "ivy-50-ml-furiosa-eggz-v2-cd3c8b1c",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404352",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euesh00wsutmk02nkba8u",
+      "name": "Juno — Furiosa Eggz — 50 ml",
+      "slug": "juno-50-ml-furiosa-eggz-v2-9fb8ec6d",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450405588",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euin201pzutmklaa1qo3h",
+      "name": "Ultron 50 Ml - Furiosa Eggz V2",
+      "slug": "ultron-50-ml-furiosa-eggz-v2-a899233e",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404338",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eub110032utmkffoso8hk",
+      "name": "Aria — Furiosa Eggz — 50 ml",
+      "slug": "aria-50-ml-furiosa-eggz-v2-0da94b90",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404390",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eucvb00gxutmka3cu0lhw",
+      "name": "Dragon 50ML - ENFER",
+      "slug": "dragon-50ml-enfer-63a02e14",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450403867",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eugo501b8utmkheah3ncj",
+      "name": "Enfer Original — 50 ml",
+      "slug": "original-50ml-enfer-00b22b81",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "4704745672145",
+      "visibleOnline": true,
+      "imageStatus": "official"
+    },
+    {
+      "id": "cms6euhjv01i1utmkgcrjlqv7",
+      "name": "Enfer Red — 50 ml",
+      "slug": "red-50ml-enfer-417c1612",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "4704745672701",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euimm01pwutmk6cqypb7c",
+      "name": "Enfer Ultimate Freeze — 50 ml",
+      "slug": "ultimate-freeze-50ml-enfer-a2e9b523",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450402037",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euj3901t6utmkakt2eoei",
+      "name": "Volta — Furiosa Eggz — 50 ml",
+      "slug": "volta-50-ml-furiosa-eggz-v2-88e686fc",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404314",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eubcr005cutmkp4xqzqhe",
+      "name": "Baron Rouge — L'Invapable — 100 ml",
+      "slug": "baron-rouge-l-invapable-100ml-0mg-5ed77ff4",
+      "range": "linvapable",
+      "productType": "100ml",
+      "priceCents": 2490,
+      "barcode": "3701450404192",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euha001g0utmk24a0h1s0",
+      "name": "Enfer Purple — 50 ml",
+      "slug": "purple-50ml-enfer-44e47bb4",
+      "range": "enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450403171",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euea000slutmkjalrdliu",
+      "name": "Griffon — Furiosa Eggz — 50 ml",
+      "slug": "griffon-50-ml-furiosa-eggz-v2-380acca8",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450404291",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eueew00tuutmkxd5tyjgp",
+      "name": "Hyper Dragon — L'Invapable — 100 ml",
+      "slug": "hyper-dragon-l-invapable-100ml-0mg-be39afe1",
+      "range": "linvapable",
+      "productType": "100ml",
+      "priceCents": 2490,
+      "barcode": "3701450404178",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eujkl01wkutmk556vfl9q",
+      "name": "Kaiser — Furiosa Skinz — 100 ml",
+      "slug": "skinz-kaiser-100ml-furiosa-vape47-e8d25c77",
+      "range": "furiosa-skinz",
+      "productType": "100ml",
+      "priceCents": 2490,
+      "barcode": "3701450404130",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euf8w0107utmkevqo104p",
+      "name": "La cerise d enfer 50ml - Enfer",
+      "slug": "la-cerise-d-enfer-50ml-enfer-3a1f3fb6",
+      "range": "les-fruits-d-enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450406486",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euf900108utmkpel7tbmb",
+      "name": "La framboise d enfer 50ml - Enfer",
+      "slug": "la-framboise-d-enfer-50ml-enfer-3ec40322",
+      "range": "les-fruits-d-enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450406424",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euf9d010autmkcvh89q75",
+      "name": "La peche d enfer 50ml - Enfer",
+      "slug": "la-peche-d-enfer-50ml-enfer-a75e4786",
+      "range": "les-fruits-d-enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450406455",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eufb3010rutmksxtoeobb",
+      "name": "Le cassis d enfer 50ml - Enfer",
+      "slug": "le-cassis-d-enfer-50ml-enfer-f1b5491d",
+      "range": "les-fruits-d-enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450406479",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eufb8010sutmkl4xr1rlp",
+      "name": "Le dragon d enfer 50ml - Enfer",
+      "slug": "le-dragon-d-enfer-50ml-enfer-6ee30221",
+      "range": "les-fruits-d-enfer",
+      "productType": "50ml",
+      "priceCents": 2090,
+      "barcode": "3701450406462",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6eugfv0198utmkyitauaks",
+      "name": "Nova — Furiosa Eggz — 50 ml",
+      "slug": "nova-50-ml-furiosa-eggz-v2-1969540c",
+      "range": "furiosa-eggz",
+      "productType": "50ml",
+      "priceCents": 2190,
+      "barcode": "3701450405571",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euhy701l8utmkij0wyh0k",
+      "name": "Skinz grok 100ml - Furiosa vape47",
+      "slug": "skinz-grok-100ml-furiosa-vape47-c273007e",
+      "range": "furiosa-skinz",
+      "productType": "100ml",
+      "priceCents": 2490,
+      "barcode": "3701450404123",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    },
+    {
+      "id": "cms6euims01pxutmk15j7l15j",
+      "name": "Ultra Fraise — L'Invapable — 100 ml",
+      "slug": "ultra-fraise-l-invapable-100ml-0mg-935640d0",
+      "range": "linvapable",
+      "productType": "100ml",
+      "priceCents": 2490,
+      "barcode": "3701450404161",
+      "visibleOnline": true,
+      "imageStatus": "pending"
+    }
+  ],
+  "linkedOffline": [],
+  "skipped": [
+    {
+      "name": "Concentre Enfer Dragon 30ml - ENFER",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Concentre Enfer Original 30ml - ENFER",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Concentre Enfer Purple 30ml - ENFER",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Concentre Enfer Red 30ml - ENFER",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Découvrez cette collaboration exceptionnelle entre Fighter Fuel et ENFER de Vape",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Un mélange qui allie le meilleur des fruits rouges avec la fraîcheur intense car",
+      "reason": "hors_gammes_ou_garbage"
+    },
+    {
+      "name": "Yuko Fighter Fuel X Enfer 100ml",
+      "reason": "hors_gammes_ou_garbage"
+    }
+  ],
+  "quarantined": [],
+  "controlUrls": [
+    "http://localhost:3000/e-liquides",
+    "http://localhost:3000/fabricants/vape-47",
+    "http://localhost:3000/gammes/enfer?fabricant=vape-47",
+    "http://localhost:3000/gammes/les-fruits-d-enfer?fabricant=vape-47",
+    "http://localhost:3000/gammes/linvapable?fabricant=vape-47",
+    "http://localhost:3000/gammes/furiosa-eggz?fabricant=vape-47",
+    "http://localhost:3000/gammes/furiosa-skinz?fabricant=vape-47"
+  ]
+}

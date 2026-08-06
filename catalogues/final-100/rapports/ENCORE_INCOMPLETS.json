@@ -1,0 +1,507 @@
+[
+  {
+    "productId": "cms9gxbdt002vutw4v0bxerrn",
+    "catalogName": "Greensound 100 ml",
+    "name": "Greensound 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/blue-hopper-airmust/greensound-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbe4002xutw4z9kjqc8v",
+    "catalogName": "Purplenuclear 100 ml",
+    "name": "Purplenuclear 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/blue-hopper-airmust/purplenuclear-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxber0031utw4ahkm4448",
+    "catalogName": "Yellowstorm 100 ml",
+    "name": "Yellowstorm 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/blue-hopper-airmust/yellowstorm-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbpv003tutw4dyiv4el7",
+    "catalogName": "Konga 100 ml",
+    "name": "Konga 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": null,
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbq5003vutw4zupdmx6j",
+    "catalogName": "Hippox 100 ml",
+    "name": "Hippox 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": null,
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbqg003xutw4mz0y5a4q",
+    "catalogName": "Grizz 100 ml",
+    "name": "Grizz 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml (100 dans 120)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/ferox-airmust/grizz-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbqp003zutw4zig3u8p1",
+    "catalogName": "Krak 100 ml",
+    "name": "Krak 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml (100 dans 120)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/ferox-airmust/krak-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbr10041utw4chkucjme",
+    "catalogName": "Aspik 100 ml",
+    "name": "Aspik 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml (100 dans 120)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/ferox-airmust/aspik-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbdj002tutw4b70fp0st",
+    "catalogName": "Bluevolt 100 ml",
+    "name": "Bluevolt 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/blue-hopper-airmust/bluevolt-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbeh002zutw4niayvxzj",
+    "catalogName": "Redfire 100 ml",
+    "name": "Redfire 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "formatMl": 100,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/airmust/blue-hopper-airmust/redfire-100-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxbno003futw43gkelkoj",
+    "catalogName": "Leox 60 ml",
+    "name": "Leox 60 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "formatMl": 60,
+    "nicotine": "0 mg/ml (60 dans 75)",
+    "ean": "3701719511975",
+    "sumupProductId": "863b1b33-8966-46f3-99d3-85a23a8a657b",
+    "photoUrl": null,
+    "missingFields": [
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96d3l4002duto8ofm7zl8u",
+    "catalogName": "Custard Vanille 60 ml",
+    "name": "Custard Vanille 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "formatMl": 60,
+    "nicotine": "0 mg/ml (60 dans 75) — gamme AirMust 60 ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/_raw/biarritz-lab/mamita/cafe-vanille-custard.png",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96cva3000juto861bzosuz",
+    "catalogName": "Senka",
+    "name": "Senka",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice",
+    "formatMl": null,
+    "nicotine": null,
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": null,
+    "missingFields": [
+      "ean",
+      "format",
+      "nicotine",
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96cv9n000huto852mjfs8t",
+    "catalogName": "Yuluma",
+    "name": "Yuluma",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice",
+    "formatMl": null,
+    "nicotine": null,
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": null,
+    "missingFields": [
+      "ean",
+      "format",
+      "nicotine",
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96dg8g003quto89pjgiunm",
+    "catalogName": "Café Frappé 50 ml",
+    "name": "Café Frappé 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "formatMl": 50,
+    "nicotine": null,
+    "ean": "5407007436156",
+    "sumupProductId": "1a6b5d29-e702-4f4e-a2ab-f6ee72a1894e",
+    "photoUrl": "/media/products/liquide-lab/big-kawa/cafe-frappe-50-ml.png",
+    "missingFields": [
+      "nicotine"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96dg8p003suto8n6icokt7",
+    "catalogName": "Café Noisette 50 ml",
+    "name": "Café Noisette 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "formatMl": 50,
+    "nicotine": null,
+    "ean": "5407007433414",
+    "sumupProductId": "2359899a-4bac-4b5b-b230-58fb47f38b5c",
+    "photoUrl": "/media/products/liquide-lab/big-kawa/cafe-noisette-50-ml.png",
+    "missingFields": [
+      "nicotine"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96dg92003uuto8ct4u3tbj",
+    "catalogName": "Café Caramel 50 ml",
+    "name": "Café Caramel 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "formatMl": 50,
+    "nicotine": null,
+    "ean": "5407007432646",
+    "sumupProductId": "a585669e-a003-4bcb-8021-8e6a0d13c205",
+    "photoUrl": "/media/products/liquide-lab/big-kawa/cafe-caramel-50-ml.jpg",
+    "missingFields": [
+      "nicotine"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9sp000putw44vlnkgd3",
+    "catalogName": "Pyro 50 ml",
+    "name": "Pyro 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml (50 dans 75)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/pyro-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9tg000tutw4ymtit729",
+    "catalogName": "Candy 50 ml",
+    "name": "Candy 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/candy-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9tz000vutw4idpu2oni",
+    "catalogName": "Candy Gold Edition 50 ml",
+    "name": "Candy Gold Edition 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/candy-gold-edition-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9ud000xutw4r882v2ss",
+    "catalogName": "Xena 50 ml",
+    "name": "Xena 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml (50 dans 75)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/xena-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9ur000zutw4muap1dwc",
+    "catalogName": "Yumi 50 ml",
+    "name": "Yumi 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/yumi-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9vz0015utw43lobsks0",
+    "catalogName": "Lilya 50 ml",
+    "name": "Lilya 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/lilya-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9we0017utw4r7t8uw6f",
+    "catalogName": "Ruby 50 ml",
+    "name": "Ruby 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/vape-47/ruby-x-furiosa-eggz-v2.webp",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9wt0019utw4irgbxyqa",
+    "catalogName": "Vigo 50 ml",
+    "name": "Vigo 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": null,
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxa71001hutw4zvhltm60",
+    "catalogName": "Bisou Black 50 ml",
+    "name": "Bisou Black 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": "bc584d4d-17eb-4f05-94de-b1005bfd0151",
+    "photoUrl": "/media/products/swoke/bisou-swoke/bisou-black-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxa7g001jutw43yc86w8j",
+    "catalogName": "Bisou Yellow 50 ml",
+    "name": "Bisou Yellow 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/bisou-swoke/bisou-yellow-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gxa7q001lutw470n0r7s6",
+    "catalogName": "Bisou V2 50 ml",
+    "name": "Bisou V2 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/bisou-swoke/bisou-v2-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9t3000rutw4q9tu7bld",
+    "catalogName": "Atlas 50 ml",
+    "name": "Atlas 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml (50 dans 75)",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/atlas-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms9gx9vi0013utw4hund92s9",
+    "catalogName": "Frost 50 ml",
+    "name": "Frost 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "formatMl": 50,
+    "nicotine": "0 mg/ml",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/swoke/saint-flava-swoke/frost-50-ml.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  },
+  {
+    "productId": "cms96dhnv004wuto8813gy228",
+    "catalogName": "Sour Sorbet",
+    "name": "Sour Sorbet",
+    "manufacturer": "T-Juice",
+    "range": "T-Juice 50 mL",
+    "formatMl": 50,
+    "nicotine": "formats multiples possibles",
+    "ean": null,
+    "sumupProductId": null,
+    "photoUrl": "/media/products/t-juice/t-juice-50-ml/sour-sorbet.jpg",
+    "missingFields": [
+      "ean"
+    ],
+    "complete": false
+  }
+]

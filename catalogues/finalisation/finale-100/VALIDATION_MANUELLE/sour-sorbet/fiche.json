@@ -1,0 +1,210 @@
+{
+  "productId": "cms96dhnv004wuto8813gy228",
+  "catalogName": "Sour Sorbet",
+  "fullName": "Sour Sorbet",
+  "manufacturer": "T-Juice",
+  "range": "T-Juice 50 mL",
+  "formatMl": null,
+  "pgVg": null,
+  "nicotineSoldAs": "Formats multiples possibles — non tranché pour cette fiche",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/sour-sorbet.jpg",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/t-juice-t-juice-50-ml.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "format",
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Sour Sorbet",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "T-Juice",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "T-Juice 50 mL",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/sour-sorbet/sour-sorbet.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/sour-sorbet/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/sour-sorbet/fiche.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/sour-sorbet/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/sour-sorbet.json",
+      "field": "nicotine",
+      "value": "Formats multiples possibles — non tranché pour cette fiche",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/sour-sorbet.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/sour-sorbet.jpg",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Sour Sorbet» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Sour Sorbet» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Sour Sorbet» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Sour Sorbet» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 sour-sorbet.jpg",
+    "Photo fichier score=1.00 sour-sorbet.jpg",
+    "Photo fichier score=1.00 sour-sorbet.jpg"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:42.301Z"
+}

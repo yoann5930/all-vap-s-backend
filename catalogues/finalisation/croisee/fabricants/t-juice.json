@@ -1,0 +1,16 @@
+{
+  "name": "T-Juice",
+  "productsIncomplete": [
+    "Sour Sorbet"
+  ],
+  "sources": [
+    "prisma:Manufacturer",
+    "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+    "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+    "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+    "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+    "catalogues/finalisation/recherche-web/produits-retrouves/sour-sorbet.json",
+    "catalogues/finalisation/recherche-web/fiches/sour-sorbet.json",
+    "catalogues/finalisation/produits-corriges/impossibles.json"
+  ]
+}

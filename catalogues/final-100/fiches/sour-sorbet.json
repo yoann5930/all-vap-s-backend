@@ -1,0 +1,16 @@
+{
+  "productId": "cms96dhnv004wuto8813gy228",
+  "catalogName": "Sour Sorbet",
+  "name": "Sour Sorbet",
+  "manufacturer": "T-Juice",
+  "range": "T-Juice 50 mL",
+  "formatMl": 50,
+  "nicotine": "formats multiples possibles",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/t-juice/t-juice-50-ml/sour-sorbet.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cms9gx9we0017utw4r7t8uw6f",
+  "slug": "ruby-50-saint-flava",
+  "nom": "Ruby 50 ml",
+  "description": "Officiel Saint Flava — SumUp à lier.",
+  "seo": {
+    "title": "Ruby 50 ml | Swoke | All Vap's",
+    "description": "Officiel Saint Flava — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "Swoke",
+    "gamme": "Saint Flava",
+    "saveur": "Ruby",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/vape-47/ruby-x-furiosa-eggz-v2.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\vape-47\\ruby-x-furiosa-eggz-v2.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\swoke\\ranges\\saint-flava-swoke.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/ruby-50-saint-flava.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/swoke__saint-flava-swoke.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

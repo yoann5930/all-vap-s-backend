@@ -1,0 +1,1 @@
+> **Archivé.** Contenu canonique : [`RAPPORT_AVA_COMPATIBILITES.md`](./RAPPORT_AVA_COMPATIBILITES.md) · [`RAPPORT_GLOBAL.md`](./RAPPORT_GLOBAL.md)

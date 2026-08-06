@@ -1,0 +1,35 @@
+{
+  "productId": "cms96d3ij001tuto8m3peencv",
+  "catalogName": "Fruits Rouges 60 ml",
+  "officialName": "AIRMUST • Fruits Rouges 60ml (catalogue)",
+  "manufacturer": "AirMust",
+  "range": "AirMust 60ml / UNIK (libellé catalogue)",
+  "flavor": "Fruits Rouges",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (60 dans 75) — gamme AirMust 60 ml",
+  "nicotineBoost": "1 → 3 mg/ml ; 2 → 6 mg/ml (doc airmust 60 ml)",
+  "description": "Référence catalogue Fruits Rouges 60 ml — format/PGVG/nicotine selon standard AirMust 60 ml (0 mg shortfill, 50/50). EAN produit à confirmer sur page exacte.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/fruits-rouges-60-ml/photo.webp",
+  "bannerLocal": "catalogues/validation-finale/fruits-rouges-60-ml/banniere.webp",
+  "sourceUrls": [
+    "https://airmust.com/"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:43.323Z"
+}

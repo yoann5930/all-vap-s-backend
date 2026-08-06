@@ -1,0 +1,223 @@
+{
+  "productId": "cms96dgqr004juto8b4foj32h",
+  "catalogName": "Mûre Cassis 50 ml",
+  "manufacturer": "Alfa",
+  "range": "Granita Soft",
+  "officialName": "Granita Soft (Alfaliquid)",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/mure-cassis-50-ml.jpg",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/alfa-granita-soft.svg",
+  "status": "incomplet",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "50 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv_start.json",
+      "field": "range",
+      "value": "granita-soft-alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/mure-cassis-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/mure-cassis-50-ml.json",
+      "field": "formatMl",
+      "value": "50",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Alfa",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Granita Soft",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue",
+    "Image fichier score=1.00 mure-cassis-50-ml.jpg"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:22.947Z"
+}

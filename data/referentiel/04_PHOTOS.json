@@ -1,0 +1,2022 @@
+{
+  "date": "2026-07-29T21:09:29.762Z",
+  "perimetre": "tous les produits MASTER (127) + état photothèque des 91 validés",
+  "officielles": 35,
+  "manquantes": 88,
+  "aVerifier": 4,
+  "validesAvecPhoto": 34,
+  "validesSansPhoto": 57,
+  "items": [
+    {
+      "idMaster": "AV-Biarritz-Bowl_de_Cereales",
+      "nom": "Bowl de Céréales",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/bowl_de_cereales_noisette_pecan.png?v=1764352240",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/bowl-de-cereales-noisette-pecan-creme.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Bowl_de_Cereales_Coco",
+      "nom": "Bowl de Céréales Coco",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Biarritz-Bowl_de_Cereales_Marshmallow",
+      "nom": "Bowl de Céréales Marshmallow",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Biarritz-Bowl_de_Cereales_Noisette_Pecan_Creme",
+      "nom": "Bowl de Céréales Noisette Pécan Crème",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/bowl_de_cereales_noisette_pecan.png?v=1764352240",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/bowl-de-cereales-noisette-pecan-creme.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Cafe_Creme",
+      "nom": "Café Crème",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Biarritz-Cafe_Stout",
+      "nom": "Café Stout",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/cafe_stout.png?v=1764352240",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/cafe-stout.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Cafe_Vanille_Custard",
+      "nom": "Café Vanille Custard",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/cafe_vanille_custard_7dd47cd9-43dc-4fde-a049-7cad8c5065b4.png?v=1764352239",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/cafe-vanille-custard.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Cake_Caramel_Fume",
+      "nom": "Cake Caramel Fumé",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Biarritz-Cookie_Choco_Noisette",
+      "nom": "Cookie Choco Noisette",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/cookie_choco_noisette.png?v=1764352240",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/cookie-choco-noisette.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Custard_Vanille_Pecan",
+      "nom": "Custard Vanille Pécan",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "http://biarritz-lab.com/cdn/shop/files/custard_vanille_pecan.png?v=1764352241",
+      "amelioree": true,
+      "publicUrl": "/media/products/biarritz-lab/mamita/50ml/custard-vanille-pecan.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Biarritz-Financier_Pistache",
+      "nom": "Financier Pistache",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Biarritz-Fraises_a_la_Creme",
+      "nom": "Fraises à la Crème",
+      "fabricant": "Biarritz Lab",
+      "gamme": "Mamita",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cloud_Vapor-Zombie",
+      "nom": "Zombie",
+      "fabricant": "Cloud Vapor",
+      "gamme": "Call of Vape",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Crazy_Bird",
+      "nom": "Da Crazy Bird",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Crusty_King",
+      "nom": "Da Crusty King",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Good_Snake",
+      "nom": "Da Good Snake",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Loving_Witch",
+      "nom": "Da Loving Witch",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Smoky_Eye",
+      "nom": "Da Smoky Eye",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Cookin_Cloud-Da_Sweet_Face",
+      "nom": "Da Sweet Face",
+      "fabricant": "Cookin Cloud",
+      "gamme": "Myst",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Illusion-Skylor",
+      "nom": "Skylor",
+      "fabricant": "Illusion",
+      "gamme": "Illusion",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Illusion-Zephyr",
+      "nom": "Zephyr",
+      "fabricant": "Illusion",
+      "gamme": "Illusion",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Juice_66-Frost",
+      "nom": "Frost",
+      "fabricant": "Juice 66",
+      "gamme": "Juice 66",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Juice_66-Snow",
+      "nom": "Snow",
+      "fabricant": "Juice 66",
+      "gamme": "Juice 66",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0032",
+      "nom": "Edition Collection - Miss Blue",
+      "fabricant": "Liquidarom",
+      "gamme": "Edition Collection",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0040",
+      "nom": "Ice Cool X - Blackberry Raspberry",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool X",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3395-large_default/e-liquide-blackberry-raspberry-50ml-ice-cool-x.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blackberry-raspberry.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0038",
+      "nom": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool X",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3394-large_default/e-liquide-blackcurrant-raspberry-grape-50ml-ice-cool-x.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blackcurrant-raspberry-grape.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0036",
+      "nom": "Ice Cool X - Blue Raspberry Pitaya",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool X",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3393-large_default/e-liquide-blue-raspberry-pitaya-50ml-ice-cool-x.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blue-raspberry-pitaya.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0039",
+      "nom": "Ice Cool X - Mixed Red Berries",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool X",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3392-large_default/e-liquide-mixed-red-berries-50ml-ice-cool-x.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/mixed-red-berries.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0037",
+      "nom": "Ice Cool X - Watermelon Lemon",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool X",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3391-large_default/e-liquide-watermelon-lemon-50ml-ice-cool-x.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/watermelon-lemon.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0015",
+      "nom": "Ice Cool - Ananas Kiwi jaune",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Ananas_Kiwi_Jaune_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/ananas-kiwi-jaune.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0011",
+      "nom": "Ice Cool - Cactus citronné Framboise Fruit du dragon",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "a_verifier",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0001",
+      "nom": "Ice Cool - Cassis Citron",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Cassis_Citron_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-citron.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0006",
+      "nom": "Ice Cool - Cassis Framboise Raisin",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Cassis_Framboise_Raisin_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-framboise-raisin.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0020",
+      "nom": "Ice Cool - Cassis Mangue",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Cassis_Mangue_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-mangue.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0021",
+      "nom": "Ice Cool - Citron Pastèque",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_citron_pasteque.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/citron-pasteque.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0010",
+      "nom": "Ice Cool - Citron vert Orange sanguine",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Citron_vert_Orange_sanguine_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/citron-vert-orange-sanguine.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0012",
+      "nom": "Ice Cool - Cocktail exotique",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Cocktail_Exotique_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cocktail-exotique.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0005",
+      "nom": "Ice Cool - Cola Pomme",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Cola_Pomme_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cola-pomme.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0014",
+      "nom": "Ice Cool - Extra Fruits rouges",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Extra_Fruits_Rouges_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/extra-fruits-rouges.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0013",
+      "nom": "Ice Cool - Fraise Framboise Basilic",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Fraise_Framboise_Basilic_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fraise-framboise-basilic.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0022",
+      "nom": "Ice Cool - Framboise bleue Pitaya",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Framboise_Bleue_Pitaya_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/framboise-bleue-pitaya.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0003",
+      "nom": "Ice Cool - Framboise des bois",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "a_verifier",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0007",
+      "nom": "Ice Cool - Fruit du dragon Fruits rouges",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Fruit_du_dragon_Fruits_rouges_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-dragon-fruits-rouges.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0018",
+      "nom": "Ice Cool - Fruit du serpent Framboise",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Fruit_du_Serpent_Framboise_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-serpent-framboise.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0023",
+      "nom": "Ice Cool - Grenade tropicale",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Grenade_Tropicale_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/grenade-tropicale.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0019",
+      "nom": "Ice Cool - Kiwi Banane",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Kiwi_Banane_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/kiwi-banane.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0009",
+      "nom": "Ice Cool - Mangue Passion",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_E_liquide_Mangue_Passion_50ml_ICE_COOL.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/mangue-passion.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0008",
+      "nom": "Ice Cool - Mûre Framboise",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "a_verifier",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0017",
+      "nom": "Ice Cool - Pastèque Fruits rouges",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_pasteque_fruits_rouges.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/pasteque-fruits-rouges.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0016",
+      "nom": "Ice Cool - Pêche Myrtille",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0002",
+      "nom": "Ice Cool - Pêche Raisin",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "local_packshot",
+      "source": "C:\\Users\\ASUS\\Downloads\\All_Vaps_Dossier_Complet\\All_Vaps_Dossier_Complet\\Fabricants\\Liquidarom\\Packshots\\packshot_peche_raisin.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/peche-raisin.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0004",
+      "nom": "Ice Cool - Pomme verte Orange",
+      "fabricant": "Liquidarom",
+      "gamme": "Ice Cool",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "a_verifier",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0024",
+      "nom": "Les Collègues - La Coquette",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_photo_autre_produit_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0030",
+      "nom": "Les Collègues - La Mimi",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_photo_autre_produit_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0025",
+      "nom": "Les Collègues - Le Balèze",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_photo_autre_produit_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0026",
+      "nom": "Les Collègues - Le Charmeur",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_photo_autre_produit_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0031",
+      "nom": "Les Collègues - Le ChocoStar",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3051-large_default/e-liquide-le-chocostar-50ml-les-collegues.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/les-collegues-le-chocostar.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0029",
+      "nom": "Les Collègues - Le Flambeur",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3050-large_default/e-liquide-le-flambeur-50ml-les-collegues.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/les-collegues-le-flambeur.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0027",
+      "nom": "Les Collègues - Le Funkie",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3049-large_default/e-liquide-le-funkie-50ml-les-collegues.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/les-collegues-le-funkie.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0028",
+      "nom": "Les Collègues - Le Tchatcheur",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Collègues",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/3048-large_default/e-liquide-le-tchatcheur-50ml-les-collegues.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/les-collegues-le-tchatcheur.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0035",
+      "nom": "Les Essentiels - Le P'tit Blond",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Essentiels",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_mauvais_format_retiree_attendu_50ml",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-0034",
+      "nom": "Les Essentiels - Mojito des îles",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Essentiels",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://www.liquidarom.com/2640-large_default/e-liquide-mojito-des-iles-50ml-les-essentiels.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/liquidarom/les-essentiels/50ml/mojito-des-iles.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-0033",
+      "nom": "Les Essentiels - Pastis 13",
+      "fabricant": "Liquidarom",
+      "gamme": "Les Essentiels",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_mauvais_format_retiree_attendu_50ml",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Beast",
+      "nom": "Beast",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Berrywood",
+      "nom": "Berrywood",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Black_Summer",
+      "nom": "Black Summer",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Blue",
+      "nom": "Blue",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Dark_Rainbow",
+      "nom": "Dark Rainbow",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Delicious",
+      "nom": "Delicious",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Draco",
+      "nom": "Draco",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Enigma",
+      "nom": "Enigma",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Gold",
+      "nom": "Gold",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Green",
+      "nom": "Green",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Lime",
+      "nom": "Lime",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Mojito",
+      "nom": "Mojito",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Mystery",
+      "nom": "Mystery",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Mystery_Ice",
+      "nom": "Mystery Ice",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Pink",
+      "nom": "Pink",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Purple",
+      "nom": "Purple",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Red_Wedding",
+      "nom": "Red Wedding",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Silver_Wing",
+      "nom": "Silver Wing",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Sunburst",
+      "nom": "Sunburst",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Sunny",
+      "nom": "Sunny",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Velvet",
+      "nom": "Velvet",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-MDS_Juic-Virgo",
+      "nom": "Virgo",
+      "fabricant": "MDS Juice",
+      "gamme": "MDS Juice",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "site_fabricant_non_reference_ou_non_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Akashi",
+      "nom": "Akashi",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Hanzo",
+      "nom": "Hanzo",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Maneki",
+      "nom": "Maneki",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Musashi",
+      "nom": "Musashi",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Ryujin",
+      "nom": "Ryujin",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Teruha",
+      "nom": "Teruha",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_Liquide-Zenko",
+      "nom": "Zenko",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Kyoto Storm",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "faux_positif_logo_fabricant_retire",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_L-Aphrodite",
+      "nom": "Aphrodite",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Olympe",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_L-Athena",
+      "nom": "Athéna",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Olympe",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_L-Hades",
+      "nom": "Hadès",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Olympe",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_L-Poseidon",
+      "nom": "Poséidon",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Olympe",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Raneki_L-Zeus",
+      "nom": "Zeus",
+      "fabricant": "Raneki Liquide",
+      "gamme": "Olympe",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-T_Juice-Raven_Blue",
+      "nom": "Raven Blue",
+      "fabricant": "T-Juice",
+      "gamme": "T-Juice 50 mL",
+      "format": null,
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Blue",
+      "nom": "Enfer Blue",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Dragon",
+      "nom": "Enfer Dragon",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Green",
+      "nom": "Enfer Green",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Mango",
+      "nom": "Enfer Mango",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Original",
+      "nom": "Enfer Original",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "officielle",
+      "sourceType": "fabricant_officiel",
+      "source": "https://order.vape47.com/3548-large_default/enfer-original-0mg-ml-50ml.jpg",
+      "amelioree": true,
+      "publicUrl": "/media/products/vape-47/enfer/10ml/original.webp",
+      "anomalies": []
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Pink",
+      "nom": "Enfer Pink",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Purple",
+      "nom": "Enfer Purple",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Red",
+      "nom": "Enfer Red",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Ultimate_Freeze",
+      "nom": "Enfer Ultimate Freeze",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Enfer_Yellow",
+      "nom": "Enfer Yellow",
+      "fabricant": "Vape 47",
+      "gamme": "Enfer",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Aria",
+      "nom": "Aria",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Doom",
+      "nom": "Doom",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Falkor",
+      "nom": "Falkor",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Griffon",
+      "nom": "Griffon",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Ivy",
+      "nom": "Ivy",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Juno",
+      "nom": "Juno",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Lothar_V2",
+      "nom": "Lothar V2",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Nova",
+      "nom": "Nova",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Ruby",
+      "nom": "Ruby",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Ryu",
+      "nom": "Ryu",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Soko",
+      "nom": "Soko",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Ultron",
+      "nom": "Ultron",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "a_verifier",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Volta",
+      "nom": "Volta",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Eggz",
+      "format": "50ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Kaiser",
+      "nom": "Kaiser",
+      "fabricant": "Vape 47",
+      "gamme": "Furiosa Skinz",
+      "format": null,
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Kansas_Rouge",
+      "nom": "Baron Rouge",
+      "fabricant": "Vape 47",
+      "gamme": "L'Invapable",
+      "format": "100ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Hyper_Dragon",
+      "nom": "Hyper Dragon",
+      "fabricant": "Vape 47",
+      "gamme": "L'Invapable",
+      "format": "100ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape47-polar_vortex",
+      "nom": "Polar Vortex",
+      "fabricant": "Vape 47",
+      "gamme": "L'Invapable",
+      "format": "100ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_47-Ultra_Fraise",
+      "nom": "Ultra Fraise",
+      "fabricant": "Vape 47",
+      "gamme": "L'Invapable",
+      "format": "100ml",
+      "catalogStatus": "valide",
+      "photoStatus": "manquante",
+      "sourceType": "aucune",
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "aucune_photo_officielle_fiable",
+        "photo_manquante"
+      ]
+    },
+    {
+      "idMaster": "AV-Vape_Maker-Kaiju_references_non_lues",
+      "nom": "Kaiju (références non lues)",
+      "fabricant": "Vape Maker",
+      "gamme": "Kaiju",
+      "format": "50ml",
+      "catalogStatus": "hors_sumup",
+      "photoStatus": "manquante",
+      "sourceType": null,
+      "source": null,
+      "amelioree": false,
+      "publicUrl": null,
+      "anomalies": [
+        "photo_manquante"
+      ]
+    }
+  ]
+}

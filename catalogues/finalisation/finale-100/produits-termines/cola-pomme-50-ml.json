@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxd4o0053utw4a2l1hi59",
+  "catalogName": "Cola Pomme 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1490-cola-pomme-50ml-3760202040637.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Cola, Pomme | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040637",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://www.eliquid-france.com/5083-full_default/cola-pomme-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/cola-pomme-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Cola, Pomme | Fruizee Max 50mL | All Vap's",
+    "description": "Cola, Pomme | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.953Z",
+  "finalizedVia": "recherche-web"
+}

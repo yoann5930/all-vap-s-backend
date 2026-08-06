@@ -1,0 +1,24 @@
+{
+  "active": 378,
+  "published": 218,
+  "offline": 160,
+  "noSumup": 98,
+  "noPhotoWithSumup": 62,
+  "brokenImage": 0,
+  "gateFailPublished": 0,
+  "issueCount": 2,
+  "issues": [
+    {
+      "type": "manufacturer_range_mismatch",
+      "slug": "athena-50ml-olympe-raneki-liquide-4e377f9d",
+      "mfr": "raneki-liquide",
+      "range": "god-fall-city"
+    },
+    {
+      "type": "manufacturer_range_mismatch",
+      "slug": "poseidon-50ml-olympe-raneki-liquide-e4840756",
+      "mfr": "raneki-liquide",
+      "range": "god-fall-city"
+    }
+  ]
+}

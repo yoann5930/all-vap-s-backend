@@ -1,0 +1,234 @@
+{
+  "productId": "cms9gx9k6000hutw4iw8rdoba",
+  "catalogName": "Force Violette 100 ml",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "officialName": "Force Violette 100 ml — Force Vape",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml (100 dans 120)",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": "",
+  "sumupProductId": null,
+  "photoLocal": "catalogues/finalisation/croisee/photos/force-violette-100-ml.jpg",
+  "photoSource": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+  "bannerLocal": "catalogues/finalisation/croisee/bannieres/swoke-force-vape.webp",
+  "status": "incomplet",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "prisma:Product.volumeMl",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:Manufacturer",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "prisma:ProductRange",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+      "field": "formatMl",
+      "value": "100 ml",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "manufacturer",
+      "value": "swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "strict_name"
+    },
+    {
+      "source": "data/rebuild/_inv.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "data/rebuild/_inv_start.json",
+      "field": "range",
+      "value": "force-vape-swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-violette-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 dans 120)",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-violette-100-ml.json",
+      "field": "formatMl",
+      "value": "100",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/produits-corriges/impossibles.json",
+      "field": "range",
+      "value": "Force Vape",
+      "confidence": "exact_id"
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+      "confidence": "filename"
+    }
+  ],
+  "notes": [
+    "EAN 6410947308338 était celui de Force Jaune — invalidé",
+    "Image fichier score=1.00 force-violette-100-ml.jpg"
+  ],
+  "recoveredFromArchives": false,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "productNotDeleted": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:57:20.588Z"
+}

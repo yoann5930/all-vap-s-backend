@@ -164,21 +164,28 @@ export default async function StoreDetailPage({ params }: Props) {
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {store.googleReviews.map((review) => (
-              <Card key={`${review.author}-${review.date}`}>
-                <CardBody>
-                  <div className="flex items-center gap-1 text-amber-500">
-                    {Array.from({ length: review.rating }).map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-600">&ldquo;{review.text}&rdquo;</p>
-                  <p className="mt-3 text-xs font-medium text-gray-500">
-                    {review.author} · {review.date}
-                  </p>
-                </CardBody>
-              </Card>
-            ))}
+            {store.googleReviews.length === 0 ? (
+              <p className="text-sm text-gray-500 sm:col-span-2 lg:col-span-3">
+                Les avis Google seront affichés ici dès le branchement de l&apos;API Places.
+                En attendant, consultez-les directement sur Google Maps.
+              </p>
+            ) : (
+              store.googleReviews.map((review) => (
+                <Card key={`${review.author}-${review.date}`}>
+                  <CardBody>
+                    <div className="flex items-center gap-1 text-amber-500">
+                      {Array.from({ length: review.rating }).map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                      ))}
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-600">&ldquo;{review.text}&rdquo;</p>
+                    <p className="mt-3 text-xs font-medium text-gray-500">
+                      {review.author} · {review.date}
+                    </p>
+                  </CardBody>
+                </Card>
+              ))
+            )}
           </div>
         </section>
 

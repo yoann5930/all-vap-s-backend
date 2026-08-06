@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxbg2003butw4wcseseg9",
+  "catalogName": "Yellowstorm 200 ml",
+  "officialName": "HOPPER • Yellowstorm 200ml",
+  "manufacturer": "AirMust",
+  "range": "Hopper",
+  "flavor": "Pêche, fruits du soleil",
+  "formatMl": 200,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "selon flacon 200 ml (doc airmust)",
+  "description": "HOPPER Yellowstorm 200 ml par AirMust — shortfill 0 mg, PG/VG 50/50, fabriqué en France.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/yellowstorm-200-ml/photo.jpg",
+  "bannerLocal": "catalogues/validation-finale/yellowstorm-200-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/200ml/",
+    "https://airmust.com/300-hopper",
+    "https://airmust.com/306-200ml-hopper"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:42.706Z"
+}

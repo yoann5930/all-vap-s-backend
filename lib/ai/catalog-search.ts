@@ -43,12 +43,18 @@ const PHRASE_BOOSTS: Array<{ pattern: RegExp; boost: number }> = [
 ];
 
 function productBlob(p: CatalogProduct): string {
-  return `${p.name} ${p.description ?? ""} ${p.brand ?? ""} ${p.category}`.toLowerCase();
+  const flavorBits = [
+    (p as CatalogProduct & { searchKeywords?: string }).searchKeywords,
+    (p as CatalogProduct & { range?: string }).range,
+    (p as CatalogProduct & { primaryFlavor?: string }).primaryFlavor,
+  ];
+  return `${p.name} ${p.description ?? ""} ${p.brand ?? ""} ${p.category} ${flavorBits.filter(Boolean).join(" ")}`.toLowerCase();
 }
 
 function isAvailableForOffer(p: CatalogProduct): boolean {
-  if (p.stockKnown === false) return false;
+  // Si stock SumUp inconnu : fallback sur stock legacy produit (>0)
   const available = p.availableQuantity != null ? p.availableQuantity : p.stock;
+  if (p.stockKnown === false) return available > 0;
   return available > 0;
 }
 

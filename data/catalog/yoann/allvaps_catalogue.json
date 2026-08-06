@@ -1,0 +1,385 @@
+{
+  "schema_version": "1.0.0",
+  "project": "All Vap's - Catalogue e-liquides",
+  "status": "draft_audited",
+  "generated_at": "2026-07-31",
+  "deduplication": {
+    "manufacturer_key": "normalized_name",
+    "range_key": "manufacturer_id + normalized_name",
+    "product_key": "range_id + normalized_name + format_ml"
+  },
+  "manufacturers": [
+    {
+      "id": "guilab",
+      "name": "Guilab",
+      "ranges": [
+        {"name": "Vapetasty", "products": []},
+        {"name": "Red Valentine", "products": []},
+        {"name": "Faken' Vape", "products": []},
+        {"name": "Ark Vape", "products": []},
+        {"name": "Les Trois Mousquet'Air", "products": []},
+        {"name": "Assassin Vape", "products": []}
+      ]
+    },
+    {
+      "id": "swoke",
+      "name": "Swoke",
+      "ranges": [
+        {
+          "name": "Force Vape",
+          "products": [
+            {"name": "Force Bleue"},
+            {"name": "Force Jaune"},
+            {"name": "Force Noire"},
+            {"name": "Force Rouge"},
+            {"name": "Force Verte"},
+            {"name": "Force Violette"}
+          ]
+        },
+        {"name": "Kiss Cool", "products": []},
+        {"name": "Saint Flava", "products": []},
+        {"name": "Bisou", "products": []},
+        {"name": "Freeze", "products": []},
+        {"name": "Titi", "products": []}
+      ]
+    },
+    {
+      "id": "juice-66",
+      "name": "Juice 66",
+      "aliases": ["66 Juice"],
+      "ranges": [
+        {"name": "Icebreak", "products": []},
+        {"name": "Empire", "products": []},
+        {"name": "Dollar", "products": []},
+        {"name": "Illusion", "products": []},
+        {"name": "Paradise", "products": []},
+        {"name": "Dinos", "products": []},
+        {"name": "Chaser", "products": []},
+        {"name": "Juice Machine", "products": []},
+        {"name": "66 Juice", "products": [
+          {"name": "Saforia"},
+          {"name": "Yuluma"},
+          {"name": "Tsune"},
+          {"name": "Senka"},
+          {"name": "Kimi"}
+        ]}
+      ]
+    },
+    {
+      "id": "aromes-secrets",
+      "name": "Aromes & Secrets",
+      "ranges": [
+        {
+          "name": "Mythologie",
+          "products": [
+            {"name": "Milo"},
+            {"name": "Etna"},
+            {"name": "Baru"},
+            {"name": "Arathorn"},
+            {"name": "Esteli"},
+            {"name": "Maïpo"},
+            {"name": "Linzor"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "made-in-vape-distrib",
+      "name": "Made In Vape Distrib",
+      "ranges": [
+        {"name": "MIV Distrib", "products": [
+          {"name": "Godji"},
+          {"name": "White Blizz"}
+        ]}
+      ]
+    },
+    {
+      "id": "cloud-vapor",
+      "name": "Cloud Vapor",
+      "ranges": [
+        {"name": "Call Of Vape", "products": []},
+        {"name": "Call Of Vape Blackout", "products": []},
+        {"name": "Grand Taste City", "aliases": ["GTC"], "products": [
+          {"name": "Diamond Casino"},
+          {"name": "Mint Heist"},
+          {"name": "Paleta Score"},
+          {"name": "Perico"},
+          {"name": "Redwood"}
+        ]}
+      ]
+    },
+    {
+      "id": "etasty",
+      "name": "e.Tasty",
+      "ranges": [
+        {"name": "Golf City", "products": []},
+        {"name": "Twenty", "products": [
+          {"name": "Double Pêche", "format_ml": 20},
+          {"name": "Fruit du Dragon Cerise", "format_ml": 20},
+          {"name": "Limonade Citron Cassis", "format_ml": 20},
+          {"name": "Fruits Rouges", "format_ml": 20},
+          {"name": "Menthe Polaire", "format_ml": 20}
+        ]},
+        {"name": "Letters", "products": [
+          {"name": "A", "format_ml": 100},
+          {"name": "B", "format_ml": 100},
+          {"name": "C", "format_ml": 100}
+        ]}
+      ]
+    },
+    {
+      "id": "the-fuu",
+      "name": "The FUU",
+      "ranges": [
+        {"name": "Cloud Empire", "products": []}
+      ]
+    },
+    {
+      "id": "airmust",
+      "name": "AirMust",
+      "ranges": [
+        {"name": "Blue Hopper", "products": []},
+        {"name": "Hopper", "products": []},
+        {"name": "Society Club", "products": []},
+        {"name": "Ferox", "products": []},
+        {"name": "L'Ovalie", "products": [
+          {"name": "Le Plaquage", "flavor": "Litchi Fraise"},
+          {"name": "Transformation", "flavor": "Pêche Melon"},
+          {"name": "Le Drop", "flavor": "Limonade Fraise"}
+        ]},
+        {"name": "Press Start", "products": []},
+        {"name": "UNIK", "products": [
+          {"name": "Fruits Rouges", "format_ml": 60},
+          {"name": "Popcorn", "format_ml": 60},
+          {"name": "Pêche", "format_ml": 60},
+          {"name": "Pure Passion", "format_ml": 60},
+          {"name": "Mangue", "format_ml": 60},
+          {"name": "Pomme Harmonie", "format_ml": 60},
+          {"name": "Poire", "format_ml": 60},
+          {"name": "Menthe Glaciale", "format_ml": 60},
+          {"name": "Fraise Sauvage", "format_ml": 60},
+          {"name": "Raisin Noir", "format_ml": 60},
+          {"name": "Custard Vanille", "format_ml": 60},
+          {"name": "Menthe du Jardin", "format_ml": 60},
+          {"name": "Framboise", "format_ml": 60}
+        ]}
+      ]
+    },
+    {
+      "id": "mg-vape",
+      "name": "MG Vape",
+      "ranges": [
+        {"name": "Medusa", "products": []}
+      ]
+    },
+    {
+      "id": "cumulus",
+      "name": "Cumulus",
+      "ranges": []
+    },
+    {
+      "id": "mexican-cartel",
+      "name": "Mexican Cartel",
+      "ranges": []
+    },
+    {
+      "id": "kf-studio",
+      "name": "KF Studio",
+      "ranges": [
+        {"name": "King Freeze", "products": []}
+      ]
+    },
+    {
+      "id": "budz-vape",
+      "name": "Budz Vape",
+      "ranges": [
+        {"name": "Pandora", "products": []}
+      ]
+    },
+    {
+      "id": "avap",
+      "name": "AVAP",
+      "ranges": [
+        {"name": "Devil", "products": [
+          {"name": "Red Devil", "formats_ml": [50, 100]}
+        ]}
+      ]
+    },
+    {
+      "id": "cookin-cloud",
+      "name": "Cookin'Cloud",
+      "ranges": [
+        {"name": "MIST", "products": []}
+      ]
+    },
+    {
+      "id": "vape-47",
+      "name": "Vape 47",
+      "ranges": [
+        {"name": "ENFER", "products": []},
+        {"name": "Les Fruits d'ENFER", "products": []},
+        {"name": "Furiosa EGGZ V2", "products": [
+          {"name": "Aria"},
+          {"name": "Doom"},
+          {"name": "Griffon"},
+          {"name": "Ivy"},
+          {"name": "Juno"},
+          {"name": "Nova"},
+          {"name": "Ruby"},
+          {"name": "Ultron"},
+          {"name": "Volta"}
+        ]}
+      ]
+    },
+    {
+      "id": "eliquid-france",
+      "name": "Eliquid France",
+      "aliases": ["E-liquid France", "Iliquid France"],
+      "ranges": [
+        {"name": "Mintaïa", "products": []},
+        {"name": "Lemon'Time", "products": []},
+        {"name": "Fruizee Max", "products": []},
+        {"name": "Juice Heroes", "products": []},
+        {"name": "Fureur du Dragon", "products": []},
+        {"name": "Mister Pop Corn", "products": []}
+      ]
+    },
+    {
+      "id": "protect",
+      "name": "Protect",
+      "ranges": [
+        {"name": "Les Pollinisateurs", "products": []},
+        {"name": "Les 4 Saisons", "products": []},
+        {"name": "Parrainage", "products": []}
+      ]
+    },
+    {
+      "id": "liquideo",
+      "name": "Liquideo",
+      "ranges": [
+        {"name": "Evolution", "products": []},
+        {"name": "Dragonz", "products": []},
+        {"name": "Freeze Citrus", "products": []},
+        {"name": "Les Essentiels", "products": []}
+      ],
+      "standalone_products": [
+        {"name": "Pastis 13"}
+      ]
+    },
+    {
+      "id": "fruity-cool",
+      "name": "Fruity Cool",
+      "ranges": [
+        {"name": "Fruity Cool", "products": []}
+      ]
+    },
+    {
+      "id": "big-kawa",
+      "name": "Big Kawa",
+      "ranges": [
+        {"name": "Café", "products": [
+          {"name": "Café Frappé"},
+          {"name": "Café Noisette"},
+          {"name": "Café Caramel"}
+        ]}
+      ]
+    },
+    {
+      "id": "mukk-mukk",
+      "name": "Mukk Mukk",
+      "ranges": [
+        {"name": "Crazy Juice", "products": []},
+        {"name": "Crazy Barnacle", "products": []},
+        {"name": "Mukkies", "products": []}
+      ]
+    },
+    {
+      "id": "overdrive-juices",
+      "name": "OverDrive Juices",
+      "ranges": [
+        {"name": "OverDrive Juices", "products": [
+          {"name": "Hellflakes"},
+          {"name": "Bloody Sundaze"},
+          {"name": "Vamp Oil"},
+          {"name": "Riff Melon"}
+        ]}
+      ]
+    },
+    {
+      "id": "revenge-juices",
+      "name": "Revenge Juices",
+      "ranges": [
+        {"name": "Revenge Juices", "products": [
+          {"name": "The Widow Maker"},
+          {"name": "The Blood Bath"},
+          {"name": "The Red Krime"}
+        ]}
+      ]
+    },
+    {
+      "id": "alfa",
+      "name": "Alfa",
+      "ranges": [
+        {"name": "Granita Soft", "products": [
+          {"name": "Pêche Abricot", "format_ml": 50},
+          {"name": "Fruits Rouges", "format_ml": 50},
+          {"name": "Virgin Mojito", "format_ml": 50},
+          {"name": "Framboise", "format_ml": 50},
+          {"name": "Fraise Fruit du Dragon", "format_ml": 50},
+          {"name": "Citron Vert Melon", "format_ml": 50},
+          {"name": "Mûre Cassis", "format_ml": 50},
+          {"name": "Tropical Bleu", "format_ml": 50}
+        ]}
+      ]
+    },
+    {
+      "id": "le-maudit",
+      "name": "Le Maudit",
+      "ranges": [
+        {"name": "Le Maudit", "products": []}
+      ]
+    },
+    {
+      "id": "fruizee",
+      "name": "Fruizee",
+      "ranges": [
+        {"name": "Fruizee", "products": []}
+      ]
+    },
+    {
+      "id": "yum-ebot",
+      "name": "Yum E-Bot",
+      "ranges": [
+        {"name": "Yum E-Bot", "products": []}
+      ]
+    },
+    {
+      "id": "t-juice",
+      "name": "T-Juice",
+      "ranges": [
+        {"name": "T-Juice", "products": [
+          {"name": "Dark Enigma"},
+          {"name": "Raven Blue"},
+          {"name": "Sour Sorbet"},
+          {"name": "Pinky Pop"}
+        ]}
+      ]
+    },
+    {
+      "id": "vape-city",
+      "name": "Vape City",
+      "ranges": [
+        {"name": "Vape City", "products": []},
+        {"name": "Magic Potion", "products": []}
+      ]
+    }
+  ],
+  "pending_verification": [
+    "Compléter les catalogues officiels des gammes laissées avec products vide.",
+    "Vérifier le rattachement exact de Cumulus et Mexican Cartel selon les produits concernés.",
+    "Vérifier les appellations exactes Crazy Juice / Crazy Barnacle / Mukkies.",
+    "Vérifier la liste exhaustive ENFER, Les Fruits d'ENFER et Furiosa EGGZ V2 sur le site officiel Vape 47.",
+    "Ajouter les logos officiels fabricants après téléchargement et validation des droits d'utilisation.",
+    "Comparer ensuite avec l'export SumUp avant import définitif."
+  ]
+}

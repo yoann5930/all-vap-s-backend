@@ -1,0 +1,34 @@
+{
+  "productId": "cms96cv9n000huto852mjfs8t",
+  "catalogName": "Yuluma",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "sourceUrls": [],
+  "status": "partial",
+  "missingFields": [
+    "formatMl",
+    "pgVg",
+    "ean",
+    "photo"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/juice-66-66-juice.svg",
+  "officialName": "66 Juice",
+  "pgVg": null,
+  "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+  "nicotineBoostOptions": "inconnu",
+  "flavorNotes": "Fabricant/gamme catalogue ; sources publiques insuffisantes",
+  "seo": {
+    "title": "66 Juice | All Vap's",
+    "description": "66 Juice — Juice 66 — 66 Juice — Fabricant/gamme catalogue ; sources publiques insuffisantes"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.175Z"
+}

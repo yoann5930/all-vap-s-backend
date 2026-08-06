@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxd3q004xutw4bh803c25",
+  "catalogName": "Citron Cassis 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1487-citron-cassis-50ml-3760202040606.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Citron, Cassis | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 mg/ml (1 booster 10ml 20mg) ; ~5,7 mg/ml (2 boosters)",
+  "ean": "3760202040606",
+  "eanConfidence": "official_site",
+  "flavorNotes": "Citron et cassis — ultra frais",
+  "photoUrl": "https://www.eliquid-france.com/5077-full_default/citron-cassis-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/citron-cassis-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Citron, Cassis | Fruizee Max 50mL | All Vap's",
+    "description": "Citron, Cassis | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50 — Citron et cassis — ultra frais"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.943Z",
+  "finalizedVia": "recherche-web"
+}

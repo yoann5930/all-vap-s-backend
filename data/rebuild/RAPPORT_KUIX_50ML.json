@@ -1,0 +1,153 @@
+{
+  "date": "2026-07-31T12:33:00.783Z",
+  "published50Count": 8,
+  "unpublishedPodsCount": 32,
+  "published50": [
+    {
+      "id": "cms6euf0r00ymutmklmapdeqf",
+      "sumupName": "Kuix Ananas 50ml",
+      "displayName": "Kuix Ananas 50ml",
+      "sumupProductId": "d4966152-29b6-4d87-adfa-de2221e879ba",
+      "barcode": "5407007430017",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/ananas.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf0x00ynutmk19e1a50w",
+      "sumupName": "Kuix Bluerazz 50ml",
+      "displayName": "Kuix Bluerazz 50ml",
+      "sumupProductId": "acb63a49-3d12-46d9-b390-737b6c4a320d",
+      "barcode": "5407007430062",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/bluerazz.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf1200youtmk1zmkcx6n",
+      "sumupName": "Kuix Bubble gum pastèque 50ml",
+      "displayName": "Kuix Bubble gum pastèque 50ml",
+      "sumupProductId": "ff04e42e-5bac-4b5d-b569-40581df991c6",
+      "barcode": "5407007430024",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/bubblegum-pasteque.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf1700yputmkhb2vr8zg",
+      "sumupName": "Kuix Cassis red fruits 50ml",
+      "displayName": "Kuix Cassis red fruits 50ml",
+      "sumupProductId": "4d98dff8-9a52-4abe-9441-bbf845fb2565",
+      "barcode": "5407007430031",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/cassis-red-fruits.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf1d00yqutmkc9rf3c8q",
+      "sumupName": "Kuix Fruits rouges 50ml",
+      "displayName": "Kuix Fruits rouges 50ml",
+      "sumupProductId": "f3e1d9b4-a271-48a3-ba39-a18946f3cf30",
+      "barcode": "5407007430055",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/fruits-rouges.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf1i00yrutmk2a3g7wk5",
+      "sumupName": "Kuix Limonade citron vert 50ml",
+      "displayName": "Kuix Limonade citron vert 50ml",
+      "sumupProductId": "969a435e-7865-48b0-8aa0-f312fcbeb500",
+      "barcode": "5407007430048",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/limonade-citron-vert.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euf1n00ysutmksrgvb63e",
+      "sumupName": "Kuix Raisin bubble gum 50ml",
+      "displayName": "Kuix Raisin bubble gum 50ml",
+      "sumupProductId": "424610a4-f389-42a0-baf4-148ff0331315",
+      "barcode": "5407007430079",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/raisin-bubble-gum.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    },
+    {
+      "id": "cms6euaoy000autmk3bl63hh1",
+      "sumupName": "Kuix tropical 50ml",
+      "displayName": "Kuix tropical 50ml",
+      "sumupProductId": "eae3e768-5f20-4789-946a-127b90c87017",
+      "barcode": "5407007430086",
+      "imageUrl": "/media/products/liquide-lab/kuix/50ml/tropical.webp",
+      "imageSourceUrl": "https://www.ecigplanete.com/fr/2711-e-liquides-kuix",
+      "visibleOnline": true,
+      "priceCents": 2090
+    }
+  ],
+  "unpublishedPods": [
+    "Kuix pink limonade fresh 10mg",
+    "Kuix love 66 fresh 20mg",
+    "Kuix chuck yougner 10mg",
+    "Kuix cola citron fresh 20mg",
+    "Kuix mango fresh 20mg",
+    "Kuix mix berry fresh 10mg",
+    "Kuix menthe fresh 10mg",
+    "Kuix myrtille fresh 20mg",
+    "Kuix batterie blue",
+    "Kuix raisin fresh 20mg",
+    "Kuix mango peche 20mg",
+    "Kuix ananas fresh 20mg",
+    "Kuix cassis raisin fresh 10mg",
+    "Kuix love 66 fresh 10mg",
+    "Kuix cassis raisin fresh 20mg",
+    "Kuix cola citron fresh 10mg",
+    "Kuix ananas fresh 10mg",
+    "Kuix banana fraise fresh 10mg",
+    "Kuix chuck yougner 20mg",
+    "Kuix banana fraise fresh 20mg",
+    "Kuix batterie black",
+    "Kuix pink limonade fresh 10mg",
+    "Kuix milkshake fraise 10mg",
+    "Kuix menthe fresh 20mg",
+    "Kuix milkshake fraise 20mg",
+    "Kuix mix berry fresh 20mg",
+    "Kuix myrtille fresh 10mg",
+    "Kuix raisin frensh 10mg",
+    "Kuix watermelon fresh 10mg",
+    "Kuix watermelon fresh 20mg",
+    "Kuix mango peche 10mg",
+    "Kuix mango fresh 10mg"
+  ],
+  "skipped": [],
+  "stock": {
+    "ok": true,
+    "message": "Miroir: 6 niveaux maj / 1918 produits SumUp · CSV: 2026-07-30_22-06-40_items-export_MCGR4RXU.csv (6 maj) · Push catalogue: 0 noms / 161 images → outbox · API tx: 0 ventes, 0 remboursements · Emplacement: GLOBAL_ALL_VAPS · worker ON",
+    "mirror": {
+      "scanned": 1918,
+      "createdLevels": 0,
+      "updatedLevels": 6,
+      "unchanged": 2040,
+      "unitsMirrored": 109
+    },
+    "csv": {
+      "file": "D:\\all vaps\\all-vap-s-backend\\inbox_sumup\\2026-07-30_22-06-40_items-export_MCGR4RXU.csv",
+      "applied": true,
+      "message": "Import appliqué sur GLOBAL_ALL_VAPS : 6 maj, 0 créations, 2165 inchangés.",
+      "updatedCount": 6,
+      "unmatchedCount": 0
+    },
+    "salesApplied": 0
+  },
+  "urls": [
+    "http://localhost:3000/gammes/kuix?fabricant=liquide-lab",
+    "http://localhost:3000/fabricants/liquide-lab"
+  ]
+}

@@ -1,17 +1,7 @@
-import {
-  Droplets,
-  MapPin,
-  Flame,
-  Headphones,
-  BadgeCheck,
-} from "lucide-react";
+import { MapPin, Flame, Headphones, BadgeCheck, Sparkles } from "lucide-react";
 
+/** Services réels All Vap's — pas de chiffres inventés */
 const ITEMS = [
-  {
-    icon: Droplets,
-    title: "+ DE 250 SAVEURS",
-    subtitle: "E-liquides premium",
-  },
   {
     icon: MapPin,
     title: "2 BOUTIQUES",
@@ -28,9 +18,14 @@ const ITEMS = [
     subtitle: "Conseils personnalisés",
   },
   {
+    icon: Sparkles,
+    title: "A.V.A.",
+    subtitle: "Assistante vape 24/7",
+  },
+  {
     icon: BadgeCheck,
-    title: "SATISFAIT OU REMBOURSÉ",
-    subtitle: "14 jours pour changer d'avis",
+    title: "CONSEIL VALIDÉ",
+    subtitle: "Sélection boutique",
   },
 ];
 

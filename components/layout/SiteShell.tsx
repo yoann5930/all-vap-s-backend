@@ -9,6 +9,7 @@ import { HolographicAssistant } from "@/components/ai/HolographicAssistant";
 import { BrandSplash } from "@/components/brand/BrandSplash";
 import { PremiumBackground } from "@/components/brand/PremiumBackground";
 import { Logo } from "@/components/layout/Logo";
+import { MainNavProvider } from "@/components/layout/MainNavContext";
 
 function isPublicMaintenanceUi(): boolean {
   const raw = (process.env.NEXT_PUBLIC_MAINTENANCE_MODE || "").trim().toLowerCase();
@@ -44,11 +45,12 @@ function MaintenanceBoutiquesChrome({ children }: { children: React.ReactNode })
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const maintenancePage = pathname === "/maintenance";
+  const isAdminApp = pathname === "/admin" || pathname.startsWith("/admin/");
   const boutiquesOnly =
     isPublicMaintenanceUi() &&
     (pathname === "/boutiques" || pathname.startsWith("/boutiques/"));
 
-  if (maintenancePage) {
+  if (maintenancePage || isAdminApp) {
     return <>{children}</>;
   }
 
@@ -57,7 +59,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <MainNavProvider>
       <BrandSplash />
       <PremiumBackground />
       <Suspense fallback={<HeaderSpacer />}>
@@ -67,6 +69,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <main className="premium-main flex-1">{children}</main>
       <Footer />
       <HolographicAssistant />
-    </>
+    </MainNavProvider>
   );
 }

@@ -1,0 +1,16 @@
+{
+  "date": "2026-07-29T21:09:29.783Z",
+  "version": 1,
+  "masterRoot": "C:/Users/ASUS/Downloads/All_Vaps_Dossier_Complet/All_Vaps_Dossier_Complet/MASTER_PRODUCT_REFERENCE",
+  "out": "D:\\all vaps\\all-vap-s-backend\\data\\referentiel",
+  "counts": {
+    "fabricants": 15,
+    "gammes": 25,
+    "formats": 5,
+    "produits": 127,
+    "valides": 91,
+    "photosValides": 34
+  },
+  "frontBloque": true,
+  "message": "Pages Fabricant/Gamme/Format/Produit/Home interdites tant que référentiel non validé."
+}

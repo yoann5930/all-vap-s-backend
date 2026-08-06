@@ -1,0 +1,80 @@
+{
+  "e.Tasty": {
+    "spoken": "i tésti",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["e Tasty", "E-Tasty", "etasty", "e.tasty"]
+  },
+  "Call of Vape": {
+    "spoken": "Call of Vape",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["callofvape", "call of vape"]
+  },
+  "Blackout": {
+    "spoken": "blackaout",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["black out", "black-out"]
+  },
+  "Cloud Empire": {
+    "spoken": "Cloud Empire",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["cloud empire"]
+  },
+  "Vaporesso": {
+    "spoken": "Vaporesso",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["vapo reso", "vaporeso"]
+  },
+  "Voopoo": {
+    "spoken": "Voopoo",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["voo poo", "voo-poo", "voopou"]
+  },
+  "OXVA": {
+    "spoken": "OXVA",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["ox va", "oxva"]
+  },
+  "Geekvape": {
+    "spoken": "Geekvape",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["geek vape", "geek-vape"]
+  },
+  "Caliburn": {
+    "spoken": "Caliburn",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["caliburne", "cali burn"]
+  },
+  "Argus": {
+    "spoken": "Argus",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["argusse"]
+  },
+  "Xros": {
+    "spoken": "Xros",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["x-ros", "exros"]
+  },
+  "Freeze": {
+    "spoken": "frize",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": ["freezy"]
+  },
+  "Iceberg": {
+    "spoken": "aïsberg",
+    "languageStyle": "français naturel",
+    "noForeignAccent": true,
+    "aliases": []
+  }
+}

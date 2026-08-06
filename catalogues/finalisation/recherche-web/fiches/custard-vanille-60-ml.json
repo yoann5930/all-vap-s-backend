@@ -1,0 +1,31 @@
+{
+  "productId": "cms96d3l4002duto8ofm7zl8u",
+  "catalogName": "Custard Vanille 60 ml",
+  "manufacturer": "AirMust",
+  "range": "UNIK",
+  "sourceUrls": [],
+  "status": "introuvable",
+  "missingFields": [
+    "pgVg",
+    "nicotine",
+    "ean",
+    "photo"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 60 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+  "formatMl": 60,
+  "seo": {
+    "title": "Custard Vanille 60 ml | All Vap's",
+    "description": "Custard Vanille 60 ml — AirMust — UNIK"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.197Z"
+}

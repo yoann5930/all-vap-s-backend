@@ -1,0 +1,37 @@
+{
+  "productId": "cms9gxa7q001lutw470n0r7s6",
+  "catalogName": "Bisou V2 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Bisou",
+  "sourceUrls": [
+    "https://swoke.net/"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+  "officialName": "Bisou (Swoke) 50 ml",
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+  "nicotineBoostOptions": "1–2 boosters",
+  "flavorNotes": null,
+  "formatMl": 50,
+  "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-v2-50-ml.jpg",
+  "seo": {
+    "title": "Bisou (Swoke) 50 ml | All Vap's",
+    "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:24.910Z"
+}

@@ -1,0 +1,37 @@
+{
+  "productId": "cms96dhnv004wuto8813gy228",
+  "catalogName": "Sour Sorbet",
+  "manufacturer": "T-Juice",
+  "range": "T-Juice 50 mL",
+  "sourceUrls": [
+    "https://www.t-juice.com/"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "formatMl",
+    "pgVg",
+    "ean"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/t-juice-t-juice-50-ml.svg",
+  "officialName": "Sour Sorbet — T-Juice",
+  "pgVg": null,
+  "nicotineSoldAs": "Formats multiples possibles — non tranché pour cette fiche",
+  "nicotineBoostOptions": "inconnu",
+  "flavorNotes": "Produit T-Juice existant ; fiche 50 ml EAN packshot non confirmée ici",
+  "photoUrl": "http://www.t-juice.com/cdn/shop/files/t-juice-featured-image_a0bf2790-eda0-47b9-9cda-bf208b7e85c1.png?v=1659438058",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+  "seo": {
+    "title": "Sour Sorbet — T-Juice | All Vap's",
+    "description": "Sour Sorbet — T-Juice — T-Juice — T-Juice 50 mL — Produit T-Juice existant ; fiche 50 ml EAN packshot non confirmée ici"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:21.518Z"
+}

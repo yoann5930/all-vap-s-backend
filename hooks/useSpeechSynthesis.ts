@@ -222,8 +222,8 @@ export function useSpeechSynthesis() {
    * Signature conservée pour compatibilité des appels existants.
    */
   const speak = useCallback(
-    (text: string, _audioBase64?: string | null, _audioMime?: string) => {
-      void speakBrowser(text);
+    async (text: string, _audioBase64?: string | null, _audioMime?: string) => {
+      await speakBrowser(text);
     },
     [speakBrowser]
   );

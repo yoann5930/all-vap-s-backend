@@ -1,0 +1,35 @@
+{
+  "id": "cms96dgqh004huto8nv7esxjq",
+  "slug": "citron-vert-melon-50-granita-soft",
+  "nom": "Citron Vert Melon 50 ml",
+  "description": "Fiche catalogue officielle (Granita Soft) — stock SumUp à lier.",
+  "seo": {
+    "title": "Citron Vert Melon 50 ml | Alfa | All Vap's",
+    "description": "Fiche catalogue officielle (Granita Soft) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean",
+    "photo_officielle",
+    "banniere_gamme"
+  ],
+  "trouve": {
+    "fabricant": "Alfa",
+    "gamme": "Granita Soft",
+    "saveur": "Citron Vert Melon",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": null,
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme"
+    ]
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

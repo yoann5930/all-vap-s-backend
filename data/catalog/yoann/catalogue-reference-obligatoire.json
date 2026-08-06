@@ -1,0 +1,955 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "All Vap's",
+  "purpose": "Référence obligatoire — hiérarchie Fabricant → Gamme → Collection → Produit",
+  "generatedAt": "2026-08-01T01:55:42.251Z",
+  "source": "data/catalog/yoann/allvaps_catalogue.json",
+  "rules": [
+    "Ne jamais aplatir Fabricant → Gamme → Collection → Produit",
+    "Ne jamais transformer une collection en gamme indépendante",
+    "Ne jamais transformer un produit en gamme",
+    "Call of Vape Blackout = collection Blackout sous Call of Vape (Cloud Vapor)"
+  ],
+  "manufacturers": [
+    {
+      "name": "Guilab",
+      "slug": "guilab",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Vapetasty",
+          "slug": "vapetasty",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Red Valentine",
+          "slug": "red-valentine",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Faken' Vape",
+          "slug": "faken-vape",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Ark Vape",
+          "slug": "ark-vape",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Les Trois Mousquet'Air",
+          "slug": "les-trois-mousquetair",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Assassin Vape",
+          "slug": "assassin-vape",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Swoke",
+      "slug": "swoke",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Force Vape",
+          "slug": "force-vape",
+          "collections": [],
+          "products": [
+            {
+              "name": "Force Bleue"
+            },
+            {
+              "name": "Force Jaune"
+            },
+            {
+              "name": "Force Noire"
+            },
+            {
+              "name": "Force Rouge"
+            },
+            {
+              "name": "Force Verte"
+            },
+            {
+              "name": "Force Violette"
+            }
+          ]
+        },
+        {
+          "name": "Kiss Cool",
+          "slug": "kiss-cool",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Saint Flava",
+          "slug": "saint-flava",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Bisou",
+          "slug": "bisou",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Freeze",
+          "slug": "freeze",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Titi",
+          "slug": "titi",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Juice 66",
+      "slug": "juice-66",
+      "aliases": [
+        "66 Juice"
+      ],
+      "ranges": [
+        {
+          "name": "Icebreak",
+          "slug": "icebreak",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Empire",
+          "slug": "empire",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Dollar",
+          "slug": "dollar",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Illusion",
+          "slug": "illusion",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Paradise",
+          "slug": "paradise",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Dinos",
+          "slug": "dinos",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Chaser",
+          "slug": "chaser",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Juice Machine",
+          "slug": "juice-machine",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "66 Juice",
+          "slug": "66-juice",
+          "collections": [],
+          "products": [
+            {
+              "name": "Saforia"
+            },
+            {
+              "name": "Yuluma"
+            },
+            {
+              "name": "Tsune"
+            },
+            {
+              "name": "Senka"
+            },
+            {
+              "name": "Kimi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Aromes & Secrets",
+      "slug": "aromes-secrets",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Mythologie",
+          "slug": "mythologie",
+          "collections": [],
+          "products": [
+            {
+              "name": "Milo"
+            },
+            {
+              "name": "Etna"
+            },
+            {
+              "name": "Baru"
+            },
+            {
+              "name": "Arathorn"
+            },
+            {
+              "name": "Esteli"
+            },
+            {
+              "name": "Maïpo"
+            },
+            {
+              "name": "Linzor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Made In Vape Distrib",
+      "slug": "made-in-vape-distrib",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "MIV Distrib",
+          "slug": "miv-distrib",
+          "collections": [],
+          "products": [
+            {
+              "name": "Godji"
+            },
+            {
+              "name": "White Blizz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cloud Vapor",
+      "slug": "cloud-vapor",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Call Of Vape",
+          "slug": "call-of-vape",
+          "collections": [
+            {
+              "name": "Blackout",
+              "slug": "blackout",
+              "products": []
+            }
+          ],
+          "products": []
+        },
+        {
+          "name": "Grand Taste City",
+          "slug": "grand-taste-city",
+          "collections": [],
+          "products": [
+            {
+              "name": "Diamond Casino"
+            },
+            {
+              "name": "Mint Heist"
+            },
+            {
+              "name": "Paleta Score"
+            },
+            {
+              "name": "Perico"
+            },
+            {
+              "name": "Redwood"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "e.Tasty",
+      "slug": "e-tasty",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Golf City",
+          "slug": "golf-city",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Twenty",
+          "slug": "twenty",
+          "collections": [],
+          "products": [
+            {
+              "name": "Double Pêche",
+              "formatMl": 20
+            },
+            {
+              "name": "Fruit du Dragon Cerise",
+              "formatMl": 20
+            },
+            {
+              "name": "Limonade Citron Cassis",
+              "formatMl": 20
+            },
+            {
+              "name": "Fruits Rouges",
+              "formatMl": 20
+            },
+            {
+              "name": "Menthe Polaire",
+              "formatMl": 20
+            }
+          ]
+        },
+        {
+          "name": "Letters",
+          "slug": "letters",
+          "collections": [],
+          "products": [
+            {
+              "name": "A",
+              "formatMl": 100
+            },
+            {
+              "name": "B",
+              "formatMl": 100
+            },
+            {
+              "name": "C",
+              "formatMl": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "The FUU",
+      "slug": "the-fuu",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Cloud Empire",
+          "slug": "cloud-empire",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "AirMust",
+      "slug": "airmust",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Blue Hopper",
+          "slug": "blue-hopper",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Hopper",
+          "slug": "hopper",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Society Club",
+          "slug": "society-club",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Ferox",
+          "slug": "ferox",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "L'Ovalie",
+          "slug": "lovalie",
+          "collections": [],
+          "products": [
+            {
+              "name": "Le Plaquage"
+            },
+            {
+              "name": "Transformation"
+            },
+            {
+              "name": "Le Drop"
+            }
+          ]
+        },
+        {
+          "name": "Press Start",
+          "slug": "press-start",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "UNIK",
+          "slug": "unik",
+          "collections": [],
+          "products": [
+            {
+              "name": "Fruits Rouges",
+              "formatMl": 60
+            },
+            {
+              "name": "Popcorn",
+              "formatMl": 60
+            },
+            {
+              "name": "Pêche",
+              "formatMl": 60
+            },
+            {
+              "name": "Pure Passion",
+              "formatMl": 60
+            },
+            {
+              "name": "Mangue",
+              "formatMl": 60
+            },
+            {
+              "name": "Pomme Harmonie",
+              "formatMl": 60
+            },
+            {
+              "name": "Poire",
+              "formatMl": 60
+            },
+            {
+              "name": "Menthe Glaciale",
+              "formatMl": 60
+            },
+            {
+              "name": "Fraise Sauvage",
+              "formatMl": 60
+            },
+            {
+              "name": "Raisin Noir",
+              "formatMl": 60
+            },
+            {
+              "name": "Custard Vanille",
+              "formatMl": 60
+            },
+            {
+              "name": "Menthe du Jardin",
+              "formatMl": 60
+            },
+            {
+              "name": "Framboise",
+              "formatMl": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MG Vape",
+      "slug": "mg-vape",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Medusa",
+          "slug": "medusa",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Cumulus",
+      "slug": "cumulus",
+      "aliases": [],
+      "ranges": []
+    },
+    {
+      "name": "Mexican Cartel",
+      "slug": "mexican-cartel",
+      "aliases": [],
+      "ranges": []
+    },
+    {
+      "name": "KF Studio",
+      "slug": "kf-studio",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "King Freeze",
+          "slug": "king-freeze",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Budz Vape",
+      "slug": "budz-vape",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Pandora",
+          "slug": "pandora",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "AVAP",
+      "slug": "avap",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Devil",
+          "slug": "devil",
+          "collections": [],
+          "products": [
+            {
+              "name": "Red Devil"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cookin'Cloud",
+      "slug": "cookin-cloud",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "MIST",
+          "slug": "mist",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Vape 47",
+      "slug": "vape-47",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "ENFER",
+          "slug": "enfer",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Les Fruits d'ENFER",
+          "slug": "les-fruits-denfer",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Furiosa EGGZ V2",
+          "slug": "furiosa-eggz-v2",
+          "collections": [],
+          "products": [
+            {
+              "name": "Aria"
+            },
+            {
+              "name": "Doom"
+            },
+            {
+              "name": "Griffon"
+            },
+            {
+              "name": "Ivy"
+            },
+            {
+              "name": "Juno"
+            },
+            {
+              "name": "Nova"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Ultron"
+            },
+            {
+              "name": "Volta"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Eliquid France",
+      "slug": "eliquid-france",
+      "aliases": [
+        "E-liquid France",
+        "Iliquid France"
+      ],
+      "ranges": [
+        {
+          "name": "Mintaïa",
+          "slug": "mintaia",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Lemon'Time",
+          "slug": "lemontime",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Fruizee Max",
+          "slug": "fruizee-max",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Juice Heroes",
+          "slug": "juice-heroes",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Fureur du Dragon",
+          "slug": "fureur-du-dragon",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Mister Pop Corn",
+          "slug": "mister-pop-corn",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Protect",
+      "slug": "protect",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Les Pollinisateurs",
+          "slug": "les-pollinisateurs",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Les 4 Saisons",
+          "slug": "les-4-saisons",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Parrainage",
+          "slug": "parrainage",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Liquideo",
+      "slug": "liquideo",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Evolution",
+          "slug": "evolution",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Dragonz",
+          "slug": "dragonz",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Freeze Citrus",
+          "slug": "freeze-citrus",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Les Essentiels",
+          "slug": "les-essentiels",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Fruity Cool",
+      "slug": "fruity-cool",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Fruity Cool",
+          "slug": "fruity-cool",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Big Kawa",
+      "slug": "big-kawa",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Café",
+          "slug": "cafe",
+          "collections": [],
+          "products": [
+            {
+              "name": "Café Frappé"
+            },
+            {
+              "name": "Café Noisette"
+            },
+            {
+              "name": "Café Caramel"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mukk Mukk",
+      "slug": "mukk-mukk",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Crazy Juice",
+          "slug": "crazy-juice",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Crazy Barnacle",
+          "slug": "crazy-barnacle",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Mukkies",
+          "slug": "mukkies",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "OverDrive Juices",
+      "slug": "overdrive-juices",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "OverDrive Juices",
+          "slug": "overdrive-juices",
+          "collections": [],
+          "products": [
+            {
+              "name": "Hellflakes"
+            },
+            {
+              "name": "Bloody Sundaze"
+            },
+            {
+              "name": "Vamp Oil"
+            },
+            {
+              "name": "Riff Melon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Revenge Juices",
+      "slug": "revenge-juices",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Revenge Juices",
+          "slug": "revenge-juices",
+          "collections": [],
+          "products": [
+            {
+              "name": "The Widow Maker"
+            },
+            {
+              "name": "The Blood Bath"
+            },
+            {
+              "name": "The Red Krime"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Alfa",
+      "slug": "alfa",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Granita Soft",
+          "slug": "granita-soft",
+          "collections": [],
+          "products": [
+            {
+              "name": "Pêche Abricot",
+              "formatMl": 50
+            },
+            {
+              "name": "Fruits Rouges",
+              "formatMl": 50
+            },
+            {
+              "name": "Virgin Mojito",
+              "formatMl": 50
+            },
+            {
+              "name": "Framboise",
+              "formatMl": 50
+            },
+            {
+              "name": "Fraise Fruit du Dragon",
+              "formatMl": 50
+            },
+            {
+              "name": "Citron Vert Melon",
+              "formatMl": 50
+            },
+            {
+              "name": "Mûre Cassis",
+              "formatMl": 50
+            },
+            {
+              "name": "Tropical Bleu",
+              "formatMl": 50
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Le Maudit",
+      "slug": "le-maudit",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Le Maudit",
+          "slug": "le-maudit",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Fruizee",
+      "slug": "fruizee",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Fruizee",
+          "slug": "fruizee",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "Yum E-Bot",
+      "slug": "yum-ebot",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Yum E-Bot",
+          "slug": "yum-e-bot",
+          "collections": [],
+          "products": []
+        }
+      ]
+    },
+    {
+      "name": "T-Juice",
+      "slug": "t-juice",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "T-Juice",
+          "slug": "t-juice",
+          "collections": [],
+          "products": [
+            {
+              "name": "Dark Enigma"
+            },
+            {
+              "name": "Raven Blue"
+            },
+            {
+              "name": "Sour Sorbet"
+            },
+            {
+              "name": "Pinky Pop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vape City",
+      "slug": "vape-city",
+      "aliases": [],
+      "ranges": [
+        {
+          "name": "Vape City",
+          "slug": "vape-city",
+          "collections": [],
+          "products": []
+        },
+        {
+          "name": "Magic Potion",
+          "slug": "magic-potion",
+          "collections": [],
+          "products": []
+        }
+      ]
+    }
+  ]
+}

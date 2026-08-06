@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gxbyc0043utw4e0kl0ycd",
+  "catalogName": "Paka Paka 50 ml",
+  "manufacturer": "AirMust",
+  "range": "Press Start",
+  "sourceUrls": [
+    "https://airmust.com/",
+    "https://airmust.com/formats/2702-6346-press-start-paka-paka-50ml-3701719512316.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-press-start.svg",
+  "officialName": "Press Start - Paka Paka 50ml",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+  "nicotineBoostOptions": "boosters 10 ml 20 mg",
+  "flavorNotes": "Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude",
+  "formatMl": 50,
+  "seo": {
+    "title": "Press Start (AirMust) | All Vap's",
+    "description": "Press Start (AirMust) — AirMust — Press Start — 50/50 — Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:29.552Z",
+  "ean": "3701719512316",
+  "eanConfidence": "official_site",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/paka-paka-50-ml.jpg",
+  "photoUrl": "https://airmust.com/8520-cover_fullhd/press-start-paka-paka-50ml.jpg"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Alfa",
+  "productsIncomplete": [
+    "Pêche Abricot 50 ml",
+    "Fraise Fruit du Dragon 50 ml",
+    "Citron Vert Melon 50 ml",
+    "Mûre Cassis 50 ml"
+  ],
+  "sources": [
+    "prisma:Manufacturer",
+    "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+    "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+    "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+    "catalogues/finalisation/recherche-web/produits-retrouves/peche-abricot-50-ml.json",
+    "catalogues/finalisation/recherche-web/fiches/peche-abricot-50-ml.json",
+    "catalogues/finalisation/produits-corriges/impossibles.json"
+  ]
+}

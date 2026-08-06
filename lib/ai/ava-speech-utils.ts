@@ -1,19 +1,35 @@
 /** Texte oral court — naturellement parlé, pas « robot call-center » */
 
+import {
+  pronounceEtasty,
+  stripCatalogFactsFromSpeech,
+} from "@/lib/ai/ava-voice-product-rules";
+import { applyPronunciations } from "@/lib/ava/pronunciation-engine";
+import { humanSellerPolish } from "@/lib/ava/conversation-style";
+
 export const AVA_GREETING_SHORT =
   "Bonjour, je m'appelle Ava. Que recherchez-vous ?";
 
 /** Prépare le texte pour une lecture fluide et humaine */
 export function humanizeForSpeech(text: string): string {
-  return text
+  let out = text
     .replace(/👋/g, "")
     .replace(/A\.V\.A\./gi, "Ava")
     .replace(/\bA\s*[-.]?\s*V\s*[-.]?\s*A\b/gi, "Ava")
     .replace(/\bAVA\b/g, "Ava")
     .replace(/All Vap['’]?s/gi, "All Vaps")
     .replace(/e-liquides?/gi, "é liquides")
-    .replace(/E-liquides?/g, "é liquides")
-    // DIY se prononce « Di-Yaï », jamais lettre à lettre
+    .replace(/E-liquides?/g, "é liquides");
+
+  // Dictionnaire marques (e.Tasty → i tésti, etc.)
+  out = applyPronunciations(out);
+  out = pronounceEtasty(out);
+
+  // Sécurité : jamais lire prix / stock / volumes dans la voix
+  out = stripCatalogFactsFromSpeech(out);
+  out = humanSellerPolish(out);
+
+  return out
     .replace(/\bDIY\b/gi, "Di-Yaï")
     .replace(/D I Y/gi, "Di-Yaï")
     .replace(/\bSAV\b/g, "service après-vente")
@@ -67,27 +83,13 @@ export function parseCatalogSpecs(description: string | null | undefined): {
   pgVg: string | null;
   volume: string | null;
 } {
-  if (!description) return { nicotine: null, pgVg: null, volume: null };
-  const d = description;
-
-  const nic =
-    d.match(/(\d+(?:[.,]\d+)?)\s*mg(?:\/ml)?/i)?.[0] ??
-    d.match(/nicotine\s*[:=]?\s*(\d+(?:[.,]\d+)?)\s*mg/i)?.[0] ??
-    null;
-
-  const pgVg =
-    d.match(/\b(\d{1,2})\s*[\/:]\s*(\d{1,2})\b/)?.[0]?.replace(":", "/") ??
-    d.match(/PG\s*[\/:]\s*VG\s*[:=]?\s*(\d{1,2}\s*[\/:]\s*\d{1,2})/i)?.[1]?.replace(":", "/") ??
-    null;
-
-  const volume =
-    d.match(/\b(\d+(?:[.,]\d+)?)\s*ml\b/i)?.[0] ??
-    d.match(/contenance\s*[:=]?\s*(\d+(?:[.,]\d+)?)\s*ml/i)?.[0] ??
-    null;
-
+  const text = description ?? "";
+  const nic = text.match(/(\d+(?:[.,]\d+)?)\s*mg(?:\/ml)?/i);
+  const pgvg = text.match(/(\d+)\s*[\/:]\s*(\d+)\s*(?:pg\s*[\/:]\s*vg|vg\s*[\/:]\s*pg)?/i);
+  const vol = text.match(/(\d+(?:[.,]\d+)?)\s*ml\b/i);
   return {
-    nicotine: nic ? nic.replace(",", ".") : null,
-    pgVg,
-    volume: volume ? volume.replace(",", ".") : null,
+    nicotine: nic ? `${nic[1].replace(",", ".")} mg` : null,
+    pgVg: pgvg ? `${pgvg[1]}/${pgvg[2]}` : null,
+    volume: vol ? `${vol[1]} ml` : null,
   };
 }

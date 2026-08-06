@@ -1,0 +1,17 @@
+{
+  "name": "Liquide Lab",
+  "productsIncomplete": [
+    "Café Frappé 50 ml",
+    "Café Noisette 50 ml",
+    "Café Caramel 50 ml"
+  ],
+  "sources": [
+    "prisma:Manufacturer",
+    "data/rebuild/QUEUE_PHOTOS_ELIQUIDES.json",
+    "data/rebuild/QUEUE_VALIDATION_SUMUP_RESTANTE.json",
+    "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+    "catalogues/finalisation/recherche-web/produits-retrouves/cafe-frappe-50-ml.json",
+    "catalogues/finalisation/recherche-web/fiches/cafe-frappe-50-ml.json",
+    "catalogues/finalisation/produits-corriges/impossibles.json"
+  ]
+}

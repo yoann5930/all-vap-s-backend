@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxbqg003xutw4mz0y5a4q",
+  "catalogName": "Grizz 100 ml",
+  "officialName": "Ferox • Grizz 100ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Fraise, barbe à papa",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (100 dans 120)",
+  "nicotineBoost": "1 → ~1,8 ; 2 → ~3,3 mg/ml",
+  "description": "Ferox Grizz 100 ml AirMust — fraise, barbe à papa.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/grizz-100-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/grizz-100-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/100ml/2553-6201-ferox-grizz-100ml.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:39.434Z"
+}

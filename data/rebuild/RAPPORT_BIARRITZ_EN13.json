@@ -1,0 +1,162 @@
+{
+  "date": "2026-07-30T13:28:13.862Z",
+  "rule": "EN13 si présent → intégrer (+ descriptif). Absent → ne pas inventer.",
+  "officialBiarritzLabBarcodes": "aucun (Shopify barcode vide — vérifié 2026-07-30)",
+  "appliedCount": 25,
+  "skippedNoEn13": 0,
+  "invalidChecksumNoted": 0,
+  "applied": [
+    {
+      "name": "Bowl de Céréales Noisette Pécan Crème — Mamita — 50 ml",
+      "barcode": "3701760601250",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "Café Stout — Mamita — 50 ml",
+      "barcode": "3701760601182",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "Café Vanille Custard — Mamita — 50 ml",
+      "barcode": "3701760601281",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "Cookie Choco Noisette — Mamita — 50 ml",
+      "barcode": "3701760601205",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "Custard Vanille Pécan — Mamita — 50 ml",
+      "barcode": "3701760601298",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "EROTIC DREAM — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601359",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRAISE D'AMOUR — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601366",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON CERISE — Double Dragon — 50 ml",
+      "barcode": "3701760600994",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON FRAISE — Double Dragon — 50 ml",
+      "barcode": "3701760601069",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON FRAMBOISE — Double Dragon — 50 ml",
+      "barcode": "3701760600666",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON LIMONADE — Double Dragon — 50 ml",
+      "barcode": "3760375111523",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON MANDARINE — Double Dragon — 50 ml",
+      "barcode": "3701760601014",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON MÛRE — Double Dragon — 50 ml",
+      "barcode": "3701760601021",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON PASSION — Double Dragon — 50 ml",
+      "barcode": "3701760600673",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON PÊCHE — Double Dragon — 50 ml",
+      "barcode": "3701760601007",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON VANILLE — Double Dragon — 50 ml",
+      "barcode": "3760375111516",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "FRUIT DU DRAGON VIOLETTE — Double Dragon — 50 ml",
+      "barcode": "3701760600680",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "GHOST RIDERS — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601373",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "LOVING MEMORY — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601380",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "MANGO SENSATION — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601168",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "MYRTILLISSIME — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601403",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "PEACH SEX & SUN — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601410",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "SATAN'ANANAS — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601427",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "TRIPLE DRAGON — Double Dragon — 100 ml",
+      "barcode": "3701760601076",
+      "source": "existing",
+      "descriptionUpdated": true
+    },
+    {
+      "name": "YELLOW FRUITS — Le Fruit Défendu — 50 ml",
+      "barcode": "3701760601175",
+      "source": "existing",
+      "descriptionUpdated": true
+    }
+  ],
+  "skipped": [],
+  "invalid": []
+}

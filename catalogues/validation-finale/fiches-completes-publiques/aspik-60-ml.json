@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxbo9003jutw4d38hzkst",
+  "catalogName": "Aspik 60 ml",
+  "officialName": "Ferox • Aspik 60ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Framboise bleue, myrtille glacée",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (shortfill 60 dans 75)",
+  "nicotineBoost": "1 booster → 3 mg/ml ; 2 → 6 mg/ml",
+  "description": "E-liquide Ferox Aspik par AirMust — framboise bleue et myrtille glacée. Base aromatisée 0 mg, PG/VG 50/50, fabriqué en France.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/aspik-60-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/aspik-60-ml/banniere.webp",
+  "sourceUrls": [
+    "https://airmust.com/60ml/2550-6198-ferox-aspik-60ml.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:37.233Z"
+}

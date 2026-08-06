@@ -1,0 +1,38 @@
+{
+  "productId": "cms96cuxg000duto8hhncr475",
+  "catalogName": "Force Verte",
+  "officialName": "Force Verte — Force Vape",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "flavor": "Force Verte",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotine": "0 mg/ml (si référence 100 ml)",
+  "nicotineBoost": "boosters",
+  "description": "Force Verte Force Vape Swoke — gamme confirmée ; EAN non univoque.",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/force-verte/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/force-verte/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/force-vape/force-noire.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:51:12.080Z",
+  "notes": [
+    "EAN 6410949705432 invalidé (conflit ou bruit page liée)"
+  ]
+}

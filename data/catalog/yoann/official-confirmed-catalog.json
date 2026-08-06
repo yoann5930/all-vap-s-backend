@@ -1,0 +1,669 @@
+{
+  "_comment": "Catalogue officiel confirmé — sources prioritaires uniquement. products:[] du ZIP = recherche faite ici.",
+  "blocked": [
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Vapetasty",
+      "reason": "Absent du catalogue officiel actuel Guilab (Thunder Vape, Wonder Vape, Wanted Juice, Goo Puff). Validation Yoann requise — ne pas inventer.",
+      "officialUrl": "https://www.lvp-distribution.fr/fr/2216-guilab",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Red Valentine",
+      "reason": "Absent du catalogue officiel actuel Guilab. Validation Yoann requise.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Faken' Vape",
+      "reason": "Absent du catalogue officiel actuel Guilab. Validation Yoann requise.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Ark Vape",
+      "reason": "Absent du catalogue officiel actuel Guilab. Validation Yoann requise.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Les Trois Mousquet'Air",
+      "reason": "Absent du catalogue officiel actuel Guilab. Validation Yoann requise.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "guilab",
+      "jsonName": "Assassin Vape",
+      "reason": "Absent du catalogue officiel actuel Guilab. Validation Yoann requise.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Kiss Cool",
+      "reason": "Mention revendeurs inconsistante ; page officielle swoke.net / pro.swoke.net sans liste Kiss Cool confirmée lors du crawl. Validation Yoann.",
+      "officialUrl": "https://swoke.net/",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Freeze",
+      "reason": "Gamme Freeze Swoke non confirmée sur page officielle Force Vape / Saint Flava. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Titi",
+      "reason": "Gamme Titi non trouvée sur sources officielles Swoke. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Icebreak",
+      "reason": "Site juice66.fr DNS inaccessible ; aucune source officielle primaire pour Icebreak. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Empire",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Dollar",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Illusion",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Paradise",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Dinos",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Chaser",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "Juice Machine",
+      "reason": "Site juice66.fr inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "Blue Hopper",
+      "reason": "Sur airmust.com la collection s'appelle Hopper (Bluevolt = saveur, pas gamme séparée). Blue Hopper ZIP ≠ gamme officielle. Validation Yoann.",
+      "officialUrl": "https://airmust.com/300-hopper",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "Society Club",
+      "reason": "Non listée sur airmust.com (Hopper, Ferox, Press Start, UNIK…). Validation Yoann.",
+      "officialUrl": "https://airmust.com/",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "mg-vape",
+      "jsonName": "Medusa",
+      "reason": "Pas de site officiel MG Vape / Medusa confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "kf-studio",
+      "jsonName": "King Freeze",
+      "reason": "Pas de site officiel KF Studio confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "budz-vape",
+      "jsonName": "Pandora",
+      "reason": "Pas de site officiel Budz Vape confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Juice Heroes",
+      "reason": "Non trouvé sur eliquid-france.com parmi les gammes affichées (Mintaïa, Lemon'Time, Fruizee Max…). Validation Yoann.",
+      "officialUrl": "https://www.eliquid-france.com/",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Fureur du Dragon",
+      "reason": "Non trouvé comme gamme sur eliquid-france.com. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Mister Pop Corn",
+      "reason": "Non trouvé comme gamme sur eliquid-france.com. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "protect",
+      "jsonName": "Les Pollinisateurs",
+      "reason": "protect.fr accessible mais catalogue gammes Pollinisateurs non extrait de façon fiable (SPA/âge). Validation Yoann.",
+      "officialUrl": "https://www.protect.fr/",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "protect",
+      "jsonName": "Les 4 Saisons",
+      "reason": "Liste officielle complète non confirmée sur crawl. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "protect",
+      "jsonName": "Parrainage",
+      "reason": "« Parrainage » semble programme commercial, pas gamme e-liquide. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "liquideo",
+      "jsonName": "Les Essentiels",
+      "reason": "Les Essentiels Liquideo vs Liquidarom — appartenance fabricant incertaine. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "fruity-cool",
+      "jsonName": "Fruity Cool",
+      "reason": "Pas de site officiel Fruity Cool confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "mukk-mukk",
+      "jsonName": "Crazy Juice",
+      "reason": "Pas de site officiel Mukk Mukk confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "mukk-mukk",
+      "jsonName": "Crazy Barnacle",
+      "reason": "Pas de site officiel confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "mukk-mukk",
+      "jsonName": "Mukkies",
+      "reason": "Pas de site officiel confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "overdrive-juices",
+      "jsonName": "OverDrive Juices",
+      "reason": "Pas de site officiel OverDrive confirmé (rattachement Revenge Juices douteux). Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "revenge-juices",
+      "jsonName": "Revenge Juices",
+      "reason": "Site revengejuices.com DNS inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "alfa",
+      "jsonName": "Granita Soft",
+      "reason": "Pas de site officiel Alfa Granita Soft e-liquide (confusion boissons Granita). Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "le-maudit",
+      "jsonName": "Le Maudit",
+      "reason": "Pas de site officiel confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "fruizee",
+      "jsonName": "Fruizee",
+      "reason": "fruizee.fr DNS inaccessible ; Fruizee est une marque Eliquid France. Validation Yoann (fusion éventuelle).",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "yum-ebot",
+      "jsonName": "Yum E-Bot",
+      "reason": "Pas de site officiel confirmé. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "vape-city",
+      "jsonName": "Vape City",
+      "reason": "Pas de site officiel Vape City confirmé (confusion possible e.Tasty). Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "vape-city",
+      "jsonName": "Magic Potion",
+      "reason": "Magic Potion souvent Liquidarom — fabricant ZIP Vape City contradictoire. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "cloud-vapor",
+      "jsonName": "Call Of Vape",
+      "reason": "cloud-vapor.com DNS inaccessible au moment du crawl. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "cloud-vapor",
+      "jsonName": "Call Of Vape Blackout",
+      "reason": "Site officiel Cloud Vapor inaccessible. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "the-fuu",
+      "jsonName": "Cloud Empire",
+      "reason": "thefuu.com accessible mais liste complète Cloud Empire non scrapée de façon fiable (SPA). SumUp partiel. Validation Yoann pour liste officielle exhaustive.",
+      "officialUrl": "https://www.thefuu.com/",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "made-in-vape-distrib",
+      "jsonName": "MIV Distrib",
+      "reason": "Distributeur — pas fabricant ; site officiel produit non identifié. Validation Yoann.",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "liquideo",
+      "jsonName": "Freeze Citrus",
+      "reason": "Liquideo a une collection Freeze ; « Freeze Citrus » comme gamme séparée non confirmée. Validation Yoann.",
+      "officialUrl": "https://www.liquideo.com/fr/163-e-liquides-freeze",
+      "yoannValidationRequired": true
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "L'Ovalie",
+      "reason": "L'Ovalie non listée sur airmust.com homepage/collections actuelles. Validation Yoann.",
+      "officialUrl": "https://airmust.com/",
+      "yoannValidationRequired": true
+    }
+  ],
+  "ranges": [
+    {
+      "manufacturerId": "etasty",
+      "jsonName": "Golf City",
+      "officialName": "Godfall City",
+      "aliases": ["God Fall City", "Godfall City", "Golf City"],
+      "sourceUrl": "https://pro.e-tasty.fr/92_godfall-city",
+      "manufacturerUrl": "https://pro.e-tasty.fr/",
+      "products": [
+        { "name": "Adess", "format_ml": 100 },
+        { "name": "Dzeus", "format_ml": 100 },
+        { "name": "Posei", "format_ml": 100 },
+        { "name": "Thena", "format_ml": 100 }
+      ]
+    },
+    {
+      "manufacturerId": "etasty",
+      "jsonName": "Twenty",
+      "officialName": "Twenty",
+      "sourceUrl": "https://pro.e-tasty.fr/91_twenty",
+      "manufacturerUrl": "https://pro.e-tasty.fr/",
+      "products": [
+        { "name": "Double Pêche", "format_ml": 20 },
+        { "name": "Fruit du Dragon Cerise", "format_ml": 20 },
+        { "name": "Fruits Rouges", "format_ml": 20 },
+        { "name": "Limonade Citron Cassis", "format_ml": 20 },
+        { "name": "Menthe Polaire", "format_ml": 20 }
+      ]
+    },
+    {
+      "manufacturerId": "etasty",
+      "jsonName": "Letters",
+      "officialName": "Letters",
+      "sourceUrl": "https://pro.e-tasty.fr/90_letters",
+      "manufacturerUrl": "https://pro.e-tasty.fr/",
+      "products": [
+        { "name": "Letters A", "format_ml": 100 },
+        { "name": "Letters B", "format_ml": 100 },
+        { "name": "Letters C", "format_ml": 100 },
+        { "name": "Letters A Concentré", "format_ml": 30, "productType": "concentre" },
+        { "name": "Letters B Concentré", "format_ml": 30, "productType": "concentre" },
+        { "name": "Letters C Concentré", "format_ml": 30, "productType": "concentre" }
+      ]
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Force Vape",
+      "officialName": "Force Vape",
+      "sourceUrl": "https://swoke.net/force-vape/",
+      "manufacturerUrl": "https://swoke.net/",
+      "products": [
+        { "name": "Force Bleue", "format_ml": 100 },
+        { "name": "Force Jaune", "format_ml": 100 },
+        { "name": "Force Noire", "format_ml": 100 },
+        { "name": "Force Rouge", "format_ml": 100 },
+        { "name": "Force Verte", "format_ml": 100 },
+        { "name": "Force Violette", "format_ml": 100 }
+      ]
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Saint Flava",
+      "officialName": "Saint Flava",
+      "sourceUrl": "https://swoke.net/",
+      "manufacturerUrl": "https://swoke.net/",
+      "products": [
+        { "name": "Milo", "format_ml": 50 },
+        { "name": "Pyro", "format_ml": 50 },
+        { "name": "Atlas", "format_ml": 50 },
+        { "name": "Candy", "format_ml": 50 },
+        { "name": "Candy Gold Edition", "format_ml": 50 },
+        { "name": "Xena", "format_ml": 50 },
+        { "name": "Yumi", "format_ml": 50 },
+        { "name": "Drago", "format_ml": 50 },
+        { "name": "Frost", "format_ml": 50 },
+        { "name": "Lilya", "format_ml": 50 },
+        { "name": "Ruby", "format_ml": 50 },
+        { "name": "Vigo", "format_ml": 50 }
+      ],
+      "notes": "Liste consolidée distributeurs + swoke.net — formats 50 ml shortfill."
+    },
+    {
+      "manufacturerId": "swoke",
+      "jsonName": "Bisou",
+      "officialName": "Bisou",
+      "sourceUrl": "https://swoke.net/",
+      "manufacturerUrl": "https://swoke.net/",
+      "products": [
+        { "name": "Bisou Pink", "format_ml": 50 },
+        { "name": "Bisou Red", "format_ml": 50 },
+        { "name": "Bisou Black", "format_ml": 50 },
+        { "name": "Bisou Yellow", "format_ml": 50 },
+        { "name": "Bisou V2", "format_ml": 50 }
+      ]
+    },
+    {
+      "manufacturerId": "liquideo",
+      "jsonName": "Dragonz",
+      "officialName": "Dragonzz",
+      "aliases": ["Dragonz", "Dragonzz"],
+      "sourceUrl": "https://www.liquideo.com/fr/233-e-liquides-dragonzz",
+      "manufacturerUrl": "https://www.liquideo.com/",
+      "products": [
+        { "name": "Fruits Rouges", "format_ml": 50 },
+        { "name": "Myrtille Framboise", "format_ml": 50 },
+        { "name": "Pastèque Kiwi", "format_ml": 50 },
+        { "name": "Mangue Cassis", "format_ml": 50 }
+      ]
+    },
+    {
+      "manufacturerId": "liquideo",
+      "jsonName": "Evolution",
+      "officialName": "Evolution",
+      "sourceUrl": "https://www.liquideo.com/fr/74-e-liquides-evolution",
+      "manufacturerUrl": "https://www.liquideo.com/",
+      "products": [],
+      "sumupRangeToken": "evolution",
+      "notes": "78 refs officielles — rattachement SumUp par token Evolution/Liquideo uniquement."
+    },
+    {
+      "manufacturerId": "vape-47",
+      "jsonName": "ENFER",
+      "officialName": "Enfer",
+      "sourceUrl": "https://order.vape47.com/8902-eliquid-enfer",
+      "manufacturerUrl": "https://www.vape47.com/",
+      "sumupRangeToken": "enfer",
+      "products": []
+    },
+    {
+      "manufacturerId": "vape-47",
+      "jsonName": "Les Fruits d'ENFER",
+      "officialName": "Les Fruits d'Enfer",
+      "sourceUrl": "https://order.vape47.com/",
+      "manufacturerUrl": "https://www.vape47.com/",
+      "sumupRangeToken": "d enfer",
+      "products": []
+    },
+    {
+      "manufacturerId": "vape-47",
+      "jsonName": "Furiosa EGGZ V2",
+      "officialName": "Furiosa Eggz",
+      "sourceUrl": "https://order.vape47.com/",
+      "manufacturerUrl": "https://www.vape47.com/",
+      "products": [
+        { "name": "Aria" },
+        { "name": "Doom" },
+        { "name": "Griffon" },
+        { "name": "Ivy" },
+        { "name": "Juno" },
+        { "name": "Nova" },
+        { "name": "Ruby" },
+        { "name": "Ultron" },
+        { "name": "Volta" }
+      ]
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Fruizee Max",
+      "officialName": "Fruizee Max",
+      "sourceUrl": "https://www.eliquid-france.com/247-fruizee-max",
+      "manufacturerUrl": "https://www.eliquid-france.com/",
+      "products": [
+        { "name": "Citron Cassis", "format_ml": 50 },
+        { "name": "Citron Mandarine", "format_ml": 50 },
+        { "name": "Pêche Framboise", "format_ml": 50 },
+        { "name": "Cola Pomme", "format_ml": 50 },
+        { "name": "Dragon Fraise", "format_ml": 50 },
+        { "name": "Dragon Fruits Rouges", "format_ml": 50 },
+        { "name": "Fraise Framboise", "format_ml": 50 },
+        { "name": "Fruits Rouges Raisin", "format_ml": 50 },
+        { "name": "Fruits Rouges Yuzu", "format_ml": 50 },
+        { "name": "Mangue Passion", "format_ml": 50 },
+        { "name": "Menthe Givrée", "format_ml": 50 },
+        { "name": "Triple Mangue", "format_ml": 50 }
+      ]
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Lemon'Time",
+      "officialName": "Lemon'Time",
+      "sourceUrl": "https://www.eliquid-france.com/",
+      "manufacturerUrl": "https://www.eliquid-france.com/",
+      "sumupRangeToken": "lemon time",
+      "products": [
+        { "name": "Peach", "format_ml": 50 },
+        { "name": "Dragon Fruit", "format_ml": 50 },
+        { "name": "Ginger", "format_ml": 50 }
+      ],
+      "notes": "3 saveurs confirmées sur homepage officielle — liste peut être plus large, Yoann si complément."
+    },
+    {
+      "manufacturerId": "eliquid-france",
+      "jsonName": "Mintaïa",
+      "officialName": "Mintaïa",
+      "sourceUrl": "https://www.eliquid-france.com/",
+      "manufacturerUrl": "https://www.eliquid-france.com/",
+      "sumupRangeToken": "mintaia",
+      "products": [
+        { "name": "Mint & Dragon fruit", "format_ml": 50 },
+        { "name": "Mint & Raspberry", "format_ml": 50 }
+      ],
+      "notes": "2 saveurs vues homepage — gamme annoncée à 6, complément Yoann si liste officielle complète fournie."
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "Hopper",
+      "officialName": "Hopper",
+      "sourceUrl": "https://airmust.com/300-hopper",
+      "manufacturerUrl": "https://airmust.com/",
+      "products": [
+        { "name": "Bluevolt", "format_ml": 100 },
+        { "name": "Greensound", "format_ml": 100 },
+        { "name": "Purplenuclear", "format_ml": 100 },
+        { "name": "Redfire", "format_ml": 100 },
+        { "name": "Yellowstorm", "format_ml": 100 },
+        { "name": "Bluevolt", "format_ml": 200 },
+        { "name": "Greensound", "format_ml": 200 },
+        { "name": "Purplenuclear", "format_ml": 200 },
+        { "name": "Redfire", "format_ml": 200 },
+        { "name": "Yellowstorm", "format_ml": 200 }
+      ]
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "Ferox",
+      "officialName": "Ferox",
+      "sourceUrl": "https://airmust.com/295-ferox",
+      "manufacturerUrl": "https://airmust.com/",
+      "products": [
+        { "name": "Leox", "format_ml": 60 },
+        { "name": "Sharx", "format_ml": 60 },
+        { "name": "Aspik", "format_ml": 60 },
+        { "name": "Krak", "format_ml": 60 },
+        { "name": "Grizz", "format_ml": 60 },
+        { "name": "Leox", "format_ml": 100 },
+        { "name": "Sharx", "format_ml": 100 },
+        { "name": "Konga", "format_ml": 100 },
+        { "name": "Hippox", "format_ml": 100 },
+        { "name": "Grizz", "format_ml": 100 },
+        { "name": "Krak", "format_ml": 100 },
+        { "name": "Aspik", "format_ml": 100 }
+      ]
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "Press Start",
+      "officialName": "Press Start",
+      "sourceUrl": "https://airmust.com/308-press-start",
+      "manufacturerUrl": "https://airmust.com/",
+      "products": [
+        { "name": "Paka Paka", "format_ml": 50 },
+        { "name": "Dunky", "format_ml": 50 },
+        { "name": "Speed", "format_ml": 50 },
+        { "name": "Sword", "format_ml": 50 },
+        { "name": "Jump", "format_ml": 50 }
+      ]
+    },
+    {
+      "manufacturerId": "airmust",
+      "jsonName": "UNIK",
+      "officialName": "UNIK",
+      "sourceUrl": "https://airmust.com/",
+      "manufacturerUrl": "https://airmust.com/",
+      "sumupRangeToken": "unik",
+      "products": [
+        { "name": "Fruits Rouges", "format_ml": 60 },
+        { "name": "Popcorn", "format_ml": 60 },
+        { "name": "Pêche", "format_ml": 60 },
+        { "name": "Pure Passion", "format_ml": 60 },
+        { "name": "Mangue", "format_ml": 60 },
+        { "name": "Pomme Harmonie", "format_ml": 60 },
+        { "name": "Poire", "format_ml": 60 },
+        { "name": "Menthe Glaciale", "format_ml": 60 },
+        { "name": "Fraise Sauvage", "format_ml": 60 },
+        { "name": "Raisin Noir", "format_ml": 60 },
+        { "name": "Custard Vanille", "format_ml": 60 },
+        { "name": "Menthe du Jardin", "format_ml": 60 },
+        { "name": "Framboise", "format_ml": 60 }
+      ]
+    },
+    {
+      "manufacturerId": "cookin-cloud",
+      "jsonName": "MIST",
+      "officialName": "Myst",
+      "aliases": ["MIST", "Myst"],
+      "manufacturerUrl": "https://www.cookincloud.com/",
+      "sumupRangeToken": "myst",
+      "products": []
+    },
+    {
+      "manufacturerId": "big-kawa",
+      "jsonName": "Café",
+      "officialName": "Big Kawa",
+      "mapToExistingManufacturerSlug": "liquide-lab",
+      "mapToExistingRangeSlug": "big-kawa",
+      "sourceUrl": "https://liquidelab.com/img/gamme/Big-Kawa.jpg",
+      "manufacturerUrl": "https://liquidelab.com/",
+      "sumupRangeToken": "big kawa",
+      "products": [
+        { "name": "Café Frappé", "format_ml": 50 },
+        { "name": "Café Noisette", "format_ml": 50 },
+        { "name": "Café Caramel", "format_ml": 50 }
+      ]
+    },
+    {
+      "manufacturerId": "juice-66",
+      "jsonName": "66 Juice",
+      "officialName": "66 Juice",
+      "sumupRangeToken": "66 juice",
+      "products": [
+        { "name": "Saforia" },
+        { "name": "Yuluma" },
+        { "name": "Tsune" },
+        { "name": "Senka" },
+        { "name": "Kimi" }
+      ],
+      "notes": "Produits listés dans ZIP Yoann + SumUp ; site juice66.fr inaccessible — statut COMPLET sous réserve Yoann site.",
+      "needsYoannConfirmSite": true
+    },
+    {
+      "manufacturerId": "aromes-secrets",
+      "jsonName": "Mythologie",
+      "officialName": "Mythologie",
+      "sumupRangeToken": "aromes",
+      "products": [
+        { "name": "Milo" },
+        { "name": "Etna" },
+        { "name": "Baru" },
+        { "name": "Arathorn" },
+        { "name": "Esteli" },
+        { "name": "Maïpo" },
+        { "name": "Linzor" }
+      ],
+      "notes": "Produits SumUp Arômes & Secrets confirmés ; site aromesetsecrets.com DNS KO.",
+      "needsYoannConfirmSite": true
+    },
+    {
+      "manufacturerId": "cloud-vapor",
+      "jsonName": "Grand Taste City",
+      "officialName": "Grand Taste City",
+      "aliases": ["GTC"],
+      "sumupRangeToken": "grand taste",
+      "products": [
+        { "name": "Diamond Casino" },
+        { "name": "Mint Heist" },
+        { "name": "Paleta Score" },
+        { "name": "Perico" },
+        { "name": "Redwood" }
+      ],
+      "needsYoannConfirmSite": true
+    },
+    {
+      "manufacturerId": "avap",
+      "jsonName": "Devil",
+      "officialName": "Red Devil",
+      "sumupRangeToken": "red devil",
+      "products": [
+        { "name": "Red Devil", "format_ml": 50 },
+        { "name": "Red Devil", "format_ml": 100 }
+      ],
+      "needsYoannConfirmSite": true
+    },
+    {
+      "manufacturerId": "t-juice",
+      "jsonName": "T-Juice",
+      "officialName": "T-Juice",
+      "sourceUrl": "https://www.t-juice.com/",
+      "manufacturerUrl": "https://www.t-juice.com/",
+      "sumupRangeToken": "t-juice",
+      "mapToExistingRangeSlug": "t-juice-50-ml",
+      "products": []
+    }
+  ]
+}

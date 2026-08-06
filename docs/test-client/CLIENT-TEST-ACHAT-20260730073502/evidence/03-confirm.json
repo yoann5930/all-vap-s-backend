@@ -1,0 +1,18 @@
+{
+  "status": 200,
+  "body": {
+    "message": "Compte confirmé avec succès.",
+    "user": {
+      "id": "cms778ot8003nut04g6rxmsyd",
+      "email": "allvaps70+03.073502@gmail.com",
+      "firstName": "Client",
+      "lastName": "Test All Vap's 03",
+      "phone": "0600000003",
+      "role": "CUSTOMER",
+      "emailVerified": true,
+      "mustChangePassword": false,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-07-30T07:35:41.469Z"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cms96d3l4002duto8ofm7zl8u",
+  "slug": "custard-vanille-60-unik",
+  "nom": "Custard Vanille 60 ml",
+  "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier.",
+  "seo": {
+    "title": "Custard Vanille 60 ml | AirMust | All Vap's",
+    "description": "Fiche catalogue officielle (UNIK) — stock SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "AirMust",
+    "gamme": "UNIK",
+    "saveur": "Custard Vanille",
+    "format": "60 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/biarritz-lab/mamita/50ml/cafe-vanille-custard.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\biarritz-lab\\mamita\\50ml\\cafe-vanille-custard.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\airmust\\ranges\\unik-airmust.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/custard-vanille-60-unik.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/airmust__unik-airmust.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

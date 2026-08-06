@@ -1,0 +1,136 @@
+{
+  "productId": "cms96cv9n000huto852mjfs8t",
+  "catalogName": "Yuluma",
+  "fullName": "Yuluma",
+  "manufacturer": "66 Juice",
+  "range": "66 Juice",
+  "formatMl": null,
+  "pgVg": null,
+  "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": null,
+  "photoSource": null,
+  "bannerLocal": null,
+  "status": "validation_manuelle",
+  "missingFields": [
+    "format",
+    "ean",
+    "photo"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Yuluma",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "Juice 66",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "66 Juice",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/yuluma.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/yuluma.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/yuluma/fiche.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/yuluma.json",
+      "field": "nicotine",
+      "value": "inconnu (pas de fiche officielle trouvée)",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Yuluma» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Yuluma» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Yuluma» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Yuluma» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:47.080Z"
+}

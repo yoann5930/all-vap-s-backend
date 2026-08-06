@@ -1,0 +1,165 @@
+{
+  "total": 250,
+  "online": 99,
+  "withSumup": 250,
+  "byRange": {
+    "One Taste": 187,
+    "Bankiz": 14,
+    "Numbers": 11,
+    "(sans gamme)": 10,
+    "Inspiration": 6,
+    "Gang Organisé": 5,
+    "Twenty": 5,
+    "God Fall City": 4,
+    "Freezy Crush": 3,
+    "Letters": 3,
+    "Smoke Wars": 2
+  },
+  "byType": {
+    "10ml": 178,
+    "50ml": 43,
+    "30ml": 11,
+    "100ml": 7,
+    "(sans type)": 6,
+    "20ml": 5
+  },
+  "byVolume": {
+    "10": 44,
+    "20": 5,
+    "50": 43,
+    "100": 7,
+    "(null)": 151
+  },
+  "manufacturer": {
+    "id": "cms6nxppx0000utv8f0xj2c10",
+    "masterId": "MFR-e_tasty",
+    "name": "e.Tasty",
+    "slug": "e-tasty",
+    "website": "https://pro.e-tasty.fr/",
+    "country": "France",
+    "status": "partiel",
+    "sortOrder": 50,
+    "isActive": true,
+    "createdAt": "2026-07-29T22:35:16.726Z",
+    "updatedAt": "2026-07-29T22:42:13.805Z"
+  },
+  "ranges": [
+    {
+      "name": "One Taste",
+      "slug": "one-taste",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Bankiz",
+      "slug": "bankiz",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "God Fall City",
+      "slug": "god-fall-city",
+      "formatCodes": [
+        "100ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Inspiration",
+      "slug": "inspiration",
+      "formatCodes": [
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Smoke Wars",
+      "slug": "smoke-wars",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Gang Organisé",
+      "slug": "gang-organise",
+      "formatCodes": [
+        "10ml",
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Freezy Crush",
+      "slug": "freezy-crush",
+      "formatCodes": [
+        "50ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Numbers",
+      "slug": "numbers",
+      "formatCodes": [
+        "30ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Letters",
+      "slug": "letters",
+      "formatCodes": [
+        "30ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    },
+    {
+      "name": "Twenty",
+      "slug": "twenty",
+      "formatCodes": [
+        "20ml"
+      ],
+      "status": "partiel",
+      "brand": "e.Tasty"
+    }
+  ],
+  "sampleIssues": [
+    {
+      "name": "Concentré letters A e-tasty",
+      "range": "Letters",
+      "type": "100ml",
+      "vol": 100,
+      "sumup": "Concentré letters A e-tasty"
+    },
+    {
+      "name": "Concentré letters B e-tasty",
+      "range": "Letters",
+      "type": "100ml",
+      "vol": 100,
+      "sumup": "Concentré letters B e-tasty"
+    },
+    {
+      "name": "Concentré letters C e-tasty",
+      "range": "Letters",
+      "type": "100ml",
+      "vol": 100,
+      "sumup": "Concentré letters C e-tasty"
+    }
+  ]
+}

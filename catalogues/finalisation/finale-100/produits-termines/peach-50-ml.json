@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gxcz9004rutw4tkob52sj",
+  "catalogName": "Peach 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Lemon'Time",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/lemon-time/1308-peach-50ml-3760202035374.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-lemon-time.svg",
+  "officialName": "Lemon'Time — Peach 50mL",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill",
+  "nicotineBoostOptions": "≈3 / ≈6 mg via boosters 18 mg/ml",
+  "flavorNotes": null,
+  "ean": "3760202035374",
+  "eanConfidence": "official_site",
+  "formatMl": 50,
+  "photoUrl": "https://www.eliquid-france.com/4179-full_default/peach-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/peach-50-ml.jpg",
+  "seo": {
+    "title": "Lemon'Time — Peach 50mL | All Vap's",
+    "description": "Lemon'Time — Peach 50mL — Eliquid France — Lemon'Time — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:37.951Z",
+  "finalizedVia": "recherche-web"
+}

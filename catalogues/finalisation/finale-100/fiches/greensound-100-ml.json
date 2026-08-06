@@ -1,0 +1,275 @@
+{
+  "productId": "cms9gxbdt002vutw4v0bxerrn",
+  "catalogName": "Greensound 100 ml",
+  "fullName": "Greensound 100 ml",
+  "manufacturer": "Hopper",
+  "range": "Blue Hopper",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/greensound-100-ml.jpg",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": "catalogues/finalisation/finale-100/bannieres/hopper-blue-hopper.webp",
+  "status": "validation_manuelle",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "Hopper",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "Blue Hopper",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Greensound 100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "Blue Hopper",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "AirMust",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "Blue Hopper",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/greensound-100-ml/greensound-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/greensound-100-ml/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/greensound-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/greensound-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/greensound-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/greensound-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/greensound-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/greensound-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/greensound-100-ml/fiche.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/greensound-100-ml/fiche.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/greensound-100-ml/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/greensound-100-ml.json",
+      "field": "pgVg",
+      "value": "50/50",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/greensound-100-ml.json",
+      "field": "nicotine",
+      "value": "0 mg/ml (100 ou 200 ml selon fiche)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/greensound-100-ml.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/greensound-100-ml.jpg",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Greensound 100 ml» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Greensound 100 ml» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Greensound 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Greensound 100 ml» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 greensound-100-ml.jpg",
+    "Photo fichier score=1.00 greensound-100-ml.jpg",
+    "Photo fichier score=1.00 greensound-100-ml.jpg"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:43.068Z"
+}

@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9vz0015utw43lobsks0",
+  "catalogName": "Lilya 50 ml",
+  "name": "Lilya 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/saint-flava-swoke/lilya-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

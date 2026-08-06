@@ -1,0 +1,61 @@
+PROJET : MODELES DE DOCUMENTS ALL VAP'S
+
+Créer trois modèles professionnels parfaitement homogènes :
+
+1. Bon de commande
+2. Bon de préparation
+3. Facture
+
+STYLE
+- Reprendre fidèlement le logo officiel actuellement utilisé sur le site All Vap's (ne pas recréer ni modifier le logo).
+- Utiliser la police Algerian pour les grands titres si elle est disponible, sinon une police très proche.
+- Charte noire, blanche et dorée.
+- Style premium, sobre et haut de gamme.
+- Format A4 prêt à imprimer.
+
+BON DE COMMANDE
+- Coordonnées All Vap's
+- Coordonnées client
+- Tableau des produits
+- Quantité
+- Prix unitaire
+- Total
+- Mode de paiement
+- Mode de livraison
+- Total général
+- Aucune case "Signature client".
+- Ajouter simplement la mention :
+  "Le règlement de la commande vaut acceptation et fait foi de signature."
+
+BON DE PREPARATION
+- Document interne uniquement.
+- Coordonnées client.
+- Tableau des produits.
+- Quantités.
+- Cases à cocher :
+  Préparé
+  Vérifié
+  Emballé
+  Expédié
+- Zone remarques.
+- Nom du préparateur.
+
+FACTURE
+- Très épurée.
+- Coordonnées vendeur.
+- Coordonnées client.
+- Numéro de facture.
+- Date.
+- Tableau des produits.
+- Quantités.
+- Prix unitaire.
+- Total final.
+- Ne pas afficher :
+  - QR Code
+  - Transporteur
+  - Suivi
+  - TVA
+  - Mentions inutiles.
+- Mise en page très simple et élégante.
+
+Tous les modèles doivent partager exactement la même identité graphique.

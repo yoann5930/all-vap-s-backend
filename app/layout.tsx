@@ -97,7 +97,10 @@ export default function RootLayout({
 
   return (
     <html lang="fr" data-theme="dark">
-      <body className={`${dmSans.variable} ${outfit.variable} ${dmSans.className} flex min-h-screen flex-col`}>
+      <body
+        className={`${dmSans.variable} ${outfit.variable} ${dmSans.className} flex min-h-screen flex-col`}
+        style={{ backgroundColor: "#05070A", color: "#ffffff" }}
+      >
         <JsonLd data={structuredData} />
         <GoogleAnalytics />
         <CartProvider>

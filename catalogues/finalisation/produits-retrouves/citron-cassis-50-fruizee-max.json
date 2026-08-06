@@ -1,0 +1,37 @@
+{
+  "id": "cms9gxd3q004xutw4bh803c25",
+  "slug": "citron-cassis-50-fruizee-max",
+  "nom": "Citron Cassis 50 ml",
+  "description": "Officiel Fruizee Max — SumUp à lier.",
+  "seo": {
+    "title": "Citron Cassis 50 ml | Eliquid France | All Vap's",
+    "description": "Officiel Fruizee Max — SumUp à lier."
+  },
+  "complete": false,
+  "champsManquants": [
+    "nicotine",
+    "ean"
+  ],
+  "trouve": {
+    "fabricant": "Eliquid France",
+    "gamme": "Fruizee Max",
+    "saveur": "Citron Cassis",
+    "format": "50 ml",
+    "nicotine": null,
+    "ean": null,
+    "photoOfficielle": "/media/products/e-tasty/twenty/20ml/twenty-limonade-citron-cassis-20ml.webp",
+    "categorie": "e-liquides",
+    "sources": [
+      "catalogue_prisma",
+      "catalogue_prisma_gamme",
+      "photo_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\e-tasty\\twenty\\20ml\\twenty-limonade-citron-cassis-20ml.webp",
+      "banniere_locale:D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\eliquid-france\\ranges\\fruizee-max-eliquid-france.webp"
+    ],
+    "photoFinalisation": "catalogues/finalisation/photos/citron-cassis-50-fruizee-max.webp",
+    "banniereGamme": "catalogues/finalisation/bannieres/eliquid-france__fruizee-max-eliquid-france.webp"
+  },
+  "prix": "NON_MODIFIE",
+  "stock": "NON_MODIFIE",
+  "sumupProductId": null,
+  "note": "Fiche générée hors publication — validation humaine requise avant import DB"
+}

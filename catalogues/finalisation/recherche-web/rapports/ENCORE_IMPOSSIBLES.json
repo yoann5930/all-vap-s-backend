@@ -1,0 +1,2218 @@
+[
+  {
+    "productId": "cms96dg8g003quto89pjgiunm",
+    "catalogName": "Café Frappé 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "sourceUrls": [
+      "https://liquidelab.com/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "pgVg",
+      "ean",
+      "photo"
+    ],
+    "notes": [],
+    "officialName": "Big Kawa (Liquide Lab) — café",
+    "formatMl": 50,
+    "pgVg": null,
+    "nicotineSoldAs": "Non publié sur liquidelab.com (B2B)",
+    "nicotineBoostOptions": "Inconnu",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Site fabricant B2B sans fiches publiques packshot/EAN",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/liquide-lab-big-kawa.svg",
+    "seo": {
+      "title": "Big Kawa (Liquide Lab) — café | All Vap's",
+      "description": "Big Kawa (Liquide Lab) — café — Liquide Lab — Big Kawa — Site fabricant B2B sans fiches publiques packshot/EAN"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:14.724Z"
+  },
+  {
+    "productId": "cms96dg8p003suto8n6icokt7",
+    "catalogName": "Café Noisette 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "sourceUrls": [
+      "https://liquidelab.com/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "pgVg",
+      "ean",
+      "photo"
+    ],
+    "notes": [],
+    "officialName": "Big Kawa (Liquide Lab) — café",
+    "formatMl": 50,
+    "pgVg": null,
+    "nicotineSoldAs": "Non publié sur liquidelab.com (B2B)",
+    "nicotineBoostOptions": "Inconnu",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Site fabricant B2B sans fiches publiques packshot/EAN",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/liquide-lab-big-kawa.svg",
+    "seo": {
+      "title": "Big Kawa (Liquide Lab) — café | All Vap's",
+      "description": "Big Kawa (Liquide Lab) — café — Liquide Lab — Big Kawa — Site fabricant B2B sans fiches publiques packshot/EAN"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:14.817Z"
+  },
+  {
+    "productId": "cms96dg92003uuto8ct4u3tbj",
+    "catalogName": "Café Caramel 50 ml",
+    "manufacturer": "Liquide Lab",
+    "range": "Big Kawa",
+    "sourceUrls": [
+      "https://liquidelab.com/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "pgVg",
+      "ean",
+      "photo"
+    ],
+    "notes": [],
+    "officialName": "Big Kawa (Liquide Lab) — café",
+    "formatMl": 50,
+    "pgVg": null,
+    "nicotineSoldAs": "Non publié sur liquidelab.com (B2B)",
+    "nicotineBoostOptions": "Inconnu",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Site fabricant B2B sans fiches publiques packshot/EAN",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/liquide-lab-big-kawa.svg",
+    "seo": {
+      "title": "Big Kawa (Liquide Lab) — café | All Vap's",
+      "description": "Big Kawa (Liquide Lab) — café — Liquide Lab — Big Kawa — Site fabricant B2B sans fiches publiques packshot/EAN"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:14.940Z"
+  },
+  {
+    "productId": "cms9gx9k6000hutw4iw8rdoba",
+    "catalogName": "Force Violette 100 ml",
+    "manufacturer": "Swoke",
+    "range": "Force Vape",
+    "sourceUrls": [
+      "https://joshnoaco.fr/100-ml/15353-force-jaune-100ml-force-vape-swoke-6410947308338.html",
+      "https://swoke.net/force-vape/force-noire.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "EAN 6410947308338 était celui de Force Jaune — invalidé"
+    ],
+    "officialName": "Force Violette 100 ml — Force Vape",
+    "formatMl": 100,
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (100 dans 120)",
+    "nicotineBoostOptions": "boosters",
+    "ean": null,
+    "eanConfidence": "conflict",
+    "flavorNotes": "Baies rouges, goumi, violette — EAN 100 ml non trouvé de façon univoque",
+    "photoUrl": "https://joshnoaco.fr/39979-large_default/force-jaune-100ml-force-vape-swoke.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/force-violette-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+    "seo": {
+      "title": "Force Violette 100 ml — Force Vape (Swoke) | All Vap's",
+      "description": "Force Violette 100 ml — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — Baies rouges, goumi, violette — EAN 100 ml non trouvé de façon univoque"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:15.879Z"
+  },
+  {
+    "productId": "cms9gx9s9000nutw4af16auny",
+    "catalogName": "Milo 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.aromes-et-liquides.fr/e-liquide-swoke/17239-milo-50ml-saint-flava.html",
+      "https://www.chti-vapoteur.fr/50-ml/4037-10500-saint-flava-milo-king-size-3111577004425.html",
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "EAN conflictuel pass1 invalidé — non inventé",
+      "EAN conflictuels 6410943215678 vs 3111577004425 — non retenu"
+    ],
+    "officialName": "Milo 50 ml — Saint Flava",
+    "formatMl": 50,
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml",
+    "nicotineBoostOptions": "1–2 boosters",
+    "ean": null,
+    "eanConfidence": "conflict",
+    "eanSources": [
+      "6410943215678 (A&L/Eleciga)",
+      "3111577004425 (Chti-Vapoteur)"
+    ],
+    "flavorNotes": "Deux EAN distincts selon revendeurs — non appliqué",
+    "photoUrl": "https://assets.aromes-et-liquides.fr/51549-thickbox_default/milo-50ml-saint-flava.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/milo-50-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "seo": {
+      "title": "Milo 50 ml — Saint Flava (Swoke) | All Vap's",
+      "description": "Milo 50 ml — Saint Flava (Swoke) — Swoke — Saint Flava — 40/60 — Deux EAN distincts selon revendeurs — non appliqué"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:16.060Z"
+  },
+  {
+    "productId": "cms9gx9sp000putw44vlnkgd3",
+    "catalogName": "Pyro 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:16.682Z"
+  },
+  {
+    "productId": "cms96dgph004buto8d198fwbs",
+    "catalogName": "Pêche Abricot 50 ml",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft",
+    "sourceUrls": [
+      "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Granita Soft (Alfaliquid)",
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+    "nicotineBoostOptions": "shortfill 1–2 boosters ; 10 ml prêts à vaper",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://www.alfaliquid.com/111598-large_default/peche-abricot-granita-soft.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/peche-abricot-50-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+    "seo": {
+      "title": "Granita Soft (Alfaliquid) | All Vap's",
+      "description": "Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:17.378Z"
+  },
+  {
+    "productId": "cms9gx9tg000tutw4ymtit729",
+    "catalogName": "Candy 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:17.775Z"
+  },
+  {
+    "productId": "cms9gx9tz000vutw4idpu2oni",
+    "catalogName": "Candy Gold Edition 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:18.143Z"
+  },
+  {
+    "productId": "cms9gx9ud000xutw4r882v2ss",
+    "catalogName": "Xena 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:18.521Z"
+  },
+  {
+    "productId": "cms9gx9ur000zutw4muap1dwc",
+    "catalogName": "Yumi 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:18.869Z"
+  },
+  {
+    "productId": "cms96dgq6004futo8o3olofk5",
+    "catalogName": "Fraise Fruit du Dragon 50 ml",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft",
+    "sourceUrls": [
+      "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Photo reprise depuis finalisation locale antérieure (déjà validée)",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/fraise-fruit-du-dragon-50-granita-soft.webp",
+    "officialName": "Granita Soft (Alfaliquid)",
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+    "nicotineBoostOptions": "shortfill 1–2 boosters ; 10 ml prêts à vaper",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+    "seo": {
+      "title": "Granita Soft (Alfaliquid) | All Vap's",
+      "description": "Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:19.239Z"
+  },
+  {
+    "productId": "cms96dgqh004huto8nv7esxjq",
+    "catalogName": "Citron Vert Melon 50 ml",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft",
+    "sourceUrls": [
+      "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Granita Soft (Alfaliquid)",
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+    "nicotineBoostOptions": "shortfill 1–2 boosters ; 10 ml prêts à vaper",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://www.alfaliquid.com/111598-large_default/peche-abricot-granita-soft.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/citron-vert-melon-50-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+    "seo": {
+      "title": "Granita Soft (Alfaliquid) | All Vap's",
+      "description": "Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:19.548Z"
+  },
+  {
+    "productId": "cms96dgqr004juto8b4foj32h",
+    "catalogName": "Mûre Cassis 50 ml",
+    "manufacturer": "Alfa",
+    "range": "Granita Soft",
+    "sourceUrls": [
+      "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Granita Soft (Alfaliquid)",
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill 50 ml ; aussi 10 ml 0/3/6/12 mg",
+    "nicotineBoostOptions": "shortfill 1–2 boosters ; 10 ml prêts à vaper",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://www.alfaliquid.com/111598-large_default/peche-abricot-granita-soft.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/mure-cassis-50-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/alfa-granita-soft.svg",
+    "seo": {
+      "title": "Granita Soft (Alfaliquid) | All Vap's",
+      "description": "Granita Soft (Alfaliquid) — Alfa — Granita Soft — 50/50"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:19.984Z"
+  },
+  {
+    "productId": "cms9gx9vz0015utw43lobsks0",
+    "catalogName": "Lilya 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:20.363Z"
+  },
+  {
+    "productId": "cms9gx9we0017utw4r7t8uw6f",
+    "catalogName": "Ruby 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:20.725Z"
+  },
+  {
+    "productId": "cms9gx9wt0019utw4irgbxyqa",
+    "catalogName": "Vigo 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:21.106Z"
+  },
+  {
+    "productId": "cms96dhnv004wuto8813gy228",
+    "catalogName": "Sour Sorbet",
+    "manufacturer": "T-Juice",
+    "range": "T-Juice 50 mL",
+    "sourceUrls": [
+      "https://www.t-juice.com/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "formatMl",
+      "pgVg",
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/t-juice-t-juice-50-ml.svg",
+    "officialName": "Sour Sorbet — T-Juice",
+    "pgVg": null,
+    "nicotineSoldAs": "Formats multiples possibles — non tranché pour cette fiche",
+    "nicotineBoostOptions": "inconnu",
+    "flavorNotes": "Produit T-Juice existant ; fiche 50 ml EAN packshot non confirmée ici",
+    "photoUrl": "http://www.t-juice.com/cdn/shop/files/t-juice-featured-image_a0bf2790-eda0-47b9-9cda-bf208b7e85c1.png?v=1659438058",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/sour-sorbet.jpg",
+    "seo": {
+      "title": "Sour Sorbet — T-Juice | All Vap's",
+      "description": "Sour Sorbet — T-Juice — T-Juice — T-Juice 50 mL — Produit T-Juice existant ; fiche 50 ml EAN packshot non confirmée ici"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:21.518Z"
+  },
+  {
+    "productId": "cms9gxa6o001futw4kdvzdeva",
+    "catalogName": "Bisou Red 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "sourceUrls": [
+      "https://swoke.net/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+    "officialName": "Bisou (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-red-50-ml.jpg",
+    "seo": {
+      "title": "Bisou (Swoke) 50 ml | All Vap's",
+      "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:22.302Z"
+  },
+  {
+    "productId": "cms9gxa71001hutw4zvhltm60",
+    "catalogName": "Bisou Black 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "sourceUrls": [
+      "https://swoke.net/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+    "officialName": "Bisou (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-black-50-ml.jpg",
+    "seo": {
+      "title": "Bisou (Swoke) 50 ml | All Vap's",
+      "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:22.974Z"
+  },
+  {
+    "productId": "cms9gxa7g001jutw43yc86w8j",
+    "catalogName": "Bisou Yellow 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "sourceUrls": [
+      "https://swoke.net/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+    "officialName": "Bisou (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-yellow-50-ml.jpg",
+    "seo": {
+      "title": "Bisou (Swoke) 50 ml | All Vap's",
+      "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:23.587Z"
+  },
+  {
+    "productId": "cms9gxa7q001lutw470n0r7s6",
+    "catalogName": "Bisou V2 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "sourceUrls": [
+      "https://swoke.net/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+    "officialName": "Bisou (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-v2-50-ml.jpg",
+    "seo": {
+      "title": "Bisou (Swoke) 50 ml | All Vap's",
+      "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:24.910Z"
+  },
+  {
+    "productId": "cms9gxbdt002vutw4v0bxerrn",
+    "catalogName": "Greensound 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/greensound-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:25.474Z"
+  },
+  {
+    "productId": "cms9gxbe4002xutw4z9kjqc8v",
+    "catalogName": "Purplenuclear 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/purplenuclear-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:25.825Z"
+  },
+  {
+    "productId": "cms9gxber0031utw4ahkm4448",
+    "catalogName": "Yellowstorm 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/yellowstorm-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:26.133Z"
+  },
+  {
+    "productId": "cms9gxbf00033utw4d82rf9u7",
+    "catalogName": "Bluevolt 200 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 200 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 200,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bluevolt-200-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:26.498Z"
+  },
+  {
+    "productId": "cms9gxbfj0037utw4bnkpvqmu",
+    "catalogName": "Purplenuclear 200 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 200 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 200,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/purplenuclear-200-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:26.920Z"
+  },
+  {
+    "productId": "cms9gxbfu0039utw4mnwqo3q6",
+    "catalogName": "Redfire 200 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 200 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 200,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/redfire-200-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:27.233Z"
+  },
+  {
+    "productId": "cms9gxbo9003jutw4d38hzkst",
+    "catalogName": "Aspik 60 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 60,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:27.485Z"
+  },
+  {
+    "productId": "cms9gxboh003lutw4d8viuvxg",
+    "catalogName": "Krak 60 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 60,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:27.717Z"
+  },
+  {
+    "productId": "cms9gxbp0003nutw4toms3epp",
+    "catalogName": "Grizz 60 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 60,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:28.092Z"
+  },
+  {
+    "productId": "cms9gxbpv003tutw4dyiv4el7",
+    "catalogName": "Konga 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:28.375Z"
+  },
+  {
+    "productId": "cms9gxbq5003vutw4zupdmx6j",
+    "catalogName": "Hippox 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:28.711Z"
+  },
+  {
+    "productId": "cms9gxbqg003xutw4mz0y5a4q",
+    "catalogName": "Grizz 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:28.957Z"
+  },
+  {
+    "productId": "cms9gxbqp003zutw4zig3u8p1",
+    "catalogName": "Krak 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:29.192Z"
+  },
+  {
+    "productId": "cms9gxbr10041utw4chkucjme",
+    "catalogName": "Aspik 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/100ml/2551-6199-ferox-aspik-100ml.html",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [],
+    "officialName": "Ferox • Aspik 100ml",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml",
+    "nicotineBoostOptions": "1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Framboise bleue, myrtille glacée — page officielle sans EAN dans URL",
+    "photoUrl": "https://airmust.com/8210-cover_fullhd/ferox-aspik-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/aspik-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox • Aspik 100ml | All Vap's",
+      "description": "Ferox • Aspik 100ml — AirMust — Ferox — 50/50 — Framboise bleue, myrtille glacée — page officielle sans EAN dans URL"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:29.445Z"
+  },
+  {
+    "productId": "cms9gxcfk004lutw4rrjxrpup",
+    "catalogName": "Red Devil 100 ml",
+    "manufacturer": "AVAP",
+    "range": "Devil",
+    "sourceUrls": [
+      "https://www.aromes-et-liquides.fr/en/devil-e-liquid/11981-red-devil-50-ml-avap.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [],
+    "officialName": "Red Devil 100 ml — Devil (AVAP)",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (shortfill) — EAN 100 ml non confirmé sans ambiguïté",
+    "nicotineBoostOptions": "Boosters selon flacon",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": null,
+    "photoUrl": "https://assets.aromes-et-liquides.fr/en/35009-thickbox_default/red-devil-50-ml-avap.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/red-devil-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/avap-devil.svg",
+    "seo": {
+      "title": "Red Devil 100 ml — Devil (AVAP) | All Vap's",
+      "description": "Red Devil 100 ml — Devil (AVAP) — AVAP — Devil — 50/50"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:30.302Z"
+  },
+  {
+    "productId": "cms9gxcw5004nutw4qnsas72n",
+    "catalogName": "Mint & Dragon fruit 50 ml",
+    "manufacturer": "Eliquid France",
+    "range": "Mintaïa",
+    "sourceUrls": [
+      "https://www.eliquid-france.com/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-mintaia.svg",
+    "officialName": "Mintaïa — Mint & Dragon fruit 50mL",
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill",
+    "nicotineBoostOptions": "≈3 / ≈6 mg via boosters",
+    "flavorNotes": "Page produit exacte Mint & Dragon fruit non confirmée dans cette passe",
+    "formatMl": 50,
+    "seo": {
+      "title": "Mintaïa — Mint & Dragon fruit 50mL | All Vap's",
+      "description": "Mintaïa — Mint & Dragon fruit 50mL — Eliquid France — Mintaïa — 50/50 — Page produit exacte Mint & Dragon fruit non confirmée dans cette passe"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:30.500Z"
+  },
+  {
+    "productId": "cms9gx9t3000rutw4q9tu7bld",
+    "catalogName": "Atlas 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:33.376Z"
+  },
+  {
+    "productId": "cms9gx9v40011utw4m964ureu",
+    "catalogName": "Drago 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:33.752Z"
+  },
+  {
+    "productId": "cms9gx9vi0013utw4hund92s9",
+    "catalogName": "Frost 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Saint Flava",
+    "sourceUrls": [
+      "https://www.e-fumeur.fr/918-e-liquide-saint-flava"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-saint-flava.svg",
+    "officialName": "Saint Flava (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml (50 dans 75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": "EAN non appliqué (conflits revendeurs fréquents sur Swoke)",
+    "formatMl": 50,
+    "seo": {
+      "title": "Saint Flava (Swoke) 50 ml | All Vap's",
+      "description": "Saint Flava (Swoke) 50 ml — Swoke — Saint Flava — 40/60 — EAN non appliqué (conflits revendeurs fréquents sur Swoke)"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:34.087Z"
+  },
+  {
+    "productId": "cms9gxa6b001dutw4rqovwy0p",
+    "catalogName": "Bisou Pink 50 ml",
+    "manufacturer": "Swoke",
+    "range": "Bisou",
+    "sourceUrls": [
+      "https://swoke.net/"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 50 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-bisou.svg",
+    "officialName": "Bisou (Swoke) 50 ml",
+    "pgVg": "40/60",
+    "nicotineSoldAs": "0 mg/ml shortfill (typique Swoke 50/75)",
+    "nicotineBoostOptions": "1–2 boosters",
+    "flavorNotes": null,
+    "formatMl": 50,
+    "photoUrl": "https://swoke.net/img/swoke-logo-1601553699.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bisou-pink-50-ml.jpg",
+    "seo": {
+      "title": "Bisou (Swoke) 50 ml | All Vap's",
+      "description": "Bisou (Swoke) 50 ml — Swoke — Bisou — 40/60"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:35.707Z"
+  },
+  {
+    "productId": "cms9gxbdj002tutw4b70fp0st",
+    "catalogName": "Bluevolt 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/bluevolt-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:35.988Z"
+  },
+  {
+    "productId": "cms9gxbeh002zutw4niayvxzj",
+    "catalogName": "Redfire 100 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 100 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 100,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/redfire-100-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:36.322Z"
+  },
+  {
+    "productId": "cms9gxbf80035utw44urczrsd",
+    "catalogName": "Greensound 200 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 200 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 200,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/greensound-200-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:36.570Z"
+  },
+  {
+    "productId": "cms9gxbg2003butw4wcseseg9",
+    "catalogName": "Yellowstorm 200 ml",
+    "manufacturer": "AirMust",
+    "range": "Blue Hopper",
+    "sourceUrls": [
+      "https://airmust.com/300-hopper",
+      "https://airmust.com/100ml/2663-6308-hopper-bluevolt-100ml.html",
+      "https://airmust.com/200ml/2600-6230-hopper-bluevolt-200ml.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean"
+    ],
+    "notes": [
+      "Format 200 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "HOPPER (AirMust) — saveur catalogue",
+    "formatMl": 200,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml (100 ou 200 ml selon fiche)",
+    "nicotineBoostOptions": "Doc airmust 100 ml : 1–2 boosters",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées",
+    "photoUrl": "https://airmust.com/8433-cover_fullhd/hopper-bluevolt-100ml.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/yellowstorm-200-ml.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-blue-hopper.svg",
+    "seo": {
+      "title": "HOPPER (AirMust) — saveur catalogue | All Vap's",
+      "description": "HOPPER (AirMust) — saveur catalogue — AirMust — Blue Hopper — 50/50 — Gamme Hopper confirmée sur airmust.com ; EAN absents des URL listées"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:36.821Z"
+  },
+  {
+    "productId": "cms9gxbno003futw43gkelkoj",
+    "catalogName": "Leox 60 ml",
+    "manufacturer": "AirMust",
+    "range": "Ferox",
+    "sourceUrls": [
+      "https://airmust.com/296-60ml",
+      "https://airmust.com/297-100ml-ferox"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "officialName": "Ferox (AirMust) — produit catalogue",
+    "formatMl": 60,
+    "pgVg": "50/50",
+    "nicotineSoldAs": "0 mg/ml shortfill (gamme confirmée airmust.com/296 et /297)",
+    "nicotineBoostOptions": "Selon format 60 ou 100 ml (doc airmust)",
+    "ean": null,
+    "eanConfidence": "missing",
+    "flavorNotes": "Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leox 100/60",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+    "seo": {
+      "title": "Ferox (AirMust) — produit catalogue | All Vap's",
+      "description": "Ferox (AirMust) — produit catalogue — AirMust — Ferox — 50/50 — Gamme Ferox listée officiellement ; EAN univoque non extrait pour cette référence sauf Sharx/Leo"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:37.073Z"
+  },
+  {
+    "productId": "cms96cva3000juto861bzosuz",
+    "catalogName": "Senka",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice",
+    "sourceUrls": [],
+    "status": "partial",
+    "missingFields": [
+      "formatMl",
+      "pgVg",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/juice-66-66-juice.svg",
+    "officialName": "66 Juice",
+    "pgVg": null,
+    "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+    "nicotineBoostOptions": "inconnu",
+    "flavorNotes": "Fabricant/gamme catalogue ; sources publiques insuffisantes",
+    "seo": {
+      "title": "66 Juice | All Vap's",
+      "description": "66 Juice — Juice 66 — 66 Juice — Fabricant/gamme catalogue ; sources publiques insuffisantes"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.164Z"
+  },
+  {
+    "productId": "cms96cuxg000duto8hhncr475",
+    "catalogName": "Force Verte",
+    "manufacturer": "Swoke",
+    "range": "Force Vape",
+    "sourceUrls": [
+      "https://swoke.net/force-vape/force-noire.html"
+    ],
+    "status": "partial",
+    "missingFields": [
+      "formatMl"
+    ],
+    "notes": [],
+    "officialName": "Force Verte — Force Vape (Swoke)",
+    "formatMl": null,
+    "pgVg": "40/60",
+    "nicotineSoldAs": "Format catalogue ambigu (pas de ml dans le nom)",
+    "nicotineBoostOptions": "Selon référence exacte",
+    "ean": "6410949705432",
+    "eanConfidence": "retailer",
+    "flavorNotes": "Existence gamme Force Vape confirmée ; format/EAN de cette fiche catalogue non tranché",
+    "photoUrl": "https://swoke.b-cdn.net/425-large_default/force-noire.jpg",
+    "photoLocal": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+    "seo": {
+      "title": "Force Verte — Force Vape (Swoke) | All Vap's",
+      "description": "Force Verte — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — Existence gamme Force Vape confirmée ; format/EAN de cette fiche catalogue non tranché"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.172Z"
+  },
+  {
+    "productId": "cms96cv9n000huto852mjfs8t",
+    "catalogName": "Yuluma",
+    "manufacturer": "Juice 66",
+    "range": "66 Juice",
+    "sourceUrls": [],
+    "status": "partial",
+    "missingFields": [
+      "formatMl",
+      "pgVg",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/juice-66-66-juice.svg",
+    "officialName": "66 Juice",
+    "pgVg": null,
+    "nicotineSoldAs": "inconnu (pas de fiche officielle trouvée)",
+    "nicotineBoostOptions": "inconnu",
+    "flavorNotes": "Fabricant/gamme catalogue ; sources publiques insuffisantes",
+    "seo": {
+      "title": "66 Juice | All Vap's",
+      "description": "66 Juice — Juice 66 — 66 Juice — Fabricant/gamme catalogue ; sources publiques insuffisantes"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.175Z"
+  },
+  {
+    "productId": "cms96d3ij001tuto8m3peencv",
+    "catalogName": "Fruits Rouges 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Fruits Rouges 60 ml | All Vap's",
+      "description": "Fruits Rouges 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.178Z"
+  },
+  {
+    "productId": "cms96d3ju0023uto88j8fowyq",
+    "catalogName": "Pomme Harmonie 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Pomme Harmonie 60 ml | All Vap's",
+      "description": "Pomme Harmonie 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.182Z"
+  },
+  {
+    "productId": "cms96d3k30025uto8yv4jrn77",
+    "catalogName": "Poire 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Poire 60 ml | All Vap's",
+      "description": "Poire 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.183Z"
+  },
+  {
+    "productId": "cms96d3kc0027uto8puqw152i",
+    "catalogName": "Menthe Glaciale 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Menthe Glaciale 60 ml | All Vap's",
+      "description": "Menthe Glaciale 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.185Z"
+  },
+  {
+    "productId": "cms96d3ll002huto8x6b5lqli",
+    "catalogName": "Framboise 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Framboise 60 ml | All Vap's",
+      "description": "Framboise 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.186Z"
+  },
+  {
+    "productId": "cms96d3j2001xuto8f2ydmmtt",
+    "catalogName": "Pêche 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Pêche 60 ml | All Vap's",
+      "description": "Pêche 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.188Z"
+  },
+  {
+    "productId": "cms96d3jc001zuto8luaxamoo",
+    "catalogName": "Pure Passion 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Pure Passion 60 ml | All Vap's",
+      "description": "Pure Passion 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.189Z"
+  },
+  {
+    "productId": "cms96d3jk0021uto8ltuky9ti",
+    "catalogName": "Mangue 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Mangue 60 ml | All Vap's",
+      "description": "Mangue 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.191Z"
+  },
+  {
+    "productId": "cms96d3ku002buto8oz61esyx",
+    "catalogName": "Raisin Noir 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Raisin Noir 60 ml | All Vap's",
+      "description": "Raisin Noir 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.196Z"
+  },
+  {
+    "productId": "cms96d3l4002duto8ofm7zl8u",
+    "catalogName": "Custard Vanille 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Custard Vanille 60 ml | All Vap's",
+      "description": "Custard Vanille 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.197Z"
+  },
+  {
+    "productId": "cms96d3lb002futo8fkwu1eka",
+    "catalogName": "Menthe du Jardin 60 ml",
+    "manufacturer": "AirMust",
+    "range": "UNIK",
+    "sourceUrls": [],
+    "status": "introuvable",
+    "missingFields": [
+      "pgVg",
+      "nicotine",
+      "ean",
+      "photo"
+    ],
+    "notes": [
+      "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+      "Format 60 ml lu depuis le nom catalogue"
+    ],
+    "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+    "formatMl": 60,
+    "seo": {
+      "title": "Menthe du Jardin 60 ml | All Vap's",
+      "description": "Menthe du Jardin 60 ml — AirMust — UNIK"
+    },
+    "constraints": {
+      "priceUntouched": true,
+      "stockUntouched": true,
+      "sumupIdUntouched": true,
+      "appliedToDatabase": false
+    },
+    "researchedAt": "2026-08-03T18:42:38.199Z"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxbpv003tutw4dyiv4el7",
+  "catalogName": "Konga 100 ml",
+  "officialName": "Ferox • Konga 100ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "flavor": "Energy Drink, cerise",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml",
+  "nicotineBoost": "1–2 boosters (doc airmust 100 ml)",
+  "description": "Ferox Konga 100 ml — energy drink, cerise. Listé sur airmust.com/297.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": null,
+  "bannerLocal": "catalogues/validation-finale/konga-100-ml/banniere.svg",
+  "sourceUrls": [
+    "https://airmust.com/297-100ml-ferox"
+  ],
+  "missingFields": [
+    "photo",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:38.919Z"
+}

@@ -1,0 +1,39 @@
+{
+  "productId": "cms9gxbz00047utw4bm4rib0x",
+  "catalogName": "Speed 50 ml",
+  "manufacturer": "AirMust",
+  "range": "Press Start",
+  "sourceUrls": [
+    "https://airmust.com/",
+    "https://airmust.com/formats/2700-6344-press-start-speed-50ml-3701719512309.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-press-start.svg",
+  "officialName": "Press Start - Speed 50ml",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (50 ml typique shortfill — confirmer page produit)",
+  "nicotineBoostOptions": "Boosters selon flacon",
+  "flavorNotes": "Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude",
+  "formatMl": 50,
+  "seo": {
+    "title": "Press Start (AirMust) | All Vap's",
+    "description": "Press Start (AirMust) — AirMust — Press Start — 50/50 — Gamme Press Start citée distributeurs ; pages EAN individuelles non extraites avec certitude"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:29.811Z",
+  "ean": "3701719512309",
+  "eanConfidence": "official_site",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/speed-50-ml.jpg",
+  "photoUrl": "https://airmust.com/8521-cover_fullhd/press-start-speed-50ml.jpg",
+  "finalizedVia": "recherche-web"
+}

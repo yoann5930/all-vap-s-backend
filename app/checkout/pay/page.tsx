@@ -18,22 +18,16 @@ declare global {
   }
 }
 
-function SumUpPayContent() {
+function SecurePayContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
   const checkoutId = searchParams.get("checkoutId");
-  const provider = searchParams.get("provider");
   const [error, setError] = useState("");
   const [loadingWidget, setLoadingWidget] = useState(true);
   const mountedRef = useRef<{ unmount?: () => void } | null>(null);
 
   useEffect(() => {
-    if (provider && provider !== "sumup") {
-      setError("Provider de paiement non supporté sur cette page.");
-      setLoadingWidget(false);
-      return;
-    }
     if (!orderId || !checkoutId) {
       setError("Paramètres de paiement manquants.");
       setLoadingWidget(false);
@@ -50,7 +44,8 @@ function SumUpPayContent() {
             script.src = "https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js";
             script.async = true;
             script.onload = () => resolve();
-            script.onerror = () => reject(new Error("Impossible de charger le widget SumUp"));
+            script.onerror = () =>
+              reject(new Error("Le service de paiement est temporairement indisponible."));
             document.body.appendChild(script);
           });
         }
@@ -58,22 +53,28 @@ function SumUpPayContent() {
         if (cancelled || !window.SumUpCard) return;
 
         mountedRef.current = window.SumUpCard.mount({
-          id: "sumup-card",
+          id: "secure-card-form",
           checkoutId: checkoutId!,
           locale: "fr-FR",
           onResponse: (type) => {
             if (type === "success" || type === "sent") {
-              router.replace(`/checkout/success?orderId=${encodeURIComponent(orderId!)}&provider=sumup`);
+              router.replace(`/checkout/success?orderId=${encodeURIComponent(orderId!)}`);
               return;
             }
             if (type === "error" || type === "fail") {
-              setError("Le paiement a échoué. Vérifiez vos informations ou réessayez.");
+              setError(
+                "Le paiement n'a pas pu être finalisé. Vérifiez vos informations puis réessayez. Aucun montant n'a été débité."
+              );
             }
           },
         });
         setLoadingWidget(false);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Erreur widget SumUp");
+        setError(
+          e instanceof Error
+            ? e.message
+            : "Le service de paiement est temporairement indisponible. Aucun montant n'a été débité."
+        );
         setLoadingWidget(false);
       }
     }
@@ -84,27 +85,30 @@ function SumUpPayContent() {
       cancelled = true;
       mountedRef.current?.unmount?.();
     };
-  }, [orderId, checkoutId, provider, router]);
+  }, [orderId, checkoutId, router]);
 
   return (
     <div className="mx-auto max-w-lg px-4 py-10">
-      <h1 className="text-2xl font-bold text-vap-black">Paiement sécurisé</h1>
-      <p className="mt-2 text-sm text-gray-600">
-        Finalisez votre paiement SumUp. Vous serez redirigé après confirmation.
+      <h1 className="text-2xl font-bold text-white">Paiement sécurisé</h1>
+      <p className="mt-2 text-sm text-[#A7B0BC]">
+        Saisissez vos informations bancaires pour confirmer le paiement. Aucune donnée de
+        carte n&apos;est stockée sur All Vap&apos;s.
       </p>
 
       <Card className="mt-6">
         <CardBody>
           {loadingWidget && (
-            <div className="flex items-center justify-center gap-2 py-10 text-sm text-gray-600">
+            <div className="flex items-center justify-center gap-2 py-10 text-sm text-[#A7B0BC]">
               <Loader2 className="h-5 w-5 animate-spin" />
               Chargement du formulaire de paiement…
             </div>
           )}
           {error && (
-            <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+            <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+              {error}
+            </div>
           )}
-          <div id="sumup-card" className="min-h-[120px]" />
+          <div id="secure-card-form" className="min-h-[120px]" />
         </CardBody>
       </Card>
     </div>
@@ -113,8 +117,10 @@ function SumUpPayContent() {
 
 export default function CheckoutPayPage() {
   return (
-    <Suspense fallback={<div className="py-16 text-center">Chargement du paiement…</div>}>
-      <SumUpPayContent />
+    <Suspense
+      fallback={<div className="py-16 text-center text-[#A7B0BC]">Chargement du paiement…</div>}
+    >
+      <SecurePayContent />
     </Suspense>
   );
 }

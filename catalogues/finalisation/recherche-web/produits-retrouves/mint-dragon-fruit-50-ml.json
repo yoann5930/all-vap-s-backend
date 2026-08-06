@@ -1,0 +1,36 @@
+{
+  "productId": "cms9gxcw5004nutw4qnsas72n",
+  "catalogName": "Mint & Dragon fruit 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Mintaïa",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/"
+  ],
+  "status": "partial",
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "notes": [
+    "Aucune fiche fabricant/distributeur univoque trouvée dans la passe curated + crawl ciblé",
+    "Format 50 ml lu depuis le nom catalogue"
+  ],
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-mintaia.svg",
+  "officialName": "Mintaïa — Mint & Dragon fruit 50mL",
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml shortfill",
+  "nicotineBoostOptions": "≈3 / ≈6 mg via boosters",
+  "flavorNotes": "Page produit exacte Mint & Dragon fruit non confirmée dans cette passe",
+  "formatMl": 50,
+  "seo": {
+    "title": "Mintaïa — Mint & Dragon fruit 50mL | All Vap's",
+    "description": "Mintaïa — Mint & Dragon fruit 50mL — Eliquid France — Mintaïa — 50/50 — Page produit exacte Mint & Dragon fruit non confirmée dans cette passe"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.500Z"
+}

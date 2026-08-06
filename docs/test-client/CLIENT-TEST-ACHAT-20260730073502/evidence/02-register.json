@@ -1,0 +1,20 @@
+{
+  "status": 201,
+  "body": {
+    "user": {
+      "id": "cms778exw001xut043d9a2o1y",
+      "email": "allvaps70+02.073502@gmail.com",
+      "firstName": "Client",
+      "lastName": "Test All Vap's 02",
+      "phone": "0600000002",
+      "role": "CUSTOMER",
+      "emailVerified": false,
+      "mustChangePassword": false,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-07-30T07:35:28.676Z"
+    },
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbXM3NzhleHcwMDF4dXQwNDNkOWEybzF5IiwiZW1haWwiOiJhbGx2YXBzNzArMDIuMDczNTAyQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc4NTM5NjkzMSwiZXhwIjoxNzg1NDA0MTMxfQ.XG3cdFOR4VvbgByABozY0IxAzIgPF20AIfK6W4MXsDM",
+    "emailConfirmationSent": true
+  },
+  "emailMasked": "a***@gmail.com"
+}

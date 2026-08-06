@@ -1,0 +1,21 @@
+{
+  "totalActifs": 409,
+  "actifsComplets": 218,
+  "catalogPct": 53.3,
+  "dupNames": 0,
+  "dupEan": 0,
+  "dupSumup": 0,
+  "noCategory": 0,
+  "mfrMix": 2,
+  "photoMismatch": 127,
+  "brokenImages": 0,
+  "bannerMfrMismatch": 11,
+  "checks": {
+    "aucunDoublonNom": true,
+    "aucunSumupDuplique": true,
+    "aucunEanDuplique": true,
+    "aucunFabricantMelange": false,
+    "aucuneCategorieManquante": true,
+    "aucunLienImageCasse": true
+  }
+}

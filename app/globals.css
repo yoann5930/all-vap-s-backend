@@ -617,6 +617,15 @@ body {
 .premium-main .text-gray-400 {
   color: rgba(255, 255, 255, 0.35);
 }
+
+/* Checkout : texte sombre sur bandeau livraison sélectionné (fond brand-50) */
+.premium-main .checkout-shipping-selected,
+.premium-main .checkout-shipping-selected * {
+  color: #111827 !important;
+}
+.premium-main .checkout-shipping-selected .checkout-shipping-desc {
+  color: #1f2937 !important;
+}
 .premium-main .bg-white {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.06);

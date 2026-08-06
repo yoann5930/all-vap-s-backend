@@ -1,0 +1,38 @@
+{
+  "productId": "cms9gxa6b001dutw4rqovwy0p",
+  "catalogName": "Bisou Pink 50 ml",
+  "officialName": "Bisou Pink 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Bisou",
+  "flavor": "Framboise, groseille, fraise",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Bisou Pink Swoke — framboise, groseille, fraise. PG/VG 50/50, 0 mg.",
+  "ean": null,
+  "eanConfidence": "conflict",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/bisou-pink-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/bisou-pink-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://swoke.net/swoke/bisou-pink.html"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:51:11.073Z",
+  "notes": [
+    "EAN 6410945358588 invalidé (conflit ou bruit page liée)"
+  ]
+}

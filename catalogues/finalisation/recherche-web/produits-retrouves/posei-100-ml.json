@@ -1,0 +1,34 @@
+{
+  "productId": "cms9gxayx002butw4dbqz11ls",
+  "catalogName": "Posei 100 ml",
+  "manufacturer": "e.Tasty",
+  "range": "Godfall City",
+  "sourceUrls": [
+    "https://lca-distribution.com/e-liquides-godfall-city-100ml-0mg-e-tasty.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Posei — Godfall City 100 ml",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill flacon 120 ml)",
+  "nicotineBoostOptions": "Boosters 10 ml 20 mg selon dosage cible",
+  "ean": "3701418869926",
+  "eanConfidence": "official_distributor",
+  "flavorNotes": "Framboise bleue, myrtille",
+  "photoUrl": "https://lca-distribution.com/media/catalog/product/cache/07cad8b249c78ca2162b86e55a933e49/i/m/image_produit_800x800_godfall_city.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/posei-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/e-tasty-godfall-city.svg",
+  "seo": {
+    "title": "Posei — Godfall City 100 ml | All Vap's",
+    "description": "Posei — Godfall City 100 ml — e.Tasty — Godfall City — 50/50 — Framboise bleue, myrtille"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:24.925Z"
+}

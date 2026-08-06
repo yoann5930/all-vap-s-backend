@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxbpm003rutw4quy48bhz",
+  "catalogName": "Sharx 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "sourceUrls": [
+    "https://airmust.com/100ml/2667-6312-ferox-sharx-100ml-3701719511951.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Ferox • Sharx 100ml",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (100 ml dans flacon 120 ml)",
+  "nicotineBoostOptions": "1 booster → ~1,8 mg/ml ; 2 boosters → ~3,3 mg/ml (doc airmust)",
+  "ean": "3701719511951",
+  "eanConfidence": "official_site",
+  "flavorNotes": "Limonade fizz, pêche blanche",
+  "photoUrl": "https://airmust.com/8460-cover_fullhd/ferox-sharx-100ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/sharx-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-ferox.svg",
+  "seo": {
+    "title": "Ferox • Sharx 100ml | All Vap's",
+    "description": "Ferox • Sharx 100ml — AirMust — Ferox — 50/50 — Limonade fizz, pêche blanche"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:28.101Z",
+  "finalizedVia": "recherche-web"
+}

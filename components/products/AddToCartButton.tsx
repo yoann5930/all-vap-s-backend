@@ -36,8 +36,8 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
 
   if (product.stock === 0) {
     return (
-      <Button disabled className="w-full sm:w-auto">
-        Indisponible
+      <Button disabled className="w-full sm:w-auto" aria-disabled="true">
+        Rupture de stock
       </Button>
     );
   }

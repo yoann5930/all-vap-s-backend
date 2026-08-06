@@ -1,0 +1,35 @@
+{
+  "productId": "cms96d3kl0029uto8m7jhfync",
+  "catalogName": "Fraise Sauvage 60 ml",
+  "manufacturer": "AirMust",
+  "range": "UNIK",
+  "sourceUrls": [
+    "https://airmust.com/60ml/2153-5888-airmust-fraise-sauvage-60ml-3760336258816.html"
+  ],
+  "status": "termine",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "AIRMUST • Fraise Sauvage 60ml",
+  "formatMl": 60,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (60 dans 75)",
+  "nicotineBoostOptions": "1 booster → 3 mg/ml ; 2 → 6 mg/ml",
+  "ean": "3760336258816",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://airmust.com/7840-cover_fullhd/airmust-fraise-sauvage-60ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/fraise-sauvage-60-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/airmust-unik.svg",
+  "seo": {
+    "title": "AIRMUST • Fraise Sauvage 60ml | All Vap's",
+    "description": "AIRMUST • Fraise Sauvage 60ml — AirMust — UNIK — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.192Z",
+  "finalizedVia": "recherche-web"
+}

@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9sp000putw44vlnkgd3",
+  "catalogName": "Pyro 50 ml",
+  "name": "Pyro 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml (50 dans 75)",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/saint-flava-swoke/pyro-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

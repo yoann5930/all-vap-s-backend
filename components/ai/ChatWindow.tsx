@@ -53,6 +53,22 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
 
     async function init() {
       try {
+        const { readPendingIntent, consumePendingIntent, AVA_QUICK_ACTIONS, clearPendingIntent } =
+          await import("@/lib/ava/quick-actions");
+        const pending = readPendingIntent();
+        const cfg = pending ? AVA_QUICK_ACTIONS[pending.intent] : null;
+
+        if (pending && cfg?.initialMessage) {
+          const taken = consumePendingIntent(pending.id);
+          if (taken && !cancelled) {
+            setLoading(false);
+            setIsLoggedIn(false);
+            await sendMessageRef.current(cfg.initialMessage);
+            clearPendingIntent();
+            return;
+          }
+        }
+
         const res = await fetch("/api/ai-assistant");
         const data = await res.json();
         if (cancelled) return;
@@ -87,6 +103,8 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
     onSpeakingChange?.(sending);
   }, [sending, onSpeakingChange]);
 
+  const ctxRef = useRef<import("@/lib/ai/ava").AvaConversationContext | null>(null);
+
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || sending || blocked) return;
@@ -96,12 +114,19 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
     setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
 
     try {
+      const { getPreferredStoreId } = await import("@/lib/stores/preferred-store");
+      const preferredStoreId = getPreferredStoreId();
       const res = await fetch("/api/ai-assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
+        body: JSON.stringify({
+          message: trimmed,
+          preferredStoreId,
+          conversationContext: ctxRef.current,
+        }),
       });
       const data = await res.json();
+      if (data.conversationContext) ctxRef.current = data.conversationContext;
 
       setSuggestions(data.suggestions ?? []);
       if (data.blocked) setBlocked(true);

@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxd4z0055utw42y2x1bjj",
+  "catalogName": "Dragon Fraise 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1491-dragon-fraise-50ml-3760202040644.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Dragon, Fraise | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040644",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://www.eliquid-france.com/5085-full_default/dragon-fraise-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/dragon-fraise-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Dragon, Fraise | Fruizee Max 50mL | All Vap's",
+    "description": "Dragon, Fraise | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.956Z",
+  "finalizedVia": "recherche-web"
+}

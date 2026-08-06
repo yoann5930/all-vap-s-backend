@@ -1,0 +1,37 @@
+{
+  "productId": "cms96cva3000juto861bzosuz",
+  "catalogName": "Senka",
+  "officialName": "Senka — 66 Juice",
+  "manufacturer": "Juice 66",
+  "range": "66 Juice",
+  "flavor": "Senka",
+  "formatMl": null,
+  "pgVg": "non trouvé publiquement",
+  "nicotine": "non trouvé publiquement",
+  "nicotineBoost": null,
+  "description": "Senka / Juice 66 — données publiques insuffisantes (format/EAN/photo).",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": null,
+  "bannerLocal": "catalogues/validation-finale/senka/banniere.webp",
+  "sourceUrls": [],
+  "missingFields": [
+    "format",
+    "nicotine",
+    "pgVg",
+    "photo",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:49.743Z"
+}

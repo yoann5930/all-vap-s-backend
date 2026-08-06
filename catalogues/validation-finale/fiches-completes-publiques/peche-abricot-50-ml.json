@@ -1,0 +1,35 @@
+{
+  "productId": "cms96dgph004buto8d198fwbs",
+  "catalogName": "Pêche Abricot 50 ml",
+  "officialName": "Granita Soft — Pêche Abricot 50 ml",
+  "manufacturer": "Alfaliquid",
+  "range": "Granita Soft",
+  "flavor": "Pêche, abricot, fraîcheur légère",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotine": "0 mg/ml shortfill (aussi 10 ml 0/3/6/12)",
+  "nicotineBoost": "1–2 boosters",
+  "description": "Granita Soft Pêche Abricot par Alfaliquid — 50 ml shortfill, PG/VG 50/50, 0 mg.",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/peche-abricot-50-ml/photo-officielle.jpg",
+  "bannerLocal": "catalogues/validation-finale/peche-abricot-50-ml/banniere.svg",
+  "sourceUrls": [
+    "https://www.alfaliquid.com/fr/peche-abricot-granita-soft"
+  ],
+  "missingFields": [
+    "ean"
+  ],
+  "publiclyEnriched": true,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:45.947Z"
+}

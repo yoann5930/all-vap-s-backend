@@ -1,14 +1,56 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { isPreoptimizedProductMedia } from "@/lib/catalog/product-image-display";
 
 interface ProductGalleryProps {
   name: string;
   imageUrl?: string | null;
   images?: string[];
+}
+
+/**
+ * Packshots locaux : `<img>` direct (déjà WebP haute qualité).
+ * Évite la 2e compression Next/Image (q=75) qui floutait les photos.
+ */
+function ProductPhoto({
+  src,
+  alt,
+  priority,
+  className,
+}: {
+  src: string;
+  alt: string;
+  priority?: boolean;
+  className?: string;
+}) {
+  if (isPreoptimizedProductMedia(src)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- packshots déjà optimisés
+      <img
+        src={src}
+        alt={alt}
+        className={cn("absolute inset-0 h-full w-full", className)}
+        decoding="async"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+      />
+    );
+  }
+
+  // Fallback distant : Next/Image (import dynamique évité — rare)
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className={cn("absolute inset-0 h-full w-full", className)}
+      decoding="async"
+      loading={priority ? "eager" : "lazy"}
+    />
+  );
 }
 
 export function ProductGallery({ name, imageUrl, images = [] }: ProductGalleryProps) {
@@ -26,15 +68,13 @@ export function ProductGallery({ name, imageUrl, images = [] }: ProductGalleryPr
   }
 
   return (
-    <div className="space-y-4 p-3 sm:p-4">
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-[#0B1016]">
-        <Image
+    <div className="space-y-4 p-2 sm:p-3">
+      <div className="relative aspect-square overflow-hidden rounded-xl bg-[radial-gradient(ellipse_at_50%_42%,rgba(0,174,239,0.1),transparent_58%),#0B1016]">
+        <ProductPhoto
           src={allImages[active]}
           alt={`${name} — photo ${active + 1}`}
-          fill
-          className="object-contain p-4 transition-opacity duration-300"
           priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-contain p-2 sm:p-3 transition-opacity duration-300"
         />
       </div>
 
@@ -50,7 +90,7 @@ export function ProductGallery({ name, imageUrl, images = [] }: ProductGalleryPr
                 active === i ? "border-brand-500" : "border-white/10 opacity-70 hover:opacity-100"
               )}
             >
-              <Image src={src} alt="" fill className="object-contain p-1" sizes="64px" />
+              <ProductPhoto src={src} alt="" className="object-contain p-1" />
             </button>
           ))}
         </div>

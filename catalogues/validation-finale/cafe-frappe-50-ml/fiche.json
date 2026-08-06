@@ -1,0 +1,37 @@
+{
+  "productId": "cms96dg8g003quto89pjgiunm",
+  "catalogName": "Café Frappé 50 ml",
+  "officialName": "Big Kawa — Café Frappé 50 ml",
+  "manufacturer": "Liquide Lab",
+  "range": "Big Kawa",
+  "flavor": "Café frappé",
+  "formatMl": 50,
+  "pgVg": "non publié (site B2B)",
+  "nicotine": "non publié publiquement",
+  "nicotineBoost": null,
+  "description": "Big Kawa Café Frappé — Liquide Lab. Fiches publiques limitées (B2B).",
+  "ean": null,
+  "eanConfidence": "missing",
+  "eanSource": null,
+  "sumupProductId": null,
+  "photoLocal": "catalogues/validation-finale/cafe-frappe-50-ml/photo.png",
+  "bannerLocal": "catalogues/validation-finale/cafe-frappe-50-ml/banniere.webp",
+  "sourceUrls": [
+    "https://liquidelab.com/"
+  ],
+  "missingFields": [
+    "nicotine",
+    "pgVg",
+    "ean"
+  ],
+  "publiclyEnriched": false,
+  "stillNeedsHumanValidation": true,
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "existingEanUntouched": false,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T19:50:50.049Z"
+}

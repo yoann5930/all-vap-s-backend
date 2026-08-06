@@ -1,0 +1,34 @@
+{
+  "productId": "cms9gxcf7004jutw4aod0kf6c",
+  "catalogName": "Red Devil 50 ml",
+  "manufacturer": "AVAP",
+  "range": "Devil",
+  "sourceUrls": [
+    "https://www.aromes-et-liquides.fr/en/devil-e-liquid/11981-red-devil-50-ml-avap.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Red Devil 50 ml — Devil (AVAP)",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill flacon 60 ml)",
+  "nicotineBoostOptions": "0 ; ~3 mg/ml (1 booster) ; ~6 mg/ml (2 boosters)",
+  "ean": "3760075760045",
+  "eanConfidence": "retailer",
+  "flavorNotes": "Fruits rouges, réglisse, absinthe",
+  "photoUrl": "https://assets.aromes-et-liquides.fr/en/35009-thickbox_default/red-devil-50-ml-avap.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/red-devil-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/avap-devil.svg",
+  "seo": {
+    "title": "Red Devil 50 ml — Devil (AVAP) | All Vap's",
+    "description": "Red Devil 50 ml — Devil (AVAP) — AVAP — Devil — 50/50 — Fruits rouges, réglisse, absinthe"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.062Z"
+}

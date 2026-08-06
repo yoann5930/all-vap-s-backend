@@ -1,0 +1,35 @@
+{
+  "productId": "cms9gxaz9002dutw4vmoy4zz1",
+  "catalogName": "Thena 100 ml",
+  "manufacturer": "e.Tasty",
+  "range": "Godfall City",
+  "sourceUrls": [
+    "https://lca-distribution.com/e-liquides-godfall-city-100ml-0mg-e-tasty.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Thena — Godfall City 100 ml",
+  "formatMl": 100,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill flacon 120 ml)",
+  "nicotineBoostOptions": "Boosters 10 ml 20 mg selon dosage cible",
+  "ean": "3701418869803",
+  "eanConfidence": "official_distributor",
+  "flavorNotes": "Fruit du dragon, framboise",
+  "photoUrl": "https://lca-distribution.com/media/catalog/product/cache/07cad8b249c78ca2162b86e55a933e49/i/m/image_produit_800x800_godfall_city.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/thena-100-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/e-tasty-godfall-city.svg",
+  "seo": {
+    "title": "Thena — Godfall City 100 ml | All Vap's",
+    "description": "Thena — Godfall City 100 ml — e.Tasty — Godfall City — 50/50 — Fruit du dragon, framboise"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:24.930Z",
+  "finalizedVia": "recherche-web"
+}

@@ -1,0 +1,189 @@
+{
+  "delivery": "MONDIAL_RELAY",
+  "orderId": "cms7a1vmh000futawxdno3ftw",
+  "isAudit": true,
+  "paymentStatus": "PAID",
+  "checkoutId": "TEST_cms7a1vmh000futawxdno3ftw",
+  "documentTypes": [
+    "INVOICE",
+    "ORDER_FORM",
+    "PREP_SLIP"
+  ],
+  "documentCount": 3,
+  "uniqueDocTypes": true,
+  "prepSlip": {
+    "id": "cms7a27ng0029utawvy7k31bj",
+    "orderId": "cms7a1vmh000futawxdno3ftw",
+    "type": "PREP_SLIP",
+    "fileName": "prep_slip-XDNO3FTW.pdf",
+    "storagePath": "storage\\orders\\cms7a1vmh000futawxdno3ftw\\prep_slip-XDNO3FTW.pdf",
+    "mimeType": "application/pdf",
+    "sizeBytes": 1817,
+    "invoiceNumber": "AV-2026-00005",
+    "gmailMessageId": null,
+    "gmailLabel": null,
+    "emailedToCustomer": false,
+    "emailedInternal": true,
+    "emailedToAva": false,
+    "createdAt": "2026-07-30T08:54:38.140Z"
+  },
+  "emails": [
+    {
+      "type": "payment_confirmation",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Paiement confirmé — commande All Vap's n°XDNO3FTW",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "payment-confirmation:cms7a1vmh000futawxdno3ftw"
+    },
+    {
+      "type": "admin_new_order",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Nouvelle commande payée — All Vap's n°XDNO3FTW",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "admin-new-order:cms7a1vmh000futawxdno3ftw"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a1vmh000futawxdno3ftw:customer"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a1vmh000futawxdno3ftw:manager"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de commande — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:ORDER_FORM:cms7a1vmh000futawxdno3ftw:ava"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00005 — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a1vmh000futawxdno3ftw:customer"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00005 — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a1vmh000futawxdno3ftw:manager"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Facture AV-2026-00005 — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:INVOICE:cms7a1vmh000futawxdno3ftw:ava"
+    },
+    {
+      "type": "generic",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "[AUDIT ALL VAP'S — TEST] Bon de préparation — All Vap's n°XDNO3FTW · WF-AVA-20260730085409",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "doc:PREP_SLIP:cms7a1vmh000futawxdno3ftw:manager"
+    },
+    {
+      "type": "admin_notification",
+      "status": "SENT",
+      "transport": "smtp",
+      "subject": "Préparation expédition mondial-relay — étiquette à importer — All Vap's",
+      "recipientMasked": "a***@gmail.com",
+      "idempotencyKey": "shipment-manager:cms7a28k9002mutaw2stmdyvm:pending_label:none"
+    }
+  ],
+  "emailIdempotentKeysUnique": true,
+  "shipments": [
+    {
+      "id": "cms7a28k9002mutaw2stmdyvm",
+      "orderId": "cms7a1vmh000futawxdno3ftw",
+      "carrier": "mondial-relay",
+      "status": "pending_label",
+      "mode": "assisted",
+      "idempotencyKey": "shipment:cms7a1vmh000futawxdno3ftw:mondial-relay",
+      "trackingNumber": null,
+      "externalShipmentId": null,
+      "relayPointId": null,
+      "relayLabel": "Point relais TEST MONDIAL_RELAY — NE PAS EXPÉDIER — WF-AVA-20260730085409",
+      "labelStoragePath": null,
+      "labelFileName": null,
+      "labelMimeType": "application/pdf",
+      "qrAvailable": false,
+      "qrStoragePath": null,
+      "packDataJson": {
+        "items": [
+          {
+            "qty": 1,
+            "sku": null,
+            "name": "Fruits Rouges 10ml - Sels..."
+          },
+          {
+            "qty": 1,
+            "sku": null,
+            "name": "Popcorn 10ml 0mg e-tasty"
+          }
+        ],
+        "orderId": "cms7a1vmh000futawxdno3ftw",
+        "orderRef": "XDNO3FTW",
+        "preparedAt": "2026-07-30T08:54:39.313Z",
+        "customerName": "Client Workflow mr",
+        "deliveryMethod": "MONDIAL_RELAY",
+        "shippingAddress": "Point relais TEST MONDIAL_RELAY — NE PAS EXPÉDIER — WF-AVA-20260730085409",
+        "customerEmailMasked": "a***@gmail.com",
+        "weightGramsEstimate": 200
+      },
+      "lastError": "API mondial-relay non configurée. Saisissez le n° de suivi manuellement après création d'étiquette hors site.",
+      "emailedToManager": true,
+      "createdAt": "2026-07-30T08:54:39.321Z",
+      "updatedAt": "2026-07-30T08:54:40.551Z"
+    }
+  ],
+  "import1": {
+    "ok": true,
+    "reused": false,
+    "shipment": {
+      "id": "cms7a28k9002mutaw2stmdyvm",
+      "status": "label_ready",
+      "carrier": "mondial-relay",
+      "trackingNumber": "TEST-MR-NO3FTW",
+      "mode": "assisted",
+      "emailedToManager": true,
+      "qrAvailable": false
+    }
+  },
+  "import2": {
+    "ok": true,
+    "reused": true,
+    "shipment": {
+      "id": "cms7a28k9002mutaw2stmdyvm",
+      "status": "label_ready",
+      "carrier": "mondial-relay",
+      "trackingNumber": "TEST-MR-NO3FTW",
+      "mode": "assisted",
+      "emailedToManager": true,
+      "qrAvailable": false
+    }
+  },
+  "artifactsCount": 11,
+  "memoryOk": true,
+  "avaReply": "Dernière commande : XDNO3FTW — statut PAID — 17.70 € — livraison MONDIAL_RELAY — le 30/07/2026 10:54:22.",
+  "prepNeverToCustomerHeuristic": false,
+  "laPosteExcluded": true
+}

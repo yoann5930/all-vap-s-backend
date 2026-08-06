@@ -7,6 +7,10 @@ import { motion } from "framer-motion";
 import { formatPrice } from "@/lib/utils";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
+import {
+  PRODUCT_THUMB_IMAGE_QUALITY,
+  isPreoptimizedProductMedia,
+} from "@/lib/catalog/product-image-display";
 
 export interface ProductSuggestion {
   id: string;
@@ -22,6 +26,7 @@ export interface ProductSuggestion {
   nicotine?: string | null;
   pgVg?: string | null;
   volume?: string | null;
+  variantId?: string | null;
 }
 
 interface ProductSuggestionCardProps {
@@ -38,10 +43,12 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
   function handleAdd() {
     addToCart({
       productId: product.id,
+      variantId: product.variantId ?? null,
       name: product.name,
       slug: product.slug,
       priceCents: price,
       imageUrl: product.imageUrl,
+      nicotineLabel: product.nicotine ?? null,
     });
     notifyCartUpdate();
   }
@@ -56,7 +63,25 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
       <div className="flex gap-3 p-2.5">
         <Link href={`/boutique/${product.slug}`} className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-900">
           {product.imageUrl ? (
-            <Image src={product.imageUrl} alt={product.name} fill className="object-cover" sizes="64px" />
+            isPreoptimizedProductMedia(product.imageUrl) ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="absolute inset-0 h-full w-full object-contain p-0.5"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                fill
+                className="object-contain p-0.5"
+                sizes="64px"
+                quality={PRODUCT_THUMB_IMAGE_QUALITY}
+              />
+            )
           ) : (
             <div className="flex h-full items-center justify-center">
               <ShoppingBag className="h-6 w-6 text-cyan-700" />

@@ -1,0 +1,34 @@
+{
+  "productId": "cms9gxd60005butw46u8dr3dr",
+  "catalogName": "Fruits Rouges Raisin 50 ml",
+  "manufacturer": "Eliquid France",
+  "range": "Fruizee Max",
+  "sourceUrls": [
+    "https://www.eliquid-france.com/fruizee-max/1494-fruits-rouges-raisin-50ml-3760202040675.html"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Fruits rouges, Raisin | Fruizee Max 50mL",
+  "formatMl": 50,
+  "pgVg": "50/50",
+  "nicotineSoldAs": "0 mg/ml (shortfill)",
+  "nicotineBoostOptions": "0 ; ~3,3 ; ~5,7 mg/ml via boosters",
+  "ean": "3760202040675",
+  "eanConfidence": "official_site",
+  "flavorNotes": null,
+  "photoUrl": "https://www.eliquid-france.com/5091-full_default/fruits-rouges-raisin-50ml.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/fruits-rouges-raisin-50-ml.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/eliquid-france-fruizee-max.svg",
+  "seo": {
+    "title": "Fruits rouges, Raisin | Fruizee Max 50mL | All Vap's",
+    "description": "Fruits rouges, Raisin | Fruizee Max 50mL — Eliquid France — Fruizee Max — 50/50"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:30.966Z"
+}

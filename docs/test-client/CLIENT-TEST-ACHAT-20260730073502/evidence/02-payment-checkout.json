@@ -1,0 +1,20 @@
+{
+  "pay1": {
+    "status": 200,
+    "body": {
+      "checkoutId": "TEST_cms778ho60029ut046owwsb91",
+      "redirectUrl": "http://localhost:3000/checkout/success?orderId=cms778ho60029ut046owwsb91&paid=test",
+      "amount": 31.5,
+      "currency": "EUR"
+    }
+  },
+  "pay2": {
+    "status": 200,
+    "body": {
+      "checkoutId": "TEST_cms778ho60029ut046owwsb91",
+      "redirectUrl": "http://localhost:3000/checkout/success?orderId=cms778ho60029ut046owwsb91&paid=test",
+      "amount": 31.5,
+      "currency": "EUR"
+    }
+  }
+}

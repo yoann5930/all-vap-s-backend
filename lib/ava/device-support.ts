@@ -70,6 +70,13 @@ export function searchDevices(query: string, limit = 3): VapeDeviceManual[] {
     for (const part of q.split(" ")) {
       if (part.length > 2 && hay.includes(part)) score += 2;
     }
+    // Boost modèle exact DRAG 6 — éviter confusion S2 / 5 / X
+    if (/drag\s*6|drag\s*vi/.test(q) && /drag\s*6/.test(normalizeLoose(d.model))) {
+      score += 25;
+    }
+    if (/drag\s*6|drag\s*vi/.test(q) && /drag\s*(s\s*2|5|\bx\b)/.test(normalizeLoose(d.model))) {
+      score -= 20;
+    }
     for (const [brand, list] of Object.entries(
       aliases as Record<string, string[]>
     )) {

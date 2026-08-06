@@ -1,4 +1,5 @@
 #!/usr/bin/env tsx
+import "./load-env";
 import { testSumUpConnection } from "../lib/sumup/api-client";
 
 async function main() {

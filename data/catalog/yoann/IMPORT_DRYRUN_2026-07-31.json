@@ -1,0 +1,1586 @@
+{
+  "mode": "dry-run",
+  "source": "D:\\all vaps\\all-vap-s-backend\\data\\catalog\\yoann\\allvaps_catalogue.json",
+  "generatedAt": "2026-07-31T13:44:27.040Z",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [
+      "Produit hors gamme chez Liquideo: Pastis 13 — à classer après vérification officielle"
+    ]
+  },
+  "manufacturers": {
+    "matched": 8,
+    "wouldCreate": 23,
+    "wouldUpdate": 8,
+    "details": [
+      {
+        "jsonId": "guilab",
+        "name": "Guilab",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "swoke",
+        "name": "Swoke",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "juice-66",
+        "name": "Juice 66",
+        "aliases": [
+          "66 Juice"
+        ],
+        "action": "match",
+        "existingSlug": "juice-66"
+      },
+      {
+        "jsonId": "aromes-secrets",
+        "name": "Aromes & Secrets",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "made-in-vape-distrib",
+        "name": "Made In Vape Distrib",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "cloud-vapor",
+        "name": "Cloud Vapor",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "cloud-vapor"
+      },
+      {
+        "jsonId": "etasty",
+        "name": "e.Tasty",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "e-tasty"
+      },
+      {
+        "jsonId": "the-fuu",
+        "name": "The FUU",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "airmust",
+        "name": "AirMust",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "mg-vape",
+        "name": "MG Vape",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "cumulus",
+        "name": "Cumulus",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "mexican-cartel",
+        "name": "Mexican Cartel",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "kf-studio",
+        "name": "KF Studio",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "budz-vape",
+        "name": "Budz Vape",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "avap",
+        "name": "AVAP",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "cookin-cloud",
+        "name": "Cookin'Cloud",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "cookin-cloud"
+      },
+      {
+        "jsonId": "vape-47",
+        "name": "Vape 47",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "vape-47"
+      },
+      {
+        "jsonId": "eliquid-france",
+        "name": "Eliquid France",
+        "aliases": [
+          "E-liquid France",
+          "Iliquid France"
+        ],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "protect",
+        "name": "Protect",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "liquideo",
+        "name": "Liquideo",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "liquideo"
+      },
+      {
+        "jsonId": "fruity-cool",
+        "name": "Fruity Cool",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "big-kawa",
+        "name": "Big Kawa",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "mukk-mukk",
+        "name": "Mukk Mukk",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "overdrive-juices",
+        "name": "OverDrive Juices",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "revenge-juices",
+        "name": "Revenge Juices",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "revenge-juices"
+      },
+      {
+        "jsonId": "alfa",
+        "name": "Alfa",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "le-maudit",
+        "name": "Le Maudit",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "fruizee",
+        "name": "Fruizee",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "yum-ebot",
+        "name": "Yum E-Bot",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      },
+      {
+        "jsonId": "t-juice",
+        "name": "T-Juice",
+        "aliases": [],
+        "action": "match",
+        "existingSlug": "t-juice"
+      },
+      {
+        "jsonId": "vape-city",
+        "name": "Vape City",
+        "aliases": [],
+        "action": "create",
+        "existingSlug": null
+      }
+    ]
+  },
+  "ranges": {
+    "matched": 8,
+    "wouldPropose": 64,
+    "emptyProducts": 56,
+    "withProducts": 16,
+    "details": [
+      {
+        "manufacturer": "Guilab",
+        "range": "Vapetasty",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Guilab",
+        "range": "Red Valentine",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Guilab",
+        "range": "Faken' Vape",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Guilab",
+        "range": "Ark Vape",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Guilab",
+        "range": "Les Trois Mousquet'Air",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Guilab",
+        "range": "Assassin Vape",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "action": "propose_only",
+        "productCount": 6,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Kiss Cool",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Saint Flava",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Bisou",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Freeze",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Swoke",
+        "range": "Titi",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Icebreak",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Empire",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Dollar",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Illusion",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Paradise",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Dinos",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Chaser",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "Juice Machine",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "action": "propose_only",
+        "productCount": 5,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "action": "propose_only",
+        "productCount": 7,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Made In Vape Distrib",
+        "range": "MIV Distrib",
+        "action": "propose_only",
+        "productCount": 2,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Cloud Vapor",
+        "range": "Call Of Vape",
+        "action": "match_existing",
+        "rangeId": "cms6iepnp004yut6ouevmvsra",
+        "productCount": 0,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Cloud Vapor",
+        "range": "Call Of Vape Blackout",
+        "action": "match_existing",
+        "rangeId": "cms6iepnp004yut6ouevmvsra",
+        "productCount": 0,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "action": "propose_only",
+        "productCount": 5,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "e.Tasty",
+        "range": "Golf City",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "action": "match_existing",
+        "rangeId": "cms6qm7pm0002ut90h1mchdzs",
+        "productCount": 5,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "e.Tasty",
+        "range": "Letters",
+        "action": "match_existing",
+        "rangeId": "cms6o23in000kut50fmbny1bf",
+        "productCount": 3,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "The FUU",
+        "range": "Cloud Empire",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "Blue Hopper",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "Hopper",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "Society Club",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "Ferox",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "L'Ovalie",
+        "action": "propose_only",
+        "productCount": 3,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "Press Start",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "action": "propose_only",
+        "productCount": 13,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "MG Vape",
+        "range": "Medusa",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "KF Studio",
+        "range": "King Freeze",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Budz Vape",
+        "range": "Pandora",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "AVAP",
+        "range": "Devil",
+        "action": "propose_only",
+        "productCount": 1,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Cookin'Cloud",
+        "range": "MIST",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Vape 47",
+        "range": "ENFER",
+        "action": "match_existing",
+        "rangeId": "cms8ugj460001utewcw1rvf9q",
+        "productCount": 0,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Vape 47",
+        "range": "Les Fruits d'ENFER",
+        "action": "match_existing",
+        "rangeId": "cms8ugj460001utewcw1rvf9q",
+        "productCount": 0,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "action": "match_existing",
+        "rangeId": "cms6iepkm0046ut6onzwqygtx",
+        "productCount": 9,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Mintaïa",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Lemon'Time",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Fruizee Max",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Juice Heroes",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Fureur du Dragon",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Eliquid France",
+        "range": "Mister Pop Corn",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Protect",
+        "range": "Les Pollinisateurs",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Protect",
+        "range": "Les 4 Saisons",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Protect",
+        "range": "Parrainage",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Liquideo",
+        "range": "Evolution",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Liquideo",
+        "range": "Dragonz",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Liquideo",
+        "range": "Freeze Citrus",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Liquideo",
+        "range": "Les Essentiels",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Fruity Cool",
+        "range": "Fruity Cool",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Big Kawa",
+        "range": "Café",
+        "action": "propose_only",
+        "productCount": 3,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Mukk Mukk",
+        "range": "Crazy Juice",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Mukk Mukk",
+        "range": "Crazy Barnacle",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Mukk Mukk",
+        "range": "Mukkies",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "OverDrive Juices",
+        "range": "OverDrive Juices",
+        "action": "propose_only",
+        "productCount": 4,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Revenge Juices",
+        "range": "Revenge Juices",
+        "action": "propose_only",
+        "productCount": 3,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "action": "propose_only",
+        "productCount": 8,
+        "note": "Proposition Yoann — vérification site officiel obligatoire"
+      },
+      {
+        "manufacturer": "Le Maudit",
+        "range": "Le Maudit",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Fruizee",
+        "range": "Fruizee",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Yum E-Bot",
+        "range": "Yum E-Bot",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "T-Juice",
+        "range": "T-Juice",
+        "action": "match_existing",
+        "rangeId": "cms6l07vn0029utvwnwkh6fng",
+        "productCount": 4,
+        "note": "Gamme déjà en base — pas de republication auto"
+      },
+      {
+        "manufacturer": "Vape City",
+        "range": "Vape City",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      },
+      {
+        "manufacturer": "Vape City",
+        "range": "Magic Potion",
+        "action": "propose_only",
+        "productCount": 0,
+        "note": "products vide — compléter catalogue officiel avant intégration"
+      }
+    ]
+  },
+  "products": {
+    "listed": 83,
+    "matchedExisting": 64,
+    "wouldCreateDraft": 18,
+    "skippedEmpty": 56,
+    "details": [
+      {
+        "action": "match_existing",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Bleue",
+        "format_ml": null,
+        "productId": "cms6eude900lautmkysgmj2x1",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Jaune",
+        "format_ml": null,
+        "productId": "cms6euden00lfutmk7dip863m",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Noire",
+        "format_ml": null,
+        "productId": "cms6eudfg00loutmk3mekvlkv",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Rouge",
+        "format_ml": null,
+        "productId": "cms6eudez00ljutmkkfuf7l0h",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Verte",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Swoke",
+        "range": "Force Vape",
+        "product": "Force Violette",
+        "format_ml": null,
+        "productId": "cms6eudfo00lqutmk1trwcegw",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "product": "Saforia",
+        "format_ml": null,
+        "productId": "cms6euhu001k6utmkjp3vw8fb",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "product": "Yuluma",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "product": "Tsune",
+        "format_ml": null,
+        "productId": "cms6euik701piutmkk4pzplxk",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "product": "Senka",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Juice 66",
+        "range": "66 Juice",
+        "product": "Kimi",
+        "format_ml": null,
+        "productId": "cms6euavg001qutmktdypjdvc",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Milo",
+        "format_ml": null,
+        "productId": "cms6eug99017tutmk4rsaaj3g",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Etna",
+        "format_ml": null,
+        "productId": "cms6eud8000jputmk6z29itk5",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Baru",
+        "format_ml": null,
+        "productId": "cms6eubcw005dutmk024xcsdz",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Arathorn",
+        "format_ml": null,
+        "productId": "cms6eub0h002yutmkgakl5877",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Esteli",
+        "format_ml": null,
+        "productId": "cms6eud7q00jnutmktlh562uz",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Maïpo",
+        "format_ml": null,
+        "productId": "cms6eug5j0170utmk0mdbluwk",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Aromes & Secrets",
+        "range": "Mythologie",
+        "product": "Linzor",
+        "format_ml": null,
+        "productId": "cms6eufe9011eutmk7oms7d6a",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Made In Vape Distrib",
+        "range": "MIV Distrib",
+        "product": "Godji",
+        "format_ml": null,
+        "productId": "cms6eucdl00ddutmkjepzcb2f",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Made In Vape Distrib",
+        "range": "MIV Distrib",
+        "product": "White Blizz",
+        "format_ml": null,
+        "productId": "cms6eufyg015hutmkjmlu2d7z",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "product": "Diamond Casino",
+        "format_ml": null,
+        "productId": "cms6eucpn00fxutmkxjbtg7x9",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "product": "Mint Heist",
+        "format_ml": null,
+        "productId": "cms6eug9z0180utmkwbd74hst",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "product": "Paleta Score",
+        "format_ml": null,
+        "productId": "cms6eugup01crutmk4yqhq3td",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "product": "Perico",
+        "format_ml": null,
+        "productId": "cms6eugz801doutmkflgvn2ax",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Cloud Vapor",
+        "range": "Grand Taste City",
+        "product": "Redwood",
+        "format_ml": null,
+        "productId": "cms6euhm801ikutmk6ner7mbx",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "product": "Double Pêche",
+        "format_ml": 20,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "product": "Fruit du Dragon Cerise",
+        "format_ml": 20,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "product": "Limonade Citron Cassis",
+        "format_ml": 20,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "product": "Fruits Rouges",
+        "format_ml": 20,
+        "productId": "cms6euasx0016utmkqog2bx0l",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "e.Tasty",
+        "range": "Twenty",
+        "product": "Menthe Polaire",
+        "format_ml": 20,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "e.Tasty",
+        "range": "Letters",
+        "product": "A",
+        "format_ml": 100,
+        "productId": "cmrz15sb2000vutpc5v1lt7x5",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "e.Tasty",
+        "range": "Letters",
+        "product": "B",
+        "format_ml": 100,
+        "productId": "cmrz15sdc001butpcyr6brxpa",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "e.Tasty",
+        "range": "Letters",
+        "product": "C",
+        "format_ml": 100,
+        "productId": "cmrz15sc1000xutpcr1qu18sh",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "AirMust",
+        "range": "L'Ovalie",
+        "product": "Le Plaquage",
+        "format_ml": null,
+        "flavor": "Litchi Fraise",
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "L'Ovalie",
+        "product": "Transformation",
+        "format_ml": null,
+        "productId": "cms6euf9h010butmk0n8s1bhy",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "AirMust",
+        "range": "L'Ovalie",
+        "product": "Le Drop",
+        "format_ml": null,
+        "flavor": "Limonade Fraise",
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Fruits Rouges",
+        "format_ml": 60,
+        "productId": "cms6euasx0016utmkqog2bx0l",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Popcorn",
+        "format_ml": 60,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Pêche",
+        "format_ml": 60,
+        "productId": "cms6eucq800g1utmkf950m9a7",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Pure Passion",
+        "format_ml": 60,
+        "productId": "cms6euh9u01fzutmkdt2cdck8",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Mangue",
+        "format_ml": 60,
+        "productId": "cms6eubz900aeutmk42xo7d02",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Pomme Harmonie",
+        "format_ml": 60,
+        "productId": "cms6euh3n01equtmklbqk0r6e",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Poire",
+        "format_ml": 60,
+        "productId": "cms6eudsg00oqutmkqi87p3pc",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Menthe Glaciale",
+        "format_ml": 60,
+        "productId": "cms6euaoh0006utmkinz5465d",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Fraise Sauvage",
+        "format_ml": 60,
+        "productId": "cms6eudgo00lyutmkytgx77o0",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Raisin Noir",
+        "format_ml": 60,
+        "productId": "cms6euhcw01goutmk681hqbr3",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Custard Vanille",
+        "format_ml": 60,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Menthe du Jardin",
+        "format_ml": 60,
+        "productId": "cms6eug6g0177utmkemuvo8i7",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AirMust",
+        "range": "UNIK",
+        "product": "Framboise",
+        "format_ml": 60,
+        "productId": "cms6euaqp000qutmkg6lixkrc",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AVAP",
+        "range": "Devil",
+        "product": "Red Devil",
+        "format_ml": 50,
+        "productId": "cms6euhkd01i5utmk0jixf0ga",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "AVAP",
+        "range": "Devil",
+        "product": "Red Devil",
+        "format_ml": 100,
+        "productId": "cms6euhkd01i5utmk0jixf0ga",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Aria",
+        "format_ml": null,
+        "productId": "cms6euaon0008utmk9mi8z3uz",
+        "sumupLinked": false,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Doom",
+        "format_ml": null,
+        "productId": "cms6eucsp00ghutmkwn9sufqo",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Griffon",
+        "format_ml": null,
+        "productId": "cms6euea000slutmkjalrdliu",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Ivy",
+        "format_ml": null,
+        "productId": "cms6euenj00voutmkiir5spdr",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Juno",
+        "format_ml": null,
+        "productId": "cms6euesh00wsutmk02nkba8u",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Nova",
+        "format_ml": null,
+        "productId": "cms6eud2o00ieutmkhpbptmoc",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Ruby",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Ultron",
+        "format_ml": null,
+        "productId": "cms6euimw01pyutmk1fgb0hsy",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Vape 47",
+        "range": "Furiosa EGGZ V2",
+        "product": "Volta",
+        "format_ml": null,
+        "productId": "cms6euj3901t6utmkakt2eoei",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "standalone_pending",
+        "manufacturer": "Liquideo",
+        "product": "Pastis 13"
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Big Kawa",
+        "range": "Café",
+        "product": "Café Frappé",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Big Kawa",
+        "range": "Café",
+        "product": "Café Noisette",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Big Kawa",
+        "range": "Café",
+        "product": "Café Caramel",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "OverDrive Juices",
+        "range": "OverDrive Juices",
+        "product": "Hellflakes",
+        "format_ml": null,
+        "productId": "cms6eued100tdutmkz4fvex8z",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "OverDrive Juices",
+        "range": "OverDrive Juices",
+        "product": "Bloody Sundaze",
+        "format_ml": null,
+        "productId": "cms6eubk60074utmk00gi9k46",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "OverDrive Juices",
+        "range": "OverDrive Juices",
+        "product": "Vamp Oil",
+        "format_ml": null,
+        "productId": "cms6euirl01qwutmkjwqrdfo0",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "OverDrive Juices",
+        "range": "OverDrive Juices",
+        "product": "Riff Melon",
+        "format_ml": null,
+        "productId": "cms6euhp701j6utmkw57pah3f",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Revenge Juices",
+        "range": "Revenge Juices",
+        "product": "The Widow Maker",
+        "format_ml": null,
+        "productId": "cms6euiey01ogutmkyivdt424",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Revenge Juices",
+        "range": "Revenge Juices",
+        "product": "The Blood Bath",
+        "format_ml": null,
+        "productId": "cms6euidi01o7utmkqlphvkpr",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Revenge Juices",
+        "range": "Revenge Juices",
+        "product": "The Red Krime",
+        "format_ml": null,
+        "productId": "cms6euidu01o9utmkai3na4aj",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Pêche Abricot",
+        "format_ml": 50,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Fruits Rouges",
+        "format_ml": 50,
+        "productId": "cms6euasx0016utmkqog2bx0l",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Virgin Mojito",
+        "format_ml": 50,
+        "productId": "cms6eue8400s3utmkqt15dmfh",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Framboise",
+        "format_ml": 50,
+        "productId": "cms6euaot0009utmk6vbunqbv",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Fraise Fruit du Dragon",
+        "format_ml": 50,
+        "productId": "cms6eue7800rwutmkjr42burq",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Citron Vert Melon",
+        "format_ml": 50,
+        "productId": "cms6eue6y00ruutmkkdnw9u5g",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Mûre Cassis",
+        "format_ml": 50,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "Alfa",
+        "range": "Granita Soft",
+        "product": "Tropical Bleu",
+        "format_ml": 50,
+        "productId": "cms6eue7z00s2utmk4gpsaojh",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "T-Juice",
+        "range": "T-Juice",
+        "product": "Dark Enigma",
+        "format_ml": null,
+        "productId": "cms6eucl500exutmkcgv5kww4",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "T-Juice",
+        "range": "T-Juice",
+        "product": "Raven Blue",
+        "format_ml": null,
+        "productId": "cms6euhdz01gwutmkyy10v4px",
+        "sumupLinked": true,
+        "stockUntouched": true
+      },
+      {
+        "action": "draft_only_not_created",
+        "manufacturer": "T-Juice",
+        "range": "T-Juice",
+        "product": "Sour Sorbet",
+        "format_ml": null,
+        "flavor": null,
+        "note": "Produit listé par Yoann mais non créé automatiquement — attendre preuve officielle + SumUp."
+      },
+      {
+        "action": "match_existing",
+        "manufacturer": "T-Juice",
+        "range": "T-Juice",
+        "product": "Pinky Pop",
+        "format_ml": null,
+        "productId": "cms6eui8g01nautmkf1y4evo1",
+        "sumupLinked": true,
+        "stockUntouched": true
+      }
+    ]
+  },
+  "pending_verification": [
+    "Compléter les catalogues officiels des gammes laissées avec products vide.",
+    "Vérifier le rattachement exact de Cumulus et Mexican Cartel selon les produits concernés.",
+    "Vérifier les appellations exactes Crazy Juice / Crazy Barnacle / Mukkies.",
+    "Vérifier la liste exhaustive ENFER, Les Fruits d'ENFER et Furiosa EGGZ V2 sur le site officiel Vape 47.",
+    "Ajouter les logos officiels fabricants après téléchargement et validation des droits d'utilisation.",
+    "Comparer ensuite avec l'export SumUp avant import définitif."
+  ],
+  "conflicts": [],
+  "stockSumUpTouched": false
+}

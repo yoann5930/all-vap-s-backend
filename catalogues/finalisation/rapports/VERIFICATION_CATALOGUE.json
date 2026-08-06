@@ -1,0 +1,15 @@
+{
+  "actifs": 409,
+  "complets": 177,
+  "pct": 43.3,
+  "dupSumup": 0,
+  "dupEan": 0,
+  "orphan": 0,
+  "mfrMix": 2,
+  "photoMismatch": 83,
+  "priceChanged": 0,
+  "stockChanged": 0,
+  "photosRecovered": 23,
+  "bannersCopied": 15,
+  "fichesCreated": 98
+}

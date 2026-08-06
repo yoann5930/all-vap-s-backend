@@ -1,0 +1,17 @@
+{
+  "productId": "cms9gxbpv003tutw4dyiv4el7",
+  "catalogName": "Konga 100 ml",
+  "name": "Konga 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Ferox",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": null,
+  "missingFields": [
+    "ean",
+    "photo"
+  ],
+  "complete": false
+}

@@ -72,3 +72,5 @@ docs/_validation_m7.log
 !/backups/.gitkeep
 /inbox_sumup/*
 !/inbox_sumup/README.md
+
+.local/

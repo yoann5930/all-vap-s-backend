@@ -1,0 +1,132 @@
+{
+  "date": "2026-07-30T13:13:31.829Z",
+  "fabricant": "Biarritz Lab",
+  "gamme": "Le Fruit Défendu",
+  "source": "https://biarritz-lab.com/collections/le-fruit-defendu",
+  "format": "50ml",
+  "nicotine": "0 mg uniquement (confirmé site officiel)",
+  "officialCount": 9,
+  "publishedCount": 9,
+  "published": [
+    {
+      "id": "cms6eudmy00njutmkryko7a3y",
+      "officialName": "LOVING MEMORY",
+      "aromas": "Cassis - Cerise - Violette - Frais",
+      "slug": "le-fruit-defendu-50ml-loving-memory",
+      "sumupProductId": "2a09526d-7cd4-4e6e-bf22-d6a23d320ff9",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/loving-memory.webp",
+      "officialUrl": "https://biarritz-lab.com/products/loving-memory-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudn200nkutmkdt3npb4b",
+      "officialName": "FRAISE D'AMOUR",
+      "aromas": "Fraise - Frais",
+      "slug": "le-fruit-defendu-50ml-fraise-d-amour",
+      "sumupProductId": "c692ae33-eb9a-4ed0-87e6-68676ac46d2e",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/fraise-d-amour.webp",
+      "officialUrl": "https://biarritz-lab.com/products/fraise-damour-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudn600nlutmkq9tof08r",
+      "officialName": "SATAN'ANANAS",
+      "aromas": "Fruit du dragon - Ananas - Frais",
+      "slug": "le-fruit-defendu-50ml-satan-ananas",
+      "sumupProductId": "c0190fa0-be86-4f2c-97ca-7c6656e416a0",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/satan-ananas.webp",
+      "officialUrl": "https://biarritz-lab.com/products/satanananas-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudnb00nmutmk7cd2t0dh",
+      "officialName": "EROTIC DREAM",
+      "aromas": "Limonade - Pomme - Mûre - Frais",
+      "slug": "le-fruit-defendu-50ml-erotic-dream",
+      "sumupProductId": "a51fa027-0b6a-4db1-a6ba-6add1f97ae55",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/erotic-dream.webp",
+      "officialUrl": "https://biarritz-lab.com/products/erotic-dream-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudng00nnutmkmh5gtzx2",
+      "officialName": "MANGO SENSATION",
+      "aromas": "Mangue - Frais",
+      "slug": "le-fruit-defendu-50ml-mango-sensation",
+      "sumupProductId": "eea4bc91-507f-47d0-8ed3-4cbea3239cfe",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/mango-sensation.webp",
+      "officialUrl": "https://biarritz-lab.com/products/mango-fresh-killah-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudnk00noutmk4wdaixk2",
+      "officialName": "YELLOW FRUITS",
+      "aromas": "Melon - Abricot - Pêche",
+      "slug": "le-fruit-defendu-50ml-yellow-fruits",
+      "sumupProductId": "393cdf01-db95-432a-bdb4-620674f931d7",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/yellow-fruits.webp",
+      "officialUrl": "https://biarritz-lab.com/products/les-demons-de-jesus-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudnq00nputmkmrbpgw2m",
+      "officialName": "MYRTILLISSIME",
+      "aromas": "Myrtille - Frais",
+      "slug": "le-fruit-defendu-50ml-myrtillissime",
+      "sumupProductId": "230b24fe-e560-479e-a1f8-70338efdcb96",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/myrtillissime.webp",
+      "officialUrl": "https://biarritz-lab.com/products/myrtillissime-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudnu00nqutmkvl6iev85",
+      "officialName": "GHOST RIDERS",
+      "aromas": "Pastèque - Fraise - Frais",
+      "slug": "le-fruit-defendu-50ml-ghost-riders",
+      "sumupProductId": "587428ac-ea4e-4a9c-9313-b12d4aa1b137",
+      "priceCentsSumup": 2090,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/ghost-riders.webp",
+      "officialUrl": "https://biarritz-lab.com/products/ghost-riders-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    },
+    {
+      "id": "cms6eudny00nrutmkcb62v498",
+      "officialName": "PEACH SEX & SUN",
+      "aromas": "Pêche - Grenadine - Frais",
+      "slug": "le-fruit-defendu-50ml-peach-sex-sun",
+      "sumupProductId": "a4b05955-5592-4aaf-a14d-f3598657ade2",
+      "priceCentsSumup": 2060,
+      "priceOfficialEuros": 18.9,
+      "imageUrl": "/media/products/biarritz-lab/le-fruit-defendu/50ml/peach-sex-sun.webp",
+      "officialUrl": "https://biarritz-lab.com/products/peach-sex-sun-le-fruit-defendu-50-ml-00-mg",
+      "availableOfficial": true
+    }
+  ],
+  "skipped": [],
+  "unpublishedExtras": [],
+  "missingOfficial": [],
+  "wrongRangeMix": [],
+  "pricePolicy": "Prix boutique = prix SumUp existant. Prix fabricant officiel 18,90 € noté pour référence (écart éventuel).",
+  "controlUrls": [
+    "http://localhost:3000/fabricants/biarritz-lab",
+    "http://localhost:3000/gammes/le-fruit-defendu?fabricant=biarritz-lab",
+    "http://localhost:3000/e-liquides"
+  ],
+  "noSumupWrite": true,
+  "separatedFromMamita": true
+}

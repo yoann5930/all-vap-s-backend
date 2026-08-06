@@ -1,0 +1,228 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+{
+  "apply": true,
+  "totalProducts": 378,
+  "publishedOnline": 218,
+  "attached": 0,
+  "publishedThisRun": 0,
+  "remaining": 160,
+  "remainingByReason": {
+    "sumup_product_id_manquant": 98,
+    "photo_officielle_manquante": 62
+  },
+  "sampleAttached": [],
+  "sampleRemaining": [
+    {
+      "slug": "force-jaune-100-force-vape",
+      "name": "Force Jaune 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-noire-100-force-vape",
+      "name": "Force Noire 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "force-violette-100-force-vape",
+      "name": "Force Violette 100 ml",
+      "manufacturer": "swoke",
+      "range": "force-vape-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "milo-50-saint-flava",
+      "name": "Milo 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-frappe-50-big-kawa",
+      "name": "Caf├® Frapp├® 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-noisette-50-big-kawa",
+      "name": "Caf├® Noisette 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "cafe-caramel-50-big-kawa",
+      "name": "Caf├® Caramel 50 ml",
+      "manufacturer": "liquide-lab",
+      "range": "big-kawa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "pyro-50-saint-flava",
+      "name": "Pyro 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "candy-50-saint-flava",
+      "name": "Candy 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "candy-gold-edition-50-saint-flava",
+      "name": "Candy Gold Edition 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "peche-abricot-50-granita-soft",
+      "name": "P├¬che Abricot 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "xena-50-saint-flava",
+      "name": "Xena 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "yumi-50-saint-flava",
+      "name": "Yumi 50 ml",
+      "manufacturer": "swoke",
+      "range": "saint-flava-swoke",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "virgin-mojito-50-granita-soft",
+      "name": "Virgin Mojito 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    },
+    {
+      "slug": "fraise-fruit-du-dragon-50-granita-soft",
+      "name": "Fraise Fruit du Dragon 50 ml",
+      "manufacturer": "alfa",
+      "range": "granita-soft-alfa",
+      "reasons": [
+        "sumup_product_id_manquant",
+        "sumup_name_manquant",
+        "prix_manquant",
+        "photo_officielle_manquante",
+        "sumup_name_manquant"
+      ],
+      "primaryBlock": "sumup_product_id_manquant"
+    }
+  ]
+}
+ÔåÆ D:\all vaps\all-vap-s-backend\data\rebuild\RAPPORT_COMPLETE_PHOTOS_ELIQUIDES.json
+ÔåÆ D:\all vaps\all-vap-s-backend\docs\RAPPORT_COMPLETE_IMPORT_ELIQUIDES.md

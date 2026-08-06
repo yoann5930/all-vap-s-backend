@@ -15,6 +15,7 @@ interface CatalogResponse {
   products: Product[];
   categories: Category[];
   brands: Brand[];
+  ranges: Array<{ id: string; name: string; slug: string; brandId: string }>;
   pagination: { page: number; limit: number; total: number; totalPages: number };
 }
 
@@ -94,6 +95,7 @@ export function ProductCatalog({
   const filterProps = {
     categories: data?.categories || [],
     brands: data?.brands || [],
+    ranges: data?.ranges || [],
     searchParams,
     onUpdate: (u: Record<string, string | null>) => {
       updateParams(u);

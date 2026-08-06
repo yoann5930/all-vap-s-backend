@@ -1,0 +1,348 @@
+{
+  "productId": "cms96cuxg000duto8hhncr475",
+  "catalogName": "Force Verte",
+  "fullName": "Force Verte",
+  "manufacturer": "Force Vape",
+  "range": "Force Vape",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "Format catalogue ambigu (pas de ml dans le nom)",
+  "ean": null,
+  "eanSource": null,
+  "sumupProductId": null,
+  "sumupProductIdNote": "Jamais écrasé en base si déjà valide — valeur documentée seulement",
+  "photoLocal": "catalogues/finalisation/finale-100/photos/force-verte.jpg",
+  "photoSource": "recherche-web-photo",
+  "bannerLocal": null,
+  "status": "validation_manuelle",
+  "missingFields": [
+    "ean"
+  ],
+  "evidence": [
+    {
+      "source": "catalogue-magasin",
+      "field": "manufacturer",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "catalogue-magasin",
+      "field": "fullName",
+      "value": "Force Verte",
+      "conf": 5
+    },
+    {
+      "source": "prisma.volumeMl",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 5
+    },
+    {
+      "source": "prisma.manufacturer",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "conf": 5
+    },
+    {
+      "source": "prisma.range",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 5
+    },
+    {
+      "source": "recherche-web",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "format",
+      "value": "100 ml",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web-photo",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "recherche-web",
+      "field": "manufacturer",
+      "value": "Swoke",
+      "conf": 3
+    },
+    {
+      "source": "recherche-web",
+      "field": "range",
+      "value": "Force Vape",
+      "conf": 3
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-verte/force-verte.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-verte/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/ENCORE_IMPOSSIBLES.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/rapports/RECHERCHE_HITS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/produits-retrouves/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/recherche-web/fiches/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/recherche-web/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-verte/fiche.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-verte/fiche.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/VALIDATION_MANUELLE/force-verte/fiche.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/ENCORE_INCOMPLETS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/rapports/RESULTATS.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-finalises/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-finalises/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-finalises/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-finalises/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-archives/force-verte.json",
+      "field": "ean",
+      "value": "6410949705432",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-archives/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-archives/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/produits-archives/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-verte.json",
+      "field": "pgVg",
+      "value": "40/60",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-verte.json",
+      "field": "nicotine",
+      "value": "Format catalogue ambigu (pas de ml dans le nom)",
+      "conf": 4
+    },
+    {
+      "source": "catalogues/finalisation/croisee/fiches/force-verte.json",
+      "field": "image",
+      "value": "catalogues/finalisation/croisee/photos/force-verte.jpg",
+      "conf": 4
+    }
+  ],
+  "notes": [
+    "CSV hit score=1.00 «Force Verte» ← catalogues/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Force Verte» ← catalogues/catalogue-magasin-all-vaps.csv",
+    "CSV hit score=1.00 «Force Verte» ← backups/sumup-audit-2026-08-03/catalogue-ava-all-vaps.csv",
+    "CSV hit score=1.00 «Force Verte» ← backups/sumup-audit-2026-08-03/catalogue-magasin-all-vaps.csv",
+    "Photo fichier score=1.00 force-verte.jpg",
+    "Photo fichier score=1.00 force-verte.jpg",
+    "Photo fichier score=1.00 force-verte.jpg",
+    "EAN 6410949705432 INVALIDÉ — code de bruit / page liée Force Vape, non univoque pour Force Verte"
+  ],
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "noDelete": true,
+    "appliedToDatabase": false,
+    "noInternetSearch": true
+  },
+  "researchedAt": "2026-08-03T19:08:46.946Z"
+}

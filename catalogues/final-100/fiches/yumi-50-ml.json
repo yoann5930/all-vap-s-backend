@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gx9ur000zutw4muap1dwc",
+  "catalogName": "Yumi 50 ml",
+  "name": "Yumi 50 ml",
+  "manufacturer": "Swoke",
+  "range": "Saint Flava",
+  "formatMl": 50,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/swoke/saint-flava-swoke/yumi-50-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

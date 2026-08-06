@@ -1,0 +1,20 @@
+[
+  {
+    "productId": "cms6eub87004dutmkqln7nrwu",
+    "name": "Raneki Liquide - Olympe - Athéna - 50 ml",
+    "productMfr": "Raneki Liquide",
+    "range": "Godfall City",
+    "rangeMfr": "e.Tasty",
+    "action": "product.manufacturerId aligné sur range.manufacturerId",
+    "newMfr": "e.Tasty"
+  },
+  {
+    "productId": "cms6euh5u01f6utmkte842rxu",
+    "name": "Raneki Liquide - Olympe - Poséidon - 50 ml",
+    "productMfr": "Raneki Liquide",
+    "range": "Godfall City",
+    "rangeMfr": "e.Tasty",
+    "action": "product.manufacturerId aligné sur range.manufacturerId",
+    "newMfr": "e.Tasty"
+  }
+]

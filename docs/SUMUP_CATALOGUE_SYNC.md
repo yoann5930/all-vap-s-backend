@@ -60,3 +60,32 @@ npm run catalog:test            # tests catalogue professionnel
 - Idempotence via `SumUpSyncedTransaction` + `externalReference` mouvements stock
 - Lignes non reconnues → `ProductMatch` (`UNMATCHED`) + `SyncError`
 - Stock unique `GLOBAL_ALL_VAPS` (pas de stocks boutiques séparés dans cette sync)
+
+## Obligation e-liquides (noms + images)
+
+Voir `.cursor/rules/catalog-official-sumup-sync.mdc` et `lib/catalog/official-sumup-policy.ts`.
+
+| Règle | Détail |
+|---|---|
+| Pas d’invention | Interdit d’inventer nom, photo bouteille, EAN, saveur |
+| Nom | `sumupName` / `name` alignés ; push vers SumUp via CSV |
+| Photo | Packshot officiel → push `Image 1` dans le CSV SumUp |
+| En ligne | `sumupProductId` + `sumupName` + photo officielle + prix > 0 |
+| Audit | `npm run catalog:enforce-official` / `:apply` |
+
+### Push All Vap's → SumUp (noms + images) — obligatoire
+
+SumUp **n’a pas d’API catalogue** (annoncée plus tard). Canal officiel supporté :
+
+```bash
+npm run sumup:push-catalog
+# ou inclus dans :
+npm run sumup:connect-stock
+```
+
+1. Export SumUp Articles → `inbox_sumup/`
+2. Génération `outbox_sumup/LATEST_items-push_ALLVAPS.csv` (Item name + Image 1)
+3. **Importer ce CSV dans SumUp → Articles → Importer**
+4. Re-export + `sumup:connect-stock` pour confirmer le pull
+
+Images : définir `SUMUP_PUSH_PUBLIC_BASE_URL=https://…` (HTTPS public, pas localhost) pour que SumUp puisse télécharger les packshots.

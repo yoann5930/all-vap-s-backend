@@ -85,7 +85,10 @@ function applySecurityHeaders(
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https:",
+      // blob: requis pour textures GLB (GLTFLoader → ObjectURL) et workers Three.js
+      "connect-src 'self' https: blob:",
+      "worker-src 'self' blob:",
+      "media-src 'self' blob: data:",
       `frame-ancestors ${frameAncestors}`,
       "base-uri 'self'",
       "form-action 'self'",

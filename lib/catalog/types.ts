@@ -60,7 +60,7 @@ export interface CatalogAvaMeta {
   avaQuestions: string | null;
 }
 
-/** Champs SumUp — synchronisation stock uniquement */
+/** Champs SumUp — IDs / nom caisse / stock. Nom affiché e-liquide = sumupName sauf titre fabricant prouvé (voir official-sumup-policy). */
 export interface CatalogSumUpMeta {
   sumupName: string | null;
   sumupReference: string | null;

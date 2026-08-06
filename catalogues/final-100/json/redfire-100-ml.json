@@ -1,0 +1,16 @@
+{
+  "productId": "cms9gxbeh002zutw4niayvxzj",
+  "catalogName": "Redfire 100 ml",
+  "name": "Redfire 100 ml",
+  "manufacturer": "AirMust",
+  "range": "Blue Hopper",
+  "formatMl": 100,
+  "nicotine": "0 mg/ml",
+  "ean": null,
+  "sumupProductId": null,
+  "photoUrl": "/media/products/airmust/blue-hopper-airmust/redfire-100-ml.jpg",
+  "missingFields": [
+    "ean"
+  ],
+  "complete": false
+}

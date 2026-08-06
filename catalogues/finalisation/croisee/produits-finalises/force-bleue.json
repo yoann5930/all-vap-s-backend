@@ -1,0 +1,35 @@
+{
+  "productId": "cms96cuwc0009uto8j45cdpdr",
+  "catalogName": "Force Bleue",
+  "manufacturer": "Swoke",
+  "range": "Force Vape",
+  "sourceUrls": [
+    "https://www.eleciga.com/swoke/5879-force-bleue-00mg-100ml-force-vape-by-swoke"
+  ],
+  "status": "complete",
+  "missingFields": [],
+  "notes": [],
+  "officialName": "Force Bleue 100 ml — Force Vape (Swoke)",
+  "formatMl": 100,
+  "pgVg": "40/60",
+  "nicotineSoldAs": "0 mg/ml (shortfill flacon 120 ml)",
+  "nicotineBoostOptions": "Boosters 10 ml 20 mg",
+  "ean": "6410949291768",
+  "eanConfidence": "retailer",
+  "flavorNotes": "Grenade, framboise bleue, myrtille",
+  "photoUrl": "https://www.eleciga.com/18390-large_default/force-bleue-00mg-100ml-force-vape-by-swoke.jpg",
+  "photoLocal": "catalogues/finalisation/recherche-web/photos/force-bleue.jpg",
+  "bannerLocal": "catalogues/finalisation/recherche-web/bannieres/swoke-force-vape.svg",
+  "seo": {
+    "title": "Force Bleue 100 ml — Force Vape (Swoke) | All Vap's",
+    "description": "Force Bleue 100 ml — Force Vape (Swoke) — Swoke — Force Vape — 40/60 — Grenade, framboise bleue, myrtille"
+  },
+  "constraints": {
+    "priceUntouched": true,
+    "stockUntouched": true,
+    "sumupIdUntouched": true,
+    "appliedToDatabase": false
+  },
+  "researchedAt": "2026-08-03T18:42:38.167Z",
+  "finalizedVia": "recherche-web"
+}
