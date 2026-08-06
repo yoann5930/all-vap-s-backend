@@ -155,9 +155,29 @@ export async function loginUser(email: string, password: string) {
     role: user.role,
   };
 
-  const token = await signToken(payload);
-  await setAuthCookie(token);
-  await issueRefreshToken(user.id);
+  let token: string;
+  try {
+    token = await signToken(payload);
+  } catch (err) {
+    console.error("[auth] signToken failed:", err);
+    const msg = err instanceof Error ? err.message : "";
+    if (/JWT_SECRET/i.test(msg)) throw new Error("AUTH_MISCONFIGURED");
+    throw new Error("AUTH_SESSION_FAILED");
+  }
+
+  try {
+    await setAuthCookie(token);
+  } catch (err) {
+    // Le token reste renvoyé dans le body — le client peut l’utiliser en Bearer
+    console.error("[auth] setAuthCookie failed:", err);
+  }
+
+  try {
+    await issueRefreshToken(user.id);
+  } catch (err) {
+    // Access token seul suffit pour la session 2h — ne pas bloquer le login employés
+    console.error("[auth] issueRefreshToken failed:", err);
+  }
 
   return { user: sanitizeUser(user), token };
 }

@@ -25,6 +25,14 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
     message: "Authentification indisponible — base à migrer (prisma migrate deploy)",
     status: 503,
   },
+  AUTH_MISCONFIGURED: {
+    message: "Authentification mal configurée (JWT_SECRET manquant sur Vercel)",
+    status: 503,
+  },
+  AUTH_SESSION_FAILED: {
+    message: "Impossible de créer la session — réessayez",
+    status: 503,
+  },
   MUST_CHANGE_PASSWORD: { message: "Changement de mot de passe obligatoire", status: 403 },
   STORE_NOT_ALLOWED: { message: "Boutique non autorisée pour ce compte", status: 403 },
   WEAK_PASSWORD: { message: "Mot de passe trop faible (8 caractères min., lettre + chiffre)", status: 400 },
