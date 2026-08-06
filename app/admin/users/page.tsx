@@ -1,7 +1,7 @@
 import { AdminUsersClient } from "@/components/admin/AdminUsersClient";
 
 export const metadata = {
-  title: "Utilisateurs - Admin All Vap's",
+  title: "Accès inventaire - Admin All Vap's",
 };
 
 export default function AdminUsersPage() {

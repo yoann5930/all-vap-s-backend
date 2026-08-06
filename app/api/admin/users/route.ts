@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { randomBytes } from "node:crypto";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { hashPassword, sanitizeUser } from "@/lib/auth";
+import { generateTempAccessCode } from "@/lib/admin/temp-access-code";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { assertSameOrigin } from "@/lib/security";
 import { writeAuditLog } from "@/lib/audit/log";
@@ -15,25 +15,28 @@ import {
 
 const storeEnum = z.enum([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]);
 
-function tempPassword(): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$";
-  const bytes = randomBytes(14);
-  let out = "";
-  for (let i = 0; i < 14; i++) out += alphabet[bytes[i]! % alphabet.length];
-  return out;
-}
-
-/** Liste utilisateurs (admin) — inventaire + rôles. */
-export async function GET() {
+/** Liste comptes inventaire (EMPLOYEE + ADMIN). Pas de passwordHash. */
+export async function GET(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
+    const url = new URL(request.url);
+    const q = (url.searchParams.get("q") || "").trim().toLowerCase();
+    const status = url.searchParams.get("status"); // active | suspended | all
+
     const users = await prisma.user.findMany({
       where: {
-        OR: [
-          { role: "ADMIN" },
-          { role: "EMPLOYEE" },
-          { role: "CUSTOMER" },
-        ],
+        role: { in: ["ADMIN", "EMPLOYEE"] },
+        ...(status === "active" ? { active: true } : {}),
+        ...(status === "suspended" ? { active: false } : {}),
+        ...(q
+          ? {
+              OR: [
+                { email: { contains: q, mode: "insensitive" } },
+                { firstName: { contains: q, mode: "insensitive" } },
+                { lastName: { contains: q, mode: "insensitive" } },
+              ],
+            }
+          : {}),
       },
       select: {
         id: true,
@@ -50,7 +53,7 @@ export async function GET() {
         createdAt: true,
         _count: { select: { orders: true, inventorySessions: true } },
       },
-      orderBy: [{ role: "asc" }, { lastName: "asc" }],
+      orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
     });
     return jsonResponse({ users });
   } catch (error) {
@@ -62,24 +65,63 @@ const createSchema = z.object({
   email: z.string().email().max(254),
   firstName: z.string().min(1).max(80),
   lastName: z.string().min(1).max(80),
-  role: z.enum(["EMPLOYEE", "ADMIN", "CUSTOMER"]),
-  allowedStores: z.array(storeEnum).default([]),
+  role: z.enum(["EMPLOYEE", "ADMIN"]).default("EMPLOYEE"),
+  allowedStores: z.array(storeEnum).default([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]),
+  active: z.boolean().default(true),
+  /** Code saisi par l’admin — sinon généré automatiquement. */
+  accessCode: z.string().min(8).max(64).optional(),
   phone: z.string().max(30).optional().nullable(),
 });
 
-/** Création utilisateur + mot de passe temporaire (retourné une seule fois). */
+/** Création employé OU bootstrap des comptes démo (action dédiée). */
 export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
     const auth = await requireAuth("ADMIN");
-    const data = createSchema.parse(await request.json());
+    const body = await request.json();
+
+    if (body?.action === "ensure_access_codes") {
+      const { ensureInventoryStaffAccessCodes } = await import(
+        "@/lib/admin/ensure-inventory-staff"
+      );
+      const result = await ensureInventoryStaffAccessCodes();
+      await writeAuditLog({
+        user: auth,
+        action: "USER_ENSURE_ACCESS_CODES",
+        ip: clientIp(request),
+        metadata: {
+          staffCount: result.staffCount,
+          issuedCount: result.issued.length,
+        },
+      });
+      return jsonResponse({
+        staffCount: result.staffCount,
+        users: result.users,
+        issued: result.issued.map((i) => ({
+          userId: i.userId,
+          email: i.email,
+          firstName: i.firstName,
+          lastName: i.lastName,
+          temporaryPassword: i.temporaryPassword,
+          created: i.created,
+        })),
+      });
+    }
+
+    const data = createSchema.parse(body);
 
     const existing = await prisma.user.findUnique({
       where: { email: data.email.toLowerCase() },
     });
     if (existing) throw new Error("EMAIL_EXISTS");
 
-    const plain = tempPassword();
+    const plain = data.accessCode?.trim() || generateTempAccessCode();
+    if (plain.length < 8) {
+      return jsonResponse(
+        { error: "Le code d’accès doit contenir au moins 8 caractères." },
+        400
+      );
+    }
     const passwordHash = await hashPassword(plain);
     const user = await prisma.user.create({
       data: {
@@ -88,8 +130,8 @@ export async function POST(request: NextRequest) {
         lastName: data.lastName,
         phone: data.phone || null,
         role: data.role,
-        allowedStores: data.role === "CUSTOMER" ? [] : data.allowedStores,
-        active: true,
+        allowedStores: data.allowedStores,
+        active: data.active,
         mustChangePassword: true,
         passwordHash,
         emailVerified: true,
@@ -117,9 +159,10 @@ export async function POST(request: NextRequest) {
 
 const patchSchema = z.object({
   userId: z.string().min(1),
-  role: z.enum(["CUSTOMER", "EMPLOYEE", "ADMIN"]).optional(),
-  firstName: z.string().max(80).optional().nullable(),
-  lastName: z.string().max(80).optional().nullable(),
+  role: z.enum(["EMPLOYEE", "ADMIN"]).optional(),
+  email: z.string().email().max(254).optional(),
+  firstName: z.string().min(1).max(80).optional(),
+  lastName: z.string().min(1).max(80).optional(),
   phone: z.string().max(30).optional().nullable(),
   active: z.boolean().optional(),
   allowedStores: z.array(storeEnum).optional(),
@@ -127,8 +170,8 @@ const patchSchema = z.object({
 });
 
 /**
- * Mise à jour / désactivation / reset MDP (admin).
- * Le mot de passe temporaire n'est renvoyé que si resetPassword=true.
+ * Mise à jour / activation / suspension / reset code (admin).
+ * Le code temporaire n’est renvoyé que si resetPassword=true — jamais stocké en clair.
  */
 export async function PATCH(request: NextRequest) {
   try {
@@ -138,6 +181,9 @@ export async function PATCH(request: NextRequest) {
 
     const target = await prisma.user.findUnique({ where: { id: data.userId } });
     if (!target) throw new Error("NOT_FOUND");
+    if (target.role === "CUSTOMER") {
+      return jsonResponse({ error: "Compte client hors périmètre inventaire." }, 400);
+    }
 
     if (data.role && data.role !== "ADMIN" && data.userId === auth.userId) {
       return jsonResponse(
@@ -159,13 +205,21 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (data.active === false && data.userId === auth.userId) {
-      return jsonResponse({ error: "Vous ne pouvez pas vous désactiver vous-même." }, 400);
+      return jsonResponse({ error: "Vous ne pouvez pas vous suspendre vous-même." }, 400);
+    }
+
+    if (data.email) {
+      const email = data.email.toLowerCase();
+      if (email !== target.email) {
+        const clash = await prisma.user.findUnique({ where: { email } });
+        if (clash) throw new Error("EMAIL_EXISTS");
+      }
     }
 
     let temporaryPassword: string | undefined;
     let passwordHash: string | undefined;
     if (data.resetPassword) {
-      temporaryPassword = tempPassword();
+      temporaryPassword = generateTempAccessCode();
       passwordHash = await hashPassword(temporaryPassword);
     }
 
@@ -173,6 +227,7 @@ export async function PATCH(request: NextRequest) {
       where: { id: data.userId },
       data: {
         ...(data.role !== undefined ? { role: data.role } : {}),
+        ...(data.email !== undefined ? { email: data.email.toLowerCase() } : {}),
         ...(data.firstName !== undefined ? { firstName: data.firstName } : {}),
         ...(data.lastName !== undefined ? { lastName: data.lastName } : {}),
         ...(data.phone !== undefined ? { phone: data.phone } : {}),
@@ -180,9 +235,7 @@ export async function PATCH(request: NextRequest) {
         ...(data.allowedStores !== undefined
           ? { allowedStores: data.allowedStores }
           : {}),
-        ...(passwordHash
-          ? { passwordHash, mustChangePassword: true }
-          : {}),
+        ...(passwordHash ? { passwordHash, mustChangePassword: true } : {}),
       },
     });
 
@@ -208,6 +261,49 @@ export async function PATCH(request: NextRequest) {
       user: sanitizeUser(user),
       ...(temporaryPassword ? { temporaryPassword } : {}),
     });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+const deleteSchema = z.object({
+  userId: z.string().min(1),
+  confirm: z.literal("SUPPRIMER"),
+});
+
+/**
+ * Suppression d’un accès EMPLOYEE (pas d’ADMIN).
+ * Double confirmation côté client + confirm=SUPPRIMER.
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    assertSameOrigin(request);
+    const auth = await requireAuth("ADMIN");
+    const data = deleteSchema.parse(await request.json());
+
+    if (data.userId === auth.userId) {
+      return jsonResponse({ error: "Vous ne pouvez pas supprimer votre propre compte." }, 400);
+    }
+
+    const target = await prisma.user.findUnique({ where: { id: data.userId } });
+    if (!target) throw new Error("NOT_FOUND");
+    if (target.role !== "EMPLOYEE") {
+      return jsonResponse(
+        { error: "Seuls les accès employés peuvent être supprimés. Suspendez un admin." },
+        400
+      );
+    }
+
+    await prisma.user.delete({ where: { id: data.userId } });
+
+    await writeAuditLog({
+      user: auth,
+      action: "USER_DELETED",
+      ip: clientIp(request),
+      metadata: { targetUserId: target.id, targetEmail: target.email, role: target.role },
+    });
+
+    return jsonResponse({ ok: true });
   } catch (error) {
     return handleApiError(error);
   }
