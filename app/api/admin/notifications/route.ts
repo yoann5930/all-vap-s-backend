@@ -106,7 +106,7 @@ const patchSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const user = await requireStaff();
-    if (!roleAtLeast(user.role, "PROPRIETAIRE") && user.role !== "ADMIN") {
+    if (user.role !== "ADMIN" && user.role !== "PROPRIETAIRE") {
       return jsonResponse({ error: "Réservé propriétaire / admin" }, 403);
     }
     const body = patchSchema.parse(await request.json());

@@ -48,7 +48,7 @@ function AdminLoginInner() {
       }
 
       const role = data.user?.role;
-      if (!["EMPLOYE", "ADMIN", "PROPRIETAIRE"].includes(role)) {
+      if (!["EMPLOYEE", "EMPLOYE", "ADMIN", "PROPRIETAIRE"].includes(role)) {
         setError("Ce compte n'a pas accès à l'administration.");
         await fetch("/api/auth/logout", { method: "POST" });
         return;
