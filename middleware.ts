@@ -106,6 +106,13 @@ function applySecurityHeaders(
       "form-action 'self'",
     ].join("; ")
   );
+
+  if (pathname.startsWith("/admin/fidelatoo") || pathname.startsWith("/api/admin/fidelatoo")) {
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+
   return response;
 }
 

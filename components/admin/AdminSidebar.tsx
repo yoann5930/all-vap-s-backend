@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw, ClipboardList, Cloud,
+  LayoutDashboard, Package, ShoppingCart, Users, Tag, Image, Ticket, Star, FolderTree, Sparkles, Upload, Warehouse, RefreshCw, ClipboardList, Cloud, Smartphone,
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/users", label: "Utilisateurs", icon: Users },
+  { href: "/admin/fidelatoo", label: "Fidelatoo VM", icon: Smartphone },
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/stocks", label: "Stocks", icon: Warehouse },
   { href: "/admin/inventaires", label: "Inventaires", icon: ClipboardList },
