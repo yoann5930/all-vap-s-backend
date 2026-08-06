@@ -1,0 +1,10 @@
+  backup/production-d5a6490-20260806           d5a6490 chore(cursor): règle permanente stabilité du code validé
+  cursor/admin-acces-employes-e2e4             aa5db83 [origin/cursor/admin-acces-employes-e2e4] feat(admin): tableau accès inventaire employés
+  cursor/admin-reset-code-e2e4                 8cb26e1 [origin/cursor/admin-reset-code-e2e4] feat(admin): garantir codes employés + tableau one-shot
+  cursor/deploiement-identification-e2e4       46bca5d [origin/cursor/deploiement-identification-e2e4] docs: identification déploiement allvaps.fr + export A.V.A.
+  cursor/dual-stock-inventaire-e2e4            5dfc0d8 [origin/cursor/dual-stock-inventaire-e2e4] fix(inventaire): rewrite / vers /inventaire sur inventaire.allvaps.fr
+  cursor/facebook-link-e2e4                    1ff0e43 [origin/cursor/facebook-link-e2e4] fix(site): lien Facebook officiel All Vap's
+  cursor/inventaire-ajout-produit-e2e4         5dfc0d8 fix(inventaire): rewrite / vers /inventaire sur inventaire.allvaps.fr
+* cursor/recovery-deploy-correct-20260806-e2e4 d5a6490 [origin/main] chore(cursor): règle permanente stabilité du code validé
+  cursor/regle-stabilite-code-e2e4             d5a6490 [origin/cursor/regle-stabilite-code-e2e4] chore(cursor): règle permanente stabilité du code validé
+  main                                         5dfc0d8 [origin/main: behind 1] fix(inventaire): rewrite / vers /inventaire sur inventaire.allvaps.fr

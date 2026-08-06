@@ -1,0 +1,15 @@
+public/ava/ava-face-base.svg
+public/ava/ava-face-texture.png
+public/ava/ava-hologram-portrait.png
+public/ava/ava-portrait.png
+public/brand/hero-eliquides-bottles.png
+public/brand/logo-black.svg
+public/brand/logo-holo.svg
+public/brand/logo-mark-white.svg
+public/brand/logo-official-dark.png
+public/brand/logo-official.png
+public/brand/logo-white.svg
+public/brand/og-image.png
+public/images/banners/allvaps-hero-banner.png
+public/models/ava/ava-test-model.glb
+public/models/ava/ava-test-texture.png
