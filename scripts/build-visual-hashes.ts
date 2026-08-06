@@ -152,16 +152,75 @@ async function featuresFromBuffer(buf: Buffer): Promise<{
   colorHist: number[];
 } | null> {
   try {
-    const { data, info } = await sharp(buf)
+    // 1) Image normalisée fond blanc (évite stretch fill qui écrase l’étiquette)
+    const { data: rgba, info } = await sharp(buf)
       .rotate()
+      .resize(256, 256, {
+        fit: "contain",
+        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      })
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    const w = info.width;
+    const h = info.height;
+    // 2) BBox contenu non-blanc (flacon / étiquette)
+    let minX = w,
+      minY = h,
+      maxX = 0,
+      maxY = 0;
+    let found = false;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        const r = rgba[i];
+        const g = rgba[i + 1];
+        const b = rgba[i + 2];
+        const maxc = Math.max(r, g, b);
+        const minc = Math.min(r, g, b);
+        const sat = maxc - minc;
+        // Garde pixels colorés ou assez sombres (texte / label)
+        if (maxc < 242 || sat > 18) {
+          found = true;
+          if (x < minX) minX = x;
+          if (y < minY) minY = y;
+          if (x > maxX) maxX = x;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    if (!found) {
+      minX = 0;
+      minY = 0;
+      maxX = w - 1;
+      maxY = h - 1;
+    }
+    const bw = Math.max(8, maxX - minX + 1);
+    const bh = Math.max(8, maxY - minY + 1);
+
+    // 3) Zone étiquette : bande centrale du flacon (ignore bouchon / pied)
+    const lx = minX + Math.floor(bw * 0.12);
+    const ly = minY + Math.floor(bh * 0.22);
+    const lw = Math.max(8, Math.floor(bw * 0.76));
+    const lh = Math.max(8, Math.floor(bh * 0.55));
+
+    const labelBuf = await sharp(rgba, { raw: { width: w, height: h, channels: 4 } })
+      .extract({
+        left: Math.min(lx, w - lw),
+        top: Math.min(ly, h - lh),
+        width: Math.min(lw, w - lx),
+        height: Math.min(lh, h - ly),
+      })
       .resize(64, 64, { fit: "fill" })
       .removeAlpha()
       .raw()
       .toBuffer({ resolveWithObject: true });
+
     return {
-      hash: perceptualHashFromRaw(data, info.width, info.height),
-      dHash: differenceHashFromRaw(data, info.width, info.height),
-      colorHist: colorHistFromRaw(data, info.width, info.height),
+      hash: perceptualHashFromRaw(labelBuf.data, labelBuf.info.width, labelBuf.info.height),
+      dHash: differenceHashFromRaw(labelBuf.data, labelBuf.info.width, labelBuf.info.height),
+      colorHist: colorHistFromRaw(labelBuf.data, labelBuf.info.width, labelBuf.info.height),
     };
   } catch {
     return null;
@@ -245,10 +304,11 @@ async function main() {
   console.log("");
 
   const payload = {
-    version: 3,
+    version: 4,
     generatedAt: new Date().toISOString(),
     total: outProducts.length,
     withHash: outProducts.length,
+    note: "label-focused hashes (v4)",
     products: outProducts,
   };
   await writeFile(OUT, JSON.stringify(payload));

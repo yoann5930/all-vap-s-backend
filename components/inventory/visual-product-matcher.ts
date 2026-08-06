@@ -179,15 +179,93 @@ function featuresFromImage(img: HTMLImageElement): {
   dHash: Uint8Array;
 } | null {
   try {
-    const canvas = document.createElement("canvas");
-    canvas.width = 64;
-    canvas.height = 64;
+    // Même logique que le build serveur : contain fond blanc → crop étiquette
+    const stage = document.createElement("canvas");
+    stage.width = 256;
+    stage.height = 256;
+    const sctx = stage.getContext("2d", { willReadFrequently: true });
+    if (!sctx) return null;
+    sctx.fillStyle = "#ffffff";
+    sctx.fillRect(0, 0, 256, 256);
+    const scale = Math.min(256 / img.naturalWidth, 256 / img.naturalHeight);
+    const dw = Math.max(1, Math.round(img.naturalWidth * scale));
+    const dh = Math.max(1, Math.round(img.naturalHeight * scale));
+    const dx = Math.floor((256 - dw) / 2);
+    const dy = Math.floor((256 - dh) / 2);
+    sctx.drawImage(img, dx, dy, dw, dh);
+    return featuresFromLabelCanvas(stage);
+  } catch {
+    return null;
+  }
+}
+
+/** Extract features from label band of a product-filled canvas. */
+function featuresFromLabelCanvas(canvas: HTMLCanvasElement): {
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+  dHash: Uint8Array;
+} | null {
+  try {
+    const w = canvas.width;
+    const h = canvas.height;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return null;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(img, 0, 0, 64, 64);
-    const data = ctx.getImageData(0, 0, 64, 64);
+    const pixels = ctx.getImageData(0, 0, w, h).data;
+
+    let minX = w,
+      minY = h,
+      maxX = 0,
+      maxY = 0;
+    let found = false;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        const r = pixels[i];
+        const g = pixels[i + 1];
+        const b = pixels[i + 2];
+        const maxc = Math.max(r, g, b);
+        const sat = maxc - Math.min(r, g, b);
+        if (maxc < 242 || sat > 18) {
+          found = true;
+          if (x < minX) minX = x;
+          if (y < minY) minY = y;
+          if (x > maxX) maxX = x;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    if (!found) {
+      minX = 0;
+      minY = 0;
+      maxX = w - 1;
+      maxY = h - 1;
+    }
+    const bw = Math.max(8, maxX - minX + 1);
+    const bh = Math.max(8, maxY - minY + 1);
+    const lx = minX + Math.floor(bw * 0.12);
+    const ly = minY + Math.floor(bh * 0.22);
+    const lw = Math.max(8, Math.floor(bw * 0.76));
+    const lh = Math.max(8, Math.floor(bh * 0.55));
+
+    const tmp = document.createElement("canvas");
+    tmp.width = 64;
+    tmp.height = 64;
+    const tctx = tmp.getContext("2d", { willReadFrequently: true });
+    if (!tctx) return null;
+    tctx.imageSmoothingEnabled = true;
+    tctx.imageSmoothingQuality = "high";
+    tctx.drawImage(
+      canvas,
+      Math.min(lx, w - 1),
+      Math.min(ly, h - 1),
+      Math.min(lw, w - lx),
+      Math.min(lh, h - ly),
+      0,
+      0,
+      64,
+      64
+    );
+    const data = tctx.getImageData(0, 0, 64, 64);
     return {
       hash: perceptualHashFromImageData(data),
       colorHist: colorHistFromImageData(data),
@@ -196,6 +274,67 @@ function featuresFromImage(img: HTMLImageElement): {
   } catch {
     return null;
   }
+}
+
+function featuresFromCanvas(canvas: HTMLCanvasElement): {
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+  dHash: Uint8Array;
+} | null {
+  return featuresFromLabelCanvas(canvas);
+}
+
+/** Variantes : étiquette pleine + crop serré + contraste (photo téléphone). */
+function featureVariantsFromCanvas(canvas: HTMLCanvasElement): Array<{
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+  dHash: Uint8Array;
+}> {
+  const out: Array<{ hash: Uint8Array; colorHist: Uint8Array; dHash: Uint8Array }> =
+    [];
+  const full = featuresFromLabelCanvas(canvas);
+  if (full) out.push(full);
+
+  try {
+    const w = canvas.width;
+    const h = canvas.height;
+    // Bande étiquette directe (sans bbox) — cadrage caméra déjà produit
+    const ly = Math.floor(h * 0.2);
+    const lh = Math.floor(h * 0.55);
+    const lx = Math.floor(w * 0.1);
+    const lw = Math.floor(w * 0.8);
+    const tmp = document.createElement("canvas");
+    tmp.width = 64;
+    tmp.height = 64;
+    const ctx = tmp.getContext("2d", { willReadFrequently: true });
+    if (ctx) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(canvas, lx, ly, lw, lh, 0, 0, 64, 64);
+      const data = ctx.getImageData(0, 0, 64, 64);
+      out.push({
+        hash: perceptualHashFromImageData(data),
+        colorHist: colorHistFromImageData(data),
+        dHash: differenceHashFromImageData(data),
+      });
+
+      const boosted = ctx.getImageData(0, 0, 64, 64);
+      const px = boosted.data;
+      for (let i = 0; i < px.length; i += 4) {
+        px[i] = Math.min(255, Math.max(0, (px[i] - 128) * 1.3 + 128));
+        px[i + 1] = Math.min(255, Math.max(0, (px[i + 1] - 128) * 1.3 + 128));
+        px[i + 2] = Math.min(255, Math.max(0, (px[i + 2] - 128) * 1.3 + 128));
+      }
+      out.push({
+        hash: perceptualHashFromImageData(boosted),
+        colorHist: colorHistFromImageData(boosted),
+        dHash: differenceHashFromImageData(boosted),
+      });
+    }
+  } catch {
+    /* ignore */
+  }
+  return out;
 }
 
 /**
@@ -237,81 +376,6 @@ async function loadImageFeatures(url: string): Promise<{
   } finally {
     if (objUrl) URL.revokeObjectURL(objUrl);
   }
-}
-
-function featuresFromCanvas(canvas: HTMLCanvasElement): {
-  hash: Uint8Array;
-  colorHist: Uint8Array;
-  dHash: Uint8Array;
-} | null {
-  try {
-    const tmp = document.createElement("canvas");
-    tmp.width = 64;
-    tmp.height = 64;
-    const ctx = tmp.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return null;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(canvas, 0, 0, 64, 64);
-    const data = ctx.getImageData(0, 0, 64, 64);
-    return {
-      hash: perceptualHashFromImageData(data),
-      colorHist: colorHistFromImageData(data),
-      dHash: differenceHashFromImageData(data),
-    };
-  } catch {
-    return null;
-  }
-}
-
-/** Variantes de crop/contraste — photo téléphone vs vignette studio. */
-function featureVariantsFromCanvas(canvas: HTMLCanvasElement): Array<{
-  hash: Uint8Array;
-  colorHist: Uint8Array;
-  dHash: Uint8Array;
-}> {
-  const out: Array<{ hash: Uint8Array; colorHist: Uint8Array; dHash: Uint8Array }> = [];
-  const full = featuresFromCanvas(canvas);
-  if (full) out.push(full);
-
-  try {
-    const w = canvas.width;
-    const h = canvas.height;
-    const side = Math.floor(Math.min(w, h) * 0.62);
-    const sx = Math.floor((w - side) / 2);
-    const sy = Math.floor((h - side) / 2);
-    const tmp = document.createElement("canvas");
-    tmp.width = 64;
-    tmp.height = 64;
-    const ctx = tmp.getContext("2d", { willReadFrequently: true });
-    if (ctx) {
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(canvas, sx, sy, side, side, 0, 0, 64, 64);
-      const data = ctx.getImageData(0, 0, 64, 64);
-      out.push({
-        hash: perceptualHashFromImageData(data),
-        colorHist: colorHistFromImageData(data),
-        dHash: differenceHashFromImageData(data),
-      });
-
-      const boosted = ctx.getImageData(0, 0, 64, 64);
-      const px = boosted.data;
-      for (let i = 0; i < px.length; i += 4) {
-        px[i] = Math.min(255, Math.max(0, (px[i] - 128) * 1.25 + 128));
-        px[i + 1] = Math.min(255, Math.max(0, (px[i + 1] - 128) * 1.25 + 128));
-        px[i + 2] = Math.min(255, Math.max(0, (px[i + 2] - 128) * 1.25 + 128));
-      }
-      out.push({
-        hash: perceptualHashFromImageData(boosted),
-        colorHist: colorHistFromImageData(boosted),
-        dHash: differenceHashFromImageData(boosted),
-      });
-    }
-  } catch {
-    /* ignore */
-  }
-  return out;
 }
 
 /** Prépare l’index visuel à partir des produits catalogue (avec imageUrl). */
@@ -390,17 +454,12 @@ export function matchVisualCanvas(
       const colorDist = colorHistDistance(feat.colorHist, p.colorHist);
       const hashScore = 1 - distance / 64;
       const colorScore = 1 - colorDist;
-      // Hash prioritaire (flacons même marque trop proches en couleur)
-      const score = hashScore * 0.75 + colorScore * 0.25;
-      if (distance > maxDistance && score < 0.42) continue;
+      // Étiquette : couleur plus discriminative que la silhouette flacon
+      const score = hashScore * 0.5 + colorScore * 0.5;
+      if (distance > maxDistance && score < 0.4) continue;
       const prev = bestById.get(p.id);
-      if (
-        prev &&
-        (prev.distance < distance ||
-          (prev.distance === distance && prev.score >= score))
-      ) {
-        continue;
-      }
+      // Garde le meilleur score (couleur+hash), pas seulement la plus petite distance
+      if (prev && prev.score >= score) continue;
       bestById.set(p.id, {
         id: p.id,
         name: p.name,
@@ -417,7 +476,7 @@ export function matchVisualCanvas(
   }
 
   return [...bestById.values()]
-    .sort((a, b) => a.distance - b.distance || b.score - a.score)
+    .sort((a, b) => b.score - a.score || a.distance - b.distance)
     .slice(0, limit);
 }
 
@@ -458,7 +517,7 @@ export function sharpenCatalogImageUrl(url: string): string {
 
 /**
  * Décide auto-remplissage vs suggestions.
- * Seuils assouplis pour photo téléphone vs vignette fabricant.
+ * Priorité : écart de score (étiquette) pour auto-remplir nom/marque/gamme.
  */
 export function decideVisualAction(matches: VisualMatch[]): {
   mode: "none" | "auto" | "suggest";
@@ -466,34 +525,29 @@ export function decideVisualAction(matches: VisualMatch[]): {
 } {
   if (!matches.length) return { mode: "none", picks: [] };
   const best = matches[0];
-  const sameImage = matches.filter((m) => m.imageUrl === best.imageUrl);
-  if (sameImage.length > 1 && best.score < 0.78) {
-    return { mode: "suggest", picks: sameImage.slice(0, 6) };
-  }
   const second = matches[1];
   const gap = second ? best.score - second.score : best.score;
   const distGap = second ? second.distance - best.distance : 64;
 
-  // Si le 2ᵉ est aussi proche → toujours suggestions (flacons similaires)
-  if (second && second.distance - best.distance <= 3) {
+  // Auto si quasi-identique à une vignette catalogue (cadrage caméra plein cadre)
+  if (best.distance <= 2 && best.score >= 0.95) {
+    return { mode: "auto", picks: [best] };
+  }
+  // Auto si clairement le meilleur (score étiquette)
+  if (best.score >= 0.72 && gap >= 0.05) {
+    return { mode: "auto", picks: [best] };
+  }
+  if (best.distance <= 8 && distGap >= 4 && best.score >= 0.65) {
+    return { mode: "auto", picks: [best] };
+  }
+  if (best.score >= 0.8 && (!second || gap >= 0.03)) {
+    return { mode: "auto", picks: [best] };
+  }
+  // Suggestions si proche
+  if (best.score >= 0.45 || best.distance <= 24) {
     return { mode: "suggest", picks: matches.slice(0, 6) };
   }
-
-  // Auto UNIQUEMENT si clairement meilleur (évite mauvais flacon même marque)
-  if (best.distance <= 6 && gap >= 0.05 && distGap >= 4) {
-    return { mode: "auto", picks: [best] };
-  }
-  if (best.score >= 0.85 && best.distance <= 8 && gap >= 0.08) {
-    return { mode: "auto", picks: [best] };
-  }
-  if (best.distance <= 3 && (!second || second.distance >= 8)) {
-    return { mode: "auto", picks: [best] };
-  }
-  // Ambigu → suggestions (souvent plusieurs arômes même forme de flacon)
-  if (best.score >= 0.4 || best.distance <= 28) {
-    return { mode: "suggest", picks: matches.slice(0, 6) };
-  }
-  if (best.distance <= 36 || best.score >= 0.35) {
+  if (best.distance <= 32 || best.score >= 0.38) {
     return { mode: "suggest", picks: matches.slice(0, 4) };
   }
   return { mode: "none", picks: [] };

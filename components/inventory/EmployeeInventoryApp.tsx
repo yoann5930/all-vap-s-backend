@@ -132,6 +132,7 @@ export function EmployeeInventoryApp() {
   const nameLookupTimer = useRef<number | null>(null);
   const visualIndexRef = useRef<VisualIndexedProduct[]>([]);
   const visualLoadPromiseRef = useRef<Promise<void> | null>(null);
+  const visualHashVersionRef = useRef(0);
   const ocrAvailableRef = useRef(false);
   const visualMatchBusyRef = useRef(false);
   const visualLookupBusyRef = useRef(false);
@@ -645,6 +646,16 @@ export function EmployeeInventoryApp() {
         if (refRes.ok) {
           const refData = await refRes.json();
           ocrAvailableRef.current = Boolean(refData.ocrAvailable);
+          const apiVersion = Number(refData.version) || 0;
+          // Nouvelle version de hash → remplacer l’index (pas garder l’ancien)
+          if (
+            apiVersion &&
+            visualHashVersionRef.current &&
+            apiVersion !== visualHashVersionRef.current
+          ) {
+            visualIndexRef.current = [];
+          }
+          visualHashVersionRef.current = apiVersion;
           const refs = (refData.products || []) as Array<{
             id: string;
             name: string;
