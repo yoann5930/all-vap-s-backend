@@ -19,6 +19,8 @@ export type VisualIndexedProduct = VisualCatalogProduct & {
   hash: Uint8Array;
   /** Histogramme RGB 4×4×4 = 64 bins, normalisé 0–255 */
   colorHist: Uint8Array;
+  /** Difference hash optionnel (plus robuste au cadrage) */
+  dHash?: Uint8Array;
 };
 
 export type VisualMatch = VisualCatalogProduct & {
@@ -41,6 +43,22 @@ export function perceptualHashFromImageData(data: ImageData): Uint8Array {
   const cellH = height / HASH_SIZE;
   const grays: number[] = [];
 
+  // Normalisation luminance (flash / ombre téléphone)
+  let gmin = 255;
+  let gmax = 0;
+  const rawGrays: number[] = new Array(width * height);
+  for (let i = 0; i < width * height; i++) {
+    const o = i * 4;
+    const g = 0.299 * pixels[o] + 0.587 * pixels[o + 1] + 0.114 * pixels[o + 2];
+    rawGrays[i] = g;
+    if (g < gmin) gmin = g;
+    if (g > gmax) gmax = g;
+  }
+  const span = Math.max(1, gmax - gmin);
+  for (let i = 0; i < rawGrays.length; i++) {
+    rawGrays[i] = ((rawGrays[i] - gmin) / span) * 255;
+  }
+
   for (let y = 0; y < HASH_SIZE; y++) {
     for (let x = 0; x < HASH_SIZE; x++) {
       const samples: number[] = [];
@@ -50,11 +68,7 @@ export function perceptualHashFromImageData(data: ImageData): Uint8Array {
       const y1 = Math.max(y0 + 1, Math.floor((y + 1) * cellH));
       for (let py = y0; py < y1; py++) {
         for (let px = x0; px < x1; px++) {
-          const i = (py * width + px) * 4;
-          const r = pixels[i];
-          const g = pixels[i + 1];
-          const b = pixels[i + 2];
-          samples.push(0.299 * r + 0.587 * g + 0.114 * b);
+          samples.push(rawGrays[py * width + px]);
         }
       }
       grays.push(average(samples));
@@ -66,6 +80,44 @@ export function perceptualHashFromImageData(data: ImageData): Uint8Array {
   for (let i = 0; i < 64; i++) {
     if (grays[i] >= mean) {
       out[i >> 3] |= 1 << (i & 7);
+    }
+  }
+  return out;
+}
+
+/** Difference hash 8×8 — plus robuste au cadrage légèrement décalé. */
+export function differenceHashFromImageData(data: ImageData): Uint8Array {
+  const { width, height, data: pixels } = data;
+  // 9×8 grays then compare horizontally → 8×8 bits
+  const cols = HASH_SIZE + 1;
+  const rows = HASH_SIZE;
+  const cellW = width / cols;
+  const cellH = height / rows;
+  const grid: number[] = [];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const samples: number[] = [];
+      const x0 = Math.floor(x * cellW);
+      const y0 = Math.floor(y * cellH);
+      const x1 = Math.max(x0 + 1, Math.floor((x + 1) * cellW));
+      const y1 = Math.max(y0 + 1, Math.floor((y + 1) * cellH));
+      for (let py = y0; py < y1; py++) {
+        for (let px = x0; px < x1; px++) {
+          const i = (py * width + px) * 4;
+          samples.push(0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2]);
+        }
+      }
+      grid.push(average(samples));
+    }
+  }
+  const out = new Uint8Array(HASH_SIZE);
+  let bit = 0;
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < HASH_SIZE; x++) {
+      if (grid[y * cols + x] > grid[y * cols + x + 1]) {
+        out[bit >> 3] |= 1 << (bit & 7);
+      }
+      bit += 1;
     }
   }
   return out;
@@ -124,6 +176,7 @@ function loadFromSrc(src: string, crossOrigin: boolean): Promise<HTMLImageElemen
 function featuresFromImage(img: HTMLImageElement): {
   hash: Uint8Array;
   colorHist: Uint8Array;
+  dHash: Uint8Array;
 } | null {
   try {
     const canvas = document.createElement("canvas");
@@ -138,6 +191,7 @@ function featuresFromImage(img: HTMLImageElement): {
     return {
       hash: perceptualHashFromImageData(data),
       colorHist: colorHistFromImageData(data),
+      dHash: differenceHashFromImageData(data),
     };
   } catch {
     return null;
@@ -152,6 +206,7 @@ function featuresFromImage(img: HTMLImageElement): {
 async function loadImageFeatures(url: string): Promise<{
   hash: Uint8Array;
   colorHist: Uint8Array;
+  dHash: Uint8Array;
 } | null> {
   const sameOrigin =
     url.startsWith("/") ||
@@ -187,6 +242,7 @@ async function loadImageFeatures(url: string): Promise<{
 function featuresFromCanvas(canvas: HTMLCanvasElement): {
   hash: Uint8Array;
   colorHist: Uint8Array;
+  dHash: Uint8Array;
 } | null {
   try {
     const tmp = document.createElement("canvas");
@@ -201,10 +257,61 @@ function featuresFromCanvas(canvas: HTMLCanvasElement): {
     return {
       hash: perceptualHashFromImageData(data),
       colorHist: colorHistFromImageData(data),
+      dHash: differenceHashFromImageData(data),
     };
   } catch {
     return null;
   }
+}
+
+/** Variantes de crop/contraste — photo téléphone vs vignette studio. */
+function featureVariantsFromCanvas(canvas: HTMLCanvasElement): Array<{
+  hash: Uint8Array;
+  colorHist: Uint8Array;
+  dHash: Uint8Array;
+}> {
+  const out: Array<{ hash: Uint8Array; colorHist: Uint8Array; dHash: Uint8Array }> = [];
+  const full = featuresFromCanvas(canvas);
+  if (full) out.push(full);
+
+  try {
+    const w = canvas.width;
+    const h = canvas.height;
+    const side = Math.floor(Math.min(w, h) * 0.62);
+    const sx = Math.floor((w - side) / 2);
+    const sy = Math.floor((h - side) / 2);
+    const tmp = document.createElement("canvas");
+    tmp.width = 64;
+    tmp.height = 64;
+    const ctx = tmp.getContext("2d", { willReadFrequently: true });
+    if (ctx) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(canvas, sx, sy, side, side, 0, 0, 64, 64);
+      const data = ctx.getImageData(0, 0, 64, 64);
+      out.push({
+        hash: perceptualHashFromImageData(data),
+        colorHist: colorHistFromImageData(data),
+        dHash: differenceHashFromImageData(data),
+      });
+
+      const boosted = ctx.getImageData(0, 0, 64, 64);
+      const px = boosted.data;
+      for (let i = 0; i < px.length; i += 4) {
+        px[i] = Math.min(255, Math.max(0, (px[i] - 128) * 1.25 + 128));
+        px[i + 1] = Math.min(255, Math.max(0, (px[i + 1] - 128) * 1.25 + 128));
+        px[i + 2] = Math.min(255, Math.max(0, (px[i + 2] - 128) * 1.25 + 128));
+      }
+      out.push({
+        hash: perceptualHashFromImageData(boosted),
+        colorHist: colorHistFromImageData(boosted),
+        dHash: differenceHashFromImageData(boosted),
+      });
+    }
+  } catch {
+    /* ignore */
+  }
+  return out;
 }
 
 /** Prépare l’index visuel à partir des produits catalogue (avec imageUrl). */
@@ -239,7 +346,12 @@ export async function buildVisualIndex(
         options?.onProgress?.(done, urls.length);
         if (!feat) return;
         for (const p of byUrl.get(url) || []) {
-          indexed.push({ ...p, hash: feat.hash, colorHist: feat.colorHist });
+          indexed.push({
+            ...p,
+            hash: feat.hash,
+            colorHist: feat.colorHist,
+            dHash: feat.dHash,
+          });
         }
       })
     );
@@ -250,7 +362,7 @@ export async function buildVisualIndex(
 
 /**
  * Compare un canvas (frame caméra) à l’index.
- * Combine distance Hamming + histogramme couleur.
+ * Essaie plusieurs crops/contrastes ; garde le meilleur score par produit.
  */
 export function matchVisualCanvas(
   canvas: HTMLCanvasElement,
@@ -260,21 +372,36 @@ export function matchVisualCanvas(
   if (!index.length) return [];
   if (canvas.width < 16 || canvas.height < 16) return [];
 
-  const feat = featuresFromCanvas(canvas);
-  if (!feat) return [];
+  const variants = featureVariantsFromCanvas(canvas);
+  if (!variants.length) return [];
 
-  const maxDistance = options?.maxDistance ?? 20;
+  const maxDistance = options?.maxDistance ?? 28;
   const limit = options?.limit ?? 8;
+  const bestById = new Map<string, VisualMatch>();
 
-  const scored = index
-    .map((p) => {
-      const distance = hammingDistance(feat.hash, p.hash);
+  for (const feat of variants) {
+    for (const p of index) {
+      const aDist = hammingDistance(feat.hash, p.hash);
+      const dDist = p.dHash
+        ? hammingDistance(feat.dHash, p.dHash)
+        : aDist;
+      // Moyenne aHash/dHash (min était trop permissif → faux positifs)
+      const distance = Math.round((aDist + dDist) / 2);
       const colorDist = colorHistDistance(feat.colorHist, p.colorHist);
-      // Score combiné : pHash prioritaire, couleur en renfort
       const hashScore = 1 - distance / 64;
       const colorScore = 1 - colorDist;
-      const score = hashScore * 0.72 + colorScore * 0.28;
-      return {
+      // Hash prioritaire (flacons même marque trop proches en couleur)
+      const score = hashScore * 0.75 + colorScore * 0.25;
+      if (distance > maxDistance && score < 0.42) continue;
+      const prev = bestById.get(p.id);
+      if (
+        prev &&
+        (prev.distance < distance ||
+          (prev.distance === distance && prev.score >= score))
+      ) {
+        continue;
+      }
+      bestById.set(p.id, {
         id: p.id,
         name: p.name,
         brand: p.brand,
@@ -285,20 +412,13 @@ export function matchVisualCanvas(
         priceCents: p.priceCents,
         distance,
         score,
-      };
-    })
-    .filter((m) => m.distance <= maxDistance || m.score >= 0.55)
-    .sort((a, b) => b.score - a.score || a.distance - b.distance);
-
-  const seen = new Set<string>();
-  const unique: VisualMatch[] = [];
-  for (const m of scored) {
-    if (seen.has(m.id)) continue;
-    seen.add(m.id);
-    unique.push(m);
-    if (unique.length >= limit) break;
+      });
+    }
   }
-  return unique;
+
+  return [...bestById.values()]
+    .sort((a, b) => a.distance - b.distance || b.score - a.score)
+    .slice(0, limit);
 }
 
 /** Crop central « produit » (carré) depuis une vidéo, pour reconnaissance visuelle. */
@@ -310,7 +430,8 @@ export function drawProductCropToCanvas(
   const vw = video.videoWidth;
   const vh = video.videoHeight;
   if (vw < 40 || vh < 40) return false;
-  const side = Math.floor(Math.min(vw, vh) * 0.78);
+  // Cadre un peu plus large pour ne pas couper le flacon
+  const side = Math.floor(Math.min(vw, vh) * 0.88);
   const sx = Math.floor((vw - side) / 2);
   const sy = Math.floor((vh - side) / 2);
   target.width = size;
@@ -337,7 +458,7 @@ export function sharpenCatalogImageUrl(url: string): string {
 
 /**
  * Décide auto-remplissage vs suggestions.
- * Seuils calibrés pour photo téléphone vs vignette catalogue.
+ * Seuils assouplis pour photo téléphone vs vignette fabricant.
  */
 export function decideVisualAction(matches: VisualMatch[]): {
   mode: "none" | "auto" | "suggest";
@@ -346,22 +467,34 @@ export function decideVisualAction(matches: VisualMatch[]): {
   if (!matches.length) return { mode: "none", picks: [] };
   const best = matches[0];
   const sameImage = matches.filter((m) => m.imageUrl === best.imageUrl);
-  if (sameImage.length > 1 && best.score < 0.82) {
+  if (sameImage.length > 1 && best.score < 0.78) {
     return { mode: "suggest", picks: sameImage.slice(0, 6) };
   }
   const second = matches[1];
   const gap = second ? best.score - second.score : best.score;
+  const distGap = second ? second.distance - best.distance : 64;
 
-  // Auto si net (photo téléphone vs vignette web = distances plus larges)
-  if (best.score >= 0.74 && best.distance <= 14 && gap >= 0.04) {
-    return { mode: "auto", picks: [best] };
-  }
-  if (best.distance <= 8 && (!second || second.distance - best.distance >= 3)) {
-    return { mode: "auto", picks: [best] };
-  }
-  // Suggestions si plausible
-  if (best.score >= 0.52 || best.distance <= 22) {
+  // Si le 2ᵉ est aussi proche → toujours suggestions (flacons similaires)
+  if (second && second.distance - best.distance <= 3) {
     return { mode: "suggest", picks: matches.slice(0, 6) };
+  }
+
+  // Auto UNIQUEMENT si clairement meilleur (évite mauvais flacon même marque)
+  if (best.distance <= 6 && gap >= 0.05 && distGap >= 4) {
+    return { mode: "auto", picks: [best] };
+  }
+  if (best.score >= 0.85 && best.distance <= 8 && gap >= 0.08) {
+    return { mode: "auto", picks: [best] };
+  }
+  if (best.distance <= 3 && (!second || second.distance >= 8)) {
+    return { mode: "auto", picks: [best] };
+  }
+  // Ambigu → suggestions (souvent plusieurs arômes même forme de flacon)
+  if (best.score >= 0.4 || best.distance <= 28) {
+    return { mode: "suggest", picks: matches.slice(0, 6) };
+  }
+  if (best.distance <= 36 || best.score >= 0.35) {
+    return { mode: "suggest", picks: matches.slice(0, 4) };
   }
   return { mode: "none", picks: [] };
 }

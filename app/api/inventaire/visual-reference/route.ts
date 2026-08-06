@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
         source?: string;
         hash?: number[];
         colorHist?: number[];
+        dHash?: number[];
       }>;
     } | null = null;
 
@@ -80,6 +81,7 @@ export async function GET(request: NextRequest) {
         priceCents: null as number | null,
         source: p.source,
         hash: Array.isArray(p.hash) && p.hash.length === 8 ? p.hash : null,
+        dHash: Array.isArray(p.dHash) && p.dHash.length === 8 ? p.dHash : null,
         colorHist:
           Array.isArray(p.colorHist) && p.colorHist.length === 64
             ? p.colorHist
@@ -94,6 +96,7 @@ export async function GET(request: NextRequest) {
       total: data?.total || products.length,
       withImage: products.length,
       withHash,
+      ocrAvailable: Boolean((process.env.OPENAI_API_KEY || "").trim()),
       brands: data?.brands || {},
       products,
     });

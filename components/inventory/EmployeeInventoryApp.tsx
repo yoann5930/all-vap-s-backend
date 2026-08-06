@@ -131,6 +131,8 @@ export function EmployeeInventoryApp() {
   const scanBusyRef = useRef(false);
   const nameLookupTimer = useRef<number | null>(null);
   const visualIndexRef = useRef<VisualIndexedProduct[]>([]);
+  const visualLoadPromiseRef = useRef<Promise<void> | null>(null);
+  const ocrAvailableRef = useRef(false);
   const visualMatchBusyRef = useRef(false);
   const visualLookupBusyRef = useRef(false);
   const lastVisualAutoIdRef = useRef<string>("");
@@ -246,10 +248,6 @@ export function EmployeeInventoryApp() {
     identifyBusyRef.current = true;
     lastIdentifyKeyRef.current = key;
     lastIdentifyAtRef.current = now;
-    if (isCanvas) {
-      identifyAttemptsRef.current += 1;
-      lastCanvasIdentifyAtRef.current = now;
-    }
 
     identifyAbortRef.current?.abort();
     const abort = new AbortController();
@@ -261,12 +259,23 @@ export function EmployeeInventoryApp() {
       if (params.barcode) payload.barcode = params.barcode;
       if (params.query) payload.query = params.query;
       if (params.canvas) {
+        // Sans OCR Internet, l’image seule ne sert à rien
+        if (!ocrAvailableRef.current && !params.barcode && !params.query) {
+          setRecognitionHint(
+            "OCR indisponible — choisissez une suggestion, scannez l’EAN ou saisissez le nom"
+          );
+          return false;
+        }
         const dataUrl = canvasToDataUrl(params.canvas);
         if (dataUrl && dataUrl.length < 900_000) payload.imageDataUrl = dataUrl;
-        // Sans image utile et sans EAN/query → inutile d’appeler
         if (!payload.imageDataUrl && !payload.barcode && !payload.query) {
           return false;
         }
+      }
+      // Compte uniquement les appels réellement envoyés
+      if (isCanvas) {
+        identifyAttemptsRef.current += 1;
+        lastCanvasIdentifyAtRef.current = Date.now();
       }
       const res = await fetch("/api/inventaire/product-identify", {
         method: "POST",
@@ -575,9 +584,18 @@ export function EmployeeInventoryApp() {
   }
 
   /** Charge l’index visuel : catalogue boutique + référence sites officiels FR. */
-  async function loadVisualCatalogIndex() {
-    setVisualReady(false);
-    visualIndexRef.current = [];
+  async function loadVisualCatalogIndex(force = false) {
+    if (visualLoadPromiseRef.current) return visualLoadPromiseRef.current;
+    // Index déjà prêt : ne pas recharger (sauf force) — évite frames Photo à vide
+    if (!force && visualIndexRef.current.length > 0) {
+      setVisualReady(true);
+      return;
+    }
+    if (visualIndexRef.current.length === 0) {
+      setVisualReady(false);
+    }
+
+    const run = (async () => {
     try {
       let list: unknown[] = [];
       const legacyRes = await fetch("/api/products?legacy=true");
@@ -626,6 +644,7 @@ export function EmployeeInventoryApp() {
         const refRes = await fetch("/api/inventaire/visual-reference");
         if (refRes.ok) {
           const refData = await refRes.json();
+          ocrAvailableRef.current = Boolean(refData.ocrAvailable);
           const refs = (refData.products || []) as Array<{
             id: string;
             name: string;
@@ -636,6 +655,7 @@ export function EmployeeInventoryApp() {
             imageUrl?: string | null;
             hash?: number[] | null;
             colorHist?: number[] | null;
+            dHash?: number[] | null;
           }>;
           const preIndexed: VisualIndexedProduct[] = [];
           for (const r of refs) {
@@ -662,6 +682,10 @@ export function EmployeeInventoryApp() {
                 ...base,
                 hash: Uint8Array.from(r.hash),
                 colorHist: Uint8Array.from(r.colorHist),
+                dHash:
+                  Array.isArray(r.dHash) && r.dHash.length === 8
+                    ? Uint8Array.from(r.dHash)
+                    : undefined,
               });
             } else {
               mapped.push(base);
@@ -708,9 +732,16 @@ export function EmployeeInventoryApp() {
         setLookupHint(`Mémoire visuelle : ${unique.length} produits prêts`);
       }
     } catch {
-      visualIndexRef.current = [];
-      setVisualReady(false);
+      if (visualIndexRef.current.length === 0) {
+        setVisualReady(false);
+      }
+    } finally {
+      visualLoadPromiseRef.current = null;
     }
+    })();
+
+    visualLoadPromiseRef.current = run;
+    return run;
   }
 
   /** Remplit le formulaire depuis un produit reconnu (jamais la quantité, jamais un prix inventé). */
@@ -865,54 +896,74 @@ export function EmployeeInventoryApp() {
         (prev || "").startsWith("Aucun") ||
         (prev || "").startsWith("Texte") ||
         (prev || "").startsWith("EAN") ||
-        (prev || "").startsWith("OCR")
+        (prev || "").startsWith("OCR") ||
+        (prev || "").startsWith("Mémoire")
       ) {
         return prev;
       }
       return "Analyse du produit…";
     });
     try {
-      if (index.length) {
-        const matches = matchVisualCanvas(canvas, index, {
-          limit: 8,
-          maxDistance: 22,
-        });
-        const decision = decideVisualAction(matches);
-
-        if (decision.mode === "auto" && decision.picks[0]) {
-          const pick = decision.picks[0];
-          if (pick.id === lastVisualAutoIdRef.current) return;
-          lastVisualAutoIdRef.current = pick.id;
-          photoRecognizedRef.current = true;
-          localMissStreakRef.current = 0;
-          setRecognitionHint("Produit reconnu");
-          await applyVisualProduct(pick);
-          return;
-        }
-
-        if (decision.mode === "suggest") {
-          localMissStreakRef.current = 0;
-          visualSuggestionsRef.current = decision.picks;
-          setRecognitionHint("Plusieurs résultats possibles — choisissez");
-          setVisualSuggestions(decision.picks);
-          return;
-        }
-
-        localMissStreakRef.current += 1;
-      } else {
-        localMissStreakRef.current += 1;
+      // Attendre que la mémoire visuelle soit prête (ne pas brûler identify)
+      if (!index.length) {
+        setRecognitionHint("Mémoire visuelle en cours…");
+        void loadVisualCatalogIndex();
+        return;
       }
 
+      const matches = matchVisualCanvas(canvas, index, {
+        limit: 8,
+        maxDistance: 28,
+      });
+      const decision = decideVisualAction(matches);
+
+      if (decision.mode === "auto" && decision.picks[0]) {
+        const pick = decision.picks[0];
+        if (pick.id === lastVisualAutoIdRef.current) return;
+        lastVisualAutoIdRef.current = pick.id;
+        photoRecognizedRef.current = true;
+        localMissStreakRef.current = 0;
+        setRecognitionHint("Produit reconnu");
+        await applyVisualProduct(pick);
+        return;
+      }
+
+      if (decision.mode === "suggest") {
+        localMissStreakRef.current = 0;
+        visualSuggestionsRef.current = decision.picks;
+        setRecognitionHint("Plusieurs résultats possibles — choisissez");
+        setVisualSuggestions(decision.picks);
+        return;
+      }
+
+      localMissStreakRef.current += 1;
+
       // Attendre plusieurs frames sans match + cooldown avant Internet
-      // (laisse la priorité à l’EAN lu sur la face produit)
       if (localMissStreakRef.current < LOCAL_MISS_BEFORE_IDENTIFY) {
         setRecognitionHint((prev) =>
-          prev && prev !== "Analyse du produit…"
+          prev &&
+          prev !== "Analyse du produit…" &&
+          !prev.startsWith("Mémoire")
             ? prev
-            : "Présentez la face avant ou l’EAN"
+            : "Présentez la face avant bien éclairée"
         );
         return;
       }
+
+      // Sans OCR : ne pas spammer identify canvas — proposer le meilleur candidat faible
+      if (!ocrAvailableRef.current) {
+        if (matches.length > 0) {
+          visualSuggestionsRef.current = matches.slice(0, 6);
+          setVisualSuggestions(matches.slice(0, 6));
+          setRecognitionHint("Produit proche — choisissez ou saisissez le nom");
+          return;
+        }
+        setRecognitionHint(
+          "Non reconnu — scannez l’EAN ou saisissez le nom (Liquidarom, E-Tasty, Juice 66…)"
+        );
+        return;
+      }
+
       if (identifyAttemptsRef.current >= MAX_IDENTIFY_PER_PHOTO) {
         setRecognitionHint(
           "Non reconnu localement — saisissez le nom ou scannez l’EAN"
@@ -1509,7 +1560,14 @@ export function EmployeeInventoryApp() {
                 <button
                   type="button"
                   className="mt-2 text-xs font-medium text-emerald-800 underline"
-                  onClick={() => setVisualSuggestions([])}
+                  onClick={() => {
+                    visualSuggestionsRef.current = [];
+                    setVisualSuggestions([]);
+                    localMissStreakRef.current = 0;
+                    setRecognitionHint(
+                      "Produit non reconnu, rapprochez ou repositionnez le produit"
+                    );
+                  }}
                 >
                   Ignorer les suggestions
                 </button>
@@ -1704,9 +1762,14 @@ export function EmployeeInventoryApp() {
                   visualSuggestionsRef.current = [];
                   setVisualSuggestions([]);
                   setRecognitionHint(
-                    "Présentez la face avant du produit devant la caméra"
+                    visualIndexRef.current.length
+                      ? "Présentez la face avant du produit devant la caméra"
+                      : "Chargement mémoire visuelle…"
                   );
-                  void loadVisualCatalogIndex();
+                  // Ne recharge QUE si index vide (évite wipe + miss streak)
+                  if (visualIndexRef.current.length === 0) {
+                    void loadVisualCatalogIndex();
+                  }
                   setPhotoOpen(true);
                 }}
                 className="mt-2 w-full rounded-xl bg-gray-900 px-3 py-3 text-sm font-semibold text-white disabled:opacity-50"
