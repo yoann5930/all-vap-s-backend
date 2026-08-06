@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "@/app/admin/admin-theme.css";
 
 type UserRow = {
@@ -410,7 +410,7 @@ export function AdminUsersClient() {
               <label className="admin-users-field">
                 <span>Prénom</span>
                 <input
-                  className="admin-input"
+                  className="admin-users-field-input"
                   value={editDraft.firstName}
                   onChange={(e) => setEditDraft({ ...editDraft, firstName: e.target.value })}
                 />
@@ -418,7 +418,7 @@ export function AdminUsersClient() {
               <label className="admin-users-field">
                 <span>Nom</span>
                 <input
-                  className="admin-input"
+                  className="admin-users-field-input"
                   value={editDraft.lastName}
                   onChange={(e) => setEditDraft({ ...editDraft, lastName: e.target.value })}
                 />
@@ -426,7 +426,7 @@ export function AdminUsersClient() {
               <label className="admin-users-field">
                 <span>Rôle</span>
                 <select
-                  className="admin-input"
+                  className="admin-users-field-input"
                   value={editDraft.role}
                   onChange={(e) => setEditDraft({ ...editDraft, role: e.target.value })}
                 >
@@ -439,17 +439,13 @@ export function AdminUsersClient() {
             <div className="admin-users-panel-actions">
               <button
                 type="button"
-                className="admin-btn admin-btn-primary"
+                className="admin-users-panel-primary"
                 disabled={loading}
                 onClick={() => void saveEdit(u.id)}
               >
                 Enregistrer
               </button>
-              <button
-                type="button"
-                className="admin-btn admin-btn-ghost"
-                onClick={() => setEditingId(null)}
-              >
+              <button type="button" onClick={() => setEditingId(null)}>
                 Annuler
               </button>
             </div>
@@ -483,18 +479,11 @@ export function AdminUsersClient() {
             <div className="admin-users-panel-actions">
               <button
                 type="button"
-                className="admin-btn admin-btn-ghost"
-                onClick={() =>
-                  void saveStores(u.id, ["HAUTMONT", "LE_QUESNOY"])
-                }
+                onClick={() => void saveStores(u.id, ["HAUTMONT", "LE_QUESNOY"])}
               >
                 Les 2 boutiques
               </button>
-              <button
-                type="button"
-                className="admin-btn admin-btn-ghost"
-                onClick={() => setStoresEditorId(null)}
-              >
+              <button type="button" onClick={() => setStoresEditorId(null)}>
                 Fermer
               </button>
             </div>
@@ -505,7 +494,7 @@ export function AdminUsersClient() {
   }
 
   return (
-    <div className="admin-app admin-users space-y-6 rounded-[var(--adm-radius)] p-1 sm:p-2">
+    <div className="admin-users-page space-y-6">
       <div>
         <h1 className="admin-users-title">Utilisateurs</h1>
         <p className="admin-users-sub">
@@ -522,11 +511,11 @@ export function AdminUsersClient() {
         </div>
       )}
 
-      <div className="admin-card p-4 sm:p-5">
+      <div className="admin-users-card-box p-4 sm:p-5">
         <h2 className="admin-users-section-title">Créer un utilisateur</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <input
-            className="admin-input"
+            className="admin-users-field-input"
             placeholder="Email *"
             type="email"
             required
@@ -535,7 +524,7 @@ export function AdminUsersClient() {
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
           <select
-            className="admin-input"
+            className="admin-users-field-input"
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
           >
@@ -544,7 +533,7 @@ export function AdminUsersClient() {
             <option value="CUSTOMER">CUSTOMER</option>
           </select>
           <input
-            className="admin-input"
+            className="admin-users-field-input"
             placeholder="Prénom *"
             required
             autoComplete="given-name"
@@ -552,7 +541,7 @@ export function AdminUsersClient() {
             onChange={(e) => setForm({ ...form, firstName: e.target.value })}
           />
           <input
-            className="admin-input"
+            className="admin-users-field-input"
             placeholder="Nom *"
             required
             autoComplete="family-name"
@@ -560,24 +549,24 @@ export function AdminUsersClient() {
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
           />
         </div>
-        <p className="mt-2 text-xs" style={{ color: "var(--adm-muted)" }}>
+        <p className="admin-users-hint">
           Champs obligatoires : email, prénom, nom. Rôle par défaut : EMPLOYEE (2 boutiques).
         </p>
         <button
           type="button"
           disabled={loading}
           onClick={() => void createUser()}
-          className="admin-btn admin-btn-primary mt-3 disabled:opacity-50"
+          className="admin-users-create-btn"
         >
           Créer
         </button>
       </div>
 
-      <div className="admin-card p-4 sm:p-5">
+      <div className="admin-users-card-box p-4 sm:p-5">
         <div className="admin-users-toolbar">
           <label className="admin-users-search">
             <input
-              className="admin-input"
+              className="admin-users-field-input"
               placeholder="Rechercher nom, email, boutique…"
               aria-label="Rechercher"
               value={q}
@@ -585,7 +574,7 @@ export function AdminUsersClient() {
             />
           </label>
           <select
-            className="admin-input admin-users-filter"
+            className="admin-users-field-input admin-users-filter"
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
             aria-label="Filtrer par rôle"
@@ -596,7 +585,7 @@ export function AdminUsersClient() {
             <option value="CUSTOMER">CLIENT</option>
           </select>
           <select
-            className="admin-input admin-users-filter"
+            className="admin-users-field-input admin-users-filter"
             value={storeFilter}
             onChange={(e) => setStoreFilter(e.target.value)}
             aria-label="Filtrer par boutique"
@@ -606,7 +595,7 @@ export function AdminUsersClient() {
             <option value="LE_QUESNOY">LE QUESNOY</option>
           </select>
           <select
-            className="admin-input admin-users-filter"
+            className="admin-users-field-input admin-users-filter"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             aria-label="Filtrer par statut"
@@ -620,7 +609,7 @@ export function AdminUsersClient() {
           </p>
         </div>
 
-        {/* Desktop / tablette : tableau */}
+        {/* Desktop / tablette : tableau pleine largeur, sans scroll horizontal */}
         <div className="admin-users-table-wrap admin-users-desktop">
           <table className="admin-users-table">
             <thead>
@@ -648,7 +637,6 @@ export function AdminUsersClient() {
                   active={sortKey === "stores"}
                   dir={sortDir}
                   onClick={() => toggleSort("stores")}
-                  className="admin-users-col-hide-md"
                 />
                 <SortHeader
                   label="Statut"
@@ -661,60 +649,50 @@ export function AdminUsersClient() {
                   active={sortKey === "lastLogin"}
                   dir={sortDir}
                   onClick={() => toggleSort("lastLogin")}
-                  className="admin-users-col-hide-lg"
                 />
                 <SortHeader
                   label="Sessions inventaire"
                   active={sortKey === "sessions"}
                   dir={sortDir}
                   onClick={() => toggleSort("sessions")}
-                  className="admin-users-col-hide-lg"
                 />
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="admin-users-empty">
+                  <td colSpan={8} className="admin-users-empty">
                     Aucun utilisateur ne correspond aux filtres.
                   </td>
                 </tr>
               ) : (
                 filtered.map((u) => (
-                  <Fragment key={u.id}>
-                    <tr>
-                      <td>
-                        <div className="admin-users-name">{displayName(u)}</div>
-                      </td>
-                      <td>
-                        <div className="admin-users-email" title={u.email}>
-                          {u.email}
-                        </div>
-                      </td>
-                      <td>
-                        <Badge tone={u.role === "ADMIN" ? "info" : "neutral"}>
-                          {roleLabel(u.role)}
-                        </Badge>
-                      </td>
-                      <td className="admin-users-col-hide-md">{renderStores(u)}</td>
-                      <td>{renderStatus(u)}</td>
-                      <td className="admin-users-col-hide-lg admin-users-nowrap">
-                        {formatLastLogin(u.lastLoginAt)}
-                      </td>
-                      <td className="admin-users-col-hide-lg admin-users-sessions">
-                        {u._count?.inventorySessions ?? 0}
-                      </td>
-                    </tr>
-                    <tr className="admin-users-actions-row">
-                      <td colSpan={7}>
-                        <div className="admin-users-actions-bar">
-                          <span className="admin-users-actions-label">Actions</span>
-                          {renderActions(u)}
-                        </div>
-                        {renderInlinePanels(u)}
-                      </td>
-                    </tr>
-                  </Fragment>
+                  <tr key={u.id}>
+                    <td>
+                      <div className="admin-users-name">{displayName(u)}</div>
+                      {renderInlinePanels(u)}
+                    </td>
+                    <td>
+                      <div className="admin-users-email" title={u.email}>
+                        {u.email}
+                      </div>
+                    </td>
+                    <td>
+                      <Badge tone={u.role === "ADMIN" ? "info" : "neutral"}>
+                        {roleLabel(u.role)}
+                      </Badge>
+                    </td>
+                    <td>{renderStores(u)}</td>
+                    <td>{renderStatus(u)}</td>
+                    <td>
+                      <div className="admin-users-date">{formatLastLogin(u.lastLoginAt)}</div>
+                    </td>
+                    <td className="admin-users-sessions">
+                      {u._count?.inventorySessions ?? 0}
+                    </td>
+                    <td>{renderActions(u)}</td>
+                  </tr>
                 ))
               )}
             </tbody>
