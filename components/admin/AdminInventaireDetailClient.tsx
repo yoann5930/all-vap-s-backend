@@ -54,6 +54,7 @@ type Inventaire = {
   startedAt: string;
   completedAt: string | null;
   validatedAt: string | null;
+  stockAppliedAt?: string | null;
   notes: string | null;
   location: { code: string; name: string };
   createdBy?: {
@@ -134,6 +135,37 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur statut");
       setMessage(`Statut → ${data.inventaire.statusLabel}`);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function applyStock() {
+    if (!inv) return;
+    const ok = window.confirm(
+      `APPLIQUER les quantités comptées au stock officiel ${inv.location.name} ?\n\n` +
+        `${inv.summary.referenceCount} références · ${inv.summary.totalQuantity} unités\n` +
+        `Action irréversible (anti double application).\n` +
+        `Confirmez uniquement après contrôle des écarts.`
+    );
+    if (!ok) return;
+    setSaving(true);
+    setMessage(null);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/inventaires/${id}/apply-stock`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmToken: "APPLY_STOCK_CONFIRMED" }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erreur application stock");
+      setMessage(
+        `Stock appliqué — ${data.applied} ligne(s), ${data.skipped} ignorée(s)`
+      );
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
@@ -285,6 +317,19 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
         </button>
         <button
           type="button"
+          disabled={
+            saving ||
+            Boolean(inv.stockAppliedAt) ||
+            !["SUBMITTED", "COMPLETED", "VALIDATED"].includes(inv.status)
+          }
+          onClick={() => void applyStock()}
+          className="rounded-lg bg-rose-700 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          title="Écrit le stock officiel après confirmation"
+        >
+          Appliquer les corrections au stock
+        </button>
+        <button
+          type="button"
           disabled={saving}
           onClick={() => void setStatus("CORRECTED")}
           className="rounded-lg bg-violet-700 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
@@ -300,6 +345,11 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
           Annuler
         </button>
       </div>
+      {inv.stockAppliedAt ? (
+        <p className="text-xs text-violet-800">
+          Stock déjà appliqué le {new Date(inv.stockAppliedAt).toLocaleString("fr-FR")}
+        </p>
+      ) : null}
 
       {message && <p className="text-sm text-emerald-700">{message}</p>}
       {error && <p className="text-sm text-red-600">{error}</p>}

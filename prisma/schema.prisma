@@ -16,7 +16,10 @@ enum Role {
 enum OrderStatus {
   PENDING
   PAID
+  PREPARING
+  PREPARED
   SHIPPED
+  AT_RELAY
   DELIVERED
   CANCELLED
   REFUNDED
@@ -37,6 +40,20 @@ enum PaymentProvider {
 enum DiscountType {
   PERCENT
   FIXED
+}
+
+enum OrderDocumentType {
+  ORDER_FORM
+  PREP_SLIP
+  DELIVERY_SLIP
+  INVOICE
+}
+
+enum EmailLogStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED
 }
 
 model User {
@@ -70,6 +87,7 @@ model User {
   vapeRecommendations VapeRecommendation[]
   inventorySessions   InventorySession[]
   auditLogs           AuditLog[]
+  statusChanges       OrderStatusHistory[] @relation("StatusChangedBy")
 }
 
 /// Journal d'audit inventaire / admin (traçabilité obligatoire)
@@ -484,6 +502,9 @@ model InventorySession {
   completedAt      DateTime?
   validatedAt      DateTime?
   validatedByUserId String?
+  /// Quand le stock officiel a été appliqué (anti double application)
+  stockAppliedAt   DateTime?
+  stockAppliedByUserId String?
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   lines            InventoryLine[]
@@ -493,6 +514,7 @@ model InventorySession {
   @@index([startedAt])
   @@index([createdByUserId])
   @@index([status, updatedAt])
+  @@index([stockAppliedAt])
 }
 
 model InventoryLine {
@@ -512,6 +534,8 @@ model InventoryLine {
   nicotineSnapshot     String?
   catalogImageUrl      String?
   quantityCounted      Int
+  /// Stock théorique boutique au moment du scan (serveur — ne pas faire confiance au client)
+  expectedQuantitySnapshot Int?
   unitPriceCents       Int?
   totalValueCents      Int?
   /// CATALOGUE | SUMUP | SAISIE_MANUELLE | CORRECTION_ADMIN
@@ -842,10 +866,26 @@ model Order {
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   items             OrderItem[]
+  statusHistory     OrderStatusHistory[]
+  documents         OrderDocument[]
 
   @@index([status, createdAt])
   @@index([customerEmail])
   @@index([userId])
+}
+
+model OrderStatusHistory {
+  id          String       @id @default(cuid())
+  orderId     String
+  fromStatus  OrderStatus?
+  toStatus    OrderStatus
+  note        String?
+  changedById String?
+  createdAt   DateTime     @default(now())
+  order       Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  changedBy   User?        @relation("StatusChangedBy", fields: [changedById], references: [id])
+
+  @@index([orderId, createdAt])
 }
 
 model OrderItem {
@@ -856,4 +896,53 @@ model OrderItem {
   product    Product @relation(fields: [productId], references: [id])
   quantity   Int
   priceCents Int
+}
+
+model OrderDocument {
+  id                String            @id @default(cuid())
+  orderId           String
+  type              OrderDocumentType
+  fileName          String
+  storagePath       String
+  mimeType          String            @default("application/pdf")
+  sizeBytes         Int?
+  invoiceNumber     String?
+  gmailMessageId    String?
+  gmailLabel        String?
+  emailedToCustomer Boolean           @default(false)
+  emailedInternal   Boolean           @default(false)
+  emailedToAva      Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  order             Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, type])
+  @@index([orderId, type])
+  @@index([invoiceNumber])
+}
+
+model InvoiceSequence {
+  year       Int @id
+  lastNumber Int @default(0)
+}
+
+/// Journal d'envoi e-mail (PII masquée — pas de corps ni secrets).
+model EmailLog {
+  id                String         @id @default(cuid())
+  type              String
+  recipientMasked   String
+  subject           String
+  relatedOrderId    String?
+  relatedCustomerId String?
+  idempotencyKey    String?        @unique
+  status            EmailLogStatus @default(PENDING)
+  attempts          Int            @default(0)
+  lastErrorCode     String?
+  transport         String?
+  sentAt            DateTime?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@index([type, createdAt])
+  @@index([status, createdAt])
+  @@index([relatedOrderId])
 }

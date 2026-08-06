@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { flushOfflineInventoryQueue } from "@/lib/inventory/offline-queue";
+import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inventory/offline-queue";
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
@@ -441,7 +441,14 @@ export function EmployeeInventoryApp() {
     setOnline(navigator.onLine);
     const on = () => {
       setOnline(true);
-      void flushOfflineInventoryQueue("/api/inventaire/sessions");
+      void flushOfflineInventoryQueue("/api/inventaire/sessions").then((r) => {
+        if (r.flushed > 0) {
+          setMessage(`Sync hors-ligne : ${r.flushed} ligne(s) envoyée(s)`);
+        }
+        if (r.failed > 0) {
+          setError(`Sync hors-ligne : ${r.failed} échec(s) — nouvel essai plus tard`);
+        }
+      });
     };
     const off = () => setOnline(false);
     window.addEventListener("online", on);
@@ -450,6 +457,8 @@ export function EmployeeInventoryApp() {
       window.removeEventListener("online", on);
       window.removeEventListener("offline", off);
     };
+    // refreshSession volontairement omis : flush ne recharge pas la session ouverte
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function logout() {
@@ -1192,7 +1201,21 @@ export function EmployeeInventoryApp() {
     setError(null);
     try {
       if (!navigator.onLine) {
-        setError("Connexion requise pour enregistrer");
+        await queueOfflineInventoryLine({
+          sessionId: session.id,
+          barcode: code,
+          quantityCounted: qty,
+          unitPrice: unitPrice.trim() || undefined,
+          productId: productId || undefined,
+          productName: productName.trim() || undefined,
+          brand: brandName.trim() || undefined,
+          range: rangeName.trim() || undefined,
+          confirmZeroPrice: confirmZero,
+        });
+        setMessage(
+          `Hors ligne — ligne mise en file (${code || productName} × ${qty}). Sync à la reconnexion.`
+        );
+        clearDraftLine();
         setLoading(false);
         return;
       }
@@ -1304,7 +1327,7 @@ export function EmployeeInventoryApp() {
   async function completeSession() {
     if (!session) return;
     const ok = window.confirm(
-      `Terminer l'inventaire ${session.location.name} ?\nChaque ligne doit avoir code-barres + prix.\nLes quantités seront appliquées à cette boutique.`
+      `Envoyer l'inventaire ${session.location.name} à validation ?\nChaque ligne doit avoir code-barres + prix.\nLe stock officiel ne sera PAS modifié.`
     );
     if (!ok) return;
     setLoading(true);
@@ -1313,8 +1336,11 @@ export function EmployeeInventoryApp() {
         method: "POST",
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Erreur clôture");
-      setMessage(`Terminé — ${data.applied} produit(s) mis à jour`);
+      if (!res.ok) throw new Error(data.error || "Erreur envoi");
+      setMessage(
+        data.message ||
+          "Session envoyée à validation — stock officiel inchangé"
+      );
       setSession(null);
       setLocationCode("");
       clearDraftLine();
@@ -1816,7 +1842,7 @@ export function EmployeeInventoryApp() {
               onClick={() => void completeSession()}
               className="w-full rounded-xl border border-emerald-700 px-3 py-3 text-sm font-semibold text-emerald-800"
             >
-              Terminer l&apos;inventaire
+              Envoyer à validation
             </button>
           </div>
 

@@ -2,8 +2,6 @@ import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { isStoreStockCode } from "@/lib/catalog/normalize";
-import { setStoreStockQuantity } from "@/lib/catalog/stock";
-import { syncCatalogToGoogleSheets } from "@/lib/google/sheets";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { assertStoreAllowed, requireInventoryAuth } from "@/lib/inventory/auth";
 import { writeAuditLog } from "@/lib/audit/log";
@@ -12,7 +10,10 @@ import { isLineComplete, summarizeInventoryLines } from "@/lib/inventory/session
 
 type Ctx = { params: Promise<{ id: string }> };
 
-/** Clôture inventaire employé — applique uniquement sur la boutique de la session. */
+/**
+ * Envoie la session à validation responsable.
+ * Ne modifie JAMAIS le stock officiel (apply-stock admin séparé).
+ */
 export async function POST(request: NextRequest, context: Ctx) {
   try {
     const user = await requireInventoryAuth();
@@ -70,67 +71,20 @@ export async function POST(request: NextRequest, context: Ctx) {
       );
     }
 
-    let applied = 0;
-    let skipped = 0;
-
-    for (const line of session.lines) {
-      if (!line.productId) {
-        skipped++;
-        continue;
-      }
-
-      let variantId = line.variantId;
-      if (!variantId) {
-        const variant = await prisma.productVariant.findFirst({
-          where: { productId: line.productId, active: true },
-          orderBy: { createdAt: "asc" },
-        });
-        if (!variant) {
-          const created = await prisma.productVariant.create({
-            data: { productId: line.productId, name: "Standard" },
-          });
-          variantId = created.id;
-        } else {
-          variantId = variant.id;
-        }
-      }
-
-      await setStoreStockQuantity({
-        productId: line.productId,
-        variantId,
-        locationCode: code,
-        quantity: line.quantityCounted,
-        source: "inventory_employee",
-        movementType: "SYNC_SET",
-        externalReference: `inventory:${session.id}:line:${line.id}`,
-      });
-      applied++;
-
-      await writeAuditLog({
-        user,
-        action: "INVENTORY_STOCK_APPLIED",
-        storeCode: code,
-        productId: line.productId,
-        inventoryId: session.id,
-        sessionId: session.id,
-        newQuantity: line.quantityCounted,
-        ip,
-        metadata: { lineId: line.id },
-      });
-    }
-
+    const now = new Date();
     const updated = await prisma.inventorySession.update({
       where: { id },
       data: {
-        status: "COMPLETED",
-        completedAt: new Date(),
+        status: "SUBMITTED",
+        completedAt: now,
         notes: [
           session.notes,
-          `completed_by=${session.employeeName}`,
+          `submitted_by=${session.employeeName}`,
           `user=${user.email}`,
           `location=${code}`,
-          `applied=${applied}`,
-          `at=${new Date().toISOString()}`,
+          `lines=${session.lines.length}`,
+          `stock_not_applied=1`,
+          `at=${now.toISOString()}`,
         ]
           .filter(Boolean)
           .join(" | "),
@@ -140,13 +94,13 @@ export async function POST(request: NextRequest, context: Ctx) {
 
     await writeAuditLog({
       user,
-      action: "INVENTORY_SESSION_COMPLETE",
+      action: "INVENTORY_SESSION_SUBMITTED",
       storeCode: code,
       inventoryId: session.id,
       sessionId: session.id,
       ip,
       deviceInfo: request.headers.get("user-agent"),
-      metadata: { applied, skipped },
+      metadata: { lineCount: session.lines.length, stockApplied: false },
     });
 
     await writeInventoryAudit({
@@ -155,19 +109,16 @@ export async function POST(request: NextRequest, context: Ctx) {
       action: "STATUS_CHANGED",
       fieldName: "status",
       oldValue: "OPEN",
-      newValue: "COMPLETED",
-      reason: `applied=${applied}; skipped=${skipped}`,
+      newValue: "SUBMITTED",
+      reason: "Soumis à validation — stock officiel non modifié",
     });
-
-    const sheets = await syncCatalogToGoogleSheets();
 
     return jsonResponse({
       session: updated,
-      applied,
-      skipped,
-      sheets: sheets.ok
-        ? { synced: true, sheets: sheets.sheets }
-        : { synced: false, code: sheets.code, message: sheets.message },
+      applied: 0,
+      skipped: session.lines.filter((l) => !l.productId).length,
+      stockApplied: false,
+      message: "Session envoyée à validation. Le stock officiel n'a pas été modifié.",
     });
   } catch (error) {
     return handleApiError(error);

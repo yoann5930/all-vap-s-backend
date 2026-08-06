@@ -101,6 +101,8 @@ export async function POST(request: NextRequest, context: Ctx) {
         allowCatalogPriceOverride: z.boolean().optional(),
         /** true = autoriser malgré doublon (admin seulement) */
         allowDuplicate: z.boolean().optional(),
+        /** Id client hors-ligne — idempotence soft */
+        clientLineId: z.string().max(80).optional(),
       })
       .parse(await request.json());
 
@@ -116,29 +118,15 @@ export async function POST(request: NextRequest, context: Ctx) {
     let catalogImageUrl: string | null = null;
     let catalogPrice: { cents: number; source: PriceSource } | null = null;
 
+    // EAN scanné : correspondance EXACTE uniquement (jamais approximative)
     if (!productId && barcode) {
-      const catalog = await prisma.product.findMany({
-        select: {
-          id: true,
-          name: true,
-          normalizedName: true,
-          sku: true,
-          barcode: true,
-          sumupProductId: true,
-          brand: true,
+      const exact = await prisma.product.findFirst({
+        where: {
+          OR: [{ barcode }, { sku: barcode }, { sumupSku: barcode }],
         },
+        select: { id: true },
       });
-      const match = matchCatalogProduct(
-        {
-          name: barcode,
-          normalizedName: normalizeProductName(barcode),
-          barcode,
-        },
-        catalog
-      );
-      if (match.productId && match.decision === "AUTO") {
-        productId = match.productId;
-      }
+      if (exact) productId = exact.id;
     }
 
     // Match par nom si pas d'EAN / EAN inconnu
@@ -363,6 +351,19 @@ export async function POST(request: NextRequest, context: Ctx) {
     const totalValueCents = computeLineTotalCents(body.quantityCounted, unitPriceCents);
     const now = new Date();
 
+    let expectedQuantitySnapshot: number | null = null;
+    if (productId) {
+      try {
+        const dual = await getDualStockForProduct(productId);
+        expectedQuantitySnapshot =
+          session.location.code === "LE_QUESNOY"
+            ? dual.leQuesnoy.quantity
+            : dual.hautmont.quantity;
+      } catch {
+        expectedQuantitySnapshot = null;
+      }
+    }
+
     const line = await prisma.inventoryLine.create({
       data: {
         sessionId: id,
@@ -377,6 +378,7 @@ export async function POST(request: NextRequest, context: Ctx) {
         nicotineSnapshot,
         catalogImageUrl,
         quantityCounted: body.quantityCounted,
+        expectedQuantitySnapshot,
         unitPriceCents,
         totalValueCents,
         priceSource,
@@ -385,23 +387,20 @@ export async function POST(request: NextRequest, context: Ctx) {
         scannedAt: now,
         notes:
           body.notes ||
-          `employé=${session.employeeName}; boutique=${session.location.code}; gamme=${rangeSnapshot}; at=${now.toISOString()}`,
+          [
+            `employé=${session.employeeName}`,
+            `boutique=${session.location.code}`,
+            `gamme=${rangeSnapshot}`,
+            body.clientLineId ? `clientLineId=${body.clientLineId}` : null,
+            `at=${now.toISOString()}`,
+          ]
+            .filter(Boolean)
+            .join("; "),
       },
       include: { product: true, photos: true },
     });
 
-    let oldQty: number | null = null;
-    if (productId) {
-      try {
-        const dual = await getDualStockForProduct(productId);
-        oldQty =
-          session.location.code === "LE_QUESNOY"
-            ? dual.leQuesnoy.quantity
-            : dual.hautmont.quantity;
-      } catch {
-        /* ignore */
-      }
-    }
+    const oldQty = expectedQuantitySnapshot;
 
     await writeAuditLog({
       user,

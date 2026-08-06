@@ -1,7 +1,6 @@
-/** Statuts inventaire (DB) ↔ libellés admin FR */
-
 export const INVENTORY_STATUSES = [
   "OPEN",
+  "SUBMITTED",
   "COMPLETED",
   "VALIDATED",
   "CORRECTED",
@@ -12,11 +11,19 @@ export type InventoryStatus = (typeof INVENTORY_STATUSES)[number];
 
 export const INVENTORY_STATUS_LABELS: Record<InventoryStatus, string> = {
   OPEN: "EN COURS",
+  SUBMITTED: "SOUMIS À VALIDATION",
   COMPLETED: "TERMINÉ",
   VALIDATED: "VALIDÉ",
-  CORRECTED: "CORRIGÉ",
+  CORRECTED: "STOCK APPLIQUÉ",
   CANCELLED: "ANNULÉ",
 };
+
+/** Statuts depuis lesquels un admin peut appliquer le stock officiel. */
+export const INVENTORY_APPLY_STOCK_FROM: readonly InventoryStatus[] = [
+  "SUBMITTED",
+  "COMPLETED",
+  "VALIDATED",
+];
 
 export function isInventoryStatus(value: string): value is InventoryStatus {
   return (INVENTORY_STATUSES as readonly string[]).includes(value);

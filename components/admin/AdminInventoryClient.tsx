@@ -182,7 +182,7 @@ export function AdminInventoryClient() {
   async function completeSession() {
     if (!session) return;
     const ok = window.confirm(
-      `Clôturer l'inventaire ${session.location.name} et appliquer les quantités sur cette boutique uniquement ?`
+      `Soumettre l'inventaire ${session.location.name} à validation ?\nLe stock officiel ne sera PAS modifié.`
     );
     if (!ok) return;
     setLoading(true);
@@ -193,8 +193,8 @@ export function AdminInventoryClient() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erreur clôture");
       setMessage(
-        `Clôturé — ${data.applied} lignes appliquées` +
-          (data.sheets?.synced ? " · Sheets sync OK" : ` · Sheets: ${data.sheets?.message || "off"}`)
+        data.message ||
+          "Session soumise — stock inchangé. Appliquer le stock depuis le détail inventaire."
       );
       setSession(null);
       await loadSessions();
@@ -312,7 +312,7 @@ export function AdminInventoryClient() {
                 }}
               />
               <Button type="button" variant="secondary" onClick={() => void completeSession()} loading={loading}>
-                Clôturer &amp; appliquer
+                Clôturer (sans stock)
               </Button>
             </div>
           </div>

@@ -41,9 +41,10 @@ type LiveScanRow = {
 const STATUS_FILTERS = [
   { value: "", label: "Tous" },
   { value: "OPEN", label: "EN COURS" },
+  { value: "SUBMITTED", label: "SOUMIS" },
   { value: "COMPLETED", label: "TERMINÉ" },
   { value: "VALIDATED", label: "VALIDÉ" },
-  { value: "CORRECTED", label: "CORRIGÉ" },
+  { value: "CORRECTED", label: "STOCK APPLIQUÉ" },
   { value: "CANCELLED", label: "ANNULÉ" },
 ];
 
@@ -53,6 +54,8 @@ function statusClass(status: string) {
   switch (status) {
     case "OPEN":
       return "bg-amber-100 text-amber-900";
+    case "SUBMITTED":
+      return "bg-indigo-100 text-indigo-900";
     case "COMPLETED":
       return "bg-sky-100 text-sky-900";
     case "VALIDATED":

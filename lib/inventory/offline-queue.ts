@@ -7,8 +7,15 @@ export interface OfflineInventoryLine {
   barcode: string;
   quantityCounted: number;
   unitPrice?: string;
+  unitPriceCents?: number;
+  priceSource?: string;
+  productId?: string;
+  productName?: string;
+  brand?: string;
+  range?: string;
   confirmZeroPrice?: boolean;
   queuedAt: string;
+  clientLineId: string;
 }
 
 const KEY = "allvaps_inventory_offline_queue";
@@ -27,11 +34,21 @@ function writeQueue(items: OfflineInventoryLine[]) {
   localStorage.setItem(KEY, JSON.stringify(items));
 }
 
+export function getOfflineQueueCount(): number {
+  return readQueue().length;
+}
+
 export async function queueOfflineInventoryLine(
-  line: Omit<OfflineInventoryLine, "queuedAt">
+  line: Omit<OfflineInventoryLine, "queuedAt" | "clientLineId"> & { clientLineId?: string }
 ): Promise<void> {
   const queue = readQueue();
-  queue.push({ ...line, queuedAt: new Date().toISOString() });
+  queue.push({
+    ...line,
+    clientLineId:
+      line.clientLineId ||
+      `offline_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    queuedAt: new Date().toISOString(),
+  });
   writeQueue(queue);
 }
 
@@ -48,17 +65,31 @@ export async function flushOfflineInventoryQueue(
   let flushed = 0;
   let failed = 0;
   const base = apiBase.replace(/\/$/, "");
+  const seen = new Set<string>();
 
   for (const item of queue) {
+    if (seen.has(item.clientLineId)) {
+      flushed++;
+      continue;
+    }
+    seen.add(item.clientLineId);
+
     try {
       const res = await fetch(`${base}/${item.sessionId}/lines`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          barcode: item.barcode,
+          barcode: item.barcode || undefined,
           quantityCounted: item.quantityCounted,
           unitPrice: item.unitPrice,
+          unitPriceCents: item.unitPriceCents,
+          priceSource: item.priceSource,
+          productId: item.productId,
+          productName: item.productName,
+          brand: item.brand,
+          range: item.range,
           confirmZeroPrice: item.confirmZeroPrice,
+          clientLineId: item.clientLineId,
         }),
       });
       if (!res.ok) {

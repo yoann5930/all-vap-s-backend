@@ -92,7 +92,10 @@ export async function PATCH(request: NextRequest, context: Ctx) {
         data.validatedAt = new Date();
         data.validatedByUserId = user.userId;
       }
-      if (body.status === "COMPLETED" && !existing.completedAt) {
+      if (
+        (body.status === "COMPLETED" || body.status === "SUBMITTED") &&
+        !existing.completedAt
+      ) {
         data.completedAt = new Date();
       }
       if (body.status === "CANCELLED") {
