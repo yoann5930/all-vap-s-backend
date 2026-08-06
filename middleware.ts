@@ -18,6 +18,12 @@ function isLocalHost(host: string): boolean {
   return h === "localhost" || h === "127.0.0.1" || h === "::1";
 }
 
+/** Sous-domaine inventaire employés (pas www / apex). */
+function isInventaireHost(host: string): boolean {
+  const h = host.split(":")[0].toLowerCase();
+  return h === "inventaire.allvaps.fr";
+}
+
 function getJwtSecretKey(): Uint8Array | null {
   const secret = (process.env.JWT_SECRET || "").trim();
   if (!secret) return null;
@@ -78,6 +84,13 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method.toUpperCase();
   const host = request.headers.get("host") || "";
+
+  // inventaire.allvaps.fr/ → inventaire (sans toucher www/apex)
+  if (isInventaireHost(host) && (pathname === "/" || pathname === "")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/inventaire";
+    return applySecurityHeaders(NextResponse.rewrite(url), "/inventaire");
+  }
 
   // Contournement propriétaire : /?mt_bypass=SECRET → cookie 30 jours
   const bypassSecret = getMaintenanceBypassSecret();
