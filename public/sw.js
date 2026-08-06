@@ -1,8 +1,8 @@
-/* All Vap's — service worker inventaire v6
- * network-first ; ne cache jamais auth / login / API / admin
- * v6 : exclut /connexion + invalide caches v5
+/* All Vap's — service worker inventaire v8
+ * network-first ; ne touche JAMAIS auth / login / API / admin
+ * v8 : ne pas intercepter /api/* (pas de respondWith) — cookies + Bearer intacts
  */
-const CACHE = "allvaps-inventory-v6";
+const CACHE = "allvaps-inventory-v8";
 const SHELL = ["/icon-192.png", "/icon-512.png", "/guides/installer-inventaire.html"];
 
 self.addEventListener("install", (event) => {
@@ -57,13 +57,13 @@ self.addEventListener("fetch", (event) => {
   if (req.method !== "GET") return;
   if (url.origin !== self.location.origin) return;
 
-  // Jamais de cache pour API / auth / admin / login / change password
+  // Critique : ne PAS intercepter API / auth / admin.
+  // Un respondWith(fetch(req)) peut fragiliser cookies / Authorization sur Android PWA.
   if (
     isApi(url.pathname) ||
     isAuthPage(url.pathname) ||
     url.pathname.startsWith("/admin")
   ) {
-    event.respondWith(fetch(req));
     return;
   }
 

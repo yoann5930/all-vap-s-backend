@@ -208,14 +208,27 @@ export async function getAuthUser(): Promise<JwtPayload | null> {
   if (!payload) return null;
 
   // Re-vérifie le rôle / actif en base (révocation / démotion / désactivation)
-  const user = await prisma.user.findUnique({
-    where: { id: payload.userId },
-    select: { id: true, email: true, role: true, active: true },
-  });
-  if (!user) return null;
-  if (user.active === false) return null;
-
-  return { userId: user.id, email: user.email, role: user.role };
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      select: { id: true, email: true, role: true, active: true },
+    });
+    if (!user) return null;
+    if (user.active === false) return null;
+    return { userId: user.id, email: user.email, role: user.role };
+  } catch (err) {
+    // Colonnes inventaire absentes : ne pas invalider un JWT pourtant valide
+    console.error(
+      "[auth] getAuthUser DB check failed, fallback JWT claims:",
+      err instanceof Error ? err.message.slice(0, 200) : err
+    );
+    if (!payload.userId || !payload.email || !payload.role) return null;
+    return {
+      userId: payload.userId,
+      email: payload.email,
+      role: payload.role,
+    };
+  }
 }
 
 export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {

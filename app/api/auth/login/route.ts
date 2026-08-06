@@ -70,7 +70,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    response.headers.set("Cache-Control", "no-store");
+    response.headers.set("Cache-Control", "no-store, private");
+    response.headers.set("Pragma", "no-cache");
     return response;
   } catch (error) {
     return handleApiError(error);

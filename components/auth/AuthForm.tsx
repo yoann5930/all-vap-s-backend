@@ -48,7 +48,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
+        credentials: "include",
         body: JSON.stringify(payload),
       });
 
@@ -63,20 +63,39 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
-      // Secours Bearer (localStorage) si cookie httpOnly non appliqué (mobile / PWA)
-      if (typeof data.token === "string" && data.token.length > 20) {
-        storeAccessToken(data.token);
+      const loginToken =
+        typeof data.token === "string" && data.token.length > 20 ? data.token : null;
+
+      // Secours Bearer si cookie httpOnly non appliqué — stocké avant le handshake
+      if (loginToken) {
+        storeAccessToken(loginToken);
       } else {
         clearAccessToken();
       }
 
-      // Handshake : ne rediriger qu’après session confirmée (évite bounce inventaire → login)
+      // Handshake : session relue côté serveur (cookie + Bearer du login) avant redirect
       if (mode === "login") {
-        const session = await confirmSession();
+        if (!loginToken) {
+          setError(
+            "Connexion refusée : le serveur n’a pas renvoyé de jeton de session. Vérifiez JWT_SECRET sur Vercel."
+          );
+          return;
+        }
+
+        const session = await confirmSession(loginToken);
         if (!session.ok || !session.user) {
+          if (session.serverError) {
+            // Ne pas effacer le token : le login a réussi, /api/auth/me a planté
+            setError(
+              session.code === "SESSION_SCHEMA_MISMATCH"
+                ? "Connexion OK mais lecture session impossible (schéma serveur). Contactez l’administrateur technique."
+                : `Connexion OK mais lecture session en erreur serveur (HTTP ${session.status}). Réessayez dans quelques secondes.`
+            );
+            return;
+          }
           clearAccessToken();
           setError(
-            "Connexion acceptée mais session non conservée sur cet appareil. Réessayez, ou désinstallez/réinstallez la PWA Inventaire."
+            `Connexion acceptée mais session non relue par le serveur (HTTP ${session.status}). Le cookie ou le jeton n’est pas reconnu — ce n’est pas une consigne de réinstallation PWA.`
           );
           return;
         }

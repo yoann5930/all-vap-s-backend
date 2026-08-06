@@ -1,12 +1,11 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
 
 function AdminLoginInner() {
-  const router = useRouter();
   const search = useSearchParams();
   const redirectTo = search.get("redirect") || "/admin";
 
@@ -25,9 +24,10 @@ function AdminLoginInner() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
-          email,
-          password,
+          email: email.trim().toLowerCase(),
+          password: password.trim(),
           totpToken: totpToken || undefined,
         }),
       });
@@ -47,19 +47,37 @@ function AdminLoginInner() {
         return;
       }
 
-      const role = data.user?.role;
-      if (!["EMPLOYEE", "EMPLOYE", "ADMIN", "PROPRIETAIRE"].includes(role)) {
-        setError("Ce compte n'a pas accès à l'administration.");
-        await fetch("/api/auth/logout", { method: "POST" });
+      const { storeAccessToken, confirmSession, clearAccessToken } = await import(
+        "@/lib/auth-client"
+      );
+      const loginToken =
+        typeof data.token === "string" && data.token.length > 20 ? data.token : null;
+      if (loginToken) storeAccessToken(loginToken);
+
+      const session = await confirmSession(loginToken);
+      if (!session.ok || !session.user) {
+        clearAccessToken();
+        setError(
+          session.serverError
+            ? `Connexion OK mais lecture session en erreur (HTTP ${session.status}).`
+            : `Session non relue par le serveur (HTTP ${session.status}).`
+        );
         return;
       }
 
-      if (data.mustChangePassword || data.user?.mustChangePassword) {
-        router.replace("/admin/security");
+      const role = session.user.role || data.user?.role;
+      if (!["EMPLOYEE", "EMPLOYE", "ADMIN", "PROPRIETAIRE"].includes(role)) {
+        setError("Ce compte n'a pas accès à l'administration.");
+        await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+        clearAccessToken();
         return;
       }
-      router.replace(redirectTo.startsWith("/admin") ? redirectTo : "/admin");
-      router.refresh();
+
+      if (session.user.mustChangePassword || data.mustChangePassword || data.user?.mustChangePassword) {
+        window.location.assign("/changer-mot-de-passe?next=/admin");
+        return;
+      }
+      window.location.assign(redirectTo.startsWith("/admin") ? redirectTo : "/admin");
     } catch {
       setError("Erreur réseau. Réessayez.");
     } finally {
