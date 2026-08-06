@@ -21,6 +21,10 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
   CSRF_REJECTED: { message: "Origine non autorisée", status: 403 },
   RATE_LIMITED: { message: "Trop de tentatives. Réessayez plus tard.", status: 429 },
   ACCOUNT_DISABLED: { message: "Compte désactivé", status: 403 },
+  AUTH_DB_UNAVAILABLE: {
+    message: "Authentification indisponible — base à migrer (prisma migrate deploy)",
+    status: 503,
+  },
   MUST_CHANGE_PASSWORD: { message: "Changement de mot de passe obligatoire", status: 403 },
   STORE_NOT_ALLOWED: { message: "Boutique non autorisée pour ce compte", status: 403 },
   WEAK_PASSWORD: { message: "Mot de passe trop faible (8 caractères min., lettre + chiffre)", status: 400 },

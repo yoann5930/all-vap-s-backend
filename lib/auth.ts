@@ -20,7 +20,15 @@ export async function verifyPassword(
   password: string,
   hash: string
 ): Promise<boolean> {
-  return bcrypt.compare(password, hash);
+  if (!password || !hash || typeof hash !== "string" || hash.length < 20) {
+    return false;
+  }
+  try {
+    return await bcrypt.compare(password, hash);
+  } catch {
+    // Hash corrompu / non-bcrypt → traité comme identifiants invalides (pas 500)
+    return false;
+  }
 }
 
 export async function registerUser(data: {
@@ -113,9 +121,15 @@ export async function confirmUserEmail(token: string) {
 }
 
 export async function loginUser(email: string, password: string) {
-  const user = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-  });
+  let user: Awaited<ReturnType<typeof prisma.user.findUnique>>;
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+  } catch (err) {
+    console.error("[auth] login DB error (migrations User / Role ?):", err);
+    throw new Error("AUTH_DB_UNAVAILABLE");
+  }
 
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
     throw new Error("INVALID_CREDENTIALS");
@@ -125,10 +139,15 @@ export async function loginUser(email: string, password: string) {
     throw new Error("ACCOUNT_DISABLED");
   }
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { lastLoginAt: new Date() },
-  });
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
+  } catch (err) {
+    // Ne bloque pas la connexion si lastLoginAt/colonnes inventaire absentes
+    console.error("[auth] lastLoginAt update failed:", err);
+  }
 
   const payload: JwtPayload = {
     userId: user.id,
