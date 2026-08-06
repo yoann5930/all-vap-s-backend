@@ -1,4 +1,5 @@
 import { absoluteUrl, SITE_NAME, SITE_URL } from "@/lib/seo/config";
+import { socialLinks } from "@/lib/navigation";
 import type { Store } from "@/lib/stores";
 
 export function organizationSchema() {
@@ -8,10 +9,7 @@ export function organizationSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     logo: absoluteUrl("/favicon.svg"),
-    sameAs: [
-      "https://www.facebook.com/allvaps",
-      "https://www.instagram.com/allvaps",
-    ],
+    sameAs: socialLinks.map((s) => s.href),
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",

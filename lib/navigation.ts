@@ -33,6 +33,6 @@ export const footerLegalLinks: NavLink[] = [
 ];
 
 export const socialLinks = [
-  { href: "https://www.facebook.com/allvaps", label: "Facebook", icon: "facebook" as const },
+  { href: "https://www.facebook.com/profile.php?id=61554838700955", label: "Facebook", icon: "facebook" as const },
   { href: "https://www.instagram.com/allvaps", label: "Instagram", icon: "instagram" as const },
 ];
