@@ -152,6 +152,8 @@ model Product {
   sumupVariantId   String?
   source           String      @default("manual")
   visibleOnline    Boolean     @default(true)
+  /// Cycle de vie catalogue : brut_importe | a_verifier | valide | actif | archive
+  catalogStatus    String      @default("a_verifier")
   isActive         Boolean     @default(true)
   isNew            Boolean     @default(false)
   isBestSeller     Boolean     @default(false)
@@ -173,6 +175,7 @@ model Product {
   @@index([isActive, isPromo])
   @@index([isActive, isBestSeller])
   @@index([isActive, isNew])
+  @@index([catalogStatus])
   @@index([salesCount])
   @@index([categoryId])
   @@index([brandId])

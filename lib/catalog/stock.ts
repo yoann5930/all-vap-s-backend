@@ -556,6 +556,78 @@ export async function applyGlobalSale(params: {
   return applyStoreSale(params);
 }
 
+export async function applyStoreRefund(params: {
+  productId: string;
+  quantity: number;
+  externalReference: string;
+  source?: string;
+  locationCode?: StoreStockCode;
+  pickupStoreId?: string | null;
+}): Promise<{ ok: boolean; message: string; duplicate?: boolean }> {
+  if (params.quantity <= 0) return { ok: false, message: "Quantité invalide" };
+
+  const existing = await prisma.stockMovement.findFirst({
+    where: { externalReference: params.externalReference },
+  });
+  if (existing) {
+    return { ok: true, message: "Remboursement déjà traité", duplicate: true };
+  }
+
+  const code = params.locationCode || storeIdToStockCode(params.pickupStoreId);
+  const location = await getStoreLocationOrThrow(code);
+  const level = await prisma.stockLevel.findFirst({
+    where: { productId: params.productId, locationId: location.id },
+  });
+  if (!level) {
+    return { ok: false, message: `Produit sans stock ${code} — remboursement non appliqué` };
+  }
+
+  const before = level.quantity;
+  const after = before + params.quantity;
+  const availableAfter = computeAvailable(after, level.reservedQuantity);
+
+  await prisma.$transaction([
+    prisma.stockLevel.update({
+      where: { id: level.id },
+      data: {
+        quantity: after,
+        availableQuantity: availableAfter,
+        source: params.source || "sumup_refund",
+        lastSyncedAt: new Date(),
+      },
+    }),
+    prisma.stockMovement.create({
+      data: {
+        productId: params.productId,
+        variantId: level.variantId,
+        locationId: location.id,
+        movementType: "REFUND",
+        quantityBefore: before,
+        quantityChange: params.quantity,
+        quantityAfter: after,
+        source: params.source || "sumup_refund",
+        externalReference: params.externalReference,
+      },
+    }),
+  ]);
+
+  const total = await syncProductStockMirror(params.productId);
+  return {
+    ok: true,
+    message: `Stock ${code} ${before} → ${after} (global calculé ${total}, remboursement)`,
+  };
+}
+
+/** @deprecated alias → applyStoreRefund (défaut Hautmont) */
+export async function applyGlobalRefund(params: {
+  productId: string;
+  quantity: number;
+  externalReference: string;
+  source?: string;
+}): Promise<{ ok: boolean; message: string; duplicate?: boolean }> {
+  return applyStoreRefund(params);
+}
+
 export {
   GLOBAL_STOCK_CODE,
   GLOBAL_STOCK_NAME,
