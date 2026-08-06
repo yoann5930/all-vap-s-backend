@@ -120,7 +120,12 @@ export async function confirmUserEmail(token: string) {
   });
 }
 
-export async function loginUser(email: string, password: string) {
+export async function loginUser(
+  email: string,
+  password: string,
+  opts?: { setCookies?: boolean }
+) {
+  const setCookies = opts?.setCookies !== false;
   let user: Awaited<ReturnType<typeof prisma.user.findUnique>>;
   try {
     user = await prisma.user.findUnique({
@@ -165,21 +170,24 @@ export async function loginUser(email: string, password: string) {
     throw new Error("AUTH_SESSION_FAILED");
   }
 
-  try {
-    await setAuthCookie(token);
-  } catch (err) {
-    // Le token reste renvoyé dans le body — le client peut l’utiliser en Bearer
-    console.error("[auth] setAuthCookie failed:", err);
+  if (setCookies) {
+    try {
+      await setAuthCookie(token);
+    } catch (err) {
+      // Le token reste renvoyé dans le body — le client peut l’utiliser en Bearer
+      console.error("[auth] setAuthCookie failed:", err);
+    }
   }
 
+  let refreshToken: string | undefined;
   try {
-    await issueRefreshToken(user.id);
+    refreshToken = await issueRefreshToken(user.id, { setCookie: setCookies });
   } catch (err) {
     // Access token seul suffit pour la session 2h — ne pas bloquer le login employés
     console.error("[auth] issueRefreshToken failed:", err);
   }
 
-  return { user: sanitizeUser(user), token };
+  return { user: sanitizeUser(user), token, refreshToken };
 }
 
 export async function logoutUser() {

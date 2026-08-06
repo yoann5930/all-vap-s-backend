@@ -1,22 +1,43 @@
-/** Token d’accès client (fallback si le cookie httpOnly n’est pas renvoyé / lu). */
+/**
+ * Token d’accès client (secours si le cookie httpOnly n’est pas appliqué / lu).
+ * localStorage : survit mieux que sessionStorage en PWA Android après redirect.
+ * sessionStorage : lu en secours (migrations / onglets déjà ouverts).
+ */
 const BEARER_KEY = "allvaps_bearer";
 
+function canUseStorage(): boolean {
+  return typeof window !== "undefined";
+}
+
 export function storeAccessToken(token: string | null | undefined) {
-  if (typeof window === "undefined") return;
-  if (token) sessionStorage.setItem(BEARER_KEY, token);
-  else sessionStorage.removeItem(BEARER_KEY);
+  if (!canUseStorage()) return;
+  try {
+    if (token) {
+      localStorage.setItem(BEARER_KEY, token);
+      sessionStorage.setItem(BEARER_KEY, token);
+    } else {
+      localStorage.removeItem(BEARER_KEY);
+      sessionStorage.removeItem(BEARER_KEY);
+    }
+  } catch {
+    /* mode privé / quota */
+  }
 }
 
 export function getAccessToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return sessionStorage.getItem(BEARER_KEY);
+  if (!canUseStorage()) return null;
+  try {
+    return localStorage.getItem(BEARER_KEY) || sessionStorage.getItem(BEARER_KEY);
+  } catch {
+    return null;
+  }
 }
 
 export function clearAccessToken() {
   storeAccessToken(null);
 }
 
-/** Headers Authorization Bearer si un token sessionStorage est présent. */
+/** Headers Authorization Bearer si un token client est présent. */
 export function withAuthHeaders(init?: HeadersInit): HeadersInit {
   const token = getAccessToken();
   if (!token) return init || {};
@@ -35,4 +56,16 @@ export function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise
     credentials: init?.credentials ?? "same-origin",
     headers,
   });
+}
+
+/** Confirme que /api/auth/me voit bien l’utilisateur (cookie et/ou Bearer). */
+export async function confirmSession(): Promise<{
+  ok: boolean;
+  user: { id?: string; email?: string; role?: string; mustChangePassword?: boolean } | null;
+  status: number;
+}> {
+  const res = await authFetch("/api/auth/me", { cache: "no-store" });
+  const data = await res.json().catch(() => ({}));
+  const user = data?.user ?? null;
+  return { ok: res.ok && !!user, user, status: res.status };
 }

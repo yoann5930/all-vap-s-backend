@@ -7,7 +7,7 @@ import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanne
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
-import { authFetch, clearAccessToken } from "@/lib/auth-client";
+import { authFetch, clearAccessToken, storeAccessToken } from "@/lib/auth-client";
 import {
   buildVisualIndex,
   decideVisualAction,
@@ -407,26 +407,55 @@ export function EmployeeInventoryApp() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await authFetch("/api/auth/me");
-        if (!res.ok) {
+        // État loading : ne pas rediriger tant que la session n’est pas lue
+        let res = await authFetch("/api/auth/me", { cache: "no-store" });
+        let data = await res.json().catch(() => ({}));
+        let user = data.user as MeUser | undefined;
+
+        // Cookie perdu mais refresh encore présent → renouveler une fois
+        if (!user) {
+          try {
+            const refreshRes = await authFetch("/api/auth/refresh", {
+              method: "POST",
+              cache: "no-store",
+            });
+            if (refreshRes.ok) {
+              const refreshData = await refreshRes.json().catch(() => ({}));
+              if (typeof refreshData.token === "string") {
+                storeAccessToken(refreshData.token);
+              }
+              res = await authFetch("/api/auth/me", { cache: "no-store" });
+              data = await res.json().catch(() => ({}));
+              user = data.user as MeUser | undefined;
+            }
+          } catch {
+            /* refresh optionnel */
+          }
+        }
+
+        if (cancelled) return;
+
+        if (!user) {
           clearAccessToken();
-          router.replace("/login?next=/inventaire");
+          router.replace("/login?next=/inventaire&reason=session");
           return;
         }
-        const data = await res.json();
-        const user = data.user as MeUser | undefined;
-        if (!user || (user.role !== "EMPLOYEE" && user.role !== "ADMIN")) {
+
+        if (user.role !== "EMPLOYEE" && user.role !== "ADMIN") {
+          // Ne pas masquer : rôle insuffisant ≠ session absente
           clearAccessToken();
-          router.replace("/login?next=/inventaire");
+          router.replace("/login?next=/inventaire&reason=role");
           return;
         }
+
         if (user.mustChangePassword) {
           router.replace("/changer-mot-de-passe?next=/inventaire");
           return;
         }
-        if (!cancelled) setMe(user);
+
+        setMe(user);
       } catch {
-        router.replace("/login?next=/inventaire");
+        if (!cancelled) router.replace("/login?next=/inventaire&reason=network");
       } finally {
         if (!cancelled) setAuthLoading(false);
       }

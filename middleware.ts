@@ -193,7 +193,7 @@ export async function middleware(request: NextRequest) {
     !WEBHOOK_PREFIXES.some((p) => pathname.startsWith(p))
   ) {
     const origin = request.headers.get("origin");
-    if (origin && !isAllowedOrigin(origin)) {
+    if (origin && !isAllowedOrigin(origin, host)) {
       return applySecurityHeaders(
         NextResponse.json({ error: "Origine non autorisée" }, { status: 403 }),
         pathname,

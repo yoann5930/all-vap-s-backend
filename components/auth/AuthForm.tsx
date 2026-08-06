@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
-import { storeAccessToken } from "@/lib/auth-client";
+import { clearAccessToken, confirmSession, storeAccessToken } from "@/lib/auth-client";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -15,6 +15,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const submittingRef = useRef(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -24,6 +25,8 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (submittingRef.current || loading) return;
+    submittingRef.current = true;
     setLoading(true);
     setError("");
 
@@ -60,34 +63,56 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
-      // Secours si le cookie httpOnly n’est pas appliqué par le navigateur / reverse-proxy
+      // Secours Bearer (localStorage) si cookie httpOnly non appliqué (mobile / PWA)
       if (typeof data.token === "string" && data.token.length > 20) {
         storeAccessToken(data.token);
+      } else {
+        clearAccessToken();
       }
 
-      const params = new URLSearchParams(window.location.search);
-      const rawNext = params.get("next");
-      const next =
-        rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
+      // Handshake : ne rediriger qu’après session confirmée (évite bounce inventaire → login)
+      if (mode === "login") {
+        const session = await confirmSession();
+        if (!session.ok || !session.user) {
+          clearAccessToken();
+          setError(
+            "Connexion acceptée mais session non conservée sur cet appareil. Réessayez, ou désinstallez/réinstallez la PWA Inventaire."
+          );
+          return;
+        }
 
-      if (data.user?.mustChangePassword) {
-        window.location.assign(
-          `/changer-mot-de-passe?next=${encodeURIComponent(next || "/inventaire")}`
-        );
+        const params = new URLSearchParams(window.location.search);
+        const rawNext = params.get("next");
+        const next =
+          rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
+
+        const role = session.user.role || data.user?.role;
+        const mustChange =
+          session.user.mustChangePassword ?? data.user?.mustChangePassword;
+
+        if (mustChange) {
+          window.location.assign(
+            `/changer-mot-de-passe?next=${encodeURIComponent(next || "/inventaire")}`
+          );
+          return;
+        }
+        if (role === "ADMIN") {
+          window.location.assign(next || "/admin/inventaires");
+          return;
+        }
+        if (role === "EMPLOYEE") {
+          window.location.assign(next || "/inventaire");
+          return;
+        }
+        setError("Compte connecté mais non autorisé à accéder à l’inventaire.");
         return;
       }
-      if (data.user?.role === "ADMIN") {
-        window.location.assign(next || "/admin/inventaires");
-        return;
-      }
-      if (data.user?.role === "EMPLOYEE") {
-        window.location.assign(next || "/inventaire");
-        return;
-      }
-      window.location.assign(next || "/account");
+
+      window.location.assign("/account");
     } catch {
       setError("Erreur de connexion au serveur — vérifiez votre réseau / URL");
     } finally {
+      submittingRef.current = false;
       setLoading(false);
     }
   }
@@ -109,12 +134,14 @@ export function AuthForm({ mode }: AuthFormProps) {
             <div className="grid grid-cols-2 gap-4">
               <Input
                 label="Prénom"
+                name="firstName"
                 value={form.firstName}
                 onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                 autoComplete="given-name"
               />
               <Input
                 label="Nom"
+                name="lastName"
                 value={form.lastName}
                 onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                 autoComplete="family-name"
@@ -123,6 +150,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           )}
           <Input
             label="Email"
+            name="email"
             type="email"
             required
             inputMode="email"
@@ -136,6 +164,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <div>
             <Input
               label="Mot de passe"
+              name="password"
               type={showPassword ? "text" : "password"}
               required
               minLength={8}
@@ -160,7 +189,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             </div>
           )}
 
-          <Button type="submit" className="w-full" loading={loading}>
+          <Button type="submit" className="w-full" loading={loading} disabled={loading}>
             {mode === "login" ? "Se connecter" : "S'inscrire"}
           </Button>
         </form>

@@ -4,7 +4,12 @@ import { loginUser } from "@/lib/auth";
 import { handleApiError } from "@/lib/api-utils";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { assertSameOrigin } from "@/lib/security";
-import { COOKIE_NAME } from "@/lib/jwt";
+import {
+  COOKIE_NAME,
+  REFRESH_COOKIE,
+  accessCookieOptions,
+  refreshCookieOptions,
+} from "@/lib/jwt";
 
 const loginSchema = z.object({
   email: z.string().email().max(254),
@@ -48,22 +53,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // loginUser pose aussi les cookies via next/headers — on les re-pose sur la Response
-    // pour garantir Set-Cookie sur inventaire.allvaps.fr (sinon bounce login → inventaire → login).
-    const result = await loginUser(data.email, data.password);
+    // Cookies uniquement sur NextResponse (Set-Cookie garanti sur inventaire.allvaps.fr / mobile).
+    const result = await loginUser(data.email, data.password, { setCookies: false });
     const secure = cookieSecure(request);
-    const response = NextResponse.json(result);
-
-    response.cookies.set(COOKIE_NAME, result.token, {
-      httpOnly: true,
-      secure,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 2,
+    const response = NextResponse.json({
+      user: result.user,
+      token: result.token,
     });
 
-    // Refresh déjà émis côté loginUser (cookie store) ; s’il est présent dans le jar, OK.
-    // On ne régénère pas ici pour éviter deux refresh tokens.
+    response.cookies.set(COOKIE_NAME, result.token, accessCookieOptions(secure));
+    if (result.refreshToken) {
+      response.cookies.set(
+        REFRESH_COOKIE,
+        result.refreshToken,
+        refreshCookieOptions(secure)
+      );
+    }
 
     response.headers.set("Cache-Control", "no-store");
     return response;

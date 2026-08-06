@@ -113,8 +113,11 @@ export async function clearAuthCookie() {
   cookieStore.set(REFRESH_COOKIE, "", { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 });
 }
 
-/** Crée un refresh token DB + cookie. */
-export async function issueRefreshToken(userId: string): Promise<string> {
+/** Crée un refresh token DB (+ cookie optionnel via next/headers). */
+export async function issueRefreshToken(
+  userId: string,
+  opts?: { setCookie?: boolean }
+): Promise<string> {
   const raw = generateSecureToken(48);
   const tokenHash = hashToken(raw);
   const expiresAt = new Date(Date.now() + REFRESH_DAYS * 24 * 60 * 60 * 1000);
@@ -123,8 +126,32 @@ export async function issueRefreshToken(userId: string): Promise<string> {
     data: { tokenHash, userId, expiresAt },
   });
 
-  await setRefreshCookie(raw);
+  if (opts?.setCookie !== false) {
+    await setRefreshCookie(raw);
+  }
   return raw;
+}
+
+/** Options cookie session access (2h) — à appliquer sur NextResponse en prod. */
+export function accessCookieOptions(secure: boolean) {
+  return {
+    httpOnly: true as const,
+    secure,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: 60 * 60 * 2,
+  };
+}
+
+/** Options cookie refresh (7j). */
+export function refreshCookieOptions(secure: boolean) {
+  return {
+    httpOnly: true as const,
+    secure,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: 60 * 60 * 24 * REFRESH_DAYS,
+  };
 }
 
 /** Renouvelle l’access token à partir du cookie refresh. */
