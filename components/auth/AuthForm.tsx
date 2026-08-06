@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
+import { storeAccessToken } from "@/lib/auth-client";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -57,6 +58,11 @@ export function AuthForm({ mode }: AuthFormProps) {
             : "Email ou mot de passe incorrect"
         );
         return;
+      }
+
+      // Secours si le cookie httpOnly n’est pas appliqué par le navigateur / reverse-proxy
+      if (typeof data.token === "string" && data.token.length > 20) {
+        storeAccessToken(data.token);
       }
 
       const params = new URLSearchParams(window.location.search);

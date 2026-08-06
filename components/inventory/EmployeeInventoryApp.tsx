@@ -6,7 +6,19 @@ import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inv
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
+import {
+  EMPTY_TAXONOMY_VALUE,
+  InventoryProductTypeFields,
+  type InventoryTaxonomyValue,
+} from "@/components/inventory/InventoryProductTypeFields";
+import {
+  OHM_VALUE_REQUIRED,
+  RESISTANCE_IDENTIFICATION_REQUIRED,
+  recognizeProductFamily,
+} from "@/lib/catalog/resistance-identification";
+import { getTaxonomySubtype } from "@/lib/catalog/vape-taxonomy";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
+import { authFetch, clearAccessToken } from "@/lib/auth-client";
 import {
   buildVisualIndex,
   decideVisualAction,
@@ -84,6 +96,8 @@ export function EmployeeInventoryApp() {
   const [brandName, setBrandName] = useState("");
   const [rangeName, setRangeName] = useState("");
   const [productId, setProductId] = useState<string | null>(null);
+  const [taxonomy, setTaxonomy] = useState<InventoryTaxonomyValue>(EMPTY_TAXONOMY_VALUE);
+  const [resistanceFlow, setResistanceFlow] = useState(false);
   const [nameSuggestions, setNameSuggestions] = useState<
     Array<{
       id: string;
@@ -278,7 +292,7 @@ export function EmployeeInventoryApp() {
         identifyAttemptsRef.current += 1;
         lastCanvasIdentifyAtRef.current = Date.now();
       }
-      const res = await fetch("/api/inventaire/product-identify", {
+      const res = await authFetch("/api/inventaire/product-identify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -295,6 +309,53 @@ export function EmployeeInventoryApp() {
 
       if (process.env.NODE_ENV === "development" && data.diagnostics) {
         console.info("[inventaire:identify]", data.diagnostics);
+      }
+
+      const family = data.familyRecognition as
+        | {
+            taxonomyGroupCode?: string | null;
+            taxonomySubtypeCode?: string | null;
+            resistanceValueOhm?: string | null;
+            powerRangeMinW?: number | null;
+            powerRangeMaxW?: number | null;
+            coilTechnology?: string | null;
+            unitsPerPack?: number | null;
+            formatMl?: number | null;
+            flow?: string | null;
+            blockingConflicts?: string[];
+            primaryCategory?: string | null;
+          }
+        | undefined;
+      if (family?.flow === RESISTANCE_IDENTIFICATION_REQUIRED || family?.taxonomyGroupCode === "RESISTANCES") {
+        setResistanceFlow(true);
+        setTaxonomy((prev) => ({
+          ...prev,
+          groupCode: family.taxonomyGroupCode || "RESISTANCES",
+          subtypeCode: family.taxonomySubtypeCode || prev.subtypeCode || "RES_PREBUILT",
+          resistanceValueOhm:
+            family.resistanceValueOhm?.replace(/[^\d.,]/g, "") || prev.resistanceValueOhm,
+          powerRangeMinW:
+            family.powerRangeMinW != null ? String(family.powerRangeMinW) : prev.powerRangeMinW,
+          powerRangeMaxW:
+            family.powerRangeMaxW != null ? String(family.powerRangeMaxW) : prev.powerRangeMaxW,
+          coilTechnology: family.coilTechnology || prev.coilTechnology,
+          unitsPerPack:
+            family.unitsPerPack != null ? String(family.unitsPerPack) : prev.unitsPerPack,
+        }));
+        if (family.blockingConflicts?.includes(OHM_VALUE_REQUIRED)) {
+          setRecognitionHint("Résistance détectée — valeur en ohms obligatoire (photo latérale)");
+        } else {
+          setRecognitionHint(
+            `Résistance détectée${family.resistanceValueOhm ? ` · ${family.resistanceValueOhm}` : ""}`
+          );
+        }
+      } else if (family?.taxonomyGroupCode && family.taxonomyGroupCode !== "TO_VERIFY") {
+        setTaxonomy((prev) => ({
+          ...prev,
+          groupCode: family.taxonomyGroupCode || "",
+          subtypeCode: family.taxonomySubtypeCode || "",
+          volumeMl: family.formatMl != null ? String(family.formatMl) : prev.volumeMl,
+        }));
       }
 
       const list = (data.suggestions || []) as IdentifySuggestion[];
@@ -396,7 +457,7 @@ export function EmployeeInventoryApp() {
   }, [me]);
 
   const refreshSession = useCallback(async (id: string) => {
-    const res = await fetch(`/api/inventaire/sessions/${id}/lines`);
+    const res = await authFetch(`/api/inventaire/sessions/${id}/lines`);
     if (!res.ok) return;
     const data = await res.json();
     setSession(data.session);
@@ -406,7 +467,7 @@ export function EmployeeInventoryApp() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/auth/me");
+        const res = await authFetch("/api/auth/me");
         if (!res.ok) {
           router.replace("/login?next=/inventaire");
           return;
@@ -414,6 +475,7 @@ export function EmployeeInventoryApp() {
         const data = await res.json();
         const user = data.user as MeUser | undefined;
         if (!user || (user.role !== "EMPLOYEE" && user.role !== "ADMIN")) {
+          clearAccessToken();
           router.replace("/login?next=/inventaire");
           return;
         }
@@ -462,7 +524,8 @@ export function EmployeeInventoryApp() {
   }, []);
 
   async function logout() {
-    await fetch("/api/auth/logout", { method: "POST" });
+    clearAccessToken();
+    await authFetch("/api/auth/logout", { method: "POST" });
     router.replace("/login");
   }
 
@@ -472,6 +535,8 @@ export function EmployeeInventoryApp() {
     setBrandName("");
     setRangeName("");
     setProductId(null);
+    setTaxonomy(EMPTY_TAXONOMY_VALUE);
+    setResistanceFlow(false);
     setNameSuggestions([]);
     setShowSuggestions(false);
     setDuplicateInfo(null);
@@ -564,7 +629,7 @@ export function EmployeeInventoryApp() {
       const sid = sessionRef.current?.id;
       const qs = new URLSearchParams({ barcode: code });
       if (sid) qs.set("sessionId", sid);
-      const res = await fetch(`/api/inventaire/lookup?${qs}`);
+      const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return false;
       if (data.found && data.product?.name) {
@@ -651,7 +716,7 @@ export function EmployeeInventoryApp() {
 
       // Référence fabricants FR — hash précalculés (prioritaires) + proxy pour affichage
       try {
-        const refRes = await fetch("/api/inventaire/visual-reference");
+        const refRes = await authFetch("/api/inventaire/visual-reference");
         if (refRes.ok) {
           const refData = await refRes.json();
           ocrAvailableRef.current = Boolean(refData.ocrAvailable);
@@ -800,7 +865,7 @@ export function EmployeeInventoryApp() {
           const qs = new URLSearchParams({ name: match.name });
           const sid = sessionRef.current?.id;
           if (sid) qs.set("sessionId", sid);
-          const res = await fetch(`/api/inventaire/lookup?${qs}`);
+          const res = await authFetch(`/api/inventaire/lookup?${qs}`);
           const data = await res.json();
           if (res.ok && data.found && data.product?.name) {
             applyMemoryProduct(data);
@@ -869,7 +934,7 @@ export function EmployeeInventoryApp() {
       const qs = new URLSearchParams({ name: match.name });
       if (sid) qs.set("sessionId", sid);
       try {
-        const res = await fetch(`/api/inventaire/lookup?${qs}`);
+        const res = await authFetch(`/api/inventaire/lookup?${qs}`);
         const data = await res.json();
         if (res.ok && data.found && data.product?.name) {
           applyMemoryProduct(data);
@@ -1049,7 +1114,7 @@ export function EmployeeInventoryApp() {
       const sid = sessionRef.current?.id;
       const qs = new URLSearchParams({ name: q, suggest: "1" });
       if (sid) qs.set("sessionId", sid);
-      const res = await fetch(`/api/inventaire/lookup?${qs}`);
+      const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return;
       const list = data.suggestions || [];
@@ -1087,7 +1152,7 @@ export function EmployeeInventoryApp() {
       const qs = new URLSearchParams({ name: s.name });
       if (sid) qs.set("sessionId", sid);
       if (s.barcode) qs.set("barcode", s.barcode);
-      const res = await fetch(`/api/inventaire/lookup?${qs}`);
+      const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (res.ok && data.found) {
         applyMemoryProduct(data);
@@ -1131,6 +1196,18 @@ export function EmployeeInventoryApp() {
   function onProductNameChange(value: string) {
     setProductName(value);
     setProductId(null);
+    const family = recognizeProductFamily(value);
+    if (family.flow === RESISTANCE_IDENTIFICATION_REQUIRED) {
+      setResistanceFlow(true);
+      setTaxonomy((prev) => ({
+        ...prev,
+        groupCode: family.taxonomyGroupCode || "RESISTANCES",
+        subtypeCode: family.taxonomySubtypeCode || prev.subtypeCode || "RES_PREBUILT",
+        resistanceValueOhm:
+          family.resistanceValueOhm?.replace(/[^\d.,]/g, "") || prev.resistanceValueOhm,
+        coilTechnology: family.coilTechnology || prev.coilTechnology,
+      }));
+    }
     if (nameLookupTimer.current != null) {
       window.clearTimeout(nameLookupTimer.current);
     }
@@ -1147,7 +1224,7 @@ export function EmployeeInventoryApp() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/inventaire/sessions", {
+      const res = await authFetch("/api/inventaire/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ locationCode }),
@@ -1187,6 +1264,20 @@ export function EmployeeInventoryApp() {
       return;
     }
 
+    const needsOhm =
+      taxonomy.groupCode === "RESISTANCES" ||
+      taxonomy.subtypeCode === "CART_INTEGRATED" ||
+      taxonomy.subtypeCode === "POD_INTEGRATED" ||
+      resistanceFlow;
+    if (needsOhm && !taxonomy.resistanceValueOhm.trim()) {
+      setError("Valeur en ohms obligatoire pour une résistance / cartouche intégrée");
+      return;
+    }
+    if (needsOhm && taxonomy.groupCode === "ACCESSORIES") {
+      setError("Une résistance ne doit pas être classée en Accessoires");
+      return;
+    }
+
     // Doublon hors session courante (même jour / < 30 j) : bloqué
     if (
       duplicateInfo &&
@@ -1222,7 +1313,7 @@ export function EmployeeInventoryApp() {
 
       // Doublon même session : mise à jour quantité (pas de nouvelle ligne)
       if (duplicateInfo?.reason === "SAME_SESSION" && duplicateInfo.lineId) {
-        const res = await fetch(
+        const res = await authFetch(
           `/api/inventaire/sessions/${session.id}/lines/${duplicateInfo.lineId}`,
           {
             method: "PATCH",
@@ -1245,6 +1336,9 @@ export function EmployeeInventoryApp() {
         return;
       }
 
+      const subtype = taxonomy.groupCode
+        ? getTaxonomySubtype(taxonomy.groupCode, taxonomy.subtypeCode)
+        : undefined;
       const payload: Record<string, unknown> = {
         barcode: code || undefined,
         productId: productId || undefined,
@@ -1254,6 +1348,27 @@ export function EmployeeInventoryApp() {
         quantityCounted: qty,
         confirmZeroPrice: confirmZero,
         applyToRange: applyToRange && Boolean(rangeName.trim()),
+        taxonomyGroup: taxonomy.groupCode || undefined,
+        taxonomySubtype: taxonomy.subtypeCode || undefined,
+        categorySnapshot: subtype?.label || taxonomy.groupCode || undefined,
+        formatSnapshot: taxonomy.resistanceValueOhm
+          ? `${taxonomy.resistanceValueOhm.replace(",", ".")} Ω`
+          : taxonomy.volumeMl
+            ? `${taxonomy.volumeMl} ml`
+            : undefined,
+        resistanceValueOhm: taxonomy.resistanceValueOhm
+          ? Number(taxonomy.resistanceValueOhm.replace(",", "."))
+          : undefined,
+        coilTechnology: taxonomy.coilTechnology || undefined,
+        unitsPerPack: taxonomy.unitsPerPack
+          ? Number(taxonomy.unitsPerPack)
+          : undefined,
+        powerRangeMinW: taxonomy.powerRangeMinW
+          ? Number(taxonomy.powerRangeMinW)
+          : undefined,
+        powerRangeMaxW: taxonomy.powerRangeMaxW
+          ? Number(taxonomy.powerRangeMaxW)
+          : undefined,
       };
       if (lookup?.priceLocked && lookup.unitPriceCents != null) {
         payload.unitPriceCents = lookup.unitPriceCents;
@@ -1263,7 +1378,7 @@ export function EmployeeInventoryApp() {
         if (lookup?.priceSource) payload.priceSource = lookup.priceSource;
       }
 
-      const res = await fetch(`/api/inventaire/sessions/${session.id}/lines`, {
+      const res = await authFetch(`/api/inventaire/sessions/${session.id}/lines`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -1332,7 +1447,7 @@ export function EmployeeInventoryApp() {
     if (!ok) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/inventaire/sessions/${session.id}/complete`, {
+      const res = await authFetch(`/api/inventaire/sessions/${session.id}/complete`, {
         method: "POST",
       });
       const data = await res.json();
@@ -1373,7 +1488,7 @@ export function EmployeeInventoryApp() {
         return false;
       }
 
-      const lookRes = await fetch(
+      const lookRes = await authFetch(
         `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}`
       );
       const look = await lookRes.json();
@@ -1700,6 +1815,27 @@ export function EmployeeInventoryApp() {
                   />
                 </label>
               </div>
+
+              <InventoryProductTypeFields
+                value={taxonomy}
+                resistanceFlow={resistanceFlow}
+                ohmRequired={
+                  resistanceFlow ||
+                  taxonomy.groupCode === "RESISTANCES" ||
+                  taxonomy.subtypeCode === "CART_INTEGRATED" ||
+                  taxonomy.subtypeCode === "POD_INTEGRATED"
+                }
+                onChange={(next) => {
+                  setTaxonomy(next);
+                  if (
+                    next.groupCode === "RESISTANCES" ||
+                    next.subtypeCode === "CART_INTEGRATED" ||
+                    next.subtypeCode === "POD_INTEGRATED"
+                  ) {
+                    setResistanceFlow(true);
+                  }
+                }}
+              />
             </div>
 
             {lookup?.priceMissing && (

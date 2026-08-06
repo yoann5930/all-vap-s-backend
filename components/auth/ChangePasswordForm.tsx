@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { authFetch } from "@/lib/auth-client";
 
 export function ChangePasswordForm() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export function ChangePasswordForm() {
     }
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/change-password", {
+      const res = await authFetch("/api/auth/change-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ currentPassword, newPassword }),

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { isStaffRole } from "@/lib/admin/roles";
+import { authFetch, clearAccessToken } from "@/lib/auth-client";
 
 type MeUser = {
   email: string;
@@ -34,10 +35,11 @@ export function AdminAuthBoundary({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/auth/me");
+        const res = await authFetch("/api/auth/me");
         const data = await res.json();
         if (cancelled) return;
         if (!data.user || !isStaffRole(data.user.role)) {
+          clearAccessToken();
           router.replace(`/admin/login?redirect=${encodeURIComponent(pathname)}`);
           return;
         }
