@@ -111,78 +111,299 @@ model Category {
   products    Product[]
 }
 
+model Manufacturer {
+  id                   String                 @id @default(cuid())
+  /// Identifiant MASTER (ex. MFR-liquidarom)
+  masterId             String?                @unique
+  name                 String
+  slug                 String                 @unique
+  website              String?
+  /// URL page marques / gammes officielle
+  officialCatalogUrl   String?
+  country              String?
+  /// verifie | partiel | a_verifier (legacy référentiel)
+  status               String                 @default("a_verifier")
+  /// OFFICIAL_CONFIRMED | OFFICIAL_NOT_FOUND | NEEDS_CONFIRMATION | INACTIVE | WRONG_MANUFACTURER
+  verificationStatus   String                 @default("NEEDS_CONFIRMATION")
+  verifiedAt           DateTime?
+  /// Preuve JSON (URLs, notes, variantes orthographiques)
+  verificationEvidence String?
+  sortOrder            Int                    @default(0)
+  isActive             Boolean                @default(true)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  brands               Brand[]
+  ranges               ProductRange[]
+  products             Product[]
+  rangeProposals       CatalogRangeProposal[]
+
+  @@index([status])
+  @@index([verificationStatus])
+}
+
+/// Formats catalogue (10ml, 50ml, 100ml…) — référentiel, pas inventé produit par produit
+model CatalogFormat {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  label     String
+  ml        Int?
+  /// valide | a_verifier
+  status    String   @default("valide")
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ml])
+}
+
 model Brand {
-  id        String    @id @default(cuid())
-  name      String
-  slug      String    @unique
-  logoUrl   String?
-  isActive  Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id             String         @id @default(cuid())
+  name           String
+  slug           String         @unique
+  logoUrl        String?
+  manufacturerId String?
+  /// Identifiant MASTER marque (ex. BRD-mamita)
+  masterId       String?        @unique
+  /// verifie | partiel | a_verifier
+  status         String         @default("a_verifier")
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  products       Product[]
+  ranges         ProductRange[]
+  manufacturer   Manufacturer?  @relation(fields: [manufacturerId], references: [id])
+
+  @@index([manufacturerId])
+  @@index([status])
+}
+
+/// Gammes extensibles (Ice Cool, Les Collègues, …) — ajoutables sans modifier le code
+model ProductRange {
+  id                      String                 @id @default(cuid())
+  brandId                 String
+  manufacturerId          String?
+  name                    String
+  slug                    String
+  /// Identifiant MASTER gamme (ex. RNG-liquidarom-ice_cool)
+  masterId                String?                @unique
+  /// Codes format déclarés (JSON array string) — ex. ["50ml","10ml"]
+  formatCodes             String[]               @default([])
+  /// verifie | partiel | a_verifier (legacy)
+  status                  String                 @default("a_verifier")
+  /// OFFICIAL_CONFIRMED | OFFICIAL_NOT_FOUND | NEEDS_CONFIRMATION | INACTIVE
+  /// | WRONG_MANUFACTURER | PRODUCT_NOT_RANGE | NAME_CORRECTION
+  verificationStatus      String                 @default("NEEDS_CONFIRMATION")
+  /// URL page officielle de la gamme
+  officialSourceUrl       String?
+  /// URL site / page fabricant prouvant l'appartenance
+  officialManufacturerUrl String?
+  verifiedAt              DateTime?
+  /// Preuve JSON (extraits, URLs, date)
+  verificationEvidence    String?
+  /// Visible catalogue public uniquement si OFFICIAL_CONFIRMED
+  catalogVisible          Boolean                @default(false)
+  sortOrder               Int                    @default(0)
+  isActive                Boolean                @default(true)
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @default(now()) @updatedAt
+  products                Product[]
+  brand                   Brand                  @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  manufacturer            Manufacturer?          @relation(fields: [manufacturerId], references: [id])
+  proposals               CatalogRangeProposal[]
+  collections             ProductCollection[]
+
+  @@unique([brandId, slug])
+  @@index([brandId, sortOrder])
+  @@index([manufacturerId])
+  @@index([status])
+  @@index([verificationStatus])
+  @@index([catalogVisible])
+}
+
+/// Collection / sous-série d'une gamme (ex. Blackout ⊂ Call of Vape).
+/// INTERDIT d'afficher une collection comme gamme indépendante.
+model ProductCollection {
+  id          String       @id @default(cuid())
+  rangeId     String
+  name        String
+  slug        String
+  masterId    String?      @unique
+  sortOrder   Int          @default(0)
+  isActive    Boolean      @default(true)
+  /// Jamais une route /gammes/[slug] dédiée si false (défaut)
+  hasOwnRoute Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  range       ProductRange @relation(fields: [rangeId], references: [id], onDelete: Cascade)
+  products    Product[]
+
+  @@unique([rangeId, slug])
+  @@index([rangeId, sortOrder])
+}
+
+/// Proposition de gamme (liste Yoann) — base de recherche UNIQUEMENT, jamais intégrée auto
+model CatalogRangeProposal {
+  id                      String        @id @default(cuid())
+  manufacturerId          String
+  proposedName            String
+  /// yoann | import | autre
+  proposedBy              String        @default("yoann")
+  /// Statuts de vérification indépendante
+  verificationStatus      String        @default("NEEDS_CONFIRMATION")
+  officialNameFound       String?
+  officialSourceUrl       String?
+  officialManufacturerUrl String?
+  verifiedAt              DateTime?
+  evidenceJson            String?
+  notes                   String?
+  /// Lié seulement après confirmation + intégration explicite
+  integratedRangeId       String?
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  manufacturer            Manufacturer  @relation(fields: [manufacturerId], references: [id], onDelete: Cascade)
+  integratedRange         ProductRange? @relation(fields: [integratedRangeId], references: [id])
+
+  @@index([manufacturerId, verificationStatus])
+  @@index([proposedName])
+  @@index([integratedRangeId])
+}
+
+/// Photos produit — bouteille seule, statut official | pending | validated
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  url       String
+  /// official | pending | validated
+  status    String   @default("pending")
+  sortOrder Int      @default(0)
+  alt       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, sortOrder])
+  @@index([status])
+}
+
+/// Métadonnées A.V.A. — invisibles sur le site public
+model ProductAvaMeta {
+  id                 String   @id @default(cuid())
+  productId          String   @unique
+  avaKeywords        String?
+  avaDescription     String?
+  avaRecommendations String?
+  avaSaveurs         String?
+  avaSimilaires      String?
+  avaQuestions       String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now()) @updatedAt
+  product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Product {
-  id               String      @id @default(cuid())
-  sku              String?     @unique
-  name             String
-  /// Nom normalisé pour matching uniquement — jamais affiché tel quel au client
-  normalizedName   String?
-  slug             String      @unique
-  description      String?
-  category         String
-  subcategory      String?
-  brand            String?
-  range            String?
-  productType      String?
-  categoryId       String?
-  categoryRef      Category?   @relation(fields: [categoryId], references: [id])
-  brandId          String?
-  brandRef         Brand?      @relation(fields: [brandId], references: [id])
-  imageUrl         String?
-  images           String[]    @default([])
-  priceCents       Int
-  promoPriceCents  Int?
-  currency         String      @default("EUR")
+  id                    String               @id @default(cuid())
+  sku                   String?              @unique
+  name                  String
+  slug                  String               @unique
+  description           String?
+  category              String
+  brand                 String?
+  categoryId            String?
+  brandId               String?
+  manufacturerId        String?
+  imageUrl              String?
+  images                String[]             @default([])
+  priceCents            Int
+  promoPriceCents       Int?
   /// Stock legacy e-commerce (agrégat) — les stocks boutiques sont dans StockLevel
-  stock            Int         @default(0)
-  salesCount       Int         @default(0)
-  barcode          String?
-  sumupProductId   String?
-  sumupVariantId   String?
-  source           String      @default("manual")
-  visibleOnline    Boolean     @default(true)
+  stock                 Int                  @default(0)
+  salesCount            Int                  @default(0)
+  isActive              Boolean              @default(true)
+  isNew                 Boolean              @default(false)
+  isBestSeller          Boolean              @default(false)
+  isPromo               Boolean              @default(false)
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  /// Nom normalisé pour matching uniquement — jamais affiché tel quel au client
+  normalizedName        String?
+  subcategory           String?
+  range                 String?
+  productType           String?
+  currency              String               @default("EUR")
+  barcode               String?
+  sumupProductId        String?
+  sumupVariantId        String?
+  source                String               @default("manual")
+  visibleOnline         Boolean              @default(true)
   /// Cycle de vie catalogue : brut_importe | a_verifier | valide | actif | archive
-  catalogStatus    String      @default("a_verifier")
-  isActive         Boolean     @default(true)
-  isNew            Boolean     @default(false)
-  isBestSeller     Boolean     @default(false)
-  isPromo          Boolean     @default(false)
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  orderItems       OrderItem[]
-  favorites        Favorite[]
-  reviews          Review[]
-  vapeRecommendations VapeRecommendation[]
-  variants         ProductVariant[]
-  flavors          ProductFlavor[]
-  stockLevels      StockLevel[]
-  stockMovements   StockMovement[]
-  productMatches   ProductMatch[] @relation("MatchedProduct")
-  inventoryLines   InventoryLine[]
+  catalogStatus         String               @default("a_verifier")
+  /// Famille produit dérivée (catégorie SumUp / matching) — aide admin, non publiée
+  productFamily         String?
+  /// Anomalie détectée à l'import (doublon CSV, sans ID, etc.)
+  importAnomaly         String?
+  /// Date du dernier import catalogue brut SumUp
+  lastCatalogImportAt   DateTime?
+  /// Référence fournisseur / interne (distincte du SKU si besoin)
+  reference             String?
+  shortDescription      String?
+  longDescription       String?
+  rangeId               String?
+  /// Collection / sous-série (ex. Blackout ⊂ Call of Vape) — jamais une gamme indépendante
+  collectionId          String?
+  /// official | pending | validated
+  imageStatus           String               @default("pending")
+  sortOrder             Int                  @default(0)
+  sumupName             String?
+  sumupReference        String?
+  sumupSku              String?
+  sumupMapping          String?
+  sumupLastSync         DateTime?
+  /// Contenance en ml (10, 50, 100…) — source de vérité pour offres format
+  volumeMl              Int?
+  /// Éligible à l'offre 10 ml uniquement (jamais 50/100 ni hors e-liquide)
+  promotion10mlEligible Boolean              @default(false)
+  favorites             Favorite[]
+  orderItems            OrderItem[]
+  brandRef              Brand?               @relation(fields: [brandId], references: [id])
+  manufacturer          Manufacturer?        @relation(fields: [manufacturerId], references: [id])
+  categoryRef           Category?            @relation(fields: [categoryId], references: [id])
+  rangeRef              ProductRange?        @relation(fields: [rangeId], references: [id])
+  collectionRef         ProductCollection?   @relation(fields: [collectionId], references: [id])
+  avaMeta               ProductAvaMeta?
+  flavors               ProductFlavor[]
+  catalogImages         ProductImage[]
+  productMatches        ProductMatch[]       @relation("MatchedProduct")
+  variants              ProductVariant[]
+  reviews               Review[]
+  stockLevels           StockLevel[]
+  stockMovements        StockMovement[]
+  vapeRecommendations   VapeRecommendation[]
+  inventoryLines        InventoryLine[]
 
-  @@index([isActive, category])
+  @@index([isActive, visibleOnline, category])
   @@index([isActive, isPromo])
   @@index([isActive, isBestSeller])
   @@index([isActive, isNew])
-  @@index([catalogStatus])
   @@index([salesCount])
   @@index([categoryId])
   @@index([brandId])
+  @@index([manufacturerId])
+  @@index([rangeId])
+  @@index([collectionId])
   @@index([normalizedName])
   @@index([barcode])
+  @@index([reference])
   @@index([sumupProductId])
+  @@index([sumupSku])
   @@index([source])
+  @@index([sortOrder])
+  @@index([isActive, category])
+  @@index([catalogStatus])
+  @@index([productFamily])
+  @@index([lastCatalogImportAt])
+  @@index([volumeMl])
+  @@index([promotion10mlEligible])
 }
 
 model ProductVariant {

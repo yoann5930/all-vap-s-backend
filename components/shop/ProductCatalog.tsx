@@ -134,7 +134,9 @@ export function ProductCatalog({
                 {title}
               </h2>
               <p className="mt-1 text-sm text-[#A7B0BC]">
-                {data ? `${data.pagination.total} produits trouvés` : "Chargement…"}
+                {data?.pagination
+                  ? `${data.pagination.total} produits trouvés`
+                  : "Chargement…"}
               </p>
             </div>
             <div className="hidden lg:block">
