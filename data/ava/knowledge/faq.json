@@ -1,0 +1,88 @@
+{
+  "faq": [
+    {
+      "id": "faq-depuis-quand",
+      "question": "Depuis quand existe la cigarette électronique ?",
+      "keywords": ["depuis quand", "quelle année", "inventé", "invention", "hon lik", "origine vape"],
+      "answer": "Le concept moderne est popularisé au début des années 2000 (souvent associé à Hon Lik, vers 2003). En Europe, la diffusion grand public s'accélère surtout à partir de ~2006–2010, puis la diversité actuelle (pods, boxes, DIY) se construit sur les 15 dernières années.",
+      "tags": ["histoire"]
+    },
+    {
+      "id": "faq-nicotine-max",
+      "question": "Quel est le taux de nicotine maximum en Europe ?",
+      "keywords": ["nicotine max", "20 mg", "taux maximum", "plafond nicotine", "combien de nicotine"],
+      "answer": "Pour les e-liquides nicotinés commercialisés sous le cadre TPD en UE, le plafond courant est 20 mg/ml. Le bon taux pour vous dépend de votre consommation : on l'ajuste en boutique. Ce n'est pas un conseil médical.",
+      "tags": ["nicotine", "legislation"]
+    },
+    {
+      "id": "faq-debuter",
+      "question": "Je débute, je prends quoi ?",
+      "keywords": ["je débute", "je debute", "commencer", "premier kit", "débutant", "debutant"],
+      "answer": "En général : un pod rechargeable simple, un tirage MTL, et un e-liquide dont la nicotine compense votre besoin sans brusquer. Évitez de commencer directement en gros sub-ohm. Dites-moi vos goûts (fruité, frais, classic…) : je cherche dans le catalogue All Vap's.",
+      "tags": ["debutant", "pratiques"]
+    },
+    {
+      "id": "faq-pg-allergie",
+      "question": "Le PG peut-il irriter ?",
+      "keywords": ["allergie pg", "irritation", "gorge sèche", "sensible pg", "sans pg"],
+      "answer": "Certaines personnes trouvent le PG irritant (gorge sèche, chatouillis). On peut alors orienter vers plus de VG, ou des liquides adaptés. En cas de réaction inhabituelle, arrêtez et parlez-en à un professionnel de santé — A.V.A. ne remplace pas un médecin.",
+      "tags": ["pg", "securite", "e-liquides"]
+    },
+    {
+      "id": "faq-changer-coil",
+      "question": "Quand changer sa résistance ?",
+      "keywords": ["quand changer", "résistance morte", "goût brûlé", "burnt", "coil hs"],
+      "answer": "Changez-la dès que le goût s'affadit, devient brûlé, ou que la vapeur baisse nettement. La durée varie selon puissance, liquide (sucré/coloré use plus vite) et fréquence. Amorcer la nouvelle coil avant de vapoter à pleine puissance.",
+      "tags": ["entretien", "materiel"]
+    },
+    {
+      "id": "faq-sels-ou-pas",
+      "question": "Sels de nicotine ou nicotine classique ?",
+      "keywords": ["sels ou", "salt ou", "freebase ou", "quelle nicotine"],
+      "answer": "Sels : hit plus doux, souvent en pod MTL à dosage plus élevé. Freebase : hit plus présent, très courant en clearomiseur / DL à plus faible dosage. Les deux sont légitimes ; le choix suit le matériel et le ressenti.",
+      "tags": ["nicotine", "sels"]
+    },
+    {
+      "id": "faq-mineur",
+      "question": "Est-ce autorisé aux mineurs ?",
+      "keywords": ["mineur", "moins de 18", "interdit jeune", "âge"],
+      "answer": "Non. La vape nicotinée est réservée aux majeurs (+18). A.V.A. refuse toute assistance si vous êtes mineur.",
+      "tags": ["legislation", "mineurs"]
+    },
+    {
+      "id": "faq-fuite",
+      "question": "Pourquoi mon clearomiseur fuit ?",
+      "keywords": ["fuite", "fuit", "plein de liquide", "leak"],
+      "answer": "Causes fréquentes : joint usé, résistance mal serrée, trop remplir, variations de température/pression, airflow ouvert en transport. Vérifier joints, ne pas allonger le clearo plein dans la poche avec airflow ouvert, changer coil/joints si besoin. Pour un modèle précis rechargeable, on peut lancer l'assistance matériel.",
+      "tags": ["entretien", "materiel"]
+    },
+    {
+      "id": "faq-tpd",
+      "question": "C'est quoi la TPD ?",
+      "keywords": ["tpd", "directive tabac", "norme européenne", "réglementation europe"],
+      "answer": "La TPD (Tobacco Products Directive) est le cadre européen qui réglemente aussi les e-cigarettes et e-liquides nicotinés : notifications, informations obligatoires, limites de nicotine/contenance pour certains produits, etc. Elle s'applique progressivement depuis le milieu des années 2010.",
+      "tags": ["legislation", "tpd"]
+    },
+    {
+      "id": "faq-accu-avion",
+      "question": "Peut-on voyager avec sa vape ?",
+      "keywords": ["avion", "voyage", "aéroport", "bagage", "accu avion"],
+      "answer": "Règles fréquentes : matériel en cabine, pas en soute ; accus protégés ; e-liquides soumis aux règles liquides cabine. Vérifiez toujours la compagnie et le pays. Ne jamais mettre d'accus libres en soute.",
+      "tags": ["securite", "pratiques"]
+    },
+    {
+      "id": "faq-ohms-loi",
+      "question": "C'est quoi la loi d'Ohm en vape ?",
+      "keywords": ["loi d'ohm", "ohm", "volt", "ampère", "ampere", "mécanique"],
+      "answer": "En simple : relation entre tension, résistance et courant. Sur un mod mécanique, une résistance trop basse peut demander un courant excessif à l'accu — d'où le risque. Les mods électroniques régulés gèrent beaucoup de protections : c'est plus sûr pour la plupart des vapoteurs. Le rebuild mécanique reste pour profils expérimentés.",
+      "tags": ["securite", "technologies"]
+    },
+    {
+      "id": "faq-allvaps-role",
+      "question": "Que peut faire A.V.A. chez All Vap's ?",
+      "keywords": ["que peux-tu", "tu sais quoi", "aide ava", "connaissances"],
+      "answer": "Je connais la culture vape (histoire ~15 ans, PG/VG, nicotine, MTL/DL, sécurité, cadre légal), je cherche dans le catalogue réel All Vap's, et j'aide au diagnostic de matériel rechargeable (hors puffs et JNR). Je ne fais pas de promesse médicale et je reste +18.",
+      "tags": ["allvaps", "pratiques"]
+    }
+  ]
+}

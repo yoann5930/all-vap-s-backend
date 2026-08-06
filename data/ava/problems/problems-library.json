@@ -1,0 +1,903 @@
+{
+  "generatedAt": "2026-08-03T21:11:48.235Z",
+  "problems": [
+    {
+      "probleme_id": "no_power",
+      "probleme": "Appareil qui ne s'allume plus",
+      "symptomes": [
+        "Appareil qui ne s'allume plus"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Vérifiez que l'appareil n'est pas verrouillé (5 clics souvent).",
+        "Essayez un autre câble USB adapté.",
+        "Laissez charger 10–15 minutes puis réessayez.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "no_charge",
+      "probleme": "Appareil qui ne charge plus",
+      "symptomes": [
+        "Appareil qui ne charge plus"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Changez de câble et de chargeur 5V adaptés.",
+        "Nettoyez délicatement le port USB s'il est sale (sec).",
+        "Ne forcez pas un chargeur rapide non prévu.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "no_atomizer",
+      "probleme": "Message no atomizer / check atomizer",
+      "symptomes": [
+        "Message no atomizer / check atomizer"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Retirez et remettez la cartouche.",
+        "Contrôlez que les contacts sont secs et propres.",
+        "Testez une autre cartouche / résistance compatible si disponible.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "coil_undetected",
+      "probleme": "Résistance non détectée",
+      "symptomes": [
+        "Résistance non détectée"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Vissez / clipssez correctement la résistance.",
+        "Vérifiez la compatibilité résistance ↔ cartouche.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "leak",
+      "probleme": "Fuite de liquide",
+      "symptomes": [
+        "Fuite de liquide"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Ne trop remplissez pas (laissez un espace d'air).",
+        "Vérifiez que le bouchon / joint est bien fermé.",
+        "Évitez les changements de température brutaux.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "burnt_taste",
+      "probleme": "Goût de brûlé",
+      "symptomes": [
+        "Goût de brûlé"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Changez la résistance usée.",
+        "Amorcez une résistance neuve avant usage.",
+        "Baissez légèrement la puissance si réglable.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "spitting",
+      "probleme": "Projections de liquide",
+      "symptomes": [
+        "Projections de liquide"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "draw_tight_air",
+      "probleme": "Tirage trop serré ou trop aérien",
+      "symptomes": [
+        "Tirage trop serré ou trop aérien"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "button_stuck",
+      "probleme": "Bouton bloqué",
+      "symptomes": [
+        "Bouton bloqué"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "black_screen",
+      "probleme": "Écran noir ou défectueux",
+      "symptomes": [
+        "Écran noir ou défectueux"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "battery_heat",
+      "probleme": "Batterie qui chauffe",
+      "symptomes": [
+        "Batterie qui chauffe"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Arrêtez immédiatement l'utilisation.",
+        "Posez l'appareil sur une surface non inflammable.",
+        "Ne rechargez pas. Passez en boutique.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Arrêt immédiat et vérification en boutique All Vap's. Aucune manipulation.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "critique",
+      "arret_immediat_recommande": true,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "VALIDE_SECURITE"
+    },
+    {
+      "probleme_id": "poor_autonomy",
+      "probleme": "Autonomie anormale",
+      "symptomes": [
+        "Autonomie anormale"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "pod_not_detected",
+      "probleme": "Cartouche mal détectée",
+      "symptomes": [
+        "Cartouche mal détectée"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "coil_burns_fast",
+      "probleme": "Résistance qui grille trop vite",
+      "symptomes": [
+        "Résistance qui grille trop vite"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "510_contact",
+      "probleme": "Faux contact 510",
+      "symptomes": [
+        "Faux contact 510"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "power_mode_error",
+      "probleme": "Erreur de puissance ou de mode",
+      "symptomes": [
+        "Erreur de puissance ou de mode"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "device_lock",
+      "probleme": "Verrouillage de l'appareil",
+      "symptomes": [
+        "Verrouillage de l'appareil"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "firmware",
+      "probleme": "Firmware ou mise à jour",
+      "symptomes": [
+        "Firmware ou mise à jour"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "error_code",
+      "probleme": "Voyant ou code erreur spécifique",
+      "symptomes": [
+        "Voyant ou code erreur spécifique"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "fill_issue",
+      "probleme": "Problème de remplissage",
+      "symptomes": [
+        "Problème de remplissage"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "condensation",
+      "probleme": "Problème de condensation",
+      "symptomes": [
+        "Problème de condensation"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "pod_connection",
+      "probleme": "Problème de connexion cartouche",
+      "symptomes": [
+        "Problème de connexion cartouche"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "usb_cable",
+      "probleme": "Problème de câble ou port USB",
+      "symptomes": [
+        "Problème de câble ou port USB"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "wattage_setting",
+      "probleme": "Problème de réglage de puissance",
+      "symptomes": [
+        "Problème de réglage de puissance"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "faible",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "incompatibility",
+      "probleme": "Incompatibilité résistance / cartouche / appareil",
+      "symptomes": [
+        "Incompatibilité résistance / cartouche / appareil"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Décrivez le symptôme ; des contrôles sans risque seront proposés.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Effectuer uniquement les contrôles sans risque listés. Si le problème persiste, passer en boutique.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "moyen",
+      "arret_immediat_recommande": false,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "A_VERIFIER"
+    },
+    {
+      "probleme_id": "swollen_battery",
+      "probleme": "Batterie gonflée / endommagée",
+      "symptomes": [
+        "Batterie gonflée / endommagée"
+      ],
+      "questions_de_diagnostic": [
+        "Quel est le modèle inscrit sur l'appareil ou la boîte ?",
+        "Depuis quand le problème apparaît-il ?",
+        "Voyez-vous un message d'erreur ou un voyant ?"
+      ],
+      "causes_probables": [
+        "À confirmer selon le modèle (A_VERIFIER)"
+      ],
+      "controles_sans_risque": [
+        "Arrêt immédiat. Ne touchez plus l'accu/appareil.",
+        "Ne tentez aucune charge. Apportez en boutique dans un sachet adapté si possible.",
+        "Éteignez l'appareil si possible.",
+        "N'ouvrez pas l'appareil scellé.",
+        "Ne démontez jamais un accu."
+      ],
+      "solution_client": "Arrêt immédiat et vérification en boutique All Vap's. Aucune manipulation.",
+      "solution_boutique": "Diagnostic en magasin, test contacts / cartouche / charge.",
+      "niveau_risque": "critique",
+      "arret_immediat_recommande": true,
+      "codes_erreur": [],
+      "resistances_compatibles": [],
+      "cartouches_compatibles": [],
+      "chargeurs_compatibles": [],
+      "firmware_disponible": null,
+      "source_principale": "procédure_interne_all_vaps_securite",
+      "sources_secondaires": [],
+      "date_verification": "2026-08-03",
+      "statut_validation": "VALIDE_SECURITE"
+    }
+  ]
+}

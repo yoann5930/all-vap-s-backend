@@ -1,0 +1,118 @@
+{
+  "manufacturer": "VOOPOO",
+  "manufacturerSlug": "voopoo",
+  "model": "DRAG 6",
+  "modelSlug": "drag-6",
+  "family": "DRAG",
+  "aliases": [
+    "Drag 6",
+    "DRAG 6",
+    "VOOPOO Drag 6",
+    "Voopoo Drag 6",
+    "Voopoo Drag VI",
+    "Drag VI",
+    "voopoo-drag-6"
+  ],
+  "category": "box",
+  "recognitionStatus": "confirmed_by_user",
+  "sourceType": "user_provided_photos",
+  "exclusionFlags": {
+    "puff": false,
+    "disposable": false,
+    "jnr": false
+  },
+  "verifiedAt": "2026-08-04",
+  "verificationStatus": "NEEDS_OFFICIAL_DATA",
+  "specsSource": "Correction utilisateur + photos client (session diagnostic). Caractéristiques techniques détaillées : à vérifier sur notice officielle.",
+  "images": {},
+  "recognitionRefsInternal": {
+    "note": "Références internes uniquement — ne pas exposer publiquement sans validation.",
+    "cues": [
+      "logo VOOPOO panneau latéral",
+      "inscription DRAG face opposée",
+      "grand écran couleur vertical",
+      "molette / commande supérieure",
+      "châssis box DRAG",
+      "logo Everest Lab face avant",
+      "finitions noires / panneau texturé"
+    ],
+    "privateMediaDir": "tmp/ava-media/recognition/voopoo-drag-6"
+  },
+  "distinguishingFeatures": [
+    "Dernière sortie de la gamme DRAG (confirmation utilisateur)",
+    "Grand écran couleur vertical",
+    "Logo VOOPOO latéral + inscription DRAG",
+    "Logo Everest Lab visible face avant (photos client)",
+    "Molette / commande supérieure visible",
+    "Finitions noires et panneau texturé"
+  ],
+  "confusionAvoid": ["DRAG S2", "DRAG 5", "Drag X", "Drag X Plus", "Argus G2"],
+  "technicalSpecs": {
+    "note": "à vérifier — notice officielle non intégrée",
+    "batteryType": "à vérifier",
+    "chargingPort": "à vérifier",
+    "powerRangeW": "à vérifier",
+    "chipset": "à vérifier"
+  },
+  "controls": {
+    "note": "à vérifier — notice officielle manquante"
+  },
+  "compatiblePods": [],
+  "compatibleCartridges": [],
+  "compatibleCoils": [],
+  "errorMessages": [
+    {
+      "display": "Check Atomizer",
+      "meaning": "La box ne détecte pas correctement l'atomiseur, la cartouche, la résistance ou le contact électrique. L'écran et la batterie peuvent fonctionner.",
+      "safeChecks": [
+        "Vérifier que la cartouche / l'atomiseur est bien en place",
+        "Retirer puis remettre la cartouche",
+        "Vérifier l'installation de la résistance si remplaçable",
+        "Contrôler que les contacts sont propres et secs",
+        "Test croisé avec une autre cartouche / résistance compatible si disponible"
+      ],
+      "stopConditions": [
+        "Liquide dans le logement, échauffement, batterie gonflée, fumée, odeur anormale, contact brûlé → arrêt immédiat, ne pas recharger, orientation boutique"
+      ]
+    }
+  ],
+  "commonProblems": [
+    {
+      "intent": "CHECK_ATOMIZER",
+      "symptoms": ["Check Atomizer", "check atomizer", "ne détecte pas atomiseur"],
+      "safeDiagnosisSteps": [
+        "Confirmer VOOPOO DRAG 6",
+        "Cartouche en place ?",
+        "Reseat cartouche",
+        "Résistance correctement installée ?",
+        "Contacts propres et secs ?",
+        "Message toujours affiché ?",
+        "Photos détaillées si persistance",
+        "Test croisé optionnel",
+        "Orientation boutique / SAV sans affirmer panne box"
+      ],
+      "possibleCauses": [
+        "cartouche / atomiseur mal inséré",
+        "résistance mal installée",
+        "résistance défectueuse",
+        "contacts sales ou humides",
+        "pin / contact qui ne fait pas liaison",
+        "panne matérielle de la box (seulement après exclusion des causes précédentes)"
+      ],
+      "safeSolutions": [
+        "Reseat",
+        "Nettoyage doux des contacts",
+        "Changer résistance / cartouche compatible si disponible",
+        "Passage boutique si persistance"
+      ],
+      "requiresShopInspection": true
+    }
+  ],
+  "safetyWarnings": [
+    "Ne jamais démonter la box.",
+    "Arrêt immédiat si liquide dans le logement, échauffement, batterie gonflée, fumée ou odeur anormale.",
+    "Réserver aux adultes (+18)."
+  ],
+  "sumupProductIds": [],
+  "blockedUntil": "Notice officielle VOOPOO DRAG 6 + validation visuelle publique des photos"
+}

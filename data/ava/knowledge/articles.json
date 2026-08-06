@@ -1,0 +1,109 @@
+{
+  "articles": [
+    {
+      "id": "hist-15-ans",
+      "title": "15 ans de vape en résumé",
+      "tags": ["histoire", "resume", "culture"],
+      "keywords": ["histoire", "15 ans", "évolution", "evolution", "depuis quand", "origine", "comment ça a commencé", "passé"],
+      "content": "Depuis le début des années 2010, la vape est passée des cigalikes (forme cigarette) aux clearomiseurs eGo, puis aux mods électroniques régulés, au sub-ohm (gros nuages), puis aux pods et sels de nicotine (simplicité, hit doux). L'Europe a encadré le secteur via la TPD (notamment à partir de 2016) : nicotine plafonnée, étiquetage, notifications. Les années 2020 ont vu l'essor des pods rechargeables et des jetables (puffs), avec un débat fort sur l'écologie et la protection des mineurs. Aujourd'hui, une bonne boutique aide à choisir pods, kits ou DIY selon le profil — sans jamais promettre un effet santé."
+    },
+    {
+      "id": "mtl-vs-dl",
+      "title": "MTL vs DL — deux façons de vapoter",
+      "tags": ["pratiques", "mtl", "dl", "debutant"],
+      "keywords": ["mtl", "dl", "indirecte", "directe", "inhalation", "tirage", "bouffée", "cloud", "gorge"],
+      "content": "MTL (Mouth To Lung, inhalation indirecte) : on aspire d'abord en bouche puis on inspire, comme une cigarette. Tirage plus serré, souvent pods ou clearomiseurs hautes résistances, nicotine parfois plus élevée, moins de vapeur. DL (Direct Lung, inhalation directe) : on inspire directement vers les poumons, tirage aérien, sub-ohm, plus de vapeur, liquides souvent plus VG et nicotine plus basse. Le choix dépend du ressenti recherché, pas d'une « meilleure » méthode universelle."
+    },
+    {
+      "id": "pg-vg",
+      "title": "PG et VG — la base des e-liquides",
+      "tags": ["e-liquides", "pg", "vg", "composition"],
+      "keywords": ["pg", "vg", "propylène", "propylène glycol", "glycérine", "glycerine", "ratio", "50/50", "70/30", "hit", "vapeur"],
+      "content": "Les e-liquides reposent surtout sur deux bases : PG (propylène glycol) — fluide, porte les arômes, accentue le hit en gorge ; VG (glycérine végétale) — plus épaisse, produit plus de vapeur, adoucit le hit. Un 50/50 est polyvalent (pods / MTL). Un 70VG/30PG (ou plus VG) convient mieux au sub-ohm / DL. Trop de VG dans un petit pod peut saturer la résistance. Les arômes et la nicotine s'ajoutent à cette base."
+    },
+    {
+      "id": "nicotine-freebase-sels",
+      "title": "Nicotine freebase vs sels de nicotine",
+      "tags": ["nicotine", "sels", "freebase", "e-liquides"],
+      "keywords": ["nicotine", "sel", "sels", "salt", "freebase", "base libre", "hit", "dosage", "mg", "mg/ml", "20 mg"],
+      "content": "Nicotine freebase (classique) : hit plus marqué, dosages souvent plus bas en DL (ex. 3–6 mg/ml) et variables en MTL. Sels de nicotine : absorption plus rapide ressentie, hit plus doux à dosage égal — très utilisés en pods (souvent 10–20 mg/ml selon produits). En UE/France, pour les produits nicotinés réglementés, le plafond courant est 20 mg/ml. Le bon dosage est celui qui évite le manque sans surdoser : on ajuste avec le vendeur. A.V.A. ne donne aucun conseil médical de sevrage."
+    },
+    {
+      "id": "coils-resistances",
+      "title": "Résistances, coils et durée de vie",
+      "tags": ["materiel", "technologies", "entretien"],
+      "keywords": ["résistance", "resistance", "coil", "grille", "mesh", "brûlé", "gout brûlé", "durée", "changer résistance", "ohm"],
+      "content": "La résistance (coil) chauffe le e-liquide. Plus la valeur en ohms est basse, plus on est souvent en sub-ohm (plus de puissance, plus de liquide consommé). Le mesh offre une chauffe plus homogène et souvent plus de saveur. Une résistance se change quand le goût baisse, devient brûlé, ou que la vapeur diminue. Astuces : bien amorcer (imbiber) avant première utilisation, ne pas tirer chaîne trop fort à sec, adapter la puissance à la plage indiquée sur la coil. Les reconstructibles (RDA/RTA) permettent de monter soi-même, pour utilisateurs expérimentés."
+    },
+    {
+      "id": "pods-kits-box",
+      "title": "Pods, kits et box — quoi choisir",
+      "tags": ["materiel", "debutant", "pratiques"],
+      "keywords": ["pod", "kit", "box", "mod", "batterie", "débutant", "debutant", "choisir matériel", "cigarette électronique"],
+      "content": "Pod : compact, souvent intégré, idéal pour débuter / MTL, cartouche ou pod à remplir ou prérempli. Kit clearomiseur + batterie : plus modulable, parfois puissance réglable. Box / mod avec accus amovibles : autonomie et puissance, demande plus de notions de sécurité batteries. Pour un ex-fumeur qui veut simple : pod rechargeable + liquide adapté. Pour nuages / saveur poussée : kit ou box avec clearomiseur adapté. Le stock et les modèles précis se trouvent dans le catalogue All Vap's — A.V.A. ne invente pas de références."
+    },
+    {
+      "id": "batteries-securite",
+      "title": "Sécurité batteries et accus",
+      "tags": ["securite", "batterie", "accus"],
+      "keywords": ["batterie", "accu", "18650", "21700", "charger", "court-circuit", "explosion", "sécurité", "securite", "imr", "chargeur"],
+      "content": "Règles d'or : utiliser un chargeur externe de qualité pour les accus amovibles ; ne jamais laisser charger sans surveillance prolongée ; pas d'accus abîmés, déchirés ou qui chauffent anormalement ; wraps (gainage) intacts ; respecter les polarités ; ne pas transporter d'accus en vrac avec clés/monnaie (risque de court-circuit) — boîte dédiée. Les mods mécaniques exigent de connaître la loi d'Ohm et les limites de décharge : réservés aux confirmés. En cas de doute, demander en boutique."
+    },
+    {
+      "id": "legislation-fr-eu",
+      "title": "Cadre légal France / Europe (repères)",
+      "tags": ["legislation", "france", "europe", "tpd"],
+      "keywords": ["loi", "législation", "legislation", "interdit", "mineur", "18 ans", "tpd", "publicité", "vente", "nicotine max"],
+      "content": "La vente de produits de vape nicotinés est réservée aux majeurs (+18). La TPD européenne encadre notamment les e-liquides nicotinés (plafond courant 20 mg/ml, contenances, notifications, avertissements). La publicité est très encadrée en France. Les règles évoluent (arômes, jetables selon pays) : le magasin se conforme à la réglementation en vigueur. A.V.A. refuse d'accompagner un mineur et ne contourne aucune règle."
+    },
+    {
+      "id": "diy-bases",
+      "title": "DIY e-liquide — bases",
+      "tags": ["diy", "e-liquides", "pratiques"],
+      "keywords": ["diy", "di-yaï", "faire soi-même", "base", "arôme", "booster", "steep", "maturation", "diy liquide"],
+      "content": "Le DIY consiste à mélanger base PG/VG, arômes concentrés et boosters de nicotine (si besoin) pour obtenir son liquide. Il faut respecter les dosages (calculatrice DIY), laisser maturer (steep) selon les arômes, étiqueter clairement et tenir hors de portée des enfants. Les boosters nicotinés sont réglementés. Débuter avec des recettes simples et se faire expliquer en boutique évite les erreurs de dosage."
+    },
+    {
+      "id": "entretien-quotidien",
+      "title": "Entretien du matériel",
+      "tags": ["entretien", "pratiques", "materiel"],
+      "keywords": ["nettoyer", "entretien", "fuite", "condensation", "pod sale", "clearomiseur", "airflow"],
+      "content": "Vider et rincer à l'eau tiède (sans résistance si possible) les clearomiseurs entre liquides très différents ; sécher complètement. Essuyer les contacts, retirer la condensation dans les pods. Changer les joints usés en cas de fuites. Ne pas faire tremper les parties électroniques. Stocker à l'abri de la chaleur excessive. Un matériel propre = meilleure saveur et moins de soucis « Check Atomizer » / faux contacts."
+    },
+    {
+      "id": "saveurs-familles",
+      "title": "Familles de saveurs",
+      "tags": ["e-liquides", "saveurs", "pratiques"],
+      "keywords": ["fruité", "fruite", "gourmand", "menthe", "frais", "classic", "tabac", "boisson", "ultraboost", "saveur"],
+      "content": "Grandes familles : fruités (simples ou mix), frais / mentholés, gourmands (dessert, crème), classics / tabac blond, boissons, et gammes très fraîches type « ultra boost ». Le choix est personnel : beaucoup d'ex-fumeurs commencent classic ou fruité léger. On peut tourner plusieurs flacons pour éviter la lassitude (vape tongue). A.V.A. s'appuie sur le catalogue réel All Vap's pour proposer des produits en stock."
+    },
+    {
+      "id": "pas-medical",
+      "title": "Ce qu'A.V.A. ne dit pas",
+      "tags": ["securite", "deontologie"],
+      "keywords": ["santé", "sante", "médical", "medical", "arrêter de fumer", "sevrage", "médecin", "cancer"],
+      "content": "A.V.A. est une conseillère boutique All Vap's : matériel, e-liquides, usage pratique, diagnostic technique hors puffs/JNR. Elle ne pose aucun diagnostic médical, ne promet pas l'arrêt du tabac, ne remplace pas un professionnel de santé. Pour toute question de santé : médecin. Produits réservés aux adultes."
+    },
+    {
+      "id": "subohm-pratique",
+      "title": "Sub-ohm — points clés",
+      "tags": ["technologies", "subohm", "dl"],
+      "keywords": ["subohm", "sub-ohm", "sub ohm", "basse résistance", "gros nuages", "watt élevé"],
+      "content": "Sub-ohm = résistance < 1 Ω, souvent associée à plus de puissance et d'airflow. Demande des liquides adaptés (souvent plus VG), une batterie/mod capable, et une consommation de liquide plus élevée. Pas idéal pour un tout premier pas discret : préférer un pod MTL si l'on veut simple et économique en liquide."
+    },
+    {
+      "id": "check-atomizer-culture",
+      "title": "Messages d'erreur fréquents (culture matériel)",
+      "tags": ["materiel", "entretien", "diagnostic"],
+      "keywords": ["check atomizer", "no atomizer", "short", "faible résistance", "ohm too low", "erreur"],
+      "content": "« Check Atomizer / No Atomizer » : souvent mauvais contact, résistance mal vissée, plot sale, coil HS ou incompatible. « Short » : court-circuit, ne pas forcer — vérifier montage / coil. Ces messages se traitent pas à pas (A.V.A. a un mode assistance matériel pour les rechargeables hors puffs/JNR). Toujours couper la puissance et ne pas contourner les sécurités."
+    },
+    {
+      "id": "ecologie-puffs",
+      "title": "Jetables / puffs — éclairage",
+      "tags": ["puff", "jetable", "pratiques"],
+      "keywords": ["puff", "jetable", "disposable", "écologie", "ecologie", "déchet"],
+      "content": "Les puffs jetables sont pratiques mais génèrent plus de déchets électroniques. Beaucoup d'utilisateurs passent ensuite sur un pod rechargeable. Chez All Vap's, A.V.A. n'ouvre pas de diagnostic technique sur puffs ni marque JNR ; pour le reste du matériel rechargeable, elle peut guider."
+    }
+  ]
+}

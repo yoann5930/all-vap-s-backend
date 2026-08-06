@@ -1,0 +1,130 @@
+{
+  "timeline": [
+    {
+      "year": 2003,
+      "era": "naissance",
+      "title": "Invention de la cigarette électronique moderne",
+      "summary": "Hon Lik (Chine) popularise le principe d'une résistance chauffant un e-liquide pour produire une vapeur inhalable, alternative au tabac brûlé.",
+      "tags": ["histoire", "origine", "hon lik"]
+    },
+    {
+      "year": 2006,
+      "era": "diffusion",
+      "title": "Arrivée progressive en Europe",
+      "summary": "Premiers modèles type « cigalike » (forme cigarette) arrivent en Europe. Autonomie et rendu encore limités.",
+      "tags": ["histoire", "europe", "cigalike"]
+    },
+    {
+      "year": 2010,
+      "era": "premiers clearomiseurs",
+      "title": "Fin des seuls cigalikes",
+      "summary": "Apparition des clearomiseurs (réservoir transparent + résistance) et des batteries eGo : début d'une vraie personnalisation (puissance, saveur).",
+      "tags": ["histoire", "clearomiseur", "ego", "materiel"]
+    },
+    {
+      "year": 2011,
+      "era": "mods mécaniques / début DIY",
+      "title": "Communauté rebuild et mods",
+      "summary": "Montée des mods mécaniques, atomiseurs reconstructibles et du DIY (e-liquides maison). Culture « cloud » et forums très actifs.",
+      "tags": ["histoire", "diy", "rebuild", "mods"]
+    },
+    {
+      "year": 2013,
+      "era": "mods électroniques",
+      "title": "Chipsets et régulation",
+      "summary": "Généralisation des mods électroniques régulés (Watt, protection court-circuit, contrôle température). Sécurité et confort progressent.",
+      "tags": ["histoire", "chipset", "watt", "securite"]
+    },
+    {
+      "year": 2014,
+      "era": "TPD Europe",
+      "title": "Directive européenne produits du tabac (TPD)",
+      "summary": "L'UE adopte la TPD qui encadrera e-cigarettes et e-liquides (notification, flacons, nicotine max, avertissements). Mise en œuvre progressive ensuite.",
+      "tags": ["legislation", "tpd", "europe"]
+    },
+    {
+      "year": 2015,
+      "era": "sub-ohm grand public",
+      "title": "Sub-ohm et inhalation directe",
+      "summary": "Boom des clearomiseurs sub-ohm et de l'inhalation directe (DL) : gros volume de vapeur, liquides riches en VG, résistances basses.",
+      "tags": ["histoire", "subohm", "dl", "technologies"]
+    },
+    {
+      "year": 2016,
+      "era": "TPD applicable",
+      "title": "TPD applicable en France / UE",
+      "summary": "Application concrète : nicotine plafonnée (souvent 20 mg/ml), contenance flacons limitée pour les liquides nicotinés, notifications, règles d'étiquetage.",
+      "tags": ["legislation", "france", "nicotine", "tpd"]
+    },
+    {
+      "year": 2017,
+      "era": "pods & sels",
+      "title": "Systèmes à pods et sels de nicotine",
+      "summary": "Les pods (cartouches) et les sels de nicotine démocratisent un hit plus doux à dosages élevés, surtout en inhalation indirecte (MTL).",
+      "tags": ["histoire", "pods", "sels", "mtl", "nicotine"]
+    },
+    {
+      "year": 2018,
+      "era": "mesh & AIO",
+      "title": "Résistances mesh et kits all-in-one",
+      "summary": "Généralisation du mesh (meilleure surface de chauffe, saveur) et des kits AIO compacts pour débutants.",
+      "tags": ["technologies", "mesh", "aio", "materiel"]
+    },
+    {
+      "year": 2019,
+      "era": "crise EVALI (rappel)",
+      "title": "Alerte EVALI (USA) — distinction importante",
+      "summary": "Aux USA, cas graves liés surtout à des produits illicites au THC contenant de l'acétate de vitamine E — pas aux e-liquides nicotine réglementés classiques. Rappel : acheter des produits conformes, jamais de bricolage dangereux.",
+      "tags": ["securite", "evali", "histoire"]
+    },
+    {
+      "year": 2020,
+      "era": "pods mainstream",
+      "title": "Pods rechargeables partout",
+      "summary": "Les pods rechargeables (MTL) deviennent le standard débutant : discrétion, simplicité, cartouches ou pods remplissables.",
+      "tags": ["histoire", "pods", "debutant"]
+    },
+    {
+      "year": 2021,
+      "era": "publicité & encadrement FR",
+      "title": "Renforcement du cadre français",
+      "summary": "Encadrement strict de la publicité et vigilance sur les mineurs. Les boutiques spécialisées restent le lieu privilégié de conseil.",
+      "tags": ["legislation", "france", "mineurs"]
+    },
+    {
+      "year": 2022,
+      "era": "jetables",
+      "title": "Explosion des puffs / jetables",
+      "summary": "Forte croissance des cigarettes électroniques jetables (puffs). Débat écologique et d'accès des mineurs. All Vap's : A.V.A. ne fait pas de diagnostic technique sur puffs/JNR.",
+      "tags": ["histoire", "puff", "jetable"]
+    },
+    {
+      "year": 2023,
+      "era": "mesh & pods avancés",
+      "title": "Pods performants et coils longue durée",
+      "summary": "Amélioration des pods (autonomie, recharge USB-C, résistances mesh). Le reconstructible reste pour passionnés.",
+      "tags": ["technologies", "pods", "mesh"]
+    },
+    {
+      "year": 2024,
+      "era": "réglementation évolutive",
+      "title": "Discussions arômes / jetables en Europe",
+      "summary": "Plusieurs pays européens débattent de restrictions sur arômes ou jetables. Toujours vérifier la règle locale en vigueur.",
+      "tags": ["legislation", "europe", "aromes"]
+    },
+    {
+      "year": 2025,
+      "era": "conseil boutique",
+      "title": "Retour du conseil expert",
+      "summary": "Face à la diversité (pods, boxes, DIY, sels, freebase), le conseil en magasin et les assistants comme A.V.A. aident à choisir sans promesse médicale.",
+      "tags": ["pratiques", "conseil", "boutique"]
+    },
+    {
+      "year": 2026,
+      "era": "aujourd'hui",
+      "title": "État des lieux All Vap's",
+      "summary": "Catalogue magasin + e-liquides (dont Liquidarom), matériel rechargeable, accompagnement +18. A.V.A. s'appuie sur catalogue réel, diagnostic matériel (hors puffs/JNR) et cette mémoire métier.",
+      "tags": ["allvaps", "pratiques", "histoire"]
+    }
+  ]
+}

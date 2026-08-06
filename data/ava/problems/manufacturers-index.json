@@ -1,0 +1,285 @@
+{
+  "generatedAt": "2026-08-03T21:11:48.235Z",
+  "manufacturers": [
+    {
+      "name": "Liquide Lab",
+      "models": [
+        {
+          "model": "Kuix Batterie",
+          "modelSlug": "liquide-lab-kuix-batterie",
+          "type_appareil": "batterie intégrée",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "NEEDS_OFFICIAL_DATA",
+          "source": "SUMUP",
+          "file": "liquide-lab-kuix-batterie.json"
+        }
+      ]
+    },
+    {
+      "name": "Vaporesso",
+      "models": [
+        {
+          "model": "XROS 3",
+          "modelSlug": "xros-3",
+          "type_appareil": "pod",
+          "statut": "actuel",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "source": "https://www.vaporesso.com/hubfs/imgs/downloads/manual/Vaporesso-XROS%203-User%20Manual-A1-20221102.pdf",
+          "file": "vaporesso-xros-3.json"
+        }
+      ]
+    },
+    {
+      "name": "Voopoo",
+      "models": [
+        {
+          "model": "Argus G2",
+          "modelSlug": "argus-g2",
+          "type_appareil": "pod",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "source": null,
+          "file": "voopoo-argus-g2.json"
+        }
+      ]
+    },
+    {
+      "name": "Geekvape",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Uwell",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Lost Vape",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Aspire",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Innokin",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Smok",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Eleaf",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Joyetech",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Oxva",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Freemax",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Hellvape",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Dotmod",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "BP Mods",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Artery",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "SXmini",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "YiHi",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    },
+    {
+      "name": "Vandy Vape",
+      "models": [
+        {
+          "model": "_GENERIC_RECHARGEABLE_",
+          "modelSlug": "generic",
+          "type_appareil": "rechargeable",
+          "statut": "A_VERIFIER",
+          "verificationStatus": "A_VERIFIER",
+          "source": null,
+          "note": "Placeholder fabricant — modèles à enrichir depuis notices officielles."
+        }
+      ]
+    }
+  ]
+}

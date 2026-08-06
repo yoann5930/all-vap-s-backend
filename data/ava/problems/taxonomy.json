@@ -1,0 +1,157 @@
+{
+  "generatedAt": "2026-08-03T21:11:48.235Z",
+  "problemTypes": [
+    {
+      "id": "no_power",
+      "label": "Appareil qui ne s'allume plus",
+      "risk": "moyen"
+    },
+    {
+      "id": "no_charge",
+      "label": "Appareil qui ne charge plus",
+      "risk": "moyen"
+    },
+    {
+      "id": "no_atomizer",
+      "label": "Message no atomizer / check atomizer",
+      "risk": "faible"
+    },
+    {
+      "id": "coil_undetected",
+      "label": "Résistance non détectée",
+      "risk": "faible"
+    },
+    {
+      "id": "leak",
+      "label": "Fuite de liquide",
+      "risk": "faible"
+    },
+    {
+      "id": "burnt_taste",
+      "label": "Goût de brûlé",
+      "risk": "faible"
+    },
+    {
+      "id": "spitting",
+      "label": "Projections de liquide",
+      "risk": "faible"
+    },
+    {
+      "id": "draw_tight_air",
+      "label": "Tirage trop serré ou trop aérien",
+      "risk": "faible"
+    },
+    {
+      "id": "button_stuck",
+      "label": "Bouton bloqué",
+      "risk": "faible"
+    },
+    {
+      "id": "black_screen",
+      "label": "Écran noir ou défectueux",
+      "risk": "moyen"
+    },
+    {
+      "id": "battery_heat",
+      "label": "Batterie qui chauffe",
+      "risk": "critique"
+    },
+    {
+      "id": "poor_autonomy",
+      "label": "Autonomie anormale",
+      "risk": "faible"
+    },
+    {
+      "id": "pod_not_detected",
+      "label": "Cartouche mal détectée",
+      "risk": "faible"
+    },
+    {
+      "id": "coil_burns_fast",
+      "label": "Résistance qui grille trop vite",
+      "risk": "faible"
+    },
+    {
+      "id": "510_contact",
+      "label": "Faux contact 510",
+      "risk": "moyen"
+    },
+    {
+      "id": "power_mode_error",
+      "label": "Erreur de puissance ou de mode",
+      "risk": "faible"
+    },
+    {
+      "id": "device_lock",
+      "label": "Verrouillage de l'appareil",
+      "risk": "faible"
+    },
+    {
+      "id": "firmware",
+      "label": "Firmware ou mise à jour",
+      "risk": "faible"
+    },
+    {
+      "id": "error_code",
+      "label": "Voyant ou code erreur spécifique",
+      "risk": "moyen"
+    },
+    {
+      "id": "fill_issue",
+      "label": "Problème de remplissage",
+      "risk": "faible"
+    },
+    {
+      "id": "condensation",
+      "label": "Problème de condensation",
+      "risk": "faible"
+    },
+    {
+      "id": "pod_connection",
+      "label": "Problème de connexion cartouche",
+      "risk": "faible"
+    },
+    {
+      "id": "usb_cable",
+      "label": "Problème de câble ou port USB",
+      "risk": "faible"
+    },
+    {
+      "id": "wattage_setting",
+      "label": "Problème de réglage de puissance",
+      "risk": "faible"
+    },
+    {
+      "id": "incompatibility",
+      "label": "Incompatibilité résistance / cartouche / appareil",
+      "risk": "moyen"
+    },
+    {
+      "id": "swollen_battery",
+      "label": "Batterie gonflée / endommagée",
+      "risk": "critique"
+    }
+  ],
+  "exclusions": {
+    "jnr": {
+      "excluded": true,
+      "reason": "Marque exclue du diagnostic A.V.A."
+    },
+    "puffs": {
+      "excluded": true,
+      "reason": "Puffs / jetables exclus"
+    },
+    "jetables": {
+      "excluded": true,
+      "reason": "Produits jetables / préremplis jetables exclus"
+    }
+  },
+  "rules": {
+    "neverAskInvoice": true,
+    "neverAskProofOfPurchase": true,
+    "neverAskManual": true,
+    "neverAskAdminMotif": true,
+    "freeProblemDescription": true,
+    "mediaOnlyForVisualDiagnosis": true
+  }
+}

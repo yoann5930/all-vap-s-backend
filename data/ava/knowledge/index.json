@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Mémoire métier A.V.A. — culture vape",
+    "coverage": "2003–2026 (priorité 15 dernières années : 2011–2026)",
+    "locale": "fr-FR",
+    "disclaimer": "Informations générales de culture vape. Pas de conseil médical. Interdit aux mineurs. Ne remplace pas la réglementation en vigueur ni le conseil en boutique.",
+    "updatedAt": "2026-08-04",
+    "sourceNote": "Synthèse pédagogique All Vap's pour A.V.A. — faits d'industrie largement documentés ; pas d'invention de stock/EAN catalogue."
+  },
+  "topics": [
+    "histoire",
+    "technologies",
+    "e-liquides",
+    "nicotine",
+    "securite",
+    "legislation",
+    "pratiques",
+    "entretien",
+    "materiel",
+    "diy"
+  ]
+}
