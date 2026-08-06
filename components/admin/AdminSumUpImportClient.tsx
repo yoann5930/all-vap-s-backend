@@ -34,8 +34,11 @@ interface PreviewResult {
   errors: Array<{ rowIndex: number; message: string }>;
 }
 
+type StoreCode = "HAUTMONT" | "LE_QUESNOY";
+
 export function AdminSumUpImportClient() {
   const [file, setFile] = useState<File | null>(null);
+  const [locationCode, setLocationCode] = useState<StoreCode>("HAUTMONT");
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<PreviewResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +56,7 @@ export function AdminSumUpImportClient() {
       const form = new FormData();
       form.set("file", file);
       form.set("dryRun", "true");
+      form.set("locationCode", locationCode);
       const res = await fetch("/api/admin/catalog/sumup-import", { method: "POST", body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || data.message || "Erreur simulation");
@@ -63,12 +67,12 @@ export function AdminSumUpImportClient() {
     } finally {
       setLoading(false);
     }
-  }, [file]);
+  }, [file, locationCode]);
 
   const confirmApply = useCallback(async () => {
     if (!file || !preview) return;
     const ok = window.confirm(
-      `Confirmer l'import RÉEL sur le stock général All Vap's ?\n` +
+      `Confirmer l'import RÉEL sur ${preview.locationName} (${preview.locationCode}) ?\n` +
         `Mises à jour: ${preview.updateCount}\n` +
         `Non reconnus (non créés): ${preview.unmatchedCount}\n` +
         `À valider manuellement: ${preview.reviewCount + preview.duplicateCount}`
@@ -83,6 +87,7 @@ export function AdminSumUpImportClient() {
       form.set("dryRun", "false");
       form.set("createUnmatched", "false");
       form.set("confirmToken", "CONFIRM_SUMUP_IMPORT");
+      form.set("locationCode", locationCode);
       const res = await fetch("/api/admin/catalog/sumup-import", { method: "POST", body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || data.message || "Erreur import");
@@ -93,23 +98,32 @@ export function AdminSumUpImportClient() {
     } finally {
       setLoading(false);
     }
-  }, [file, preview]);
+  }, [file, preview, locationCode]);
 
   return (
     <div className="mt-6 space-y-6">
       <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        <p className="font-semibold">Stock général unique</p>
+        <p className="font-semibold">Double stock boutique</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>Emplacement : Stock général All Vap&apos;s (`GLOBAL_ALL_VAPS`).</li>
-          <li>Pas de stock Hautmont / Le Quesnoy séparés.</li>
+          <li>Cible obligatoire : Hautmont ou Le Quesnoy.</li>
+          <li>Le stock global affiché = somme des deux boutiques (calculé).</li>
           <li>Simulation obligatoire avant écriture.</li>
           <li>Aucune quantité inventée — colonne absente = pas de modification.</li>
         </ul>
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-4">
-        <p className="text-sm font-medium text-gray-800">Cible</p>
-        <p className="mt-1 text-sm text-gray-600">Stock général All Vap&apos;s</p>
+        <label className="block text-sm">
+          <span className="font-medium text-gray-700">Boutique cible</span>
+          <select
+            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            value={locationCode}
+            onChange={(e) => setLocationCode(e.target.value as StoreCode)}
+          >
+            <option value="HAUTMONT">All Vap&apos;s Hautmont</option>
+            <option value="LE_QUESNOY">All Vap&apos;s Le Quesnoy</option>
+          </select>
+        </label>
         <label className="mt-4 block text-sm">
           <span className="font-medium text-gray-700">Fichier CSV SumUp</span>
           <input
@@ -155,54 +169,47 @@ export function AdminSumUpImportClient() {
 
       {preview && (
         <div className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-4">
-            {[
-              ["Lignes", preview.totalRows],
-              ["Maj stock", preview.updateCount],
-              ["Non reconnus", preview.unmatchedCount],
-              ["À valider / doublons", preview.reviewCount + preview.duplicateCount],
-            ].map(([label, value]) => (
-              <div key={String(label)} className="rounded-lg border border-gray-200 bg-white p-3">
-                <p className="text-xs text-gray-500">{label}</p>
-                <p className="text-xl font-semibold text-gray-900">{value}</p>
-              </div>
-            ))}
+          <div className="rounded-xl border border-gray-200 bg-white p-4 text-sm">
+            <p className="font-semibold text-gray-900">
+              {preview.locationName} ({preview.locationCode})
+            </p>
+            <p className="mt-2 text-gray-600">
+              Lignes {preview.totalRows} · MAJ {preview.updateCount} · Non reconnus{" "}
+              {preview.unmatchedCount} · Doublons {preview.duplicateCount} · Erreurs{" "}
+              {preview.errorCount}
+            </p>
+            {!preview.applied && preview.dryRun && (
+              <Button type="button" className="mt-4" onClick={() => void confirmApply()} loading={loading}>
+                Confirmer l&apos;import réel
+              </Button>
+            )}
           </div>
-
           <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-gray-50 text-xs uppercase text-gray-500">
-                <tr>
-                  <th className="px-3 py-2">Ligne</th>
-                  <th className="px-3 py-2">Produit</th>
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b text-gray-500">
+                  <th className="px-3 py-2">#</th>
+                  <th className="px-3 py-2">Nom</th>
                   <th className="px-3 py-2">Action</th>
                   <th className="px-3 py-2">Avant</th>
                   <th className="px-3 py-2">Après</th>
-                  <th className="px-3 py-2">Confiance</th>
                   <th className="px-3 py-2">Message</th>
                 </tr>
               </thead>
               <tbody>
-                {preview.rows.slice(0, 200).map((row) => (
-                  <tr key={row.rowIndex} className="border-t border-gray-100">
-                    <td className="px-3 py-2">{row.rowIndex}</td>
-                    <td className="px-3 py-2 font-medium">{row.name}</td>
-                    <td className="px-3 py-2">{row.action}</td>
-                    <td className="px-3 py-2">{row.quantityBefore ?? "—"}</td>
-                    <td className="px-3 py-2">{row.quantityAfter ?? "—"}</td>
-                    <td className="px-3 py-2">{Math.round((row.confidence || 0) * 100)}%</td>
-                    <td className="px-3 py-2 text-gray-600">{row.message}</td>
+                {preview.rows.slice(0, 100).map((r) => (
+                  <tr key={r.rowIndex} className="border-b">
+                    <td className="px-3 py-2">{r.rowIndex}</td>
+                    <td className="px-3 py-2">{r.name}</td>
+                    <td className="px-3 py-2">{r.action}</td>
+                    <td className="px-3 py-2">{r.quantityBefore ?? "—"}</td>
+                    <td className="px-3 py-2">{r.quantityAfter ?? "—"}</td>
+                    <td className="px-3 py-2 text-gray-600">{r.message}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-          {preview.dryRun && (
-            <Button type="button" onClick={() => void confirmApply()} loading={loading}>
-              Confirmer l&apos;import réel (stock général)
-            </Button>
-          )}
         </div>
       )}
     </div>

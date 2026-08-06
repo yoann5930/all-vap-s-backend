@@ -1,0 +1,45 @@
+---
+description: Stabilité du code validé et déployé sur allvaps.fr — ne pas modifier sans demande explicite
+alwaysApply: true
+---
+
+# RÈGLE PERMANENTE — STABILITÉ DU CODE VALIDÉ
+
+Toute fonctionnalité, correction ou amélioration qui a été :
+
+- développée ;
+- testée ;
+- validée ;
+- enregistrée dans le dépôt ;
+- et déployée avec succès sur **https://allvaps.fr** (et/ou **https://www.allvaps.fr**, **https://inventaire.allvaps.fr**),
+
+est considérée comme **définitivement stable**.
+
+## Interdictions
+
+À partir de ce moment :
+
+- ne plus la modifier si ce n'est pas explicitement demandé ;
+- ne jamais la refactoriser « par précaution » ou « pour améliorer le code » ;
+- ne jamais la remplacer par une nouvelle implémentation sans demande explicite ;
+- ne jamais supprimer un fichier validé sans justification technique et validation ;
+- toute nouvelle demande doit être réalisée en **isolant uniquement les fichiers concernés**.
+
+## Si une évolution touche un composant déjà validé
+
+1. vérifier si une extension est possible sans modifier son comportement existant ;
+2. privilégier l'ajout de nouveaux composants plutôt que la modification des anciens ;
+3. garantir une compatibilité totale avec les fonctionnalités déjà validées ;
+4. effectuer des tests de non-régression avant tout déploiement.
+
+## Principe fondamental
+
+Une fonctionnalité validée, enregistrée et déployée est un élément stable du projet.
+Elle ne doit plus être modifiée tant qu'une demande explicite ne l'exige pas.
+Toute évolution future doit préserver intégralement son comportement et éviter toute régression.
+
+## Destination de production
+
+Version officielle : **https://allvaps.fr** / **https://www.allvaps.fr**.
+Inventaire : **https://inventaire.allvaps.fr**.
+Ne pas laisser une fonctionnalité terminée uniquement sur localhost.

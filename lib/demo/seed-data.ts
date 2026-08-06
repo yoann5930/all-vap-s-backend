@@ -1,5 +1,8 @@
 import bcrypt from "bcryptjs";
 import { CATALOG_CATEGORIES } from "@/lib/catalog/categories";
+import { buildDualStockSeed } from "./dual-stock-seed";
+import { INVENTORY_STAFF } from "@/lib/inventory/staff-accounts";
+import { STAFF_PASSWORD_HASHES } from "@/lib/inventory/staff-hashes.generated";
 
 const BASE = new Date("2024-06-01T10:00:00.000Z");
 
@@ -53,11 +56,48 @@ export interface DemoStore {
   passwordResetTokens: Array<Record<string, unknown>>;
   vapeProfiles: Array<Record<string, unknown>>;
   vapeRecommendations: Array<Record<string, unknown>>;
+  stockLocations: Array<Record<string, unknown>>;
+  productVariants: Array<Record<string, unknown>>;
+  stockLevels: Array<Record<string, unknown>>;
+  stockMovements: Array<Record<string, unknown>>;
+  inventorySessions: Array<Record<string, unknown>>;
+  inventoryLines: Array<Record<string, unknown>>;
+  inventoryPhotos: Array<Record<string, unknown>>;
+  inventoryAuditLogs: Array<Record<string, unknown>>;
+  syncRuns: Array<Record<string, unknown>>;
+  productMatches: Array<Record<string, unknown>>;
+  syncErrors: Array<Record<string, unknown>>;
+  refreshTokens: Array<Record<string, unknown>>;
+  auditLogs: Array<Record<string, unknown>>;
 }
 
 export function buildDemoSeed(): DemoStore {
   const adminHash = bcrypt.hashSync("Admin123!", 12);
   const demoHash = bcrypt.hashSync("Demo123!", 12);
+  const staffUsers = INVENTORY_STAFF.map((s, i) => {
+    const passwordHash = STAFF_PASSWORD_HASHES[s.email];
+    if (!passwordHash) {
+      throw new Error(`Hash manquant pour ${s.email} — lancer scripts/seed-inventory-staff.ts`);
+    }
+    return {
+      id: `usr_staff_${i + 1}`,
+      email: s.email,
+      passwordHash,
+      firstName: s.firstName,
+      lastName: s.lastName,
+      phone: null,
+      role: s.role,
+      active: true,
+      mustChangePassword: false, // démo tunnel : accès immédiat (prod seed force le changement)
+      allowedStores: s.allowedStores,
+      lastLoginAt: null,
+      emailVerified: true,
+      loyaltyPoints: 0,
+      qrCode: `qr_staff_${i + 1}`,
+      createdAt: BASE,
+      updatedAt: BASE,
+    };
+  });
 
   const categories = CATALOG_CATEGORIES.map((c) => ({
     id: catId(c.slug),
@@ -131,6 +171,10 @@ export function buildDemoSeed(): DemoStore {
     promoPriceCents: p.promoPriceCents || null,
     stock: p.stock,
     salesCount: p.salesCount || 0,
+    barcode: `3760${String(i + 1).padStart(9, "0")}`,
+    normalizedName: p.name.toLowerCase(),
+    source: "demo",
+    visibleOnline: true,
     isActive: true,
     isNew: p.isNew || false,
     isBestSeller: p.isBestSeller || false,
@@ -148,6 +192,11 @@ export function buildDemoSeed(): DemoStore {
       lastName: "All Vap's",
       phone: null,
       role: "ADMIN",
+      active: true,
+      mustChangePassword: false,
+      allowedStores: ["HAUTMONT", "LE_QUESNOY"],
+      lastLoginAt: null,
+      emailVerified: true,
       loyaltyPoints: 0,
       qrCode: "qr_admin",
       createdAt: BASE,
@@ -161,11 +210,17 @@ export function buildDemoSeed(): DemoStore {
       lastName: "Dupont",
       phone: "0600000000",
       role: "CUSTOMER",
-      loyaltyPoints: 0,
+      active: true,
+      mustChangePassword: false,
+      allowedStores: [],
+      lastLoginAt: null,
+      emailVerified: true,
+      loyaltyPoints: 150,
       qrCode: "qr_demo",
       createdAt: BASE,
       updatedAt: BASE,
     },
+    ...staffUsers,
   ];
 
   const orderItems = [
@@ -304,6 +359,9 @@ export function buildDemoSeed(): DemoStore {
         createdAt: new Date("2024-06-17T10:00:00.000Z"),
       },
     ],
+    ...buildDualStockSeed(products),
+    refreshTokens: [],
+    auditLogs: [],
   };
 }
 

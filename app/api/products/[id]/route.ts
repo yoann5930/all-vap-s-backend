@@ -26,6 +26,9 @@ export async function GET(
 
     if (!product) return errorResponse("Produit introuvable", 404);
 
+    const { getDualStockForProduct } = await import("@/lib/catalog/stock");
+    const dual = await getDualStockForProduct(product.id);
+
     const similar = await prisma.product.findMany({
       where: {
         isActive: true,
@@ -48,6 +51,9 @@ export async function GET(
 
     return jsonResponse({
       ...product,
+      stockHautmont: dual.hautmont.quantity,
+      stockLeQuesnoy: dual.leQuesnoy.quantity,
+      stock: dual.global.quantity,
       similar,
       rating: {
         average: avgRating._avg.rating ?? 0,

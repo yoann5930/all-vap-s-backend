@@ -1,39 +1,16 @@
 import type { NextConfig } from "next";
 
-const isDev = process.env.NODE_ENV === "development";
-
-const securityHeaders = [
+const baseSecurityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
-  ...(isDev
-    ? []
-    : [
-        {
-          key: "Strict-Transport-Security",
-          value: "max-age=63072000; includeSubDomains; preload",
-        },
-      ]),
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "X-Content-Type-Options", value: "nosniff" },
-  // DENY bloque le Simple Browser / preview IDE → page blanche en local
-  ...(isDev ? [] : [{ key: "X-Frame-Options", value: "DENY" }]),
+  { key: "X-Frame-Options", value: "DENY" },
   { key: "X-XSS-Protection", value: "1; mode=block" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=()" },
   {
     key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self' data:",
-      // blob: requis pour textures GLB (GLTFLoader → ObjectURL) et workers Three.js
-      "connect-src 'self' https: blob:",
-      "worker-src 'self' blob:",
-      "media-src 'self' blob: data:",
-      `frame-ancestors ${isDev ? "*" : "'none'"}`,
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join("; "),
+    value:
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: mediastream:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
 ];
 
@@ -41,12 +18,9 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
-    formats: ["image/avif", "image/webp"],
-    // Qualités autorisées (Next 15 refuse quality= hors liste)
-    qualities: [75, 85, 90, 92],
-    // Retina / grandes cartes + PDP
-    deviceSizes: [640, 750, 828, 1080, 1200, 1536, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 512],
+    formats: ["image/webp", "image/avif"],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     minimumCacheTTL: 60 * 60 * 24 * 7,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -58,54 +32,59 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Ancienne URL produit → fiche réelle (jamais le hub e-liquides)
-      { source: "/products", destination: "/e-liquides", permanent: false },
-      { source: "/products/:slug", destination: "/boutique/:slug", permanent: false },
-      // /boutique reste la grille catalogue (recherche ?search=, filtres). /e-liquides = hub.
+      { source: "/products", destination: "/boutique", permanent: true },
+      { source: "/products/:slug", destination: "/boutique/:slug", permanent: true },
       { source: "/nos-boutiques", destination: "/boutiques", permanent: true },
-      // Catégories / nav non prêtes → page d'attente (pas de faux catalogue)
-      { source: "/cigarettes-electroniques", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/pods", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/accessoires", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/diy", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/promotions", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/nouveautes", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/meilleures-ventes", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/resistances", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/marques", destination: "/catalogue-en-preparation", permanent: false },
-      { source: "/marques/:slug", destination: "/catalogue-en-preparation", permanent: false },
-      // Ancienne nav : /boutique?category=… matériel
+      { source: "/e-liquides", destination: "/boutique?category=e-liquides", permanent: true },
       {
-        source: "/boutique",
-        has: [{ type: "query", key: "category", value: "resistances" }],
-        destination: "/catalogue-en-preparation",
-        permanent: false,
+        source: "/cigarettes-electroniques",
+        destination: "/boutique?category=cigarettes-electroniques",
+        permanent: true,
       },
-      {
-        source: "/boutique",
-        has: [{ type: "query", key: "category", value: "cigarettes-electroniques" }],
-        destination: "/catalogue-en-preparation",
-        permanent: false,
-      },
-      {
-        source: "/boutique",
-        has: [{ type: "query", key: "category", value: "pods" }],
-        destination: "/catalogue-en-preparation",
-        permanent: false,
-      },
-      {
-        source: "/boutique",
-        has: [{ type: "query", key: "category", value: "marques" }],
-        destination: "/catalogue-en-preparation",
-        permanent: false,
-      },
+      { source: "/pods", destination: "/boutique?category=pods", permanent: true },
+      { source: "/diy", destination: "/boutique?category=diy", permanent: true },
+      { source: "/accessoires", destination: "/boutique?category=accessoires", permanent: true },
     ];
   },
   async headers() {
+    const inventaireCamera = {
+      key: "Permissions-Policy",
+      value: "camera=(self), microphone=(), geolocation=()",
+    };
+    const noCamera = {
+      key: "Permissions-Policy",
+      value: "camera=(), microphone=(self), geolocation=()",
+    };
     return [
+      // Inventaire : caméra autorisée (sinon camera=() global bloque getUserMedia)
       {
-        source: "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
-        headers: securityHeaders,
+        source: "/inventaire",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/inventaire/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaire",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaire/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaires",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source: "/admin/inventaires/:path*",
+        headers: [...baseSecurityHeaders, inventaireCamera],
+      },
+      {
+        source:
+          "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire).*)",
+        headers: [...baseSecurityHeaders, noCamera],
       },
       {
         source: "/_next/static/:path*",
@@ -114,6 +93,20 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/apps/:file*.apk",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/vnd.android.package-archive",
+          },
+          {
+            key: "Content-Disposition",
+            value: 'attachment; filename="AllVaps-Inventaire.apk"',
+          },
+          { key: "Cache-Control", value: "public, max-age=300" },
+        ],
       },
     ];
   },

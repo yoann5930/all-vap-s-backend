@@ -2,6 +2,7 @@ import { getDemoStore, getModelArray, nextId, now, type ModelName } from "./stor
 import {
   aggregateRecords,
   applyInclude,
+  applySelect,
   applyUpdateData,
   findUniqueWhere,
   matchWhere,
@@ -16,7 +17,7 @@ function notFound(): Error {
 }
 
 function createModelDelegate(model: ModelName) {
-  return {
+  const delegate = {
     findMany: (args: Args = {}) => queryMany(getDemoStore(), model, args as never),
     findFirst: (args: Args = {}) => {
       const results = queryMany(getDemoStore(), model, { ...(args as object), take: 1 } as never);
@@ -26,24 +27,41 @@ function createModelDelegate(model: ModelName) {
       const store = getDemoStore();
       const record = findUniqueWhere(store, model, args.where as RecordLike);
       if (!record) return null;
-      return args.include
+      // Prisma: select XOR include — honorer select évite de fuir passwordHash via /api/auth/me
+      if (args.select) {
+        return applySelect(store, model, record, args.select as RecordLike);
+      }
+      let out: RecordLike = args.include
         ? applyInclude(store, model, record, args.include as RecordLike)
         : { ...record };
+      // refreshToken.include.user
+      if (model === "refreshToken" && args.include && (args.include as RecordLike).user) {
+        const user = store.users.find((u) => u.id === record.userId) || null;
+        out = { ...out, user };
+      }
+      return out;
+    },
+    findUniqueOrThrow: async (args: Args) => {
+      const row = await delegate.findUnique(args);
+      if (!row) throw notFound();
+      return row;
     },
     count: (args: Args = {}) => {
       const store = getDemoStore();
-      return getModelArray(store, model).filter((r) => matchWhere(store, r, args.where as RecordLike)).length;
+      return getModelArray(store, model).filter((r) =>
+        matchWhere(store, r, args.where as RecordLike)
+      ).length;
     },
     aggregate: (args: Args) => aggregateRecords(getDemoStore(), model, args as never),
     create: (args: Args) => {
       const store = getDemoStore();
       const data = { ...(args.data as RecordLike) };
-      const id = (data.id as string) || nextId(model);
+      const id = (data.id as string) || nextId(model.slice(0, 3));
       const record: RecordLike = {
         ...data,
         id,
-        createdAt: now(),
-        updatedAt: now(),
+        createdAt: data.createdAt || now(),
+        updatedAt: data.updatedAt || now(),
       };
 
       if (model === "order" && data.items && typeof data.items === "object" && "create" in (data.items as RecordLike)) {
@@ -64,10 +82,18 @@ function createModelDelegate(model: ModelName) {
     update: (args: Args) => {
       const store = getDemoStore();
       const records = getModelArray(store, model);
-      const idx = records.findIndex((r) => r.id === (args.where as RecordLike).id);
+      const where = args.where as RecordLike;
+      let idx = -1;
+      if (where.id) idx = records.findIndex((r) => r.id === where.id);
+      else {
+        const found = findUniqueWhere(store, model, where);
+        if (found) idx = records.findIndex((r) => r.id === found.id);
+      }
       if (idx === -1) throw notFound();
       records[idx] = applyUpdateData(records[idx], args.data as RecordLike);
-      return records[idx];
+      return args.include
+        ? applyInclude(store, model, records[idx], args.include as RecordLike)
+        : records[idx];
     },
     updateMany: (args: Args) => {
       const store = getDemoStore();
@@ -121,22 +147,37 @@ function createModelDelegate(model: ModelName) {
       const createData = { ...(args.create as RecordLike) };
       if (where.slug && !createData.slug) createData.slug = where.slug;
       if (where.email && !createData.email) createData.email = where.email;
+      if (where.code && !createData.code) createData.code = where.code;
       if (where.productId_userId) Object.assign(createData, where.productId_userId);
       if (where.userId_productId) Object.assign(createData, where.userId_productId);
+      if (where.variantId_locationId) Object.assign(createData, where.variantId_locationId);
       return createModelDelegate(model).create({ data: createData });
     },
   };
+  return delegate;
 }
 
 export function createDemoPrismaClient() {
   return {
+    $connect: async () => undefined,
+    $disconnect: async () => undefined,
     $queryRaw: async () => [{ ok: 1 }],
     $transaction: async (ops: unknown[]) => {
-      const results = [];
-      for (const op of ops) {
-        results.push(await op);
+      // Support array of promises (Prisma interactive-less form)
+      if (Array.isArray(ops)) {
+        const results = [];
+        for (const op of ops) {
+          results.push(await op);
+        }
+        return results;
       }
-      return results;
+      // Callback form
+      if (typeof ops === "function") {
+        return (ops as (tx: ReturnType<typeof createDemoPrismaClient>) => Promise<unknown>)(
+          createDemoPrismaClient()
+        );
+      }
+      return ops;
     },
     user: createModelDelegate("user"),
     category: {
@@ -200,6 +241,19 @@ export function createDemoPrismaClient() {
       },
     },
     vapeRecommendation: createModelDelegate("vapeRecommendation"),
+    stockLocation: createModelDelegate("stockLocation"),
+    productVariant: createModelDelegate("productVariant"),
+    stockLevel: createModelDelegate("stockLevel"),
+    stockMovement: createModelDelegate("stockMovement"),
+    inventorySession: createModelDelegate("inventorySession"),
+    inventoryLine: createModelDelegate("inventoryLine"),
+    inventoryPhoto: createModelDelegate("inventoryPhoto"),
+    inventoryAuditLog: createModelDelegate("inventoryAuditLog"),
+    syncRun: createModelDelegate("syncRun"),
+    productMatch: createModelDelegate("productMatch"),
+    syncError: createModelDelegate("syncError"),
+    refreshToken: createModelDelegate("refreshToken"),
+    auditLog: createModelDelegate("auditLog"),
   };
 }
 

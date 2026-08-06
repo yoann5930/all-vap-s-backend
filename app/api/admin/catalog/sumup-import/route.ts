@@ -2,7 +2,13 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
-import { GLOBAL_STOCK_CODE, GLOBAL_STOCK_NAME } from "@/lib/catalog/normalize";
+import {
+  HAUTMONT_STOCK_CODE,
+  LE_QUESNOY_STOCK_CODE,
+  STORE_STOCK_CODES,
+  stockCodeDisplayName,
+  isStoreStockCode,
+} from "@/lib/catalog/normalize";
 import { SUMUP_CSV_TEMPLATE } from "@/lib/catalog/sumup-csv-import";
 import {
   applySumUpCsvImport,
@@ -14,11 +20,14 @@ export async function GET() {
     await requireAuth("ADMIN");
     return jsonResponse({
       template: SUMUP_CSV_TEMPLATE,
-      location: { code: GLOBAL_STOCK_CODE, name: GLOBAL_STOCK_NAME },
+      locations: STORE_STOCK_CODES.map((code) => ({
+        code,
+        name: stockCodeDisplayName(code),
+      })),
       rules: {
         dryRunDefault: true,
-        singleGlobalStock: true,
-        noBoutiqueStock: true,
+        dualStoreStock: true,
+        requiredLocationCode: true,
         noInventedQuantities: true,
         noAutoMergeBelow95: true,
       },
@@ -37,6 +46,7 @@ export async function POST(request: NextRequest) {
     let dryRun = true;
     let createUnmatched = false;
     let confirmToken = "";
+    let locationCodeRaw: string = HAUTMONT_STOCK_CODE;
 
     if (contentType.includes("multipart/form-data")) {
       const form = await request.formData();
@@ -48,6 +58,7 @@ export async function POST(request: NextRequest) {
       dryRun = String(form.get("dryRun") ?? "true") !== "false";
       createUnmatched = String(form.get("createUnmatched") || "") === "true";
       confirmToken = String(form.get("confirmToken") || "");
+      locationCodeRaw = String(form.get("locationCode") || HAUTMONT_STOCK_CODE);
     } else {
       const body = z
         .object({
@@ -55,16 +66,28 @@ export async function POST(request: NextRequest) {
           dryRun: z.boolean().default(true),
           createUnmatched: z.boolean().optional(),
           confirmToken: z.string().optional(),
+          locationCode: z.enum([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]),
         })
         .parse(await request.json());
       csvContent = body.csvContent;
       dryRun = body.dryRun;
       createUnmatched = Boolean(body.createUnmatched);
       confirmToken = body.confirmToken || "";
+      locationCodeRaw = body.locationCode;
+    }
+
+    if (!isStoreStockCode(locationCodeRaw)) {
+      return jsonResponse(
+        { error: "locationCode obligatoire : HAUTMONT ou LE_QUESNOY" },
+        400
+      );
     }
 
     if (dryRun) {
-      const preview = await previewSumUpCsvImport({ csvContent });
+      const preview = await previewSumUpCsvImport({
+        csvContent,
+        locationCode: locationCodeRaw,
+      });
       return jsonResponse({
         ...preview,
         dryRun: true,
@@ -78,6 +101,7 @@ export async function POST(request: NextRequest) {
       dryRun: false,
       createUnmatched,
       confirmToken,
+      locationCode: locationCodeRaw,
     });
 
     return jsonResponse(result);

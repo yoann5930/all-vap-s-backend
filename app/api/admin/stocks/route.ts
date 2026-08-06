@@ -3,69 +3,52 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
-import { ensureGlobalStockLocation, computeAvailable } from "@/lib/catalog/stock";
-import { maybeEmitStockAlerts } from "@/lib/stock/alerts";
-import { resolveAvailability } from "@/lib/stock";
-import { logStockEvent } from "@/lib/stock/events";
+import {
+  HAUTMONT_STOCK_CODE,
+  LE_QUESNOY_STOCK_CODE,
+  isStoreStockCode,
+} from "@/lib/catalog/normalize";
+import {
+  ensureStoreStockLocations,
+  getDualStockForProduct,
+  setStoreStockQuantity,
+} from "@/lib/catalog/stock";
 
 export async function GET(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
+    await ensureStoreStockLocations();
     const lowStock = new URL(request.url).searchParams.get("lowStock") === "true";
-    const statusOnly = new URL(request.url).searchParams.get("status") === "1";
-
-    const syncState = await prisma.sumUpSyncState.findUnique({ where: { id: "default" } });
-    const lastSyncRuns = await prisma.syncRun.findMany({
-      where: { source: { contains: "sumup" } },
-      orderBy: { startedAt: "desc" },
-      take: 10,
-    });
-    const recentEvents = await prisma.stockEvent
-      .findMany({ orderBy: { createdAt: "desc" }, take: 30 })
-      .catch(() => []);
 
     const products = await prisma.product.findMany({
-      where: lowStock
-        ? { isActive: true, OR: [{ stock: { lte: 5 } }, { variants: { some: { stock: { lte: 5 } } } }] }
-        : { isActive: true },
-      include: {
-        categoryRef: true,
-        brandRef: true,
-        manufacturer: true,
-        variants: { where: { active: true }, orderBy: { nicotineMg: "asc" } },
-        stockLevels: true,
-      },
+      where: lowStock ? { stock: { lte: 5 }, isActive: true } : {},
+      include: { categoryRef: true, brandRef: true },
       orderBy: lowStock ? { stock: "asc" } : { name: "asc" },
-      take: statusOnly ? 500 : 2000,
     });
 
-    const outOfStock = products.filter((p) => {
-      if (p.variants.length) return p.variants.every((v) => v.stock <= 0) || p.stock <= 0;
-      return p.stock <= 0;
-    }).length;
-    const low = products.filter((p) => {
-      if (p.variants.length) {
-        return p.variants.some((v) => v.stock > 0 && v.stock <= 5);
-      }
-      return p.stock > 0 && p.stock <= 5;
-    }).length;
+    const enriched = await Promise.all(
+      products.map(async (p) => {
+        const dual = await getDualStockForProduct(p.id);
+        return {
+          ...p,
+          stockHautmont: dual.hautmont.quantity,
+          stockLeQuesnoy: dual.leQuesnoy.quantity,
+          stockGlobal: dual.global.quantity,
+          stock: dual.global.quantity,
+        };
+      })
+    );
 
     const stats = {
-      total: products.length,
-      outOfStock,
-      lowStock: low,
-      totalUnits: products.reduce((s, p) => s + Math.max(0, p.stock), 0),
-      lastSyncAt: syncState?.lastSuccessfulSyncAt || syncState?.lastTransactionTime || null,
-      lastSyncError: null as string | null,
-      syncLocked: !!(syncState?.lockedUntil && syncState.lockedUntil > new Date()),
+      total: enriched.length,
+      outOfStock: enriched.filter((p) => p.stockGlobal === 0).length,
+      lowStock: enriched.filter((p) => p.stockGlobal > 0 && p.stockGlobal <= 5).length,
+      totalUnits: enriched.reduce((s, p) => s + p.stockGlobal, 0),
+      totalHautmont: enriched.reduce((s, p) => s + p.stockHautmont, 0),
+      totalLeQuesnoy: enriched.reduce((s, p) => s + p.stockLeQuesnoy, 0),
     };
 
-    return jsonResponse({
-      products,
-      stats,
-      syncRuns: lastSyncRuns,
-      events: recentEvents,
-    });
+    return jsonResponse({ products: enriched, stats });
   } catch (error) {
     return handleApiError(error);
   }
@@ -77,110 +60,55 @@ export async function PATCH(request: NextRequest) {
     const body = z
       .object({
         productId: z.string(),
-        variantId: z.string().optional().nullable(),
+        locationCode: z.enum([HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE]),
         stock: z.number().int().min(0).optional(),
         adjustment: z.number().int().optional(),
       })
       .parse(await request.json());
 
-    const product = await prisma.product.findUnique({
-      where: { id: body.productId },
-      include: { variants: true },
-    });
-    if (!product) throw new Error("NOT_FOUND");
-
-    const location = await ensureGlobalStockLocation();
-    let variantId = body.variantId || null;
-    if (!variantId && product.variants[0]) variantId = product.variants[0].id;
-
-    if (!variantId) {
-      const newStock = body.stock ?? Math.max(0, product.stock + (body.adjustment ?? 0));
-      const updated = await prisma.product.update({
-        where: { id: product.id },
-        data: { stock: newStock },
-      });
-      await logStockEvent({
-        type: "INCONSISTENCY",
-        message: `Ajustement admin stock produit ${product.name} → ${newStock}`,
-        productId: product.id,
-      });
-      return jsonResponse(updated);
+    if (!isStoreStockCode(body.locationCode)) {
+      return jsonResponse({ error: "locationCode invalide" }, 400);
     }
 
-    const variant = await prisma.productVariant.findUnique({ where: { id: variantId } });
-    if (!variant) throw new Error("NOT_FOUND");
+    const product = await prisma.product.findUnique({ where: { id: body.productId } });
+    if (!product) throw new Error("NOT_FOUND");
 
+    let variant = await prisma.productVariant.findFirst({
+      where: { productId: body.productId, active: true },
+      orderBy: { createdAt: "asc" },
+    });
+    if (!variant) {
+      variant = await prisma.productVariant.create({
+        data: { productId: body.productId, name: "Standard" },
+      });
+    }
+
+    const dual = await getDualStockForProduct(body.productId);
     const current =
-      (await prisma.stockLevel.findFirst({
-        where: { productId: product.id, variantId, locationId: location.id },
-      })) || null;
+      body.locationCode === HAUTMONT_STOCK_CODE
+        ? dual.hautmont.quantity
+        : dual.leQuesnoy.quantity;
+    const newStock = body.stock ?? Math.max(0, current + (body.adjustment ?? 0));
 
-    const before = current?.quantity ?? variant.stock;
-    const newStock = body.stock ?? Math.max(0, before + (body.adjustment ?? 0));
-    const available = computeAvailable(newStock, current?.reservedQuantity || 0);
-
-    const level = await prisma.stockLevel.upsert({
-      where: {
-        variantId_locationId: { variantId, locationId: location.id },
-      },
-      create: {
-        productId: product.id,
-        variantId,
-        locationId: location.id,
-        quantity: newStock,
-        reservedQuantity: 0,
-        availableQuantity: newStock,
-        lowStockThreshold: 5,
-        source: "admin",
-        lastSyncedAt: new Date(),
-      },
-      update: {
-        quantity: newStock,
-        availableQuantity: available,
-        source: "admin",
-        lastSyncedAt: new Date(),
-      },
+    await setStoreStockQuantity({
+      productId: body.productId,
+      variantId: variant.id,
+      locationCode: body.locationCode,
+      quantity: newStock,
+      source: "admin_manual",
+      movementType: "SYNC_SET",
+      externalReference: `admin:${body.productId}:${body.locationCode}:${Date.now()}`,
     });
 
-    await prisma.productVariant.update({
-      where: { id: variantId },
-      data: { stock: newStock },
+    const updatedDual = await getDualStockForProduct(body.productId);
+    return jsonResponse({
+      productId: body.productId,
+      locationCode: body.locationCode,
+      stockHautmont: updatedDual.hautmont.quantity,
+      stockLeQuesnoy: updatedDual.leQuesnoy.quantity,
+      stockGlobal: updatedDual.global.quantity,
+      stock: updatedDual.global.quantity,
     });
-
-    // Miroir agrégat produit = somme variantes
-    const variants = await prisma.productVariant.findMany({
-      where: { productId: product.id, active: true },
-    });
-    const aggregate = variants.reduce((s, v) => s + Math.max(0, v.stock), 0);
-    await prisma.product.update({
-      where: { id: product.id },
-      data: { stock: aggregate, sumupLastSync: new Date() },
-    });
-
-    await prisma.stockMovement.create({
-      data: {
-        productId: product.id,
-        variantId,
-        locationId: location.id,
-        movementType: "ADMIN_SET",
-        quantityBefore: before,
-        quantityChange: newStock - before,
-        quantityAfter: newStock,
-        source: "admin",
-        externalReference: `admin:${product.id}:${variantId}:${Date.now()}`,
-      },
-    });
-
-    const snap = await resolveAvailability(product.id, variantId);
-    await maybeEmitStockAlerts(snap);
-    await logStockEvent({
-      type: newStock === 0 ? "RUPTURE" : newStock <= 5 ? "LOW_STOCK" : "INCONSISTENCY",
-      message: `Admin stock ${product.name} → ${newStock}`,
-      productId: product.id,
-      variantId,
-    });
-
-    return jsonResponse({ level, stock: newStock, productStock: aggregate });
   } catch (error) {
     return handleApiError(error);
   }

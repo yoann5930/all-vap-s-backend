@@ -1,15 +1,24 @@
 import prisma from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
-import { GLOBAL_STOCK_CODE } from "@/lib/catalog/normalize";
+import {
+  isStoreStockCode,
+  stockCodeDisplayName,
+  type StoreStockCode,
+} from "@/lib/catalog/normalize";
 import {
   buildSumUpImportPreview,
   mapSumUpCsvRows,
   type SumUpImportPreview,
 } from "@/lib/catalog/sumup-csv-import";
 import type { CatalogMatchCandidate } from "@/lib/catalog/matching";
-import { computeAvailable, ensureGlobalStockLocation } from "@/lib/catalog/stock";
+import {
+  computeAvailable,
+  ensureStoreStockLocations,
+  getStoreLocationOrThrow,
+  syncProductStockMirror,
+} from "@/lib/catalog/stock";
 
-export { ensureGlobalStockLocation as ensureStockLocations };
+export { ensureStoreStockLocations as ensureStockLocations };
 
 async function loadCatalogCandidates(): Promise<CatalogMatchCandidate[]> {
   return prisma.product.findMany({
@@ -25,8 +34,8 @@ async function loadCatalogCandidates(): Promise<CatalogMatchCandidate[]> {
   });
 }
 
-async function loadCurrentQuantities(): Promise<Map<string, number>> {
-  const location = await prisma.stockLocation.findUnique({ where: { code: GLOBAL_STOCK_CODE } });
+async function loadCurrentQuantities(locationCode: StoreStockCode): Promise<Map<string, number>> {
+  const location = await prisma.stockLocation.findUnique({ where: { code: locationCode } });
   if (!location) return new Map();
 
   const levels = await prisma.stockLevel.findMany({
@@ -41,22 +50,30 @@ async function loadCurrentQuantities(): Promise<Map<string, number>> {
   return map;
 }
 
+function parseLocationCode(raw: string | undefined | null): StoreStockCode {
+  if (raw && isStoreStockCode(raw)) return raw;
+  throw new Error("locationCode obligatoire : HAUTMONT ou LE_QUESNOY");
+}
+
 export async function previewSumUpCsvImport(params: {
   csvContent: string;
+  locationCode: StoreStockCode;
 }): Promise<SumUpImportPreview & { syncRunId: string }> {
-  await ensureGlobalStockLocation();
+  await ensureStoreStockLocations();
+  const locationCode = params.locationCode;
   const catalog = await loadCatalogCandidates();
-  const currentQuantities = await loadCurrentQuantities();
+  const currentQuantities = await loadCurrentQuantities(locationCode);
   const preview = buildSumUpImportPreview({
     csvContent: params.csvContent,
     catalog,
     currentQuantities,
+    locationCode,
   });
 
   const syncRun = await prisma.syncRun.create({
     data: {
       source: "sumup_csv",
-      locationCode: GLOBAL_STOCK_CODE,
+      locationCode,
       dryRun: true,
       status: "SUCCESS",
       completedAt: new Date(),
@@ -83,9 +100,7 @@ export async function applySumUpCsvImport(params: {
   dryRun: boolean;
   createUnmatched?: boolean;
   confirmToken: string;
-  /** Métadonnées inbox (historique + anti double-import) */
-  fileName?: string | null;
-  fileHash?: string | null;
+  locationCode: StoreStockCode;
 }): Promise<{
   applied: boolean;
   dryRun: boolean;
@@ -93,8 +108,13 @@ export async function applySumUpCsvImport(params: {
   preview: SumUpImportPreview;
   message: string;
 }> {
+  const locationCode = parseLocationCode(params.locationCode);
+
   if (params.dryRun !== false) {
-    const preview = await previewSumUpCsvImport({ csvContent: params.csvContent });
+    const preview = await previewSumUpCsvImport({
+      csvContent: params.csvContent,
+      locationCode,
+    });
     return {
       applied: false,
       dryRun: true,
@@ -108,13 +128,14 @@ export async function applySumUpCsvImport(params: {
     throw new Error("Confirmation invalide. Envoyer confirmToken=CONFIRM_SUMUP_IMPORT.");
   }
 
-  const location = await ensureGlobalStockLocation();
+  const location = await getStoreLocationOrThrow(locationCode);
   const catalog = await loadCatalogCandidates();
-  const currentQuantities = await loadCurrentQuantities();
+  const currentQuantities = await loadCurrentQuantities(locationCode);
   const preview = buildSumUpImportPreview({
     csvContent: params.csvContent,
     catalog,
     currentQuantities,
+    locationCode,
   });
 
   const { rows: sourceRows } = mapSumUpCsvRows(params.csvContent);
@@ -123,11 +144,9 @@ export async function applySumUpCsvImport(params: {
   const syncRun = await prisma.syncRun.create({
     data: {
       source: "sumup_csv",
-      locationCode: GLOBAL_STOCK_CODE,
+      locationCode,
       dryRun: false,
       status: "RUNNING",
-      fileName: params.fileName ?? null,
-      fileHash: params.fileHash ?? null,
     },
   });
 
@@ -148,7 +167,7 @@ export async function applySumUpCsvImport(params: {
             matchMethod: plan.matchMethod,
             confidenceScore: plan.confidence,
             status: plan.action === "DUPLICATE" ? "DUPLICATE" : "REVIEW",
-            locationCode: GLOBAL_STOCK_CODE,
+            locationCode,
             syncRunId: syncRun.id,
             payloadSafe: JSON.stringify({
               rowIndex: plan.rowIndex,
@@ -172,7 +191,7 @@ export async function applySumUpCsvImport(params: {
             matchMethod: plan.matchMethod,
             confidenceScore: plan.confidence,
             status: "UNMATCHED",
-            locationCode: GLOBAL_STOCK_CODE,
+            locationCode,
             syncRunId: syncRun.id,
             payloadSafe: JSON.stringify({
               rowIndex: plan.rowIndex,
@@ -251,6 +270,7 @@ export async function applySumUpCsvImport(params: {
           },
         });
 
+        await syncProductStockMirror(product.id);
         created++;
         continue;
       }
@@ -333,12 +353,12 @@ export async function applySumUpCsvImport(params: {
           where: { id: plan.matchedProductId },
           data: {
             normalizedName: plan.normalizedName,
-            stock: after,
             ...(plan.barcode ? { barcode: plan.barcode } : {}),
             ...(plan.sku ? { sku: plan.sku } : {}),
           },
         });
 
+        await syncProductStockMirror(plan.matchedProductId);
         updated++;
       }
     }
@@ -355,21 +375,6 @@ export async function applySumUpCsvImport(params: {
         unmatchedCount: preview.unmatchedCount,
         duplicateCount: preview.duplicateCount,
         errorCount: errors + preview.errorCount,
-        fileName: params.fileName ?? null,
-        fileHash: params.fileHash ?? null,
-        reportJson: JSON.stringify({
-          fileName: params.fileName,
-          fileHash: params.fileHash,
-          detectedColumns: preview.detectedColumns,
-          reviewCount: preview.reviewCount,
-          locationName: preview.locationName,
-          productsModified: updated,
-          productsUnchanged: unchanged,
-          newProducts: created,
-          duplicates: preview.duplicateCount,
-          unmatched: preview.unmatchedCount,
-          errors: errors + preview.errorCount,
-        }),
       },
     });
   } catch (err) {
@@ -398,6 +403,6 @@ export async function applySumUpCsvImport(params: {
     dryRun: false,
     syncRunId: syncRun.id,
     preview,
-    message: `Import appliqué sur ${GLOBAL_STOCK_CODE} : ${updated} maj, ${created} créations, ${unchanged} inchangés.`,
+    message: `Import appliqué sur ${stockCodeDisplayName(locationCode)} (${locationCode}) : ${updated} maj, ${created} créations, ${unchanged} inchangés.`,
   };
 }

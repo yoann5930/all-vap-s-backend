@@ -3,11 +3,30 @@ import { cookies, headers } from "next/headers";
 import type { Role } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { generateSecureToken, hashToken } from "@/lib/security";
-import { isStaffRole, roleAtLeast } from "@/lib/admin/roles";
+import { isOwnerRole, isStaffRole, roleAtLeast } from "@/lib/admin/roles";
 
 function isLocalAppUrl(): boolean {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
   return /localhost|127\.0\.0\.1/i.test(appUrl);
+}
+
+/**
+ * Secure cookie si la requête est réellement en HTTPS (tunnel Cloudflare, prod),
+ * pas seulement selon NODE_ENV / APP_URL (souvent localhost en démo tunnel).
+ */
+async function cookieSecureFlag(): Promise<boolean> {
+  try {
+    const h = await headers();
+    const xf = (h.get("x-forwarded-proto") || "").split(",")[0].trim().toLowerCase();
+    if (xf === "https") return true;
+    if (xf === "http") return false;
+    const host = (h.get("host") || "").toLowerCase();
+    if (host.includes("localhost") || host.startsWith("127.0.0.1")) return false;
+  } catch {
+    /* hors contexte requête */
+  }
+  if (isLocalAppUrl()) return false;
+  return process.env.NODE_ENV === "production";
 }
 
 /** Lazy secret — ne pas throw au import (sinon `next build` plante sans env Vercel). */
@@ -64,9 +83,10 @@ export async function verifyToken(token: string): Promise<JwtPayload | null> {
 
 export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
+  const secure = await cookieSecureFlag();
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
+    secure,
     sameSite: "lax",
     maxAge: 60 * 60 * 2,
     path: "/",
@@ -75,9 +95,10 @@ export async function setAuthCookie(token: string) {
 
 export async function setRefreshCookie(rawToken: string) {
   const cookieStore = await cookies();
+  const secure = await cookieSecureFlag();
   cookieStore.set(REFRESH_COOKIE, rawToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" && !isLocalAppUrl(),
+    secure,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * REFRESH_DAYS,
     path: "/",
@@ -86,8 +107,10 @@ export async function setRefreshCookie(rawToken: string) {
 
 export async function clearAuthCookie() {
   const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
-  cookieStore.delete(REFRESH_COOKIE);
+  const secure = await cookieSecureFlag();
+  // delete() seul peut laisser un cookie Secure/non-Secure orphelin selon le contexte
+  cookieStore.set(COOKIE_NAME, "", { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 });
+  cookieStore.set(REFRESH_COOKIE, "", { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 });
 }
 
 /** Crée un refresh token DB + cookie. */
@@ -157,12 +180,13 @@ export async function getAuthUser(): Promise<JwtPayload | null> {
   const payload = await verifyToken(token);
   if (!payload) return null;
 
-  // Re-vérifie le rôle en base (révocation / démotion)
+  // Re-vérifie le rôle / actif en base (révocation / démotion / désactivation)
   const user = await prisma.user.findUnique({
     where: { id: payload.userId },
-    select: { id: true, email: true, role: true },
+    select: { id: true, email: true, role: true, active: true },
   });
   if (!user) return null;
+  if (user.active === false) return null;
 
   return { userId: user.id, email: user.email, role: user.role };
 }
@@ -173,10 +197,11 @@ export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {
     throw new Error("UNAUTHORIZED");
   }
   if (requiredRole) {
-    // ADMIN legacy et PROPRIETAIRE passent pour les gates "ADMIN"
-    if (requiredRole === "ADMIN") {
-      if (!roleAtLeast(user.role, "ADMIN")) throw new Error("FORBIDDEN");
-    } else if (requiredRole === "EMPLOYE") {
+    // ADMIN (et alias PROPRIETAIRE) passent pour tout gate staff / inventaire
+    if (isOwnerRole(user.role)) {
+      return user;
+    }
+    if (requiredRole === "EMPLOYEE" || (requiredRole as string) === "EMPLOYE") {
       if (!isStaffRole(user.role)) throw new Error("FORBIDDEN");
     } else if (user.role !== requiredRole && !roleAtLeast(user.role, requiredRole)) {
       throw new Error("FORBIDDEN");
@@ -185,7 +210,7 @@ export async function requireAuth(requiredRole?: Role): Promise<JwtPayload> {
   return user;
 }
 
-/** Accès back-office : EMPLOYE, ADMIN ou PROPRIETAIRE. */
+/** Accès back-office : EMPLOYEE ou ADMIN. */
 export async function requireStaff(): Promise<JwtPayload> {
   const user = await getAuthUser();
   if (!user) throw new Error("UNAUTHORIZED");

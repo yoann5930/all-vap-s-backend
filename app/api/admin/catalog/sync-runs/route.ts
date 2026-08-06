@@ -1,12 +1,12 @@
 import { requireAuth } from "@/lib/jwt";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import prisma from "@/lib/prisma";
-import { ensureGlobalStockLocation } from "@/lib/catalog/stock";
+import { ensureStoreStockLocations } from "@/lib/catalog/stock";
 
 export async function GET() {
   try {
     await requireAuth("ADMIN");
-    await ensureGlobalStockLocation();
+    await ensureStoreStockLocations();
 
     const [locations, runs, unmatchedCount, reviewCount] = await Promise.all([
       prisma.stockLocation.findMany({ where: { active: true }, orderBy: { code: "asc" } }),

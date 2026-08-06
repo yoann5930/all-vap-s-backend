@@ -31,7 +31,7 @@ async function main() {
       passwordHash,
       firstName: "Yoann",
       lastName: "All Vap's",
-      role: "PROPRIETAIRE",
+      role: "ADMIN",
       emailVerified: true,
       mustChangePassword: true,
       twoFactorEnabled: false,
@@ -39,7 +39,7 @@ async function main() {
     },
     update: {
       passwordHash,
-      role: "PROPRIETAIRE",
+      role: "ADMIN",
       emailVerified: true,
       mustChangePassword: true,
       firstName: "Yoann",

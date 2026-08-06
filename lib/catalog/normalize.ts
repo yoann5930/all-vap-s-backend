@@ -45,20 +45,53 @@ export function extractExplicitSpecs(raw: string): {
   };
 }
 
-/** Emplacement de stock officiel unique */
+/** Legacy — inactif, plus d'écriture. Conservé pour migration / historique. */
 export const GLOBAL_STOCK_CODE = "GLOBAL_ALL_VAPS" as const;
-export const GLOBAL_STOCK_NAME = "Stock général All Vap's";
+export const GLOBAL_STOCK_NAME = "Stock général All Vap's (legacy)";
 
-export type StockLocationCode = typeof GLOBAL_STOCK_CODE;
+/** Emplacements boutiques — seules sources écritables */
+export const HAUTMONT_STOCK_CODE = "HAUTMONT" as const;
+export const LE_QUESNOY_STOCK_CODE = "LE_QUESNOY" as const;
 
+export const HAUTMONT_STOCK_NAME = "All Vap's Hautmont";
+export const LE_QUESNOY_STOCK_NAME = "All Vap's Le Quesnoy";
+
+export const STORE_STOCK_CODES = [HAUTMONT_STOCK_CODE, LE_QUESNOY_STOCK_CODE] as const;
+export type StoreStockCode = (typeof STORE_STOCK_CODES)[number];
+export type StockLocationCode = StoreStockCode;
+
+export function isStoreStockCode(value: string): value is StoreStockCode {
+  return value === HAUTMONT_STOCK_CODE || value === LE_QUESNOY_STOCK_CODE;
+}
+
+/** @deprecated utiliser isStoreStockCode */
 export function isStockLocationCode(value: string): value is StockLocationCode {
-  return value === GLOBAL_STOCK_CODE;
+  return isStoreStockCode(value);
+}
+
+export function storeIdToStockCode(storeId: string | null | undefined): StoreStockCode {
+  if (storeId === "le-quesnoy") return LE_QUESNOY_STOCK_CODE;
+  // Défaut documenté : click&collect / livraisons sans boutique → Hautmont
+  return HAUTMONT_STOCK_CODE;
+}
+
+export function stockCodeToStoreId(code: StoreStockCode): "hautmont" | "le-quesnoy" {
+  return code === LE_QUESNOY_STOCK_CODE ? "le-quesnoy" : "hautmont";
+}
+
+export function stockCodeDisplayName(code: StoreStockCode): string {
+  return code === LE_QUESNOY_STOCK_CODE ? LE_QUESNOY_STOCK_NAME : HAUTMONT_STOCK_NAME;
 }
 
 export const STOCK_LOCATION_SEED = [
   {
-    code: GLOBAL_STOCK_CODE,
-    name: GLOBAL_STOCK_NAME,
-    address: null as string | null,
+    code: HAUTMONT_STOCK_CODE,
+    name: HAUTMONT_STOCK_NAME,
+    address: "17 Avenue Marcel Aimé, 59330 Hautmont" as string | null,
+  },
+  {
+    code: LE_QUESNOY_STOCK_CODE,
+    name: LE_QUESNOY_STOCK_NAME,
+    address: "10 Rue Léon Gambetta, 59530 Le Quesnoy" as string | null,
   },
 ];

@@ -32,6 +32,12 @@ function isLocalHost(host: string): boolean {
   return h === "localhost" || h === "127.0.0.1" || h === "::1";
 }
 
+/** Sous-domaine inventaire employés (pas www / apex). */
+function isInventaireHost(host: string): boolean {
+  const h = host.split(":")[0].toLowerCase();
+  return h === "inventaire.allvaps.fr";
+}
+
 function getJwtSecretKey(): Uint8Array | null {
   const secret = (process.env.JWT_SECRET || "").trim();
   if (!secret) return null;
@@ -59,13 +65,18 @@ async function hasOwnerAccess(request: NextRequest): Promise<boolean> {
 
 function applySecurityHeaders(
   response: NextResponse,
+  pathname: string,
   opts?: { localDev?: boolean }
 ): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  const camera =
+    pathname.startsWith("/inventaire") || pathname.startsWith("/admin/inventaire")
+      ? "camera=(self)"
+      : "camera=()";
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(self), geolocation=()"
+    `${camera}, microphone=(), geolocation=()`
   );
 
   // En local : autoriser le Simple Browser / preview IDE (sinon page blanche iframe).
@@ -84,6 +95,7 @@ function applySecurityHeaders(
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
+      "media-src 'self' blob: mediastream:",
       "font-src 'self' data:",
       // blob: requis pour textures GLB (GLTFLoader → ObjectURL) et workers Three.js
       "connect-src 'self' https: blob:",
@@ -102,6 +114,14 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method.toUpperCase();
   const host = request.headers.get("host") || "";
+  const localDev = isLocalHost(host);
+
+  // inventaire.allvaps.fr/ → inventaire (sans toucher www/apex)
+  if (isInventaireHost(host) && (pathname === "/" || pathname === "")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/inventaire";
+    return applySecurityHeaders(NextResponse.rewrite(url), "/inventaire", { localDev });
+  }
 
   // Contournement propriétaire : /?mt_bypass=SECRET → cookie 30 jours
   const bypassSecret = getMaintenanceBypassSecret();
@@ -114,15 +134,17 @@ export async function middleware(request: NextRequest) {
     res.cookies.set(MAINTENANCE_COOKIE, bypassSecret, {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      // Tunnel HTTPS : x-forwarded-proto=https même si NODE_ENV=development
+      secure:
+        request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() === "https" ||
+        process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
-    return applySecurityHeaders(res, { localDev: isLocalHost(host) });
+    return applySecurityHeaders(res, pathname, { localDev });
   }
 
   const ownerAccess = await hasOwnerAccess(request);
-  const localDev = isLocalHost(host);
 
   // /boutique?category=resistances (etc.) → page d'attente (fiable avant le rendu page)
   if (pathname === "/boutique") {
@@ -131,7 +153,7 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = "/catalogue-en-preparation";
       url.search = "";
-      return applySecurityHeaders(NextResponse.redirect(url), { localDev });
+      return applySecurityHeaders(NextResponse.redirect(url), pathname, { localDev });
     }
   }
 
@@ -150,6 +172,7 @@ export async function middleware(request: NextRequest) {
           },
           { status: 503, headers: { "Retry-After": "3600" } }
         ),
+        pathname,
         { localDev }
       );
     }
@@ -161,7 +184,7 @@ export async function middleware(request: NextRequest) {
     const res = NextResponse.redirect(url);
     res.headers.set("Retry-After", "3600");
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    return applySecurityHeaders(res, { localDev });
+    return applySecurityHeaders(res, pathname, { localDev });
   }
 
   if (
@@ -170,15 +193,16 @@ export async function middleware(request: NextRequest) {
     !WEBHOOK_PREFIXES.some((p) => pathname.startsWith(p))
   ) {
     const origin = request.headers.get("origin");
-    if (origin && !isAllowedOrigin(origin)) {
+    if (origin && !isAllowedOrigin(origin, host)) {
       return applySecurityHeaders(
         NextResponse.json({ error: "Origine non autorisée" }, { status: 403 }),
+        pathname,
         { localDev }
       );
     }
   }
 
-  return applySecurityHeaders(NextResponse.next(), { localDev });
+  return applySecurityHeaders(NextResponse.next(), pathname, { localDev });
 }
 
 export const config = {

@@ -34,43 +34,30 @@ yarn-error.log*
 .env.*
 !.env.example
 
+# uploads inventaire (photos locales)
+/public/uploads/inventory/*
+!/public/uploads/inventory/.gitkeep
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 
-# documents commandes PDF (données clients)
-/storage/orders/
-
 # prisma
 prisma/*.db
 prisma/*.db-journal
 
-# rapports sync SumUp (historique horodaté)
-rapports/sumup-sync-20*.json
-rapports/sumup-sync-20*.md
-rapports/sumup-sync-latest.json
-rapports/sumup-sync-latest.md
-
-tmp/
-
-# outbox SumUp (CSV générés — garder README)
-/outbox_sumup/*
-!/outbox_sumup/README.md
-
-# export portable généré (copie du projet — pas une source officielle)
-/ALLVAPS_PORTABLE/
-
-# IDE / agent local
-/.cursor/
-
-# builds / logs export
-portable-build.log
-docs/_validation_m7.log
-/backups/*
-!/backups/.gitkeep
-/inbox_sumup/*
-!/inbox_sumup/README.md
-
+# secrets locaux (identifiants temporaires — jamais committer)
 .local/
+*credentials*.txt
+*credentials*.json
+
+# cache images pour build hash visuel (binaires)
+/data/.visual-image-cache/
+
+# Android inventaire build (APK publié dans public/apps)
+mobile/inventaire-webview/app/build/
+mobile/inventaire-webview/.gradle/
+mobile/inventaire-webview/local.properties
+public/apps/*.apk.idsig

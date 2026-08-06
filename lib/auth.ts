@@ -8,11 +8,7 @@ import {
   clearAuthCookie,
   type JwtPayload,
 } from "@/lib/jwt";
-import {
-  sendAccountConfirmationEmail,
-  sendAccountCreatedEmail,
-  sendAdminNewRegistrationEmail,
-} from "@/lib/email";
+import { sendAccountConfirmationEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import type { Role } from "@prisma/client";
 
@@ -24,7 +20,15 @@ export async function verifyPassword(
   password: string,
   hash: string
 ): Promise<boolean> {
-  return bcrypt.compare(password, hash);
+  if (!password || !hash || typeof hash !== "string" || hash.length < 20) {
+    return false;
+  }
+  try {
+    return await bcrypt.compare(password, hash);
+  } catch {
+    // Hash corrompu / non-bcrypt → traité comme identifiants invalides (pas 500)
+    return false;
+  }
 }
 
 export async function registerUser(data: {
@@ -32,7 +36,6 @@ export async function registerUser(data: {
   password: string;
   firstName?: string;
   lastName?: string;
-  phone?: string;
 }) {
   const existing = await prisma.user.findUnique({
     where: { email: data.email.toLowerCase() },
@@ -50,7 +53,6 @@ export async function registerUser(data: {
       passwordHash,
       firstName: data.firstName,
       lastName: data.lastName,
-      phone: data.phone || null,
       emailVerified: false,
     },
   });
@@ -66,32 +68,13 @@ export async function registerUser(data: {
 
   const confirmUrl = `${getSiteUrl()}/confirmer-compte?token=${confirmToken}`;
   try {
-    await sendAccountCreatedEmail({
-      to: user.email,
-      firstName: user.firstName,
-      customerId: user.id,
-    });
-  } catch {
-    console.error("[auth] welcome email failed");
-  }
-  try {
     await sendAccountConfirmationEmail({
       to: user.email,
       confirmUrl,
       firstName: user.firstName,
-      customerId: user.id,
     });
-  } catch {
-    console.error("[auth] confirmation email failed");
-  }
-  try {
-    await sendAdminNewRegistrationEmail({
-      email: user.email,
-      firstName: user.firstName,
-      customerId: user.id,
-    });
-  } catch {
-    console.error("[auth] admin registration email failed");
+  } catch (err) {
+    console.error("[auth] confirmation email failed:", err);
   }
 
   const payload: JwtPayload = {
@@ -137,26 +120,33 @@ export async function confirmUserEmail(token: string) {
   });
 }
 
-export async function loginUser(
-  email: string,
-  password: string,
-  options?: { totpToken?: string }
-) {
-  const user = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-  });
+export async function loginUser(email: string, password: string) {
+  let user: Awaited<ReturnType<typeof prisma.user.findUnique>>;
+  try {
+    user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+  } catch (err) {
+    console.error("[auth] login DB error (migrations User / Role ?):", err);
+    throw new Error("AUTH_DB_UNAVAILABLE");
+  }
 
   if (!user || !(await verifyPassword(password, user.passwordHash))) {
     throw new Error("INVALID_CREDENTIALS");
   }
 
-  if (user.role === "ADMIN" && user.twoFactorEnabled && user.totpSecret) {
-    if (!options?.totpToken) {
-      throw new Error("2FA_REQUIRED");
-    }
-    const { verifySync } = await import("otplib");
-    const check = await verifySync({ token: options.totpToken, secret: user.totpSecret });
-    if (!check.valid) throw new Error("2FA_INVALID");
+  if (user.active === false) {
+    throw new Error("ACCOUNT_DISABLED");
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
+  } catch (err) {
+    // Ne bloque pas la connexion si lastLoginAt/colonnes inventaire absentes
+    console.error("[auth] lastLoginAt update failed:", err);
   }
 
   const payload: JwtPayload = {
@@ -165,17 +155,31 @@ export async function loginUser(
     role: user.role,
   };
 
-  const token = await signToken(payload);
-  await setAuthCookie(token);
-  await issueRefreshToken(user.id);
+  let token: string;
+  try {
+    token = await signToken(payload);
+  } catch (err) {
+    console.error("[auth] signToken failed:", err);
+    const msg = err instanceof Error ? err.message : "";
+    if (/JWT_SECRET/i.test(msg)) throw new Error("AUTH_MISCONFIGURED");
+    throw new Error("AUTH_SESSION_FAILED");
+  }
 
-  return {
-    user: sanitizeUser(user),
-    token,
-    emailVerified: user.emailVerified,
-    mustChangePassword: user.mustChangePassword,
-    twoFactorEnabled: user.twoFactorEnabled,
-  };
+  try {
+    await setAuthCookie(token);
+  } catch (err) {
+    // Le token reste renvoyé dans le body — le client peut l’utiliser en Bearer
+    console.error("[auth] setAuthCookie failed:", err);
+  }
+
+  try {
+    await issueRefreshToken(user.id);
+  } catch (err) {
+    // Access token seul suffit pour la session 2h — ne pas bloquer le login employés
+    console.error("[auth] issueRefreshToken failed:", err);
+  }
+
+  return { user: sanitizeUser(user), token };
 }
 
 export async function logoutUser() {
@@ -191,8 +195,10 @@ function sanitizeUser(user: {
   phone?: string | null;
   role: Role;
   emailVerified?: boolean;
+  active?: boolean;
   mustChangePassword?: boolean;
-  twoFactorEnabled?: boolean;
+  allowedStores?: string[];
+  lastLoginAt?: Date | null;
   createdAt: Date;
 }) {
   return {
@@ -202,9 +208,11 @@ function sanitizeUser(user: {
     lastName: user.lastName,
     phone: user.phone ?? null,
     role: user.role,
-    emailVerified: user.emailVerified ?? false,
+    emailVerified: user.emailVerified ?? true,
+    active: user.active ?? true,
     mustChangePassword: user.mustChangePassword ?? false,
-    twoFactorEnabled: user.twoFactorEnabled ?? false,
+    allowedStores: user.allowedStores ?? [],
+    lastLoginAt: user.lastLoginAt ?? null,
     createdAt: user.createdAt,
   };
 }

@@ -1,0 +1,25 @@
+# URL inventaire — domaine allvaps.fr (FIGÉ)
+
+## Domaine
+
+**allvaps.fr** — propriétaire All Vap's. DNS OVH. Production Vercel (`www`).
+
+## Adresses inventaire (JAMAIS changer sans OK explicite)
+
+- Accès : https://inventaire.allvaps.fr/acces
+- Inventaire : https://inventaire.allvaps.fr/inventaire
+- Login : https://inventaire.allvaps.fr/login?next=/inventaire
+
+Source : `data/FIXED_TUNNEL_URL.txt`
+
+## DNS requis (OVH)
+
+| Type | Nom | Cible |
+|------|-----|--------|
+| CNAME | `inventaire` | `cname.vercel-dns.com.` |
+
+Puis Vercel → Project → Domains → Add `inventaire.allvaps.fr`.
+
+## Application Android
+
+Bouton inventaire → `/apps/AllVaps-Inventaire.apk` (START_URL = inventaire.allvaps.fr).
