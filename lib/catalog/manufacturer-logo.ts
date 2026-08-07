@@ -1,5 +1,5 @@
 /**
- * URLs logos fabricants — safe client + server (pas de node:fs).
+ * URLs logos / bannières fabricants — safe client + server (pas de node:fs).
  * Le composant Image gère l'absence via onError / fallback texte.
  */
 export function manufacturerLogoCandidates(slug: string): string[] {
@@ -11,8 +11,14 @@ export function manufacturerLogoCandidates(slug: string): string[] {
   ];
 }
 
-/** Première URL candidate (affichage client). */
+/** Première URL candidate logo (affichage client). */
 export function manufacturerLogoUrl(slug: string | null | undefined): string | null {
   if (!slug) return null;
   return manufacturerLogoCandidates(slug)[0] ?? null;
+}
+
+/** Bannière catalogue 16:10 générée par le pipeline SumUp. */
+export function manufacturerBannerUrl(slug: string | null | undefined): string | null {
+  if (!slug) return null;
+  return `/media/manufacturers/${slug}/banner.webp`;
 }

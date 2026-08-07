@@ -1,0 +1,197 @@
+{
+  "generatedAt": "2026-08-07T21:06:55.645Z",
+  "source": "2026-08-03_16-46-54_items-export_MCGR4RXU.csv",
+  "bannerSize": {
+    "width": 1600,
+    "height": 1000
+  },
+  "eliquidesAnalyzed": 1277,
+  "manufacturersDetected": 32,
+  "banners": [
+    {
+      "slug": "e-tasty",
+      "banner": "/media/manufacturers/e-tasty/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "liquidarom",
+      "banner": "/media/manufacturers/liquidarom/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "juice-66",
+      "banner": "/media/manufacturers/juice-66/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "swoke",
+      "banner": "/media/manufacturers/swoke/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "cloud-vapor",
+      "banner": "/media/manufacturers/cloud-vapor/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "maison-fuel",
+      "banner": "/media/manufacturers/maison-fuel/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "protect",
+      "banner": "/media/manufacturers/protect/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "vap-air",
+      "banner": "/media/manufacturers/vap-air/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "alfa",
+      "banner": "/media/manufacturers/alfa/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "t-juice",
+      "banner": "/media/manufacturers/t-juice/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "tribal-force",
+      "banner": "/media/manufacturers/tribal-force/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "fruizee",
+      "banner": "/media/manufacturers/fruizee/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "vape-maker",
+      "banner": "/media/manufacturers/vape-maker/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "aromes-secrets",
+      "banner": "/media/manufacturers/aromes-secrets/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "raneki-liquide",
+      "banner": "/media/manufacturers/raneki-liquide/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "the-fuu",
+      "banner": "/media/manufacturers/the-fuu/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "airmust",
+      "banner": "/media/manufacturers/airmust/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "mexican-cartel",
+      "banner": "/media/manufacturers/mexican-cartel/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "secrets-lab",
+      "banner": "/media/manufacturers/secrets-lab/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "fruity-cool",
+      "banner": "/media/manufacturers/fruity-cool/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "vape-city",
+      "banner": "/media/manufacturers/vape-city/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "liquideo",
+      "banner": "/media/manufacturers/liquideo/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "biarritz-lab",
+      "banner": "/media/manufacturers/biarritz-lab/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "guilab",
+      "banner": "/media/manufacturers/guilab/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "revenge-juices",
+      "banner": "/media/manufacturers/revenge-juices/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "kf-studio",
+      "banner": "/media/manufacturers/kf-studio/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "big-kawa",
+      "banner": "/media/manufacturers/big-kawa/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "yum-ebot",
+      "banner": "/media/manufacturers/yum-ebot/banner.webp",
+      "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "avap",
+      "banner": "/media/manufacturers/avap/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "eliquid-france",
+      "banner": "/media/manufacturers/eliquid-france/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "vape-47",
+      "banner": "/media/manufacturers/vape-47/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "le-maudit",
+      "banner": "/media/manufacturers/le-maudit/banner.webp",
+      "mode": "typography_asset_manquant"
+    }
+  ],
+  "assetManquant": [
+    "maison-fuel",
+    "vap-air",
+    "alfa",
+    "tribal-force",
+    "fruizee",
+    "vape-maker",
+    "mexican-cartel",
+    "secrets-lab",
+    "fruity-cool",
+    "vape-city",
+    "guilab",
+    "revenge-juices",
+    "kf-studio",
+    "big-kawa",
+    "yum-ebot",
+    "le-maudit"
+  ],
+  "aValider": [],
+  "duplicates": [],
+  "productsWithoutManufacturer": 646,
+  "missingBannersAfter": [],
+  "orphanBanners": [],
+  "dbUpserted": 32,
+  "pipeline": "Produits SumUp → détection fabricant → normalisation → bannière → catalogue"
+}

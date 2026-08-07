@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ManufacturerCatalogCard } from "@/components/catalog/ManufacturerCatalogCard";
-import { manufacturerLogoUrlIfExists } from "@/lib/catalog/manufacturer-logo.server";
+import { manufacturerBannerOrLogoIfExists } from "@/lib/catalog/manufacturer-logo.server";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 
@@ -35,8 +35,8 @@ export default async function ELiquidesHubPage() {
     select: { id: true, name: true, slug: true },
   });
 
-  const withLogo = manufacturers.filter((m) => !!manufacturerLogoUrlIfExists(m.slug));
-  const missingLogo = manufacturers.filter((m) => !manufacturerLogoUrlIfExists(m.slug));
+  const withLogo = manufacturers.filter((m) => !!manufacturerBannerOrLogoIfExists(m.slug));
+  const missingLogo = manufacturers.filter((m) => !manufacturerBannerOrLogoIfExists(m.slug));
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
@@ -67,7 +67,11 @@ export default async function ELiquidesHubPage() {
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {withLogo.map((m) => (
               <li key={m.id}>
-                <ManufacturerCatalogCard name={m.name} slug={m.slug} />
+                <ManufacturerCatalogCard
+                  name={m.name}
+                  slug={m.slug}
+                  imageSrc={manufacturerBannerOrLogoIfExists(m.slug)}
+                />
               </li>
             ))}
           </ul>
