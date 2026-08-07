@@ -4,7 +4,10 @@
  */
 import prisma from "@/lib/prisma";
 
-export type BarcodeBackfillSource = "sumup_item_id" | "variant_unique";
+export type BarcodeBackfillSource =
+  | "sumup_item_id"
+  | "variant_unique"
+  | "sumup_unique_name";
 
 export type BarcodeBackfillPlan = {
   productId: string;
@@ -14,6 +17,16 @@ export type BarcodeBackfillPlan = {
   barcode: string;
   source: BarcodeBackfillSource;
 };
+
+function normName(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
 
 export type BarcodeBackfillResult = {
   apply: boolean;
@@ -26,6 +39,7 @@ export type BarcodeBackfillResult = {
   stillMissingEstimate: number;
   samplePlans: BarcodeBackfillPlan[];
   sampleSkipped: Array<{ productId: string; name: string; reason: string }>;
+  sampleEmptyNames: string[];
 };
 
 export function normalizeEan(raw: string | null | undefined): string | null {
@@ -38,6 +52,8 @@ export function normalizeEan(raw: string | null | undefined): string | null {
 export async function runProductBarcodeBackfill(opts: {
   apply: boolean;
   sumupItemBarcodes: Record<string, string>;
+  /** Optionnel : Item name SumUp → EAN (uniquement si le nom n’a qu’un seul EAN). */
+  sumupNameBarcodes?: Record<string, string>;
 }): Promise<BarcodeBackfillResult> {
   const byItemId = new Map<string, string>();
   const eanOwners = new Map<string, Set<string>>();
@@ -54,6 +70,19 @@ export async function runProductBarcodeBackfill(opts: {
   const ambiguousEans = new Set(
     [...eanOwners.entries()].filter(([, ids]) => ids.size > 1).map(([ean]) => ean)
   );
+
+  const byUniqueName = new Map<string, string>();
+  for (const [rawName, rawEan] of Object.entries(opts.sumupNameBarcodes || {})) {
+    const name = normName(rawName);
+    const ean = normalizeEan(rawEan);
+    if (!name || !ean) continue;
+    const existing = byUniqueName.get(name);
+    if (existing && existing !== ean) {
+      byUniqueName.delete(name);
+      continue;
+    }
+    byUniqueName.set(name, ean);
+  }
 
   const products = await prisma.product.findMany({
     select: {
@@ -152,6 +181,36 @@ export async function runProductBarcodeBackfill(opts: {
     occupied.set(ean, p.id);
   }
 
+  // Tier C — nom SumUp exact unique (jamais si ambigu / clash)
+  for (const p of products) {
+    if (normalizeEan(p.barcode)) continue;
+    if (plans.some((x) => x.productId === p.id)) continue;
+    const ean = byUniqueName.get(normName(p.name));
+    if (!ean) continue;
+    if (ambiguousEans.has(ean)) {
+      skipped.push({ productId: p.id, name: p.name, reason: `ean_nom_ambigu:${ean}` });
+      continue;
+    }
+    const owner = occupied.get(ean);
+    if (owner && owner !== p.id) {
+      skipped.push({
+        productId: p.id,
+        name: p.name,
+        reason: `ean_nom_clash:${owner}:${ean}`,
+      });
+      continue;
+    }
+    plans.push({
+      productId: p.id,
+      name: p.name,
+      sku: p.sku,
+      sumupProductId: p.sumupProductId,
+      barcode: ean,
+      source: "sumup_unique_name",
+    });
+    occupied.set(ean, p.id);
+  }
+
   let applied = 0;
   if (opts.apply && plans.length) {
     for (const plan of plans) {
@@ -187,11 +246,17 @@ export async function runProductBarcodeBackfill(opts: {
     bySource: {
       sumup_item_id: plans.filter((p) => p.source === "sumup_item_id").length,
       variant_unique: plans.filter((p) => p.source === "variant_unique").length,
+      sumup_unique_name: plans.filter((p) => p.source === "sumup_unique_name")
+        .length,
     },
     applied,
     skipped: skipped.length,
     stillMissingEstimate,
     samplePlans: plans.slice(0, 40),
     sampleSkipped: skipped.slice(0, 40),
+    sampleEmptyNames: products
+      .filter((p) => !normalizeEan(p.barcode) && !plans.some((x) => x.productId === p.id))
+      .slice(0, 20)
+      .map((p) => p.name),
   };
 }

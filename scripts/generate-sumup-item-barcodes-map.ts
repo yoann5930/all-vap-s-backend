@@ -1,5 +1,6 @@
 /**
  * Génère data/catalog/sumup-item-barcodes.json depuis le CSV SumUp inbox.
+ * Inclut map Item id → EAN et nameMap (noms uniques → EAN uniquement).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -61,12 +62,39 @@ function normalizeEan(raw: string): string | null {
   return digits;
 }
 
+function normName(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
 const rows = parseCsv(fs.readFileSync(CSV, "utf8"));
 const map: Record<string, string> = {};
+const nameEans = new Map<string, Set<string>>();
+const nameOriginal = new Map<string, string>();
+
 for (const r of rows) {
   const id = (r["Item id (Do not change)"] || "").trim();
   const ean = normalizeEan(r["Barcode"] || "");
+  const nameRaw = (r["Item name"] || r["Name"] || "").trim();
   if (id && ean) map[id] = ean;
+  if (nameRaw && ean) {
+    const key = normName(nameRaw);
+    if (!key) continue;
+    if (!nameEans.has(key)) nameEans.set(key, new Set());
+    nameEans.get(key)!.add(ean);
+    if (!nameOriginal.has(key)) nameOriginal.set(key, nameRaw);
+  }
+}
+
+const nameMap: Record<string, string> = {};
+for (const [key, eans] of nameEans) {
+  if (eans.size !== 1) continue;
+  nameMap[nameOriginal.get(key) || key] = [...eans][0]!;
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
@@ -77,11 +105,19 @@ fs.writeFileSync(
       generatedAt: new Date().toISOString(),
       source: path.basename(CSV),
       count: Object.keys(map).length,
+      nameCount: Object.keys(nameMap).length,
       map,
+      nameMap,
     },
     null,
     0
   ),
   "utf8"
 );
-console.log(JSON.stringify({ out: OUT, count: Object.keys(map).length }));
+console.log(
+  JSON.stringify({
+    out: OUT,
+    count: Object.keys(map).length,
+    nameCount: Object.keys(nameMap).length,
+  })
+);

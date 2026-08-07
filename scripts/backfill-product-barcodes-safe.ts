@@ -74,12 +74,21 @@ function normalizeEan(raw: string | null | undefined): string | null {
   return digits;
 }
 
-function loadMap(): Record<string, string> {
+function loadMaps(): {
+  sumupItemBarcodes: Record<string, string>;
+  sumupNameBarcodes: Record<string, string>;
+} {
   if (fs.existsSync(MAP_JSON)) {
     const j = JSON.parse(fs.readFileSync(MAP_JSON, "utf8")) as {
       map?: Record<string, string>;
+      nameMap?: Record<string, string>;
     };
-    if (j.map && Object.keys(j.map).length) return j.map;
+    if (j.map && Object.keys(j.map).length) {
+      return {
+        sumupItemBarcodes: j.map,
+        sumupNameBarcodes: j.nameMap || {},
+      };
+    }
   }
   if (!fs.existsSync(CSV_PATH)) {
     throw new Error(`Ni map JSON ni CSV: ${MAP_JSON} / ${CSV_PATH}`);
@@ -90,20 +99,22 @@ function loadMap(): Record<string, string> {
     const ean = normalizeEan(r["Barcode"] || "");
     if (id && ean) map[id] = ean;
   }
-  return map;
+  return { sumupItemBarcodes: map, sumupNameBarcodes: {} };
 }
 
 async function main() {
-  const sumupItemBarcodes = loadMap();
+  const { sumupItemBarcodes, sumupNameBarcodes } = loadMaps();
   const result = await runProductBarcodeBackfill({
     apply: APPLY,
     sumupItemBarcodes,
+    sumupNameBarcodes,
   });
 
   const report = {
     generatedAt: new Date().toISOString(),
     csvOrMap: fs.existsSync(MAP_JSON) ? MAP_JSON : CSV_PATH,
     mapCount: Object.keys(sumupItemBarcodes).length,
+    nameMapCount: Object.keys(sumupNameBarcodes).length,
     ...result,
   };
   fs.mkdirSync(path.dirname(REPORT), { recursive: true });

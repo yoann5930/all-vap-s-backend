@@ -49,17 +49,23 @@ export async function POST(request: NextRequest) {
     }
 
     const body = bodySchema.parse(await request.json().catch(() => ({})));
-    const sumupItemBarcodes =
-      (mapJson as { map?: Record<string, string> }).map || {};
+    const payload = mapJson as {
+      map?: Record<string, string>;
+      nameMap?: Record<string, string>;
+    };
+    const sumupItemBarcodes = payload.map || {};
+    const sumupNameBarcodes = payload.nameMap || {};
 
     const result = await runProductBarcodeBackfill({
       apply: body.apply === true,
       sumupItemBarcodes,
+      sumupNameBarcodes,
     });
 
     return NextResponse.json({
       ok: true,
       mapCount: Object.keys(sumupItemBarcodes).length,
+      nameMapCount: Object.keys(sumupNameBarcodes).length,
       ...result,
     });
   } catch (error) {
