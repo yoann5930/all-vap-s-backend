@@ -134,6 +134,29 @@ function Ensure-FidelatooApp {
 }
 
 Write-Log "=== ensure stack Fidelatoo ==="
+
+# Anti-veille: plan Windows (veille/hibernation OFF) a chaque ensure
+$preventSleep = Join-Path $svcRoot "scripts\prevent-sleep-fidelatoo.ps1"
+if (Test-Path $preventSleep) {
+  try {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $preventSleep -ConfigureOnly | Out-Null
+    Write-Log "Anti-veille: plan applique"
+  } catch {
+    Write-Log "WARN anti-veille configure"
+  }
+  # Lance le garde keep-awake s'il n'existe pas deja
+  $awake = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction SilentlyContinue |
+    Where-Object { $_.CommandLine -and $_.CommandLine -like "*prevent-sleep-fidelatoo.ps1*" -and $_.CommandLine -notlike "*-ConfigureOnly*" }
+  if (-not $awake) {
+    Start-Process -FilePath "powershell.exe" `
+      -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", $preventSleep) `
+      -WindowStyle Hidden | Out-Null
+    Write-Log "Anti-veille: processus keep-awake demarre"
+  } else {
+    Write-Log "Anti-veille: keep-awake deja actif"
+  }
+}
+
 Ensure-Orchestrator
 Ensure-Avd
 Ensure-Caddy
