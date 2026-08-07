@@ -24,7 +24,10 @@ async function main() {
   for (const def of INVENTORY_STAFF) {
     const passwordHash = STAFF_PASSWORD_HASHES[def.email];
     if (!passwordHash) {
-      throw new Error(`[staff-ci] hash manquant pour ${def.email}`);
+      console.warn(
+        `[staff-ci] hash manquant pour ${def.email} — skip création (sync API / seed manuel)`
+      );
+      continue;
     }
 
     const existing = await prisma.user.findUnique({ where: { email: def.email } });
