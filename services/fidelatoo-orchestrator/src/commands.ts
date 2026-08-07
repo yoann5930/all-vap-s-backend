@@ -7,12 +7,23 @@ import {
   type StoreCode,
 } from "./state.js";
 import {
+  isAppInForeground,
+  isPackageInstalled,
+  killEmulator,
   listDevices,
   onlineDevice,
   screencapPngBase64,
   startActivity,
   tryStartAvd,
 } from "./adb.js";
+import {
+  agentPublicStatus,
+  observeScreen,
+  recoverEnvironment,
+  runAutonomousQrScenario,
+} from "./agent.js";
+import { appendJournal, getAgent, readJournal, saveAgent } from "./journal.js";
+import { applyIdentityToRuntime, loadIdentity, syncIdentityFromDevice } from "./identity.js";
 
 const ALLOWED = new Set([
   "vm.start",
@@ -32,6 +43,11 @@ const ALLOWED = new Set([
   "ava.recover",
   "ava.authorize_store",
   "ava.revoke_store",
+  "ava.observe",
+  "ava.autonomous_qr",
+  "ava.agent_status",
+  "ava.journal",
+  "ava.sync_identity",
   "status",
 ]);
 
@@ -40,7 +56,7 @@ function avaEmail(): string {
 }
 
 function packageName(): string {
-  return (process.env.FIDELATOO_ANDROID_PACKAGE || "com.fidelatoo.pro").trim();
+  return (process.env.FIDELATOO_ANDROID_PACKAGE || "fr.squirrel.fidelatoopro").trim();
 }
 
 function qrTtlSec(): number {
@@ -54,6 +70,15 @@ function refreshVmFromAdb(): void {
   if (online) {
     s.vm = "online";
     s.lastError = null;
+    const pkg = packageName();
+    if (!isPackageInstalled(pkg, online.id)) {
+      s.app = "unknown";
+      s.lastError = `Fidelatoo non installé (${pkg})`;
+    } else if (isAppInForeground(pkg, online.id)) {
+      s.app = "open";
+    } else if (s.app !== "open") {
+      s.app = "installed";
+    }
   } else if (devices.some((d) => d.state === "offline" || d.state === "unauthorized")) {
     s.vm = "error";
     s.lastError = "Appareil ADB offline/unauthorized";
@@ -75,6 +100,9 @@ export function runCommand(
   qrImageBase64?: string | null;
   qrMime?: string | null;
   qrExpiresAt?: string | null;
+  agent?: Record<string, unknown>;
+  journal?: unknown[];
+  identity?: Record<string, unknown>;
 } {
   const actionId = extras?.actionId || `local-${Date.now()}`;
   if (!ALLOWED.has(command)) {
@@ -89,6 +117,8 @@ export function runCommand(
 
   const s = getState();
   refreshVmFromAdb();
+  // Toujours exposer l'identité persistée (source Fidelatoo) si déjà sync
+  applyIdentityToRuntime(loadIdentity());
 
   switch (command) {
     case "status":
@@ -98,6 +128,7 @@ export function runCommand(
         command,
         message: "OK",
         status: snapshot(avaEmail()),
+        identity: loadIdentity() as unknown as Record<string, unknown>,
       };
 
     case "vm.start": {
@@ -136,20 +167,28 @@ export function runCommand(
         touch();
         return { ok: false, actionId, command, message: started.message, status: snapshot(avaEmail()) };
       }
-      // Attente courte — ne pas inventer "online" sans device
-      const after = onlineDevice();
-      if (after) {
-        s.vm = "online";
-        s.lastError = null;
-        touch();
-        return {
-          ok: true,
-          actionId,
-          command,
-          message: `VM en ligne (${after.id})`,
-          status: snapshot(avaEmail()),
-        };
+      // Attente boot réelle (jusqu'à ~90s) — ne pas inventer "online"
+      const bootDeadline = Date.now() + 90_000;
+      while (Date.now() < bootDeadline) {
+        const after = onlineDevice();
+        if (after) {
+          s.vm = "online";
+          s.lastError = null;
+          touch();
+          return {
+            ok: true,
+            actionId,
+            command,
+            message: `VM en ligne (${after.id})`,
+            status: snapshot(avaEmail()),
+          };
+        }
+        const pauseUntil = Date.now() + 2000;
+        while (Date.now() < pauseUntil) {
+          /* wait boot */
+        }
       }
+      s.vm = "starting";
       s.lastError = "AVD lancé, device pas encore prêt — réessayez status dans quelques secondes";
       touch();
       return {
@@ -162,29 +201,63 @@ export function runCommand(
     }
 
     case "vm.stop": {
-      // Pas d'arrêt forcé destructif par défaut — signaler l'état réel
       const online = onlineDevice();
       if (!online) {
         s.vm = "stopped";
         s.app = "closed";
+        s.lastError = null;
         touch();
-        return { ok: true, actionId, command, message: "Aucun device — considéré arrêté", status: snapshot(avaEmail()) };
+        return {
+          ok: true,
+          actionId,
+          command,
+          message: "Aucun device — considéré arrêté",
+          status: snapshot(avaEmail()),
+        };
       }
-      s.lastError = "Arrêt VM non automatique (sécurité). Éteignez l'émulateur manuellement si besoin.";
+      const killed = killEmulator(online.id);
+      if (!killed.ok) {
+        s.lastError = killed.message;
+        touch();
+        return {
+          ok: false,
+          actionId,
+          command,
+          message: killed.message,
+          status: snapshot(avaEmail()),
+        };
+      }
+      s.vm = "stopped";
+      s.app = "closed";
+      s.lastError = null;
       touch();
       return {
-        ok: false,
+        ok: true,
         actionId,
         command,
-        message: s.lastError,
+        message: killed.message,
         status: snapshot(avaEmail()),
       };
     }
 
     case "vm.restart": {
-      const stop = runCommand("vm.stop", { actionId });
-      if (!stop.ok && onlineDevice()) {
-        return stop;
+      const before = onlineDevice();
+      if (before) {
+        const stop = killEmulator(before.id);
+        if (!stop.ok) {
+          s.lastError = stop.message;
+          touch();
+          return {
+            ok: false,
+            actionId,
+            command,
+            message: stop.message,
+            status: snapshot(avaEmail()),
+          };
+        }
+        s.vm = "stopped";
+        s.app = "closed";
+        touch();
       }
       return runCommand("vm.start", { actionId });
     }
@@ -242,15 +315,34 @@ export function runCommand(
           status: snapshot(avaEmail()),
         };
       }
+      const device = onlineDevice();
+      if (!device) {
+        return {
+          ok: false,
+          actionId,
+          command,
+          message: "Device hors ligne",
+          status: snapshot(avaEmail()),
+        };
+      }
+      // A.V.A. pilote l'ouverture de Fidelatoo Commerçant elle-même
+      const opened = startActivity(packageName(), device.id);
+      if (!opened.ok) {
+        s.lastError = opened.message;
+        touch();
+        return { ok: false, actionId, command, message: opened.message, status: snapshot(avaEmail()) };
+      }
+      s.app = "open";
       s.ava = "registration_in_progress";
       s.role = "none";
+      s.lastError = null;
       clearQr();
       touch();
       return {
         ok: true,
         actionId,
         command,
-        message: `Inscription préparée pour ${avaEmail()} — parcours « rejoindre un commerce existant » sur l'appareil`,
+        message: `A.V.A. a ouvert Fidelatoo — inscription ${avaEmail()} (rejoindre un commerce existant)`,
         status: snapshot(avaEmail()),
       };
     }
@@ -315,15 +407,18 @@ export function runCommand(
     }
 
     case "ava.verify_role": {
-      const ok = s.role === "collaboratrice";
+      // Re-sync depuis la VM avant de conclure (même source que Admin Fidelatoo)
+      const synced = syncIdentityFromDevice(actionId);
+      const ok = getState().role === "collaboratrice";
       return {
         ok,
         actionId,
         command,
         message: ok
-          ? `Collaboratrice OK · boutiques: ${s.stores.join(", ") || "aucune"}`
-          : "Rôle Collaboratrice non confirmé",
+          ? `Collaboratrice OK · boutiques: ${getState().stores.join(", ") || synced.identity.businessName || "aucune"} · perms: ${synced.identity.permissions.join(", ") || "n/a"}`
+          : synced.message || "Rôle Collaboratrice non confirmé",
         status: snapshot(avaEmail()),
+        identity: synced.identity as unknown as Record<string, unknown>,
       };
     }
 
@@ -357,6 +452,14 @@ export function runCommand(
 
     case "ava.suspend":
       s.ava = "suspended";
+      saveAgent({ suspended: true, nextAction: null, lastAction: "suspend" });
+      appendJournal({
+        actionId,
+        mode: "admin",
+        action: "suspend",
+        why: "Suspension admin",
+        result: "ok",
+      });
       touch();
       return { ok: true, actionId, command, message: "A.V.A. suspendue", status: snapshot(avaEmail()) };
 
@@ -365,21 +468,120 @@ export function runCommand(
       s.role = "none";
       s.stores = [];
       clearQr();
+      saveAgent({ suspended: true, lastAction: "revoke", nextAction: null });
+      appendJournal({
+        actionId,
+        mode: "admin",
+        action: "revoke",
+        why: "Révocation sessions/droits",
+        result: "ok",
+      });
       touch();
       return { ok: true, actionId, command, message: "Accès A.V.A. révoqué", status: snapshot(avaEmail()) };
 
-    case "ava.recover":
-      s.ava = "not_configured";
-      s.role = "none";
-      clearQr();
+    case "ava.recover": {
+      // Reprendre = lever suspension + relancer app si possible
+      saveAgent({ suspended: false, lastAction: "recover" });
+      const recovered = recoverEnvironment(actionId);
+      s.ava = recovered.ok ? "registration_in_progress" : s.ava;
+      if (recovered.ok) s.role = "none";
       touch();
+      return {
+        ok: recovered.ok,
+        actionId,
+        command,
+        message: recovered.message,
+        status: snapshot(avaEmail()),
+      };
+    }
+
+    case "ava.observe": {
+      if (getAgent().suspended) {
+        return {
+          ok: false,
+          actionId,
+          command,
+          message: "A.V.A. suspendue",
+          status: snapshot(avaEmail()),
+        };
+      }
+      const obs = observeScreen(actionId, "admin");
+      return {
+        ok: obs.ok,
+        actionId,
+        command,
+        message: obs.message,
+        status: snapshot(avaEmail()),
+      };
+    }
+
+    case "ava.autonomous_qr": {
+      if (getAgent().suspended) {
+        return {
+          ok: false,
+          actionId,
+          command,
+          message: "A.V.A. suspendue",
+          status: snapshot(avaEmail()),
+        };
+      }
+      const run = runAutonomousQrScenario(actionId);
+      return {
+        ok: run.ok,
+        actionId,
+        command,
+        message: run.message,
+        status: snapshot(avaEmail()),
+        qrImageBase64: run.qrImageBase64,
+        qrMime: run.qrMime,
+        qrExpiresAt: run.qrExpiresAt,
+      };
+    }
+
+    case "ava.agent_status": {
+      const agent = agentPublicStatus();
       return {
         ok: true,
         actionId,
         command,
-        message: "Récupération sécurisée lancée — reprendre l'inscription sur l'appareil",
+        message: agent.suspended ? "SUSPENDED" : agent.online ? "ONLINE" : "OFFLINE",
         status: snapshot(avaEmail()),
+        agent: agent as unknown as Record<string, unknown>,
       };
+    }
+
+    case "ava.journal": {
+      const entries = readJournal(50);
+      return {
+        ok: true,
+        actionId,
+        command,
+        message: `${entries.length} entrées`,
+        status: snapshot(avaEmail()),
+        journal: entries,
+      };
+    }
+
+    case "ava.sync_identity": {
+      if (getAgent().suspended) {
+        return {
+          ok: false,
+          actionId,
+          command,
+          message: "A.V.A. suspendue",
+          status: snapshot(avaEmail()),
+        };
+      }
+      const synced = syncIdentityFromDevice(actionId);
+      return {
+        ok: synced.ok,
+        actionId,
+        command,
+        message: synced.message,
+        status: snapshot(avaEmail()),
+        identity: synced.identity as unknown as Record<string, unknown>,
+      };
+    }
 
     case "ava.authorize_store":
     case "ava.revoke_store": {

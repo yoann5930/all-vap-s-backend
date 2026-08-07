@@ -4,6 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { assertRequestAuth } from "./auth.js";
 import { healthPayload, runCommand } from "./commands.js";
+import { applyIdentityToRuntime, loadIdentity } from "./identity.js";
+import { onlineDevice, isAppInForeground, startActivity, tryStartAvd } from "./adb.js";
+import { saveAgent } from "./journal.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -132,6 +135,44 @@ const server = createServer(async (req, res) => {
   return sendJson(res, 404, { ok: false, message: "Not found" });
 });
 
+
+// Restaure l'identité collaboratrice persistée (source Fidelatoo) au démarrage
+try {
+  applyIdentityToRuntime(loadIdentity());
+  console.log("[orchestrator] identity loaded role=" + loadIdentity().role);
+} catch (e) {
+  console.log("[orchestrator] identity load skipped");
+}
+
+// Watchdog léger gratuit : device + app Fidelatoo + relance AVD si plantée
+const pkgWatch = () => (process.env.FIDELATOO_ANDROID_PACKAGE || "fr.squirrel.fidelatoopro").trim();
+let lastWatchdogStartAt = 0;
+setInterval(() => {
+  try {
+    const d = onlineDevice();
+    if (!d) {
+      saveAgent({ online: false, currentApp: null, lastError: "watchdog: device offline" });
+      const avd = (process.env.ANDROID_AVD_NAME || "").trim();
+      const now = Date.now();
+      // Anti-spam : une tentative de relance max toutes les 2 minutes
+      if (avd && now - lastWatchdogStartAt > 120_000) {
+        lastWatchdogStartAt = now;
+        const started = tryStartAvd(avd);
+        saveAgent({
+          lastAction: "watchdog.vm.start",
+          lastError: started.ok ? null : started.message,
+          nextAction: started.ok ? "wait_boot" : "retry_later",
+        });
+      }
+      return;
+    }
+    const pkg = pkgWatch();
+    const fg = isAppInForeground(pkg, d.id);
+    saveAgent({ online: true, currentApp: fg ? pkg : null, lastError: null });
+  } catch {
+    /* ignore */
+  }
+}, 30_000);
 server.listen(port, host, () => {
   console.log(
     `[orchestrator] listening http://${host}:${port} mock=false health=/health command=/v1/command`

@@ -53,7 +53,7 @@ export function avaTone(status: string): keyof typeof tones {
 export const VM_LABELS: Record<string, string> = {
   online: "En ligne",
   stopped: "Arrêtée",
-  starting: "Démarrage",
+  starting: "En cours de démarrage",
   error: "Erreur",
 };
 

@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 
 function adbBin(): string {
   return (process.env.ADB_PATH || "adb").trim() || "adb";
@@ -61,7 +61,27 @@ export function screencapPngBase64(serial?: string): { ok: true; base64: string 
   return { ok: true, base64: (r.stdout as Buffer).toString("base64") };
 }
 
+export function isPackageInstalled(packageName: string, serial?: string): boolean {
+  const args = [...(serial ? ["-s", serial] : []), "shell", "pm", "path", packageName];
+  const r = adb(args);
+  return r.ok && /package:/.test(r.stdout);
+}
+
+export function isAppInForeground(packageName: string, serial?: string): boolean {
+  const args = [...(serial ? ["-s", serial] : []), "shell", "dumpsys", "window"];
+  const r = adb(args, 12_000);
+  if (!r.ok) return false;
+  const focus = r.stdout.match(/mCurrentFocus=Window\{[^ ]+ u0 ([^\s}/]+)/);
+  return !!focus && focus[1] === packageName;
+}
+
 export function startActivity(packageName: string, serial?: string): { ok: boolean; message: string } {
+  if (!isPackageInstalled(packageName, serial)) {
+    return {
+      ok: false,
+      message: `Application absente sur le device (${packageName}). Installez Fidelatoo Commerçant.`,
+    };
+  }
   const args = [
     ...(serial ? ["-s", serial] : []),
     "shell",
@@ -85,16 +105,71 @@ export function tryStartAvd(avdName: string): { ok: boolean; message: string } {
     (process.env.ANDROID_HOME
       ? `${process.env.ANDROID_HOME}\\emulator\\emulator.exe`
       : "emulator");
-  const child = spawnSync(emulator, ["-avd", avdName, "-no-snapshot-load"], {
-    encoding: "utf8",
-    timeout: 5_000,
-    windowsHide: true,
-    detached: true,
-    stdio: "ignore",
-  });
-  // detached start often returns quickly / null status
-  if (child.error) {
-    return { ok: false, message: `Émulateur: ${child.error.message}` };
+  const snapshot = (process.env.ANDROID_AVD_SNAPSHOT || "stable").trim();
+  const skin = (process.env.ANDROID_AVD_SKIN || "720x1280").trim();
+  // Snapshot rapide si dispo ; fenêtre masquée (pilotage arrière-plan).
+  const args = [
+    "-avd",
+    avdName,
+    "-skin",
+    skin,
+    "-gpu",
+    "auto",
+    "-netdelay",
+    "none",
+    "-netspeed",
+    "full",
+    ...(snapshot ? ["-snapshot", snapshot] : ["-no-snapshot-load"]),
+  ];
+  try {
+    const child = spawn(emulator, args, {
+      detached: true,
+      stdio: "ignore",
+      windowsHide: true,
+    });
+    child.unref();
+    return {
+      ok: true,
+      message: `Démarrage AVD demandé: ${avdName}${snapshot ? ` (snapshot ${snapshot})` : ""}`,
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      message: `Émulateur: ${err instanceof Error ? err.message : "échec démarrage"}`,
+    };
   }
-  return { ok: true, message: `Démarrage AVD demandé: ${avdName}` };
+}
+
+/** Arrêt AVD uniquement (jamais un téléphone physique). */
+export function killEmulator(serial?: string): { ok: boolean; message: string } {
+  const id = serial || onlineDevice()?.id;
+  if (!id) {
+    return { ok: true, message: "Aucun device — déjà arrêté" };
+  }
+  if (!/^emulator-/i.test(id)) {
+    return {
+      ok: false,
+      message: `Arrêt refusé: ${id} n'est pas un émulateur AVD`,
+    };
+  }
+  adb(["-s", id, "emu", "kill"], 15_000);
+  const deadline = Date.now() + 20_000;
+  while (Date.now() < deadline) {
+    const still = listDevices().find((d) => d.id === id);
+    if (!still || still.state === "disconnected") {
+      return { ok: true, message: `Émulateur arrêté (${id})` };
+    }
+    const pauseUntil = Date.now() + 400;
+    while (Date.now() < pauseUntil) {
+      /* wait ADB */
+    }
+  }
+  const leftover = listDevices().find((d) => d.id === id && d.state === "device");
+  if (!leftover) {
+    return { ok: true, message: `Émulateur arrêté (${id})` };
+  }
+  return {
+    ok: false,
+    message: `Émulateur encore présent (${id}) après emu kill`,
+  };
 }

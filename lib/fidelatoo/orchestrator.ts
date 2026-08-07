@@ -222,6 +222,9 @@ async function sendOrchestratorCommand(
       qrImageBase64?: string | null;
       qrMime?: string | null;
       qrExpiresAt?: string | null;
+      agent?: Record<string, unknown>;
+      journal?: unknown[];
+      identity?: Record<string, unknown>;
     };
 
     if (!res.ok) {
@@ -242,13 +245,21 @@ async function sendOrchestratorCommand(
       qrImageBase64: data.qrImageBase64,
       qrMime: data.qrMime,
       qrExpiresAt: data.qrExpiresAt,
+      agent: data.agent,
+      journal: data.journal,
+      identity: data.identity,
     };
   } catch (err) {
+    const raw = err instanceof Error ? err.message : "Orchestrateur injoignable";
+    const readable =
+      /fetch failed|ECONNREFUSED|ETIMEDOUT|AbortError|timeout|UND_ERR/i.test(raw)
+        ? `Orchestrateur injoignable (${cfg.baseUrl}). Vérifiez Caddy/HTTPS fidelatoo.allvaps.fr et le service local :8787. Détail: ${raw}`
+        : raw;
     return {
       ok: false,
       actionId,
       command,
-      message: err instanceof Error ? err.message : "Orchestrateur injoignable",
+      message: readable,
     };
   }
 }
