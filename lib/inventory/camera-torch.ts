@@ -90,13 +90,20 @@ export async function openInventoryCamera(options?: {
 
   const attempts: MediaStreamConstraints[] = [];
 
+  // Focus continu + résolution élevée dès l’ouverture (réduit le flou EAN)
+  const focusVideoBase = {
+    width: { ideal: width },
+    height: { ideal: height },
+    // @ts-expect-error focusMode non typé dans lib.dom standard
+    focusMode: "continuous",
+  } as MediaTrackConstraints;
+
   for (const deviceId of orderedIds.slice(0, 6)) {
     attempts.push({
       audio: false,
       video: {
+        ...focusVideoBase,
         deviceId: { exact: deviceId },
-        width: { ideal: width },
-        height: { ideal: height },
       },
     });
   }
@@ -105,15 +112,21 @@ export async function openInventoryCamera(options?: {
     {
       audio: false,
       video: {
+        ...focusVideoBase,
         facingMode: { exact: "environment" },
-        width: { ideal: width },
-        height: { ideal: height },
       },
     },
     {
       audio: false,
       video: {
+        ...focusVideoBase,
         facingMode: { ideal: "environment" },
+      },
+    },
+    {
+      audio: false,
+      video: {
+        facingMode: "environment",
         width: { ideal: width },
         height: { ideal: height },
       },
@@ -162,19 +175,79 @@ export async function applyContinuousFocus(
   if (!track) return;
   try {
     const torch = keepTorchOn === true ? true : readTorchSetting(track) === true;
-    if (torch) {
+    const caps = track.getCapabilities?.() as
+      | {
+          focusMode?: string[];
+          pointsOfInterest?: boolean;
+          zoom?: { min: number; max: number };
+        }
+      | undefined;
+
+    const advanced: Record<string, unknown> = {};
+    if (!caps?.focusMode || caps.focusMode.includes("continuous")) {
+      advanced.focusMode = "continuous";
+    } else if (caps.focusMode.includes("single-shot")) {
+      advanced.focusMode = "single-shot";
+    }
+    if (caps?.pointsOfInterest) {
+      // Centre du viseur EAN (bande horizontale)
+      advanced.pointsOfInterest = [{ x: 0.5, y: 0.5 }];
+    }
+    // Léger zoom optique/numérique si dispo — grossit les barres floues
+    if (caps?.zoom && typeof caps.zoom.max === "number" && caps.zoom.max > 1.2) {
+      const min = caps.zoom.min ?? 1;
+      const max = caps.zoom.max;
+      advanced.zoom = Math.min(max, Math.max(min, min + (max - min) * 0.18));
+    }
+    if (torch) advanced.torch = true;
+
+    if (Object.keys(advanced).length > 0) {
       await track.applyConstraints({
-        // @ts-expect-error focusMode + torch
-        advanced: [{ focusMode: "continuous", torch: true }],
-      });
-    } else {
-      await track.applyConstraints({
-        // @ts-expect-error focusMode
-        advanced: [{ focusMode: "continuous" }],
+        // @ts-expect-error advanced focus/zoom/torch
+        advanced: [advanced],
       });
     }
   } catch {
-    /* non supporté */
+    try {
+      const torch = keepTorchOn === true ? true : readTorchSetting(track) === true;
+      if (torch) {
+        await track.applyConstraints({
+          // @ts-expect-error focusMode + torch
+          advanced: [{ focusMode: "continuous", torch: true }],
+        });
+      } else {
+        await track.applyConstraints({
+          // @ts-expect-error focusMode
+          advanced: [{ focusMode: "continuous" }],
+        });
+      }
+    } catch {
+      /* non supporté */
+    }
+  }
+}
+
+/** Relance un focus ponctuel au centre (utile quand l’image reste floue). */
+export async function triggerCenterRefocus(
+  track: MediaStreamTrack | null | undefined,
+  keepTorchOn?: boolean
+): Promise<void> {
+  if (!track) return;
+  try {
+    const torch = keepTorchOn === true ? true : readTorchSetting(track) === true;
+    const advanced: Record<string, unknown> = {
+      focusMode: "single-shot",
+      pointsOfInterest: [{ x: 0.5, y: 0.5 }],
+    };
+    if (torch) advanced.torch = true;
+    await track.applyConstraints({
+      // @ts-expect-error single-shot focus
+      advanced: [advanced],
+    });
+    await new Promise((r) => setTimeout(r, 280));
+    await applyContinuousFocus(track, torch);
+  } catch {
+    await applyContinuousFocus(track, keepTorchOn);
   }
 }
 

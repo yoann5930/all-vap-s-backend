@@ -11,7 +11,13 @@ import {
   detectTorchSupport,
   openInventoryCamera,
   setCameraTorch,
+  triggerCenterRefocus,
 } from "@/lib/inventory/camera-torch";
+import {
+  enhanceBarcodeCanvas,
+  sharpenCanvas,
+  upscaleCanvas2x,
+} from "@/lib/inventory/barcode-image-enhance";
 
 type Props = {
   open: boolean;
@@ -236,12 +242,19 @@ export function BarcodeCameraScanner({
       const vh = video.videoHeight;
       if (vw < 40 || vh < 40) return null;
 
+      // Bandes centrées (EAN horizontaux) + frame entière en secours
       const crops = [
         {
-          sx: Math.floor(vw * 0.04),
-          sy: Math.floor(vh * 0.3),
-          cw: Math.floor(vw * 0.92),
-          ch: Math.floor(vh * 0.4),
+          sx: Math.floor(vw * 0.06),
+          sy: Math.floor(vh * 0.34),
+          cw: Math.floor(vw * 0.88),
+          ch: Math.floor(vh * 0.32),
+        },
+        {
+          sx: Math.floor(vw * 0.1),
+          sy: Math.floor(vh * 0.38),
+          cw: Math.floor(vw * 0.8),
+          ch: Math.floor(vh * 0.24),
         },
         { sx: 0, sy: 0, cw: vw, ch: vh },
       ];
@@ -249,31 +262,50 @@ export function BarcodeCameraScanner({
       const ctx = canvas.getContext("2d", { willReadFrequently: true });
       if (!ctx) return null;
 
-      if (nativeDetector) {
-        try {
-          for (const crop of crops) {
-            canvas.width = crop.cw;
-            canvas.height = crop.ch;
-            ctx.drawImage(video, crop.sx, crop.sy, crop.cw, crop.ch, 0, 0, crop.cw, crop.ch);
-            const codes = await nativeDetector.detect(canvas);
+      const tryDetect = async (source: HTMLCanvasElement): Promise<string | null> => {
+        if (nativeDetector) {
+          try {
+            const codes = await nativeDetector.detect(source);
             const raw = codes[0]?.rawValue?.trim();
             if (raw) return raw;
+          } catch {
+            /* ZXing */
           }
-        } catch {
-          /* continue ZXing */
         }
-      }
+        try {
+          const result = zxingReader.decodeFromCanvas(source);
+          const text = result.getText()?.trim();
+          if (text) return text;
+        } catch {
+          /* pas de code */
+        }
+        return null;
+      };
 
-      try {
-        const crop = crops[0];
+      for (const crop of crops) {
         canvas.width = crop.cw;
         canvas.height = crop.ch;
         ctx.drawImage(video, crop.sx, crop.sy, crop.cw, crop.ch, 0, 0, crop.cw, crop.ch);
-        const result = zxingReader.decodeFromCanvas(canvas);
-        const text = result.getText()?.trim();
-        if (text) return text;
-      } catch {
-        /* pas de code sur cette frame */
+
+        // 1) image brute
+        let hit = await tryDetect(canvas);
+        if (hit) return hit;
+
+        // 2) contraste + niveaux de gris (flou / faible lumière)
+        const enhanced = enhanceBarcodeCanvas(canvas, { contrastBoost: 1.4 });
+        hit = await tryDetect(enhanced);
+        if (hit) return hit;
+
+        // 3) netteté + agrandissement 2× (EAN petits / flous)
+        const sharp = sharpenCanvas(enhanced);
+        const big = upscaleCanvas2x(sharp);
+        hit = await tryDetect(big);
+        if (hit) return hit;
+
+        // 4) inversion (codes imprimés claire-sur-foncé)
+        const inverted = enhanceBarcodeCanvas(canvas, { invert: true, contrastBoost: 1.35 });
+        hit = await tryDetect(upscaleCanvas2x(inverted));
+        if (hit) return hit;
       }
 
       return null;
@@ -373,7 +405,7 @@ export function BarcodeCameraScanner({
           return;
         }
 
-        const stream = await openInventoryCamera({ width: 1280, height: 720 });
+        const stream = await openInventoryCamera({ width: 1920, height: 1080 });
         if (cancelled) {
           stream.getTracks().forEach((t) => t.stop());
           return;
@@ -383,6 +415,10 @@ export function BarcodeCameraScanner({
         const track = stream.getVideoTracks()[0];
         setTorchAvailable(detectTorchSupport(track));
         await applyContinuousFocus(track, false);
+        // Second passage focus après stabilisation du flux (souvent flou au démarrage mobile)
+        window.setTimeout(() => {
+          if (!cancelled) void applyContinuousFocus(track, false);
+        }, 600);
 
         video.srcObject = stream;
         video.setAttribute("playsinline", "true");
@@ -398,8 +434,8 @@ export function BarcodeCameraScanner({
 
         setHint(
           onVisualSampleRef.current
-            ? "Analyse continue — EAN ou produit devant la caméra"
-            : "Détection automatique — cadrez le code dans le rectangle"
+            ? "Analyse continue — tenez stable, code dans le cadre (netteté auto)"
+            : "Cadrez le code — focus + netteté auto (bouton « Netteté » si flou)"
         );
         // Boucle unique (BarcodeDetector natif + ZXing canvas) — pas de 2ᵉ flux caméra
         startFrameLoop();
@@ -423,6 +459,19 @@ export function BarcodeCameraScanner({
       stopAll();
     };
   }, [open]);
+
+  async function refocusSharp() {
+    const stream = streamRef.current;
+    const track = stream?.getVideoTracks()[0];
+    if (!track) {
+      setTorchHint("Caméra non prête — réessayez");
+      return;
+    }
+    setHint("Mise au point… tenez le téléphone stable");
+    await triggerCenterRefocus(track, torchOn);
+    setHint("Prêt — présentez le code-barres dans le cadre");
+    setTorchHint("Focus recentré — rapprochez un peu le code si besoin");
+  }
 
   async function toggleTorch() {
     const stream = streamRef.current;
@@ -513,7 +562,7 @@ export function BarcodeCameraScanner({
           <button
             type="button"
             onClick={() => void toggleTorch()}
-            className={`min-w-[7rem] rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
+            className={`min-w-[5.5rem] rounded-xl px-3 py-2.5 text-sm font-semibold text-white ${
               torchOn ? "bg-amber-500" : "bg-white/15"
             } ${!torchAvailable && !torchOn ? "opacity-80" : ""}`}
             aria-pressed={torchOn}
@@ -523,10 +572,18 @@ export function BarcodeCameraScanner({
           </button>
           <button
             type="button"
+            onClick={() => void refocusSharp()}
+            className="min-w-[5.5rem] rounded-xl bg-sky-600 px-3 py-2.5 text-sm font-semibold text-white"
+            aria-label="Améliorer la netteté et recentrer le focus"
+          >
+            Netteté
+          </button>
+          <button
+            type="button"
             onClick={onClose}
             className="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white"
           >
-            Terminer le scan
+            Terminer
           </button>
         </div>
         {torchHint ? (
@@ -540,7 +597,7 @@ export function BarcodeCameraScanner({
         <p className="bg-black px-4 pb-4 text-center text-xs text-white/75">
           {onVisualSample
             ? "Aucune photo enregistrée — analyse du flux en mémoire (EAN + reconnaissance produit). Saisissez ensuite uniquement la quantité."
-            : "Aucune photo à prendre : présentez chaque code-barres dans le cadre — détection automatique."}
+            : "Aucune photo à prendre : présentez chaque code dans le cadre. Si c’est flou → « Netteté » ou Flash."}
         </p>
       )}
     </div>

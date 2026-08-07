@@ -27,14 +27,30 @@ export async function detectBarcodeFromImageFile(file: File): Promise<string | n
       };
     }).BarcodeDetector;
 
+    const trySources: HTMLCanvasElement[] = [canvas];
+    try {
+      const { enhanceBarcodeCanvas, sharpenCanvas, upscaleCanvas2x } = await import(
+        "@/lib/inventory/barcode-image-enhance"
+      );
+      const enhanced = enhanceBarcodeCanvas(canvas, { contrastBoost: 1.4 });
+      trySources.push(enhanced, upscaleCanvas2x(sharpenCanvas(enhanced)));
+      trySources.push(
+        upscaleCanvas2x(enhanceBarcodeCanvas(canvas, { invert: true, contrastBoost: 1.35 }))
+      );
+    } catch {
+      /* keep raw canvas only */
+    }
+
     if (typeof BD === "function") {
       try {
         const detector = new BD({
           formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128", "code_39", "itf", "qr_code"],
         });
-        const codes = await detector.detect(canvas);
-        const raw = codes[0]?.rawValue?.trim();
-        if (raw) return raw;
+        for (const src of trySources) {
+          const codes = await detector.detect(src);
+          const raw = codes[0]?.rawValue?.trim();
+          if (raw) return raw;
+        }
       } catch {
         /* fallback zxing */
       }
@@ -56,9 +72,15 @@ export async function detectBarcodeFromImageFile(file: File): Promise<string | n
         BarcodeFormat.ITF,
       ]);
       const reader = new BrowserMultiFormatOneDReader(hints);
-      const result = reader.decodeFromCanvas(canvas);
-      const text = result.getText()?.trim();
-      if (text) return text;
+      for (const src of trySources) {
+        try {
+          const result = reader.decodeFromCanvas(src);
+          const text = result.getText()?.trim();
+          if (text) return text;
+        } catch {
+          /* next */
+        }
+      }
     } catch {
       /* aucun code */
     }
