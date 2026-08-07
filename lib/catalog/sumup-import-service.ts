@@ -205,6 +205,13 @@ export async function applySumUpCsvImport(params: {
         if (!params.createUnmatched) continue;
 
         const src = byRow.get(plan.rowIndex);
+        // Ignore les lignes CSV cassées (descriptions multi-lignes) : exiger un id SumUp ou un EAN.
+        const sumupId = (src?.sumupProductId || "").trim();
+        const hasSumupId = /^[0-9a-f-]{16,}$/i.test(sumupId);
+        const hasBarcode = Boolean(plan.barcode && plan.barcode.length >= 8);
+        if (!hasSumupId && !hasBarcode) continue;
+        if (plan.name.length > 120 || /https?:\/\//i.test(plan.name)) continue;
+
         const qty = plan.quantity ?? 0;
         const baseSlug = slugify(plan.name) || `produit-${plan.rowIndex}`;
         let slug = baseSlug;
@@ -220,7 +227,7 @@ export async function applySumUpCsvImport(params: {
             slug,
             sku: plan.sku,
             barcode: plan.barcode,
-            sumupProductId: src?.sumupProductId || null,
+            sumupProductId: hasSumupId ? sumupId : null,
             category: src?.category || "autre",
             brand: src?.brand || null,
             priceCents: src?.priceCents ?? 0,
