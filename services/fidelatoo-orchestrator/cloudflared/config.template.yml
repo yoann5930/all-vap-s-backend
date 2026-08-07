@@ -1,0 +1,16 @@
+# Modèle Cloudflare Tunnel PERMANENT — fidelatoo.allvaps.fr
+# Ne pas committer de credentials.json / tunnel ID réel contenant des secrets.
+#
+# Ingress uniquement vers l'orchestrateur local.
+# Ne concerne PAS www.allvaps.fr.
+
+tunnel: REPLACE_TUNNEL_ID
+credentials-file: REPLACE_CREDENTIALS_FILE_PATH
+
+ingress:
+  - hostname: fidelatoo.allvaps.fr
+    service: http://127.0.0.1:8787
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 30s
+  - service: http_status:404
