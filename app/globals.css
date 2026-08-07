@@ -67,13 +67,81 @@ body {
 }
 
 /**
- * Tableaux admin fond blanc : le body est text-white, donc les cellules
- * sans couleur explicite deviennent illisibles. Forcer noir sur blanc.
+ * Zone admin : le body a color:#fff en inline → tableaux blancs illisibles.
+ * Forcer contraste noir sur blanc pour TOUTE l’admin.
+ */
+.admin-light-surface {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+.admin-light-surface .bg-white,
+.admin-light-surface table,
+.admin-light-surface .av-contrast-table,
+.admin-light-surface .live-scans-table {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+.admin-light-surface th,
+.admin-light-surface td,
+.admin-light-surface a,
+.admin-light-surface p,
+.admin-light-surface span,
+.admin-light-surface li,
+.admin-light-surface label,
+.admin-light-surface input,
+.admin-light-surface select,
+.admin-light-surface textarea,
+.admin-light-surface h1,
+.admin-light-surface h2,
+.admin-light-surface h3 {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+.admin-light-surface thead th {
+  background-color: #f9fafb !important;
+  color: #111827 !important;
+}
+.admin-light-surface tbody tr,
+.admin-light-surface tbody td {
+  background-color: #ffffff !important;
+}
+.admin-light-surface tbody tr:hover td {
+  background-color: #f3f4f6 !important;
+}
+/* Boutons / badges qui doivent rester en texte clair */
+.admin-light-surface .bg-gray-900,
+.admin-light-surface .bg-red-700,
+.admin-light-surface .bg-emerald-600,
+.admin-light-surface .bg-emerald-700,
+.admin-light-surface .bg-black,
+.admin-light-surface .bg-black\/70,
+.admin-light-surface [class*="bg-gray-900"],
+.admin-light-surface [class*="bg-red-7"],
+.admin-light-surface [class*="bg-emerald-6"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.admin-light-surface .text-white {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+/* Badges statut colorés — garder leur teinte dédiée */
+.admin-light-surface .bg-amber-100 { color: #78350f !important; -webkit-text-fill-color: #78350f !important; }
+.admin-light-surface .bg-indigo-100 { color: #312e81 !important; -webkit-text-fill-color: #312e81 !important; }
+.admin-light-surface .bg-sky-100 { color: #0c4a6e !important; -webkit-text-fill-color: #0c4a6e !important; }
+.admin-light-surface .bg-emerald-100 { color: #064e3b !important; -webkit-text-fill-color: #064e3b !important; }
+.admin-light-surface .bg-violet-100 { color: #4c1d95 !important; -webkit-text-fill-color: #4c1d95 !important; }
+.admin-light-surface .bg-red-50 { color: #b91c1c !important; -webkit-text-fill-color: #b91c1c !important; }
+
+/**
+ * Tableaux admin fond blanc : filet de sécurité supplémentaire.
  */
 .av-contrast-table,
 .live-scans-table {
   background: #ffffff !important;
   color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
 .av-contrast-table table,
 .live-scans-table table {
@@ -83,16 +151,22 @@ body {
 .av-contrast-table th,
 .av-contrast-table td,
 .av-contrast-table a,
+.av-contrast-table p,
+.av-contrast-table span,
 .live-scans-table th,
 .live-scans-table td,
-.live-scans-table a {
+.live-scans-table a,
+.live-scans-table p,
+.live-scans-table span {
   color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
   opacity: 1 !important;
 }
 .av-contrast-table thead th,
 .live-scans-table thead th {
   background: #f9fafb !important;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 .av-contrast-table tbody tr,
 .live-scans-table tbody tr {
@@ -106,21 +180,12 @@ body {
 .live-scans-table tbody tr:hover td {
   background: #f3f4f6 !important;
   color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
 .av-contrast-table tbody tr:hover a,
 .live-scans-table tbody tr:hover a {
   color: #000000 !important;
-}
-/* Badges colorés dans les tableaux : conserver leurs couleurs */
-.av-contrast-table .av-badge,
-.av-contrast-table [class*="bg-amber-"],
-.av-contrast-table [class*="bg-indigo-"],
-.av-contrast-table [class*="bg-sky-"],
-.av-contrast-table [class*="bg-emerald-"],
-.av-contrast-table [class*="bg-violet-"],
-.av-contrast-table [class*="bg-gray-200"],
-.av-contrast-table [class*="bg-gray-100"] {
-  /* les classes text-* du badge restent via spécificité égale + ordre */
+  -webkit-text-fill-color: #000000 !important;
 }
 
 /* Discrete vapor — hero / splash */

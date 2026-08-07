@@ -56,7 +56,15 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     (pathname === "/boutiques" || pathname.startsWith("/boutiques/"));
 
   if (maintenancePage || isAdminApp) {
-    return <>{children}</>;
+    // Admin hors chrome boutique : forcer texte noir (body global = blanc inline)
+    return (
+      <div
+        className="admin-light-surface min-h-dvh bg-gray-100 text-black"
+        style={{ color: "#111827", WebkitTextFillColor: "#111827" }}
+      >
+        {children}
+      </div>
+    );
   }
 
   // Accès employé mobile : pas de chrome e-commerce / AVA
