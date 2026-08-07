@@ -111,51 +111,69 @@ export async function POST(request: NextRequest) {
     }
 
     let upserted = 0;
+    const errors: string[] = [];
     for (const p of planned) {
-      await prisma.manufacturer.upsert({
-        where: { slug: p.slug },
-        create: {
-          name: p.name,
-          slug: p.slug,
-          isActive: true,
-          status: p.hasOfficialLogo ? "verifie" : "partiel",
-          sortOrder: 100,
-        },
-        update: {
-          name: p.name,
-          isActive: true,
-          status: p.hasOfficialLogo ? "verifie" : "partiel",
-        },
-      });
-      const mfr = await prisma.manufacturer.findUnique({
-        where: { slug: p.slug },
-      });
-      if (!mfr) continue;
-      await prisma.brand.upsert({
-        where: { slug: p.slug },
-        create: {
-          name: p.name,
-          slug: p.slug,
-          manufacturerId: mfr.id,
-          isActive: true,
-        },
-        update: {
-          name: p.name,
-          manufacturerId: mfr.id,
-          isActive: true,
-        },
-      });
-      upserted += 1;
+      try {
+        await prisma.manufacturer.upsert({
+          where: { slug: p.slug },
+          create: {
+            name: p.name,
+            slug: p.slug,
+            isActive: true,
+            status: p.hasOfficialLogo ? "verifie" : "partiel",
+            sortOrder: 100,
+          },
+          update: {
+            name: p.name,
+            isActive: true,
+            status: p.hasOfficialLogo ? "verifie" : "partiel",
+          },
+        });
+        const mfr = await prisma.manufacturer.findUnique({
+          where: { slug: p.slug },
+          select: { id: true },
+        });
+        if (!mfr) {
+          errors.push(`${p.slug}: manufacturer missing after upsert`);
+          continue;
+        }
+        await prisma.brand.upsert({
+          where: { slug: p.slug },
+          create: {
+            name: p.name,
+            slug: p.slug,
+            manufacturerId: mfr.id,
+            isActive: true,
+            status: p.hasOfficialLogo ? "verifie" : "partiel",
+          },
+          update: {
+            name: p.name,
+            manufacturerId: mfr.id,
+            isActive: true,
+            status: p.hasOfficialLogo ? "verifie" : "partiel",
+          },
+        });
+        upserted += 1;
+      } catch (e) {
+        errors.push(
+          `${p.slug}: ${e instanceof Error ? e.message : String(e)}`
+        );
+      }
     }
 
     const manufacturers = await prisma.manufacturer.count();
     return NextResponse.json({
-      ok: true,
+      ok: errors.length === 0,
       dryRun: false,
       upserted,
       manufacturersTotal: manufacturers,
+      errors: errors.slice(0, 20),
     });
   } catch (error) {
-    return handleApiError(error);
+    const message = error instanceof Error ? error.message : String(error);
+    return NextResponse.json(
+      { error: "Erreur interne du serveur", detail: message },
+      { status: 500 }
+    );
   }
 }
