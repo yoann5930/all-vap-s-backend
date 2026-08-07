@@ -19,6 +19,7 @@ interface AdminProductsClientProps {
 const emptyForm = {
   name: "",
   sku: "",
+  barcode: "",
   description: "",
   category: "e-liquides",
   categoryId: "",
@@ -56,6 +57,7 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
     const payload = {
       name: form.name,
       sku: form.sku || null,
+      barcode: form.barcode.trim() || null,
       description: form.description || null,
       category: form.category,
       categoryId: selectedCat?.id || null,
@@ -106,6 +108,7 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
     setForm({
       name: product.name,
       sku: product.sku || "",
+      barcode: product.barcode || "",
       description: product.description || "",
       category: product.category,
       categoryId: product.categoryId || "",
@@ -143,6 +146,11 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
             <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Input label="Nom" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
               <Input label="SKU" value={form.sku} onChange={(e) => setForm({ ...form, sku: e.target.value })} />
+              <Input
+                label="Code-barres (EAN)"
+                value={form.barcode}
+                onChange={(e) => setForm({ ...form, barcode: e.target.value })}
+              />
               <div>
                 <label className="mb-1.5 block text-sm font-medium">Catégorie</label>
                 <select
@@ -201,37 +209,41 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
         </Card>
       )}
 
-      <div className="mt-6 overflow-x-auto">
-        <table className="w-full text-left text-sm">
+      <div className="av-contrast-table mt-6 overflow-x-auto rounded-xl border border-gray-200 bg-white">
+        <table className="w-full bg-white text-left text-sm text-black">
           <thead>
-            <tr className="border-b text-gray-500">
-              <th className="pb-3 pr-4">Produit</th>
-              <th className="pb-3 pr-4">SKU</th>
-              <th className="pb-3 pr-4">Catégorie</th>
-              <th className="pb-3 pr-4">Prix</th>
-              <th className="pb-3 pr-4">Stock</th>
-              <th className="pb-3 pr-4">Statut</th>
-              <th className="pb-3">Actions</th>
+            <tr className="border-b bg-gray-50 text-black">
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Produit</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">SKU</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Code-barres</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Catégorie</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Prix</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Stock</th>
+              <th className="px-3 pb-3 pr-4 pt-3 font-semibold text-black">Statut</th>
+              <th className="px-3 pb-3 pt-3 font-semibold text-black">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white text-black">
             {products.map((product) => (
-              <tr key={product.id} className="border-b">
-                <td className="py-3 pr-4 font-medium">{product.name}</td>
-                <td className="py-3 pr-4 text-gray-500">{product.sku || "—"}</td>
-                <td className="py-3 pr-4">{product.category}</td>
-                <td className="py-3 pr-4">{formatPrice(product.priceCents)}</td>
-                <td className="py-3 pr-4">{product.stock}</td>
-                <td className="py-3 pr-4">
+              <tr key={product.id} className="border-b bg-white text-black hover:bg-gray-50">
+                <td className="px-3 py-3 pr-4 font-medium text-black">{product.name}</td>
+                <td className="px-3 py-3 pr-4 text-black">{product.sku || "—"}</td>
+                <td className="px-3 py-3 pr-4 font-mono text-xs font-semibold text-black">
+                  {product.barcode || "—"}
+                </td>
+                <td className="px-3 py-3 pr-4 text-black">{product.category}</td>
+                <td className="px-3 py-3 pr-4 text-black">{formatPrice(product.priceCents)}</td>
+                <td className="px-3 py-3 pr-4 text-black">{product.stock}</td>
+                <td className="px-3 py-3 pr-4">
                   <div className="flex flex-wrap gap-1">
                     <Badge variant={product.isActive ? "success" : "danger"}>{product.isActive ? "Actif" : "Inactif"}</Badge>
                     {product.isPromo && <Badge variant="danger">Promo</Badge>}
                   </div>
                 </td>
-                <td className="py-3">
+                <td className="px-3 py-3">
                   <div className="flex gap-2">
-                    <button onClick={() => startEdit(product)} className="text-gray-500 hover:text-brand-700"><Pencil className="h-4 w-4" /></button>
-                    <button onClick={() => handleDelete(product.id)} className="text-gray-500 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+                    <button onClick={() => startEdit(product)} className="text-gray-700 hover:text-brand-700"><Pencil className="h-4 w-4" /></button>
+                    <button onClick={() => handleDelete(product.id)} className="text-gray-700 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </td>
               </tr>

@@ -68,6 +68,7 @@ export async function GET(
 const updateSchema = z.object({
   name: z.string().min(2).optional(),
   sku: z.string().optional().nullable(),
+  barcode: z.string().max(64).optional().nullable(),
   description: z.string().optional().nullable(),
   category: z.string().min(2).optional(),
   brand: z.string().optional().nullable(),
