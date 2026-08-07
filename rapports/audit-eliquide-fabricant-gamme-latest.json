@@ -1,0 +1,2812 @@
+{
+  "generatedAt": "2026-08-07T23:21:23.293Z",
+  "source": "2026-08-03_16-46-54_items-export_MCGR4RXU.csv",
+  "eliquidesAnalyzed": 1277,
+  "manufacturersDetected": 32,
+  "productsWithoutManufacturer": 641,
+  "ambiguousCount": 5,
+  "manufacturers": [
+    {
+      "slug": "e-tasty",
+      "name": "e.Tasty",
+      "productCount": 230,
+      "withRange": 3,
+      "withoutRange": 227,
+      "ranges": [
+        {
+          "name": "Amalgam",
+          "slug": "amalgam",
+          "count": 3,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:twenty",
+        "gamme_yoann_sans_match_sumup:letters",
+        "cover_gamme_manquant:amalgam",
+        "gamme_sumup_hors_yoann:amalgam"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/e-tasty/ranges/amalgam.webp (pas d’invention)",
+        "Valider si « Amalgam » est une vraie gamme e.Tasty ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "Adess 100ml - GodFallcity - E-Tasty",
+        "Amani 50Ml Inspiration - E-Tasty",
+        "Ananas 10ml 0mg e-tasty",
+        "Ananas 10ml 12mg e-tasty",
+        "Ananas 10ml 3mg e-tasty",
+        "Ananas 10ml 6mg e-tasty",
+        "Azura 50 Ml Inspiration - E-Tasty",
+        "Bako 50ml -Bankiz- ETasty"
+      ]
+    },
+    {
+      "slug": "liquidarom",
+      "name": "Liquidarom",
+      "productCount": 48,
+      "withRange": 36,
+      "withoutRange": 12,
+      "ranges": [
+        {
+          "name": "Ice Cool",
+          "slug": "ice-cool",
+          "count": 18,
+          "inYoann": false,
+          "hasCover": true
+        },
+        {
+          "name": "Replay",
+          "slug": "replay",
+          "count": 7,
+          "inYoann": false,
+          "hasCover": false
+        },
+        {
+          "name": "Modjo Vapors",
+          "slug": "modjo-vapors",
+          "count": 6,
+          "inYoann": false,
+          "hasCover": false
+        },
+        {
+          "name": "Ice Cool X",
+          "slug": "ice-cool-x",
+          "count": 5,
+          "inYoann": false,
+          "hasCover": true
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:modjo-vapors",
+        "gamme_sumup_hors_yoann:modjo-vapors",
+        "cover_gamme_manquant:replay",
+        "gamme_sumup_hors_yoann:replay",
+        "gamme_sumup_hors_yoann:ice-cool",
+        "gamme_sumup_hors_yoann:ice-cool-x"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/liquidarom/ranges/modjo-vapors.webp (pas d’invention)",
+        "Valider si « Modjo Vapors » est une vraie gamme Liquidarom ou un nom commercial",
+        "Ajouter cover officiel public/media/manufacturers/liquidarom/ranges/replay.webp (pas d’invention)",
+        "Valider si « Replay » est une vraie gamme Liquidarom ou un nom commercial",
+        "Valider si « Ice Cool » est une vraie gamme Liquidarom ou un nom commercial",
+        "Valider si « Ice Cool X » est une vraie gamme Liquidarom ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "Cet e-liquide Liquidarom 50ml est disponible chez votre grossiste dans un flacon de 60ml de contenance",
+        "Liquidarom - Les Collègues - Les Collègues - La Coquette - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - La Mimi - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - Le Balèze - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - Le Charmeur - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - Le ChocoStar - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - Le Flambeur - 50 ml",
+        "Liquidarom - Les Collègues - Les Collègues - Le Funkie - 50 ml"
+      ]
+    },
+    {
+      "slug": "juice-66",
+      "name": "Juice 66",
+      "productCount": 38,
+      "withRange": 32,
+      "withoutRange": 6,
+      "ranges": [
+        {
+          "name": "Paradise",
+          "slug": "paradise",
+          "count": 9,
+          "inYoann": true,
+          "hasCover": false
+        },
+        {
+          "name": "66 Juice",
+          "slug": "66-juice",
+          "count": 7,
+          "inYoann": true,
+          "hasCover": true
+        },
+        {
+          "name": "Icebreak",
+          "slug": "icebreak",
+          "count": 6,
+          "inYoann": true,
+          "hasCover": false
+        },
+        {
+          "name": "Empire",
+          "slug": "empire",
+          "count": 5,
+          "inYoann": true,
+          "hasCover": false
+        },
+        {
+          "name": "Hiro 66",
+          "slug": "hiro-66",
+          "count": 5,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:icebreak",
+        "cover_gamme_manquant:empire",
+        "cover_gamme_manquant:paradise",
+        "cover_gamme_manquant:hiro-66",
+        "gamme_sumup_hors_yoann:hiro-66"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/juice-66/ranges/icebreak.webp (pas d’invention)",
+        "Ajouter cover officiel public/media/manufacturers/juice-66/ranges/empire.webp (pas d’invention)",
+        "Ajouter cover officiel public/media/manufacturers/juice-66/ranges/paradise.webp (pas d’invention)",
+        "Ajouter cover officiel public/media/manufacturers/juice-66/ranges/hiro-66.webp (pas d’invention)",
+        "Valider si « Hiro 66 » est une vraie gamme Juice 66 ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "JUICE 66 - L'INDIAN 100ml",
+        "JUICE 66 - RATZ ROD 200ML RESERVE EDITION",
+        "JUICE 66- TRUCK 100ML",
+        "Juice 66 - Frost - 50 ml",
+        "Juice 66 - Snow - 50 ml",
+        "Juice 66 USA MB Riders"
+      ]
+    },
+    {
+      "slug": "swoke",
+      "name": "Swoke",
+      "productCount": 30,
+      "withRange": 8,
+      "withoutRange": 22,
+      "ranges": [
+        {
+          "name": "Force Vape",
+          "slug": "force-vape",
+          "count": 5,
+          "inYoann": true,
+          "hasCover": true
+        },
+        {
+          "name": "Bisou",
+          "slug": "bisou",
+          "count": 3,
+          "inYoann": true,
+          "hasCover": true
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Breezer Saiyen Vapors 50ml Swoke",
+        "Bübü Saiyen Vapors 50ml Swoke",
+        "C4 Saiyen Vapors 50ml Swoke",
+        "Chappy 50ml - Wanted - swoke",
+        "Clone Swoke 50ml Swoke",
+        "Diablo Saiyen Vapors 50ml Swoke",
+        "Donald 2 50ml - Swoke",
+        "Dragon Saiyen Vapors 50ml Swoke"
+      ]
+    },
+    {
+      "slug": "cloud-vapor",
+      "name": "Cloud Vapor",
+      "productCount": 20,
+      "withRange": 9,
+      "withoutRange": 11,
+      "ranges": [
+        {
+          "name": "Call Of Vape",
+          "slug": "call-of-vape",
+          "count": 8,
+          "inYoann": true,
+          "hasCover": false
+        },
+        {
+          "name": "Call Of Vape Blackout",
+          "slug": "call-of-vape-blackout",
+          "count": 1,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:grand-taste-city",
+        "cover_gamme_manquant:call-of-vape",
+        "cover_gamme_manquant:call-of-vape-blackout"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/cloud-vapor/ranges/call-of-vape.webp (pas d’invention)",
+        "Ajouter cover officiel public/media/manufacturers/cloud-vapor/ranges/call-of-vape-blackout.webp (pas d’invention)"
+      ],
+      "sampleNoRange": [
+        "Blue rasphell hellfest 50ml - cloud vapor",
+        "Cherry devil hellfest 50ml - cloud vapor",
+        "Cloud Vapor Black 50ml Kung Freeze",
+        "Cloud Vapor Dark 50ml Kung Freeze",
+        "Cloud Vapor Dragon 50ml Kung Freeze",
+        "Cloud Vapor Midnight 50ml Kung Freeze",
+        "Cloud Vapor Red 50ml Kung Freeze",
+        "Cloud Vapor Sunlight 50ml Kung Freeze"
+      ]
+    },
+    {
+      "slug": "maison-fuel",
+      "name": "Maison Fuel",
+      "productCount": 19,
+      "withRange": 0,
+      "withoutRange": 19,
+      "ranges": [],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo"
+      ],
+      "sampleNoRange": [
+        "Barrako Fighter Fuel Maison Fuel 100ml",
+        "Shaken Fighter Fuel 100ml 00mg",
+        "Bloody Shigeri Fighter Fuel Maison Fuel 100ml",
+        "Dark Shigeri Fighter Fuel Maison Fuel 100ml",
+        "Hizagiri Fighter Fuel 100ml 00mg",
+        "Hogano Fighter Fuel 100ml 00mg",
+        "Kansetsu Fighter Fuel 100ml 00mg",
+        "Kobura Fighter Fuel 100ml 00mg"
+      ]
+    },
+    {
+      "slug": "protect",
+      "name": "Protect",
+      "productCount": 19,
+      "withRange": 0,
+      "withoutRange": 19,
+      "ranges": [],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Protect Bonbon Framboise Violette 50ml",
+        "Protect Entremet À La Framboise 50ml",
+        "Protect Framboise Cerise Pomme 50ml",
+        "Protect la coccinelle menthe pastèque fraise",
+        "Protect la fourmi framboise myrtilles",
+        "Protect la libellules limonade fruit du dragon",
+        "Pythagore Protect 50ml 00mg",
+        "protect brasse abricot peche 50ml"
+      ]
+    },
+    {
+      "slug": "airmust",
+      "name": "AirMust",
+      "productCount": 17,
+      "withRange": 12,
+      "withoutRange": 5,
+      "ranges": [
+        {
+          "name": "Ferox",
+          "slug": "ferox",
+          "count": 7,
+          "inYoann": true,
+          "hasCover": true
+        },
+        {
+          "name": "Press Start",
+          "slug": "press-start",
+          "count": 5,
+          "inYoann": true,
+          "hasCover": true
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:l-ovalie",
+        "gamme_yoann_sans_match_sumup:unik"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "AIR MAX MUST - FRAISE KIWI 100ml",
+        "AIR MAX MUST - FRAMBOISE BLEU CERISE 100ml",
+        "AIR MAX MUST - FRUITS ROUGES PECHE 100ml",
+        "AIR MAX MUST - PASTEQUE FRAICHE 100ml",
+        "AIR MAX MUST - POMME CASSIS 100ml"
+      ]
+    },
+    {
+      "slug": "vap-air",
+      "name": "Vap Air",
+      "productCount": 17,
+      "withRange": 0,
+      "withoutRange": 17,
+      "ranges": [],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo"
+      ],
+      "sampleNoRange": [
+        "Deus Ex Machina 50ml - Banane Amande Caramel - Vap Air",
+        "Deus Ex Machina 50ml - Cappucino Vanille Caramel - Vap Air",
+        "Deus Ex Machina 50ml - Cereale Amande Caramel - Vap Air",
+        "Deus Ex Machina 50ml - Fraise Grenade Framboise - Vap Air",
+        "Deus Ex Machina 50ml - Fruit du dragon - Vap Air",
+        "Deus Ex Machina 50ml - Mure Raisin Figue - Vap Air",
+        "Dinos Fruit du dragon Violette & limonade 100 Ml by Vap Air",
+        "Dinos Grenadine & Pomme 100 Ml by Vap Air"
+      ]
+    },
+    {
+      "slug": "alfa",
+      "name": "Alfa",
+      "productCount": 15,
+      "withRange": 10,
+      "withoutRange": 5,
+      "ranges": [
+        {
+          "name": "Granita Soft",
+          "slug": "granita-soft",
+          "count": 10,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:granita-soft"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/alfa/ranges/granita-soft.webp (pas d’invention)"
+      ],
+      "sampleNoRange": [
+        "Alfa liquid CREME VANILLE CARAMEL",
+        "Alfa liquid FRUITS ROUGES 16mg 10ml",
+        "Alfa liquid FRUITS ROUGES CASSIS",
+        "Alfa liquid MENTHES 06mg 10ml",
+        "Alfa luquid VAPONAUTE"
+      ]
+    },
+    {
+      "slug": "t-juice",
+      "name": "T-Juice",
+      "productCount": 15,
+      "withRange": 14,
+      "withoutRange": 1,
+      "ranges": [
+        {
+          "name": "T-Juice",
+          "slug": "t-juice",
+          "count": 14,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:t-juice"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/t-juice/ranges/t-juice.webp (pas d’invention)"
+      ],
+      "sampleNoRange": [
+        "TJuice Icy Paradise 50ml"
+      ]
+    },
+    {
+      "slug": "tribal-force",
+      "name": "Tribal Force",
+      "productCount": 14,
+      "withRange": 6,
+      "withoutRange": 8,
+      "ranges": [
+        {
+          "name": "Tribal Lords",
+          "slug": "tribal-lords",
+          "count": 6,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:tribal-lords",
+        "gamme_sumup_hors_yoann:tribal-lords"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/tribal-force/ranges/tribal-lords.webp (pas d’invention)",
+        "Valider si « Tribal Lords » est une vraie gamme Tribal Force ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "BARBARIAN TRIBAL LORDS BY TRIBAL FORCE 50ML 00MG",
+        "Cet e-liquide Mage 50ml Tribal Lords est disponible chez votre fournisseur dans un flacon de 70ml de contenance",
+        "Cet e-liquide Necromancer 50ml Tribal Lords est disponible chez votre fournisseur dans un flacon de 70ml de contenance",
+        "Le Paladin 50ml Tribal Force est présenté dans un flacon de 60 ml",
+        "Cet e-liquide Thief 50ml Tribal Lords est disponible chez votre fournisseur dans un flacon de 70ml de contenance",
+        "Tribal force lemon splash diabolo pomegranata 50ml",
+        "Tribal force lemon splash mojito 50ml",
+        "Tribal force lemon splash sex on the beach 50ml"
+      ]
+    },
+    {
+      "slug": "fruizee",
+      "name": "Fruizee",
+      "productCount": 14,
+      "withRange": 14,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Fruizee",
+          "slug": "fruizee",
+          "count": 14,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:fruizee"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/fruizee/ranges/fruizee.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "vape-maker",
+      "name": "Vape Maker",
+      "productCount": 13,
+      "withRange": 2,
+      "withoutRange": 11,
+      "ranges": [
+        {
+          "name": "Absolut",
+          "slug": "absolut",
+          "count": 1,
+          "inYoann": false,
+          "hasCover": false
+        },
+        {
+          "name": "Push Up",
+          "slug": "push-up",
+          "count": 1,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:absolut",
+        "gamme_sumup_hors_yoann:absolut",
+        "cover_gamme_manquant:push-up",
+        "gamme_sumup_hors_yoann:push-up"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/vape-maker/ranges/absolut.webp (pas d’invention)",
+        "Valider si « Absolut » est une vraie gamme Vape Maker ou un nom commercial",
+        "Ajouter cover officiel public/media/manufacturers/vape-maker/ranges/push-up.webp (pas d’invention)",
+        "Valider si « Push Up » est une vraie gamme Vape Maker ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "Anarchie Kaiju Vape Maker 50ml",
+        "Apocalypse Kaiju Vape Maker 50ml",
+        "Armageddon Kaiju Vape Maker 50ml",
+        "COLA LALA CANDY CO. VAPE MAKER 50ML",
+        "CRAZY DRIVER TASTE & FURIOUS VAPE MAKER 50ML",
+        "Chaos Kaiju Vape Maker 50ml",
+        "Chocolate Vanilla 50ml - Suprême by Vape Maker",
+        "FAT NOS TASTE & FURIOUS VAPE MAKER 50ML"
+      ]
+    },
+    {
+      "slug": "raneki-liquide",
+      "name": "Raneki Liquide",
+      "productCount": 13,
+      "withRange": 0,
+      "withoutRange": 13,
+      "ranges": [],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "fabricant_absent_du_referentiel_yoann",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Inazami 50ml Kyoto Storm - Raneki Liquide",
+        "Raneki - Kyoto Storm - Akashi - 50 ml",
+        "Raneki - Kyoto Storm - Hanzo - 50 ml",
+        "Raneki - Kyoto Storm - Maneki - 50 ml",
+        "Raneki - Kyoto Storm - Musashi - 50 ml",
+        "Raneki - Kyoto Storm - Ryujin - 50 ml",
+        "Raneki - Kyoto Storm - Zenko - 50 ml",
+        "Raneki Liquide - Olympe - Aphrodite - 50 ml"
+      ]
+    },
+    {
+      "slug": "the-fuu",
+      "name": "The FUU",
+      "productCount": 12,
+      "withRange": 8,
+      "withoutRange": 4,
+      "ranges": [
+        {
+          "name": "Cloud Empire",
+          "slug": "cloud-empire",
+          "count": 8,
+          "inYoann": true,
+          "hasCover": true
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Goata Gun Fuug Life 50ml - The Fuu",
+        "Low Rider Fuug Life 50ml - The Fuu",
+        "Sugar Baron Fuug Life 50ml - The Fuu",
+        "Vapy bear Fuug Life 50ml - The Fuu"
+      ]
+    },
+    {
+      "slug": "mexican-cartel",
+      "name": "Mexican Cartel",
+      "productCount": 12,
+      "withRange": 0,
+      "withoutRange": 12,
+      "ranges": [],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo"
+      ],
+      "sampleNoRange": [
+        "mexican cartel 50 ML ananas fraise peche",
+        "mexican cartel 50 ML cactus citron corossol",
+        "mexican cartel 50 ML cassis framboise cactus",
+        "mexican cartel 50 ML fruit du dragon fraise mure",
+        "mexican cartel 50 ML fruits des bois fraise cassis",
+        "mexican cartel 50 ML fruits rouges cassis framboise",
+        "mexican cartel 50 ML gateau amandes vanille",
+        "mexican cartel 50 ML limonade citron vert cactus"
+      ]
+    },
+    {
+      "slug": "secrets-lab",
+      "name": "Secrets Lab",
+      "productCount": 10,
+      "withRange": 0,
+      "withoutRange": 10,
+      "ranges": [],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo"
+      ],
+      "sampleNoRange": [
+        "Yellow Key Secret's Keys Secret's Lab 50ml 00mg",
+        "Black Key Secrets Keys Secrets Lab 50ml 00mg",
+        "Golden Key Secret's Keys Secret's Lab 50ml 00mg",
+        "Green Key Secret's Keys Secret's Lab 50ml 00mg",
+        "Pink Key Secret's Keys Secret's Lab 50ml 00mg",
+        "Red Key Secrets Keys Secrets Lab 50ml 00mg",
+        "Secret's Love Secrets Lab 50ml 00mg",
+        "The Dragon Secret Garden Secrets Lab 50ml 00mg"
+      ]
+    },
+    {
+      "slug": "fruity-cool",
+      "name": "Fruity Cool",
+      "productCount": 10,
+      "withRange": 10,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Fruity Cool",
+          "slug": "fruity-cool",
+          "count": 10,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:fruity-cool"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/fruity-cool/ranges/fruity-cool.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "vape-city",
+      "name": "Vape City",
+      "productCount": 9,
+      "withRange": 9,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Vape City",
+          "slug": "vape-city",
+          "count": 9,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:vape-city"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/vape-city/ranges/vape-city.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "liquideo",
+      "name": "Liquideo",
+      "productCount": 9,
+      "withRange": 3,
+      "withoutRange": 6,
+      "ranges": [
+        {
+          "name": "Dragonz",
+          "slug": "dragonz",
+          "count": 3,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:dragonz"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/liquideo/ranges/dragonz.webp (pas d’invention)"
+      ],
+      "sampleNoRange": [
+        "Booster 50/50 Sel de nicotine Liquideo 10ml 20mg",
+        "COLA FREEZE LIQUIDEO 50ML 00MG",
+        "Citrus Freeze Liquideo 50ml 00mg",
+        "HOLYQUEEN JUICE HEROES LIQUIDEO 50ML",
+        "Jolie blonde liquideo",
+        "Mistyk liquideo"
+      ]
+    },
+    {
+      "slug": "biarritz-lab",
+      "name": "Biarritz Lab",
+      "productCount": 9,
+      "withRange": 0,
+      "withoutRange": 9,
+      "ranges": [],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "fabricant_absent_du_referentiel_yoann",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Fruit defendu - cassis cerise violette frais- 50ml - biarritz lab",
+        "Fruit defendu - fraise frais - 50ml - biarritz lab",
+        "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+        "Fruit defendu - limonade pomme mure frais - 50ml - biarritz lab",
+        "Fruit defendu - mangue frais - 50ml - biarritz lab",
+        "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+        "Fruit defendu - myrtille frais - 50ml - biarritz lab",
+        "Fruit defendu - pastèque fraise frais - 50ml - biarritz lab"
+      ]
+    },
+    {
+      "slug": "aromes-secrets",
+      "name": "Aromes & Secrets",
+      "productCount": 8,
+      "withRange": 0,
+      "withoutRange": 8,
+      "ranges": [],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:mythologie",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Arathorn 50ml - Aromes & secrets",
+        "Baru 50ml - Aromes & secrets",
+        "Esteli 50ml - Aromes & secrets",
+        "Etna 50ml - Aromes & secrets",
+        "Linzor 50ml - Aromes & secrets",
+        "Maipo 50ml - Aromes & secrets",
+        "Milos 50ml - Aromes & secrets",
+        "Segula 50ml - Aromes & secrets"
+      ]
+    },
+    {
+      "slug": "guilab",
+      "name": "Guilab",
+      "productCount": 8,
+      "withRange": 5,
+      "withoutRange": 3,
+      "ranges": [
+        {
+          "name": "Thunder Vape",
+          "slug": "thunder-vape",
+          "count": 5,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:thunder-vape",
+        "gamme_sumup_hors_yoann:thunder-vape"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/guilab/ranges/thunder-vape.webp (pas d’invention)",
+        "Valider si « Thunder Vape » est une vraie gamme Guilab ou un nom commercial"
+      ],
+      "sampleNoRange": [
+        "Flora Wonder Vape by Guilab 100ml",
+        "Rubie Wonder Vape by Guilab 100ml",
+        "Suna Wonder Vape by Guilab 100ml"
+      ]
+    },
+    {
+      "slug": "revenge-juices",
+      "name": "Revenge Juices",
+      "productCount": 8,
+      "withRange": 8,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Revenge Juices",
+          "slug": "revenge-juices",
+          "count": 8,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:revenge-juices"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/revenge-juices/ranges/revenge-juices.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "kf-studio",
+      "name": "KF Studio",
+      "productCount": 4,
+      "withRange": 0,
+      "withoutRange": 4,
+      "ranges": [],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo"
+      ],
+      "sampleNoRange": [
+        "Crème citron KF STUDIO",
+        "Fraise biscuit chantilly KF studio",
+        "cheesecake caramel KF STUDIO",
+        "pop corn caramel OZIGO KF studio"
+      ]
+    },
+    {
+      "slug": "big-kawa",
+      "name": "Big Kawa",
+      "productCount": 3,
+      "withRange": 3,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Café",
+          "slug": "cafe",
+          "count": 3,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:cafe"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/big-kawa/ranges/cafe.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "yum-ebot",
+      "name": "Yum E-Bot",
+      "productCount": 2,
+      "withRange": 2,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Yum E-Bot",
+          "slug": "yum-e-bot",
+          "count": 2,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:yum-e-bot"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/yum-ebot/ranges/yum-e-bot.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "avap",
+      "name": "AVAP",
+      "productCount": 2,
+      "withRange": 2,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Devil",
+          "slug": "devil",
+          "count": 2,
+          "inYoann": true,
+          "hasCover": true
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [],
+      "proposedFixes": [],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "eliquid-france",
+      "name": "Eliquid France",
+      "productCount": 1,
+      "withRange": 1,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Fruizee",
+          "slug": "fruizee",
+          "count": 1,
+          "inYoann": false,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:fruizee",
+        "gamme_sumup_hors_yoann:fruizee"
+      ],
+      "proposedFixes": [
+        "Ajouter cover officiel public/media/manufacturers/eliquid-france/ranges/fruizee.webp (pas d’invention)",
+        "Valider si « Fruizee » est une vraie gamme Eliquid France ou un nom commercial"
+      ],
+      "sampleNoRange": []
+    },
+    {
+      "slug": "vape-47",
+      "name": "Vape 47",
+      "productCount": 1,
+      "withRange": 0,
+      "withoutRange": 1,
+      "ranges": [],
+      "hasLogo": true,
+      "hasBanner": true,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:furiosa-eggz-v2",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ],
+      "proposedFixes": [],
+      "sampleNoRange": [
+        "Skinz grok 100ml - Furiosa vape47"
+      ]
+    },
+    {
+      "slug": "le-maudit",
+      "name": "Le Maudit",
+      "productCount": 1,
+      "withRange": 1,
+      "withoutRange": 0,
+      "ranges": [
+        {
+          "name": "Le Maudit",
+          "slug": "le-maudit",
+          "count": 1,
+          "inYoann": true,
+          "hasCover": false
+        }
+      ],
+      "hasLogo": false,
+      "hasBanner": true,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:le-maudit"
+      ],
+      "proposedFixes": [
+        "Conserver bannière typo + marquer ASSET_MANQUANT ; ne pas inventer de logo",
+        "Ajouter cover officiel public/media/manufacturers/le-maudit/ranges/le-maudit.webp (pas d’invention)"
+      ],
+      "sampleNoRange": []
+    }
+  ],
+  "screenHints": [
+    {
+      "slug": "vap-air",
+      "inSumUpAsManufacturer": true,
+      "productCount": 17,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "vape-47",
+      "inSumUpAsManufacturer": true,
+      "productCount": 1,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:furiosa-eggz-v2",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "vape-maker",
+      "inSumUpAsManufacturer": true,
+      "productCount": 13,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:absolut",
+        "gamme_sumup_hors_yoann:absolut",
+        "cover_gamme_manquant:push-up",
+        "gamme_sumup_hors_yoann:push-up"
+      ]
+    },
+    {
+      "slug": "yum-ebot",
+      "inSumUpAsManufacturer": true,
+      "productCount": 2,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:yum-e-bot"
+      ]
+    },
+    {
+      "slug": "maison-fuel",
+      "inSumUpAsManufacturer": true,
+      "productCount": 19,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "secrets-lab",
+      "inSumUpAsManufacturer": true,
+      "productCount": 10,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "my-store",
+      "inSumUpAsManufacturer": false,
+      "productCount": 0,
+      "visual": "ABSENT_SUMUP",
+      "anomalies": []
+    },
+    {
+      "slug": "classic",
+      "inSumUpAsManufacturer": false,
+      "productCount": 0,
+      "visual": "ABSENT_SUMUP",
+      "anomalies": []
+    },
+    {
+      "slug": "t-juice",
+      "inSumUpAsManufacturer": true,
+      "productCount": 15,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:t-juice"
+      ]
+    },
+    {
+      "slug": "liquidarom",
+      "inSumUpAsManufacturer": true,
+      "productCount": 48,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:modjo-vapors",
+        "gamme_sumup_hors_yoann:modjo-vapors",
+        "cover_gamme_manquant:replay",
+        "gamme_sumup_hors_yoann:replay",
+        "gamme_sumup_hors_yoann:ice-cool",
+        "gamme_sumup_hors_yoann:ice-cool-x"
+      ]
+    },
+    {
+      "slug": "liquidarom-en-provence",
+      "inSumUpAsManufacturer": false,
+      "productCount": 0,
+      "visual": "ABSENT_SUMUP",
+      "anomalies": []
+    },
+    {
+      "slug": "mexican-cartel",
+      "inSumUpAsManufacturer": true,
+      "productCount": 12,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "protect",
+      "inSumUpAsManufacturer": true,
+      "productCount": 19,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "big-kawa",
+      "inSumUpAsManufacturer": true,
+      "productCount": 3,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:cafe"
+      ]
+    },
+    {
+      "slug": "alfa",
+      "inSumUpAsManufacturer": true,
+      "productCount": 15,
+      "visual": "BANNER_TYPO_ONLY",
+      "anomalies": [
+        "carte_sans_logo_officiel_typo_only",
+        "cover_gamme_manquant:granita-soft"
+      ]
+    },
+    {
+      "slug": "biarritz-lab",
+      "inSumUpAsManufacturer": true,
+      "productCount": 9,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "fabricant_absent_du_referentiel_yoann",
+        "aucune_gamme_identifiable_sur_produits_sumup"
+      ]
+    },
+    {
+      "slug": "biarrtiz-lab",
+      "inSumUpAsManufacturer": false,
+      "productCount": 0,
+      "visual": "ABSENT_SUMUP",
+      "anomalies": []
+    },
+    {
+      "slug": "eliquid-france",
+      "inSumUpAsManufacturer": true,
+      "productCount": 1,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "cover_gamme_manquant:fruizee",
+        "gamme_sumup_hors_yoann:fruizee"
+      ]
+    },
+    {
+      "slug": "e-tasty",
+      "inSumUpAsManufacturer": true,
+      "productCount": 230,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:twenty",
+        "gamme_yoann_sans_match_sumup:letters",
+        "cover_gamme_manquant:amalgam",
+        "gamme_sumup_hors_yoann:amalgam"
+      ]
+    },
+    {
+      "slug": "airmust",
+      "inSumUpAsManufacturer": true,
+      "productCount": 17,
+      "visual": "LOGO_OK",
+      "anomalies": [
+        "gamme_yoann_sans_match_sumup:l-ovalie",
+        "gamme_yoann_sans_match_sumup:unik"
+      ]
+    }
+  ],
+  "falsePositives": [],
+  "rangeAsManufacturer": [],
+  "duplicates": [],
+  "ambiguousSample": [
+    {
+      "product": "Arathorn 0mg 100ml - Arômes & Secrets by Savourea",
+      "reason": "a_valider_by:Savourea"
+    },
+    {
+      "product": "Baru 0mg 100ml - Arômes & Secrets by Savourea",
+      "reason": "a_valider_by:Savourea"
+    },
+    {
+      "product": "Fashion Esteli 0mg 100ml - Arômes & Secrets by Savourea",
+      "reason": "a_valider_by:Savourea"
+    },
+    {
+      "product": "Linzor 0mg 100ml - Arômes & Secrets by Savourea",
+      "reason": "a_valider_by:Savourea"
+    },
+    {
+      "product": "Maïpo 0mg 100ml - Arômes & Secrets by Savourea",
+      "reason": "a_valider_by:Savourea"
+    }
+  ],
+  "dbSnapshot": [
+    {
+      "slug": "avap",
+      "name": "AVAP",
+      "status": "verifie",
+      "products": 6,
+      "ranges": [
+        {
+          "slug": "devil-avap",
+          "name": "Devil",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "airmust",
+      "name": "AirMust",
+      "status": "verifie",
+      "products": 110,
+      "ranges": [
+        {
+          "slug": "blue-hopper-airmust",
+          "name": "Blue Hopper",
+          "products": 16,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "ferox-airmust",
+          "name": "Ferox",
+          "products": 19,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "l-ovalie-airmust",
+          "name": "L'Ovalie",
+          "products": 3,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "press-start-airmust",
+          "name": "Press Start",
+          "products": 10,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "unik-airmust",
+          "name": "UNIK",
+          "products": 27,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "society-club-airmust",
+          "name": "Society Club",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "alfa",
+      "name": "Alfa",
+      "status": "partiel",
+      "products": 82,
+      "ranges": [
+        {
+          "slug": "granita-soft-alfa",
+          "name": "Granita Soft",
+          "products": 17,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "aromes-secrets",
+      "name": "Aromes & Secrets",
+      "status": "verifie",
+      "products": 20,
+      "ranges": [
+        {
+          "slug": "mythologie-aromes-secrets",
+          "name": "Mythologie",
+          "products": 20,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "biarritz-lab",
+      "name": "Biarritz Lab",
+      "status": "verifie",
+      "products": 26,
+      "ranges": [
+        {
+          "slug": "mamita",
+          "name": "Mamita",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "le-fruit-defendu",
+          "name": "Le Fruit Défendu",
+          "products": 9,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "double-dragon",
+          "name": "Double Dragon",
+          "products": 11,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "big-kawa",
+      "name": "Big Kawa",
+      "status": "partiel",
+      "products": 0,
+      "ranges": []
+    },
+    {
+      "slug": "budz-vape",
+      "name": "Budz Vape",
+      "status": "a_verifier",
+      "products": 0,
+      "ranges": [
+        {
+          "slug": "pandora-budz-vape",
+          "name": "Pandora",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "cloud-vapor",
+      "name": "Cloud Vapor",
+      "status": "verifie",
+      "products": 23,
+      "ranges": [
+        {
+          "slug": "call-of-vape",
+          "name": "Call of Vape",
+          "products": 15,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "grand-taste-city-cloud-vapor",
+          "name": "Grand Taste City",
+          "products": 5,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "cookin-cloud",
+      "name": "Cookin Cloud",
+      "status": "partiel",
+      "products": 13,
+      "ranges": [
+        {
+          "slug": "myst",
+          "name": "Myst",
+          "products": 13,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "eliquid-france",
+      "name": "Eliquid France",
+      "status": "verifie",
+      "products": 37,
+      "ranges": [
+        {
+          "slug": "mintaia-eliquid-france",
+          "name": "Mintaïa",
+          "products": 8,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "lemon-time-eliquid-france",
+          "name": "Lemon'Time",
+          "products": 4,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "fruizee-max-eliquid-france",
+          "name": "Fruizee Max",
+          "products": 24,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "juice-heroes-eliquid-france",
+          "name": "Juice Heroes",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "fureur-du-dragon-eliquid-france",
+          "name": "Fureur du Dragon",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "mister-pop-corn-eliquid-france",
+          "name": "Mister Pop Corn",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "fruity-cool",
+      "name": "Fruity Cool",
+      "status": "partiel",
+      "products": 6,
+      "ranges": [
+        {
+          "slug": "fruity-cool-fruity-cool",
+          "name": "Fruity Cool",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "fruizee",
+      "name": "Fruizee",
+      "status": "partiel",
+      "products": 2,
+      "ranges": [
+        {
+          "slug": "fruizee-fruizee",
+          "name": "Fruizee",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "guilab",
+      "name": "Guilab",
+      "status": "partiel",
+      "products": 8,
+      "ranges": [
+        {
+          "slug": "assassin-vape-guilab",
+          "name": "Assassin Vape",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "red-valentine-guilab",
+          "name": "Red Valentine",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "vapetasty-guilab",
+          "name": "Vapetasty",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "faken-vape-guilab",
+          "name": "Faken' Vape",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "les-trois-mousquet-air-guilab",
+          "name": "Les Trois Mousquet'Air",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "ark-vape-guilab",
+          "name": "Ark Vape",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "illusion",
+      "name": "Illusion",
+      "status": "a_verifier",
+      "products": 0,
+      "ranges": [
+        {
+          "slug": "illusion",
+          "name": "Illusion",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "juice-66",
+      "name": "Juice 66",
+      "status": "verifie",
+      "products": 56,
+      "ranges": [
+        {
+          "slug": "juice-66",
+          "name": "Juice 66",
+          "products": 2,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "66-juice-juice-66",
+          "name": "66 Juice",
+          "products": 12,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "empire-juice-66",
+          "name": "Empire",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "chaser-juice-66",
+          "name": "Chaser",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "dinos-juice-66",
+          "name": "Dinos",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "juice-machine-juice-66",
+          "name": "Juice Machine",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "paradise-juice-66",
+          "name": "Paradise",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "icebreak-juice-66",
+          "name": "Icebreak",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "dollar-juice-66",
+          "name": "Dollar",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "illusion-juice-66",
+          "name": "Illusion",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "kf-studio",
+      "name": "KF Studio",
+      "status": "partiel",
+      "products": 4,
+      "ranges": [
+        {
+          "slug": "king-freeze-kf-studio",
+          "name": "King Freeze",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "le-maudit",
+      "name": "Le Maudit",
+      "status": "partiel",
+      "products": 1,
+      "ranges": [
+        {
+          "slug": "le-maudit-le-maudit",
+          "name": "Le Maudit",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "liquidarom",
+      "name": "Liquidarom",
+      "status": "verifie",
+      "products": 53,
+      "ranges": [
+        {
+          "slug": "ice-cool",
+          "name": "Ice Cool",
+          "products": 23,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "ice-cool-x",
+          "name": "Ice Cool X",
+          "products": 5,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "les-collegues",
+          "name": "Les Collègues",
+          "products": 8,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "les-essentiels",
+          "name": "Les Essentiels",
+          "products": 3,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "edition-collection",
+          "name": "Edition Collection",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "liquide-lab",
+      "name": "Liquide Lab",
+      "status": "verifie",
+      "products": 93,
+      "ranges": [
+        {
+          "slug": "big-kawa",
+          "name": "Big Kawa",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "iceberg",
+          "name": "Iceberg",
+          "products": 16,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "glagla",
+          "name": "GlaGla",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "kuix",
+          "name": "Kuix",
+          "products": 40,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "peche-gourmand",
+          "name": "Péché Gourmand",
+          "products": 19,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "reserve-heritage",
+          "name": "Réserve Héritage",
+          "products": 0,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "liquideo",
+      "name": "Liquideo",
+      "status": "verifie",
+      "products": 22,
+      "ranges": [
+        {
+          "slug": "dragonzz-liquideo",
+          "name": "Dragonzz",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "freeze-liquideo",
+          "name": "Freeze",
+          "products": 8,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": true,
+          "eligibleHint": false
+        },
+        {
+          "slug": "les-essentiels-liquideo",
+          "name": "Les Essentiels",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "skavidos",
+          "name": "Skavidos",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "evolution-liquideo",
+          "name": "Evolution",
+          "products": 0,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "mds-juice",
+      "name": "MDS Juice",
+      "status": "partiel",
+      "products": 13,
+      "ranges": [
+        {
+          "slug": "mds-juice",
+          "name": "MDS Juice",
+          "products": 13,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "mg-vape",
+      "name": "MG Vape",
+      "status": "a_verifier",
+      "products": 0,
+      "ranges": [
+        {
+          "slug": "medusa-mg-vape",
+          "name": "Medusa",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "made-in-vape-distrib",
+      "name": "Made In Vape Distrib",
+      "status": "a_verifier",
+      "products": 16,
+      "ranges": [
+        {
+          "slug": "miv-distrib-made-in-vape-distrib",
+          "name": "MIV Distrib",
+          "products": 16,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "maison-fuel",
+      "name": "Maison Fuel",
+      "status": "partiel",
+      "products": 19,
+      "ranges": []
+    },
+    {
+      "slug": "mexican-cartel",
+      "name": "Mexican Cartel",
+      "status": "partiel",
+      "products": 8,
+      "ranges": []
+    },
+    {
+      "slug": "mukk-mukk",
+      "name": "Mukk Mukk",
+      "status": "a_verifier",
+      "products": 0,
+      "ranges": [
+        {
+          "slug": "crazy-juice-mukk-mukk",
+          "name": "Crazy Juice",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "crazy-barnacle-mukk-mukk",
+          "name": "Crazy Barnacle",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "mukkies-mukk-mukk",
+          "name": "Mukkies",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "overdrive-juices",
+      "name": "OverDrive Juices",
+      "status": "a_verifier",
+      "products": 4,
+      "ranges": [
+        {
+          "slug": "overdrive-juices-overdrive-juices",
+          "name": "OverDrive Juices",
+          "products": 4,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "protect",
+      "name": "Protect",
+      "status": "verifie",
+      "products": 19,
+      "ranges": [
+        {
+          "slug": "parrainage-protect",
+          "name": "Parrainage",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "les-pollinisateurs-protect",
+          "name": "Les Pollinisateurs",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "les-4-saisons-protect",
+          "name": "Les 4 Saisons",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "raneki-liquide",
+      "name": "Raneki Liquide",
+      "status": "verifie",
+      "products": 13,
+      "ranges": [
+        {
+          "slug": "kyoto-storm",
+          "name": "Kyoto Storm",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": true
+        },
+        {
+          "slug": "olympe",
+          "name": "Olympe",
+          "products": 5,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "revenge-juices",
+      "name": "Revenge Juices",
+      "status": "partiel",
+      "products": 8,
+      "ranges": [
+        {
+          "slug": "revenge-juices-revenge-juices",
+          "name": "Revenge Juices",
+          "products": 8,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "overdrive",
+          "name": "OverDrive",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "secrets-lab",
+      "name": "Secret's Lab",
+      "status": "partiel",
+      "products": 10,
+      "ranges": []
+    },
+    {
+      "slug": "swoke",
+      "name": "Swoke",
+      "status": "verifie",
+      "products": 54,
+      "ranges": [
+        {
+          "slug": "force-vape-swoke",
+          "name": "Force Vape",
+          "products": 12,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "saint-flava-swoke",
+          "name": "Saint Flava",
+          "products": 12,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "bisou-swoke",
+          "name": "Bisou",
+          "products": 8,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "kiss-cool-swoke",
+          "name": "Kiss Cool",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "titi-swoke",
+          "name": "Titi",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "freeze-swoke",
+          "name": "Freeze",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "t-juice",
+      "name": "T-Juice",
+      "status": "verifie",
+      "products": 22,
+      "ranges": [
+        {
+          "slug": "t-juice-50-ml",
+          "name": "T-Juice 50 mL",
+          "products": 22,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "the-fuu",
+      "name": "The FUU",
+      "status": "verifie",
+      "products": 12,
+      "ranges": [
+        {
+          "slug": "cloud-empire-the-fuu",
+          "name": "Cloud Empire",
+          "products": 12,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": true,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "tribal-force",
+      "name": "Tribal Force",
+      "status": "partiel",
+      "products": 14,
+      "ranges": []
+    },
+    {
+      "slug": "vap-air",
+      "name": "Vap Air",
+      "status": "partiel",
+      "products": 17,
+      "ranges": []
+    },
+    {
+      "slug": "vape-47",
+      "name": "Vape 47",
+      "status": "verifie",
+      "products": 36,
+      "ranges": [
+        {
+          "slug": "linvapable",
+          "name": "L'Invapable",
+          "products": 3,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": true
+        },
+        {
+          "slug": "furiosa-eggz",
+          "name": "Furiosa Eggz",
+          "products": 12,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "enfer",
+          "name": "ENFER",
+          "products": 9,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "les-fruits-d-enfer",
+          "name": "Les Fruits d'ENFER",
+          "products": 9,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "furiosa-skinz",
+          "name": "Furiosa Skinz",
+          "products": 0,
+          "status": "verifie",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": true
+        }
+      ]
+    },
+    {
+      "slug": "vape-city",
+      "name": "Vape City",
+      "status": "partiel",
+      "products": 3,
+      "ranges": [
+        {
+          "slug": "vape-city-vape-city",
+          "name": "Vape City",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "magic-potion-vape-city",
+          "name": "Magic Potion",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "vape-maker",
+      "name": "Vape Maker",
+      "status": "partiel",
+      "products": 13,
+      "ranges": [
+        {
+          "slug": "kaiju",
+          "name": "Kaiju",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "yum-ebot",
+      "name": "Yum E-Bot",
+      "status": "partiel",
+      "products": 2,
+      "ranges": [
+        {
+          "slug": "yum-e-bot-yum-ebot",
+          "name": "Yum E-Bot",
+          "products": 0,
+          "status": "a_verifier",
+          "verificationStatus": "OFFICIAL_NOT_FOUND",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    },
+    {
+      "slug": "e-tasty",
+      "name": "e.Tasty",
+      "status": "verifie",
+      "products": 272,
+      "ranges": [
+        {
+          "slug": "one-taste",
+          "name": "One Taste",
+          "products": 163,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "bankiz",
+          "name": "Bankiz",
+          "products": 14,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "inspiration",
+          "name": "Inspiration",
+          "products": 6,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "god-fall-city",
+          "name": "Godfall City",
+          "products": 9,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "smoke-wars",
+          "name": "Smoke Wars",
+          "products": 2,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "gang-organise",
+          "name": "Gang Organisé",
+          "products": 5,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "freezy-crush",
+          "name": "Freezy Crush",
+          "products": 3,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "numbers",
+          "name": "Numbers",
+          "products": 22,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "letters",
+          "name": "Letters",
+          "products": 9,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "twenty",
+          "name": "Twenty",
+          "products": 10,
+          "status": "verifie",
+          "verificationStatus": "OFFICIAL_CONFIRMED",
+          "catalogVisible": true,
+          "hasCover": true,
+          "eligibleHint": true
+        },
+        {
+          "slug": "amazone",
+          "name": "Amazone",
+          "products": 2,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "amalgam",
+          "name": "Amalgam",
+          "products": 5,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "do-it-yourself",
+          "name": "Do It Yourself",
+          "products": 4,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "la-cueillette-de-louise",
+          "name": "La Cueillette de Louise",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "les-maxis-malins",
+          "name": "Les Maxis Malins",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "call-me-biggy",
+          "name": "Call Me Biggy",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "sept",
+          "name": "Sept",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "summer-spicy",
+          "name": "Summer Spicy",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "deep-seas",
+          "name": "Deep Seas",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "gameover",
+          "name": "Gameover",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "windy-juice",
+          "name": "Windy Juice",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "loly-yumy",
+          "name": "Loly Yumy",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "easy",
+          "name": "Easy",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        },
+        {
+          "slug": "shootiz",
+          "name": "Shootiz",
+          "products": 0,
+          "status": "partiel",
+          "verificationStatus": "NEEDS_CONFIRMATION",
+          "catalogVisible": false,
+          "hasCover": false,
+          "eligibleHint": false
+        }
+      ]
+    }
+  ],
+  "summaryAnomalies": [
+    "e-tasty: gamme_yoann_sans_match_sumup:twenty",
+    "e-tasty: gamme_yoann_sans_match_sumup:letters",
+    "e-tasty: cover_gamme_manquant:amalgam",
+    "e-tasty: gamme_sumup_hors_yoann:amalgam",
+    "liquidarom: cover_gamme_manquant:modjo-vapors",
+    "liquidarom: gamme_sumup_hors_yoann:modjo-vapors",
+    "liquidarom: cover_gamme_manquant:replay",
+    "liquidarom: gamme_sumup_hors_yoann:replay",
+    "liquidarom: gamme_sumup_hors_yoann:ice-cool",
+    "liquidarom: gamme_sumup_hors_yoann:ice-cool-x",
+    "juice-66: cover_gamme_manquant:icebreak",
+    "juice-66: cover_gamme_manquant:empire",
+    "juice-66: cover_gamme_manquant:paradise",
+    "juice-66: cover_gamme_manquant:hiro-66",
+    "juice-66: gamme_sumup_hors_yoann:hiro-66",
+    "cloud-vapor: gamme_yoann_sans_match_sumup:grand-taste-city",
+    "cloud-vapor: cover_gamme_manquant:call-of-vape",
+    "cloud-vapor: cover_gamme_manquant:call-of-vape-blackout",
+    "maison-fuel: carte_sans_logo_officiel_typo_only",
+    "maison-fuel: aucune_gamme_identifiable_sur_produits_sumup",
+    "protect: aucune_gamme_identifiable_sur_produits_sumup",
+    "airmust: gamme_yoann_sans_match_sumup:l-ovalie",
+    "airmust: gamme_yoann_sans_match_sumup:unik",
+    "vap-air: carte_sans_logo_officiel_typo_only",
+    "vap-air: aucune_gamme_identifiable_sur_produits_sumup",
+    "alfa: carte_sans_logo_officiel_typo_only",
+    "alfa: cover_gamme_manquant:granita-soft",
+    "t-juice: cover_gamme_manquant:t-juice",
+    "tribal-force: carte_sans_logo_officiel_typo_only",
+    "tribal-force: cover_gamme_manquant:tribal-lords",
+    "tribal-force: gamme_sumup_hors_yoann:tribal-lords",
+    "fruizee: carte_sans_logo_officiel_typo_only",
+    "fruizee: cover_gamme_manquant:fruizee",
+    "vape-maker: carte_sans_logo_officiel_typo_only",
+    "vape-maker: cover_gamme_manquant:absolut",
+    "vape-maker: gamme_sumup_hors_yoann:absolut",
+    "vape-maker: cover_gamme_manquant:push-up",
+    "vape-maker: gamme_sumup_hors_yoann:push-up",
+    "raneki-liquide: fabricant_absent_du_referentiel_yoann",
+    "raneki-liquide: aucune_gamme_identifiable_sur_produits_sumup",
+    "mexican-cartel: carte_sans_logo_officiel_typo_only",
+    "mexican-cartel: aucune_gamme_identifiable_sur_produits_sumup",
+    "secrets-lab: carte_sans_logo_officiel_typo_only",
+    "secrets-lab: aucune_gamme_identifiable_sur_produits_sumup",
+    "fruity-cool: carte_sans_logo_officiel_typo_only",
+    "fruity-cool: cover_gamme_manquant:fruity-cool",
+    "vape-city: carte_sans_logo_officiel_typo_only",
+    "vape-city: cover_gamme_manquant:vape-city",
+    "liquideo: cover_gamme_manquant:dragonz",
+    "biarritz-lab: fabricant_absent_du_referentiel_yoann",
+    "biarritz-lab: aucune_gamme_identifiable_sur_produits_sumup",
+    "aromes-secrets: gamme_yoann_sans_match_sumup:mythologie",
+    "aromes-secrets: aucune_gamme_identifiable_sur_produits_sumup",
+    "guilab: carte_sans_logo_officiel_typo_only",
+    "guilab: cover_gamme_manquant:thunder-vape",
+    "guilab: gamme_sumup_hors_yoann:thunder-vape",
+    "revenge-juices: carte_sans_logo_officiel_typo_only",
+    "revenge-juices: cover_gamme_manquant:revenge-juices",
+    "kf-studio: carte_sans_logo_officiel_typo_only",
+    "kf-studio: aucune_gamme_identifiable_sur_produits_sumup",
+    "big-kawa: carte_sans_logo_officiel_typo_only",
+    "big-kawa: cover_gamme_manquant:cafe",
+    "yum-ebot: carte_sans_logo_officiel_typo_only",
+    "yum-ebot: cover_gamme_manquant:yum-e-bot",
+    "eliquid-france: cover_gamme_manquant:fruizee",
+    "eliquid-france: gamme_sumup_hors_yoann:fruizee",
+    "vape-47: gamme_yoann_sans_match_sumup:furiosa-eggz-v2",
+    "vape-47: aucune_gamme_identifiable_sur_produits_sumup",
+    "le-maudit: carte_sans_logo_officiel_typo_only",
+    "le-maudit: cover_gamme_manquant:le-maudit"
+  ]
+}

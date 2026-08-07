@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { RangeCatalogCard } from "@/components/catalog/RangeCatalogCard";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
-import { manufacturerLogoUrlIfExists } from "@/lib/catalog/manufacturer-logo.server";
+import { manufacturerBannerOrLogoIfExists, manufacturerLogoUrlIfExists } from "@/lib/catalog/manufacturer-logo.server";
 import { rangeCoverUrl } from "@/lib/catalog/range-cover";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
@@ -63,7 +63,9 @@ export default async function FabricantPage({ params }: Props) {
     notFound();
   }
 
-  const logo = manufacturerLogoUrlIfExists(manufacturer.slug);
+  const logo =
+    manufacturerLogoUrlIfExists(manufacturer.slug) ||
+    manufacturerBannerOrLogoIfExists(manufacturer.slug);
   if (!logo) notFound();
 
   const validatedRanges = manufacturer.ranges.filter((r) => {

@@ -106,8 +106,8 @@ async function renderTypographicBanner(
 <svg width="${BANNER_W}" height="${BANNER_H}" viewBox="0 0 ${BANNER_W} ${BANNER_H}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="#101720"/>
   <rect x="0" y="0" width="100%" height="4" fill="#2DD4BF"/>
-  <text x="50%" y="48%" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="72" fill="#F3F4F6">${safe}</text>
-  <text x="50%" y="58%" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#A7B0BC" letter-spacing="4">E-LIQUIDES · ALL VAP'S</text>
+  <text x="50%" y="52%" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="72" fill="#F3F4F6">${safe}</text>
+  <!-- Sous-titre volumes injecté dynamiquement sur /e-liquides (pas de texte statique ALL VAP'S) -->
   ${badge}
 </svg>`;
 

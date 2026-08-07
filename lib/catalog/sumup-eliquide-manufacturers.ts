@@ -71,13 +71,18 @@ const EXTRA_ALIASES: Record<string, string[]> = {
   "the-fuu": ["the fuu", "fuu"],
   "vape-47": ["vape 47", "vape47"],
   "cloud-vapor": ["cloud vapor"],
-  "biarritz-lab": ["biarritz lab"],
+  "biarritz-lab": ["biarritz lab", "biarrtiz lab"],
   "cookin-cloud": ["cookin cloud", "cookin'cloud", "cooking cloud"],
   "eliquid-france": ["eliquid france", "e liquid france", "e-liquid france"],
   "raneki-liquide": ["raneki", "raneki liquide"],
   "liquide-lab": ["liquide lab", "liquidelab"],
-  airmust: ["air must", "airmust"],
-  "aromes-secrets": ["aromes & secrets", "aromes and secrets", "arômes & secrets"],
+  airmust: ["air must", "airmust", "air max must"],
+  "aromes-secrets": [
+    "aromes & secrets",
+    "aromes and secrets",
+    "arômes & secrets",
+    "aromes secrets",
+  ],
   "mexican-cartel": ["mexican cartel"],
   "fruity-cool": ["fruity cool"],
   "vape-city": ["vape city"],
@@ -90,7 +95,9 @@ const EXTRA_ALIASES: Record<string, string[]> = {
   "vape-maker": ["vape maker"],
   "maison-fuel": ["maison fuel", "fighter fuel"],
   curieux: ["curieux"],
-  "secrets-lab": ["secrets lab", "secret's lab", "secrets keys"],
+  "secrets-lab": ["secrets lab", "secret's lab", "secrets keys", "secret's keys"],
+  protect: ["protect"],
+  "vap-air": ["vap air", "vap'air", "vapair"],
 };
 
 export function norm(s: string): string {

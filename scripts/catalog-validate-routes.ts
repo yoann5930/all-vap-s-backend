@@ -3,7 +3,7 @@
  * Exit ≠ 0 si échec.
  */
 import prisma from "../lib/prisma";
-import { manufacturerLogoUrlIfExists as manufacturerLogoUrl } from "../lib/catalog/manufacturer-logo.server";
+import { manufacturerBannerOrLogoIfExists as manufacturerVisualUrl } from "../lib/catalog/manufacturer-logo.server";
 import { rangeCoverUrl } from "../lib/catalog/range-cover";
 import {
   isRangeCatalogEligible,
@@ -17,26 +17,43 @@ type Issue = string;
 async function main() {
   const issues: Issue[] = [];
 
-  // /e-liquides — fabricants avec logo + produits visibles
+  // /e-liquides — fabricants publiables = visuel (logo|banner) + ≥1 gamme éligible
   const mfrs = await prisma.manufacturer.findMany({
     where: {
       isActive: true,
       status: { in: ["verifie", "partiel"] },
-      products: {
-        some: {
-          visibleOnline: true,
-          isActive: true,
-          catalogStatus: { in: ["valide", "actif"] },
+    },
+    include: {
+      ranges: {
+        where: { isActive: true },
+        include: {
+          products: {
+            where: {
+              visibleOnline: true,
+              isActive: true,
+              catalogStatus: { in: ["valide", "actif"] },
+            },
+            select: { id: true },
+          },
         },
       },
     },
-    select: { id: true, name: true, slug: true },
   });
 
   for (const m of mfrs) {
-    const logo = manufacturerLogoUrl(m.slug);
-    if (!logo) {
-      issues.push(`ROUTE_/e-liquides: ${m.slug} a des produits visibles mais PAS de logo (case absente)`);
+    const visual = manufacturerVisualUrl(m.slug);
+    const eligible = m.ranges.filter((r) => {
+      if (r.products.length === 0) return false;
+      if (!rangeCoverUrl(m.slug, r.slug)) return false;
+      return isRangeCatalogEligible(
+        readRangeOfficialGate(r as unknown as Record<string, unknown>)
+      );
+    });
+    if (eligible.length === 0) continue; // hors hub (pas une erreur)
+    if (!visual) {
+      issues.push(
+        `ROUTE_/e-liquides: ${m.slug} a des gammes éligibles mais PAS de logo/banner`
+      );
     }
   }
 
