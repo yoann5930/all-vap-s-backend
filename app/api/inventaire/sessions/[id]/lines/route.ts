@@ -41,7 +41,17 @@ export async function GET(_request: NextRequest, context: Ctx) {
         lines: {
           orderBy: { createdAt: "desc" },
           include: {
-            product: true,
+            product: {
+              select: {
+                id: true,
+                name: true,
+                brand: true,
+                range: true,
+                barcode: true,
+                priceCents: true,
+                imageUrl: true,
+              },
+            },
             photos: { orderBy: { createdAt: "desc" } },
           },
         },
@@ -156,13 +166,32 @@ export async function POST(request: NextRequest, context: Ctx) {
     }
 
     if (productId) {
+      // select explicite : évite un 500 si le schéma Prisma dérive (colonnes absentes en base)
       const product = await prisma.product.findUnique({
         where: { id: productId },
-        include: {
+        select: {
+          id: true,
+          name: true,
+          brand: true,
+          range: true,
+          category: true,
+          imageUrl: true,
+          barcode: true,
+          priceCents: true,
+          promoPriceCents: true,
+          source: true,
           variants: {
             where: { active: true },
             take: 1,
             orderBy: { createdAt: "asc" },
+            select: {
+              id: true,
+              name: true,
+              size: true,
+              capacityMl: true,
+              nicotineLabel: true,
+              nicotineMg: true,
+            },
           },
         },
       });
@@ -397,7 +426,20 @@ export async function POST(request: NextRequest, context: Ctx) {
             .filter(Boolean)
             .join("; "),
       },
-      include: { product: true, photos: true },
+      include: {
+        product: {
+          select: {
+            id: true,
+            name: true,
+            brand: true,
+            range: true,
+            barcode: true,
+            priceCents: true,
+            imageUrl: true,
+          },
+        },
+        photos: true,
+      },
     });
 
     const oldQty = expectedQuantitySnapshot;
