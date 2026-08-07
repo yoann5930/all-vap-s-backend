@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
       { source: "/products", destination: "/boutique", permanent: true },
       { source: "/products/:slug", destination: "/boutique/:slug", permanent: true },
       { source: "/nos-boutiques", destination: "/boutiques", permanent: true },
-      { source: "/e-liquides", destination: "/boutique?category=e-liquides", permanent: true },
+      // /e-liquides = hub fabricants (bannières) — ne pas rediriger vers /boutique
       {
         source: "/cigarettes-electroniques",
         destination: "/boutique?category=cigarettes-electroniques",
