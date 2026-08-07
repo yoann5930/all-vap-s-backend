@@ -107,7 +107,12 @@ function applySecurityHeaders(
     ].join("; ")
   );
 
-  if (pathname.startsWith("/admin/fidelatoo") || pathname.startsWith("/api/admin/fidelatoo")) {
+  if (
+    pathname.startsWith("/admin/fidelatoo") ||
+    pathname.startsWith("/api/admin/fidelatoo") ||
+    pathname.startsWith("/admin/ava") ||
+    pathname.startsWith("/api/admin/ava")
+  ) {
     response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
     response.headers.set("Pragma", "no-cache");
     response.headers.set("X-Robots-Tag", "noindex, nofollow");

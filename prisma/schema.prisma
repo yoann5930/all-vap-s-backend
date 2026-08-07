@@ -88,6 +88,21 @@ model User {
   inventorySessions   InventorySession[]
   auditLogs           AuditLog[]
   statusChanges       OrderStatusHistory[] @relation("StatusChangedBy")
+  avaGestionMessages  AvaGestionMessage[]
+}
+
+/// Historique chat A.V.A. Gestion / Admin A.V.A. (par utilisateur)
+model AvaGestionMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String
+  content   String
+  linksJson Json?
+  metaJson  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 /// Journal d'audit inventaire / admin (traçabilité obligatoire)
