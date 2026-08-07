@@ -290,6 +290,57 @@ select.admin-input {
   border-color: var(--adm-border) !important;
 }
 
+/* Suivi / tableaux inventaire — contraste forcé blanc / noir */
+.av-contrast-table,
+.live-scans-table,
+.admin-app .av-contrast-table,
+.admin-app .live-scans-table {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.av-contrast-table table,
+.live-scans-table table,
+.admin-app .av-contrast-table table,
+.admin-app .live-scans-table table {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.av-contrast-table th,
+.av-contrast-table td,
+.av-contrast-table a,
+.live-scans-table th,
+.live-scans-table td,
+.live-scans-table a,
+.admin-app .av-contrast-table th,
+.admin-app .av-contrast-table td,
+.admin-app .av-contrast-table a,
+.admin-app .live-scans-table th,
+.admin-app .live-scans-table td,
+.admin-app .live-scans-table a {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.av-contrast-table thead th,
+.live-scans-table thead th,
+.admin-app .av-contrast-table thead th,
+.admin-app .live-scans-table thead th {
+  background: #f9fafb !important;
+  color: #111827 !important;
+}
+.av-contrast-table tbody td,
+.live-scans-table tbody td,
+.admin-app .av-contrast-table tbody td,
+.admin-app .live-scans-table tbody td {
+  background: #ffffff !important;
+}
+.av-contrast-table tbody tr:hover td,
+.live-scans-table tbody tr:hover td,
+.admin-app .av-contrast-table tbody tr:hover td,
+.admin-app .live-scans-table tbody tr:hover td {
+  background: #f3f4f6 !important;
+  color: #000000 !important;
+}
+
 /* —— Administration > Utilisateurs (fond blanc, sans scroll horizontal) —— */
 .admin-users-page {
   --au-bg: #f7f8fa;

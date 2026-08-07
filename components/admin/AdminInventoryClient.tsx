@@ -312,28 +312,28 @@ export function AdminInventoryClient() {
                 }}
               />
               <Button type="button" variant="secondary" onClick={() => void completeSession()} loading={loading}>
-                Clôturer (sans stock)
+                Envoyer à validation
               </Button>
             </div>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-            <table className="w-full text-left text-sm">
+          <div className="av-contrast-table overflow-x-auto rounded-xl border border-gray-200 bg-white">
+            <table className="w-full bg-white text-left text-sm text-black">
               <thead>
-                <tr className="border-b text-gray-500">
-                  <th className="px-3 py-2">Code</th>
-                  <th className="px-3 py-2">Produit</th>
-                  <th className="px-3 py-2">Qté</th>
-                  <th className="px-3 py-2">Photo</th>
+                <tr className="border-b bg-gray-50 text-black">
+                  <th className="px-3 py-2 font-semibold text-black">Code</th>
+                  <th className="px-3 py-2 font-semibold text-black">Produit</th>
+                  <th className="px-3 py-2 font-semibold text-black">Qté</th>
+                  <th className="px-3 py-2 font-semibold text-black">Photo</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-white text-black">
                 {(session.lines || []).map((l) => (
-                  <tr key={l.id} className="border-b">
-                    <td className="px-3 py-2">{l.barcode || "—"}</td>
-                    <td className="px-3 py-2">{l.product?.name || "Non reconnu"}</td>
-                    <td className="px-3 py-2">{l.quantityCounted}</td>
-                    <td className="px-3 py-2">{l.photoPath ? "Oui" : "—"}</td>
+                  <tr key={l.id} className="border-b bg-white text-black hover:bg-gray-50">
+                    <td className="px-3 py-2 text-black">{l.barcode || "—"}</td>
+                    <td className="px-3 py-2 text-black">{l.product?.name || "Non reconnu"}</td>
+                    <td className="px-3 py-2 text-black">{l.quantityCounted}</td>
+                    <td className="px-3 py-2 text-black">{l.photoPath ? "Oui" : "—"}</td>
                   </tr>
                 ))}
               </tbody>

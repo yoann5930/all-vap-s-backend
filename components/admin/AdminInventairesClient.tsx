@@ -330,49 +330,51 @@ export function AdminInventairesClient() {
             ici.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-emerald-100 bg-white">
-            <table className="min-w-full text-left text-sm">
-              <thead className="border-b bg-emerald-50/80 text-xs uppercase tracking-wide text-gray-500">
+          <div className="av-contrast-table live-scans-table overflow-x-auto rounded-xl border border-emerald-100 bg-white">
+            <table className="min-w-full bg-white text-left text-sm text-black">
+              <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-black">
                 <tr>
-                  <th className="px-3 py-3">Produit</th>
-                  <th className="px-3 py-3">Marque</th>
-                  <th className="px-3 py-3">Gamme</th>
-                  <th className="px-3 py-3">EAN</th>
-                  <th className="px-3 py-3">Prix</th>
-                  <th className="px-3 py-3">Qté</th>
-                  <th className="px-3 py-3">Boutique</th>
-                  <th className="px-3 py-3">Date / heure</th>
-                  <th className="px-3 py-3">Employé</th>
+                  <th className="px-3 py-3 font-semibold text-black">Produit</th>
+                  <th className="px-3 py-3 font-semibold text-black">Marque</th>
+                  <th className="px-3 py-3 font-semibold text-black">Gamme</th>
+                  <th className="px-3 py-3 font-semibold text-black">EAN</th>
+                  <th className="px-3 py-3 font-semibold text-black">Prix</th>
+                  <th className="px-3 py-3 font-semibold text-black">Qté</th>
+                  <th className="px-3 py-3 font-semibold text-black">Boutique</th>
+                  <th className="px-3 py-3 font-semibold text-black">Date / heure</th>
+                  <th className="px-3 py-3 font-semibold text-black">Employé</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-white text-black">
                 {liveScans.map((scan) => (
                   <tr
                     key={scan.lineId}
-                    className="border-b last:border-0 hover:bg-emerald-50/40"
+                    className="border-b bg-white text-black last:border-0 hover:bg-gray-50"
                   >
-                    <td className="px-3 py-3 font-semibold text-gray-900">
+                    <td className="px-3 py-3 font-semibold text-black">
                       <Link
                         href={`/admin/inventaires/${scan.sessionId}`}
-                        className="text-emerald-900 underline-offset-2 hover:underline"
+                        className="text-black underline-offset-2 hover:underline"
                       >
                         {scan.productName}
                       </Link>
                     </td>
-                    <td className="px-3 py-3">{scan.brand || "—"}</td>
-                    <td className="px-3 py-3">{scan.range || "—"}</td>
-                    <td className="px-3 py-3 font-mono text-xs font-semibold">
+                    <td className="px-3 py-3 text-black">{scan.brand || "—"}</td>
+                    <td className="px-3 py-3 text-black">{scan.range || "—"}</td>
+                    <td className="px-3 py-3 font-mono text-xs font-semibold text-black">
                       {scan.barcode || "—"}
                     </td>
-                    <td className="px-3 py-3 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-3 py-3 text-black">
                       {formatEuroFromCents(scan.unitPriceCents)}
                     </td>
-                    <td className="px-3 py-3 font-semibold">{scan.quantityCounted}</td>
-                    <td className="px-3 py-3">{scan.storeName}</td>
-                    <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-600">
+                    <td className="px-3 py-3 font-semibold text-black">
+                      {scan.quantityCounted}
+                    </td>
+                    <td className="px-3 py-3 text-black">{scan.storeName}</td>
+                    <td className="whitespace-nowrap px-3 py-3 text-xs text-black">
                       {new Date(scan.scannedAt).toLocaleString("fr-FR")}
                     </td>
-                    <td className="px-3 py-3">{scan.employeeName || "—"}</td>
+                    <td className="px-3 py-3 text-black">{scan.employeeName || "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -381,9 +383,9 @@ export function AdminInventairesClient() {
         )}
       </section>
 
-      <div className="flex flex-wrap gap-2 rounded-xl border border-gray-200 bg-white p-3">
+      <div className="flex flex-wrap gap-2 rounded-xl border border-gray-200 bg-white p-3 text-black">
         <select
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-black"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -394,7 +396,7 @@ export function AdminInventairesClient() {
           ))}
         </select>
         <select
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-black"
           value={store}
           onChange={(e) => setStore(e.target.value)}
         >
@@ -403,7 +405,7 @@ export function AdminInventairesClient() {
           <option value="LE_QUESNOY">Le Quesnoy</option>
         </select>
         <input
-          className="min-w-[180px] flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="min-w-[180px] flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500"
           placeholder="Rechercher employé ou ID…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -427,40 +429,40 @@ export function AdminInventairesClient() {
           Aucun inventaire trouvé.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-          <table className="min-w-full text-left text-sm">
-            <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+        <div className="av-contrast-table overflow-x-auto rounded-xl border border-gray-200 bg-white">
+          <table className="min-w-full bg-white text-left text-sm text-black">
+            <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-black">
               <tr>
-                <th className="px-3 py-3">ID</th>
-                <th className="px-3 py-3">Employé</th>
-                <th className="px-3 py-3">Boutique</th>
-                <th className="px-3 py-3">Début</th>
-                <th className="px-3 py-3">Fin</th>
-                <th className="px-3 py-3">Statut</th>
-                <th className="px-3 py-3">Produits</th>
-                <th className="px-3 py-3">Qté</th>
-                <th className="px-3 py-3">Photos</th>
-                <th className="px-3 py-3">Valeur</th>
-                <th className="px-3 py-3">Modifié</th>
+                <th className="px-3 py-3 font-semibold text-black">ID</th>
+                <th className="px-3 py-3 font-semibold text-black">Employé</th>
+                <th className="px-3 py-3 font-semibold text-black">Boutique</th>
+                <th className="px-3 py-3 font-semibold text-black">Début</th>
+                <th className="px-3 py-3 font-semibold text-black">Fin</th>
+                <th className="px-3 py-3 font-semibold text-black">Statut</th>
+                <th className="px-3 py-3 font-semibold text-black">Produits</th>
+                <th className="px-3 py-3 font-semibold text-black">Qté</th>
+                <th className="px-3 py-3 font-semibold text-black">Photos</th>
+                <th className="px-3 py-3 font-semibold text-black">Valeur</th>
+                <th className="px-3 py-3 font-semibold text-black">Modifié</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white text-black">
               {rows.map((r) => (
-                <tr key={r.id} className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="px-3 py-3 font-mono text-xs">
+                <tr key={r.id} className="border-b bg-white text-black last:border-0 hover:bg-gray-50">
+                  <td className="px-3 py-3 font-mono text-xs text-black">
                     <Link
                       href={`/admin/inventaires/${r.id}`}
-                      className="font-semibold text-emerald-800 underline-offset-2 hover:underline"
+                      className="font-semibold text-black underline-offset-2 hover:underline"
                     >
                       {r.id.slice(0, 12)}…
                     </Link>
                   </td>
-                  <td className="px-3 py-3 font-medium">{r.employeeName}</td>
-                  <td className="px-3 py-3">{r.storeName}</td>
-                  <td className="px-3 py-3 whitespace-nowrap">
+                  <td className="px-3 py-3 font-medium text-black">{r.employeeName}</td>
+                  <td className="px-3 py-3 text-black">{r.storeName}</td>
+                  <td className="whitespace-nowrap px-3 py-3 text-black">
                     {new Date(r.startedAt).toLocaleString("fr-FR")}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-3 py-3 text-black">
                     {r.completedAt
                       ? new Date(r.completedAt).toLocaleString("fr-FR")
                       : "—"}
@@ -472,18 +474,18 @@ export function AdminInventairesClient() {
                       {r.statusLabel}
                     </span>
                   </td>
-                  <td className="px-3 py-3">{r.productCount}</td>
-                  <td className="px-3 py-3">{r.totalQuantity}</td>
-                  <td className="px-3 py-3">{r.photoCount}</td>
-                  <td className="px-3 py-3 whitespace-nowrap">
+                  <td className="px-3 py-3 text-black">{r.productCount}</td>
+                  <td className="px-3 py-3 text-black">{r.totalQuantity}</td>
+                  <td className="px-3 py-3 text-black">{r.photoCount}</td>
+                  <td className="whitespace-nowrap px-3 py-3 text-black">
                     {formatEuroFromCents(r.totalValueCents)}
                     {r.missingPriceCount > 0 ? (
-                      <span className="ml-1 text-xs text-amber-700">
+                      <span className="ml-1 text-xs text-amber-800">
                         ({r.missingPriceCount} s/prix)
                       </span>
                     ) : null}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500">
+                  <td className="whitespace-nowrap px-3 py-3 text-xs text-black">
                     {new Date(r.updatedAt).toLocaleString("fr-FR")}
                   </td>
                 </tr>

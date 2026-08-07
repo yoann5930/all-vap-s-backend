@@ -354,29 +354,29 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
       {message && <p className="text-sm text-emerald-700">{message}</p>}
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-        <table className="min-w-full text-left text-sm">
-          <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
+      <div className="av-contrast-table overflow-x-auto rounded-xl border border-gray-200 bg-white">
+        <table className="min-w-full bg-white text-left text-sm text-black">
+          <thead className="border-b bg-gray-50 text-xs uppercase text-black">
             <tr>
-              <th className="px-3 py-3">Photo</th>
-              <th className="px-3 py-3">Produit</th>
-              <th className="px-3 py-3">Code-barres</th>
-              <th className="px-3 py-3">Qté</th>
-              <th className="px-3 py-3">Prix</th>
-              <th className="px-3 py-3">Total</th>
-              <th className="px-3 py-3">Scan</th>
-              <th className="px-3 py-3"></th>
+              <th className="px-3 py-3 font-semibold text-black">Photo</th>
+              <th className="px-3 py-3 font-semibold text-black">Produit</th>
+              <th className="px-3 py-3 font-semibold text-black">Code-barres</th>
+              <th className="px-3 py-3 font-semibold text-black">Qté</th>
+              <th className="px-3 py-3 font-semibold text-black">Prix</th>
+              <th className="px-3 py-3 font-semibold text-black">Total</th>
+              <th className="px-3 py-3 font-semibold text-black">Scan</th>
+              <th className="px-3 py-3 font-semibold text-black"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white text-black">
             {(inv.lines || []).map((l) => {
               const photos = l.photos || [];
               const thumb =
                 photos[0]?.publicUrl || l.photoPath || l.catalogImageUrl || l.product?.imageUrl;
               const name = l.productNameSnapshot || l.product?.name || "Produit inconnu";
               return (
-                <tr key={l.id} className="border-b align-top last:border-0">
-                  <td className="px-3 py-3">
+                <tr key={l.id} className="border-b bg-white text-black align-top last:border-0 hover:bg-gray-50">
+                  <td className="px-3 py-3 text-black">
                     {thumb ? (
                       <button
                         type="button"
@@ -402,56 +402,56 @@ export function AdminInventaireDetailClient({ id }: { id: string }) {
                       </div>
                     )}
                   </td>
-                  <td className="px-3 py-3">
-                    <p className="font-semibold text-gray-900">{name}</p>
-                    <p className="text-xs text-gray-500">
+                  <td className="px-3 py-3 text-black">
+                    <p className="font-semibold text-black">{name}</p>
+                    <p className="text-xs text-black/70">
                       {[l.brandSnapshot, l.rangeSnapshot ? `gamme ${l.rangeSnapshot}` : null]
                         .filter(Boolean)
                         .join(" · ") || "—"}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-black/70">
                       {[l.formatSnapshot, l.nicotineSnapshot].filter(Boolean).join(" · ") || ""}
                     </p>
                     {l.priceSource ? (
-                      <p className="text-[11px] text-gray-400">tarif {l.priceSource}</p>
+                      <p className="text-[11px] text-black/60">tarif {l.priceSource}</p>
                     ) : null}
                     {l.notes ? (
-                      <p className="mt-1 text-xs text-gray-600">Note : {l.notes}</p>
+                      <p className="mt-1 text-xs text-black/80">Note : {l.notes}</p>
                     ) : null}
                     {photos[0] ? (
                       <a
                         href={photos[0].publicUrl}
                         download
-                        className="mt-1 inline-block text-xs font-semibold text-emerald-800"
+                        className="mt-1 inline-block text-xs font-semibold text-black underline"
                       >
                         Télécharger photo
                       </a>
                     ) : null}
                   </td>
-                  <td className="px-3 py-3 font-mono text-xs font-semibold text-gray-900">
+                  <td className="px-3 py-3 font-mono text-xs font-semibold text-black">
                     {l.barcode || "—"}
                   </td>
-                  <td className="px-3 py-3 font-semibold">{l.quantityCounted}</td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-3 font-semibold text-black">{l.quantityCounted}</td>
+                  <td className="px-3 py-3 text-black">
                     {formatEuroFromCents(l.unitPriceCents)}
-                    <div className="text-[10px] uppercase text-gray-400">
+                    <div className="text-[10px] uppercase text-black/60">
                       {l.priceSource || "—"}
                     </div>
                   </td>
-                  <td className="px-3 py-3 font-medium">
+                  <td className="px-3 py-3 font-medium text-black">
                     {formatEuroFromCents(l.totalValueCents)}
                   </td>
-                  <td className="px-3 py-3 text-xs text-gray-600 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-3 py-3 text-xs text-black">
                     <div>{new Date(l.scannedAt).toLocaleString("fr-FR")}</div>
-                    <div className="text-gray-400">
+                    <div className="text-black/60">
                       mod. {new Date(l.updatedAt).toLocaleString("fr-FR")}
                     </div>
                   </td>
-                  <td className="px-3 py-3">
+                  <td className="px-3 py-3 text-black">
                     <button
                       type="button"
                       onClick={() => openEdit(l)}
-                      className="rounded-lg border border-gray-300 px-2 py-1 text-xs font-semibold"
+                      className="rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-black"
                     >
                       Corriger
                     </button>

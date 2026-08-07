@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { requireAuth } from "@/lib/jwt";
+import { getAuthUser, requireAuth } from "@/lib/jwt";
+import { isOwnerRole, isStaffRole } from "@/lib/admin/roles";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -16,20 +17,36 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     ) {
       throw error;
     }
+    // Employé authentifié : espace inventaire, pas page login trompeuse
+    try {
+      const user = await getAuthUser();
+      if (user && isStaffRole(user.role) && !isOwnerRole(user.role)) {
+        redirect("/inventaire");
+      }
+    } catch (inner) {
+      if (
+        inner &&
+        typeof inner === "object" &&
+        "digest" in inner &&
+        String((inner as { digest?: string }).digest || "").startsWith("NEXT_REDIRECT")
+      ) {
+        throw inner;
+      }
+    }
     redirect("/login");
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-8 text-gray-900 sm:px-6 lg:px-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-sm font-medium text-brand-700">Administration All Vap&apos;s</h2>
         </div>
-        <Link href="/" className="text-sm text-gray-500 hover:text-brand-700">← Site</Link>
+        <Link href="/" className="text-sm text-gray-600 hover:text-brand-700">← Site</Link>
       </div>
       <div className="flex flex-col gap-8 lg:flex-row">
         <AdminSidebar />
-        <div className="min-w-0 flex-1">{children}</div>
+        <div className="min-w-0 flex-1 text-gray-900">{children}</div>
       </div>
     </div>
   );

@@ -66,6 +66,63 @@ body {
   @apply bg-premium-black text-white antialiased;
 }
 
+/**
+ * Tableaux admin fond blanc : le body est text-white, donc les cellules
+ * sans couleur explicite deviennent illisibles. Forcer noir sur blanc.
+ */
+.av-contrast-table,
+.live-scans-table {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.av-contrast-table table,
+.live-scans-table table {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+.av-contrast-table th,
+.av-contrast-table td,
+.av-contrast-table a,
+.live-scans-table th,
+.live-scans-table td,
+.live-scans-table a {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.av-contrast-table thead th,
+.live-scans-table thead th {
+  background: #f9fafb !important;
+  color: #111827 !important;
+}
+.av-contrast-table tbody tr,
+.live-scans-table tbody tr {
+  background: #ffffff !important;
+}
+.av-contrast-table tbody td,
+.live-scans-table tbody td {
+  background: #ffffff !important;
+}
+.av-contrast-table tbody tr:hover td,
+.live-scans-table tbody tr:hover td {
+  background: #f3f4f6 !important;
+  color: #000000 !important;
+}
+.av-contrast-table tbody tr:hover a,
+.live-scans-table tbody tr:hover a {
+  color: #000000 !important;
+}
+/* Badges colorés dans les tableaux : conserver leurs couleurs */
+.av-contrast-table .av-badge,
+.av-contrast-table [class*="bg-amber-"],
+.av-contrast-table [class*="bg-indigo-"],
+.av-contrast-table [class*="bg-sky-"],
+.av-contrast-table [class*="bg-emerald-"],
+.av-contrast-table [class*="bg-violet-"],
+.av-contrast-table [class*="bg-gray-200"],
+.av-contrast-table [class*="bg-gray-100"] {
+  /* les classes text-* du badge restent via spécificité égale + ordre */
+}
+
 /* Discrete vapor — hero / splash */
 .av-vapor {
   background:
