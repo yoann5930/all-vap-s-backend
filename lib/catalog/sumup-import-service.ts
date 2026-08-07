@@ -202,9 +202,10 @@ export async function applySumUpCsvImport(params: {
           },
         });
 
-        if (!params.createUnmatched || plan.quantity == null) continue;
+        if (!params.createUnmatched) continue;
 
         const src = byRow.get(plan.rowIndex);
+        const qty = plan.quantity ?? 0;
         const baseSlug = slugify(plan.name) || `produit-${plan.rowIndex}`;
         let slug = baseSlug;
         let i = 1;
@@ -219,10 +220,11 @@ export async function applySumUpCsvImport(params: {
             slug,
             sku: plan.sku,
             barcode: plan.barcode,
+            sumupProductId: src?.sumupProductId || null,
             category: src?.category || "autre",
             brand: src?.brand || null,
             priceCents: src?.priceCents ?? 0,
-            stock: plan.quantity,
+            stock: qty,
             source: "sumup_csv",
             visibleOnline: false,
             isActive: false,
@@ -242,7 +244,6 @@ export async function applySumUpCsvImport(params: {
           },
         });
 
-        const qty = plan.quantity;
         await prisma.stockLevel.create({
           data: {
             productId: product.id,
@@ -349,12 +350,16 @@ export async function applySumUpCsvImport(params: {
           },
         });
 
+        const srcUpdate = byRow.get(plan.rowIndex);
         await prisma.product.update({
           where: { id: plan.matchedProductId },
           data: {
             normalizedName: plan.normalizedName,
             ...(plan.barcode ? { barcode: plan.barcode } : {}),
             ...(plan.sku ? { sku: plan.sku } : {}),
+            ...(srcUpdate?.sumupProductId
+              ? { sumupProductId: srcUpdate.sumupProductId }
+              : {}),
           },
         });
 
