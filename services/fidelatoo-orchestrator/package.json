@@ -1,0 +1,20 @@
+{
+  "name": "allvaps-fidelatoo-orchestrator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Service privé d'orchestration Android Fidelatoo pour allvaps.fr — jamais exposer ADB publiquement",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "health": "tsx src/healthcheck.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "tsx": "^4.23.1",
+    "typescript": "^5.7.2"
+  }
+}
