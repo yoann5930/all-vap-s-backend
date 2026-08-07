@@ -229,7 +229,9 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
                 <td className="px-3 py-3 pr-4 font-medium text-black">{product.name}</td>
                 <td className="px-3 py-3 pr-4 text-black">{product.sku || "—"}</td>
                 <td className="px-3 py-3 pr-4 font-mono text-xs font-semibold text-black">
-                  {product.barcode || "—"}
+                  {product.barcode && String(product.barcode).trim()
+                    ? String(product.barcode).trim()
+                    : "—"}
                 </td>
                 <td className="px-3 py-3 pr-4 text-black">{product.category}</td>
                 <td className="px-3 py-3 pr-4 text-black">{formatPrice(product.priceCents)}</td>
