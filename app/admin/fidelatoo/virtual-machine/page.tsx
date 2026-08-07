@@ -106,8 +106,9 @@ export default function FidelatooVmPage() {
             )}
           </div>
           <p className="text-sm text-gray-600">
-            La VM reste sur le serveur privé. allvaps.fr ne commande que via l&apos;orchestrateur
-            signé — jamais ADB/Appium/scrcpy exposés.
+            Serveur boutique local 24/7 (ce PC All Vap&apos;s) : orchestrateur + VM Android + Caddy.
+            allvaps.fr commande uniquement via l&apos;orchestrateur signé — jamais ADB exposé.
+            Laisser le PC allumé et branché (veille désactivée, keep-alive actif).
           </p>
           <div className="flex flex-wrap gap-2">
             <Button
