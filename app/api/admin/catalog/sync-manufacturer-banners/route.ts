@@ -49,6 +49,57 @@ export async function POST(request: NextRequest) {
     }
 
     const body = bodySchema.parse(await request.json().catch(() => ({})));
+
+    // Schéma additif minimal si migrations catalogue absentes en prod
+    const ddl = [
+      `CREATE TABLE IF NOT EXISTS "Manufacturer" (
+        "id" TEXT NOT NULL,
+        "masterId" TEXT,
+        "name" TEXT NOT NULL,
+        "slug" TEXT NOT NULL,
+        "website" TEXT,
+        "officialCatalogUrl" TEXT,
+        "country" TEXT,
+        "status" TEXT NOT NULL DEFAULT 'a_verifier',
+        "verificationStatus" TEXT NOT NULL DEFAULT 'NEEDS_CONFIRMATION',
+        "verifiedAt" TIMESTAMP(3),
+        "verificationEvidence" TEXT,
+        "sortOrder" INTEGER NOT NULL DEFAULT 0,
+        "isActive" BOOLEAN NOT NULL DEFAULT true,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "Manufacturer_pkey" PRIMARY KEY ("id")
+      )`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "Manufacturer_slug_key" ON "Manufacturer"("slug")`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "Manufacturer_masterId_key" ON "Manufacturer"("masterId")`,
+      `CREATE TABLE IF NOT EXISTS "Brand" (
+        "id" TEXT NOT NULL,
+        "name" TEXT NOT NULL,
+        "slug" TEXT NOT NULL,
+        "logoUrl" TEXT,
+        "manufacturerId" TEXT,
+        "masterId" TEXT,
+        "status" TEXT NOT NULL DEFAULT 'a_verifier',
+        "isActive" BOOLEAN NOT NULL DEFAULT true,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "Brand_pkey" PRIMARY KEY ("id")
+      )`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "Brand_slug_key" ON "Brand"("slug")`,
+      `ALTER TABLE "Brand" ADD COLUMN IF NOT EXISTS "manufacturerId" TEXT`,
+      `ALTER TABLE "Brand" ADD COLUMN IF NOT EXISTS "status" TEXT NOT NULL DEFAULT 'a_verifier'`,
+      `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "manufacturerId" TEXT`,
+      `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "brandId" TEXT`,
+    ];
+    const ddlErrors: string[] = [];
+    for (const sql of ddl) {
+      try {
+        await prisma.$executeRawUnsafe(sql);
+      } catch (e) {
+        ddlErrors.push(e instanceof Error ? e.message : String(e));
+      }
+    }
+
     const banners = ((manifest as { banners?: BannerEntry[] }).banners ||
       []) as BannerEntry[];
 
@@ -106,6 +157,7 @@ export async function POST(request: NextRequest) {
         ok: true,
         dryRun: true,
         planned: planned.length,
+        ddlErrors: ddlErrors.slice(0, 10),
         sample: planned.slice(0, 10),
       });
     }
@@ -167,6 +219,7 @@ export async function POST(request: NextRequest) {
       dryRun: false,
       upserted,
       manufacturersTotal: manufacturers,
+      ddlErrors: ddlErrors.slice(0, 10),
       errors: errors.slice(0, 20),
     });
   } catch (error) {
