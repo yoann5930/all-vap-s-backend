@@ -115,7 +115,7 @@ export function AdminAvaChatPanel() {
       <header>
         <h1 className="text-2xl font-bold text-gray-900">A.V.A.</h1>
         <p className="mt-1 text-sm text-gray-600">
-          Assistante administrative interne All Vap&apos;s — hors mode vendeuse / client.
+          Conversation admin All Vap&apos;s — assistante interne, hors mode vendeuse / client.
         </p>
       </header>
 
@@ -167,7 +167,8 @@ export function AdminAvaChatPanel() {
         <CardBody className="flex max-h-[55vh] min-h-[280px] flex-col gap-3 overflow-y-auto">
           {messages.length === 0 && (
             <p className="text-sm text-gray-500">
-              Demande un diagnostic, un résumé de gestion, ton QR, ou l’état de ta VM.
+              Dis bonjour, pose une question, demande un résumé, un diagnostic ou l&apos;état de la VM —
+              A.V.A. te répond en conversation, avec les données admin réelles.
             </p>
           )}
           {messages.map((m, i) => (
@@ -213,7 +214,7 @@ export function AdminAvaChatPanel() {
           className="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand-400"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Écrire à A.V.A. (admin)…"
+          placeholder="Parler à A.V.A.…"
           disabled={loading}
           aria-label="Message Admin A.V.A."
         />

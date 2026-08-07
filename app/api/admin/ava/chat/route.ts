@@ -2,7 +2,10 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { requireAuth } from "@/lib/jwt";
-import { answerAvaGestion } from "@/lib/ava-gestion/advisor";
+import {
+  answerAdminAvaConversation,
+  type AdminChatTurn,
+} from "@/lib/ava-gestion/admin-conversation";
 import { runFidelatooCommand, getFidelatooStatus } from "@/lib/fidelatoo/orchestrator";
 import { writeAuditLog } from "@/lib/audit/log";
 import { clientIp } from "@/lib/rate-limit";
@@ -71,7 +74,7 @@ async function saveChatMessage(input: {
       },
     });
   } catch {
-    // Table absente ou client non synchronisé — AuditLog reste la source journal.
+    // Table absente — AuditLog reste la source journal.
   }
 }
 
@@ -113,7 +116,17 @@ async function loadChatMessages(userId: string): Promise<StoredMsg[]> {
   }
 }
 
-/** Chat Admin A.V.A. — ADMIN uniquement, moteur gestion existant + ops autonomes. */
+function toHistory(messages: StoredMsg[]): AdminChatTurn[] {
+  return messages
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .slice(-12)
+    .map((m) => ({
+      role: m.role as "user" | "assistant",
+      content: String(m.content || "").slice(0, 2500),
+    }));
+}
+
+/** Chat Admin A.V.A. — conversationnelle, ADMIN, moteur gestion + ops. */
 export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth("ADMIN");
@@ -130,17 +143,21 @@ export async function POST(request: NextRequest) {
       return jsonResponse({
         mode: "admin_ava",
         text:
-          "Action sensible détectée. Je ne l’exécute pas automatiquement.\n" +
-          "Confirme explicitement dans l’interface (confirmSensitive) si tu veux que je prépare uniquement le diagnostic — " +
-          "suppression massive, mots de passe, DNS, paiements et droits admin restent soumis à ta validation.",
+          "Attention : ça touche une action sensible. Je ne l'exécute pas toute seule. " +
+          "Confirme explicitement si tu veux seulement un diagnostic / plan — " +
+          "suppression massive, mots de passe, DNS, paiements et droits admin restent sous ta validation.",
         links: [],
         needsConfirmation: true,
         periodLabel: "",
         source: "admin_ava_guard",
         lastSyncAt: null,
         missingData: [],
+        conversational: true,
       });
     }
+
+    const prior = await loadChatMessages(user.userId);
+    const history = toHistory(prior);
 
     await saveChatMessage({
       userId: user.userId,
@@ -165,7 +182,7 @@ export async function POST(request: NextRequest) {
         qrReady: !!result.qrImageBase64 || !!result.qrExpiresAt,
       };
       opsText = [
-        `⚙️ Action autonome : ${ops}`,
+        `Action : ${ops}`,
         result.ok ? "Résultat : OK" : "Résultat : échec",
         result.message || "",
         result.status
@@ -187,18 +204,18 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const reply = await answerAvaGestion({
+    const reply = await answerAdminAvaConversation({
       message: body.message,
       role: user.role,
+      history,
       periodKey: body.periodKey as DatePeriod | undefined,
+      opsText: opsText || undefined,
     });
-
-    const text = opsText ? `${opsText}\n\n———\n\n${reply.text}` : reply.text;
 
     await saveChatMessage({
       userId: user.userId,
       role: "assistant",
-      content: text,
+      content: reply.text,
       linksJson: reply.links,
       metaJson: {
         periodLabel: reply.periodLabel,
@@ -206,6 +223,8 @@ export async function POST(request: NextRequest) {
         lastSyncAt: reply.lastSyncAt,
         missingData: reply.missingData,
         mode: "admin_ava",
+        conversational: true,
+        grounded: reply.grounded,
         ...opsExtra,
       },
     });
@@ -216,10 +235,12 @@ export async function POST(request: NextRequest) {
       ip,
       metadata: {
         mode: "admin_ava",
+        conversational: true,
         hasOps: !!ops,
         opsCommand: ops || null,
+        source: reply.source,
         userMessage: body.message.slice(0, 2000),
-        assistantText: text.slice(0, 8000),
+        assistantText: reply.text.slice(0, 8000),
         links: reply.links,
         preview: body.message.slice(0, 120),
       },
@@ -227,12 +248,14 @@ export async function POST(request: NextRequest) {
 
     return jsonResponse({
       mode: "admin_ava",
-      text,
+      text: reply.text,
       links: reply.links,
       periodLabel: reply.periodLabel,
       source: reply.source,
       lastSyncAt: reply.lastSyncAt,
       missingData: reply.missingData,
+      conversational: true,
+      grounded: reply.grounded,
       ...opsExtra,
     });
   } catch (error) {
@@ -267,13 +290,13 @@ export async function GET() {
         !(agent as { suspended?: boolean } | null)?.suspended
       ),
       suggestions: [
+        "Bonjour Ava",
+        "Que peux-tu faire ici ?",
         "Résumé du jour",
-        "Stocks faibles",
+        "Y a-t-il des stocks faibles ?",
         "Quel est ton statut ?",
         "Fais un diagnostic écran",
-        "Synchronise mon identité collaboratrice",
         "Récupère mon QR",
-        "Vérifie mon rôle",
       ],
     });
   } catch (error) {
