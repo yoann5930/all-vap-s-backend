@@ -23,13 +23,6 @@ export default async function ELiquidesHubPage() {
     where: {
       isActive: true,
       status: { in: ["verifie", "partiel"] },
-      products: {
-        some: {
-          visibleOnline: true,
-          isActive: true,
-          catalogStatus: { in: ["valide", "actif"] },
-        },
-      },
     },
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
     select: { id: true, name: true, slug: true },
