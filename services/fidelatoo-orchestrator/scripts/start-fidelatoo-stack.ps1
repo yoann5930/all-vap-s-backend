@@ -1,6 +1,8 @@
-# Démarre la stack locale Fidelatoo (orchestrateur + AVD stable) — 100% gratuit.
+# Stack Fidelatoo All Vap's — demarrage / reparation (100% gratuit, local).
+# Ne coupe RIEN si deja en ligne. Relance uniquement ce qui manque.
 # Usage: powershell -ExecutionPolicy Bypass -File .\scripts\start-fidelatoo-stack.ps1
-$ErrorActionPreference = "Stop"
+
+$ErrorActionPreference = "Continue"
 
 $svcRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 if ((Split-Path -Leaf $svcRoot) -eq "scripts") { $svcRoot = Split-Path -Parent $svcRoot }
@@ -11,33 +13,67 @@ $sdk = $env:ANDROID_HOME
 if (-not $sdk) { $sdk = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdk "platform-tools\adb.exe"
 $emu = Join-Path $sdk "emulator\emulator.exe"
-$avd = "AllVaps_Fidelatoo"
-$snapshot = "stable"
-$skin = "720x1280"
+$avd = if ($env:ANDROID_AVD_NAME) { $env:ANDROID_AVD_NAME } else { "AllVaps_Fidelatoo" }
+$snapshot = if ($env:ANDROID_AVD_SNAPSHOT) { $env:ANDROID_AVD_SNAPSHOT } else { "stable" }
+$skin = if ($env:ANDROID_AVD_SKIN) { $env:ANDROID_AVD_SKIN } else { "720x1280" }
+$pkg = if ($env:FIDELATOO_ANDROID_PACKAGE) { $env:FIDELATOO_ANDROID_PACKAGE } else { "fr.squirrel.fidelatoopro" }
 $logDir = Join-Path $repoRoot ".local\fidelatoo"
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 
-function Ensure-Orchestrator {
+function Write-Log([string]$msg) {
+  $line = "[{0}] {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg
+  Write-Output $line
+  Add-Content -Path (Join-Path $logDir "stack-keepalive.log") -Value $line -ErrorAction SilentlyContinue
+}
+
+function Test-Orchestrator {
   try {
-    $r = Invoke-WebRequest -Uri "http://127.0.0.1:8787/health" -UseBasicParsing -TimeoutSec 3
-    if ($r.StatusCode -eq 200) { Write-Output "Orchestrateur déjà UP"; return }
-  } catch {}
-  if (-not (Test-Path ".\.env")) { throw ".env manquant dans services/fidelatoo-orchestrator" }
-  if (-not (Test-Path ".\node_modules\tsx")) { npm install }
+    $r = Invoke-WebRequest -Uri "http://127.0.0.1:8787/health" -UseBasicParsing -TimeoutSec 4
+    return ($r.StatusCode -eq 200)
+  } catch {
+    return $false
+  }
+}
+
+function Ensure-Orchestrator {
+  if (Test-Orchestrator) {
+    Write-Log "Orchestrateur deja UP"
+    return
+  }
+  if (-not (Test-Path (Join-Path $svcRoot ".env"))) {
+    Write-Log "ERREUR: .env manquant dans services/fidelatoo-orchestrator"
+    return
+  }
+  if (-not (Test-Path (Join-Path $svcRoot "node_modules\tsx"))) {
+    Write-Log "npm install orchestrateur..."
+    npm install --prefix $svcRoot | Out-Null
+  }
   $out = Join-Path $logDir "orchestrator.log"
   $err = Join-Path $logDir "orchestrator.err.log"
   Start-Process -FilePath "npm.cmd" -ArgumentList @("run", "start") -WorkingDirectory $svcRoot `
     -RedirectStandardOutput $out -RedirectStandardError $err -WindowStyle Hidden | Out-Null
-  Start-Sleep -Seconds 3
-  Write-Output "Orchestrateur démarré"
+  Start-Sleep -Seconds 4
+  if (Test-Orchestrator) { Write-Log "Orchestrateur demarre" }
+  else { Write-Log "ERREUR: orchestrateur non joignable apres demarrage" }
+}
+
+function Ensure-AdbServer {
+  if (-not (Test-Path $adb)) { return }
+  & $adb start-server 2>&1 | Out-Null
+}
+
+function Test-DeviceOnline {
+  if (-not (Test-Path $adb)) { return $false }
+  $devs = & $adb devices 2>&1 | Out-String
+  return ($devs -match "\tdevice\b")
 }
 
 function Ensure-Avd {
-  if (-not (Test-Path $adb)) { throw "adb introuvable: $adb" }
-  if (-not (Test-Path $emu)) { throw "emulator introuvable: $emu" }
-  $devs = & $adb devices 2>&1 | Out-String
-  if ($devs -match "\tdevice\b") {
-    Write-Output "AVD déjà en ligne"
+  if (-not (Test-Path $adb)) { Write-Log "ERREUR: adb introuvable: $adb"; return }
+  if (-not (Test-Path $emu)) { Write-Log "ERREUR: emulator introuvable: $emu"; return }
+  Ensure-AdbServer
+  if (Test-DeviceOnline) {
+    Write-Log "AVD deja en ligne"
     return
   }
   $args = @(
@@ -50,39 +86,34 @@ function Ensure-Avd {
   )
   $out = Join-Path $logDir "emulator.log"
   $err = Join-Path $logDir "emulator.err.log"
-  Start-Process -FilePath $emu -ArgumentList $args -WindowStyle Normal `
+  Start-Process -FilePath $emu -ArgumentList $args -WindowStyle Minimized `
     -RedirectStandardOutput $out -RedirectStandardError $err | Out-Null
-  Write-Output "AVD démarrage demandé ($avd / snapshot $snapshot)"
-  $deadline = (Get-Date).AddMinutes(3)
+  Write-Log "AVD demarrage demande ($avd / snapshot $snapshot)"
+  $deadline = (Get-Date).AddMinutes(4)
   while ((Get-Date) -lt $deadline) {
-    $devs = & $adb devices 2>&1 | Out-String
-    if ($devs -match "\tdevice\b") {
+    if (Test-DeviceOnline) {
       $boot = ((& $adb shell getprop sys.boot_completed 2>&1) | Out-String).Trim()
       if ($boot -eq "1") {
-        Write-Output "AVD online"
+        Write-Log "AVD online"
         return
       }
     }
-    Start-Sleep -Seconds 4
+    Start-Sleep -Seconds 5
   }
-  throw "AVD non prête après timeout"
+  Write-Log "ERREUR: AVD non prete apres timeout"
 }
 
-Ensure-Orchestrator
-Ensure-Avd
-
-# Caddy HTTPS (fidelatoo.allvaps.fr -> 8787) — requis pour Vercel / Admin prod
 function Ensure-Caddy {
   $caddyDir = Join-Path $logDir "caddy"
   $caddyExe = Join-Path $caddyDir "caddy.exe"
   $caddyfile = Join-Path $caddyDir "Caddyfile"
   if (-not (Test-Path $caddyExe)) {
-    Write-Output "Caddy absent ($caddyExe) — skip HTTPS local"
+    Write-Log "Caddy absent - skip HTTPS"
     return
   }
   $listening = Get-NetTCPConnection -LocalPort 443 -State Listen -ErrorAction SilentlyContinue
   if ($listening) {
-    Write-Output "Caddy/HTTPS déjà UP (port 443)"
+    Write-Log "Caddy/HTTPS deja UP (443)"
     return
   }
   $out = Join-Path $caddyDir "caddy.out.log"
@@ -90,14 +121,27 @@ function Ensure-Caddy {
   Start-Process -FilePath $caddyExe -ArgumentList @("run", "--config", $caddyfile) `
     -WorkingDirectory $caddyDir -RedirectStandardOutput $out -RedirectStandardError $err `
     -WindowStyle Hidden | Out-Null
-  Start-Sleep -Seconds 2
-  Write-Output "Caddy démarré (fidelatoo.allvaps.fr -> 127.0.0.1:8787)"
+  Start-Sleep -Seconds 3
+  $listening2 = Get-NetTCPConnection -LocalPort 443 -State Listen -ErrorAction SilentlyContinue
+  if ($listening2) { Write-Log "Caddy demarre (fidelatoo.allvaps.fr -> 8787)" }
+  else { Write-Log "ERREUR: Caddy non a l'ecoute sur 443" }
 }
 
+function Ensure-FidelatooApp {
+  if (-not (Test-DeviceOnline)) { return }
+  $null = & $adb shell monkey -p $pkg -c android.intent.category.LAUNCHER 1 2>&1
+  Write-Log "App Fidelatoo verifiee/ouverte ($pkg)"
+}
+
+Write-Log "=== ensure stack Fidelatoo ==="
+Ensure-Orchestrator
+Ensure-Avd
 Ensure-Caddy
+Ensure-FidelatooApp
+
 try {
   $h = (Invoke-WebRequest -Uri "http://127.0.0.1:8787/health" -UseBasicParsing -TimeoutSec 8).Content
-  Write-Output $h
+  Write-Log "Health: $h"
 } catch {
-  Write-Output "Health: $($_.Exception.Message)"
+  Write-Log ("Health: " + $_.Exception.Message)
 }

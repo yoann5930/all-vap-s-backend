@@ -144,9 +144,10 @@ try {
   console.log("[orchestrator] identity load skipped");
 }
 
-// Watchdog léger gratuit : device + app Fidelatoo + relance AVD si plantée
+// Watchdog léger gratuit : device + app Fidelatoo + relance AVD / app si plantée
 const pkgWatch = () => (process.env.FIDELATOO_ANDROID_PACKAGE || "fr.squirrel.fidelatoopro").trim();
 let lastWatchdogStartAt = 0;
+let lastAppRelaunchAt = 0;
 setInterval(() => {
   try {
     const d = onlineDevice();
@@ -154,8 +155,8 @@ setInterval(() => {
       saveAgent({ online: false, currentApp: null, lastError: "watchdog: device offline" });
       const avd = (process.env.ANDROID_AVD_NAME || "").trim();
       const now = Date.now();
-      // Anti-spam : une tentative de relance max toutes les 2 minutes
-      if (avd && now - lastWatchdogStartAt > 120_000) {
+      // Anti-spam : une tentative de relance max toutes les 90s
+      if (avd && now - lastWatchdogStartAt > 90_000) {
         lastWatchdogStartAt = now;
         const started = tryStartAvd(avd);
         saveAgent({
@@ -168,11 +169,27 @@ setInterval(() => {
     }
     const pkg = pkgWatch();
     const fg = isAppInForeground(pkg, d.id);
+    if (!fg) {
+      const now = Date.now();
+      // Relance app si absente du premier plan (clients / commandes)
+      if (now - lastAppRelaunchAt > 60_000) {
+        lastAppRelaunchAt = now;
+        const opened = startActivity(pkg, d.id);
+        saveAgent({
+          online: true,
+          currentApp: opened.ok ? pkg : null,
+          lastAction: "watchdog.app.open",
+          lastError: opened.ok ? null : opened.message,
+          nextAction: opened.ok ? "idle" : "retry_app",
+        });
+        return;
+      }
+    }
     saveAgent({ online: true, currentApp: fg ? pkg : null, lastError: null });
   } catch {
     /* ignore */
   }
-}, 30_000);
+}, 20_000);
 server.listen(port, host, () => {
   console.log(
     `[orchestrator] listening http://${host}:${port} mock=false health=/health command=/v1/command`
