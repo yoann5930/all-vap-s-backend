@@ -160,16 +160,46 @@ function mapGetUserMediaError(err: unknown): { diag: MicDiagCode; message: strin
 const SECRET_SPEAK =
   /\b(mot\s*de\s*passe|password|token|api[_-]?key|secret|Bearer\s+\S+|sk-[a-zA-Z0-9_-]+)\b/i;
 
-function speakSafe(text: string) {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  const clean = text
-    .replace(SECRET_SPEAK, "[masqué]")
-    .replace(/sk-[a-zA-Z0-9_-]+/g, "[masqué]")
-    .slice(0, 1200);
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(clean);
-  u.lang = "fr-FR";
-  window.speechSynthesis.speak(u);
+type VoicePhase = "idle" | "listening" | "thinking" | "speaking";
+
+/** Synthèse vocale — Promise résolue à la fin réelle (évite de réécouter trop tôt). */
+function speakSafe(text: string): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof window === "undefined" || !window.speechSynthesis) {
+      resolve();
+      return;
+    }
+    const clean = text
+      .replace(SECRET_SPEAK, "[masqué]")
+      .replace(/sk-[a-zA-Z0-9_-]+/g, "[masqué]")
+      .slice(0, 1200);
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = "fr-FR";
+    let done = false;
+    let poll: ReturnType<typeof setInterval> | null = null;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      if (poll) clearInterval(poll);
+      resolve();
+    };
+    u.onend = finish;
+    u.onerror = finish;
+    window.speechSynthesis.speak(u);
+    // Certains navigateurs omettent onend — poll jusqu'à la fin réelle
+    let sawSpeaking = false;
+    poll = setInterval(() => {
+      const synth = window.speechSynthesis;
+      if (synth.speaking || synth.pending) {
+        sawSpeaking = true;
+        return;
+      }
+      if (sawSpeaking) finish();
+    }, 200);
+    // Garde-fou absolu (évite hang infini)
+    setTimeout(finish, 90_000);
+  });
 }
 
 export function AdminAvaChatPanel() {
@@ -189,6 +219,7 @@ export function AdminAvaChatPanel() {
   const [ttsEnabled, setTtsEnabled] = useState(false);
   const [listening, setListening] = useState(false);
   const [handsFree, setHandsFree] = useState(false);
+  const [voicePhase, setVoicePhase] = useState<VoicePhase>("idle");
   const [transcriptLive, setTranscriptLive] = useState("");
   const [micDenied, setMicDenied] = useState(false);
   const [micDiag, setMicDiag] = useState<MicDiagCode | null>(null);
@@ -200,14 +231,53 @@ export function AdminAvaChatPanel() {
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const handsFreeRef = useRef(false);
+  const ttsEnabledRef = useRef(false);
+  const loadingRef = useRef(false);
+  const speakingRef = useRef(false);
+  /** true = l'utilisateur a demandé l'arrêt → jamais de restart auto */
+  const manualStopRef = useRef(true);
+  /** true = stop/abort volontaire (TTS, envoi) → ignorer erreur aborted */
+  const intentionalAbortRef = useRef(false);
+  /** true = on attend fin send/TTS → onend ne doit PAS relancer */
+  const pauseRestartRef = useRef(false);
+  const restartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const conversationIdRef = useRef<string | null>(null);
+  const startListeningRef = useRef<(fromHandsFree?: boolean) => Promise<void>>(async () => {});
 
   useEffect(() => {
     handsFreeRef.current = handsFree;
   }, [handsFree]);
   useEffect(() => {
+    ttsEnabledRef.current = ttsEnabled;
+  }, [ttsEnabled]);
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
+  useEffect(() => {
     conversationIdRef.current = conversationId;
   }, [conversationId]);
+
+  useEffect(() => {
+    return () => {
+      manualStopRef.current = true;
+      if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        /* ignore */
+      }
+      try {
+        window.speechSynthesis?.cancel();
+      } catch {
+        /* ignore */
+      }
+      try {
+        mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
+      } catch {
+        /* ignore */
+      }
+    };
+  }, []);
 
   const loadIdentities = useCallback(async () => {
     try {
@@ -309,8 +379,10 @@ export function AdminAvaChatPanel() {
 
   async function send(text: string, opts?: { confirmSensitive?: boolean }) {
     const msg = text.trim();
-    if (!msg || loading) return;
+    if (!msg || loadingRef.current) return;
     setLoading(true);
+    loadingRef.current = true;
+    if (handsFreeRef.current) setVoicePhase("thinking");
     setError(null);
     setLastErrorCode(null);
     setLastFailedMessage(null);
@@ -323,7 +395,7 @@ export function AdminAvaChatPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: msg,
-          conversationId,
+          conversationId: conversationIdRef.current,
           confirmSensitive: opts?.confirmSensitive,
         }),
       });
@@ -336,6 +408,12 @@ export function AdminAvaChatPanel() {
           { role: "assistant", content: data.text, status: "needs_confirm" },
         ]);
         setLastFailedMessage(msg);
+        if (handsFreeRef.current && !manualStopRef.current) {
+          scheduleHandsFreeRestart(500);
+        } else {
+          pauseRestartRef.current = false;
+          setVoicePhase("idle");
+        }
         return;
       }
 
@@ -363,13 +441,31 @@ export function AdminAvaChatPanel() {
       }
       if (data.status) setStatus(data.status);
       if (data.agent) setAgent(data.agent);
-      if (ttsEnabled && !data.errorCode) speakSafe(assistantText);
 
-      await load(data.conversationId || conversationId);
+      // TTS : pause micro (déjà arrêté) → parler → attendre fin réelle
+      if (ttsEnabledRef.current && !data.errorCode) {
+        pauseRestartRef.current = true;
+        speakingRef.current = true;
+        setVoicePhase("speaking");
+        await speakSafe(assistantText);
+        speakingRef.current = false;
+      }
 
-      if (handsFreeRef.current && !data.errorCode && !data.needsConfirmation) {
-        // Relance écoute après TTS court délai
-        setTimeout(() => startListening(true), ttsEnabled ? 2500 : 400);
+      await load(data.conversationId || conversationIdRef.current);
+
+      // Relance mains libres après traitement (+ TTS si activé)
+      if (
+        handsFreeRef.current &&
+        !manualStopRef.current &&
+        !data.errorCode &&
+        !data.needsConfirmation
+      ) {
+        scheduleHandsFreeRestart(350);
+      } else if (data.errorCode && handsFreeRef.current && !manualStopRef.current) {
+        scheduleHandsFreeRestart(600);
+      } else {
+        pauseRestartRef.current = false;
+        if (!handsFreeRef.current) setVoicePhase("idle");
       }
     } catch (e) {
       const err = e as Error & { code?: string };
@@ -386,9 +482,46 @@ export function AdminAvaChatPanel() {
           errorCode: err.code || "AVA_INTERNAL_ERROR",
         },
       ]);
+      speakingRef.current = false;
+      if (handsFreeRef.current && !manualStopRef.current) {
+        scheduleHandsFreeRestart(600);
+      } else {
+        setVoicePhase("idle");
+      }
     } finally {
       setLoading(false);
+      loadingRef.current = false;
     }
+  }
+
+  function clearRestartTimer() {
+    if (restartTimerRef.current) {
+      clearTimeout(restartTimerRef.current);
+      restartTimerRef.current = null;
+    }
+  }
+
+  /** Restart contrôlé — jamais pendant TTS / traitement / arrêt manuel */
+  function scheduleHandsFreeRestart(delayMs = 400) {
+    clearRestartTimer();
+    pauseRestartRef.current = false;
+    if (!handsFreeRef.current || manualStopRef.current) {
+      setVoicePhase("idle");
+      return;
+    }
+    restartTimerRef.current = setTimeout(() => {
+      restartTimerRef.current = null;
+      if (
+        !handsFreeRef.current ||
+        manualStopRef.current ||
+        loadingRef.current ||
+        speakingRef.current ||
+        pauseRestartRef.current
+      ) {
+        return;
+      }
+      void startListeningRef.current(true);
+    }, delayMs);
   }
 
   function stopMicStream() {
@@ -400,18 +533,78 @@ export function AdminAvaChatPanel() {
     mediaStreamRef.current = null;
   }
 
-  function stopListening() {
+  /** Arrêt recognition ; keepStream=true pour relancer sans redemander le micro */
+  function stopRecognition(opts?: { keepStream?: boolean; intentional?: boolean }) {
+    if (opts?.intentional) intentionalAbortRef.current = true;
     try {
       recognitionRef.current?.stop();
     } catch {
       /* ignore */
     }
     recognitionRef.current = null;
-    stopMicStream();
     setListening(false);
+    if (!opts?.keepStream) stopMicStream();
+  }
+
+  /** Arrêt manuel utilisateur — bloque tout restart auto */
+  function stopListeningManual() {
+    manualStopRef.current = true;
+    clearRestartTimer();
+    intentionalAbortRef.current = true;
+    speakingRef.current = false;
+    try {
+      window.speechSynthesis?.cancel();
+    } catch {
+      /* ignore */
+    }
+    stopRecognition({ keepStream: false, intentional: true });
+    setHandsFree(false);
+    handsFreeRef.current = false;
+    setVoicePhase("idle");
+  }
+
+  async function ensureMicStream(): Promise<boolean> {
+    const live = mediaStreamRef.current?.getTracks().some((t) => t.readyState === "live");
+    if (live) return true;
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      setMicDiag("getusermedia_failed");
+      setError("getUserMedia indisponible. Continue en texte.");
+      return false;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      });
+      mediaStreamRef.current = stream;
+      return true;
+    } catch (err) {
+      const mapped = mapGetUserMediaError(err);
+      setMicDiag(mapped.diag);
+      setMicDenied(mapped.diag === "permission_denied" || mapped.diag === "permission_policy");
+      setError(mapped.message);
+      setHandsFree(false);
+      handsFreeRef.current = false;
+      manualStopRef.current = true;
+      console.info("[ava-admin-voice]", mapped.diag);
+      return false;
+    }
   }
 
   async function startListening(fromHandsFree = false) {
+    // Si restart auto mais mains libres coupé entre-temps
+    if (fromHandsFree && (manualStopRef.current || !handsFreeRef.current)) {
+      setVoicePhase("idle");
+      return;
+    }
+    if (loadingRef.current || speakingRef.current) {
+      if (fromHandsFree) scheduleHandsFreeRestart(500);
+      return;
+    }
+
     setError(null);
     setMicDiag(null);
     setMicDenied(false);
@@ -422,42 +615,38 @@ export function AdminAvaChatPanel() {
       setError(
         "Reconnaissance vocale indisponible sur ce navigateur. Continue en texte — le chat Admin reste actif."
       );
+      if (fromHandsFree) {
+        setHandsFree(false);
+        handsFreeRef.current = false;
+        manualStopRef.current = true;
+      }
       return;
     }
 
-    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
-      setMicDiag("getusermedia_failed");
-      setError("getUserMedia indisponible. Continue en texte.");
+    // Stop recognition en cours sans tuer le stream (mains libres)
+    stopRecognition({ keepStream: fromHandsFree || handsFreeRef.current, intentional: true });
+
+    const ok = await ensureMicStream();
+    if (!ok) {
+      setVoicePhase("idle");
       return;
     }
 
-    stopListening();
-
-    // 1) Ouvrir le micro explicitement (diagnostic précis + débloque Edge/Chrome STT)
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-      });
-      mediaStreamRef.current = stream;
-    } catch (err) {
-      const mapped = mapGetUserMediaError(err);
-      setMicDiag(mapped.diag);
-      setMicDenied(mapped.diag === "permission_denied" || mapped.diag === "permission_policy");
-      setError(mapped.message);
-      setHandsFree(false);
-      console.info("[ava-admin-voice]", mapped.diag);
+    // Re-check après await getUserMedia
+    if (fromHandsFree && (manualStopRef.current || !handsFreeRef.current)) {
+      setVoicePhase("idle");
+      return;
+    }
+    if (loadingRef.current || speakingRef.current) {
+      if (fromHandsFree) scheduleHandsFreeRestart(500);
       return;
     }
 
-    // 2) SpeechRecognition sur le même geste utilisateur
     const rec = new Ctor();
     recognitionRef.current = rec;
     rec.lang = "fr-FR";
     rec.interimResults = true;
+    // continuous=true seul ne suffit pas — on gère le restart via onend
     rec.continuous = false;
 
     rec.onresult = (ev) => {
@@ -472,49 +661,124 @@ export function AdminAvaChatPanel() {
       if (final.trim()) {
         const text = final.trim();
         setInput(text);
-        // Envoi auto en mains libres ; sinon le texte reste dans l'input pour validation
         if (fromHandsFree || handsFreeRef.current) {
+          // Pause micro pendant traitement / TTS — évite l'auto-écoute
+          // et empêche onend de relancer avant la fin de send()
+          pauseRestartRef.current = true;
+          intentionalAbortRef.current = true;
+          setVoicePhase("thinking");
+          try {
+            rec.stop();
+          } catch {
+            /* ignore */
+          }
           void send(text);
         }
       }
     };
 
     rec.onerror = (ev) => {
-      const mapped = mapSpeechError(ev.error);
-      if (mapped.diag === "aborted") {
+      const code = ev.error;
+      const mapped = mapSpeechError(code);
+
+      if (code === "aborted" || mapped.diag === "aborted") {
         setListening(false);
+        // Abort volontaire (TTS / envoi) → silencieux
+        if (intentionalAbortRef.current) {
+          intentionalAbortRef.current = false;
+          return;
+        }
         return;
       }
+
+      if (code === "no-speech") {
+        setListening(false);
+        setMicDiag("no_speech");
+        // Silence : en mains libres, relancer ; sinon message doux
+        if (handsFreeRef.current && !manualStopRef.current) {
+          scheduleHandsFreeRestart(450);
+        } else {
+          setError(mapped.message);
+        }
+        return;
+      }
+
       setMicDiag(mapped.diag);
-      if (mapped.diag === "permission_denied") setMicDenied(true);
-      if (mapped.message) setError(mapped.message);
-      setHandsFree(false);
       setListening(false);
-      stopMicStream();
-      console.info("[ava-admin-voice]", mapped.diag, ev.error);
+      console.info("[ava-admin-voice]", mapped.diag, code);
+
+      if (mapped.diag === "permission_denied") {
+        setMicDenied(true);
+        setError(mapped.message);
+        manualStopRef.current = true;
+        setHandsFree(false);
+        handsFreeRef.current = false;
+        stopMicStream();
+        setVoicePhase("idle");
+        return;
+      }
+
+      if (mapped.diag === "no_microphone" || mapped.diag === "microphone_busy") {
+        setError(mapped.message);
+        manualStopRef.current = true;
+        setHandsFree(false);
+        handsFreeRef.current = false;
+        stopMicStream();
+        setVoicePhase("idle");
+        return;
+      }
+
+      if (mapped.diag === "speech_network") {
+        setError(mapped.message);
+        if (handsFreeRef.current && !manualStopRef.current) {
+          scheduleHandsFreeRestart(1500);
+        }
+        return;
+      }
+
+      if (mapped.message) setError(mapped.message);
+      if (handsFreeRef.current && !manualStopRef.current) {
+        scheduleHandsFreeRestart(800);
+      }
     };
 
     rec.onend = () => {
       setListening(false);
-      // Garde le stream seulement si on relance (mains libres)
-      if (!handsFreeRef.current) stopMicStream();
+      // Pendant send/TTS : send() relancera via scheduleHandsFreeRestart
+      if (pauseRestartRef.current || loadingRef.current || speakingRef.current) {
+        return;
+      }
+      // Boucle mains libres : restart si on n'est pas en train de traiter/parler
+      if (handsFreeRef.current && !manualStopRef.current) {
+        scheduleHandsFreeRestart(400);
+        return;
+      }
+      if (!handsFreeRef.current) {
+        stopMicStream();
+        setVoicePhase("idle");
+      }
     };
 
     try {
+      intentionalAbortRef.current = false;
       rec.start();
       setListening(true);
+      setVoicePhase("listening");
       setMicDiag("ok");
     } catch (err) {
       stopMicStream();
       setMicDiag("speech_start_failed");
-      setError(
-        err instanceof Error
-          ? `Impossible de démarrer la reconnaissance vocale. Continue en texte.`
-          : "Impossible de démarrer le micro."
-      );
-      console.info("[ava-admin-voice]", "speech_start_failed");
+      setError("Impossible de démarrer la reconnaissance vocale. Continue en texte.");
+      console.info("[ava-admin-voice]", "speech_start_failed", err);
+      if (handsFreeRef.current && !manualStopRef.current) {
+        scheduleHandsFreeRestart(1000);
+      } else {
+        setVoicePhase("idle");
+      }
     }
   }
+
+  startListeningRef.current = startListening;
 
   async function addOwner() {
     const email = newOwnerEmail.trim();
@@ -755,10 +1019,16 @@ export function AdminAvaChatPanel() {
           </div>
         )}
 
-        {(listening || transcriptLive) && (
+        {(listening || transcriptLive || (handsFree && voicePhase !== "idle")) && (
           <p className="text-sm text-gray-600">
-            {listening ? "Écoute en cours… " : ""}
-            {transcriptLive}
+            {voicePhase === "listening" || listening
+              ? "🎙️ A.V.A. écoute"
+              : voicePhase === "thinking" || loading
+                ? "A.V.A. réfléchit…"
+                : voicePhase === "speaking"
+                  ? "🔊 A.V.A. parle"
+                  : ""}
+            {transcriptLive ? ` — ${transcriptLive}` : ""}
             {!listening && transcriptLive && !handsFree && (
               <button
                 type="button"
@@ -770,7 +1040,11 @@ export function AdminAvaChatPanel() {
             )}
           </p>
         )}
-        {(micDenied || (micDiag && micDiag !== "ok" && micDiag !== "aborted")) && (
+        {(micDenied ||
+          (micDiag &&
+            micDiag !== "ok" &&
+            micDiag !== "aborted" &&
+            micDiag !== "no_speech")) && (
           <p className="text-sm text-amber-700">
             {error || "Problème micro — tu peux continuer en texte."}
             {micDiag ? (
@@ -788,6 +1062,11 @@ export function AdminAvaChatPanel() {
                 setTtsEnabled(e.target.checked);
                 if (!e.target.checked && typeof window !== "undefined") {
                   window.speechSynthesis?.cancel();
+                  speakingRef.current = false;
+                  // Si on coupe TTS pendant une lecture, reprendre l'écoute mains libres
+                  if (handsFreeRef.current && !manualStopRef.current && !loadingRef.current) {
+                    scheduleHandsFreeRestart(300);
+                  }
                 }
               }}
             />
@@ -798,18 +1077,42 @@ export function AdminAvaChatPanel() {
               type="checkbox"
               checked={handsFree}
               onChange={(e) => {
-                setHandsFree(e.target.checked);
-                if (e.target.checked) void startListening(true);
-                else stopListening();
+                const on = e.target.checked;
+                setHandsFree(on);
+                handsFreeRef.current = on;
+                if (on) {
+                  manualStopRef.current = false;
+                  pauseRestartRef.current = false;
+                  void startListening(true);
+                } else {
+                  stopListeningManual();
+                }
               }}
             />
             Mains libres
           </label>
+          {handsFree && (
+            <button
+              type="button"
+              className="text-brand-700 hover:underline"
+              onClick={() => stopListeningManual()}
+            >
+              Arrêter l&apos;écoute
+            </button>
+          )}
           {ttsEnabled && (
             <button
               type="button"
               className="text-brand-700 hover:underline"
-              onClick={() => window.speechSynthesis?.cancel()}
+              onClick={() => {
+                window.speechSynthesis?.cancel();
+                speakingRef.current = false;
+                if (handsFreeRef.current && !manualStopRef.current && !loadingRef.current) {
+                  scheduleHandsFreeRestart(300);
+                } else {
+                  setVoicePhase(handsFree ? "listening" : "idle");
+                }
+              }}
             >
               Arrêter la lecture
             </button>
@@ -833,10 +1136,17 @@ export function AdminAvaChatPanel() {
           />
           <Button
             type="button"
-            disabled={loading}
-            onClick={() => (listening ? stopListening() : void startListening(false))}
+            disabled={loading && !handsFree}
+            onClick={() => {
+              if (listening || handsFree) {
+                stopListeningManual();
+              } else {
+                manualStopRef.current = false;
+                void startListening(false);
+              }
+            }}
           >
-            {listening ? "Stop micro" : "Micro"}
+            {listening || handsFree ? "Stop micro" : "Micro"}
           </Button>
           <Button type="submit" disabled={loading || !input.trim()}>
             {loading ? "…" : "Envoyer"}
