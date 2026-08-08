@@ -81,6 +81,9 @@ export function analyzeAdminIntent(
       "met en pause",
       "mis en pause",
       "on reprend demain",
+      "on verra demain",
+      "on verra ca demain",
+      "on garde ca pour demain",
     ]) || /\bmet(?:s|tre)?\b.*\bpause\b/.test(n);
 
   const isResume =

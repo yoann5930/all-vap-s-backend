@@ -63,9 +63,14 @@ export function retrieveRelevantAdminMemory(params: {
   }
 
   const lines: string[] = [];
-  if (params.session?.summary) {
+    if (params.session?.summary) {
     lines.push(`MÉMOIRE SESSION : ${params.session.summary.slice(0, 600)}`);
     if (params.session.lastTopic) lines.push(`Dernier sujet : ${params.session.lastTopic}`);
+    if (params.session.activeThread?.subject) {
+      lines.push(
+        `FIL ACTIF (${params.session.activeThread.status}) : ${params.session.activeThread.subject} — ${params.session.activeThread.summary.slice(0, 200)}`
+      );
+    }
     if (params.session.recentActions?.length) {
       lines.push(`Actions récentes : ${params.session.recentActions.slice(0, 4).join(" · ")}`);
     }

@@ -46,6 +46,15 @@ export type AdminSessionMemory = {
   recentActions: string[];
   /** Dernières réponses assistant (empreintes anti-répétition) */
   recentReplyFingerprints: string[];
+  /** Fil de travail social (sujet en cours / reporté) */
+  activeThread?: {
+    subject: string;
+    summary: string;
+    status: "open" | "deferred" | "closed";
+    deferredNote?: string;
+    lastQuestion?: string;
+    updatedAt: string;
+  } | null;
   updatedAt: string;
 };
 

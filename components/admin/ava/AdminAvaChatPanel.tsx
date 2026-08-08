@@ -908,7 +908,7 @@ export function AdminAvaChatPanel() {
         <header>
           <h1 className="text-2xl font-bold text-gray-900">A.V.A.</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Collaboratrice métier All Vap&apos;s — observation, idées, critique, mémoire.
+            Collègue métier All Vap&apos;s — initiative, avis, mémoire de fil.
             {effectiveRole ? ` · Rôle effectif : ${effectiveRole}` : ""}
           </p>
         </header>

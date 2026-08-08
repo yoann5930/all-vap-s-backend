@@ -22,22 +22,38 @@ export async function updateAdminMemoryAfterTurn(params: {
   intent: AdminIntentAnalysis;
   toolsUsed?: string[];
   history: Turn[];
+  activeThread?: AdminSessionMemory["activeThread"];
+  socialMove?: string;
 }): Promise<void> {
   const { ownerUserId, conversationId, userMessage, assistantText, intent } = params;
   if (!conversationId) return;
 
   try {
-    if (intent.isPause) {
+    if (intent.isPause || params.socialMove === "defer") {
       await updateTaskBySubject(
         ownerUserId,
-        intent.topicHint || extractProjectHint(userMessage) || "projet en cours",
+        intent.topicHint ||
+          params.activeThread?.subject ||
+          extractProjectHint(userMessage) ||
+          "projet en cours",
         "paused"
       );
+      await upsertAdminMemoryItem(ownerUserId, {
+        kind: "pending_decision",
+        subject: params.activeThread?.subject || intent.topicHint || "sujet reporté",
+        content: `Reporté : ${(params.activeThread?.summary || assistantText).slice(0, 200)}`,
+        importance: "medium",
+        taskStatus: "paused",
+        source: "user",
+      });
     }
-    if (intent.isResume) {
+    if (intent.isResume || params.socialMove === "resume") {
       await updateTaskBySubject(
         ownerUserId,
-        intent.topicHint || extractProjectHint(userMessage) || "projet en cours",
+        intent.topicHint ||
+          params.activeThread?.subject ||
+          extractProjectHint(userMessage) ||
+          "projet en cours",
         "in_progress"
       );
     }
@@ -69,16 +85,19 @@ export async function updateAdminMemoryAfterTurn(params: {
     const session = await loadAdminSessionMemory(ownerUserId, conversationId);
     const next: AdminSessionMemory = {
       ...session,
-      lastTopic: intent.topicHint || session.lastTopic,
+      lastTopic:
+        params.activeThread?.subject || intent.topicHint || session.lastTopic,
       lastTools: params.toolsUsed?.length ? params.toolsUsed : session.lastTools,
       recentActions: [
-        `${intent.intent}:${userMessage.slice(0, 80)}`,
+        `${params.socialMove || intent.intent}:${userMessage.slice(0, 80)}`,
         ...session.recentActions,
       ].slice(0, 8),
       recentReplyFingerprints: [
         makeReplyFingerprint(assistantText),
         ...session.recentReplyFingerprints,
       ].slice(0, 5),
+      activeThread:
+        params.activeThread !== undefined ? params.activeThread : session.activeThread,
       summary: buildSessionSummary(params.history, userMessage, assistantText, intent),
       updatedAt: new Date().toISOString(),
     };

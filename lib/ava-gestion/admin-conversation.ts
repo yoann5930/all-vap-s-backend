@@ -27,6 +27,14 @@ import {
   looksLikeChatbot,
   stripChatbotVoice,
 } from "@/lib/ava/admin-voice";
+import {
+  buildStance,
+  composeSocialReply,
+  detectSocialMove,
+  firstNameFromEmail,
+  nextThreadAfterTurn,
+  type ActiveThread,
+} from "@/lib/ava/admin-social";
 
 export type AdminChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -301,6 +309,7 @@ export async function answerAdminAvaConversation(params: {
   // Mémoire persistante + session (Admin only — jamais côté client)
   let memoryBlock = "";
   let sessionFingerprints: string[] = [];
+  let activeThread: ActiveThread | null = null;
   if (params.userId) {
     try {
       const persistent = await loadAdminPersistentMemory(params.userId);
@@ -308,11 +317,12 @@ export async function answerAdminAvaConversation(params: {
         ? await loadAdminSessionMemory(params.userId, params.conversationId)
         : null;
       sessionFingerprints = session?.recentReplyFingerprints || [];
+      activeThread = (session?.activeThread as ActiveThread | null) || null;
       const retrieved = retrieveRelevantAdminMemory({
         persistent,
         session,
         message: msg,
-        topicHint: intent.topicHint,
+        topicHint: intent.topicHint || activeThread?.subject || null,
       });
       memoryBlock = retrieved.factsBlock;
     } catch {
@@ -320,12 +330,33 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
+  const social = detectSocialMove(msg, history, activeThread);
+  const ownerFirstName = firstNameFromEmail(params.sessionIdentity?.email);
+
   let toolRun: Awaited<ReturnType<typeof runAdminToolPlan>> | null = null;
-  // Follow-up court / status : toujours tenter outils si pertinent ; skip outils si pure correction mémoire
-  const skipTools = intent.intent === "correction" && !intent.topicHint;
-  if (!skipTools) {
+  const skipTools =
+    (intent.intent === "correction" && !intent.topicHint) ||
+    social.move === "defer" ||
+    social.move === "thanks" ||
+    social.move === "identity" ||
+    (social.move === "ask_opinion" && Boolean(social.resolvedSubject) && !social.wantTools);
+
+  if (!skipTools && social.wantTools !== false) {
     try {
-      toolRun = await runAdminToolPlan(msg, {
+      // Reprise / check-in / greeting → tour si pas d'outil déjà ciblé
+      const toolMessage =
+        social.move === "greeting" ||
+        social.move === "check_in" ||
+        social.move === "resume" ||
+        social.move === "light_ack"
+          ? /stock|commande|rapport|anomal|vm|fidelatoo|catalogue/i.test(msg)
+            ? msg
+            : "fais le tour"
+          : social.move === "disagree_prompt"
+            ? msg
+            : msg;
+
+      toolRun = await runAdminToolPlan(toolMessage, {
         role: params.role,
         appRole: params.sessionIdentity?.appRole || params.role,
         email: params.sessionIdentity?.email || "",
@@ -338,6 +369,34 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
+  const workSignal = toolRun?.results.length
+    ? humanizeToolResults(toolRun.results, true, intent.topicHint || social.resolvedSubject)
+    : params.opsText
+      ? params.opsText.split("\n").filter(Boolean).slice(0, 3).join(" ")
+      : null;
+
+  const stance =
+    social.move === "ask_opinion" || social.move === "disagree_prompt"
+      ? buildStance({
+          subject: social.resolvedSubject,
+          workSignal,
+          userProposal: social.move === "disagree_prompt" ? msg : null,
+        })
+      : null;
+
+  const socialText = social.preferLocalCompose
+    ? composeSocialReply({
+        move: social.move,
+        ownerFirstName,
+        message: msg,
+        resolvedSubject: social.resolvedSubject,
+        activeThread,
+        workSignal,
+        stance,
+        memoryHint: memoryBlock,
+      })
+    : null;
+
   const sessionLine = params.sessionIdentity
     ? `SESSION AUTHENTIFIÉE : email=${params.sessionIdentity.email} ; rôleApplicatif=${params.sessionIdentity.appRole} ; rôleBase=${params.sessionIdentity.effectiveRole}`
     : "";
@@ -345,30 +404,39 @@ export async function answerAdminAvaConversation(params: {
   const factsParts = [
     sessionLine,
     memoryBlock,
+    activeThread
+      ? `FIL SOCIAL : ${activeThread.status} · ${activeThread.subject} · ${activeThread.summary.slice(0, 200)}`
+      : "",
     params.opsText ? `VÉRIFIÉ À L'INSTANT (OPS) :\n${params.opsText}` : "",
     toolRun?.factsText
       ? `VÉRIFIÉ À L'INSTANT (OUTILS) :\n${
-          intent.preferShort ? toolRun.factsText.slice(0, 1800) : toolRun.factsText
+          social.preferShort || intent.preferShort
+            ? toolRun.factsText.slice(0, 1800)
+            : toolRun.factsText
         }`
       : "",
     toolRun?.plan.needsClarification && toolRun.plan.clarification && !toolRun.results.length
       ? `CONSIGNE : ${toolRun.plan.clarification}`
       : "",
+    `MOVE SOCIAL : ${social.move} ; sujet=${social.resolvedSubject || "aucun"}`,
   ].filter(Boolean);
   const factsBlock = factsParts.join("\n\n") || undefined;
 
   let openai: string | null = null;
-  try {
-    openai = await chatAdminWithOpenAI({
-      message: msg,
-      history,
-      factsBlock,
-      sessionLine,
-      intent,
-      preferShort: intent.preferShort,
-    });
-  } catch {
-    openai = null;
+  // Social local prioritaire : on n'appelle OpenAI que pour le travail « open »
+  if (!social.preferLocalCompose) {
+    try {
+      openai = await chatAdminWithOpenAI({
+        message: msg,
+        history,
+        factsBlock,
+        sessionLine,
+        intent: { ...intent, preferShort: social.preferShort || intent.preferShort },
+        preferShort: social.preferShort || intent.preferShort,
+      });
+    } catch {
+      openai = null;
+    }
   }
 
   const local = localReply({
@@ -384,19 +452,35 @@ export async function answerAdminAvaConversation(params: {
     openai = null;
   }
 
-  // Tour / outils métier : préférer la synthèse collègue au blabla LLM
   const hasTour = toolRun?.results.some((r) => r.ok && r.tool === "runDailyTour");
-  if (openai && hasTour && intent.preferShort) {
+  if (openai && hasTour && (intent.preferShort || social.preferShort)) {
     openai = null;
   }
 
-  let text = openai || local;
-  text = dampenRepetition(text, intent.preferShort);
-  text = stripChatbotVoice(text, local);
+  let text = socialText || openai || local;
+  text = dampenRepetition(text, social.preferShort || intent.preferShort);
+  text = stripChatbotVoice(text, socialText || local);
 
   // Anti-répétition vs dernières réponses
-  if (isTooSimilarToRecent(text, sessionFingerprints) || isTooSimilarToRecent(text, history.filter((h) => h.role === "assistant").slice(-2).map((h) => h.content))) {
-    if (toolRun?.results.length) {
+  if (
+    isTooSimilarToRecent(text, sessionFingerprints) ||
+    isTooSimilarToRecent(
+      text,
+      history.filter((h) => h.role === "assistant").slice(-2).map((h) => h.content)
+    )
+  ) {
+    if (socialText && workSignal) {
+      text = composeSocialReply({
+        move: social.move === "greeting" ? "check_in" : social.move,
+        ownerFirstName,
+        message: msg + "|alt",
+        resolvedSubject: social.resolvedSubject,
+        activeThread,
+        workSignal,
+        stance,
+        memoryHint: memoryBlock,
+      });
+    } else if (toolRun?.results.length) {
       text = shortFromTool(toolRun.results, intent.topicHint);
     } else {
       text = dampenRepetition(text, true);
@@ -407,20 +491,40 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
+  const nextThread = nextThreadAfterTurn({
+    move: social.move,
+    previous: activeThread,
+    subject: social.resolvedSubject || intent.topicHint,
+    assistantText: text,
+    userMessage: msg,
+  });
+
   const grounded = Boolean(
-    (toolRun?.results.some((r) => r.ok) ?? false) || params.opsText || memoryBlock
+    (toolRun?.results.some((r) => r.ok) ?? false) ||
+      params.opsText ||
+      memoryBlock ||
+      social.move === "defer" ||
+      social.move === "resume" ||
+      Boolean(social.resolvedSubject)
   );
 
-  // MAJ mémoire après coup (non bloquant pour la latence perçue — await court)
   if (params.userId) {
     void updateAdminMemoryAfterTurn({
       ownerUserId: params.userId,
       conversationId: params.conversationId || null,
       userMessage: msg,
       assistantText: text,
-      intent,
+      intent: {
+        ...intent,
+        isPause: intent.isPause || social.move === "defer",
+        isResume: intent.isResume || social.move === "resume",
+        topicHint: social.resolvedSubject || intent.topicHint,
+        preferShort: social.preferShort || intent.preferShort,
+      },
       toolsUsed: toolRun?.plan.tools,
       history,
+      activeThread: nextThread,
+      socialMove: social.move,
     });
   }
 
@@ -428,18 +532,22 @@ export async function answerAdminAvaConversation(params: {
     text,
     links: toolRun?.links || [],
     periodLabel: toolRun?.results.find((r) => r.periodLabel)?.periodLabel || "",
-    source: openai
+    source: socialText
       ? grounded
-        ? "admin_ava_openai+memory+tools"
-        : "admin_ava_openai+memory"
-      : grounded
-        ? "admin_ava_local+memory+tools"
-        : "admin_ava_local+memory",
+        ? "admin_ava_social+memory+tools"
+        : "admin_ava_social+memory"
+      : openai
+        ? grounded
+          ? "admin_ava_openai+memory+tools"
+          : "admin_ava_openai+memory"
+        : grounded
+          ? "admin_ava_local+memory+tools"
+          : "admin_ava_local+memory",
     lastSyncAt: null,
     missingData: toolRun?.missingData || [],
     conversational: true,
     grounded,
-    intentLabel: toolRun?.plan.intentLabel || intent.intent,
+    intentLabel: `social:${social.move}|${toolRun?.plan.intentLabel || intent.intent}`,
     conversationalIntent: intent.intent,
     toolsUsed: toolRun?.plan.tools,
   };

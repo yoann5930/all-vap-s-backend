@@ -32,6 +32,7 @@ function emptySession(conversationId: string): AdminSessionMemory {
     openQuestions: [],
     recentActions: [],
     recentReplyFingerprints: [],
+    activeThread: null,
     updatedAt: nowIso(),
   };
 }

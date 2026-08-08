@@ -31,3 +31,12 @@ export {
   replySimilarity,
 } from "./anti-repeat";
 export { updateAdminMemoryAfterTurn, getAdminMemorySnapshot } from "./extract";
+
+// Comportement social (colleague) — Admin only
+export {
+  detectSocialMove,
+  composeSocialReply,
+  buildStance,
+  nextThreadAfterTurn,
+  firstNameFromEmail,
+} from "@/lib/ava/admin-social";
