@@ -24,6 +24,13 @@ import {
   duplicateMessage,
   findInventoryDuplicate,
 } from "@/lib/inventory/duplicates";
+import {
+  OHM_VALUE_CONFLICT,
+  evaluateResistanceAssociation,
+  normalizeResistanceOhmValue,
+  parseResistanceIdentityFromLine,
+} from "@/lib/catalog/resistance-identification";
+import { classifyOnInventoryScan } from "@/lib/catalog/classification-engine";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -113,6 +120,15 @@ export async function POST(request: NextRequest, context: Ctx) {
         allowDuplicate: z.boolean().optional(),
         /** Id client hors-ligne — idempotence soft */
         clientLineId: z.string().max(80).optional(),
+        taxonomyGroup: z.string().max(40).optional(),
+        taxonomySubtype: z.string().max(40).optional(),
+        categorySnapshot: z.string().max(120).optional(),
+        formatSnapshot: z.string().max(40).optional(),
+        resistanceValueOhm: z.number().positive().max(5).optional(),
+        coilTechnology: z.string().max(40).optional(),
+        unitsPerPack: z.number().int().positive().max(50).optional(),
+        powerRangeMinW: z.number().int().positive().max(500).optional(),
+        powerRangeMaxW: z.number().int().positive().max(500).optional(),
       })
       .parse(await request.json());
 
@@ -236,12 +252,74 @@ export async function POST(request: NextRequest, context: Ctx) {
     }
 
     // Anti-doublon : même inventaire / même jour / 30 jours
+    // Résistances : ohms strictement identiques pour fusion / multi-EAN
+    const resistanceIdentity =
+      body.resistanceValueOhm != null || body.taxonomyGroup === "RESISTANCES"
+        ? {
+            manufacturer: brandSnapshot,
+            coilFamily: rangeSnapshot,
+            technicalReference: null,
+            resistanceValueOhm:
+              body.resistanceValueOhm != null
+                ? normalizeResistanceOhmValue(body.resistanceValueOhm)?.value ??
+                  body.resistanceValueOhm
+                : null,
+            resistanceValueDisplay:
+              body.resistanceValueOhm != null
+                ? normalizeResistanceOhmValue(body.resistanceValueOhm)?.display ??
+                  `${body.resistanceValueOhm} Ω`
+                : null,
+            coilTechnology: (body.coilTechnology as
+              | "standard"
+              | "mesh"
+              | "dual_mesh"
+              | "triple_mesh"
+              | "ceramic"
+              | "other_confirmed"
+              | "unknown"
+              | null) || null,
+            unitsPerPack: body.unitsPerPack ?? null,
+            powerRangeMinW: body.powerRangeMinW ?? null,
+            powerRangeMaxW: body.powerRangeMaxW ?? null,
+          }
+        : null;
+
+    // Si productId catalogue déjà lié à une ligne session avec ohms différents → conflit
+    if (productId && resistanceIdentity?.resistanceValueOhm != null) {
+      const sessionLines = await prisma.inventoryLine.findMany({
+        where: { sessionId: id, productId },
+        take: 10,
+      });
+      for (const existingLine of sessionLines) {
+        const existingId = parseResistanceIdentityFromLine({
+          notes: existingLine.notes,
+          formatSnapshot: existingLine.formatSnapshot,
+          brandSnapshot: existingLine.brandSnapshot,
+          rangeSnapshot: existingLine.rangeSnapshot,
+          productNameSnapshot: existingLine.productNameSnapshot,
+        });
+        if (existingId.resistanceValueOhm == null) continue;
+        const decision = evaluateResistanceAssociation(resistanceIdentity, existingId);
+        if (!decision.allowed && decision.code === OHM_VALUE_CONFLICT) {
+          return jsonResponse(
+            {
+              error: decision.message,
+              code: OHM_VALUE_CONFLICT,
+              compared: decision.compared,
+            },
+            409
+          );
+        }
+      }
+    }
+
     const dup = await findInventoryDuplicate({
       barcode,
       productId,
       locationId: session.locationId,
       locationCode: session.location.code,
       currentSessionId: id,
+      resistanceIdentity,
     });
     if (dup && !(body.allowDuplicate && user.role === "ADMIN")) {
       return jsonResponse(
@@ -393,6 +471,45 @@ export async function POST(request: NextRequest, context: Ctx) {
       }
     }
 
+    // Taxonomie inventaire (snapshots) — ne crée pas de produit catalogue
+    if (body.categorySnapshot?.trim()) {
+      categorySnapshot = body.categorySnapshot.trim();
+    } else if (body.taxonomySubtype || body.taxonomyGroup) {
+      categorySnapshot = [body.taxonomyGroup, body.taxonomySubtype].filter(Boolean).join("/");
+    }
+    if (body.formatSnapshot?.trim()) {
+      formatSnapshot = body.formatSnapshot.trim();
+    } else if (body.resistanceValueOhm != null) {
+      formatSnapshot = `${body.resistanceValueOhm.toFixed(2)} Ω`;
+    }
+
+    if (
+      body.taxonomyGroup === "RESISTANCES" &&
+      (categorySnapshot === "accessoires" || body.taxonomySubtype === "ACC_OTHER")
+    ) {
+      return jsonResponse(
+        {
+          error: "Une résistance ne doit pas être classée en Accessoires",
+          code: "RESISTANCE_NOT_ACCESSORY",
+        },
+        400
+      );
+    }
+    if (
+      (body.taxonomyGroup === "RESISTANCES" ||
+        body.taxonomySubtype === "CART_INTEGRATED" ||
+        body.taxonomySubtype === "POD_INTEGRATED") &&
+      body.resistanceValueOhm == null
+    ) {
+      return jsonResponse(
+        {
+          error: "Valeur en ohms obligatoire (OHM_VALUE_REQUIRED)",
+          code: "OHM_VALUE_REQUIRED",
+        },
+        400
+      );
+    }
+
     const line = await prisma.inventoryLine.create({
       data: {
         sessionId: id,
@@ -420,6 +537,15 @@ export async function POST(request: NextRequest, context: Ctx) {
             `employé=${session.employeeName}`,
             `boutique=${session.location.code}`,
             `gamme=${rangeSnapshot}`,
+            body.taxonomyGroup ? `taxonomy=${body.taxonomyGroup}/${body.taxonomySubtype || ""}` : null,
+            body.resistanceValueOhm != null
+              ? `ohm=${body.resistanceValueOhm.toFixed(3)}`
+              : null,
+            body.coilTechnology ? `coilTech=${body.coilTechnology}` : null,
+            body.unitsPerPack != null ? `unitsPerPack=${body.unitsPerPack}` : null,
+            body.powerRangeMinW != null && body.powerRangeMaxW != null
+              ? `watts=${body.powerRangeMinW}-${body.powerRangeMaxW}`
+              : null,
             body.clientLineId ? `clientLineId=${body.clientLineId}` : null,
             `at=${now.toISOString()}`,
           ]
@@ -443,6 +569,40 @@ export async function POST(request: NextRequest, context: Ctx) {
     });
 
     const oldQty = expectedQuantitySnapshot;
+
+    // Moteur unique : tri fabricant/gamme au bip (jamais les stocks)
+    let classification = null as Awaited<
+      ReturnType<typeof classifyOnInventoryScan>
+    >;
+    if (productId) {
+      classification = await classifyOnInventoryScan({
+        productId,
+        barcode,
+      });
+      // Rafraîchir snapshots catalogue si reclassement CONFIRME
+      if (classification?.applied) {
+        const refreshed = await prisma.product.findUnique({
+          where: { id: productId },
+          select: {
+            brand: true,
+            range: true,
+            manufacturer: { select: { name: true } },
+            rangeRef: { select: { name: true } },
+          },
+        });
+        if (refreshed) {
+          await prisma.inventoryLine.update({
+            where: { id: line.id },
+            data: {
+              brandSnapshot:
+                refreshed.manufacturer?.name || refreshed.brand || brandSnapshot,
+              rangeSnapshot:
+                refreshed.rangeRef?.name || refreshed.range || rangeSnapshot,
+            },
+          });
+        }
+      }
+    }
 
     await writeAuditLog({
       user,
@@ -485,6 +645,16 @@ export async function POST(request: NextRequest, context: Ctx) {
           locationName: session.location.name,
           recordedAt: now.toISOString(),
           rangePriceApplied,
+          classification: classification
+            ? {
+                confidence: classification.confidence,
+                applied: classification.applied,
+                skipped: classification.skipped,
+                reason: classification.reason,
+                manufacturerSlug: classification.manufacturerSlug,
+                rangeSlug: classification.rangeSlug,
+              }
+            : null,
         },
       },
       201

@@ -746,6 +746,44 @@ model ProductMatch {
   @@index([matchedProductId])
 }
 
+/// Mémoire persistante EAN → produit / fabricant / gamme (tri inventaire)
+model CatalogEanMap {
+  id             String    @id
+  ean            String    @unique
+  productId      String
+  manufacturerId String?
+  rangeId        String?
+  category       String?
+  /// CONFIRME | PROBABLE | A_VALIDER
+  confidence     String    @default("A_VALIDER")
+  source         String    @default("inventory_scan")
+  validatedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([productId])
+  @@index([confidence])
+}
+
+/// Journal des reclassements automatiques (pas de log si rien ne change)
+model ClassificationChangeLog {
+  id                 String   @id
+  productId          String
+  ean                String?
+  oldManufacturerId  String?
+  newManufacturerId  String?
+  oldRangeId         String?
+  newRangeId         String?
+  reason             String
+  confidence         String
+  source             String
+  createdAt          DateTime @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+  @@index([confidence])
+}
+
 model SyncRun {
   id              String      @id @default(cuid())
   source          String

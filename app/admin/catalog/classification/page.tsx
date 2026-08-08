@@ -75,7 +75,9 @@ export default function CatalogClassificationPage() {
           <h1 className="mt-1 text-2xl font-bold">Classification produits</h1>
           <p className="mt-1 text-sm text-gray-600">
             Fabricant → Gamme → Produit (sans modification des stocks). Total filtré :{" "}
-            {total}
+            {total}. Confiance : CONFIRMED = auto ; AUTO_CLASSIFIED = probable ;
+            TO_REVIEW / UNCLASSIFIED = à valider. Gammes sans cover → ASSET MANQUANT
+            (fallback typo public).
           </p>
         </div>
         <button

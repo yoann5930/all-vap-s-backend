@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { jsonResponse, errorResponse, handleApiError } from "@/lib/api-utils";
+import { getAuthUser } from "@/lib/jwt";
 
 export async function GET(
   _request: NextRequest,
@@ -9,9 +10,16 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+    const auth = await getAuthUser();
+    const isStaff =
+      !!auth && (auth.role === "ADMIN" || auth.role === "EMPLOYEE");
 
     const product = await prisma.product.findFirst({
-      where: { OR: [{ id }, { slug: id }] },
+      where: {
+        OR: [{ id }, { slug: id }],
+        // Public: uniquement produits publiés. Staff: accès édition (inactifs inclus).
+        ...(isStaff ? {} : { isActive: true, visibleOnline: true }),
+      },
       include: {
         categoryRef: true,
         brandRef: true,
@@ -133,6 +141,20 @@ export async function PATCH(
     }
 
     const product = await prisma.product.update({ where: { id }, data });
+    // Moteur unique — classement sans toucher aux stocks
+    try {
+      const { classifyProductById } = await import(
+        "@/lib/catalog/classification-engine"
+      );
+      await classifyProductById({
+        productId: product.id,
+        source: "product_upsert",
+        barcodeHint: product.barcode,
+        apply: true,
+      });
+    } catch (e) {
+      console.error("[classification-engine] product PATCH", e);
+    }
     return jsonResponse(product);
   } catch (error) {
     return handleApiError(error);

@@ -44,6 +44,8 @@ export const CERTAIN_RANGE_TOKENS: Record<
   ],
   "cloud-vapor": [
     { token: "grand taste city", rangeSlug: "grand-taste-city-cloud-vapor" },
+    { token: "call of vape", rangeSlug: "call-of-vape" },
+    { token: "callofvape", rangeSlug: "call-of-vape" },
   ],
   "vape-47": [
     { token: "furiosa", rangeSlug: "furiosa-eggz" },

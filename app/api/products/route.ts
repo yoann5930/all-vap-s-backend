@@ -175,6 +175,20 @@ export async function POST(request: NextRequest) {
       data: { ...data, slug },
     });
 
+    try {
+      const { classifyProductById } = await import(
+        "@/lib/catalog/classification-engine"
+      );
+      await classifyProductById({
+        productId: product.id,
+        source: "product_upsert",
+        barcodeHint: product.barcode,
+        apply: true,
+      });
+    } catch (e) {
+      console.error("[classification-engine] product POST", e);
+    }
+
     return jsonResponse(product, 201);
   } catch (error) {
     return handleApiError(error);

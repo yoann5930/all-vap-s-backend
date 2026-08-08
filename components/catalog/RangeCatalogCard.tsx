@@ -53,7 +53,7 @@ export function RangeCatalogCard({
       href={href}
       aria-label={`Ouvrir la gamme ${name}${manufacturerName ? ` — ${manufacturerName}` : ""}`}
       title={`${name}${subtitle ? ` — ${subtitle}` : ""}`}
-      className="group block overflow-hidden rounded-2xl border border-brand-400/30 bg-[#101720]/80 transition hover:border-brand-400/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
+      className="group block min-h-[11rem] overflow-hidden rounded-2xl border border-brand-400/30 bg-[#101720]/80 transition hover:border-brand-400/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 active:scale-[0.99] sm:min-h-0"
     >
       <div className="relative aspect-[16/10] bg-[#0B1016]">
         {cover ? (
