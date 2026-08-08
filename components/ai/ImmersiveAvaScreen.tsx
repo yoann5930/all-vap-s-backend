@@ -4,15 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AvaHologramScene } from "@/components/ai/ava3d/AvaHologramScene";
+import { AvaChatPanel, AvaDiscussButton, type AvaChatMessage } from "@/components/ai/AvaChatPanel";
 import { MicPermissionPanel } from "@/components/ai/MicPermissionPanel";
 import { ProductSuggestionCard } from "@/components/ai/ProductSuggestionCard";
 import { ConversationStatus } from "@/components/ava/ConversationStatus";
 import { LiveSubtitles } from "@/components/ava/LiveSubtitles";
-import { TextFallback } from "@/components/ava/TextFallback";
 import { AccessibilitySettings } from "@/components/ava/AccessibilitySettings";
 import { DiagnosticConversation } from "@/components/ava/DiagnosticConversation";
 import { useAvaContinuousListening } from "@/hooks/useAvaContinuousListening";
-import { useVoiceConversation } from "@/hooks/useVoiceConversation";
+import { useVoiceConversation, avaStatusLabel } from "@/hooks/useVoiceConversation";
 import { confirmationPrompt } from "@/lib/ava/transcription-confidence";
 import type { ConfirmedDeviceContext } from "@/lib/ava/device-confirmation";
 import {
@@ -26,6 +26,10 @@ import {
   type PendingAvaIntent,
 } from "@/lib/ava/quick-actions";
 import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
+
+function nextChatId() {
+  return `m-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 interface ImmersiveAvaScreenProps {
   onClose: () => void;
@@ -45,7 +49,9 @@ export function ImmersiveAvaScreen({
   const voice = useVoiceConversation();
   const [textSending, setTextSending] = useState(false);
   const [textDraft, setTextDraft] = useState<string | undefined>(undefined);
-  const [history, setHistory] = useState<string[]>([]);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<AvaChatMessage[]>([]);
+  const lastAvaSubtitleRef = useRef<string>("");
   const [showUploader, setShowUploader] = useState(false);
   const [deviceContext, setDeviceContext] = useState<ConfirmedDeviceContext | null>(null);
   const [skipMediaPanel, setSkipMediaPanel] = useState(false);
@@ -72,8 +78,8 @@ export function ImmersiveAvaScreen({
     voicePhase: voice.avaState,
     startListening: async () => voice.ensureListening(),
     stopListening: () => voice.stopListeningOnly(),
-    onSilenceHint: (msg) => {
-      setHistory((h) => [...h.slice(-8), msg]);
+    onSilenceHint: () => {
+      /* hint voix — non injecté dans le panneau chat pour éviter le bruit */
     },
   });
 
@@ -100,6 +106,16 @@ export function ImmersiveAvaScreen({
     onSpeakingChange?.(voice.isSpeaking);
   }, [voice.isSpeaking, onSpeakingChange]);
 
+  const pushUserMessage = useCallback((text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    setChatMessages((prev) => {
+      const last = prev[prev.length - 1];
+      if (last?.role === "user" && last.text === trimmed) return prev;
+      return [...prev, { id: nextChatId(), role: "user", text: trimmed }];
+    });
+  }, []);
+
   const applyIntent = useCallback(
     async (pending: PendingAvaIntent, clearDiagnostic: boolean) => {
       if (consumedIdsRef.current.has(pending.id)) return;
@@ -116,7 +132,8 @@ export function ImmersiveAvaScreen({
       if (clearDiagnostic) {
         voice.clearDiagnosticSession();
       }
-      setHistory((h) => [...h.slice(-12), `Vous : ${cfg.initialMessage}`]);
+      pushUserMessage(cfg.initialMessage);
+      setChatOpen(true);
       setTextSending(true);
       try {
         const resume =
@@ -133,7 +150,7 @@ export function ImmersiveAvaScreen({
         onIntentHandled?.();
       }
     },
-    [continuous.a11y.pauseListening, onIntentHandled, voice]
+    [continuous.a11y.pauseListening, onIntentHandled, pushUserMessage, voice]
   );
 
   // Confirmation diagnostic ou consommation d’intention
@@ -170,13 +187,16 @@ export function ImmersiveAvaScreen({
     }
   }, [voice.ready, voice.micPermission, voice.voiceState, voice.blocked]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Réponses A.V.A. → historique UI (session inchangée)
   useEffect(() => {
-    if (voice.subtitle) {
-      setHistory((h) => {
-        if (h[h.length - 1] === voice.subtitle) return h;
-        return [...h.slice(-12), voice.subtitle];
-      });
-    }
+    const sub = voice.subtitle?.trim();
+    if (!sub || sub === lastAvaSubtitleRef.current) return;
+    lastAvaSubtitleRef.current = sub;
+    setChatMessages((prev) => {
+      const last = prev[prev.length - 1];
+      if (last?.role === "ava" && last.text === sub) return prev;
+      return [...prev, { id: nextChatId(), role: "ava", text: sub }];
+    });
   }, [voice.subtitle]);
 
   useEffect(() => {
@@ -188,13 +208,26 @@ export function ImmersiveAvaScreen({
     }
   }, [voice.error]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Correction / a11y / micro indisponible → ouvrir le panneau (pas de champ permanent)
+  useEffect(() => {
+    if (
+      continuous.textPanelForced ||
+      continuous.a11y.pauseListening ||
+      Boolean(textDraft)
+    ) {
+      setChatOpen(true);
+    }
+  }, [continuous.textPanelForced, continuous.a11y.pauseListening, textDraft]);
+
   const handlePermissionGranted = useCallback(() => {
+    continuous.setTextPanelForced(false);
     void voice.ensureListening();
-  }, [voice]);
+  }, [continuous, voice]);
 
   const handleSendText = useCallback(
     async (text: string) => {
       continuous.onUserTyped();
+      pushUserMessage(text);
       setTextDraft(undefined);
       setTextSending(true);
       try {
@@ -207,22 +240,27 @@ export function ImmersiveAvaScreen({
         setTextSending(false);
       }
     },
-    [continuous, voice]
+    [continuous, pushUserMessage, voice]
   );
 
   const confirmYes = useCallback(async () => {
     continuous.onUserSpoke();
+    if (voice.pendingConfirm) {
+      pushUserMessage(voice.pendingConfirm);
+    }
     await voice.confirmPendingYes();
-  }, [continuous, voice]);
+  }, [continuous, pushUserMessage, voice]);
 
   const confirmCorrect = useCallback(() => {
     const draft = voice.confirmPendingCorrect();
     continuous.setTextPanelForced(true);
+    setChatOpen(true);
     if (draft) setTextDraft(draft);
   }, [continuous, voice]);
 
   const showMicModal =
     !continuous.a11y.pauseListening &&
+    !chatOpen &&
     !continuous.textPanelForced &&
     (voice.isPromptingMic ||
       voice.micPermission === "prompting" ||
@@ -233,7 +271,24 @@ export function ImmersiveAvaScreen({
 
   const handleContinueWithText = useCallback(() => {
     continuous.setTextPanelForced(true);
-    voice.stopListeningOnly();
+    setChatOpen(true);
+    // Ne coupe pas définitivement la session — l’utilisateur peut réactiver le micro
+  }, [continuous]);
+
+  const handleCloseChat = useCallback(() => {
+    setChatOpen(false);
+    continuous.setTextPanelForced(false);
+    setTextDraft(undefined);
+    // Historique + session conservés — pas de stopAll()
+  }, [continuous]);
+
+  const handleToggleMic = useCallback(() => {
+    if (micActiveLike(voice.voiceState) && !continuous.a11y.pauseListening) {
+      voice.stopListeningOnly();
+      return;
+    }
+    continuous.setTextPanelForced(false);
+    void voice.ensureListening();
   }, [continuous, voice]);
 
   const micActive =
@@ -244,8 +299,15 @@ export function ImmersiveAvaScreen({
       voice.voiceState === "RESUMING_LISTENING");
 
   const showSubtitles =
+    !chatOpen &&
     continuous.a11y.subtitlesAlways !== false &&
     (Boolean(voice.subtitle) || Boolean(voice.interimTranscript));
+
+  const statusLabel = avaStatusLabel(
+    voice.avaState,
+    voice.isPromptingMic,
+    voice.voiceState
+  );
 
   return (
     <AnimatePresence>
@@ -332,7 +394,7 @@ export function ImmersiveAvaScreen({
           {!voice.ready ? (
             <Loader2 className="h-7 w-7 animate-spin text-cyan-700/30" aria-label="Chargement" />
           ) : (
-            <div className="ava-immersive-face relative h-[min(48vh,440px)] w-full max-w-3xl">
+            <div className="ava-immersive-face relative h-[min(52vh,480px)] w-full max-w-3xl">
               <AvaHologramScene
                 state={voice.avaState}
                 isSpeaking={voice.isSpeaking}
@@ -343,7 +405,7 @@ export function ImmersiveAvaScreen({
           )}
         </div>
 
-        <div className="relative z-20 pb-6 pt-2 sm:pb-8">
+        <div className={`relative z-20 pt-2 ${chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"}`}>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/95 to-transparent" />
 
           <div className="relative flex flex-col items-center gap-3">
@@ -356,21 +418,8 @@ export function ImmersiveAvaScreen({
               />
             ) : null}
 
-            {history.length > 1 ? (
-              <details className="max-w-md px-4 text-center">
-                <summary className="cursor-pointer text-[10px] tracking-wide text-cyan-700/50">
-                  Historique de conversation
-                </summary>
-                <ul className="mt-2 max-h-24 space-y-1 overflow-y-auto text-left text-[11px] text-cyan-500/50">
-                  {history.map((line, i) => (
-                    <li key={`${i}-${line.slice(0, 12)}`}>{line}</li>
-                  ))}
-                </ul>
-              </details>
-            ) : null}
-
             {voice.products.length > 0 ? (
-              <div className="max-h-[22vh] w-full max-w-md space-y-2 overflow-y-auto px-3 scrollbar-hide">
+              <div className="max-h-[18vh] w-full max-w-md space-y-2 overflow-y-auto px-3 scrollbar-hide">
                 {voice.products.map((p, idx) => (
                   <ProductSuggestionCard
                     key={p.id}
@@ -396,11 +445,13 @@ export function ImmersiveAvaScreen({
               </div>
             ) : null}
 
-            <ConversationStatus
-              mode={continuous.mode}
-              phase={voice.avaState}
-              micActive={micActive}
-            />
+            {!chatOpen ? (
+              <ConversationStatus
+                mode={continuous.mode}
+                phase={voice.avaState}
+                micActive={micActive}
+              />
+            ) : null}
 
             {voice.hardwareAssistance?.showMediaUploader ||
             voice.hardwareAssistance?.showDeviceConfirmation ||
@@ -509,24 +560,32 @@ export function ImmersiveAvaScreen({
               </div>
             ) : null}
 
-            {/* Clavier toujours disponible — pas de bouton micro central */}
-            <TextFallback
-              disabled={!voice.ready || voice.blocked}
-              sending={textSending || voice.avaState === "thinking"}
-              draft={textDraft}
-              autoFocus={
-                continuous.textPanelForced ||
-                continuous.mode === "TEXT_FALLBACK" ||
-                continuous.mode === "VOICE_PERMISSION_DENIED" ||
-                continuous.mode === "VOICE_UNAVAILABLE" ||
-                continuous.a11y.pauseListening ||
-                Boolean(textDraft)
-              }
-              onTyping={() => continuous.onUserTyped()}
-              onSend={handleSendText}
-            />
+            {/* Un seul CTA — pas de champ texte permanent */}
+            <div className="flex flex-col items-center gap-2 px-4 pb-2">
+              <AvaDiscussButton
+                open={chatOpen}
+                disabled={!voice.ready || voice.blocked}
+                onClick={() => setChatOpen(true)}
+              />
+            </div>
           </div>
         </div>
+
+        <AvaChatPanel
+          open={chatOpen}
+          messages={chatMessages}
+          disabled={!voice.ready || voice.blocked}
+          sending={textSending}
+          thinking={voice.avaState === "thinking"}
+          micAvailable={voice.canListen && voice.micPermission === "granted"}
+          micActive={micActive}
+          draft={textDraft}
+          statusLabel={statusLabel}
+          onClose={handleCloseChat}
+          onMinimize={handleCloseChat}
+          onSend={handleSendText}
+          onToggleMic={handleToggleMic}
+        />
 
         {showMicModal && (
           <MicPermissionPanel
@@ -541,6 +600,15 @@ export function ImmersiveAvaScreen({
         )}
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+function micActiveLike(voiceState: string) {
+  return (
+    voiceState === "LISTENING" ||
+    voiceState === "USER_SPEAKING" ||
+    voiceState === "WAITING_FOR_END_OF_SPEECH" ||
+    voiceState === "RESUMING_LISTENING"
   );
 }
 

@@ -1,24 +1,24 @@
 "use client";
 
 /**
- * Charge le modèle GLB de test Ava depuis /models/ava/ava-test-model.glb
- * PROTOYPE TECHNIQUE — ne jamais présenter comme rendu final.
- * Texture optionnelle : /models/ava/ava-test-texture.png
- * En cas d'échec → fallback AvaPortraitHead côté Canvas.
+ * Avatar GLB A.V.A. — conserve les matériaux / textures embarqués du modèle.
+ * Ne jamais écraser les maps UV par une texture plate unique (cause du visage déformé).
  */
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, Center } from "@react-three/drei";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
 
-export const AVA_TEST_MODEL_PATH = "/models/ava/AVA_HOLOGRAM.glb";
+/** GLB non compressé — fiable sans Meshopt decoder */
+export const AVA_MODEL_PATH = "/models/ava/AVA_HOLOGRAM.glb";
+
+/** @deprecated chemins historiques */
+export const AVA_TEST_MODEL_PATH = AVA_MODEL_PATH;
 export const AVA_TEST_TEXTURE_PATH = "/models/ava/ava-hologram-texture.png";
-/** Ancien chemin conservé en secours */
 export const AVA_LEGACY_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
 
-/** Réglages d’affichage — ajustables uniquement ici (tête ~2.9 u → cadrage portrait) */
 const MODEL_TRANSFORM = {
   position: [0, -0.02, 0] as [number, number, number],
   rotation: [0, 0, 0] as [number, number, number],
@@ -26,10 +26,10 @@ const MODEL_TRANSFORM = {
 };
 
 const MORPH = {
-  mouthOpen: ["mouthOpen", "jawOpen", "viseme_aa", "MouthOpen"],
+  mouthOpen: ["mouthOpen", "jawOpen", "viseme_aa", "MouthOpen", "jaw_open"],
   smile: ["mouthSmile", "mouthSmileLeft", "mouthSmileRight", "MouthSmile"],
-  blinkL: ["eyeBlinkLeft", "EyeBlinkLeft"],
-  blinkR: ["eyeBlinkRight", "EyeBlinkRight"],
+  blinkL: ["eyeBlinkLeft", "EyeBlinkLeft", "blinkLeft"],
+  blinkR: ["eyeBlinkRight", "EyeBlinkRight", "blinkRight"],
 };
 
 interface AvaGltfAvatarProps {
@@ -42,16 +42,30 @@ interface AvaGltfAvatarProps {
 
 export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAvatarProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF(AVA_TEST_MODEL_PATH);
-  const [texReady, setTexReady] = useState(false);
+  const { scene } = useGLTF(AVA_MODEL_PATH);
 
-  const cloned = useMemo(() => scene.clone(true), [scene]);
+  const cloned = useMemo(() => {
+    const root = scene.clone(true);
+    root.traverse((obj) => {
+      const mesh = obj as THREE.Mesh;
+      if (!mesh.isMesh || !mesh.material) return;
+      mesh.frustumCulled = false;
+      // Clone materials so we never mutate the GLTF cache
+      if (Array.isArray(mesh.material)) {
+        mesh.material = mesh.material.map((m) => m.clone());
+      } else {
+        mesh.material = mesh.material.clone();
+      }
+    });
+    return root;
+  }, [scene]);
 
-  const meshes = useMemo(() => {
+  const morphMeshes = useMemo(() => {
     const found: THREE.Mesh[] = [];
     cloned.traverse((obj) => {
-      if ((obj as THREE.Mesh).isMesh && (obj as THREE.Mesh).morphTargetDictionary) {
-        found.push(obj as THREE.Mesh);
+      const mesh = obj as THREE.Mesh;
+      if (mesh.isMesh && mesh.morphTargetDictionary && mesh.morphTargetInfluences) {
+        found.push(mesh);
       }
     });
     return found;
@@ -61,86 +75,68 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
     cloned.traverse((obj) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material) return;
-      mesh.frustumCulled = false;
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       mats.forEach((mat) => {
-        if (mat instanceof THREE.MeshStandardMaterial || mat instanceof THREE.MeshPhysicalMaterial) {
-          mat.transparent = false;
-          mat.opacity = 1;
-          mat.metalness = 0;
-          mat.roughness = 0.55;
-          mat.color.set("#d4a574");
+        if (
+          mat instanceof THREE.MeshStandardMaterial ||
+          mat instanceof THREE.MeshPhysicalMaterial
+        ) {
+          // Teinte holo légère — ne touche JAMAIS map / normalMap / UV
+          if (!mat.map) {
+            mat.emissive = new THREE.Color("#003848");
+            mat.emissiveIntensity = 0.15;
+          } else {
+            mat.emissive = new THREE.Color("#001820");
+            mat.emissiveIntensity = 0.08;
+          }
+          mat.metalness = Math.min(mat.metalness, 0.25);
+          mat.roughness = Math.max(mat.roughness, 0.35);
+          mat.side = THREE.FrontSide;
           mat.needsUpdate = true;
         }
       });
     });
-
-    const loader = new THREE.TextureLoader();
-    loader.load(
-      AVA_TEST_TEXTURE_PATH,
-      (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.flipY = false;
-        texture.needsUpdate = true;
-        cloned.traverse((obj) => {
-          const mesh = obj as THREE.Mesh;
-          if (!mesh.isMesh || !mesh.material) return;
-          const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-          mats.forEach((mat) => {
-            if (mat instanceof THREE.MeshStandardMaterial || mat instanceof THREE.MeshPhysicalMaterial) {
-              mat.map = texture;
-              mat.color.set("#ffffff");
-              mat.needsUpdate = true;
-            }
-          });
-        });
-        setTexReady(true);
-      },
-      undefined,
-      () => {
-        // Texture optionnelle — le mesh reste visible sans map
-        setTexReady(false);
-      }
-    );
   }, [cloned]);
 
   const isSpeaking = state === "speaking";
+  const isListening = state === "listening";
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
 
-    meshes.forEach((mesh) => {
-      const dict = mesh.morphTargetDictionary;
-      const inf = mesh.morphTargetInfluences;
-      if (!dict || !inf) return;
-      setMorph(dict, inf, MORPH.mouthOpen, isSpeaking ? lipSync.mouthOpen : 0);
-      setMorph(dict, inf, MORPH.smile, isSpeaking ? lipSync.smile + 0.08 : 0.02);
+    morphMeshes.forEach((mesh) => {
+      const dict = mesh.morphTargetDictionary!;
+      const inf = mesh.morphTargetInfluences!;
+      const mouth = isSpeaking ? lipSync.mouthOpen * 0.85 : 0;
+      const smile = isSpeaking
+        ? lipSync.smile * 0.55 + 0.04
+        : isListening
+          ? 0.05
+          : 0.02;
+      setMorph(dict, inf, MORPH.mouthOpen, mouth);
+      setMorph(dict, inf, MORPH.smile, smile);
       setMorph(dict, inf, MORPH.blinkL, blink);
       setMorph(dict, inf, MORPH.blinkR, blink);
     });
 
     if (groupRef.current) {
-      groupRef.current.position.y = MODEL_TRANSFORM.position[1] + Math.sin(t * 1.05) * 0.008;
+      groupRef.current.position.y =
+        MODEL_TRANSFORM.position[1] + Math.sin(t * 1.05) * 0.006;
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
-        lookX * 0.12,
-        0.06
+        lookX * 0.1,
+        0.05
       );
       groupRef.current.rotation.x = THREE.MathUtils.lerp(
         groupRef.current.rotation.x,
-        -lookY * 0.06,
-        0.06
+        -lookY * 0.05,
+        0.05
       );
     }
   });
 
   return (
-    <group
-      ref={groupRef}
-      position={MODEL_TRANSFORM.position}
-      scale={MODEL_TRANSFORM.scale}
-      userData={{ texReady }}
-    >
+    <group ref={groupRef} position={MODEL_TRANSFORM.position} scale={MODEL_TRANSFORM.scale}>
       <Center>
         <primitive object={cloned} rotation={MODEL_TRANSFORM.rotation} />
       </Center>
@@ -163,4 +159,4 @@ function setMorph(
   }
 }
 
-useGLTF.preload(AVA_TEST_MODEL_PATH);
+useGLTF.preload(AVA_MODEL_PATH);

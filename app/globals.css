@@ -510,19 +510,12 @@ body {
 }
 
 .ava-3d-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 174, 239, 0.018) 2px,
-    rgba(0, 174, 239, 0.018) 3px
-  );
-  opacity: 0.45;
-  mix-blend-mode: screen;
+  /* Désactivé par défaut — les scanlines détruisent le réalisme du visage */
+  display: none;
 }
 
 .ava-3d-vignette {
-  background: radial-gradient(ellipse 65% 55% at 50% 42%, transparent 0%, rgba(0, 0, 0, 0.65) 100%);
+  background: radial-gradient(ellipse 70% 60% at 50% 42%, transparent 0%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 .ava-3d-loading {

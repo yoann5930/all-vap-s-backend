@@ -5,11 +5,12 @@ export const holographicUniforms = {
   uTexture: { value: null as THREE.Texture | null },
   uMouthOpen: { value: 0 },
   uSmile: { value: 0 },
-  uOpacity: { value: 0.88 },
-  uScanStrength: { value: 0.08 },
+  uOpacity: { value: 0.92 },
+  uScanStrength: { value: 0.035 },
   uGlowColor: { value: new THREE.Color("#00d4ff") },
 };
 
+/** Déplacement vertex minimal — évite l’effet « visage décomposé » du mesh dense. */
 export const holographicVertexShader = /* glsl */ `
   uniform float uTime;
   uniform float uMouthOpen;
@@ -26,17 +27,17 @@ export const holographicVertexShader = /* glsl */ `
     vec3 pos = position;
 
     float curve = pow(abs(uv.x - 0.5) * 2.0, 2.0);
-    pos.z -= curve * 0.18;
+    pos.z -= curve * 0.06;
 
-    float mouthZone = smoothstep(0.52, 0.62, uv.y) * (1.0 - smoothstep(0.62, 0.72, uv.y));
-    mouthZone *= 1.0 - abs(uv.x - 0.5) * 2.8;
+    float mouthZone = smoothstep(0.54, 0.62, uv.y) * (1.0 - smoothstep(0.62, 0.70, uv.y));
+    mouthZone *= 1.0 - abs(uv.x - 0.5) * 2.6;
+    mouthZone = max(mouthZone, 0.0);
     vMouthMask = mouthZone;
 
-    pos.z += mouthZone * uMouthOpen * 0.09;
-    pos.y += mouthZone * uSmile * 0.015;
-    pos.x += (uv.x - 0.5) * mouthZone * uSmile * 0.012;
+    pos.z += mouthZone * uMouthOpen * 0.035;
+    pos.y += mouthZone * uSmile * 0.008;
 
-    pos.y += sin(uTime * 1.2 + uv.x * 3.0) * 0.003;
+    pos.y += sin(uTime * 1.1 + uv.x * 2.0) * 0.0015;
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
     vViewPosition = -mvPosition.xyz;
@@ -60,30 +61,28 @@ export const holographicFragmentShader = /* glsl */ `
   void main() {
     vec2 uv = vUv;
 
-    float mouthLift = vMouthMask * uMouthOpen * 0.035;
+    float mouthLift = vMouthMask * uMouthOpen * 0.012;
     uv.y += mouthLift;
 
     vec4 tex = texture2D(uTexture, uv);
+    if (tex.a < 0.04 && tex.r + tex.g + tex.b < 0.05) discard;
 
     vec3 holo = tex.rgb;
-    holo = mix(holo, holo * vec3(0.55, 0.95, 1.15), 0.72);
-    holo += uGlowColor * 0.08;
+    holo = mix(holo, holo * vec3(0.7, 0.96, 1.08), 0.35);
+    holo += uGlowColor * 0.04;
 
-    float scan = sin((uv.y + uTime * 0.08) * 420.0) * uScanStrength;
+    float scan = sin((uv.y + uTime * 0.06) * 280.0) * uScanStrength;
     holo += scan;
 
-    float grid = step(0.92, fract(uv.x * 90.0)) * step(0.92, fract(uv.y * 110.0));
-    holo += grid * 0.025 * uGlowColor;
-
     vec3 viewDir = normalize(vViewPosition);
-    float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.4);
-    holo += uGlowColor * fresnel * 0.55;
+    float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.8);
+    holo += uGlowColor * fresnel * 0.28;
 
-    float mouthGlow = vMouthMask * uMouthOpen * 0.12;
+    float mouthGlow = vMouthMask * uMouthOpen * 0.06;
     holo += uGlowColor * mouthGlow;
 
-    float alpha = uOpacity * (0.55 + fresnel * 0.45);
-    alpha *= smoothstep(0.02, 0.12, tex.a + tex.r * 0.2);
+    float alpha = uOpacity * (0.78 + fresnel * 0.22);
+    alpha *= smoothstep(0.02, 0.1, tex.a + length(tex.rgb) * 0.15);
 
     gl_FragColor = vec4(holo, alpha);
   }
