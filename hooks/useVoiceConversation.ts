@@ -424,7 +424,7 @@ export function useVoiceConversation() {
     }
 
     let spoken =
-      "Bonjour, je m'appelle Ava. Comment puis-je vous aider aujourd'hui ?";
+      "Bonjour — Ava, All Vaps. Liquide, matériel, ou un souci à régler ?";
     try {
       const ac = new AbortController();
       const timer = setTimeout(() => ac.abort(), 8000);

@@ -21,6 +21,12 @@ import {
   type AdminIntentAnalysis,
 } from "@/lib/ava/admin-memory";
 import type { DatePeriod } from "@/lib/timezone/shop-tz";
+import {
+  ADMIN_COLLEAGUE_SYSTEM_EXTRA,
+  colleagueTourFromToolText,
+  looksLikeChatbot,
+  stripChatbotVoice,
+} from "@/lib/ava/admin-voice";
 
 export type AdminChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -51,10 +57,12 @@ function getOpenAIKey(): string {
 const ADMIN_SYSTEM = `Tu es A.V.A., collaboratrice numérique senior All Vap's (Hautmont & Le Quesnoy) — mode Admin uniquement, jamais vendeuse client.
 
 STYLE :
-- naturel, direct ; phrases courtes si question simple ;
+- collègue qui travaille déjà, pas chatbot d'accueil ;
+- naturel, direct, tutoiement ; phrases courtes si question simple ;
 - continue la conversation ; références (« ça », « pourquoi », « l'autre boutique », « on reprend ») via MÉMOIRE ;
 - tu peux avoir un avis argumenté et ne pas être d'accord ; si une donnée contredit ton idée, tu changes d'avis clairement ;
-- pas de chaîne de pensée privée : structure métier (observation / hypothèse / idée / risque / confiance) quand c'est utile.
+- pas de chaîne de pensée privée : structure métier (observation / hypothèse / idée / risque / confiance) quand c'est utile ;
+- si le contexte outils contient un tour / anomalies / idées : réutilise-les en prose humaine, ne redis pas un menu.
 
 RÈGLES :
 - n'invente jamais chiffres, stocks, droits, états ;
@@ -64,7 +72,10 @@ RÈGLES :
 - actions sensibles (prix, promos, commandes fournisseurs, suppression, DNS, déploiement, paiements) : proposer/préparer seulement → validation humaine ;
 - jamais de fuite de données Admin vers un contexte client.
 
+${ADMIN_COLLEAGUE_SYSTEM_EXTRA}
+
 INTENTION COURANTE indique réponse courte ou détaillée.`;
+
 async function chatAdminWithOpenAI(params: {
   message: string;
   history: AdminChatTurn[];
@@ -129,8 +140,12 @@ function shortFromTool(results: AvaAdminToolResult[], topicHint: string | null):
     const fail = results[0];
     return fail
       ? `Je n'ai pas pu vérifier (${fail.error || "indisponible"}). On réessaie ?`
-      : "Je n'ai pas encore cette information. Je peux la vérifier.";
+      : "Je n'ai pas encore l'info — je peux aller la chercher.";
   }
+
+  const tour = ok.find((r) => r.tool === "runDailyTour");
+  if (tour) return colleagueTourFromToolText(tour.text, true);
+
   const text = ok.map((r) => r.text).join("\n");
   const lines = text
     .split("\n")
@@ -153,7 +168,6 @@ function shortFromTool(results: AvaAdminToolResult[], topicHint: string | null):
     );
   }
 
-  // Prendre 2–4 lignes les plus informatives
   const pick = lines.filter((l) => /:|\d|oui|non|ok|actif|stop/i.test(l)).slice(0, 4);
   if (pick.length) return pick.join(" · ").slice(0, 420);
   return lines.slice(0, 3).join(" ").slice(0, 420);
@@ -165,23 +179,31 @@ function humanizeToolResults(
   topicHint: string | null
 ): string {
   if (!results.length) return "";
+
+  const tour = results.find((r) => r.ok && r.tool === "runDailyTour");
+  if (tour && (preferShort || results.length === 1)) {
+    return colleagueTourFromToolText(tour.text, preferShort);
+  }
+
   if (preferShort) return shortFromTool(results, topicHint);
 
   if (results.length === 1) {
     const r = results[0];
     if (!r.ok) {
-      return `${r.title} est momentanément indisponible (${r.error || "erreur"}). On peut réessayer ou changer de sujet.`;
+      return `${r.title} est momentanément indisponible (${r.error || "erreur"}). On change de sujet ou on réessaie ?`;
     }
+    if (r.tool === "runDailyTour") return colleagueTourFromToolText(r.text, false);
     return r.text;
   }
 
   const blocks = results.map((r) => {
-    if (!r.ok) return `### ${r.title}\nIndisponible : ${r.error || "erreur"}`;
-    return `### ${r.title}\n${r.text}`;
+    if (!r.ok) return `${r.title} — indisponible (${r.error || "erreur"})`;
+    if (r.tool === "runDailyTour") return colleagueTourFromToolText(r.text, false);
+    return `${r.title}\n${r.text}`;
   });
   const failed = results.filter((r) => !r.ok).map((r) => r.title);
   const note = failed.length
-    ? `\n\nNote : ${failed.join(", ")} indisponible(s) — le reste reste valide.`
+    ? `\n\n${failed.join(", ")} indisponible(s) — le reste tient.`
     : "";
   return `${blocks.join("\n\n")}${note}`;
 }
@@ -208,27 +230,29 @@ function localReply(params: {
     if (params.intent.preferShort) {
       return params.opsText.split("\n").filter(Boolean).slice(0, 4).join(" · ").slice(0, 400);
     }
-    return `Voilà ce que j'obtiens côté autonome / VM :\n\n${params.opsText}`;
+    return `Côté autonome / VM :\n\n${params.opsText}`;
   }
 
   if (params.intent.isResume && params.memoryHint) {
-    return `On reprend. Voici ce que j'ai en mémoire :\n${params.memoryHint.slice(0, 500)}\nDis-moi si on continue sur ce point.`;
+    return `On reprend. ${params.memoryHint.slice(0, 420)}\nJe continue sur ce point ?`;
   }
 
   if (/^(bonjour|bonsoir|salut|hey|hello|coucou)\b/.test(lower)) {
-    return "Salut — je fais le tour dès que les données répondent. Stocks, anomalies, idées ou radar marché : on commence où tu veux.";
+    return "Salut. Je regarde les chiffres — une seconde si les données traînent, sinon je te dis tout de suite ce qui sort.";
+  }
+  if (/^(ça va|ca va|comment ça va|comment ca va)\b/.test(lower)) {
+    return "Ça va. J'étais surtout sur les mouvements du jour — tu veux le point stock ou ventes en premier ?";
   }
   if (/qui\s+(es|êtes)|tu\s+es\s+qui|pr[eé]sente/.test(lower)) {
-    return "A.V.A., assistante admin All Vap's — mode interne uniquement, pas vendeuse client.";
+    return "A.V.A. — collègue métier All Vap's, mode interne. Pas vendeuse client.";
   }
 
-  if (/^merci\b/.test(lower)) return "Avec plaisir.";
+  if (/^merci\b/.test(lower)) return "OK.";
 
   if (params.clarification) return params.clarification;
 
-  return "Je n'ai pas bien cerné. Tu veux un état (VM, stocks, commandes), un rapport, ou reprendre un sujet en pause ?";
+  return "J'ai pas accroché. Le plus utile là : stock, commandes, ou une anomalie que j'ai sous les yeux ?";
 }
-
 /**
  * Réponse conversationnelle Admin A.V.A.
  */
@@ -347,25 +371,28 @@ export async function answerAdminAvaConversation(params: {
     openai = null;
   }
 
-  if (
-    openai &&
-    /je t['’]écoute\.?\s*dis-moi ce dont tu as besoin/i.test(openai)
-  ) {
+  const local = localReply({
+    message: msg,
+    intent,
+    clarification: toolRun?.plan.clarification,
+    results: toolRun?.results || [],
+    opsText: params.opsText,
+    memoryHint: memoryBlock,
+  });
+
+  if (openai && looksLikeChatbot(openai)) {
     openai = null;
   }
 
-  let text =
-    openai ||
-    localReply({
-      message: msg,
-      intent,
-      clarification: toolRun?.plan.clarification,
-      results: toolRun?.results || [],
-      opsText: params.opsText,
-      memoryHint: memoryBlock,
-    });
+  // Tour / outils métier : préférer la synthèse collègue au blabla LLM
+  const hasTour = toolRun?.results.some((r) => r.ok && r.tool === "runDailyTour");
+  if (openai && hasTour && intent.preferShort) {
+    openai = null;
+  }
 
+  let text = openai || local;
   text = dampenRepetition(text, intent.preferShort);
+  text = stripChatbotVoice(text, local);
 
   // Anti-répétition vs dernières réponses
   if (isTooSimilarToRecent(text, sessionFingerprints) || isTooSimilarToRecent(text, history.filter((h) => h.role === "assistant").slice(-2).map((h) => h.content))) {

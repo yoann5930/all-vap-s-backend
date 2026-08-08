@@ -49,18 +49,22 @@ export function makeReplyFingerprint(text: string): string {
  * Si trop similaire : forcer une version plus courte / directe.
  */
 export function dampenRepetition(text: string, preferShort: boolean): string {
-  const lines = text
+  let raw = (text || "")
+    .replace(/je comprends (votre|ta) demande[^.!?]*/gi, "")
+    .replace(/votre demande concernant[^.!?]*/gi, "")
+    .replace(/voici les différentes étapes[^.!?]*/gi, "")
+    .replace(/je t['’]écoute[^.!?]*/gi, "")
+    .replace(/comment puis[- ]je (vous |t['’])?aider( aujourd['’]hui)?\s*\??/gi, "")
+    .replace(/en quoi puis[- ]je[^.!?]*/gi, "")
+    .replace(/n['’]hésitez pas[^.!?]*/gi, "")
+    .replace(/je reste à votre disposition[^.!?]*/gi, "")
+    .replace(/c['’]est une excellente question[^.!?]*/gi, "")
+    .replace(/merci pour (votre|ta) (question|demande)[^.!?]*/gi, "");
+
+  const cleaned = raw
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
-  // Coupe les accroches robotiques
-  const cleaned = lines.filter(
-    (l) =>
-      !/je comprends (votre|ta) demande/i.test(l) &&
-      !/votre demande concernant/i.test(l) &&
-      !/voici les différentes étapes/i.test(l) &&
-      !/je t['’]écoute/i.test(l)
-  );
   if (preferShort) {
     return cleaned.slice(0, 6).join("\n").slice(0, 700);
   }

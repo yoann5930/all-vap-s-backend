@@ -8,6 +8,10 @@ export const FORBIDDEN_ROBOT_PHRASES = [
   /en tant qu['’]assistante virtuelle/i,
   /je suis une intelligence artificielle/i,
   /une erreur est survenue lors du traitement de votre demande/i,
+  /comment puis[- ]je vous aider( aujourd['’]hui)?/i,
+  /en quoi puis[- ]je vous aider/i,
+  /n['’]hésitez pas à me (contacter|demander)/i,
+  /je reste à votre disposition/i,
 ] as const;
 
 export type ConversationTone =
@@ -23,24 +27,24 @@ export type ConversationTone =
 
 const PHRASE_BANK: Record<ConversationTone, readonly string[]> = {
   greeting: [
-    "Bonjour, je m'appelle Ava. Comment puis-je vous aider aujourd'hui ?",
+    "Bonjour — Ava, All Vap's. Vous cherchez un liquide, un matériel, ou un souci à régler ?",
     "Bonjour ! Dites-moi ce que vous recherchez.",
-    "Bienvenue chez All Vap's — je suis Ava, à votre écoute.",
+    "Bienvenue chez All Vap's. Je suis Ava — on regarde ça ensemble.",
   ],
   ack: [
     "D'accord, dites-moi ce qui se passe.",
     "On va regarder ça ensemble.",
-    "Je vous écoute.",
+    "OK, j'écoute.",
     "Très bien, je suis avec vous.",
   ],
   reassure: [
-    "Pas d'inquiétude, je vais vous aider à vérifier.",
+    "Pas d'inquiétude, on va vérifier.",
     "Prenez votre temps.",
     "On avance étape par étape.",
   ],
   ask_one: [
     "Je pense avoir compris, mais je préfère vérifier un point.",
-    "Pour bien vous aider, j'ai une petite question.",
+    "J'ai une petite question pour être sûre.",
     "Un détail m'aiderait beaucoup.",
   ],
   invite_media: [
@@ -56,7 +60,7 @@ const PHRASE_BANK: Record<ConversationTone, readonly string[]> = {
   confirm: [
     "Est-ce bien ce modèle ?",
     "Je veux être sûre — c'est bien celui-ci ?",
-    "Confirmez-vous que c'est votre appareil ?",
+    "C'est bien votre appareil ?",
   ],
   shop_redirect: [
     "Je préfère que l'équipe vérifie directement votre matériel pour éviter de vous faire prendre un risque.",

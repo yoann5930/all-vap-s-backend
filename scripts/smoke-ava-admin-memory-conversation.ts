@@ -79,7 +79,28 @@ function ok(name: string, cond: boolean, detail?: unknown) {
   ok("T6 similar", isTooSimilarToRecent(b, [a]));
   ok("T6 different", !isTooSimilarToRecent(c, [a]));
   ok("T6 dampen strips robot", !/je comprends votre demande/i.test(dampenRepetition("Je comprends votre demande. OK.", true)));
+  ok(
+    "T6 dampen strips comment puis-je",
+    !/comment puis-je/i.test(
+      dampenRepetition("Comment puis-je vous aider ? Les stocks sont OK.", true)
+    )
+  );
   ok("T6 similarity score", replySimilarity(a, b) > 0.7);
+}
+
+// Anti-chatbot voice
+{
+  const { looksLikeChatbot, stripChatbotVoice } = require("../lib/ava/admin-voice") as typeof import("../lib/ava/admin-voice");
+  ok("T6b chatbot detect", looksLikeChatbot("Je t'écoute. Dis-moi ce dont tu as besoin."));
+  ok(
+    "T6b strip keeps substance",
+    /stocks/i.test(
+      stripChatbotVoice(
+        "Comment puis-je vous aider ? 12 stocks faibles à Hautmont.",
+        "fallback"
+      )
+    )
+  );
 }
 
 // Test 7 — retrieve selective (no pollution)

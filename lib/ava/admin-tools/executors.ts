@@ -396,22 +396,10 @@ export async function execFidelatooStatus(ctx: AvaAdminToolContext): Promise<Ava
 
 export async function execListCapabilities(_ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
   const text = [
-    `Voici ce que je peux faire en mode Admin All Vap's :`,
-    `· Résumé du jour (commandes, préparation, alertes)`,
-    `· Stocks / stocks faibles (filtrable par boutique, ex. Hautmont)`,
-    `· Inventaires (sessions ouvertes / terminées)`,
-    `· Commandes en attente / à préparer`,
-    `· Audit catalogue (classification, gammes, fabricants)`,
-    `· Statut A.V.A., VM Android, Fidelatoo`,
-    `· Rapport global (« tous les rapports », « point du jour »)`,
-    `· Tour du magasin / anomalies / réflexions métier structurées`,
-    `· Idées + critique (sans brader systématiquement)`,
-    `· Radar marché (sources publiques, jamais d'import auto)`,
-    `· Simulation « et si on faisait X ? » (scénarios prudent/central/optimiste)`,
-    ``,
-    `Parle naturellement — ex. « fais le tour », « quelles anomalies ? », « et si on faisait -30 % ? ».`,
-    `Je m'appuie sur ta session serveur, pas sur ce que tu affirmes dans le chat.`,
-    `Actions sensibles (prix, promos, commandes, DNS…) : proposition seulement → validation humaine.`,
+    `En gros : je regarde les chiffres, les stocks, les commandes, le catalogue, la VM / Fidelatoo, et je te ramène l'essentiel.`,
+    `Je peux aussi faire le tour du magasin, sortir des anomalies, proposer des idées (sans brader par défaut), simuler un « et si… », et surveiller le marché public.`,
+    `Parle normalement — « stocks faibles Hautmont », « qu'est-ce qui cloche », « et si on faisait -30 % ».`,
+    `Prix / promos / commandes / DNS : je prépare, tu valides.`,
   ].join("\n");
   return okResult("listCapabilities", "Capacités", text);
 }
@@ -427,7 +415,7 @@ export async function execDailyTour(ctx: AvaAdminToolContext): Promise<AvaAdminT
       includeMarket: false,
       persist: Boolean(ctx.userId),
     });
-    const text = formatTourForChat(bundle.tour!);
+    const text = formatTourForChat(bundle.tour!, { short: false });
     return okResult("runDailyTour", "Tour du magasin", text, {
       missingData: bundle.missingData.slice(0, 8),
       links: [

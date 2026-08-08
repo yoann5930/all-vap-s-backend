@@ -305,7 +305,7 @@ export async function initAva(userId?: string) {
 
 function pickGuestGreeting(): string {
   const list = [
-    "Bonjour, je m'appelle Ava. Comment puis-je vous aider aujourd'hui ?",
+    "Bonjour — Ava, All Vap's. Liquide, matériel, ou un souci à régler ?",
     "Bonjour ! Je suis Ava. Que recherchez-vous ?",
     "Bienvenue chez All Vap's. Je m'appelle Ava — dites-moi ce que vous cherchez.",
   ];

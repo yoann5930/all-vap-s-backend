@@ -8,7 +8,7 @@ import { applyPronunciations } from "@/lib/ava/pronunciation-engine";
 import { humanSellerPolish } from "@/lib/ava/conversation-style";
 
 export const AVA_GREETING_SHORT =
-  "Bonjour, je m'appelle Ava. Que recherchez-vous ?";
+  "Bonjour — Ava, All Vaps. Liquide, matériel, ou un souci à régler ?";
 
 /** Prépare le texte pour une lecture fluide et humaine */
 export function humanizeForSpeech(text: string): string {

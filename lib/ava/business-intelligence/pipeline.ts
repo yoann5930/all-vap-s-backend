@@ -178,24 +178,39 @@ export async function runBusinessIntelligence(params: {
   };
 }
 
-export function formatTourForChat(tour: BiDailyTour): string {
-  const lines = [tour.greeting, ""];
-  tour.stops.forEach((s, i) => {
-    lines.push(`${i + 1}. [${s.urgency}] ${s.title}`);
-    lines.push(`   ${s.text}`);
-  });
-  if (tour.topIdeas.length) {
-    lines.push("");
-    lines.push("Idées recommandées (validation humaine si sensible) :");
-    for (const idea of tour.topIdeas) {
-      lines.push(`· ${idea.title} (${idea.verdict}, confiance ${idea.confidence}%)`);
+export function formatTourForChat(tour: BiDailyTour, opts?: { short?: boolean }): string {
+  const short = opts?.short ?? false;
+  const stops = tour.stops.slice(0, short ? 2 : 4);
+  const parts: string[] = [tour.greeting];
+
+  for (const s of stops) {
+    if (s.urgency === "urgent") {
+      parts.push(`Urgent — ${s.title} : ${s.text}`);
+    } else if (s.urgency === "watch") {
+      parts.push(`À surveiller — ${s.title} : ${s.text}`);
+    } else if (!/rien d'urgent|rien de critique/i.test(s.title + s.text)) {
+      parts.push(`${s.title} : ${s.text}`);
     }
   }
-  if (tour.missingData.length) {
-    lines.push("");
-    lines.push(`Données manquantes : ${tour.missingData.slice(0, 5).join(" · ")}`);
+
+  const idea = tour.topIdeas[0];
+  if (idea) {
+    parts.push(
+      short
+        ? `Piste que je garderais : ${idea.title}.`
+        : `Piste que je garderais : ${idea.title} (${idea.verdict}, confiance ${idea.confidence}%). ${idea.description}`
+    );
   }
-  return lines.join("\n");
+
+  if (!short && tour.missingData.length) {
+    parts.push(`Il me manque encore : ${tour.missingData.slice(0, 3).join(", ")}.`);
+  }
+
+  if (short) {
+    parts.push("Tu veux que je creuse le point le plus chaud, ou on passe à autre chose ?");
+  }
+
+  return parts.filter(Boolean).join("\n\n");
 }
 
 export function formatReflectionsForChat(cards: BiReflectionCard[]): string {

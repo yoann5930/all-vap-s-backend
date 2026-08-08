@@ -43,15 +43,15 @@ export function AvaSidePanel({ showBenefits = true }: { showBenefits?: boolean }
           </div>
           <div>
             <p className="font-display text-xl font-semibold tracking-wide text-white">A.V.A.</p>
-            <p className="text-xs text-[#A7B0BC]">Votre assistante vape</p>
+            <p className="text-xs text-[#A7B0BC]">Conseillère All Vap&apos;s</p>
           </div>
         </div>
 
         <div className="space-y-3 px-4 py-4">
           <div className="rounded-xl border border-white/8 bg-white/4 px-3 py-2.5 text-[13px] leading-relaxed text-[#D5DBE4]">
-            Bonjour ! Je suis A.V.A.
+            Bonjour — Ava, All Vap&apos;s.
             <br />
-            Comment puis-je vous aider à trouver votre produit idéal ?
+            Liquide, matériel, ou un souci à régler ?
           </div>
 
           <div className="space-y-2">

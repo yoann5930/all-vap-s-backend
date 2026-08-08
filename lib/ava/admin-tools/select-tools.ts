@@ -268,7 +268,7 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
       limit,
       periodKey: null,
       needsClarification: true,
-      clarification: "Dis-moi ce que tu veux regarder : stocks, commandes, inventaire, catalogue ou rapport global ?",
+      clarification: "Qu'est-ce qui te préoccupe — stock, commandes, ou un truc bizarre que tu as vu ?",
       intentLabel: "empty",
     };
   }
@@ -368,7 +368,7 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
     periodKey: null,
     needsClarification: true,
     clarification:
-      "Je n'ai pas bien cerné. Stocks, commandes, inventaire, catalogue, tour du magasin, anomalies, idées, radar marché, ou simulation « et si… » ?",
+      "J'ai pas accroché. Tu veux que je regarde un stock, une commande, ou que je te dise ce qui cloche côté chiffres ?",
     intentLabel: "unclear",
   };
 }

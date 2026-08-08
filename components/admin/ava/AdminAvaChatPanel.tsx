@@ -1293,7 +1293,7 @@ export function AdminAvaChatPanel() {
             className="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-brand-400"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Parler à A.V.A.…"
+            placeholder="Dis-moi ce que tu as vu, ou ce qu’on regarde…"
             disabled={loading}
             aria-label="Message Admin A.V.A."
           />

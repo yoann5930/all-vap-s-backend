@@ -2,9 +2,9 @@ export const AVA_NAME = "AVA";
 export const AVA_FULL_NAME = "All Vap's Virtual Advisor";
 
 /** Accueil unique — ne jamais répéter ensuite */
-export const AVA_GREETING = `Bonjour, je m'appelle Ava.
+export const AVA_GREETING = `Bonjour — Ava, All Vap's.
 
-Que recherchez-vous ?`;
+Liquide, matériel, ou un souci à régler ?`;
 
 export const AVA_SUGGESTIONS = [
   "E-liquide Frais Rouge",
