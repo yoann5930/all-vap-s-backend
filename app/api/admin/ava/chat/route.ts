@@ -9,14 +9,35 @@ import {
 import { runFidelatooCommand, getFidelatooStatus } from "@/lib/fidelatoo/orchestrator";
 import { writeAuditLog } from "@/lib/audit/log";
 import { clientIp } from "@/lib/rate-limit";
-import prisma from "@/lib/prisma";
 import type { DatePeriod } from "@/lib/timezone/shop-tz";
 import type { FidelatooCommand } from "@/lib/fidelatoo/types";
+import {
+  CLIENT_DEMO_EMAIL,
+  resolveAvaSessionContext,
+  stripClaimedPrivileges,
+} from "@/lib/ava/identity-context";
+import { getAvaSessionFromAuth } from "@/lib/auth/user-context";
+import {
+  AvaError,
+  AvaErrorCode,
+  redactAvaLog,
+  toPublicAvaError,
+} from "@/lib/ava/errors";
+import {
+  appendMessage,
+  ensureConversation,
+  listConversations,
+  loadLegacyFlatMessages,
+  loadMessages,
+  saveLegacyFlatMessage,
+} from "@/lib/ava/conversation-store";
+import { loadMemoryForSurface } from "@/lib/ava/memory-store";
 
 export const dynamic = "force-dynamic";
 
 const bodySchema = z.object({
   message: z.string().min(1).max(2000),
+  conversationId: z.string().min(1).optional().nullable(),
   periodKey: z
     .enum([
       "today",
@@ -30,17 +51,11 @@ const bodySchema = z.object({
     ])
     .optional(),
   confirmSensitive: z.boolean().optional(),
+  retryOfErrorCode: z.string().optional(),
 });
 
 const SENSITIVE =
   /\b(supprim(er|e)|delete|wipe|mot\s*de\s*passe|password|dns|domaine|domain|paiement|abonnement|subscription|carte\s*bancaire|iban|révoquer\s+tous|revoke\s+all)\b/i;
-
-type StoredMsg = {
-  role: string;
-  content: string;
-  linksJson?: unknown;
-  metaJson?: unknown;
-};
 
 function detectOpsCommand(message: string): FidelatooCommand | null {
   const m = message.toLowerCase();
@@ -56,67 +71,9 @@ function detectOpsCommand(message: string): FidelatooCommand | null {
   return null;
 }
 
-async function saveChatMessage(input: {
-  userId: string;
-  role: string;
-  content: string;
-  linksJson?: unknown;
-  metaJson?: unknown;
-}): Promise<void> {
-  try {
-    await prisma.avaGestionMessage.create({
-      data: {
-        userId: input.userId,
-        role: input.role,
-        content: input.content,
-        linksJson: input.linksJson as object | undefined,
-        metaJson: input.metaJson as object | undefined,
-      },
-    });
-  } catch {
-    // Table absente — AuditLog reste la source journal.
-  }
-}
-
-async function loadChatMessages(userId: string): Promise<StoredMsg[]> {
-  try {
-    const rows = await prisma.avaGestionMessage.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      take: 40,
-    });
-    return rows.reverse().map((r) => ({
-      role: r.role,
-      content: r.content,
-      linksJson: r.linksJson,
-      metaJson: r.metaJson,
-    }));
-  } catch {
-    const logs = await prisma.auditLog.findMany({
-      where: { userId, action: "ava.admin_chat.turn" },
-      orderBy: { createdAt: "desc" },
-      take: 20,
-    });
-    const out: StoredMsg[] = [];
-    for (const log of logs.reverse()) {
-      const meta = (log.metadata || {}) as {
-        userMessage?: string;
-        assistantText?: string;
-        links?: unknown;
-      };
-      if (meta.userMessage) out.push({ role: "user", content: meta.userMessage });
-      if (meta.assistantText)
-        out.push({
-          role: "assistant",
-          content: meta.assistantText,
-          linksJson: meta.links,
-        });
-    }
-    return out;
-  }
-}
-
-function toHistory(messages: StoredMsg[]): AdminChatTurn[] {
+function toHistory(
+  messages: { role: string; content: string }[]
+): AdminChatTurn[] {
   return messages
     .filter((m) => m.role === "user" || m.role === "assistant")
     .slice(-12)
@@ -126,22 +83,140 @@ function toHistory(messages: StoredMsg[]): AdminChatTurn[] {
     }));
 }
 
-/** Chat Admin A.V.A. — conversationnelle, ADMIN, moteur gestion + ops. */
+async function assertAdminAvaAccess(user: {
+  userId: string;
+  email: string;
+  role: string;
+}) {
+  const email = (user.email || "").trim().toLowerCase();
+  if (email === CLIENT_DEMO_EMAIL) {
+    throw new AvaError(
+      AvaErrorCode.AVA_PERMISSION_DENIED,
+      "CLIENT demo email blocked from Admin AVA",
+      "Accès Admin A.V.A. refusé pour ce compte."
+    );
+  }
+
+  // Même identité que le reste de l'app — session réelle uniquement
+  const ava = await getAvaSessionFromAuth("ADMIN");
+  if (!ava || !ava.adminCapabilities) {
+    throw new AvaError(
+      AvaErrorCode.AVA_AUTH_FAILED,
+      "No admin capabilities for AVA",
+      "Session Admin requise pour A.V.A."
+    );
+  }
+
+  const ctx = await resolveAvaSessionContext({
+    userId: user.userId,
+    email: user.email,
+    sessionRole: user.role,
+    surface: "admin",
+  });
+  if (!ctx.adminCapabilities) {
+    throw new AvaError(
+      AvaErrorCode.AVA_AUTH_FAILED,
+      "No admin capabilities for AVA",
+      "Session Admin requise pour A.V.A."
+    );
+  }
+  return ctx;
+}
+
+type PersistMode = "threaded" | "legacy";
+
+async function openThread(userId: string, conversationId?: string | null) {
+  try {
+    const conversation = await ensureConversation({
+      userId,
+      surface: "admin",
+      conversationId,
+    });
+    const prior = await loadMessages(conversation.id);
+    return { mode: "threaded" as PersistMode, conversation, prior };
+  } catch {
+    const prior = await loadLegacyFlatMessages(userId);
+    return { mode: "legacy" as PersistMode, conversation: null, prior };
+  }
+}
+
+async function persistUser(
+  mode: PersistMode,
+  userId: string,
+  conversationId: string | null,
+  content: string,
+  meta: unknown
+) {
+  if (mode === "threaded" && conversationId) {
+    await appendMessage({
+      conversationId,
+      role: "user",
+      content,
+      metaJson: meta,
+    });
+  } else {
+    await saveLegacyFlatMessage({
+      userId,
+      role: "user",
+      content,
+      metaJson: meta,
+    });
+  }
+}
+
+async function persistAssistant(
+  mode: PersistMode,
+  userId: string,
+  conversationId: string | null,
+  content: string,
+  opts: {
+    status?: string;
+    errorCode?: string | null;
+    linksJson?: unknown;
+    metaJson?: unknown;
+  }
+) {
+  if (mode === "threaded" && conversationId) {
+    await appendMessage({
+      conversationId,
+      role: "assistant",
+      content,
+      status: opts.status,
+      errorCode: opts.errorCode,
+      linksJson: opts.linksJson,
+      metaJson: opts.metaJson,
+    });
+  } else {
+    await saveLegacyFlatMessage({
+      userId,
+      role: "assistant",
+      content,
+      linksJson: opts.linksJson,
+      metaJson: opts.metaJson,
+      errorCode: opts.errorCode,
+    });
+  }
+}
+
+/** Chat Admin A.V.A. — conversationnelle, persistante, fail-closed. */
 export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth("ADMIN");
+    const ctx = await assertAdminAvaAccess(user);
     const body = bodySchema.parse(await request.json());
     const ip = clientIp(request);
+    const safeMessage = stripClaimedPrivileges(body.message);
 
-    if (SENSITIVE.test(body.message) && !body.confirmSensitive) {
+    if (SENSITIVE.test(safeMessage) && !body.confirmSensitive) {
       await writeAuditLog({
         user,
         action: "ava.admin_chat.sensitive_blocked",
         ip,
-        metadata: { preview: body.message.slice(0, 120) },
+        metadata: { preview: safeMessage.slice(0, 120) },
       });
       return jsonResponse({
         mode: "admin_ava",
+        conversationId: body.conversationId || null,
         text:
           "Attention : ça touche une action sensible. Je ne l'exécute pas toute seule. " +
           "Confirme explicitement si tu veux seulement un diagnostic / plan — " +
@@ -153,69 +228,124 @@ export async function POST(request: NextRequest) {
         lastSyncAt: null,
         missingData: [],
         conversational: true,
+        effectiveRole: ctx.effectiveRole,
       });
     }
 
-    const prior = await loadChatMessages(user.userId);
-    const history = toHistory(prior);
+    const thread = await openThread(user.userId, body.conversationId);
+    const conversationId = thread.conversation?.id || null;
+    const history = toHistory(thread.prior);
 
-    await saveChatMessage({
-      userId: user.userId,
-      role: "user",
-      content: body.message,
-      metaJson: { mode: "admin_ava" },
+    await persistUser(thread.mode, user.userId, conversationId, safeMessage, {
+      mode: "admin_ava",
+      effectiveRole: ctx.effectiveRole,
     });
 
-    const ops = detectOpsCommand(body.message);
+    const ops = detectOpsCommand(safeMessage);
     let opsText = "";
     let opsExtra: Record<string, unknown> = {};
+    let toolErrorCode: string | null = null;
 
     if (ops) {
-      const result = await runFidelatooCommand(ops);
-      opsExtra = {
-        opsCommand: ops,
-        opsOk: result.ok,
-        opsMessage: result.message,
-        status: result.status,
-        agent: result.agent,
-        identity: result.identity,
-        qrReady: !!result.qrImageBase64 || !!result.qrExpiresAt,
-      };
-      opsText = [
-        `Action : ${ops}`,
-        result.ok ? "Résultat : OK" : "Résultat : échec",
-        result.message || "",
-        result.status
-          ? `VM=${result.status.vm} · app=${result.status.app} · ava=${result.status.ava} · rôle=${result.status.role}`
-          : "",
-      ]
-        .filter(Boolean)
-        .join("\n");
+      try {
+        const result = await runFidelatooCommand(ops);
+        opsExtra = {
+          opsCommand: ops,
+          opsOk: result.ok,
+          opsMessage: result.message,
+          status: result.status,
+          agent: result.agent,
+          identity: result.identity,
+          qrReady: !!result.qrImageBase64 || !!result.qrExpiresAt,
+        };
+        opsText = [
+          `Action : ${ops}`,
+          result.ok ? "Résultat : OK" : "Résultat : échec",
+          result.message || "",
+          result.status
+            ? `VM=${result.status.vm} · app=${result.status.app} · ava=${result.status.ava} · rôle=${result.status.role}`
+            : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        if (!result.ok) toolErrorCode = AvaErrorCode.AVA_TOOL_ERROR;
+        await writeAuditLog({
+          user,
+          action: `ava.admin_chat.ops.${ops}`,
+          ip,
+          metadata: {
+            ok: result.ok,
+            message: result.message?.slice(0, 200),
+            actionId: result.actionId,
+          },
+        });
+      } catch (e) {
+        const pub = toPublicAvaError(e);
+        toolErrorCode = AvaErrorCode.AVA_TOOL_ERROR;
+        opsText = `Outil ${ops} indisponible : ${pub.publicMessage}`;
+        opsExtra = { opsCommand: ops, opsOk: false, errorCode: toolErrorCode };
+        console.error("[ava.admin] tool", redactAvaLog(pub.technical));
+      }
+    }
 
+    let memoryHint = "";
+    try {
+      const mem = await loadMemoryForSurface({
+        surface: "admin",
+        userId: user.userId,
+        adminCapabilities: true,
+      });
+      if (mem.admin) {
+        memoryHint = `\nPréférences Admin mémorisées : ${JSON.stringify(mem.admin).slice(0, 400)}`;
+      }
+    } catch {
+      /* optional */
+    }
+
+    let reply;
+    try {
+      reply = await answerAdminAvaConversation({
+        message: safeMessage,
+        role: user.role,
+        history,
+        periodKey: body.periodKey as DatePeriod | undefined,
+        opsText: (opsText + memoryHint).trim() || undefined,
+      });
+    } catch (e) {
+      const pub = toPublicAvaError(e);
+      console.error("[ava.admin] engine", redactAvaLog(pub.technical));
+      await persistAssistant(thread.mode, user.userId, conversationId, pub.publicMessage, {
+        status: "error",
+        errorCode: pub.code,
+        metaJson: { technical: pub.technical, mode: "admin_ava" },
+      });
       await writeAuditLog({
         user,
-        action: `ava.admin_chat.ops.${ops}`,
+        action: "ava.admin_chat.error",
         ip,
         metadata: {
-          ok: result.ok,
-          message: result.message?.slice(0, 200),
-          actionId: result.actionId,
+          errorCode: pub.code,
+          technical: redactAvaLog(pub.technical),
+          conversationId,
         },
+      });
+      return jsonResponse({
+        mode: "admin_ava",
+        conversationId,
+        text: pub.publicMessage,
+        errorCode: pub.code,
+        links: [],
+        conversational: true,
+        canRetry: true,
+        effectiveRole: ctx.effectiveRole,
+        persistMode: thread.mode,
       });
     }
 
-    const reply = await answerAdminAvaConversation({
-      message: body.message,
-      role: user.role,
-      history,
-      periodKey: body.periodKey as DatePeriod | undefined,
-      opsText: opsText || undefined,
-    });
-
-    await saveChatMessage({
-      userId: user.userId,
-      role: "assistant",
-      content: reply.text,
+    const assistantStatus = toolErrorCode ? "error" : "ok";
+    await persistAssistant(thread.mode, user.userId, conversationId, reply.text, {
+      status: assistantStatus,
+      errorCode: toolErrorCode,
       linksJson: reply.links,
       metaJson: {
         periodLabel: reply.periodLabel,
@@ -225,6 +355,7 @@ export async function POST(request: NextRequest) {
         mode: "admin_ava",
         conversational: true,
         grounded: reply.grounded,
+        effectiveRole: ctx.effectiveRole,
         ...opsExtra,
       },
     });
@@ -235,19 +366,21 @@ export async function POST(request: NextRequest) {
       ip,
       metadata: {
         mode: "admin_ava",
+        conversationId,
         conversational: true,
         hasOps: !!ops,
         opsCommand: ops || null,
         source: reply.source,
-        userMessage: body.message.slice(0, 2000),
-        assistantText: reply.text.slice(0, 8000),
-        links: reply.links,
-        preview: body.message.slice(0, 120),
+        effectiveRole: ctx.effectiveRole,
+        preview: safeMessage.slice(0, 120),
+        errorCode: toolErrorCode,
+        persistMode: thread.mode,
       },
     });
 
     return jsonResponse({
       mode: "admin_ava",
+      conversationId,
       text: reply.text,
       links: reply.links,
       periodLabel: reply.periodLabel,
@@ -256,20 +389,84 @@ export async function POST(request: NextRequest) {
       missingData: reply.missingData,
       conversational: true,
       grounded: reply.grounded,
+      errorCode: toolErrorCode,
+      canRetry: !!toolErrorCode,
+      effectiveRole: ctx.effectiveRole,
+      persistMode: thread.mode,
       ...opsExtra,
     });
   } catch (error) {
-    return handleApiError(error);
+    if (error instanceof AvaError) {
+      return jsonResponse(
+        {
+          mode: "admin_ava",
+          error: error.publicMessage,
+          errorCode: error.code,
+          conversational: true,
+        },
+        error.code === AvaErrorCode.AVA_PERMISSION_DENIED ||
+          error.code === AvaErrorCode.AVA_AUTH_FAILED
+          ? 403
+          : 500
+      );
+    }
+    const pub = toPublicAvaError(error);
+    console.error("[ava.admin] fatal", redactAvaLog(pub.technical));
+    if (
+      error instanceof Error &&
+      (error.message === "UNAUTHORIZED" || error.message === "FORBIDDEN")
+    ) {
+      return handleApiError(error);
+    }
+    return jsonResponse(
+      {
+        mode: "admin_ava",
+        error: pub.publicMessage,
+        errorCode: pub.code,
+        technical: pub.technical,
+        conversational: true,
+        canRetry: true,
+      },
+      500
+    );
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth("ADMIN");
-    const [messages, status] = await Promise.all([
-      loadChatMessages(user.userId),
+    const ctx = await assertAdminAvaAccess(user);
+    const conversationId = request.nextUrl.searchParams.get("conversationId");
+
+    const [conversations, status] = await Promise.all([
+      listConversations(user.userId, "admin"),
       getFidelatooStatus().catch(() => null),
     ]);
+
+    let messages: Awaited<ReturnType<typeof loadMessages>> | Awaited<
+      ReturnType<typeof loadLegacyFlatMessages>
+    > = [];
+    let activeId = conversationId;
+    let persistMode: PersistMode = "threaded";
+
+    if (conversations.length === 0) {
+      persistMode = "legacy";
+      messages = await loadLegacyFlatMessages(user.userId);
+      activeId = null;
+    } else {
+      if (activeId) {
+        const owned = conversations.find((c) => c.id === activeId);
+        if (owned) {
+          messages = await loadMessages(activeId);
+        } else {
+          activeId = null;
+        }
+      }
+      if (!activeId) {
+        activeId = conversations[0].id;
+        messages = await loadMessages(activeId);
+      }
+    }
 
     let agent: Record<string, unknown> | null = null;
     try {
@@ -281,9 +478,14 @@ export async function GET() {
 
     return jsonResponse({
       mode: "admin_ava",
+      conversationId: activeId,
+      conversations,
       messages,
+      persistMode,
       status,
       agent,
+      effectiveRole: ctx.effectiveRole,
+      isOwnerIdentity: ctx.isOwnerIdentity,
       online: !!(
         status?.orchestratorReachable &&
         status.vm === "online" &&
@@ -300,6 +502,12 @@ export async function GET() {
       ],
     });
   } catch (error) {
+    if (error instanceof AvaError) {
+      return jsonResponse(
+        { error: error.publicMessage, errorCode: error.code },
+        403
+      );
+    }
     return handleApiError(error);
   }
 }

@@ -195,25 +195,53 @@ export async function answerAdminAvaConversation(params: {
 
   let grounded: AvaGestionReply | null = null;
   if (wantGestion) {
-    grounded = await answerAvaGestion({
-      message: msg,
-      role: params.role,
-      periodKey: params.periodKey,
-    });
+    try {
+      grounded = await answerAvaGestion({
+        message: msg,
+        role: params.role,
+        periodKey: params.periodKey,
+      });
+    } catch (e) {
+      // Ne jamais faire planter le chat admin pour une erreur snapshot
+      grounded = {
+        mode: "gestion",
+        text:
+          "Je n'ai pas pu charger le snapshot gestion pour le moment " +
+          "(données temporairement indisponibles). On peut continuer à discuter, " +
+          "ou réessayer le résumé dans un instant.",
+        links: [],
+        missingData: ["snapshot_gestion"],
+        periodLabel: "",
+        source: "admin_ava_gestion_error",
+        lastSyncAt: null,
+        generatedAt: new Date().toISOString(),
+      };
+      void e;
+    }
   }
 
   const factsParts = [
     params.opsText ? `OPS / VM :\n${params.opsText}` : "",
-    grounded?.text ? `GESTION :\n${grounded.text}` : "",
+    grounded?.text && grounded.source !== "admin_ava_gestion_error"
+      ? `GESTION :\n${grounded.text}`
+      : grounded?.source === "admin_ava_gestion_error"
+        ? `GESTION : indisponible (${grounded.missingData.join(", ")})`
+        : "",
   ].filter(Boolean);
   const factsBlock = factsParts.join("\n\n") || undefined;
 
-  const openai = await chatAdminWithOpenAI({
-    message: msg,
-    history,
-    factsBlock,
-  });
+  let openai: string | null = null;
+  try {
+    openai = await chatAdminWithOpenAI({
+      message: msg,
+      history,
+      factsBlock,
+    });
+  } catch {
+    openai = null;
+  }
 
+  // Si OpenAI a échoué (clé absente / HTTP) — fallback local, jamais throw
   const text =
     openai ||
     localConversationalFallback({
@@ -228,15 +256,19 @@ export async function answerAdminAvaConversation(params: {
     links: grounded?.links || [],
     periodLabel: grounded?.periodLabel || "",
     source: openai
-      ? grounded
+      ? grounded && grounded.source !== "admin_ava_gestion_error"
         ? "admin_ava_openai+gestion"
         : "admin_ava_openai"
       : grounded
-        ? "admin_ava_local+gestion"
+        ? grounded.source === "admin_ava_gestion_error"
+          ? "admin_ava_local+gestion_error"
+          : "admin_ava_local+gestion"
         : "admin_ava_local",
     lastSyncAt: grounded?.lastSyncAt ?? null,
     missingData: grounded?.missingData || [],
     conversational: true,
-    grounded: Boolean(grounded || params.opsText),
+    grounded: Boolean(
+      (grounded && grounded.source !== "admin_ava_gestion_error") || params.opsText
+    ),
   };
 }

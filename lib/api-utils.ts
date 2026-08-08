@@ -22,7 +22,8 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
   RATE_LIMITED: { message: "Trop de tentatives. Réessayez plus tard.", status: 429 },
   ACCOUNT_DISABLED: { message: "Compte désactivé", status: 403 },
   AUTH_DB_UNAVAILABLE: {
-    message: "Authentification indisponible — base à migrer (prisma migrate deploy)",
+    message:
+      "Authentification indisponible — base de données injoignable ou schéma incomplet. Vérifiez DATABASE_URL et les migrations Prisma.",
     status: 503,
   },
   AUTH_MISCONFIGURED: {
@@ -49,8 +50,24 @@ export function errorResponse(message: string, status = 400) {
 
 export function handleApiError(error: unknown) {
   if (error instanceof ZodError) {
+    const flat = error.flatten();
+    const fieldMsgs = Object.entries(flat.fieldErrors)
+      .filter(([, msgs]) => Array.isArray(msgs) && msgs.length > 0)
+      .map(([field, msgs]) => `${field}: ${(msgs as string[]).join(", ")}`);
+    const formMsgs = flat.formErrors.filter(Boolean);
+    const summary =
+      [...fieldMsgs, ...formMsgs].join(" · ") || "Données invalides";
+    console.error("[api] Zod validation failed", {
+      summary,
+      fieldErrors: flat.fieldErrors,
+      formErrors: flat.formErrors,
+    });
     return NextResponse.json(
-      { error: "Validation failed", details: error.flatten() },
+      {
+        error: summary,
+        code: "VALIDATION_FAILED",
+        details: flat,
+      },
       { status: 400 }
     );
   }
@@ -60,7 +77,9 @@ export function handleApiError(error: unknown) {
     if (known) {
       return NextResponse.json({ error: known.message }, { status: known.status });
     }
-    console.error("API Error:", error.message);
+    console.error("API Error:", error.message, error.stack);
+  } else {
+    console.error("API Error (unknown):", error);
   }
 
   return NextResponse.json({ error: "Erreur interne du serveur" }, { status: 500 });

@@ -89,9 +89,10 @@ model User {
   auditLogs           AuditLog[]
   statusChanges       OrderStatusHistory[] @relation("StatusChangedBy")
   avaGestionMessages  AvaGestionMessage[]
+  avaConversations    AvaConversation[]
 }
 
-/// Historique chat A.V.A. Gestion / Admin A.V.A. (par utilisateur)
+/// Historique chat A.V.A. Gestion / Admin A.V.A. (par utilisateur) — LEGACY flat
 model AvaGestionMessage {
   id        String   @id @default(cuid())
   userId    String
@@ -103,6 +104,66 @@ model AvaGestionMessage {
   createdAt DateTime @default(now())
 
   @@index([userId, createdAt])
+}
+
+/// Conversation A.V.A. persistante (Admin ou Client) — multi-threads
+model AvaConversation {
+  id          String           @id @default(cuid())
+  ownerUserId String
+  owner       User             @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  /// admin | client
+  surface     String
+  title       String?
+  status      String           @default("active")
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  messages    AvaChatMessage[]
+
+  @@index([ownerUserId, surface, updatedAt])
+}
+
+model AvaChatMessage {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   AvaConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String
+  status         String         @default("ok")
+  errorCode      String?
+  linksJson      Json?
+  metaJson       Json?
+  createdAt      DateTime       @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+/// Mémoires séparées ADMIN | CLIENT | OPERATIONAL
+/// ownerUserId "" = entrée globale (OPERATIONAL)
+model AvaMemoryEntry {
+  id          String   @id @default(cuid())
+  /// ADMIN | CLIENT | OPERATIONAL
+  scope       String
+  ownerUserId String   @default("")
+  key         String
+  valueJson   Json
+  source      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([scope, ownerUserId, key])
+  @@index([scope, ownerUserId])
+}
+
+/// Identités OWNER vérifiées (jamais depuis un message texte)
+model AvaOwnerIdentity {
+  id                String    @id @default(cuid())
+  primaryEmail      String    @unique
+  userId            String?
+  authorizedAliases String[]  @default([])
+  verifiedAt        DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  createdByUserId   String?
 }
 
 /// Journal d'audit inventaire / admin (traçabilité obligatoire)
@@ -396,6 +457,10 @@ model Product {
   volumeMl              Int?
   /// Éligible à l'offre 10 ml uniquement (jamais 50/100 ni hors e-liquide)
   promotion10mlEligible Boolean              @default(false)
+  /// Classification catalogue : CONFIRMED | AUTO_CLASSIFIED | TO_REVIEW | UNCLASSIFIED
+  classificationStatus  String               @default("UNCLASSIFIED")
+  /// Sources JSON de classification (sumup, inventaire, token_range, …)
+  classificationSources String?
   favorites             Favorite[]
   orderItems            OrderItem[]
   brandRef              Brand?               @relation(fields: [brandId], references: [id])
@@ -415,6 +480,7 @@ model Product {
   inventoryLines        InventoryLine[]
 
   @@index([isActive, visibleOnline, category])
+  @@index([classificationStatus])
   @@index([isActive, isPromo])
   @@index([isActive, isBestSeller])
   @@index([isActive, isNew])

@@ -37,6 +37,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           ? {
               email: form.email.trim().toLowerCase(),
               password: form.password.trim(),
+              next:
+                typeof window !== "undefined"
+                  ? new URLSearchParams(window.location.search).get("next") ||
+                    new URLSearchParams(window.location.search).get("redirect") ||
+                    undefined
+                  : undefined,
             }
           : {
               email: form.email.trim().toLowerCase(),
@@ -101,29 +107,45 @@ export function AuthForm({ mode }: AuthFormProps) {
         }
 
         const params = new URLSearchParams(window.location.search);
-        const rawNext = params.get("next");
+        const rawNext = params.get("next") || params.get("redirect");
         const next =
           rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : null;
 
-        const role = session.user.role || data.user?.role;
+        // Recalcule toujours avec next URL pour ne pas perdre le deep-link autorisé
+        const dbRole = session.user.role || data.user?.role || "";
+        const appRole =
+          (session.user.appRole as "OWNER" | "ADMIN" | "EMPLOYEE" | "CLIENT" | undefined) ||
+          (data.user?.appRole as "OWNER" | "ADMIN" | "EMPLOYEE" | "CLIENT" | undefined) ||
+          null;
         const mustChange =
           session.user.mustChangePassword ?? data.user?.mustChangePassword;
 
-        if (mustChange) {
-          window.location.assign(
-            `/changer-mot-de-passe?next=${encodeURIComponent(next || "/inventaire")}`
-          );
-          return;
-        }
-        if (role === "ADMIN") {
-          window.location.assign(next || "/admin/inventaires");
-          return;
-        }
-        if (role === "EMPLOYEE") {
-          window.location.assign(next || "/inventaire");
-          return;
-        }
-        setError("Compte connecté mais non autorisé à accéder à l’inventaire.");
+        const { resolvePostLoginPath, mapDbRoleToAppRoleSync } = await import(
+          "@/lib/auth/routing"
+        );
+        const role =
+          appRole ||
+          mapDbRoleToAppRoleSync(String(dbRole), {
+            isOwnerIdentity: Boolean(
+              session.user.isOwnerIdentity ?? data.user?.isOwnerIdentity
+            ),
+          });
+
+        const computed = resolvePostLoginPath(role, next, {
+          mustChangePassword: !!mustChange,
+        });
+        // Préférer redirect serveur s'il est cohérent ; sinon computed (gère next)
+        const serverRedirect =
+          typeof data.redirectTo === "string" && data.redirectTo.startsWith("/")
+            ? data.redirectTo
+            : typeof session.user.redirectTo === "string" &&
+                session.user.redirectTo.startsWith("/")
+              ? session.user.redirectTo
+              : null;
+
+        window.location.assign(
+          next ? computed : serverRedirect || computed
+        );
         return;
       }
 
@@ -142,11 +164,9 @@ export function AuthForm({ mode }: AuthFormProps) {
         <h1 className="text-2xl font-bold text-white">
           {mode === "login" ? "Connexion" : "Créer un compte"}
         </h1>
-        <p className="mt-1 text-sm text-white/60">
-          {mode === "login"
-            ? "Employés inventaire et administration All Vap's"
-            : "Rejoignez la communauté All Vap's"}
-        </p>
+        {mode === "register" && (
+          <p className="mt-1 text-sm text-white/60">Rejoignez la communauté All Vap&apos;s</p>
+        )}
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4" autoComplete="on">
           {mode === "register" && (

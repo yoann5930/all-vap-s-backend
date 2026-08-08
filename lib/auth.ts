@@ -132,7 +132,19 @@ export async function loginUser(
       where: { email: email.toLowerCase() },
     });
   } catch (err) {
-    console.error("[auth] login DB error (migrations User / Role ?):", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[auth] login DB error:", msg.slice(0, 300));
+    // Distinguer URL/config vs schéma/migration
+    if (
+      /ENVIRONMENT_VARIABLE_NOT_FOUND|invalid.*url|Protocol not supported|\[SENSITIVE\]|Can't reach database|ECONNREFUSED|ENOTFOUND|P1001|P1012/i.test(
+        msg
+      )
+    ) {
+      throw new Error("AUTH_DB_UNAVAILABLE");
+    }
+    if (/does not exist|Unknown column|P2021|P2022|migration/i.test(msg)) {
+      throw new Error("AUTH_DB_UNAVAILABLE");
+    }
     throw new Error("AUTH_DB_UNAVAILABLE");
   }
 

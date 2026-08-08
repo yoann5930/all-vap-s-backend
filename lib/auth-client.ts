@@ -140,6 +140,9 @@ export type SessionUser = {
   id?: string;
   email?: string;
   role?: string;
+  appRole?: string;
+  isOwnerIdentity?: boolean;
+  redirectTo?: string;
   mustChangePassword?: boolean;
 };
 

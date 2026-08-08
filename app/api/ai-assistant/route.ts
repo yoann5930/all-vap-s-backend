@@ -9,6 +9,10 @@ import {
 import { chatAva } from "@/lib/ai/ava-advisor";
 import { toSpokenText } from "@/lib/ai/ava-speech-utils";
 import { AVA_SUGGESTIONS } from "@/lib/ai/ava-constants";
+import {
+  prepareClientUserMessage,
+  scrubClientReply,
+} from "@/lib/ava/client-guard";
 
 async function getUserId(): Promise<string | undefined> {
   try {
@@ -18,6 +22,13 @@ async function getUserId(): Promise<string | undefined> {
   } catch {
     return undefined;
   }
+}
+
+function withClientScrub<T extends { content?: string }>(reply: T): T {
+  if (typeof reply.content === "string") {
+    return { ...reply, content: scrubClientReply(reply.content) };
+  }
+  return reply;
 }
 
 export async function GET() {
@@ -117,14 +128,16 @@ export async function POST(request: NextRequest) {
         );
       }
       const userId = await getUserId();
+      const safeMsg = prepareClientUserMessage(message.trim());
       const reply = isOpenAIConfigured()
-        ? await chatAvaWithVoice(userId, message.trim(), { conversationContext: null })
-        : await chatAva(userId, message.trim(), { conversationContext: null });
-      return jsonResponse(reply);
+        ? await chatAvaWithVoice(userId, safeMsg, { conversationContext: null })
+        : await chatAva(userId, safeMsg, { conversationContext: null });
+      return jsonResponse(withClientScrub(reply));
     }
 
     const body = parsed.data;
     const userId = await getUserId();
+    const safeMessage = prepareClientUserMessage(body.message);
     const opts = {
       preferredStoreId: body.preferredStoreId ?? null,
       conversationContext: (body.conversationContext as
@@ -135,20 +148,22 @@ export async function POST(request: NextRequest) {
 
     try {
       const reply = isOpenAIConfigured()
-        ? await chatAvaWithVoice(userId, body.message, opts)
-        : await chatAva(userId, body.message, opts);
-      return jsonResponse(reply);
+        ? await chatAvaWithVoice(userId, safeMessage, opts)
+        : await chatAva(userId, safeMessage, opts);
+      return jsonResponse(withClientScrub(reply));
     } catch (err) {
       console.error("[ava] chat failed, retry without context", err);
       try {
-        const reply = await chatAva(userId, body.message, {
+        const reply = await chatAva(userId, safeMessage, {
           preferredStoreId: opts.preferredStoreId,
           conversationContext: null,
         });
-        return jsonResponse({
-          ...reply,
-          content: reply.content || FRIENDLY_ERROR,
-        });
+        return jsonResponse(
+          withClientScrub({
+            ...reply,
+            content: reply.content || FRIENDLY_ERROR,
+          })
+        );
       } catch (err2) {
         console.error("[ava] chat retry failed", err2);
         return jsonResponse(

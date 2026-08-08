@@ -2,13 +2,17 @@ import { NextResponse } from "next/server";
 import { getAuthUser, clearAuthCookie } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 import { handleApiError } from "@/lib/api-utils";
+import {
+  resolveAppRole,
+  resolvePostLoginPath,
+  permissionsForRole,
+} from "@/lib/auth/user-context";
+import { isOwnerEmail } from "@/lib/ava/identity-context";
 
 /**
  * Session courante (cookie httpOnly et/ou Authorization Bearer).
  *
  * IMPORTANT — ne sélectionner QUE des colonnes présentes dans prisma/schema.prisma.
- * Le champ fantôme `twoFactorEnabled` provoquait un 500 Prisma et cassait le
- * handshake post-login (« Connexion acceptée mais session non conservée »).
  */
 export async function GET() {
   try {
@@ -20,8 +24,6 @@ export async function GET() {
       );
     }
 
-    // Colonnes inventaire staff uniquement (jamais twoFactorEnabled / totp*).
-    // Fallback si une colonne inventaire manque encore en base.
     let user: {
       id: string;
       email: string;
@@ -88,13 +90,20 @@ export async function GET() {
       try {
         await clearAuthCookie();
       } catch {
-        /* cookie store indisponible hors requête */
+        /* ignore */
       }
       return NextResponse.json(
         { authenticated: false, user: null },
         { status: 401, headers: { "Cache-Control": "no-store, private" } }
       );
     }
+
+    const isOwnerIdentity = await isOwnerEmail(user.email);
+    const appRole = await resolveAppRole(user.role, user.email);
+    const permissions = permissionsForRole(appRole);
+    const redirectTo = resolvePostLoginPath(appRole, null, {
+      mustChangePassword: !!user.mustChangePassword,
+    });
 
     return NextResponse.json(
       {
@@ -106,6 +115,10 @@ export async function GET() {
           lastName: user.lastName,
           phone: user.phone,
           role: user.role,
+          appRole,
+          isOwnerIdentity,
+          permissions,
+          redirectTo,
           active: user.active,
           mustChangePassword: user.mustChangePassword,
           allowedStores: user.allowedStores,
@@ -117,7 +130,6 @@ export async function GET() {
       { status: 200, headers: { "Cache-Control": "no-store, private" } }
     );
   } catch (error) {
-    // Ne jamais laisser un 500 Prisma opaque casser le handshake sans code.
     const msg = error instanceof Error ? error.message : String(error);
     if (/Unknown argument|Unknown field|does not exist|column/i.test(msg)) {
       console.error("[auth/me] schema mismatch:", msg.slice(0, 300));

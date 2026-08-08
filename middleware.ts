@@ -74,9 +74,16 @@ function applySecurityHeaders(
     pathname.startsWith("/inventaire") || pathname.startsWith("/admin/inventaire")
       ? "camera=(self)"
       : "camera=()";
+  const microphone =
+    pathname.startsWith("/admin/ava") ||
+    pathname.startsWith("/ia") ||
+    pathname.startsWith("/ava") ||
+    pathname.startsWith("/compte")
+      ? "microphone=(self)"
+      : "microphone=()";
   response.headers.set(
     "Permissions-Policy",
-    `${camera}, microphone=(), geolocation=()`
+    `${camera}, ${microphone}, geolocation=()`
   );
 
   // En local : autoriser le Simple Browser / preview IDE (sinon page blanche iframe).
