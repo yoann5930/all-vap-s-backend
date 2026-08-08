@@ -123,7 +123,7 @@ export default function AdminAvaRadarPage() {
                 {section.label}
               </h2>
               {section.items.length === 0 ? (
-                <p className="text-sm text-gray-400">Aucun signal pour l&apos;instant.</p>
+                <p className="text-sm text-gray-400">{"Aucun signal pour l'instant."}</p>
               ) : (
                 section.items.map((s) => (
                   <Card key={s.id}>
