@@ -37,7 +37,9 @@ export default async function GammePage({ params, searchParams }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
 
-  const range = await prisma.productRange.findFirst({
+  // Plusieurs ProductRange peuvent partager le même slug (legacy) :
+  // prendre celle qui a réellement des produits publiés (aligné sur /fabricants).
+  const rangeCandidates = await prisma.productRange.findMany({
     where: {
       slug,
       ...(sp.fabricant ? { manufacturer: { slug: sp.fabricant } } : {}),
@@ -52,8 +54,24 @@ export default async function GammePage({ params, searchParams }: Props) {
       isActive: true,
       manufacturer: { select: { id: true, slug: true, name: true } },
       brand: { select: { id: true, slug: true, name: true } },
+      _count: {
+        select: {
+          products: {
+            where: {
+              visibleOnline: true,
+              isActive: true,
+              catalogStatus: { in: ["valide", "actif"] },
+            },
+          },
+        },
+      },
     },
   });
+
+  const range =
+    [...rangeCandidates].sort(
+      (a, b) => b._count.products - a._count.products
+    )[0] ?? null;
 
   if (!range) notFound();
   if (range.slug === A_CLASSER_SLUG) notFound();
@@ -68,7 +86,8 @@ export default async function GammePage({ params, searchParams }: Props) {
       isActive: true,
       catalogStatus: { in: ["valide", "actif"] },
       rangeId: range.id,
-      manufacturerId: range.manufacturerId ?? undefined,
+      // Même filtre que /fabricants (pas de filtre manufacturerId strict ici) :
+      // le zero-mix gate rejette les vrais cross-fabricant.
       ...(range.slug === "ice-cool"
         ? {
             NOT: {

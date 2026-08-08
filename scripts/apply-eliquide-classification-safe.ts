@@ -61,10 +61,15 @@ async function ensureBrandAndRange(params: {
     });
   }
 
-  let range = await prisma.productRange.findFirst({
-    where: { brandId: brand.id, slug: params.rangeSlug },
-    select: { id: true },
-  });
+  let range =
+    (await prisma.productRange.findFirst({
+      where: { manufacturerId: params.mfrId, slug: params.rangeSlug },
+      select: { id: true },
+    })) ||
+    (await prisma.productRange.findFirst({
+      where: { brandId: brand.id, slug: params.rangeSlug },
+      select: { id: true },
+    }));
   if (!range) {
     const isAClasser = params.rangeSlug === A_CLASSER_SLUG;
     range = await prisma.productRange.create({

@@ -85,33 +85,39 @@ Généré : 2026-08-08T11:33:16.935Z
 ## Stocks
 Stocks modifiés : **NON** (analyse seule)
 
-## Rapport final (§19)
+## Rapport final (§19) — mis à jour
 
 Sources analysées : SumUp `2026-08-03_16-46-54_items-export_MCGR4RXU.csv` ; Inventaire `Inventaire_Produits_Tarifs_Vente_All_Vaps.csv` ; DB Product
 Lignes SumUp analysées : 2503
 Lignes inventaire analysées : 2526
-Produits uniques (e-liquide matrice) : 2575
+Produits uniques : 2575 (e-liquide matrice)
 
 Fabricants détectés : 36
 Gammes détectées : 58
 
-Produits CONFIRMED (matrice) : 1006
-Produits AUTO_CLASSIFIED (matrice) : 463
-Produits TO_REVIEW (matrice) : 22
-Produits UNCLASSIFIED (matrice) : 1084
+Produits CONFIRMED : 1006
+Produits AUTO_CLASSIFIED : 463
+Produits TO_REVIEW : 22
+Produits UNCLASSIFIED : 1084
+
+Fabricants sans gamme réelle (seulement `a-classer` en matrice) : Maison Fuel, Mexican Cartel, Protect, Vape Maker, Vap Air, Secrets Lab, Tribal Force, Guilab, Fruity Cool, Vape City, KF Studio, Le Maudit, Yum E-Bot, Curieux
+Gammes ambiguës / TO_REVIEW : Savourea / Fruizee / Big Kawa (échantillon)
+Produits sans fabricant : DEEP SEAS BALEA 50ml ; Edition Astrale - La Licorne ; Longani Ladybug ; Squid Juice ; A&L concentrés (échantillon)
+Doublons potentiels : lignes SumUp mal parsées (CSV collé dans le nom) — à nettoyer en admin
 
 Apply DB locale (2670 Product) :
-- CONFIRMED : 391
-- AUTO_CLASSIFIED : 545
-- TO_REVIEW : 12
-- UNCLASSIFIED : 1722
-- linkedMfr : 162 / linkedRange : 691
-- stocksTouched : false
+- CONFIRMED : 391 · AUTO_CLASSIFIED : 545 · TO_REVIEW : 12 · UNCLASSIFIED : 1722
+- linkedMfr : 162 / linkedRange : 691 · stocksTouched : false
+
+Apply prod (`POST /api/admin/catalog/apply-eliquide-classification`) :
+- scanned/updated : 1940 · stocksTouched : false
 
 Structure Fabricant → Gamme → Produit : OK
-Pages fabricants avec cartes gammes (+ typo si pas de cover) : OK
-Pages gammes avec produits : OK (`catalog-validate-routes` issues=[])
+Pages fabricants avec cartes gammes : OK (14 fabricants hub ; `a-classer` masqué)
+Pages gammes avec produits : OK locale (`catalog-validate-routes`) ; fix lookup gamme (évite range vide dupliquée) déployé
 Interface Admin contrôle classification : OK (`/admin/catalog/classification`)
 Stocks modifiés : NON
 
-Blocage restant : déploiement prod des colonnes + API `apply-eliquide-classification` ; produits UNCLASSIFIED à traiter progressivement ; gammes sans cover restent typographiques / hors hub si non OFFICIAL_CONFIRMED.
+Fichiers clés : `lib/catalog/eliquide-classification.ts`, `scripts/build-eliquide-classification-matrix.ts`, `scripts/apply-eliquide-classification-safe.ts`, `app/admin/catalog/classification`, `components/catalog/RangeCatalogCard.tsx`, `app/gammes/[slug]/page.tsx`
+Tests exécutés : matrix build ; apply local ; `catalog-validate-routes` ; smoke prod `/e-liquides` → `/fabricants/liquidarom` ; apply prod classification
+Blocage restant : ~1084 UNCLASSIFIED à traiter ; fabricants sans cover/gamme hors hub ; revue manuelle TO_REVIEW (Savourea/Fruizee/Big Kawa)

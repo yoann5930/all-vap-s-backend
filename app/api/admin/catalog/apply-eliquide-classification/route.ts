@@ -24,6 +24,7 @@ export const maxDuration = 120;
 const bodySchema = z.object({
   apply: z.boolean().optional().default(false),
   limit: z.number().int().min(1).max(5000).optional().default(2000),
+  diag: z.boolean().optional().default(false),
 });
 
 function secretOk(provided: string | null, expected: string): boolean {
@@ -63,6 +64,57 @@ export async function POST(request: NextRequest) {
 
     const body = bodySchema.parse(await request.json().catch(() => ({})));
     await ensureColumns();
+
+    if (body.diag) {
+      const ice = await prisma.productRange.findMany({
+        where: { slug: "ice-cool" },
+        select: {
+          id: true,
+          manufacturerId: true,
+          catalogVisible: true,
+          verificationStatus: true,
+          manufacturer: { select: { slug: true } },
+          _count: {
+            select: {
+              products: {
+                where: {
+                  visibleOnline: true,
+                  isActive: true,
+                  catalogStatus: { in: ["valide", "actif"] },
+                },
+              },
+            },
+          },
+        },
+      });
+      const sample = ice[0]
+        ? await prisma.product.findMany({
+            where: {
+              rangeId: ice[0].id,
+              visibleOnline: true,
+              isActive: true,
+              catalogStatus: { in: ["valide", "actif"] },
+            },
+            select: {
+              id: true,
+              name: true,
+              manufacturerId: true,
+              rangeId: true,
+              imageUrl: true,
+              imageStatus: true,
+              classificationStatus: true,
+            },
+            take: 5,
+          })
+        : [];
+      return NextResponse.json({
+        ok: true,
+        diag: true,
+        iceCoolRanges: ice,
+        sample,
+        stocksTouched: false,
+      });
+    }
 
     const known = loadKnownManufacturers();
     const products = await prisma.product.findMany({
@@ -155,10 +207,16 @@ export async function POST(request: NextRequest) {
             (row.rangeSlug !== A_CLASSER_SLUG &&
               coverExists(mfr.slug, row.rangeSlug));
           const isAClasser = row.rangeSlug === A_CLASSER_SLUG;
-          const existing = await prisma.productRange.findFirst({
-            where: { brandId: brand.id, slug: row.rangeSlug },
-            select: { id: true },
-          });
+          // Prefer manufacturer-scoped range to avoid slug duplicates across brands.
+          const existing =
+            (await prisma.productRange.findFirst({
+              where: { manufacturerId: mfr.id, slug: row.rangeSlug },
+              select: { id: true },
+            })) ||
+            (await prisma.productRange.findFirst({
+              where: { brandId: brand.id, slug: row.rangeSlug },
+              select: { id: true },
+            }));
           if (existing) {
             rangeId = existing.id;
             if (confirm && !isAClasser) {
