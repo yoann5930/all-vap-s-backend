@@ -167,6 +167,21 @@
       "slug": "le-maudit",
       "banner": "/media/manufacturers/le-maudit/banner.webp",
       "mode": "typography_asset_manquant"
+    },
+    {
+      "slug": "all-vaps",
+      "banner": "/media/manufacturers/all-vaps/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "liquide-lab",
+      "banner": "/media/manufacturers/liquide-lab/banner.webp",
+      "mode": "logo"
+    },
+    {
+      "slug": "cookin-cloud",
+      "banner": "/media/manufacturers/cookin-cloud/banner.webp",
+      "mode": "logo"
     }
   ],
   "assetManquant": [

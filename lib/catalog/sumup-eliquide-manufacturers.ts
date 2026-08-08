@@ -183,6 +183,11 @@ export function loadKnownManufacturers(): KnownManufacturer[] {
     { name: "Curieux", slug: "curieux", aliases: [] },
     { name: "Secret's Lab", slug: "secrets-lab", aliases: ["Secrets Lab"] },
     { name: "Vap Air", slug: "vap-air", aliases: ["Vap'Air", "VapAir"] },
+    {
+      name: "All Vap's",
+      slug: "all-vaps",
+      aliases: ["All Vaps", "AllVaps", "All Vap’s"],
+    },
   ];
   for (const m of SUMUP_SEEN) {
     if (!map.has(m.slug)) map.set(m.slug, m);

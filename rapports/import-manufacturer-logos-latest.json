@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-08-08T11:04:23.393Z",
+  "results": [
+    {
+      "slug": "biarritz-lab",
+      "ok": true,
+      "from": "biaritz lab.avif",
+      "logoBytes": 6316,
+      "bannerBytes": 24370,
+      "size": "248x130",
+      "onDark": true
+    },
+    {
+      "slug": "cloud-vapor",
+      "ok": true,
+      "from": "cloud vapor.webp",
+      "logoBytes": 2858,
+      "bannerBytes": 13852,
+      "size": "156x156",
+      "onDark": false
+    },
+    {
+      "slug": "cookin-cloud",
+      "ok": true,
+      "from": "cookin'cloud.webp",
+      "logoBytes": 4556,
+      "bannerBytes": 12278,
+      "size": "214x234",
+      "onDark": true
+    },
+    {
+      "slug": "liquideo",
+      "ok": true,
+      "from": "liquideo.webp",
+      "logoBytes": 6590,
+      "bannerBytes": 23240,
+      "size": "445x137",
+      "onDark": false
+    },
+    {
+      "slug": "liquidarom",
+      "ok": true,
+      "from": "logo-liquidarom-small.jpg",
+      "logoBytes": 16042,
+      "bannerBytes": 64834,
+      "size": "300x189",
+      "onDark": false
+    },
+    {
+      "slug": "liquide-lab",
+      "ok": true,
+      "from": "logo-liquidelab.webp",
+      "logoBytes": 16954,
+      "bannerBytes": 12316,
+      "size": "960x960",
+      "onDark": false
+    },
+    {
+      "slug": "swoke",
+      "ok": true,
+      "from": "swok.webp",
+      "logoBytes": 8020,
+      "bannerBytes": 25894,
+      "size": "438x226",
+      "onDark": false
+    },
+    {
+      "slug": "all-vaps",
+      "ok": true,
+      "from": "logo-all vap's.avif",
+      "logoBytes": 2014,
+      "bannerBytes": 14264,
+      "size": "96x96",
+      "onDark": false
+    }
+  ]
+}

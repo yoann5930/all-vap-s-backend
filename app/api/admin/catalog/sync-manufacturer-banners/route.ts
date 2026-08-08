@@ -153,6 +153,9 @@ export async function POST(request: NextRequest) {
       "eliquid-france": "Eliquid France",
       "vape-47": "Vape 47",
       "le-maudit": "Le Maudit",
+      "all-vaps": "All Vap's",
+      "liquide-lab": "Liquide Lab",
+      "cookin-cloud": "Cookin'Cloud",
     };
     for (const p of planned) {
       if (nameOverrides[p.slug]) p.name = nameOverrides[p.slug]!;
