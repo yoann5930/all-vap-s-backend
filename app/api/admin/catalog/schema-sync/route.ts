@@ -123,6 +123,11 @@ const ADDITIVE_STATEMENTS = [
   `CREATE INDEX IF NOT EXISTS "StockLevel_locationId_idx" ON "StockLevel"("locationId")`,
   `CREATE INDEX IF NOT EXISTS "StockLevel_productId_idx" ON "StockLevel"("productId")`,
   `CREATE INDEX IF NOT EXISTS "StockLevel_availableQuantity_idx" ON "StockLevel"("availableQuantity")`,
+  `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "status" TEXT NOT NULL DEFAULT 'a_verifier'`,
+  `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "verificationStatus" TEXT NOT NULL DEFAULT 'NEEDS_CONFIRMATION'`,
+  `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "catalogVisible" BOOLEAN NOT NULL DEFAULT false`,
+  `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "rangeId" TEXT`,
+  `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "volumeMl" INTEGER`,
 ];
 
 async function authorize(request: NextRequest) {

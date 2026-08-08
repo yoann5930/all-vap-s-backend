@@ -102,7 +102,6 @@ export default async function ELiquidesHubPage() {
         select: {
           id: true,
           slug: true,
-          status: true,
           verificationStatus: true,
           catalogVisible: true,
           products: {

@@ -90,6 +90,12 @@ export async function POST(request: NextRequest) {
       `ALTER TABLE "Brand" ADD COLUMN IF NOT EXISTS "status" TEXT NOT NULL DEFAULT 'a_verifier'`,
       `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "manufacturerId" TEXT`,
       `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "brandId" TEXT`,
+      `ALTER TABLE "Product" ADD COLUMN IF NOT EXISTS "rangeId" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "status" TEXT NOT NULL DEFAULT 'a_verifier'`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "verificationStatus" TEXT NOT NULL DEFAULT 'NEEDS_CONFIRMATION'`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "catalogVisible" BOOLEAN NOT NULL DEFAULT false`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "manufacturerId" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "brandId" TEXT`,
     ];
     const ddlErrors: string[] = [];
     for (const sql of ddl) {
