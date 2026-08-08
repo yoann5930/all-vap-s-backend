@@ -6,6 +6,7 @@ import { Package, Upload, Download, Image as ImageIcon, Warehouse, History } fro
 
 const sections = [
   { href: "/admin/products", label: "Produits", icon: Package, desc: "CRUD catalogue" },
+  { href: "/admin/catalog/classification", label: "Classification", icon: History, desc: "Fabricant → Gamme → Produit" },
   { href: "/admin/import", label: "Importer CSV", icon: Upload, desc: "Import générique" },
   { href: "/admin/catalog-images", label: "Images", icon: ImageIcon, desc: "Photos bouteille seule" },
   { href: "/admin/sumup-import", label: "Import SumUp CSV", icon: Warehouse, desc: "Import manuel CSV stock" },

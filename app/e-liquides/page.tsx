@@ -9,7 +9,6 @@ import {
   productBelongsToManufacturerForVolumes,
 } from "@/lib/catalog/manufacturer-volumes";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
-import { rangeCoverUrl } from "@/lib/catalog/range-cover";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 
@@ -120,8 +119,8 @@ export default async function ELiquidesHubPage() {
   const publishable = manufacturers.filter((m) => {
     if (!manufacturerBannerOrLogoIfExists(m.slug)) return false;
     return m.ranges.some((r) => {
+      if (r.slug === "a-classer") return false;
       if (r.products.length === 0) return false;
-      if (!rangeCoverUrl(m.slug, r.slug)) return false;
       return isRangeCatalogEligible(
         readRangeOfficialGate(r as unknown as Record<string, unknown>)
       );

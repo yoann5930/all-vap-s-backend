@@ -1,0 +1,15 @@
+{
+  "dryRun": false,
+  "productsScanned": 2670,
+  "updated": 2670,
+  "linkedMfr": 162,
+  "linkedRange": 691,
+  "skipped": 0,
+  "byStatus": {
+    "AUTO_CLASSIFIED": 545,
+    "CONFIRMED": 391,
+    "UNCLASSIFIED": 1722,
+    "TO_REVIEW": 12
+  },
+  "stocksTouched": false
+}

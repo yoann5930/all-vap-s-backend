@@ -5,7 +5,6 @@ import { RangeCatalogCard } from "@/components/catalog/RangeCatalogCard";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
 import { manufacturerBannerOrLogoIfExists, manufacturerLogoUrlIfExists } from "@/lib/catalog/manufacturer-logo.server";
-import { rangeCoverUrl } from "@/lib/catalog/range-cover";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 
@@ -54,7 +53,7 @@ export default async function FabricantPage({ params }: Props) {
               isActive: true,
               catalogStatus: { in: ["valide", "actif"] },
             },
-            select: { id: true },
+            select: { id: true, volumeMl: true, name: true },
           },
         },
       },
@@ -80,13 +79,15 @@ export default async function FabricantPage({ params }: Props) {
   if (!logo) notFound();
 
   const validatedRanges = manufacturer.ranges.filter((r) => {
+    if (r.slug === "a-classer") return false;
     // Collections / sous-séries ne doivent jamais apparaître comme gammes
     if (/blackout/i.test(r.slug) && r.slug !== "call-of-vape") return false;
     if (/call-of-vape-blackout/i.test(r.slug)) return false;
     if (r.products.length === 0) return false;
-    if (!rangeCoverUrl(manufacturer.slug, r.slug)) return false;
     const gate = readRangeOfficialGate(r as unknown as Record<string, unknown>);
-    return isRangeCatalogEligible(gate);
+    if (!isRangeCatalogEligible(gate)) return false;
+    // Cover OU carte typographique autorisée pour gammes éligibles
+    return true;
   });
 
   return (
@@ -153,16 +154,28 @@ export default async function FabricantPage({ params }: Props) {
           </p>
         ) : (
           <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {validatedRanges.map((r) => (
-              <li key={r.id}>
-                <RangeCatalogCard
-                  name={r.name}
-                  slug={r.slug}
-                  manufacturerSlug={manufacturer.slug}
-                  manufacturerName={manufacturer.name}
-                />
-              </li>
-            ))}
+            {validatedRanges.map((r) => {
+              const volumes = [
+                ...new Set(
+                  r.products
+                    .map((p) => p.volumeMl)
+                    .filter((v): v is number => v != null && v > 0)
+                ),
+              ].sort((a, b) => a - b);
+              return (
+                <li key={r.id}>
+                  <RangeCatalogCard
+                    name={r.name}
+                    slug={r.slug}
+                    manufacturerSlug={manufacturer.slug}
+                    manufacturerName={manufacturer.name}
+                    productCount={r.products.length}
+                    volumesMl={volumes}
+                    allowTypographicFallback
+                  />
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

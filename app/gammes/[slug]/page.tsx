@@ -7,6 +7,7 @@ import { rangeCoverUrl } from "@/lib/catalog/range-cover";
 import { filterProductsZeroMix } from "@/lib/catalog/zero-mix-gate";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
+import { A_CLASSER_SLUG } from "@/lib/catalog/eliquide-range-tokens";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +56,7 @@ export default async function GammePage({ params, searchParams }: Props) {
   });
 
   if (!range) notFound();
+  if (range.slug === A_CLASSER_SLUG) notFound();
 
   if (!isRangeCatalogEligible(readRangeOfficialGate(range as unknown as Record<string, unknown>))) {
     notFound();
@@ -98,8 +100,9 @@ export default async function GammePage({ params, searchParams }: Props) {
 
   const { ok: products } = filterProductsZeroMix(productsRaw);
 
-  // Couverture gamme obligatoire
-  if (!rangeCoverUrl(range.manufacturer?.slug, range.slug)) {
+  // Cover recommandé ; typo autorisée pour gammes éligibles confirmées
+  const hasCover = Boolean(rangeCoverUrl(range.manufacturer?.slug, range.slug));
+  if (!hasCover && products.length === 0) {
     notFound();
   }
 
