@@ -982,6 +982,10 @@ model Order {
   vivaTransactionId String?
   loyaltyPointsUsed Int             @default(0)
   loyaltyPointsEarn Int             @default(0)
+  /** Commande de test AUDIT_ONLY — exclue du CA / stats A.V.A. */
+  isAudit              Boolean   @default(false)
+  auditCampaignId      String?
+  auditAllowOutOfStock Boolean   @default(false)
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   items             OrderItem[]
@@ -991,6 +995,7 @@ model Order {
   @@index([status, createdAt])
   @@index([customerEmail])
   @@index([userId])
+  @@index([isAudit, createdAt])
 }
 
 model OrderStatusHistory {

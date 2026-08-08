@@ -27,6 +27,7 @@ import {
   looksLikeChatbot,
   stripChatbotVoice,
 } from "@/lib/ava/admin-voice";
+import { stripTechnicalLeak } from "@/lib/ava/admin-tools/sanitize-error";
 import {
   buildStance,
   composeSocialReply,
@@ -147,7 +148,7 @@ function shortFromTool(results: AvaAdminToolResult[], topicHint: string | null):
   if (!ok.length) {
     const fail = results[0];
     return fail
-      ? `Je n'ai pas pu vérifier (${fail.error || "indisponible"}). On réessaie ?`
+      ? `Je n'ai pas pu vérifier proprement (${fail.error || "indisponible"}). On réessaie dans une minute ?`
       : "Je n'ai pas encore l'info — je peux aller la chercher.";
   }
 
@@ -460,6 +461,10 @@ export async function answerAdminAvaConversation(params: {
   let text = socialText || openai || local;
   text = dampenRepetition(text, social.preferShort || intent.preferShort);
   text = stripChatbotVoice(text, socialText || local);
+  text = stripTechnicalLeak(
+    text,
+    "J'ai un souci de lecture sur les commandes pour l'instant — je ne te balance pas le détail technique. On réessaie ?"
+  );
 
   // Anti-répétition vs dernières réponses
   if (

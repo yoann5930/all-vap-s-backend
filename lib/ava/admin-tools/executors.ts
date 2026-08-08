@@ -21,7 +21,7 @@ import type {
   AvaAdminToolName,
   AvaAdminToolResult,
 } from "./types";
-
+import { sanitizeAdminToolError } from "./sanitize-error";
 function hideFinance(role: string) {
   return !roleAtLeast(role, "ADMIN");
 }
@@ -56,12 +56,13 @@ function okResult(
 }
 
 function failResult(tool: AvaAdminToolName, title: string, reason: string): AvaAdminToolResult {
+  const safe = sanitizeAdminToolError(reason);
   return {
     ok: false,
     tool,
     title,
-    text: `${title} indisponible : ${reason}`,
-    error: reason,
+    text: `${title} indisponible pour le moment (${safe}).`,
+    error: safe,
     missingData: [tool],
   };
 }

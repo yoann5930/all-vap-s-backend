@@ -2,6 +2,7 @@ import { roleAtLeast } from "@/lib/admin/roles";
 import { AvaError, AvaErrorCode } from "@/lib/ava/errors";
 import { getAdminTool } from "./registry";
 import { selectAdminTools } from "./select-tools";
+import { sanitizeAdminToolError } from "./sanitize-error";
 import type {
   AvaAdminToolContext,
   AvaAdminToolName,
@@ -78,12 +79,12 @@ async function runOne(
     const reason =
       e instanceof Error && e.message.startsWith("timeout:")
         ? "délai dépassé"
-        : "exécution interrompue";
+        : sanitizeAdminToolError(e);
     return {
       ok: false,
       tool: name,
       title: def.description,
-      text: `${def.description} indisponible : ${reason}.`,
+      text: `${def.description} indisponible pour le moment (${reason}).`,
       error: reason,
       missingData: [name],
     };
