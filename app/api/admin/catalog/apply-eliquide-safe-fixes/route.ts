@@ -234,6 +234,53 @@ export async function POST(request: NextRequest) {
     );
 
     if (!body.apply) {
+      let probe: Record<string, unknown> | null = null;
+      let probeError: string | null = null;
+      try {
+        const m = await prisma.manufacturer.findUnique({
+          where: { slug: "e-tasty" },
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            status: true,
+            ranges: {
+              where: { isActive: true },
+              orderBy: { name: "asc" },
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                isActive: true,
+                verificationStatus: true,
+                catalogVisible: true,
+                products: {
+                  where: {
+                    visibleOnline: true,
+                    isActive: true,
+                    catalogStatus: { in: ["valide", "actif"] },
+                  },
+                  select: { id: true },
+                },
+              },
+            },
+          },
+        });
+        probe = {
+          found: Boolean(m),
+          ranges: m?.ranges.length ?? 0,
+          withProducts: m?.ranges.filter((r) => r.products.length > 0).length ?? 0,
+          sample: (m?.ranges || []).slice(0, 8).map((r) => ({
+            slug: r.slug,
+            products: r.products.length,
+            verificationStatus: r.verificationStatus,
+            catalogVisible: r.catalogVisible,
+          })),
+        };
+      } catch (e) {
+        probeError = e instanceof Error ? e.message : String(e);
+      }
+
       return NextResponse.json({
         ok: true,
         dryRun: true,
@@ -243,6 +290,8 @@ export async function POST(request: NextRequest) {
         productRanges: rangeCount[0]?.c ?? 0,
         productsLinked: linkedCount[0]?.c ?? 0,
         sampleCovers: covers.slice(0, 15).map((c) => `${c.mfrSlug}/${c.rangeSlug}`),
+        probe,
+        probeError,
       });
     }
 
