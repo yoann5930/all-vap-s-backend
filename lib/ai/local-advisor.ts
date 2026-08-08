@@ -32,7 +32,9 @@ export async function localVapeAdvisorChat(request: AIRequest): Promise<AIRespon
   }
 
   const profile = (await getVapeProfile(userId)) ?? existing;
-  const products = await prisma.product.findMany({ where: { isActive: true, stock: { gt: 0 } } });
+  const products = await prisma.product.findMany({
+    where: { isActive: true, visibleOnline: true, stock: { gt: 0 } },
+  });
   const productList = products.map((p) => ({
     id: p.id,
     name: p.name,

@@ -23,6 +23,8 @@ export const AVA_NAME_REPLY = "Je m'appelle Ava.";
  * Activer uniquement après validation modèle + tests.
  */
 export const AVA_3D_ROADMAP = {
+  /** PROTOYPE TECHNIQUE — jamais présenté comme final */
+  statusLabel: "PROTOYPE TECHNIQUE",
   /** Chemin relatif public du modèle de test */
   modelPath: "/models/ava/ava-test-model.glb",
   texturePath: "/models/ava/ava-test-texture.png",

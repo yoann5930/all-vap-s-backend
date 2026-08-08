@@ -2,6 +2,7 @@
 
 /**
  * Charge le modèle GLB de test Ava depuis /models/ava/ava-test-model.glb
+ * PROTOYPE TECHNIQUE — ne jamais présenter comme rendu final.
  * Texture optionnelle : /models/ava/ava-test-texture.png
  * En cas d'échec → fallback AvaPortraitHead côté Canvas.
  */

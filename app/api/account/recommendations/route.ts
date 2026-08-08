@@ -15,7 +15,7 @@ export async function GET() {
     }
 
     const products = await prisma.product.findMany({
-      where: { isActive: true, stock: { gt: 0 } },
+      where: { isActive: true, visibleOnline: true, stock: { gt: 0 } },
     });
 
     const scored = getPersonalizedRecommendations(

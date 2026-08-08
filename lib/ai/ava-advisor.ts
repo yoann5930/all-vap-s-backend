@@ -120,7 +120,9 @@ function toCard(p: CatalogProduct, reason: string): AvaProductCard {
 }
 
 async function loadCatalog(): Promise<CatalogProduct[]> {
-  const rows = await prisma.product.findMany({ where: { isActive: true } });
+  const rows = await prisma.product.findMany({
+    where: { isActive: true, visibleOnline: true },
+  });
   const location = await prisma.stockLocation.findUnique({ where: { code: "GLOBAL_ALL_VAPS" } });
   const levels = location
     ? await prisma.stockLevel.findMany({
@@ -477,6 +479,17 @@ export async function chatAva(
         deviceContext: diag.deviceContext,
         diagnosticSession: diag.diagnosticSession,
       },
+    };
+  }
+
+  // Exclusion explicite Puff / JNR / jetables (réponse métier, pas de recherche catalogue)
+  if (/\bpuff\b|jnr|jetable|disposable/i.test(text)) {
+    return {
+      content:
+        "Je ne recommande pas les puffs, JNR ni les produits jetables. Je peux vous orienter vers un pod rechargeable ou un e-liquide adapté — dites-moi votre usage.",
+      suggestions: ["Kit pod débutant", "E-liquide fruité", "DIY", "Nos magasins"],
+      products: [],
+      speaking: true,
     };
   }
 

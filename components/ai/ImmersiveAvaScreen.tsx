@@ -25,6 +25,7 @@ import {
   readPendingIntent,
   type PendingAvaIntent,
 } from "@/lib/ava/quick-actions";
+import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
 
 interface ImmersiveAvaScreenProps {
   onClose: () => void;
@@ -260,6 +261,12 @@ export function ImmersiveAvaScreen({
         data-ava-continuous="v1"
       >
         <div className="absolute left-4 top-4 z-[80] sm:left-6 sm:top-6">
+          <p
+            className="mb-2 text-[9px] tracking-[0.2em] text-cyan-700/45"
+            aria-label="Statut du modèle 3D"
+          >
+            {AVA_3D_ROADMAP.statusLabel}
+          </p>
           <AccessibilitySettings
             prefs={continuous.a11y}
             onChange={continuous.updateA11y}

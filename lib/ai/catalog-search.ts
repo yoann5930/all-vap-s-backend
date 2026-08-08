@@ -13,7 +13,7 @@ export interface CatalogProduct extends ProductForScoring {
 const CATEGORY_ALIASES: Record<string, string[]> = {
   "e-liquides": ["liquide", "e-liquid", "eliquide", "juice", "saveur", "e liquide"],
   pods: ["pod", "cartouche"],
-  "cigarettes-electroniques": ["cigarette", "kit", "aio", "starter", "début", "debut", "puff"],
+  "cigarettes-electroniques": ["cigarette", "kit", "aio", "starter", "début", "debut"],
   resistances: ["résistance", "resistance", "coil", "mesh"],
   accu: ["accu", "batterie", "18650", "21700"],
   chargeurs: ["chargeur", "charger"],
@@ -34,7 +34,6 @@ const PHRASE_BOOSTS: Array<{ pattern: RegExp; boost: number }> = [
   { pattern: /\bvanille\b/i, boost: 8 },
   { pattern: /\bclassic\b/i, boost: 8 },
   { pattern: /\btabac\b/i, boost: 6 },
-  { pattern: /\bpuff\b/i, boost: 10 },
   { pattern: /\bdiy\b/i, boost: 10 },
   { pattern: /vaporesso/i, boost: 12 },
   { pattern: /clearomiseur/i, boost: 8 },
@@ -64,7 +63,12 @@ export function searchCatalog(
   options: { category?: string; limit?: number; promoOnly?: boolean; newOnly?: boolean } = {}
 ): CatalogProduct[] {
   const text = query.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
-  let pool = products.filter(isAvailableForOffer);
+  // Ne jamais remonter Puff / JNR / jetables via searchCatalog (smoke + legacy)
+  let pool = products.filter((p) => {
+    if (!isAvailableForOffer(p)) return false;
+    const blob = `${p.name} ${p.brand ?? ""} ${p.category} ${p.description ?? ""}`.toLowerCase();
+    return !/\bpuff\b|\bjnr\b|jetable|disposables?/.test(blob);
+  });
 
   if (options.promoOnly) pool = pool.filter((p) => p.isPromo);
   if (options.newOnly) pool = pool.filter((p) => p.isNew);
@@ -83,6 +87,8 @@ export function searchCatalog(
       const needle = cat.replace(/-/g, "");
       const inCat = products.filter((p) => {
         if (!isAvailableForOffer(p)) return false;
+        const blob = `${p.name} ${p.brand ?? ""} ${p.category} ${p.description ?? ""}`.toLowerCase();
+        if (/\bpuff\b|\bjnr\b|jetable|disposables?/.test(blob)) return false;
         const c = p.category.toLowerCase().replace(/-/g, "");
         return c.includes(needle) || p.category.toLowerCase() === cat || c.includes(aliases[0]);
       });
@@ -118,7 +124,6 @@ export function searchCatalog(
     if (/classic|tabac/i.test(text) && /classic|tabac|ry4/i.test(blob)) score += 5;
     if (/r[ée]sistance|coil/i.test(text) && /r[ée]sistance|coil|mesh/i.test(blob)) score += 6;
     if (/pod/i.test(text) && /pod/i.test(blob)) score += 4;
-    if (/puff/i.test(text) && /puff|jetable|disposable/i.test(blob)) score += 8;
     if (/kit|d[ée]but|debut/i.test(text) && /kit|starter|aio|pod/i.test(blob)) score += 5;
     if (p.isPromo) score += 1;
     if (p.isNew) score += 1;

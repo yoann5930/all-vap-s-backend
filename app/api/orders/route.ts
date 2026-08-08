@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
     const productIds = data.items.map((i) => i.productId);
     const products = await prisma.product.findMany({
-      where: { id: { in: productIds }, isActive: true },
+      where: { id: { in: productIds }, isActive: true, visibleOnline: true },
       include: { variants: { where: { active: true } } },
     });
 

@@ -181,6 +181,10 @@ export function searchProductsForAva(
   for (const p of products) {
     if (exclude.has(p.id)) continue;
     if (!p.isActive || !p.visibleOnline) continue;
+    // Exclusion définitive Puff / JNR / jetables (hors suggestions A.V.A.)
+    const excludeBlob =
+      `${p.name} ${p.brand ?? ""} ${p.category} ${p.productType ?? ""} ${p.description ?? ""}`.toLowerCase();
+    if (/\bpuff\b|\bjnr\b|jetable|disposables?/.test(excludeBlob)) continue;
     if (!categoryMatch(p, criteria.category)) continue;
 
     if (criteria.promoOnly && !p.isPromo) continue;
