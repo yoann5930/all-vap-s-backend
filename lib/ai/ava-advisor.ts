@@ -737,7 +737,20 @@ export async function chatAva(
   }
 
   // Recherche catalogue réelle
-  const catalog = await loadCatalogForAva();
+  let catalog;
+  try {
+    catalog = await loadCatalogForAva();
+  } catch (err) {
+    console.error("[ava] loadCatalogForAva failed", err);
+    return {
+      content:
+        "Je n'arrive pas à accéder au catalogue produits pour le moment. Réessayez dans un instant, ou précisez une saveur / un type de matériel et je vous oriente autrement.",
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      conversationContext: ctx,
+      speaking: true,
+    };
+  }
 
   if (/promo|promotion|solde|offre/i.test(text)) {
     criteria.promoOnly = true;
