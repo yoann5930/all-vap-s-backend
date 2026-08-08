@@ -48,7 +48,6 @@ export default async function GammePage({ params, searchParams }: Props) {
       manufacturerId: true,
       verificationStatus: true,
       catalogVisible: true,
-      status: true,
       isActive: true,
       manufacturer: { select: { id: true, slug: true, name: true } },
       brand: { select: { id: true, slug: true, name: true } },

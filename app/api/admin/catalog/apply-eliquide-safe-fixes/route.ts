@@ -255,11 +255,39 @@ export async function POST(request: NextRequest) {
 
     // Ensure ProductRange DDL columns exist
     const ddl = [
+      `CREATE TABLE IF NOT EXISTS "ProductRange" (
+        "id" TEXT NOT NULL,
+        "brandId" TEXT NOT NULL,
+        "manufacturerId" TEXT,
+        "name" TEXT NOT NULL,
+        "slug" TEXT NOT NULL,
+        "masterId" TEXT,
+        "formatCodes" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
+        "status" TEXT NOT NULL DEFAULT 'a_verifier',
+        "verificationStatus" TEXT NOT NULL DEFAULT 'NEEDS_CONFIRMATION',
+        "officialSourceUrl" TEXT,
+        "officialManufacturerUrl" TEXT,
+        "verifiedAt" TIMESTAMP(3),
+        "verificationEvidence" TEXT,
+        "catalogVisible" BOOLEAN NOT NULL DEFAULT false,
+        "sortOrder" INTEGER NOT NULL DEFAULT 0,
+        "isActive" BOOLEAN NOT NULL DEFAULT true,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT "ProductRange_pkey" PRIMARY KEY ("id")
+      )`,
       `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "status" TEXT NOT NULL DEFAULT 'a_verifier'`,
       `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "verificationStatus" TEXT NOT NULL DEFAULT 'NEEDS_CONFIRMATION'`,
       `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "catalogVisible" BOOLEAN NOT NULL DEFAULT false`,
       `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "manufacturerId" TEXT`,
       `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "verifiedAt" TIMESTAMP(3)`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "formatCodes" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[]`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "masterId" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "officialSourceUrl" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "officialManufacturerUrl" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "verificationEvidence" TEXT`,
+      `ALTER TABLE "ProductRange" ADD COLUMN IF NOT EXISTS "sortOrder" INTEGER NOT NULL DEFAULT 0`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS "ProductRange_brandId_slug_key" ON "ProductRange"("brandId", "slug")`,
     ];
     for (const sql of ddl) {
       try {

@@ -40,7 +40,7 @@ export default async function FabricantPage({ params }: Props) {
       status: true,
       ranges: {
         where: { isActive: true },
-        orderBy: { sortOrder: "asc" },
+        orderBy: { name: "asc" },
         select: {
           id: true,
           name: true,
@@ -48,7 +48,6 @@ export default async function FabricantPage({ params }: Props) {
           isActive: true,
           verificationStatus: true,
           catalogVisible: true,
-          status: true,
           products: {
             where: {
               visibleOnline: true,
