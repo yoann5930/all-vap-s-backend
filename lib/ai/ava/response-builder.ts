@@ -85,13 +85,21 @@ export function buildAvaProductAnswer(
   criteria: AvaSearchCriteria,
   options: { alternatives?: boolean } = {}
 ): { content: string; products: AvaProductCardDto[]; suggestions: string[] } {
-  const list = ranked
+  // Priorité : en stock inventaire. Sinon catalogue visibleOnline (aligné /api/search).
+  let list = ranked
     .filter((r) => !r.outOfStockExact)
     .filter((r) => {
-      const stock = r.matchedVariant ? r.matchedVariant.stock : r.product.availableQuantity;
+      if (!r.product.stockKnown) return true;
+      const stock = r.matchedVariant
+        ? r.matchedVariant.stock
+        : r.product.availableQuantity;
       return stock > 0;
     })
     .slice(0, AVA_SEARCH_CONFIG.maxProductResults);
+
+  if (list.length === 0 && ranked.length > 0) {
+    list = ranked.slice(0, AVA_SEARCH_CONFIG.maxProductResults);
+  }
 
   const products = list.map((r) =>
     toAvaProductCard(r, options.alternatives ? "alternatives" : r.reason)
