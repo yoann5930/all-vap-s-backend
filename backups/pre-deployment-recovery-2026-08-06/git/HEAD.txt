@@ -1,0 +1,3 @@
+d5a64904ce789119745f885d72e3ff07a7498843
+2026-08-06 11:11:18 +0000
+chore(cursor): règle permanente stabilité du code validé
