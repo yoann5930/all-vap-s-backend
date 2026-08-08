@@ -18,12 +18,19 @@ function lastAssistantWorkSubject(
     const t = history[i];
     if (t.role !== "assistant") continue;
     const c = t.content;
-    if (/stock|rupture|hautmont|quesnoy|vente|gamme|promo|prix|commande|anomal/i.test(c)) {
+    if (
+      /stock|rupture|hautmont|quesnoy|vente|gamme|promo|prix|commande|anomal|banni|mise en avant|remise|%-|insatisf/i.test(
+        c
+      )
+    ) {
       const m = c.match(
-        /(?:gamme|stock|ventes?|promo|prix|commande|anomal\w*|hautmont|quesnoy)[^.!?\n]{0,60}/i
+        /(?:gamme|stock|ventes?|promo|prix|commande|anomal\w*|hautmont|quesnoy|banni[eè]re|mise en avant|remise)[^.!?\n]{0,70}/i
       );
       if (m) return m[0].trim().slice(0, 80);
-      return c.split(/[.!?]/)[0]?.trim().slice(0, 80) || null;
+      // Évite les sujets trop vagues type « ventes / insatisfaction »
+      const first = c.split(/[.!?]/)[0]?.trim().slice(0, 80) || null;
+      if (first && !/^ventes?\s*\/\s*insatisf/i.test(first)) return first;
+      return m?.[0]?.trim().slice(0, 80) || "proposition commerciale";
     }
   }
   return null;
@@ -38,10 +45,12 @@ export function detectSocialMove(
   activeThread: ActiveThread | null = null
 ): SocialDetection {
   const n = norm(message);
-  const resolvedSubject =
+  const threadSubject =
     activeThread?.status === "open" || activeThread?.status === "deferred"
-      ? activeThread.subject
-      : lastAssistantWorkSubject(history);
+      ? sanitizeSubject(activeThread.subject)
+      : null;
+  const resolvedSubject =
+    threadSubject || sanitizeSubject(lastAssistantWorkSubject(history));
 
   if (
     /^(es tu|etes vous|tu es|vous etes).*(humaine?|personne|vraie personne|humaine)/.test(n) ||
@@ -129,7 +138,7 @@ export function detectSocialMove(
       move: "resume",
       resolvedSubject:
         activeThread?.status === "deferred"
-          ? activeThread.subject
+          ? sanitizeSubject(activeThread.subject)
           : resolvedSubject,
       preferLocalCompose: true,
       wantTools: true,
@@ -143,7 +152,7 @@ export function detectSocialMove(
   ) {
     return {
       move: "disagree_prompt",
-      resolvedSubject: resolvedSubject || "proposition commerciale",
+      resolvedSubject: promoSubjectFromMessage(message) || "proposition commerciale",
       preferLocalCompose: true,
       wantTools: true,
       preferShort: false,
@@ -181,6 +190,25 @@ export function detectSocialMove(
 
 function has(hay: string, needles: string[]): boolean {
   return needles.some((n) => hay.includes(norm(n)));
+}
+
+function sanitizeSubject(s: string | null | undefined): string | null {
+  if (!s) return null;
+  const t = s.trim();
+  if (!t) return null;
+  if (/ventes?\s*\/\s*insatisf/i.test(t) || /possible frein/i.test(t)) {
+    return "ruptures stock";
+  }
+  return t.slice(0, 80);
+}
+
+function promoSubjectFromMessage(message: string): string {
+  const n = norm(message);
+  if (/\b\d{1,2}\s*%/.test(n) || /-\s*\d+\s*%/.test(message)) {
+    return message.trim().slice(0, 70);
+  }
+  if (/banniere|mise en avant/.test(n)) return "bannière / mise en avant";
+  return "proposition commerciale";
 }
 
 export function firstNameFromEmail(email?: string | null): string | null {

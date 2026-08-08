@@ -103,8 +103,8 @@ function buildTour(
   }
 
   const greeting = urgent.length
-    ? `Bonjour. Avant autre chose : ${urgent[0].text}`
-    : `Bonjour. J'ai fait le tour. Rien de critique, mais j'ai ${Math.min(
+    ? `Avant autre chose : ${urgent[0].text}`
+    : `J'ai fait le tour. Rien de critique, mais j'ai ${Math.min(
         3,
         stops.length
       )} point(s) intéressants à te montrer.`;
@@ -182,14 +182,32 @@ export function formatTourForChat(tour: BiDailyTour, opts?: { short?: boolean })
   const short = opts?.short ?? false;
   const stops = tour.stops.slice(0, short ? 2 : 4);
   const parts: string[] = [tour.greeting];
+  const greetingCore = tour.greeting
+    .replace(/^avant autre chose\s*:\s*/i, "")
+    .replace(/^j'ai fait le tour[^.]*\.\s*/i, "")
+    .trim()
+    .toLowerCase();
 
   for (const s of stops) {
+    const stopCore = s.text.trim().toLowerCase();
+    if (
+      stopCore &&
+      (greetingCore.includes(stopCore.slice(0, Math.min(48, stopCore.length))) ||
+        stopCore.includes(greetingCore.slice(0, Math.min(48, greetingCore.length))))
+    ) {
+      continue;
+    }
+    const titleIsGeneric = /^(urgent|à surveiller|a surveiller|idées? à discuter|rien d'urgent)$/i.test(
+      s.title.trim()
+    );
     if (s.urgency === "urgent") {
-      parts.push(`Urgent — ${s.title} : ${s.text}`);
+      parts.push(titleIsGeneric ? `Urgent : ${s.text}` : `Urgent — ${s.title} : ${s.text}`);
     } else if (s.urgency === "watch") {
-      parts.push(`À surveiller — ${s.title} : ${s.text}`);
+      parts.push(
+        titleIsGeneric ? `À surveiller : ${s.text}` : `À surveiller — ${s.title} : ${s.text}`
+      );
     } else if (!/rien d'urgent|rien de critique/i.test(s.title + s.text)) {
-      parts.push(`${s.title} : ${s.text}`);
+      parts.push(titleIsGeneric ? s.text : `${s.title} : ${s.text}`);
     }
   }
 

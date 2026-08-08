@@ -202,10 +202,15 @@ export async function execStockReport(
 
 export async function execInventoryReport(ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
   try {
+    // select explicite : évite de planter si colonnes optionnelles absentes en local
     const sessions = await prisma.inventorySession.findMany({
       orderBy: { updatedAt: "desc" },
       take: 15,
-      include: {
+      select: {
+        id: true,
+        status: true,
+        employeeName: true,
+        updatedAt: true,
         location: { select: { name: true, code: true } },
         _count: { select: { lines: true } },
       },
@@ -582,8 +587,14 @@ export async function execSimulateBusinessDecision(
       .slice(-4)
       .map((h) => h.content)
       .join(" ");
+    const lastHistUser = (ctx.history || [])
+      .slice()
+      .reverse()
+      .find((h) => h.role === "user")?.content;
+    // Message courant prioritaire (l'historique E2E n'inclut pas encore ce tour)
     const proposal =
-      (ctx.history || []).slice().reverse().find((h) => h.role === "user")?.content ||
+      (ctx.message && ctx.message.trim()) ||
+      lastHistUser ||
       historyTail ||
       "Proposition non précisée";
     // Indices légers depuis un scan rapide (non bloquant si échec)

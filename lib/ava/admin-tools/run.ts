@@ -103,6 +103,7 @@ export async function runAdminToolPlan(
   const plan = selectAdminTools(message, ctx.history || []);
   const enriched: AvaAdminToolContext = {
     ...ctx,
+    message,
     storeQuery: plan.storeQuery || ctx.storeQuery,
     limit: plan.limit ?? ctx.limit,
     periodKey: plan.periodKey || ctx.periodKey,

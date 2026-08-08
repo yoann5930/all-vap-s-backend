@@ -21,9 +21,11 @@ export function buildStance(params: {
     /rupture|stock faible|stocks faibles|stock tendu|n[eé]gatif/i.test(signal) ||
     /rupture|stock faible/i.test(proposal);
   const salesDown = /baisse|ralenti|ralent|chute|drop/i.test(signal + " " + subject);
-  const wantsDeepCut = /-\s*3[0-9]\s*%|-\s*[4-9]\d\s*%|brade|grosse promo/.test(proposal);
+  const wantsDeepCut =
+    /-\s*3[0-9]\s*%|-\s*[4-9]\d\s*%|brade|grosse promo/.test(proposal) ||
+    /-\s*3[0-9]\s*%|-\s*[4-9]\d\s*%|brade|grosse promo|faisons\s+\d+\s*%/.test(subject);
 
-  if (wantsDeepCut || (/promo|remise|prix/i.test(proposal) && (stockTight || salesDown))) {
+  if (wantsDeepCut || (/promo|remise|prix/i.test(proposal + " " + subject) && (stockTight || salesDown))) {
     const sim = simulateDecision({
       proposal: params.userProposal || "promo",
       stockTight,
@@ -181,9 +183,16 @@ export function composeSocialReply(input: SocialComposeInput): string {
       if (!sub) {
         return "Je ne retrouve pas clairement le fil. C'était plutôt stock, ventes, ou la promo dont on parlait ?";
       }
-      const summary = thread?.summary ? ` ${thread.summary.slice(0, 160)}` : "";
+      const summary = thread?.summary ? ` ${thread.summary.slice(0, 140).replace(/\s+/g, " ")}` : "";
+      const isPromoThread = /%|promo|banni|mise en avant|prix|remise/i.test(sub + summary);
+      if (isPromoThread && input.stance) {
+        return `On reprend « ${sub} ». ${input.stance.position} ${input.stance.askBack || "On avance là-dessus ?"}`;
+      }
+      if (isPromoThread) {
+        return `On reprend « ${sub} ».${summary} Tu veux qu'on avance sur mon idée (visibilité d'abord), ou tu as une autre piste ?`;
+      }
       if (signal) {
-        return `On reprend « ${sub} ».${summary} ${leadWithWork(signal)} Tu veux qu'on avance sur mon idée, ou tu as une autre piste ?`;
+        return `On reprend « ${sub} ». ${leadWithWork(signal)} Tu veux qu'on avance, ou tu as une autre piste ?`;
       }
       return `On reprend « ${sub} ».${summary} Tu me dis où on en était pour toi, et je complète.`;
     }
@@ -212,12 +221,25 @@ function cleanSignal(raw: string | null): string | null {
 }
 
 function leadWithWork(signal: string): string {
-  const s = signal.trim();
-  if (/^(salut|bonjour|hey)/i.test(s)) return s;
-  if (/^(j['’]ai|au fait|urgent|à surveiller)/i.test(s)) return s;
+  const s = signal
+    .replace(/(Avant autre chose\s*:\s*)+/gi, "Avant autre chose : ")
+    .replace(/(\bUrgent\s*:\s*)+/gi, "Urgent : ")
+    .trim();
+  // Déduplique phrases identiques collées
+  const chunks = s.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const uniq: string[] = [];
+  for (const c of chunks) {
+    const key = c.trim().toLowerCase();
+    if (!uniq.some((u) => u.toLowerCase() === key || u.toLowerCase().includes(key.slice(0, 40)))) {
+      uniq.push(c.trim());
+    }
+  }
+  const cleaned = uniq.join(" ").trim() || s;
+  if (/^(salut|bonjour|hey)/i.test(cleaned)) return cleaned;
+  if (/^(j['’]ai|au fait|urgent|à surveiller|avant autre chose)/i.test(cleaned)) return cleaned;
   return pick(
-    [`Au fait : ${s}`, `J'ai remarqué un truc : ${s}`, `Petit point : ${s}`],
-    s
+    [`Au fait : ${cleaned}`, `J'ai remarqué un truc : ${cleaned}`, `Petit point : ${cleaned}`],
+    cleaned
   );
 }
 
@@ -274,8 +296,9 @@ export function nextThreadAfterTurn(params: {
 }
 
 function inferSubjectFromText(text: string): string | null {
+  if (/ventes?\s*\/\s*insatisf|possible frein/i.test(text)) return "ruptures stock";
   const m = text.match(
-    /(?:gamme|stock|ventes?|promo|prix|hautmont|quesnoy|commande|anomal\w*)[^.!?\n]{0,50}/i
+    /(?:gamme|stock|ruptures?|promo|prix|hautmont|quesnoy|commande|anomal\w*|banni[eè]re|mise en avant)[^.!?\n]{0,50}/i
   );
   return m?.[0]?.trim().slice(0, 80) || null;
 }

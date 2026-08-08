@@ -38,6 +38,8 @@ export type AvaAdminToolContext = {
   appRole: string;
   email: string;
   userId: string;
+  /** Message utilisateur courant (pour simulations / propositions) */
+  message?: string | null;
   /** Filtre boutique suivi (ex. Hautmont) */
   storeQuery?: string | null;
   /** Limite liste (ex. top 10) */

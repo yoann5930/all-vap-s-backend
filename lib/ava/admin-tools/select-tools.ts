@@ -127,6 +127,7 @@ function isOrders(n: string): boolean {
 }
 
 function isCatalog(n: string): boolean {
+  if (isSimulateDecision(n)) return false;
   return hasAny(n, [
     "catalogue",
     "classification",
@@ -135,11 +136,9 @@ function isCatalog(n: string): boolean {
     "sans gamme",
     "fabricant",
     "fabricants",
-    "gamme",
-    "gammes",
     "non classes",
     "classer",
-  ]);
+  ]) || (hasAny(n, ["gamme", "gammes"]) && !hasAny(n, ["ralent", "promo", "prix", "banniere", "%"]));
 }
 
 function isAvaStatus(n: string): boolean {
@@ -238,8 +237,18 @@ function isBusinessIdeas(n: string): boolean {
 
 function isSimulateDecision(n: string): boolean {
   return (
-    hasAny(n, ["et si on", "et si on faisait", "simulation", "simule", "scenario"]) ||
+    /^(et si)\b/.test(n) ||
+    hasAny(n, [
+      "et si on",
+      "et si on faisait",
+      "simulation",
+      "simule",
+      "scenario",
+      "banniere",
+      "mise en avant 7",
+    ]) ||
     /-\s*\d+\s*%/.test(n) ||
+    (/\bfaisons\b/.test(n) && /\b\d{1,2}\s*%/.test(n)) ||
     hasAny(n, ["faisons -", "baisser le prix", "on brade", "grosse promo"])
   );
 }
@@ -382,8 +391,14 @@ export function selectAdminTools(
   const n = norm(message);
   const base = planFromMessageAlone(message);
 
+  // Intent clair du message courant (ex. « et si… ») → ne jamais écraser par un follow-up stock
+  if (base.tools.length > 0 && !base.needsClarification) {
+    return base;
+  }
+
   const isFollowUp =
-    /^(et|donc|ensuite|uniquement|seulement|juste|aussi|pareil|idem)\b/.test(n) ||
+    (/^(et|donc|ensuite|uniquement|seulement|juste|aussi|pareil|idem)\b/.test(n) &&
+      !/^(et si)\b/.test(n)) ||
     (n.length < 48 &&
       (detectStore(n) ||
         detectLimit(n) ||

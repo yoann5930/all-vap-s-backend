@@ -62,6 +62,7 @@ export function colleagueTourFromToolText(raw: string, short: boolean): string {
 
   const paragraphs = text.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
   const greeting = paragraphs[0] || "J'ai fait le tour.";
+  const greetingKey = greeting.toLowerCase().slice(0, 60);
 
   const stopLines = text
     .split("\n")
@@ -78,12 +79,12 @@ export function colleagueTourFromToolText(raw: string, short: boolean): string {
     return title.endsWith(".") ? title : `${title}.`;
   });
 
-  // Corps des stops (ligne indentée sous le titre)
-  const bodies = text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => /^[·\-]|^\d/.test(l) === false && l.length > 20 && !/^idées/i.test(l))
-    .filter((l) => !/^bonjour/i.test(l) && !/^données manquantes/i.test(l))
+  // Autres paragraphes utiles (sans redire le greeting)
+  const bodies = paragraphs
+    .slice(1)
+    .filter((l) => l.length > 20 && !/^idées/i.test(l) && !/^données manquantes/i.test(l))
+    .filter((l) => !l.toLowerCase().startsWith(greetingKey.slice(0, 40)))
+    .filter((l) => !/^avant autre chose/i.test(l) || !greetingKey.includes("avant autre chose"))
     .slice(0, short ? 2 : 4);
 
   const ideaLine = text.match(/Idées recommandées[\s\S]*?(?=Données|$)/i)?.[0];

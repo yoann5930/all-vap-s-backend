@@ -514,23 +514,27 @@ export async function answerAdminAvaConversation(params: {
   );
 
   if (params.userId) {
-    void updateAdminMemoryAfterTurn({
-      ownerUserId: params.userId,
-      conversationId: params.conversationId || null,
-      userMessage: msg,
-      assistantText: text,
-      intent: {
-        ...intent,
-        isPause: intent.isPause || social.move === "defer",
-        isResume: intent.isResume || social.move === "resume",
-        topicHint: social.resolvedSubject || intent.topicHint,
-        preferShort: social.preferShort || intent.preferShort,
-      },
-      toolsUsed: toolRun?.plan.tools,
-      history,
-      activeThread: nextThread,
-      socialMove: social.move,
-    });
+    try {
+      await updateAdminMemoryAfterTurn({
+        ownerUserId: params.userId,
+        conversationId: params.conversationId || null,
+        userMessage: msg,
+        assistantText: text,
+        intent: {
+          ...intent,
+          isPause: intent.isPause || social.move === "defer",
+          isResume: intent.isResume || social.move === "resume",
+          topicHint: social.resolvedSubject || intent.topicHint,
+          preferShort: social.preferShort || intent.preferShort,
+        },
+        toolsUsed: toolRun?.plan.tools,
+        history,
+        activeThread: nextThread,
+        socialMove: social.move,
+      });
+    } catch {
+      /* optional */
+    }
   }
 
   return {
