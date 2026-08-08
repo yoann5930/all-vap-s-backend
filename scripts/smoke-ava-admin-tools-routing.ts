@@ -15,10 +15,15 @@ const cases: { msg: string; expectTool?: string; expectStore?: string; unclear?:
   { msg: "Quel est ton statut ?", expectTool: "getAvaStatus" },
   { msg: "Quels produits sont mal classés ?", expectTool: "getCatalogAudit" },
   { msg: "Que peux-tu faire ici ?", expectTool: "listCapabilities" },
-  { msg: "Bonjour Ava", unclear: false },
+  { msg: "Bonjour Ava", expectTool: "runDailyTour", unclear: false },
+  { msg: "Fais le tour du magasin", expectTool: "runDailyTour" },
+  { msg: "Quelles anomalies ?", expectTool: "runAnomalyScan" },
+  { msg: "Montre tes réflexions", expectTool: "getBusinessReflections" },
+  { msg: "Regarde le marché", expectTool: "getMarketRadar" },
+  { msg: "Propose des idées", expectTool: "proposeBusinessIdeas" },
+  { msg: "Et si on faisait -30 % ?", expectTool: "simulateBusinessDecision" },
   { msg: "asdf qwerty zxcv", unclear: true },
 ];
-
 let failed = 0;
 for (const c of cases) {
   const plan = selectAdminTools(c.msg);

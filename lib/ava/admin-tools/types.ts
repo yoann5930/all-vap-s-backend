@@ -10,8 +10,13 @@ export type AvaAdminToolName =
   | "getAvaStatus"
   | "getFidelatooStatus"
   | "getFullReport"
-  | "listCapabilities";
-
+  | "listCapabilities"
+  | "runDailyTour"
+  | "runAnomalyScan"
+  | "getBusinessReflections"
+  | "getMarketRadar"
+  | "proposeBusinessIdeas"
+  | "simulateBusinessDecision";
 export type AvaAdminToolSensitivity = "low" | "medium" | "high";
 
 export type AvaAdminToolResult = {

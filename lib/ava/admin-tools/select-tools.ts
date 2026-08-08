@@ -168,6 +168,82 @@ function isFidelatoo(n: string): boolean {
   ]);
 }
 
+function isDailyTour(n: string): boolean {
+  return hasAny(n, [
+    "tour du magasin",
+    "fais le tour",
+    "fait le tour",
+    "faire le tour",
+    "tour matin",
+    "point magasin",
+    "comme une employe",
+    "comme une employee",
+    "bon matin",
+    "quoi de neuf cote boutique",
+  ]);
+}
+
+function isAnomalies(n: string): boolean {
+  return hasAny(n, [
+    "anomalie",
+    "anomalies",
+    "chute inhabituelle",
+    "signal inhabituel",
+    "detection anomal",
+    "ce qui cloche",
+    "alerte metier",
+  ]);
+}
+
+function isReflections(n: string): boolean {
+  return hasAny(n, [
+    "reflexion",
+    "reflexions",
+    "pensees metier",
+    "hypothese",
+    "hypotheses",
+    "tes reflexions",
+  ]);
+}
+
+function isMarketRadar(n: string): boolean {
+  return hasAny(n, [
+    "radar marche",
+    "veille marche",
+    "marche web",
+    "nouveautes fabricant",
+    "tendances marche",
+    "ce que font les autres",
+    "regarde le marche",
+    "concurrents publics",
+  ]);
+}
+
+function isBusinessIdeas(n: string): boolean {
+  return (
+    hasAny(n, [
+      "idees",
+      "une idee",
+      "des idees",
+      "propose une idee",
+      "autre idee",
+      "fais moi une autre idee",
+      "brainstorm",
+      "operations commerciales",
+    ]) ||
+    (hasAny(n, ["que ferais tu", "si tu dirigeais", "priorites strategiques"]) &&
+      !isFullReport(n))
+  );
+}
+
+function isSimulateDecision(n: string): boolean {
+  return (
+    hasAny(n, ["et si on", "et si on faisait", "simulation", "simule", "scenario"]) ||
+    /-\s*\d+\s*%/.test(n) ||
+    hasAny(n, ["faisons -", "baisser le prix", "on brade", "grosse promo"])
+  );
+}
+
 function lastUserToolsHint(history: { role: string; content: string }[]): AvaAdminToolName[] {
   for (let i = history.length - 1; i >= 0; i--) {
     const t = history[i];
@@ -197,14 +273,26 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
     };
   }
 
-  if (isGreeting(n) || isThanks(n)) {
+  if (isThanks(n)) {
     return {
       tools: [],
       storeQuery,
       limit,
       periodKey: null,
       needsClarification: false,
-      intentLabel: isGreeting(n) ? "greeting" : "thanks",
+      intentLabel: "thanks",
+    };
+  }
+
+  // Bonjour → tour du magasin (initiative métier, pas chatbot vide)
+  if (isGreeting(n)) {
+    return {
+      tools: ["runDailyTour"],
+      storeQuery,
+      limit,
+      periodKey: null,
+      needsClarification: false,
+      intentLabel: "greeting_tour",
     };
   }
 
@@ -232,6 +320,13 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
 
   const tools: AvaAdminToolName[] = [];
 
+  if (isDailyTour(n)) tools.push("runDailyTour");
+  if (isAnomalies(n)) tools.push("runAnomalyScan");
+  if (isReflections(n)) tools.push("getBusinessReflections");
+  if (isMarketRadar(n)) tools.push("getMarketRadar");
+  if (isBusinessIdeas(n)) tools.push("proposeBusinessIdeas");
+  if (isSimulateDecision(n)) tools.push("simulateBusinessDecision");
+
   if (isDaily(n)) tools.push("getDailySummary");
   if (isLowStock(n)) tools.push("getLowStockReport");
   else if (isStock(n)) tools.push("getStockReport");
@@ -244,6 +339,15 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
   // « point » / « résumé » sans précision → résumé jour
   if (!tools.length && hasAny(n, ["resume", "point", "bilan", "synthese", "rapport", "rapports"])) {
     tools.push("getDailySummary");
+  }
+
+  // Initiative légère : « ça va ? » / chat libre avec rebond métier
+  if (
+    !tools.length &&
+    (hasAny(n, ["ca va", "comment ca va", "quoi de beau", "tu as vu", "t as vu"]) ||
+      /^(ah oui|vas[- ]y|continue|dis[- ]moi)\b/.test(n))
+  ) {
+    tools.push("runDailyTour");
   }
 
   if (tools.length) {
@@ -264,11 +368,10 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
     periodKey: null,
     needsClarification: true,
     clarification:
-      "Je n'ai pas bien cerné la demande. Tu veux les stocks, les commandes, l'inventaire, le catalogue, mon statut, ou un rapport global ?",
+      "Je n'ai pas bien cerné. Stocks, commandes, inventaire, catalogue, tour du magasin, anomalies, idées, radar marché, ou simulation « et si… » ?",
     intentLabel: "unclear",
   };
 }
-
 /**
  * Suites du type « et seulement Hautmont ? » / « et les 10 plus urgents ? »
  */

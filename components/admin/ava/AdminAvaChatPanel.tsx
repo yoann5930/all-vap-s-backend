@@ -896,13 +896,19 @@ export function AdminAvaChatPanel() {
         >
           Mémoire A.V.A.
         </button>
+        <Link href="/admin/ava/reflections" className="block text-xs text-brand-700 hover:underline">
+          Réflexions A.V.A.
+        </Link>
+        <Link href="/admin/ava/radar" className="block text-xs text-brand-700 hover:underline">
+          Radar marché
+        </Link>
       </aside>
 
       <div className="space-y-4">
         <header>
           <h1 className="text-2xl font-bold text-gray-900">A.V.A.</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Assistante administrative interne — conversation persistante, texte et voix.
+            Collaboratrice métier All Vap&apos;s — observation, idées, critique, mémoire.
             {effectiveRole ? ` · Rôle effectif : ${effectiveRole}` : ""}
           </p>
         </header>

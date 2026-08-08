@@ -1,16 +1,21 @@
 import type { AvaAdminToolDef, AvaAdminToolName } from "./types";
 import {
+  execAnomalyScan,
   execAvaStatus,
+  execBusinessReflections,
   execCatalogAudit,
   execDailySummary,
+  execDailyTour,
   execFidelatooStatus,
   execFullReport,
   execInventoryReport,
   execListCapabilities,
+  execMarketRadar,
   execOrdersReport,
+  execProposeBusinessIdeas,
+  execSimulateBusinessDecision,
   execStockReport,
 } from "./executors";
-
 /**
  * Registre central des capacités Admin A.V.A.
  * Ne jamais importer depuis une surface CLIENT.
@@ -116,8 +121,67 @@ export const AVA_ADMIN_TOOLS: Record<AvaAdminToolName, AvaAdminToolDef> = {
     resultType: "meta",
     execute: execListCapabilities,
   },
+  runDailyTour: {
+    name: "runDailyTour",
+    description: "Tour du magasin matinal (ventes, stocks, anomalies, idées)",
+    requiredRole: "EMPLOYEE",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 35_000,
+    resultType: "report",
+    execute: execDailyTour,
+  },
+  runAnomalyScan: {
+    name: "runAnomalyScan",
+    description: "Détection d'anomalies métier structurées",
+    requiredRole: "EMPLOYEE",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 30_000,
+    resultType: "report",
+    execute: execAnomalyScan,
+  },
+  getBusinessReflections: {
+    name: "getBusinessReflections",
+    description: "Réflexions métier (observation / hypothèse / idée)",
+    requiredRole: "ADMIN",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 30_000,
+    resultType: "report",
+    execute: execBusinessReflections,
+  },
+  getMarketRadar: {
+    name: "getMarketRadar",
+    description: "Veille marché publique (sans import produit auto)",
+    requiredRole: "ADMIN",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 25_000,
+    resultType: "report",
+    execute: execMarketRadar,
+  },
+  proposeBusinessIdeas: {
+    name: "proposeBusinessIdeas",
+    description: "Idées métier multi-options avec critique interne",
+    requiredRole: "ADMIN",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 30_000,
+    resultType: "report",
+    execute: execProposeBusinessIdeas,
+  },
+  simulateBusinessDecision: {
+    name: "simulateBusinessDecision",
+    description: "Simulation « et si… » avec scénarios prudent/central/optimiste",
+    requiredRole: "ADMIN",
+    requiredPermissions: ["avaAdmin"],
+    sensitivity: "medium",
+    timeoutMs: 25_000,
+    resultType: "report",
+    execute: execSimulateBusinessDecision,
+  },
 };
-
 export function getAdminTool(name: AvaAdminToolName): AvaAdminToolDef | null {
   return AVA_ADMIN_TOOLS[name] || null;
 }

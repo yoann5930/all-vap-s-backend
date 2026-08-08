@@ -404,11 +404,240 @@ export async function execListCapabilities(_ctx: AvaAdminToolContext): Promise<A
     `· Audit catalogue (classification, gammes, fabricants)`,
     `· Statut A.V.A., VM Android, Fidelatoo`,
     `· Rapport global (« tous les rapports », « point du jour »)`,
+    `· Tour du magasin / anomalies / réflexions métier structurées`,
+    `· Idées + critique (sans brader systématiquement)`,
+    `· Radar marché (sources publiques, jamais d'import auto)`,
+    `· Simulation « et si on faisait X ? » (scénarios prudent/central/optimiste)`,
     ``,
-    `Parle naturellement — ex. « donne-moi les stocks faibles à Hautmont » ou « qu'est-ce qui se passe aujourd'hui ? ».`,
+    `Parle naturellement — ex. « fais le tour », « quelles anomalies ? », « et si on faisait -30 % ? ».`,
     `Je m'appuie sur ta session serveur, pas sur ce que tu affirmes dans le chat.`,
+    `Actions sensibles (prix, promos, commandes, DNS…) : proposition seulement → validation humaine.`,
   ].join("\n");
   return okResult("listCapabilities", "Capacités", text);
+}
+
+export async function execDailyTour(ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
+  try {
+    const {
+      runBusinessIntelligence,
+      formatTourForChat,
+    } = await import("@/lib/ava/business-intelligence");
+    const bundle = await runBusinessIntelligence({
+      ownerUserId: ctx.userId || null,
+      includeMarket: false,
+      persist: Boolean(ctx.userId),
+    });
+    const text = formatTourForChat(bundle.tour!);
+    return okResult("runDailyTour", "Tour du magasin", text, {
+      missingData: bundle.missingData.slice(0, 8),
+      links: [
+        { label: "Réflexions A.V.A.", href: "/admin/ava/reflections", kind: "alert" },
+        { label: "Radar marché", href: "/admin/ava/radar", kind: "alert" },
+      ],
+      data: {
+        stops: bundle.tour?.stops.length || 0,
+        anomalies: bundle.anomalies.length,
+        ideas: bundle.ideas.length,
+      },
+    });
+  } catch (e) {
+    return failResult(
+      "runDailyTour",
+      "Tour du magasin",
+      e instanceof Error ? e.message : "analyse indisponible"
+    );
+  }
+}
+
+export async function execAnomalyScan(ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
+  try {
+    const { runBusinessIntelligence } = await import("@/lib/ava/business-intelligence");
+    const bundle = await runBusinessIntelligence({
+      ownerUserId: ctx.userId || null,
+      persist: Boolean(ctx.userId),
+    });
+    if (!bundle.anomalies.length) {
+      return okResult(
+        "runAnomalyScan",
+        "Anomalies",
+        "Aucune anomalie marquante sur les données disponibles. Je reste prudente : absence de signal ≠ tout va parfaitement.",
+        { missingData: bundle.missingData.slice(0, 6) }
+      );
+    }
+    const lines = bundle.anomalies.slice(0, 8).map((a, i) => {
+      const p = a.priority;
+      return `${i + 1}. [${a.severity}] ${a.title}\n   ${a.text}\n   Impact ${p.impact}/5 · Urgence ${p.urgency}/5 · Confiance ${p.confidence}%`;
+    });
+    return okResult("runAnomalyScan", "Anomalies", lines.join("\n\n"), {
+      missingData: bundle.missingData.slice(0, 6),
+      data: { count: bundle.anomalies.length },
+    });
+  } catch (e) {
+    return failResult(
+      "runAnomalyScan",
+      "Anomalies",
+      e instanceof Error ? e.message : "scan indisponible"
+    );
+  }
+}
+
+export async function execBusinessReflections(
+  ctx: AvaAdminToolContext
+): Promise<AvaAdminToolResult> {
+  try {
+    const {
+      runBusinessIntelligence,
+      formatReflectionsForChat,
+      listReflections,
+    } = await import("@/lib/ava/business-intelligence");
+    const bundle = await runBusinessIntelligence({
+      ownerUserId: ctx.userId || null,
+      persist: Boolean(ctx.userId),
+    });
+    const cards = bundle.reflections.length
+      ? bundle.reflections
+      : ctx.userId
+        ? await listReflections(ctx.userId)
+        : [];
+    return okResult(
+      "getBusinessReflections",
+      "Réflexions métier",
+      formatReflectionsForChat(cards),
+      {
+        links: [{ label: "Réflexions A.V.A.", href: "/admin/ava/reflections", kind: "alert" }],
+        data: { count: cards.length },
+      }
+    );
+  } catch (e) {
+    return failResult(
+      "getBusinessReflections",
+      "Réflexions métier",
+      e instanceof Error ? e.message : "indisponible"
+    );
+  }
+}
+
+export async function execMarketRadar(ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
+  try {
+    const { gatherMarketRadar, saveMarketSignals } = await import(
+      "@/lib/ava/business-intelligence"
+    );
+    const { signals, missingData } = await gatherMarketRadar();
+    if (ctx.userId) await saveMarketSignals(ctx.userId, signals);
+    const lines = signals.slice(0, 10).map((s, i) => {
+      return (
+        `${i + 1}. [${s.category}] ${s.title}\n` +
+        `   ${s.information}\n` +
+        `   Source : ${s.source} · confiance ${s.confidence}% · import auto : jamais`
+      );
+    });
+    return okResult(
+      "getMarketRadar",
+      "Radar marché",
+      lines.join("\n\n") || "Aucun signal marché pour l'instant.",
+      {
+        missingData,
+        links: [{ label: "Radar marché", href: "/admin/ava/radar", kind: "alert" }],
+        data: { count: signals.length },
+      }
+    );
+  } catch (e) {
+    return failResult(
+      "getMarketRadar",
+      "Radar marché",
+      e instanceof Error ? e.message : "veille indisponible"
+    );
+  }
+}
+
+export async function execProposeBusinessIdeas(
+  ctx: AvaAdminToolContext
+): Promise<AvaAdminToolResult> {
+  try {
+    const { runBusinessIntelligence, formatIdeasForChat } = await import(
+      "@/lib/ava/business-intelligence"
+    );
+    const bundle = await runBusinessIntelligence({
+      ownerUserId: ctx.userId || null,
+      persist: Boolean(ctx.userId),
+    });
+    const text = [
+      "Idées métier (auto-critiquées) — pas de remise automatique :",
+      "",
+      formatIdeasForChat(bundle.ideas),
+    ].join("\n");
+    return okResult("proposeBusinessIdeas", "Idées métier", text, {
+      missingData: bundle.missingData.slice(0, 6),
+      data: {
+        recommended: bundle.ideas.filter((i) => i.verdict === "RECOMMANDE").length,
+        avoid: bundle.ideas.filter((i) => i.verdict === "A_EVITER").length,
+      },
+    });
+  } catch (e) {
+    return failResult(
+      "proposeBusinessIdeas",
+      "Idées métier",
+      e instanceof Error ? e.message : "génération indisponible"
+    );
+  }
+}
+
+export async function execSimulateBusinessDecision(
+  ctx: AvaAdminToolContext
+): Promise<AvaAdminToolResult> {
+  try {
+    const { simulateDecision, formatSimulationForChat } = await import(
+      "@/lib/ava/business-intelligence"
+    );
+    const historyTail = (ctx.history || [])
+      .slice(-4)
+      .map((h) => h.content)
+      .join(" ");
+    const proposal =
+      (ctx.history || []).slice().reverse().find((h) => h.role === "user")?.content ||
+      historyTail ||
+      "Proposition non précisée";
+    // Indices légers depuis un scan rapide (non bloquant si échec)
+    let stockTight = false;
+    let visibilityIssueSuspected = false;
+    let conversionOk = false;
+    try {
+      const { collectObservations, detectAnomalies } = await import(
+        "@/lib/ava/business-intelligence"
+      );
+      const obs = await collectObservations();
+      const anoms = detectAnomalies(obs.observations);
+      stockTight = anoms.some((a) => a.code.startsWith("STOCK_"));
+      visibilityIssueSuspected = anoms.some((a) => /CATALOG|SALES/i.test(a.code));
+      conversionOk = /conversion/i.test(proposal) || /conversion/i.test(historyTail);
+    } catch {
+      /* optional */
+    }
+    const sim = simulateDecision({
+      proposal,
+      stockTight,
+      visibilityIssueSuspected,
+      conversionOk,
+    });
+    return okResult(
+      "simulateBusinessDecision",
+      "Simulation décision",
+      formatSimulationForChat(sim),
+      {
+        data: {
+          sensitive: sim.sensitive,
+          requiresHumanValidation: sim.requiresHumanValidation,
+          confidence: sim.confidence,
+        },
+      }
+    );
+  } catch (e) {
+    return failResult(
+      "simulateBusinessDecision",
+      "Simulation décision",
+      e instanceof Error ? e.message : "simulation indisponible"
+    );
+  }
 }
 
 export async function execFullReport(ctx: AvaAdminToolContext): Promise<AvaAdminToolResult> {
