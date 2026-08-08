@@ -8,7 +8,6 @@ import { timingSafeEqual } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { handleApiError } from "@/lib/api-utils";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -31,13 +30,29 @@ function secretOk(provided: string | null, expected: string): boolean {
 }
 
 function hasRangeCover(mfrSlug: string, rangeSlug: string): boolean {
-  const dir = path.join(process.cwd(), "public", "media", "manufacturers", mfrSlug, "ranges");
+  const dir = path.join(
+    process.cwd(),
+    "public",
+    "media",
+    "manufacturers",
+    mfrSlug,
+    "ranges"
+  );
   const bases = [rangeSlug];
   if (!rangeSlug.endsWith(`-${mfrSlug}`)) bases.push(`${rangeSlug}-${mfrSlug}`);
   return bases.some((base) =>
-    ["webp", "jpg", "jpeg", "png"].some((ext) => fs.existsSync(path.join(dir, `${base}.${ext}`)))
+    ["webp", "jpg", "jpeg", "png"].some((ext) =>
+      fs.existsSync(path.join(dir, `${base}.${ext}`))
+    )
   );
 }
+
+type RangeRow = {
+  id: string;
+  slug: string;
+  manufacturerId: string;
+  mfrSlug: string;
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,59 +70,59 @@ export async function POST(request: NextRequest) {
 
     const body = bodySchema.parse(await request.json().catch(() => ({})));
 
-    const ranges = await prisma.productRange.findMany({
-      where: {
-        isActive: true,
-        verificationStatus: "OFFICIAL_CONFIRMED",
-        catalogVisible: true,
-        manufacturerId: { not: null },
-      },
-      include: { manufacturer: { select: { slug: true, name: true } } },
-    });
-
-    const eligible = ranges.filter(
-      (r) => r.manufacturer?.slug && hasRangeCover(r.manufacturer.slug, r.slug)
+    // SQL brut pour rester robuste si le client Prisma / schéma diverge légèrement
+    const ranges = await prisma.$queryRawUnsafe<RangeRow[]>(
+      `SELECT r.id, r.slug, r."manufacturerId", m.slug AS "mfrSlug"
+       FROM "ProductRange" r
+       INNER JOIN "Manufacturer" m ON m.id = r."manufacturerId"
+       WHERE r."isActive" = true
+         AND r."verificationStatus" = 'OFFICIAL_CONFIRMED'
+         AND r."catalogVisible" = true
+         AND r."manufacturerId" IS NOT NULL`
     );
+
+    const eligible = ranges.filter((r) => hasRangeCover(r.mfrSlug, r.slug));
 
     if (!body.apply) {
       return NextResponse.json({
         ok: true,
         dryRun: true,
+        rangesFound: ranges.length,
         eligibleRanges: eligible.length,
-        sample: eligible.slice(0, 10).map((r) => `${r.manufacturer?.slug}/${r.slug}`),
+        sample: eligible.slice(0, 15).map((r) => `${r.mfrSlug}/${r.slug}`),
       });
     }
 
     let published = 0;
     const byMfr: Record<string, number> = {};
     for (const range of eligible) {
-      const result = await prisma.product.updateMany({
-        where: {
-          rangeId: range.id,
-          manufacturerId: range.manufacturerId!,
-          OR: [
-            { visibleOnline: false },
-            { isActive: false },
-            { catalogStatus: { notIn: ["valide", "actif"] } },
-          ],
-        },
-        data: {
-          visibleOnline: true,
-          isActive: true,
-          catalogStatus: "valide",
-        },
-      });
-      if (result.count > 0) {
-        published += result.count;
-        const slug = range.manufacturer!.slug;
-        byMfr[slug] = (byMfr[slug] || 0) + result.count;
+      const result = await prisma.$executeRawUnsafe(
+        `UPDATE "Product"
+         SET "visibleOnline" = true,
+             "isActive" = true,
+             "catalogStatus" = 'valide'
+         WHERE "rangeId" = $1
+           AND "manufacturerId" = $2
+           AND (
+             "visibleOnline" = false
+             OR "isActive" = false
+             OR "catalogStatus" NOT IN ('valide', 'actif')
+           )`,
+        range.id,
+        range.manufacturerId
+      );
+      const count = typeof result === "number" ? result : 0;
+      if (count > 0) {
+        published += count;
+        byMfr[range.mfrSlug] = (byMfr[range.mfrSlug] || 0) + count;
       }
     }
 
-    await prisma.manufacturer.updateMany({
-      where: { slug: "cookin-cloud", status: "a_verifier" },
-      data: { status: "partiel" },
-    });
+    await prisma.$executeRawUnsafe(
+      `UPDATE "Manufacturer"
+       SET status = 'partiel'
+       WHERE slug = 'cookin-cloud' AND status = 'a_verifier'`
+    );
 
     return NextResponse.json({
       ok: true,
@@ -117,6 +132,10 @@ export async function POST(request: NextRequest) {
       eligibleRanges: eligible.length,
     });
   } catch (error) {
-    return handleApiError(error);
+    const message = error instanceof Error ? error.message : String(error);
+    return NextResponse.json(
+      { error: "Erreur interne du serveur", detail: message },
+      { status: 500 }
+    );
   }
 }
