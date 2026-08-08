@@ -227,6 +227,23 @@ export function AdminAvaChatPanel() {
   const [canManageOwners, setCanManageOwners] = useState(false);
   const [newOwnerEmail, setNewOwnerEmail] = useState("");
   const [showIdentities, setShowIdentities] = useState(false);
+  const [showMemory, setShowMemory] = useState(false);
+  const [memoryFacts, setMemoryFacts] = useState<
+    {
+      id: string;
+      kind: string;
+      subject: string;
+      content: string;
+      importance: string;
+      taskStatus?: string;
+      updatedAt: string;
+    }[]
+  >([]);
+  const [memorySession, setMemorySession] = useState<{
+    summary?: string;
+    lastTopic?: string | null;
+    updatedAt?: string;
+  } | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
@@ -291,6 +308,19 @@ export function AdminAvaChatPanel() {
     }
   }, []);
 
+  const loadMemory = useCallback(async (cid?: string | null) => {
+    try {
+      const q = cid ? `?conversationId=${encodeURIComponent(cid)}` : "";
+      const res = await fetch(`/api/admin/ava/memory${q}`, { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      setMemoryFacts(data.facts || []);
+      setMemorySession(data.session || null);
+    } catch {
+      /* optional */
+    }
+  }, []);
+
   const load = useCallback(async (cid?: string | null) => {
     const q = cid ? `?conversationId=${encodeURIComponent(cid)}` : "";
     const res = await fetch(`/api/admin/ava/chat${q}`, { cache: "no-store" });
@@ -342,9 +372,10 @@ export function AdminAvaChatPanel() {
         : null;
     void load(saved);
     void loadIdentities();
+    void loadMemory(saved);
     const t = setInterval(() => void load(conversationIdRef.current), 30_000);
     return () => clearInterval(t);
-  }, [load, loadIdentities]);
+  }, [load, loadIdentities, loadMemory]);
 
   useEffect(() => {
     if (conversationId && typeof window !== "undefined") {
@@ -452,6 +483,7 @@ export function AdminAvaChatPanel() {
       }
 
       await load(data.conversationId || conversationIdRef.current);
+      void loadMemory(data.conversationId || conversationIdRef.current);
 
       // Relance mains libres après traitement (+ TTS si activé)
       if (
@@ -854,6 +886,16 @@ export function AdminAvaChatPanel() {
         >
           Identités propriétaire
         </button>
+        <button
+          type="button"
+          className="block text-xs text-brand-700 hover:underline"
+          onClick={() => {
+            setShowMemory((v) => !v);
+            if (!showMemory) void loadMemory(conversationIdRef.current);
+          }}
+        >
+          Mémoire A.V.A.
+        </button>
       </aside>
 
       <div className="space-y-4">
@@ -885,6 +927,121 @@ export function AdminAvaChatPanel() {
             </Link>
           </CardBody>
         </Card>
+
+        {showMemory && (
+          <Card>
+            <CardBody className="space-y-3 text-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-semibold text-gray-900">Mémoire A.V.A.</h2>
+                <button
+                  type="button"
+                  className="text-xs text-brand-700 hover:underline"
+                  onClick={() =>
+                    void (async () => {
+                      await fetch("/api/admin/ava/memory", {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          action: "clear_session",
+                          conversationId,
+                        }),
+                      });
+                      await loadMemory(conversationId);
+                    })()
+                  }
+                >
+                  Vider mémoire conversationnelle
+                </button>
+              </div>
+              {memorySession?.summary ? (
+                <p className="rounded-lg bg-gray-50 p-2 text-xs text-gray-700">
+                  <span className="font-medium">Session :</span> {memorySession.summary}
+                  {memorySession.lastTopic ? ` · sujet ${memorySession.lastTopic}` : ""}
+                </p>
+              ) : (
+                <p className="text-xs text-gray-500">Pas encore de résumé de session.</p>
+              )}
+              <ul className="max-h-48 space-y-2 overflow-y-auto">
+                {memoryFacts.length === 0 && (
+                  <li className="text-xs text-gray-500">Aucun fait mémorisé pour l’instant.</li>
+                )}
+                {memoryFacts.slice(0, 30).map((f) => (
+                  <li key={f.id} className="rounded-lg border border-gray-100 p-2 text-xs">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium text-gray-900">{f.subject}</span>
+                      <span className="text-gray-400">[{f.kind}]</span>
+                      {f.taskStatus ? (
+                        <span className="text-amber-700">{f.taskStatus}</span>
+                      ) : null}
+                      <span className="text-gray-400">{f.importance}</span>
+                    </div>
+                    <p className="mt-1 text-gray-700">{f.content}</p>
+                    <div className="mt-1 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="text-brand-700 hover:underline"
+                        onClick={() =>
+                          void (async () => {
+                            const content = window.prompt("Corriger ce souvenir :", f.content);
+                            if (!content) return;
+                            await fetch("/api/admin/ava/memory", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                action: "correct",
+                                itemId: f.id,
+                                content,
+                              }),
+                            });
+                            await loadMemory(conversationId);
+                          })()
+                        }
+                      >
+                        Corriger
+                      </button>
+                      <button
+                        type="button"
+                        className="text-brand-700 hover:underline"
+                        onClick={() =>
+                          void (async () => {
+                            await fetch("/api/admin/ava/memory", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                action: "importance",
+                                itemId: f.id,
+                                importance: "high",
+                              }),
+                            });
+                            await loadMemory(conversationId);
+                          })()
+                        }
+                      >
+                        Important
+                      </button>
+                      <button
+                        type="button"
+                        className="text-red-600 hover:underline"
+                        onClick={() =>
+                          void (async () => {
+                            await fetch("/api/admin/ava/memory", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ action: "delete", itemId: f.id }),
+                            });
+                            await loadMemory(conversationId);
+                          })()
+                        }
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardBody>
+          </Card>
+        )}
 
         {showIdentities && (
           <Card>

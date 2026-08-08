@@ -31,7 +31,6 @@ import {
   loadMessages,
   saveLegacyFlatMessage,
 } from "@/lib/ava/conversation-store";
-import { loadMemoryForSurface } from "@/lib/ava/memory-store";
 
 export const dynamic = "force-dynamic";
 
@@ -288,29 +287,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    let memoryHint = "";
-    try {
-      const mem = await loadMemoryForSurface({
-        surface: "admin",
-        userId: user.userId,
-        adminCapabilities: true,
-      });
-      if (mem.admin) {
-        memoryHint = `\nPréférences Admin mémorisées : ${JSON.stringify(mem.admin).slice(0, 400)}`;
-      }
-    } catch {
-      /* optional */
-    }
-
     let reply;
     try {
       reply = await answerAdminAvaConversation({
         message: safeMessage,
         role: user.role,
         userId: user.userId,
+        conversationId,
         history,
         periodKey: body.periodKey as DatePeriod | undefined,
-        opsText: (opsText + memoryHint).trim() || undefined,
+        opsText: opsText.trim() || undefined,
         sessionIdentity: {
           email: user.email,
           appRole: ctx.effectiveRole,
