@@ -10,7 +10,7 @@ const baseSecurityHeaders = [
   {
     key: "Content-Security-Policy",
     value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: mediastream:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: data: mediastream:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
 ];
 
@@ -53,69 +53,90 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
-    const inventaireCamera = {
-      key: "Permissions-Policy",
-      value: "camera=(self), microphone=(), geolocation=()",
-    };
-    const noCamera = {
-      key: "Permissions-Policy",
-      value: "camera=(), microphone=(self), geolocation=()",
-    };
-    return [
-      // Inventaire : caméra autorisée (sinon camera=() global bloque getUserMedia)
-      {
-        source: "/inventaire",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source: "/inventaire/:path*",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source: "/admin/inventaire",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source: "/admin/inventaire/:path*",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source: "/admin/inventaires",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source: "/admin/inventaires/:path*",
-        headers: [...baseSecurityHeaders, inventaireCamera],
-      },
-      {
-        source:
-          "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire).*)",
-        headers: [...baseSecurityHeaders, noCamera],
-      },
-      {
-        source: "/_next/static/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
-      {
-        source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
-      {
-        source: "/apps/:file*.apk",
-        headers: [
-          {
-            key: "Content-Type",
-            value: "application/vnd.android.package-archive",
-          },
-          {
-            key: "Content-Disposition",
-            value: 'attachment; filename="AllVaps-Inventaire.apk"',
-          },
-          { key: "Cache-Control", value: "public, max-age=300" },
-        ],
-      },
-    ];
-  },
+  const inventaireCamera = {
+    key: "Permissions-Policy",
+    value: "camera=(self), microphone=(), geolocation=()",
+  };
+  /** Pages A.V.A. (Admin + client vocal) — micro requis pour STT */
+  const avaMicrophone = {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(self), geolocation=()",
+  };
+  const noCamera = {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
+  };
+  return [
+    // Inventaire : caméra autorisée (sinon camera=() global bloque getUserMedia)
+    {
+      source: "/inventaire",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/inventaire/:path*",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/admin/inventaire",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/admin/inventaire/:path*",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/admin/inventaires",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/admin/inventaires/:path*",
+      headers: [...baseSecurityHeaders, inventaireCamera],
+    },
+    {
+      source: "/admin/ava",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
+      source: "/admin/ava/:path*",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
+      source: "/ia",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
+      source: "/ia/:path*",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
+      source:
+        "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire|admin/ava|ia).*)",
+      headers: [...baseSecurityHeaders, noCamera],
+    },
+    {
+      source: "/_next/static/:path*",
+      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+    },
+    {
+      source: "/(.*\\.(?:svg|png|jpg|jpeg|webp|ico|woff2))",
+      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+    },
+    {
+      source: "/apps/:file*.apk",
+      headers: [
+        {
+          key: "Content-Type",
+          value: "application/vnd.android.package-archive",
+        },
+        {
+          key: "Content-Disposition",
+          value: 'attachment; filename="AllVaps-Inventaire.apk"',
+        },
+        { key: "Cache-Control", value: "public, max-age=300" },
+      ],
+    },
+  ];
+},
 };
 
 export default nextConfig;

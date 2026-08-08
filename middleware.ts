@@ -102,12 +102,12 @@ function applySecurityHeaders(
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
-      "media-src 'self' blob: mediastream:",
       "font-src 'self' data:",
       // blob: requis pour textures GLB (GLTFLoader → ObjectURL) et workers Three.js
       "connect-src 'self' https: blob:",
       "worker-src 'self' blob:",
-      "media-src 'self' blob: data:",
+      // mediastream: requis pour getUserMedia (micro A.V.A.)
+      "media-src 'self' blob: data: mediastream:",
       `frame-ancestors ${frameAncestors}`,
       "base-uri 'self'",
       "form-action 'self'",

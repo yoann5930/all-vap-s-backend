@@ -64,6 +64,99 @@ function getSpeechRecognition(): (new () => SpeechRecognitionLike) | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
+type MicDiagCode =
+  | "ok"
+  | "speech_unsupported"
+  | "permission_denied"
+  | "permission_policy"
+  | "no_microphone"
+  | "microphone_busy"
+  | "getusermedia_failed"
+  | "speech_start_failed"
+  | "speech_service"
+  | "speech_network"
+  | "no_speech"
+  | "aborted";
+
+function mapSpeechError(code: string): { diag: MicDiagCode; message: string } {
+  switch (code) {
+    case "not-allowed":
+    case "service-not-allowed":
+      return {
+        diag: "permission_denied",
+        message:
+          "Le navigateur bloque l'accès micro pour la reconnaissance vocale (permission ou Permissions-Policy). Vérifie le cadenas du site, puis réessaie.",
+      };
+    case "audio-capture":
+      return {
+        diag: "no_microphone",
+        message: "Aucun microphone utilisable n'a été trouvé sur cet appareil.",
+      };
+    case "network":
+      return {
+        diag: "speech_network",
+        message: "Service de reconnaissance vocale indisponible (réseau). Réessaie ou continue en texte.",
+      };
+    case "no-speech":
+      return {
+        diag: "no_speech",
+        message: "Aucun son détecté. Réessaie en parlant un peu plus près du micro.",
+      };
+    case "aborted":
+      return { diag: "aborted", message: "" };
+    default:
+      return {
+        diag: "speech_start_failed",
+        message: `Reconnaissance vocale interrompue (${code}). Tu peux continuer en texte.`,
+      };
+  }
+}
+
+function mapGetUserMediaError(err: unknown): { diag: MicDiagCode; message: string } {
+  const name = err instanceof DOMException ? err.name : "";
+  if (name === "NotAllowedError" || name === "PermissionDeniedError") {
+    // Distingue refus utilisateur vs policy si le message le dit
+    const msg = err instanceof Error ? err.message : "";
+    if (/Permissions policy|Permission Policy|permissions policy/i.test(msg)) {
+      return {
+        diag: "permission_policy",
+        message:
+          "Le micro est bloqué par la politique de sécurité de la page (Permissions-Policy). Ce n'est pas le réglage Edge du site.",
+      };
+    }
+    return {
+      diag: "permission_denied",
+      message:
+        "Permission micro refusée par le navigateur. Autorise le micro pour www.allvaps.fr puis recharge.",
+    };
+  }
+  if (name === "NotFoundError" || name === "DevicesNotFoundError") {
+    return {
+      diag: "no_microphone",
+      message: "Aucun microphone détecté sur cet appareil.",
+    };
+  }
+  if (name === "NotReadableError" || name === "TrackStartError") {
+    return {
+      diag: "microphone_busy",
+      message: "Le microphone est occupé par une autre application. Ferme-la puis réessaie.",
+    };
+  }
+  if (name === "AbortError") {
+    return { diag: "aborted", message: "Ouverture du micro annulée." };
+  }
+  if (name === "SecurityError") {
+    return {
+      diag: "permission_policy",
+      message: "Accès micro interdit dans ce contexte (sécurité navigateur / iframe).",
+    };
+  }
+  return {
+    diag: "getusermedia_failed",
+    message: "Impossible d'ouvrir le microphone. Tu peux continuer en texte.",
+  };
+}
+
 const SECRET_SPEAK =
   /\b(mot\s*de\s*passe|password|token|api[_-]?key|secret|Bearer\s+\S+|sk-[a-zA-Z0-9_-]+)\b/i;
 
@@ -98,12 +191,14 @@ export function AdminAvaChatPanel() {
   const [handsFree, setHandsFree] = useState(false);
   const [transcriptLive, setTranscriptLive] = useState("");
   const [micDenied, setMicDenied] = useState(false);
+  const [micDiag, setMicDiag] = useState<MicDiagCode | null>(null);
   const [identities, setIdentities] = useState<OwnerIdentity[]>([]);
   const [canManageOwners, setCanManageOwners] = useState(false);
   const [newOwnerEmail, setNewOwnerEmail] = useState("");
   const [showIdentities, setShowIdentities] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
   const handsFreeRef = useRef(false);
   const conversationIdRef = useRef<string | null>(null);
 
@@ -296,27 +391,75 @@ export function AdminAvaChatPanel() {
     }
   }
 
+  function stopMicStream() {
+    try {
+      mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
+    } catch {
+      /* ignore */
+    }
+    mediaStreamRef.current = null;
+  }
+
   function stopListening() {
     try {
       recognitionRef.current?.stop();
     } catch {
       /* ignore */
     }
+    recognitionRef.current = null;
+    stopMicStream();
     setListening(false);
   }
 
-  function startListening(fromHandsFree = false) {
+  async function startListening(fromHandsFree = false) {
+    setError(null);
+    setMicDiag(null);
+    setMicDenied(false);
+
     const Ctor = getSpeechRecognition();
     if (!Ctor) {
-      setError("Reconnaissance vocale non supportée sur ce navigateur.");
+      setMicDiag("speech_unsupported");
+      setError(
+        "Reconnaissance vocale indisponible sur ce navigateur. Continue en texte — le chat Admin reste actif."
+      );
       return;
     }
+
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      setMicDiag("getusermedia_failed");
+      setError("getUserMedia indisponible. Continue en texte.");
+      return;
+    }
+
     stopListening();
+
+    // 1) Ouvrir le micro explicitement (diagnostic précis + débloque Edge/Chrome STT)
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      });
+      mediaStreamRef.current = stream;
+    } catch (err) {
+      const mapped = mapGetUserMediaError(err);
+      setMicDiag(mapped.diag);
+      setMicDenied(mapped.diag === "permission_denied" || mapped.diag === "permission_policy");
+      setError(mapped.message);
+      setHandsFree(false);
+      console.info("[ava-admin-voice]", mapped.diag);
+      return;
+    }
+
+    // 2) SpeechRecognition sur le même geste utilisateur
     const rec = new Ctor();
     recognitionRef.current = rec;
     rec.lang = "fr-FR";
     rec.interimResults = true;
     rec.continuous = false;
+
     rec.onresult = (ev) => {
       let interim = "";
       let final = "";
@@ -327,29 +470,49 @@ export function AdminAvaChatPanel() {
       }
       setTranscriptLive(final || interim);
       if (final.trim()) {
-        setInput(final.trim());
+        const text = final.trim();
+        setInput(text);
+        // Envoi auto en mains libres ; sinon le texte reste dans l'input pour validation
         if (fromHandsFree || handsFreeRef.current) {
-          void send(final.trim());
+          void send(text);
         }
       }
     };
+
     rec.onerror = (ev) => {
-      if (ev.error === "not-allowed") {
-        setMicDenied(true);
-        setError("Permission micro refusée.");
-        setHandsFree(false);
-      } else if (ev.error !== "aborted") {
-        setError(`Micro : ${ev.error}`);
+      const mapped = mapSpeechError(ev.error);
+      if (mapped.diag === "aborted") {
+        setListening(false);
+        return;
       }
+      setMicDiag(mapped.diag);
+      if (mapped.diag === "permission_denied") setMicDenied(true);
+      if (mapped.message) setError(mapped.message);
+      setHandsFree(false);
       setListening(false);
+      stopMicStream();
+      console.info("[ava-admin-voice]", mapped.diag, ev.error);
     };
-    rec.onend = () => setListening(false);
+
+    rec.onend = () => {
+      setListening(false);
+      // Garde le stream seulement si on relance (mains libres)
+      if (!handsFreeRef.current) stopMicStream();
+    };
+
     try {
       rec.start();
       setListening(true);
-      setMicDenied(false);
-    } catch {
-      setError("Impossible de démarrer le micro.");
+      setMicDiag("ok");
+    } catch (err) {
+      stopMicStream();
+      setMicDiag("speech_start_failed");
+      setError(
+        err instanceof Error
+          ? `Impossible de démarrer la reconnaissance vocale. Continue en texte.`
+          : "Impossible de démarrer le micro."
+      );
+      console.info("[ava-admin-voice]", "speech_start_failed");
     }
   }
 
@@ -596,11 +759,23 @@ export function AdminAvaChatPanel() {
           <p className="text-sm text-gray-600">
             {listening ? "Écoute en cours… " : ""}
             {transcriptLive}
+            {!listening && transcriptLive && !handsFree && (
+              <button
+                type="button"
+                className="ml-2 text-brand-700 hover:underline"
+                onClick={() => void send(transcriptLive)}
+              >
+                Envoyer à A.V.A.
+              </button>
+            )}
           </p>
         )}
-        {micDenied && (
+        {(micDenied || (micDiag && micDiag !== "ok" && micDiag !== "aborted")) && (
           <p className="text-sm text-amber-700">
-            Permission micro refusée — tu peux continuer en texte.
+            {error || "Problème micro — tu peux continuer en texte."}
+            {micDiag ? (
+              <span className="ml-1 text-[10px] opacity-70">[{micDiag}]</span>
+            ) : null}
           </p>
         )}
 
@@ -624,7 +799,7 @@ export function AdminAvaChatPanel() {
               checked={handsFree}
               onChange={(e) => {
                 setHandsFree(e.target.checked);
-                if (e.target.checked) startListening(true);
+                if (e.target.checked) void startListening(true);
                 else stopListening();
               }}
             />
@@ -659,7 +834,7 @@ export function AdminAvaChatPanel() {
           <Button
             type="button"
             disabled={loading}
-            onClick={() => (listening ? stopListening() : startListening(false))}
+            onClick={() => (listening ? stopListening() : void startListening(false))}
           >
             {listening ? "Stop micro" : "Micro"}
           </Button>

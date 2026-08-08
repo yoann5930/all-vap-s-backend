@@ -310,6 +310,11 @@ export async function POST(request: NextRequest) {
         history,
         periodKey: body.periodKey as DatePeriod | undefined,
         opsText: (opsText + memoryHint).trim() || undefined,
+        sessionIdentity: {
+          email: user.email,
+          appRole: ctx.effectiveRole,
+          effectiveRole: user.role,
+        },
       });
     } catch (e) {
       const pub = toPublicAvaError(e);

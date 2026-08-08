@@ -188,9 +188,39 @@ export async function answerAdminAvaConversation(params: {
   history?: AdminChatTurn[];
   periodKey?: DatePeriod;
   opsText?: string;
+  /** Identité session serveur uniquement — jamais depuis le texte message */
+  sessionIdentity?: {
+    email: string;
+    appRole: string;
+    effectiveRole: string;
+  };
 }): Promise<AdminAvaConversationReply> {
   const history = params.history || [];
   const msg = params.message.trim();
+
+  // Qui suis-je ? → réponse déterministe depuis la session (pas d'invention)
+  if (
+    params.sessionIdentity &&
+    /\b(qui\s+(suis[- ]je|je\s+suis)|mon\s+(r[oô]le|compte|identit[eé]|email)|avec\s+qui\s+(parle|discut))/i.test(
+      msg
+    )
+  ) {
+    const id = params.sessionIdentity;
+    return {
+      text:
+        `Tu es connecté en session Admin All Vap's avec le compte « ${id.email} ». ` +
+        `Rôle applicatif : ${id.appRole} (rôle base : ${id.effectiveRole || params.role}). ` +
+        `Je m'appuie uniquement sur cette session serveur — pas sur ce que tu écris dans le chat.`,
+      links: [],
+      periodLabel: "",
+      source: "admin_ava_session_identity",
+      lastSyncAt: null,
+      missingData: [],
+      conversational: true,
+      grounded: true,
+    };
+  }
+
   const wantGestion = isGestionIntent(msg);
 
   let grounded: AvaGestionReply | null = null;
@@ -221,6 +251,9 @@ export async function answerAdminAvaConversation(params: {
   }
 
   const factsParts = [
+    params.sessionIdentity
+      ? `SESSION AUTHENTIFIÉE (source serveur, ne pas inventer) : email=${params.sessionIdentity.email} ; rôleApplicatif=${params.sessionIdentity.appRole} ; rôleBase=${params.sessionIdentity.effectiveRole}`
+      : "",
     params.opsText ? `OPS / VM :\n${params.opsText}` : "",
     grounded?.text && grounded.source !== "admin_ava_gestion_error"
       ? `GESTION :\n${grounded.text}`
