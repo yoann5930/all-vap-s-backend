@@ -87,14 +87,22 @@ export default async function GammePage({ params, searchParams }: Props) {
       rangeId: range.id,
       // Même filtre que /fabricants (pas de filtre manufacturerId strict ici) :
       // le zero-mix gate rejette les vrais cross-fabricant.
+      // Exclure Ice Cool X sans piège SQL NULL (NOT (family=X OR …) écarte family NULL).
       ...(range.slug === "ice-cool"
         ? {
-            NOT: {
-              OR: [
-                { productFamily: "ICE_COOL_X" },
-                { name: { contains: "Ice Cool X", mode: "insensitive" } },
-              ],
-            },
+            AND: [
+              {
+                OR: [
+                  { productFamily: null },
+                  { NOT: { productFamily: "ICE_COOL_X" } },
+                ],
+              },
+              {
+                NOT: {
+                  name: { contains: "Ice Cool X", mode: "insensitive" },
+                },
+              },
+            ],
           }
         : {}),
     },
