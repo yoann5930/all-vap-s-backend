@@ -87,31 +87,56 @@ export async function POST(request: NextRequest) {
           },
         },
       });
-      const sample = ice[0]
+      const rangeId = ice[0]?.id;
+      const sample = rangeId
         ? await prisma.product.findMany({
             where: {
-              rangeId: ice[0].id,
+              rangeId,
               visibleOnline: true,
               isActive: true,
               catalogStatus: { in: ["valide", "actif"] },
             },
-            select: {
-              id: true,
-              name: true,
-              manufacturerId: true,
-              rangeId: true,
-              imageUrl: true,
-              imageStatus: true,
-              classificationStatus: true,
+            include: {
+              manufacturer: { select: { id: true, slug: true } },
+              rangeRef: {
+                select: {
+                  id: true,
+                  manufacturerId: true,
+                  manufacturer: { select: { id: true, slug: true } },
+                },
+              },
             },
-            take: 5,
+            take: 8,
           })
         : [];
+      const { filterProductsZeroMix } = await import(
+        "@/lib/catalog/zero-mix-gate"
+      );
+      const zm = filterProductsZeroMix(sample);
       return NextResponse.json({
         ok: true,
         diag: true,
         iceCoolRanges: ice,
-        sample,
+        zeroMix: {
+          ok: zm.ok.length,
+          rejected: zm.rejected.map((r) => ({
+            name: r.product.name,
+            reasons: r.reasons,
+            visibleOnline: r.product.visibleOnline,
+          })),
+        },
+        sample: sample.map((p) => ({
+          id: p.id,
+          name: p.name,
+          manufacturerId: p.manufacturerId,
+          rangeId: p.rangeId,
+          imageUrl: p.imageUrl,
+          imageStatus: p.imageStatus,
+          visibleOnline: p.visibleOnline,
+          classificationStatus: (
+            p as { classificationStatus?: string }
+          ).classificationStatus,
+        })),
         stocksTouched: false,
       });
     }
