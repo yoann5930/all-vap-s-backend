@@ -87,8 +87,8 @@ function resolvedAsk(subject: string): string {
  */
 export function composeSocialReply(input: SocialComposeInput): string {
   const name = input.ownerFirstName;
-  const hi = name ? pick([`Salut ${name}`, `Salut ${name}`, `Hey ${name}`], input.message) : pick(["Salut", "Hey"], input.message);
-  const signal = cleanSignal(input.workSignal);
+  const msg = input.message;
+  const signal = reliableWorkSignal(input.workSignal);
   const thread = input.activeThread;
 
   switch (input.move) {
@@ -97,33 +97,97 @@ export function composeSocialReply(input: SocialComposeInput): string {
 
     case "greeting": {
       if (thread?.status === "deferred") {
-        return `${hi}. Hier on avait laissé de côté « ${thread.subject} ». Tu veux qu'on reprenne, ou je te dis d'abord ce que j'ai vu ce matin ?`;
+        return pick(
+          [
+            `${greet(name, msg)}. Hier on avait laissé « ${thread.subject} » de côté — on reprend quand tu veux.`,
+            `${greet(name, msg)}. On avait une pause sur « ${thread.subject} ». Tu me dis si on y retourne.`,
+          ],
+          msg + (thread.subject || "")
+        );
       }
+      const hello = pick(
+        [
+          name ? `Coucou ${name}. Ça va ?` : "Coucou. Ça va ?",
+          name ? `Salut ${name}. Tu vas bien ?` : "Salut. Tu vas bien ?",
+          name ? `Hey ${name}. Ça va de ton côté ?` : "Hey. Ça va de ton côté ?",
+          name ? `Salut ${name}.` : "Salut.",
+        ],
+        msg + (name || "")
+      );
+      // Rebond métier optionnel UNIQUEMENT si signal fiable déjà en main
       if (signal) {
-        return `${hi}, ${leadWithWork(signal)} ${pick(
-          ["Tu en penses quoi ?", "On regarde ça ensemble ?", "Tu veux que je creuse ?"],
-          signal
-        )}`;
+        return `${hello} ${softWorkHook(signal)}`;
       }
-      return `${hi}. Je suis en train de balayer les chiffres — je te dis tout de suite s'il y a un truc qui cloche.`;
+      return hello;
     }
 
     case "check_in": {
-      if (signal) {
-        return `Ça va. ${leadWithWork(signal)} ${pick(
-          ["Rien d'autre de brûlant pour l'instant.", "Sinon ça tourne.", ""],
-          signal
-        )}`.trim();
+      return pick(
+        [
+          "Ça va. Et de ton côté ?",
+          "Oui, ça va. Tu as un truc en tête ou on discute juste ?",
+          "Ça va. Plutôt calme pour l'instant — et toi ?",
+          name ? `Ça va ${name}. Tu vas bien ?` : "Ça va. Tu vas bien ?",
+        ],
+        msg + (thread?.subject || "")
+      );
+    }
+
+    case "smalltalk": {
+      const n = msg.toLowerCase();
+      if (/crev|fatigu|dormi/.test(n)) {
+        return pick(
+          [
+            "Je vois. On peut rester léger, ou tu as un point précis à regarder ?",
+            "OK. Tu veux juste discuter, ou tu as quelque chose sous la main ?",
+          ],
+          msg
+        );
       }
-      if (thread?.status === "open") {
-        return `Ça va. J'avais encore « ${thread.subject} » en tête — ${thread.summary.slice(0, 120)} Tu veux qu'on avance là-dessus ?`;
+      if (/quoi de neuf|quoi de beau/.test(n)) {
+        return pick(
+          [
+            "Pas grand-chose de brûlant sous les yeux pour l'instant. Toi, tu as un truc en tête ?",
+            "Rien d'urgent de mon côté. Tu voulais parler de quelque chose ?",
+          ],
+          msg
+        );
+      }
+      if (/on parle|on discute/.test(n)) {
+        return pick(
+          [
+            "OK, on discute. Qu'est-ce qui te passe par la tête ?",
+            "Vas-y. Je t'écoute — sans basculer tout de suite sur les chiffres.",
+          ],
+          msg
+        );
+      }
+      if (/site|tour/.test(n) && !/stock|vente|commande/.test(n)) {
+        return pick(
+          [
+            "Je m'en doutais. Tu regardes quelque chose de précis, ou tu fais juste un tour ?",
+            "OK. Tu cherches un truc précis sur le site, ou c'est une passe générale ?",
+          ],
+          msg
+        );
       }
       return pick(
         [
-          "Ça va. J'ai surtout scruté les mouvements du jour — rien de critique sous les yeux pour l'instant.",
-          "Oui, ça va. Dis-moi si tu as un truc en tête, sinon je te sors le point le plus utile.",
+          "OK. Dis-moi ce qui te préoccupe — ou on reste sur du simple si tu préfères.",
+          "Je te suis. Tu veux qu'on reste en mode discussion, ou on passe sur un point concret ?",
         ],
-        input.message + (thread?.subject || "")
+        msg
+      );
+    }
+
+    case "leave_work": {
+      return pick(
+        [
+          "Parfait. On laisse ça comme ça.",
+          "OK, on range ce point. Dis-moi si tu as autre chose — ou si on discute juste.",
+          "Noté. On sort du sujet métier. Ça va de ton côté ?",
+        ],
+        msg
       );
     }
 
@@ -137,13 +201,7 @@ export function composeSocialReply(input: SocialComposeInput): string {
           subject: input.resolvedSubject,
           workSignal: input.workSignal,
         });
-      return [
-        st.position,
-        st.reason,
-        st.askBack || "Tu en penses quoi ?",
-      ]
-        .filter(Boolean)
-        .join(" ");
+      return [st.position, st.reason, st.askBack || "Tu en penses quoi ?"].filter(Boolean).join(" ");
     }
 
     case "disagree_prompt": {
@@ -156,7 +214,11 @@ export function composeSocialReply(input: SocialComposeInput): string {
         });
       return [
         pick(
-          ["Je ne partirais pas là-dessus tout de suite.", "Honnêtement, je ne suis pas d'accord pour commencer comme ça.", "Moi je freinerais."],
+          [
+            "Je ne partirais pas là-dessus tout de suite.",
+            "Honnêtement, je ne suis pas d'accord pour commencer comme ça.",
+            "Moi je freinerais.",
+          ],
           input.message
         ),
         st.reason,
@@ -209,6 +271,36 @@ export function composeSocialReply(input: SocialComposeInput): string {
     default:
       return signal || "OK, je regarde.";
   }
+}
+
+function greet(name: string | null, salt: string): string {
+  if (name) return pick([`Salut ${name}`, `Hey ${name}`, `Coucou ${name}`], salt);
+  return pick(["Salut", "Hey", "Coucou"], salt);
+}
+
+/** N'accepte un signal métier que s'il est propre (pas d'erreur technique). */
+function reliableWorkSignal(raw: string | null): string | null {
+  if (!raw) return null;
+  if (
+    /indisponible|pas pu v[eé]rifier|donn[eé]es m[eé]tier|prisma|timeout|erreur|invocation|~~~~~~~/i.test(
+      raw
+    )
+  ) {
+    return null;
+  }
+  return cleanSignal(raw);
+}
+
+function softWorkHook(signal: string): string {
+  const snip = signal.split(/[.!?]/).filter(Boolean)[0]?.trim() || signal;
+  const short = snip.slice(0, 120);
+  return pick(
+    [
+      `Au fait, j'ai remarqué un truc intéressant — ${short}. Je t'en parle quand tu veux.`,
+      `Quand tu veux, j'ai un point sur : ${short}.`,
+    ],
+    short
+  );
 }
 
 function cleanSignal(raw: string | null): string | null {
@@ -276,8 +368,24 @@ export function nextThreadAfterTurn(params: {
     };
   }
 
-  if (params.move === "thanks" || params.move === "identity") {
-    return params.previous;
+  if (params.move === "thanks" || params.move === "identity" || params.move === "greeting") {
+    return {
+      subject: params.previous?.subject || "discussion",
+      summary: params.assistantText.slice(0, 220),
+      status: "open",
+      register: "social",
+      updatedAt: now,
+    };
+  }
+
+  if (params.move === "check_in" || params.move === "smalltalk" || params.move === "leave_work") {
+    return {
+      subject: params.previous?.subject || "discussion",
+      summary: params.assistantText.slice(0, 220),
+      status: "open",
+      register: "social",
+      updatedAt: now,
+    };
   }
 
   if (subject && params.assistantText.length > 40) {
@@ -285,6 +393,7 @@ export function nextThreadAfterTurn(params: {
       subject,
       summary: params.assistantText.slice(0, 220),
       status: "open",
+      register: "business",
       lastQuestion: /\?/.test(params.assistantText)
         ? params.assistantText.split("?").slice(-2)[0]?.slice(-80) + "?"
         : params.previous?.lastQuestion,

@@ -6,14 +6,25 @@
 export type SocialMove =
   | "greeting"
   | "check_in"
+  | "smalltalk"
   | "ask_opinion"
   | "defer"
   | "resume"
+  | "leave_work"
   | "disagree_prompt"
   | "identity"
   | "thanks"
   | "light_ack"
   | "work";
+
+/** Intentions haut niveau (audit / tests) */
+export type SocialIntentClass =
+  | "SOCIAL_GREETING"
+  | "SOCIAL_SMALLTALK"
+  | "BUSINESS_QUESTION"
+  | "BUSINESS_ACTION"
+  | "FOLLOW_UP"
+  | "GENERAL_CONVERSATION";
 
 export type ActiveThread = {
   subject: string;
@@ -21,6 +32,8 @@ export type ActiveThread = {
   status: "open" | "deferred" | "closed";
   deferredNote?: string;
   lastQuestion?: string;
+  /** Mode conversation : social pur vs métier */
+  register?: "social" | "business";
   updatedAt: string;
 };
 
@@ -33,6 +46,7 @@ export type SocialStance = {
 
 export type SocialDetection = {
   move: SocialMove;
+  intentClass: SocialIntentClass;
   /** Sujet implicite résolu (session / historique) */
   resolvedSubject: string | null;
   /** Préférer composer localement plutôt qu'OpenAI */
@@ -48,7 +62,7 @@ export type SocialComposeInput = {
   message: string;
   resolvedSubject: string | null;
   activeThread: ActiveThread | null;
-  /** Texte outil déjà humanisé (tour, stocks…) */
+  /** Texte outil déjà humanisé (tour, stocks…) — uniquement si fiable */
   workSignal: string | null;
   /** Avis métier déjà calculé */
   stance: SocialStance | null;

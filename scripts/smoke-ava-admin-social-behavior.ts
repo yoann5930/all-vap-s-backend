@@ -32,18 +32,18 @@ function notRobot(text: string): boolean {
 // 1. discussion légère
 {
   const d = detectSocialMove("Ça va ?");
-  ok("1 move check_in", d.move === "check_in");
+  ok("1 move check_in", d.move === "check_in" && !d.wantTools);
   const text = composeSocialReply({
     move: "check_in",
     ownerFirstName: "Yoann",
     message: "Ça va ?",
     resolvedSubject: null,
     activeThread: null,
-    workSignal: "Les fruités frais tournent bien aujourd'hui.",
+    workSignal: null,
     stance: null,
     memoryHint: null,
   });
-  ok("1 naturel + rebond", /ça va/i.test(text) && /fruit/i.test(text) && notRobot(text), text);
+  ok("1 naturel sans outils", /ça va/i.test(text) && !/stock|commande|chiffre/i.test(text) && notRobot(text), text);
 }
 
 // 2. désaccord
@@ -156,7 +156,7 @@ function notRobot(text: string): boolean {
 // 8. simple salut
 {
   const d = detectSocialMove("Salut");
-  ok("8 greeting", d.move === "greeting" && d.wantTools);
+  ok("8 greeting", d.move === "greeting" && !d.wantTools);
   const text = composeSocialReply({
     move: "greeting",
     ownerFirstName: "Yoann",
@@ -167,7 +167,14 @@ function notRobot(text: string): boolean {
     stance: null,
     memoryHint: null,
   });
-  ok("8 pas menu", notRobot(text) && !/stocks, commandes/i.test(text), text);
+  ok(
+    "8 pas menu",
+    notRobot(text) &&
+      !/stocks, commandes/i.test(text) &&
+      !/chiffres|donn[eé]es m[eé]tier|indisponible/i.test(text) &&
+      /salut|coucou|hey/i.test(text),
+    text
+  );
 }
 
 // 9. tu en penses quoi

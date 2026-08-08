@@ -15,7 +15,7 @@ const cases: { msg: string; expectTool?: string; expectStore?: string; unclear?:
   { msg: "Quel est ton statut ?", expectTool: "getAvaStatus" },
   { msg: "Quels produits sont mal classés ?", expectTool: "getCatalogAudit" },
   { msg: "Que peux-tu faire ici ?", expectTool: "listCapabilities" },
-  { msg: "Bonjour Ava", expectTool: "runDailyTour", unclear: false },
+  { msg: "Bonjour Ava", unclear: false },
   { msg: "Fais le tour du magasin", expectTool: "runDailyTour" },
   { msg: "Quelles anomalies ?", expectTool: "runAnomalyScan" },
   { msg: "Montre tes réflexions", expectTool: "getBusinessReflections" },
@@ -28,8 +28,21 @@ let failed = 0;
 for (const c of cases) {
   const plan = selectAdminTools(c.msg);
   const okTool = c.expectTool ? plan.tools.includes(c.expectTool as never) : true;
-  const okUnclear = c.unclear === true ? plan.needsClarification : c.unclear === false ? !plan.needsClarification || plan.intentLabel === "greeting" : true;
-  const pass = okTool && okUnclear && !/je t'écoute/i.test(plan.clarification || "");
+  const okUnclear =
+    c.unclear === true
+      ? plan.needsClarification
+      : c.unclear === false
+        ? !plan.needsClarification ||
+          plan.intentLabel === "greeting" ||
+          plan.intentLabel === "social_chitchat"
+        : true;
+  const okNoTool =
+    !c.expectTool && c.unclear === false ? plan.tools.length === 0 : true;
+  const pass =
+    okTool &&
+    okUnclear &&
+    okNoTool &&
+    !/je t'écoute/i.test(plan.clarification || "");
   if (!pass) {
     failed += 1;
     console.log("FAIL", c.msg, plan);

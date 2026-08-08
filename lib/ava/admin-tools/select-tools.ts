@@ -36,7 +36,17 @@ function detectLimit(n: string): number | null {
 }
 
 function isGreeting(n: string): boolean {
-  return /^(bonjour|bonsoir|salut|hey|hello|coucou)( ava)?[!?.]*$/.test(n);
+  return /^(cc|bonjour|bonsoir|salut|hey|hello|hi|coucou)(\s+(yoann|ava))?(\s*[!?]*)?$/.test(n);
+}
+
+function isSocialChitchat(n: string): boolean {
+  return (
+    isGreeting(n) ||
+    /^(ca va|comment ca va|tu vas bien|ca roule|et toi)(\s*[!?]*)?$/.test(n) ||
+    /^(quoi de neuf|quoi de beau|on parle un peu|on discute)(\s*[!?]*)?$/.test(n) ||
+    /^(oui tranquille|tranquille|oui et toi|oui ca va)(\s*[!?]*)?$/.test(n) ||
+    /^je suis (creve|fatigue)( aujourd ?hui)?(\s*[!?]*)?$/.test(n)
+  );
 }
 
 function isThanks(n: string): boolean {
@@ -78,7 +88,6 @@ function isFullReport(n: string): boolean {
       "vue densemble",
       "qu est-ce qui se passe",
       "qu est ce qui se passe",
-      "quoi de neuf",
       "fais-moi le point",
       "fais moi le point",
       "le point du jour",
@@ -93,11 +102,17 @@ function isDaily(n: string): boolean {
   return hasAny(n, [
     "resume du jour",
     "resume jour",
-    "aujourdhui",
-    "aujourd hui",
     "bilan du jour",
     "synthese du jour",
-  ]);
+    "point du jour",
+    "ventes du jour",
+    "ventes d aujourd",
+    "ventes d hier",
+    "ventes hier",
+    "regarde les ventes",
+    "les ventes",
+    "voir les ventes",
+  ]) || (/aujourdhui|aujourd hui/.test(n) && hasAny(n, ["resume", "bilan", "synthese", "point", "vente", "ca"]));
 }
 
 function isLowStock(n: string): boolean {
@@ -179,6 +194,7 @@ function isDailyTour(n: string): boolean {
     "comme une employee",
     "bon matin",
     "quoi de neuf cote boutique",
+    "fais le tour",
   ]);
 }
 
@@ -293,15 +309,15 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
     };
   }
 
-  // Bonjour → tour du magasin (initiative métier, pas chatbot vide)
-  if (isGreeting(n)) {
+  // Salutation / smalltalk → AUCUN outil métier (routeur social)
+  if (isSocialChitchat(n)) {
     return {
-      tools: ["runDailyTour"],
+      tools: [],
       storeQuery,
       limit,
       periodKey: null,
       needsClarification: false,
-      intentLabel: "greeting_tour",
+      intentLabel: "social_chitchat",
     };
   }
 
@@ -348,15 +364,6 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
   // « point » / « résumé » sans précision → résumé jour
   if (!tools.length && hasAny(n, ["resume", "point", "bilan", "synthese", "rapport", "rapports"])) {
     tools.push("getDailySummary");
-  }
-
-  // Initiative légère : « ça va ? » / chat libre avec rebond métier
-  if (
-    !tools.length &&
-    (hasAny(n, ["ca va", "comment ca va", "quoi de beau", "tu as vu", "t as vu"]) ||
-      /^(ah oui|vas[- ]y|continue|dis[- ]moi)\b/.test(n))
-  ) {
-    tools.push("runDailyTour");
   }
 
   if (tools.length) {

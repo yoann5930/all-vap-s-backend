@@ -87,7 +87,7 @@ const add = (name: string, run: () => boolean | string) => {
 };
 
 // --- Routage conversationnel (1–12)
-add("bonjour → tour", () => selectAdminTools("Bonjour").tools.includes("runDailyTour"));
+add("bonjour → pas d'outil", () => selectAdminTools("Bonjour").tools.length === 0);
 add("tour magasin", () => selectAdminTools("Fais le tour").tools.includes("runDailyTour"));
 add("anomalies", () => selectAdminTools("Quelles anomalies ?").tools.includes("runAnomalyScan"));
 add("réflexions", () =>
@@ -98,8 +98,8 @@ add("idées", () => selectAdminTools("Propose des idées").tools.includes("propo
 add("simulation -30%", () =>
   selectAdminTools("Et si on faisait -30 % ?").tools.includes("simulateBusinessDecision")
 );
-add("ça va → tour", () => selectAdminTools("Ça va Ava ?").tools.includes("runDailyTour"));
-add("vas-y → tour", () => selectAdminTools("Vas-y").tools.includes("runDailyTour"));
+add("ça va → pas d'outil", () => selectAdminTools("Ça va Ava ?").tools.length === 0);
+add("vas-y → pas de tour auto", () => !selectAdminTools("Vas-y").tools.includes("runDailyTour"));
 add("stocks faibles", () =>
   selectAdminTools("Stocks faibles Hautmont").tools.includes("getLowStockReport")
 );

@@ -103,12 +103,14 @@ async function main() {
     checks(res.text, res);
   }
 
-  await step("Salut", (t) => {
+  await step("Salut", (t, meta) => {
     ok(
       "salut nomme Yoann ou rebond métier",
-      /yoann|chiffre|tour|stock|vente|regard/i.test(t),
+      /yoann|ça va|ca va|salut|hey|coucou/i.test(t) &&
+        !/indisponible|pas pu v[eé]rifier/i.test(t),
       t
     );
+    ok("salut sans outil métier", !(meta.toolsUsed && meta.toolsUsed.length), meta.toolsUsed);
   });
 
   await step("Ça va ?", (t) => {
@@ -208,7 +210,7 @@ async function main() {
   } catch (e) {
     ok("client blocked", e instanceof AvaError);
   }
-  ok("bonjour → tour tool", selectAdminTools("Bonjour").tools.includes("runDailyTour"));
+  ok("bonjour → pas d'outil auto", selectAdminTools("Bonjour").tools.length === 0);
 
   console.log("\n=== E. Fil social mémoire (déterministe) ===");
   {

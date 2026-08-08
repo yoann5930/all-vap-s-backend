@@ -246,11 +246,11 @@ function localReply(params: {
     return `On reprend. ${params.memoryHint.slice(0, 420)}\nJe continue sur ce point ?`;
   }
 
-  if (/^(bonjour|bonsoir|salut|hey|hello|coucou)\b/.test(lower)) {
-    return "Salut. Je regarde les chiffres — une seconde si les données traînent, sinon je te dis tout de suite ce qui sort.";
+  if (/^(cc|bonjour|bonsoir|salut|hey|hello|coucou|hi)\b/.test(lower)) {
+    return "Salut. Ça va ?";
   }
   if (/^(ça va|ca va|comment ça va|comment ca va)\b/.test(lower)) {
-    return "Ça va. J'étais surtout sur les mouvements du jour — tu veux le point stock ou ventes en premier ?";
+    return "Ça va. Et de ton côté ?";
   }
   if (/qui\s+(es|êtes)|tu\s+es\s+qui|pr[eé]sente/.test(lower)) {
     return "A.V.A. — collègue métier All Vap's, mode interne. Pas vendeuse client.";
@@ -260,7 +260,7 @@ function localReply(params: {
 
   if (params.clarification) return params.clarification;
 
-  return "J'ai pas accroché. Le plus utile là : stock, commandes, ou une anomalie que j'ai sous les yeux ?";
+  return "J'ai pas accroché. Tu veux qu'on discute, ou que je regarde un point concret (stock, commande, chiffre) ?";
 }
 /**
  * Réponse conversationnelle Admin A.V.A.
@@ -336,26 +336,28 @@ export async function answerAdminAvaConversation(params: {
 
   let toolRun: Awaited<ReturnType<typeof runAdminToolPlan>> | null = null;
   const skipTools =
-    (intent.intent === "correction" && !intent.topicHint) ||
+    social.wantTools === false ||
+    social.move === "greeting" ||
+    social.move === "check_in" ||
+    social.move === "smalltalk" ||
+    social.move === "leave_work" ||
     social.move === "defer" ||
     social.move === "thanks" ||
     social.move === "identity" ||
+    (intent.intent === "correction" && !intent.topicHint) ||
     (social.move === "ask_opinion" && Boolean(social.resolvedSubject) && !social.wantTools);
 
-  if (!skipTools && social.wantTools !== false) {
+  if (!skipTools && social.wantTools) {
     try {
-      // Reprise / check-in / greeting → tour si pas d'outil déjà ciblé
+      // Reprise légère : tour seulement si le message le demande vraiment
       const toolMessage =
-        social.move === "greeting" ||
-        social.move === "check_in" ||
-        social.move === "resume" ||
-        social.move === "light_ack"
-          ? /stock|commande|rapport|anomal|vm|fidelatoo|catalogue/i.test(msg)
+        social.move === "resume" || social.move === "light_ack"
+          ? /stock|commande|rapport|anomal|vm|fidelatoo|catalogue|vente|tour/i.test(msg)
             ? msg
-            : "fais le tour"
-          : social.move === "disagree_prompt"
-            ? msg
-            : msg;
+            : social.resolvedSubject
+              ? `point sur ${social.resolvedSubject}`
+              : msg
+          : msg;
 
       toolRun = await runAdminToolPlan(toolMessage, {
         role: params.role,
@@ -370,11 +372,25 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
-  const workSignal = toolRun?.results.length
+  // En social pur : ignorer tout signal d'échec outil (ne doit pas polluer la discussion)
+  const rawWorkSignal = toolRun?.results.length
     ? humanizeToolResults(toolRun.results, true, intent.topicHint || social.resolvedSubject)
     : params.opsText
       ? params.opsText.split("\n").filter(Boolean).slice(0, 3).join(" ")
       : null;
+  const workSignal =
+    social.wantTools === false ||
+    social.move === "greeting" ||
+    social.move === "check_in" ||
+    social.move === "smalltalk" ||
+    social.move === "leave_work"
+      ? null
+      : rawWorkSignal &&
+          !/indisponible|pas pu v[eé]rifier|donn[eé]es m[eé]tier|prisma|timeout/i.test(rawWorkSignal)
+        ? rawWorkSignal
+        : social.wantTools
+          ? rawWorkSignal
+          : null;
 
   const stance =
     social.move === "ask_opinion" || social.move === "disagree_prompt"
