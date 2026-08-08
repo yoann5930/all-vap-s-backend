@@ -220,20 +220,20 @@ function loyaltyInfo(text: string): string | null {
   return "Programme fidélité All Vap's : cumulez des points à chaque achat. Consultez votre solde dans Mon compte → Fidélité.";
 }
 
-function savInfo(text: string): string | null {
-  if (!/sav|garantie|apr[èe]s.?vente|panne|r[ée]paration|retour/i.test(text.toLowerCase())) {
-    return null;
-  }
-  return "SAV All Vap's : diagnostic en boutique Hautmont et Le Quesnoy. Apportez votre facture — on teste et on vous oriente.";
+function isSavOrHardwareIntent(text: string): boolean {
+  return isHardwareAssistanceMessage(text) || /sav|garantie|panne|r[ée]paration/i.test(text);
+}
+
+function savBoutiqueHint(): string {
+  return "Je peux vous guider en diagnostic SAV étape par étape (sans facture pour démarrer). Décrivez le symptôme : fuite, Check Atomizer, goût brûlé, charge, allumage… Ou indiquez marque + modèle.";
 }
 
 function isHardwareAssistanceMessage(text: string): boolean {
-  // Import synchrone via require pattern avoided — simple heuristic before async import
   const t = text.toLowerCase();
-  if (/(e-?liquide|saveur|fruit[ée]|promos?)\b/.test(t) && !/(résistance|pod|box|fuit|allume|vapeur)/.test(t)) {
+  if (/(e-?liquide|saveur|fruit[ée]|promos?)\b/.test(t) && !/(résistance|pod|box|fuit|allume|vapeur|panne|sav)/.test(t)) {
     return false;
   }
-  return /(pod|box|kit|vape|vapoteuse|cigarette|fuit|glouglou|atomizer|résistance|resistance|cartouche|ne s['']?allume|ne marche|goût de brûlé|gout de brule|chauffe|batterie gonfl)/i.test(
+  return /(pod|box|kit|vape|vapoteuse|cigarette|appareil|mat[ée]riel|fuit|glouglou|atomizer|atomiseur|r[ée]sistance|resistance|cartouche|ne s['']?allume|ne marche|go[uû]t de br[uû]l|chauffe|batterie|panne|sav|garantie|check\s*atomizer|no\s*atomizer|ecran|écran|charge|tirage)/i.test(
     t
   );
 }
@@ -434,9 +434,50 @@ export async function chatAva(
     return { content: loyalty, suggestions: ["Voir la boutique", "Horaires boutique"], products: [] };
   }
 
-  const sav = savInfo(message);
-  if (sav && !isHardwareAssistanceMessage(message)) {
-    return { content: sav, suggestions: ["Nos magasins", "Voir le matériel"], products: [] };
+  const savHint =
+    /(?:^|\b)(?:sav|garantie|apr[èe]s.?vente)\b/i.test(message) &&
+    !isHardwareAssistanceMessage(message);
+  if (savHint) {
+    // Entrée SAV sans symptôme précis → ouvrir le diagnostic plutôt qu'un blurb facture
+    const { runHardwareDiagnostic } = await import("@/lib/ava/hardware-diagnostic");
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    const diag = runHardwareDiagnostic({
+      message: "J'ai besoin d'aide SAV matériel",
+      deviceContext: prevCtx.confirmedDevice ?? null,
+      diagnosticSession: prevCtx.diagnosticSession ?? null,
+    });
+    return {
+      content: `${savBoutiqueHint()} ${diag.content}`.trim(),
+      suggestions: diag.suggestions?.slice(0, 4) ?? [
+        "Ça fuit",
+        "Check Atomizer",
+        "Ne s'allume plus",
+        "Nos magasins",
+      ],
+      products: [],
+      speaking: true,
+      conversationContext: {
+        ...prevCtx,
+        diagnosticSession: diag.diagnosticSession,
+        confirmedDevice: diag.deviceContext,
+        lastQuestion: diag.diagnosticSession.lastQuestion,
+      },
+      hardwareAssistance: {
+        phase: diag.phase,
+        showMediaUploader: true,
+        showDeviceConfirmation: diag.showDeviceConfirmation,
+        photoButtons: diag.photoButtons ?? [],
+        candidates: diag.candidates.map((c) => ({
+          manufacturer: c.manufacturer,
+          model: c.model,
+          modelSlug: `${c.manufacturerSlug}-${c.modelSlug}`,
+          imageUrl: c.images.front ?? null,
+          distinguishingFeatures: c.distinguishingFeatures ?? [],
+        })),
+        deviceContext: diag.deviceContext,
+        diagnosticSession: diag.diagnosticSession,
+      },
+    };
   }
 
   // Mémoire métier vape (~15 ans) — culture / technique / législation / sécurité
@@ -518,7 +559,8 @@ export async function chatAva(
     const forceDiagnostic =
       Boolean(prevSession?.active) ||
       detectHardwareIntent(message).isHardware ||
-      /check\s*atomizer|drag\s*6|voopoo/i.test(message);
+      isSavOrHardwareIntent(message) ||
+      /check\s*atomizer|drag\s*6|voopoo|sav|panne/i.test(message);
 
     if (forceDiagnostic) {
       const diag = runHardwareDiagnostic({

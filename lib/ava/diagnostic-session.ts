@@ -120,10 +120,12 @@ export function interpretShortDiagnosticAnswer(
 } {
   const t = message.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").trim();
 
-  if (/^(oui|ok|d['’]accord|yes)$/i.test(t)) return { kind: "yes" };
+  if (/^(oui|ok|d['’]accord|yes|c['’]est\s+(bien\s+)?(ca|ça)|oui\s*,?\s*c['’]est)/i.test(t)) {
+    return { kind: "yes" };
+  }
   if (/^(non|nan|nope|no)$/i.test(t)) return { kind: "no" };
 
-  if (/toujours\s+(pareil|la)|message\s+encore|encore\s+l[aà]|toujours\s+check|ca\s+marche\s+pas|ça\s+marche\s+pas/.test(t)) {
+  if (/toujours\s+(pareil|la)|message\s+encore|encore\s+l[aà]|toujours\s+check|ca\s+marche\s+pas|ça\s+marche\s+pas|oui\s+encore|toujours\s+l[aà]/.test(t)) {
     return { kind: "still_same" };
   }
   if (/j['’]ai\s+nettoy|nettoye|nettoyé/.test(t)) return { kind: "cleaned" };

@@ -1,0 +1,324 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-08",
+  "note": "Mémoire SAV A.V.A. — problèmes → contrôles sans risque → solution client → orientation boutique. Jamais de facture / notice / démontage dangereux.",
+  "entries": [
+    {
+      "probleme_id": "no_power",
+      "aliases": ["ne sallume", "ne s allume", "pas dallumage", "mort", "eteint", "plus dallumage", "ne demarre", "ne démarre", "blackout"],
+      "controles_sans_risque": [
+        "Vérifiez le verrouillage : 5 clics rapides sur le bouton fire (beaucoup de box).",
+        "Laissez charger 10–15 minutes avec un câble USB adapté, puis réessayez d'allumer.",
+        "Testez un autre câble / port USB. L'appareil s'allume-t-il maintenant ?"
+      ],
+      "solution_client": "Si l'appareil reste éteint après charge et déverrouillage, passez en boutique pour un test batterie / carte — sans démonter.",
+      "solution_boutique": "Test alimentation, port charge, accu (si amovible), carte mère. Pas de réparation improvisée hors magasin.",
+      "questions_de_diagnostic": ["Voyez-vous un voyant à la charge ?", "Le modèle exact ?"]
+    },
+    {
+      "probleme_id": "no_charge",
+      "aliases": ["ne charge", "pas de charge", "charge plus", "usb", "cable", "câble", "port charge"],
+      "controles_sans_risque": [
+        "Changez de câble et de chargeur 5V adaptés (évitez les chargeurs trop rapides non prévus).",
+        "Nettoyez délicatement le port USB à sec s'il y a de la poussière.",
+        "Le voyant ou l'écran indique-t-il encore une charge ?"
+      ],
+      "solution_client": "Si aucun signe de charge avec un autre câble, orientation boutique pour tester le port.",
+      "solution_boutique": "Test port USB, câble, charge IC, accu.",
+      "questions_de_diagnostic": ["Y a-t-il un voyant à la branche ?", "Chauffe-t-il anormalement en charge ?"]
+    },
+    {
+      "probleme_id": "no_atomizer",
+      "aliases": ["check atomizer", "no atomizer", "atomizer", "atomiseur", "no atomiser", "check atomiser"],
+      "controles_sans_risque": [
+        "Retirez puis remettez fermement la cartouche / l'atomiseur.",
+        "Contrôlez que les contacts sont secs et propres (sans liquide).",
+        "Si la résistance est remplaçable, vérifiez qu'elle est bien vissée / clipsée.",
+        "Le message « Check Atomizer » / « No Atomizer » est-il toujours affiché ?"
+      ],
+      "solution_client": "Si le message persiste après reseat et contacts secs, photos + boutique pour test croisé cartouche.",
+      "solution_boutique": "Test contacts, pin 510 / plots, cartouche, résistance, box.",
+      "questions_de_diagnostic": ["Cartouche bien enfoncée ?", "Message exact à l'écran ?"]
+    },
+    {
+      "probleme_id": "coil_undetected",
+      "aliases": ["resistance non detectee", "résistance non détectée", "coil not", "no coil", "ohm", "0.00"],
+      "controles_sans_risque": [
+        "Vissez / clipssez la résistance jusqu'au bout sans forcer.",
+        "Vérifiez qu'elle est compatible avec la cartouche / le clearomiseur.",
+        "Essuyez les plots, remontez, puis dites-moi si elle est détectée."
+      ],
+      "solution_client": "Sans détection après remontage correct → boutique (test ohmètre / autre résistance compatible).",
+      "solution_boutique": "Mesure ohms, plot, pin, compatibilité.",
+      "questions_de_diagnostic": ["Quelle valeur d'ohm affichée ?", "Résistance neuve ou usée ?"]
+    },
+    {
+      "probleme_id": "leak",
+      "aliases": ["fuit", "fuite", "leak", "coule", "liquide qui sort", "mouille", "goutte", "glouglou"],
+      "controles_sans_risque": [
+        "Ne trop remplissez pas : laissez un petit espace d'air sous le bouchon.",
+        "Vérifiez que la cartouche / le clearomiseur est bien clipsé et que le joint n'est pas pincé.",
+        "Essuyez les contacts et le filetage, remontez à sec. La fuite continue-t-elle ?"
+      ],
+      "solution_client": "Fuite persistante → changer joint / cartouche ou passage boutique (pas de colle, pas de scotch sur le airflow).",
+      "solution_boutique": "Contrôle joint, overfill, fissure réservoir, orientation cartouche.",
+      "questions_de_diagnostic": ["Fuite par le haut, le bas ou l'airflow ?", "Trop rempli ?"]
+    },
+    {
+      "probleme_id": "burnt_taste",
+      "aliases": ["gout de brule", "goût de brûlé", "brule", "burnt", "dry hit", "coton brule"],
+      "controles_sans_risque": [
+        "Vérifiez qu'il reste du liquide et que la mèche est bien imprégnée.",
+        "Baissez un peu la puissance si l'appareil le permet.",
+        "Si la résistance est ancienne ou mal amorcée, remplacez-la ou ré-amorcez. Le goût brûlé est-il toujours là ?"
+      ],
+      "solution_client": "Goût brûlé = souvent résistance à changer. Si neuf et déjà brûlé → vérif puissance / amorçage en boutique.",
+      "solution_boutique": "Contrôle wattage, type de coil, amorçage, chaîne liquide.",
+      "questions_de_diagnostic": ["Résistance neuve ?", "Puissance réglée à combien ?"]
+    },
+    {
+      "probleme_id": "spitting",
+      "aliases": ["projection", "crache", "spit", "pop", "eclabousse", "liquide dans la bouche"],
+      "controles_sans_risque": [
+        "Essuyez l'embout et le chemin d'air ; évitez de trop remplir.",
+        "Baissez légèrement la puissance et tirez plus doucement.",
+        "Les projections diminuent-elles ?"
+      ],
+      "solution_client": "Si ça crache encore : résistance / liquide trop fluide / condensation — conseil en boutique.",
+      "solution_boutique": "Test airflow, coil, viscosité liquide, condensation.",
+      "questions_de_diagnostic": ["À chaque bouffée ?", "Liquide plutôt fluide ?"]
+    },
+    {
+      "probleme_id": "draw_tight_air",
+      "aliases": ["tirage", "airflow", "trop serre", "trop aerien", "aspire mal", "tire dur", "trop ouvert"],
+      "controles_sans_risque": [
+        "Réglez la bague d'airflow si présente (fermez un peu si trop aérien, ouvrez si trop serré).",
+        "Vérifiez qu'aucun résidu ne bouche l'embout ou les trous d'air.",
+        "Le tirage vous convient-il mieux ?"
+      ],
+      "solution_client": "Sans bague réglable : changer embout / cartouche ou essayer une autre résistance (MTL vs DL) en boutique.",
+      "solution_boutique": "Conseil MTL/DL, embouts, coils, airflow.",
+      "questions_de_diagnostic": ["Préférez-vous serré (MTL) ou aérien (DL) ?"]
+    },
+    {
+      "probleme_id": "button_stuck",
+      "aliases": ["bouton bloque", "bouton bloqué", "fire bloque", "bouton colle", "click"],
+      "controles_sans_risque": [
+        "Essuyez autour du bouton (liquide / poussière) sans démonter.",
+        "Si verrouillage 5 clics : déverrouillez puis retestez.",
+        "Le bouton répond-il à nouveau ?"
+      ],
+      "solution_client": "Bouton toujours bloqué → boutique (mécanisme), ne forcez pas avec un outil.",
+      "solution_boutique": "Nettoyage, test switch, éventuel SAV constructeur.",
+      "questions_de_diagnostic": ["Le bouton est-il enfoncé en permanence ?"]
+    },
+    {
+      "probleme_id": "black_screen",
+      "aliases": ["ecran noir", "écran noir", "ecran mort", "plus d ecran", "display"],
+      "controles_sans_risque": [
+        "Chargez quelques minutes puis allumez (5 clics souvent).",
+        "Vérifiez si l'appareil vape encore malgré l'écran noir (sécurité : arrêtez si chauffe anormale).",
+        "L'écran revient-il ?"
+      ],
+      "solution_client": "Écran noir persistant → diagnostic boutique (nappe / carte). Apportez l'appareil, pas besoin de facture pour un premier test.",
+      "solution_boutique": "Test écran, nappe, alimentation.",
+      "questions_de_diagnostic": ["Vape-t-il encore sans écran ?", "Choc récent ?"]
+    },
+    {
+      "probleme_id": "battery_heat",
+      "aliases": ["chauffe", "trop chaud", "brule la main", "surchauffe", "hot battery"],
+      "controles_sans_risque": [
+        "Arrêtez immédiatement d'utiliser l'appareil.",
+        "Débranchez la charge si en cours. Posez-le sur une surface non inflammable.",
+        "Ne remettez pas en charge et ne continuez pas à vapoter."
+      ],
+      "solution_client": "Surchauffe = arrêt immédiat + passage boutique / consigne sécurité. Ne démontez pas l'accu.",
+      "solution_boutique": "Protocol sécurité, isolation accu, test court-circuit.",
+      "questions_de_diagnostic": ["Chauffe en charge ou en vape ?", "Odeur / fumée ?"],
+      "arret_immediat_recommande": true,
+      "niveau_risque": "critique"
+    },
+    {
+      "probleme_id": "poor_autonomy",
+      "aliases": ["autonomie", "batterie faible", "se vide vite", "tient plus", "battery drain"],
+      "controles_sans_risque": [
+        "Baissez la puissance si réglable et vérifiez qu'une charge complète a bien été faite.",
+        "Évitez de laisser l'appareil à 0 % trop longtemps.",
+        "L'autonomie reste-t-elle anormalement courte ?"
+      ],
+      "solution_client": "Autonomie toujours mauvaise → test capacité / accu en boutique.",
+      "solution_boutique": "Test capacité, santé batterie, réglages wattage.",
+      "questions_de_diagnostic": ["Combien de temps tient-elle ?", "Puissance habituelle ?"]
+    },
+    {
+      "probleme_id": "pod_not_detected",
+      "aliases": ["cartouche non detectee", "pod non detecte", "pod not", "cartouche reconnue"],
+      "controles_sans_risque": [
+        "Retirez et remettez la cartouche jusqu'au clic.",
+        "Essuyez les plots de contact (secs).",
+        "La cartouche est-elle maintenant détectée ?"
+      ],
+      "solution_client": "Si non détectée : autre cartouche compatible ou boutique.",
+      "solution_boutique": "Test plots, firmware éventuel, cartouche.",
+      "questions_de_diagnostic": ["Cartouche d'origine / compatible ?"]
+    },
+    {
+      "probleme_id": "coil_burns_fast",
+      "aliases": ["grille vite", "resistance grille", "coil life", "dure peu", "brule trop vite"],
+      "controles_sans_risque": [
+        "Ne montez pas trop haut en puissance pour ce type de résistance.",
+        "Évitez les liquides très sucrés en continu ; laissez la mèche s'imprégner.",
+        "Combien de jours tient environ votre résistance ?"
+      ],
+      "solution_client": "Usure rapide = souvent puissance / liquide. Conseil en boutique pour le bon ohm.",
+      "solution_boutique": "Matching coil / liquide / wattage.",
+      "questions_de_diagnostic": ["Liquide sucré ?", "Wattage ?"]
+    },
+    {
+      "probleme_id": "510_contact",
+      "aliases": ["510", "faux contact", "pin", "atomiseur 510", "filetage"],
+      "controles_sans_risque": [
+        "Vissez l'atomiseur correctement sans trop serrer.",
+        "Vérifiez que le pin 510 de l'atomiseur n'est pas trop rentré / sorti (réglable parfois).",
+        "Le contact est-il stable maintenant ?"
+      ],
+      "solution_client": "Faux contact persistant → boutique (réglage pin, test autre atomiseur).",
+      "solution_boutique": "Réglage pin 510, test continuité.",
+      "questions_de_diagnostic": ["Atomiseur reconstructible ou clearo ?"]
+    },
+    {
+      "probleme_id": "power_mode_error",
+      "aliases": ["mode", "puissance", "watt", "température", "temp control", "erreur mode"],
+      "controles_sans_risque": [
+        "Repassez en mode Wattage / Power classique si vous étiez en TC / Bypass.",
+        "Baissez la puissance à une valeur sûre pour votre résistance.",
+        "Le message d'erreur a-t-il disparu ?"
+      ],
+      "solution_client": "Si erreur de mode persiste : reset soft (éteint/allumé) puis boutique.",
+      "solution_boutique": "Paramétrage modes, compatibilité coil TC.",
+      "questions_de_diagnostic": ["Quel mode affiché ?", "Message exact ?"]
+    },
+    {
+      "probleme_id": "device_lock",
+      "aliases": ["verrouille", "verrouillage", "locked", "key lock", "cadenas"],
+      "controles_sans_risque": [
+        "Faites 5 clics rapides sur le fire pour déverrouiller (standard fréquent).",
+        "Certains pods se verrouillent par glissière ou bouton latéral — vérifiez.",
+        "L'appareil se déverrouille-t-il ?"
+      ],
+      "solution_client": "Toujours verrouillé après 5 clics → notice modèle en boutique (pas de démontage).",
+      "solution_boutique": "Procédure unlock modèle, test bouton.",
+      "questions_de_diagnostic": ["Voyez-vous une icône cadenas ?"]
+    },
+    {
+      "probleme_id": "firmware",
+      "aliases": ["firmware", "mise a jour", "update", "logiciel", "soft"],
+      "controles_sans_risque": [
+        "Les mises à jour firmware ne se font qu'avec l'outil officiel constructeur — pas depuis A.V.A.",
+        "Si l'appareil fonctionne, inutile de forcer une MAJ.",
+        "Souhaitez-vous qu'on vérifie d'abord un symptôme concret (écran, charge, message) ?"
+      ],
+      "solution_client": "MAJ uniquement via PC / outil constructeur ou boutique équipée — A.V.A. ne flashe pas.",
+      "solution_boutique": "MAJ officielle si disponible et nécessaire.",
+      "questions_de_diagnostic": ["Quel symptôme vous fait penser au firmware ?"]
+    },
+    {
+      "probleme_id": "error_code",
+      "aliases": ["code erreur", "voyant", "clignote", "error", "alarme", "message ecran"],
+      "controles_sans_risque": [
+        "Notez le message exact ou le nombre de clignotements du voyant.",
+        "Retirez/remettez la cartouche et vérifiez les contacts secs.",
+        "Le message / voyant est-il toujours là ?"
+      ],
+      "solution_client": "Sans code reconnu avec certitude, on avance par contrôles sûrs puis boutique — A.V.A. n'invente pas de code.",
+      "solution_boutique": "Lecture code notice officielle, test matériel.",
+      "questions_de_diagnostic": ["Quel texte exact à l'écran ?", "Combien de clignotements ?"]
+    },
+    {
+      "probleme_id": "fill_issue",
+      "aliases": ["remplissage", "remplir", "bouchon", "fill", "trop plein", "pas de liquide"],
+      "controles_sans_risque": [
+        "Remplissez par l'orifice prévu, sans dépasser le max ; laissez un peu d'air.",
+        "Refermez bien le bouchon / silicone.",
+        "Y a-t-il encore une fuite ou un manque de liquide après ça ?"
+      ],
+      "solution_client": "Difficulté de remplissage persistante → démonstration en boutique.",
+      "solution_boutique": "Geste remplissage, joint, cartouche adaptée.",
+      "questions_de_diagnostic": ["Pod latéral, haut, ou clearo ?"]
+    },
+    {
+      "probleme_id": "condensation",
+      "aliases": ["condensation", "eau dans", "embout mouille", "goutte embout"],
+      "controles_sans_risque": [
+        "Essuyez embout et chemin d'air régulièrement.",
+        "Évitez les chaînes de bouffées très longues sans pause.",
+        "La condensation diminue-t-elle ?"
+      ],
+      "solution_client": "Condensation normale en partie ; excessive → airflow / coil / boutique.",
+      "solution_boutique": "Conseil tirage, coil, nettoyage.",
+      "questions_de_diagnostic": ["Beaucoup de liquide dans l'embout ?"]
+    },
+    {
+      "probleme_id": "pod_connection",
+      "aliases": ["connexion cartouche", "mal enclenchee", "pas cliquée", "pod connection"],
+      "controles_sans_risque": [
+        "Enfoncez la cartouche jusqu'au clic / jusqu'à l'affleurement.",
+        "Vérifiez le sens (certains pods ont un sens).",
+        "La connexion est-elle stable ?"
+      ],
+      "solution_client": "Si la cartouche ne tient pas : autre cartouche ou contrôle logement en boutique.",
+      "solution_boutique": "Logement, clips, plots.",
+      "questions_de_diagnostic": ["Se détache-t-elle toute seule ?"]
+    },
+    {
+      "probleme_id": "usb_cable",
+      "aliases": ["cable usb", "câble usb", "port usb", "type c", "chargeur"],
+      "controles_sans_risque": [
+        "Testez un autre câble USB data/charge connu.",
+        "Évitez les hubs défectueux ; branchez en direct.",
+        "La charge reprend-elle ?"
+      ],
+      "solution_client": "Si seul le port de l'appareil est en cause → boutique.",
+      "solution_boutique": "Test câble vs port appareil.",
+      "questions_de_diagnostic": ["Le câble charge-t-il un autre appareil ?"]
+    },
+    {
+      "probleme_id": "wattage_setting",
+      "aliases": ["reglage puissance", "trop de watt", "watts", "trop fort", "trop faible"],
+      "controles_sans_risque": [
+        "Reportez-vous à la plage indiquée sur la résistance (ex. 0.8 Ω → plage basse).",
+        "Montez ou baissez progressivement, pas d'un coup.",
+        "La vape est-elle plus confortable ?"
+      ],
+      "solution_client": "Sans plage connue : on confirmera modèle + résistance en boutique / photo.",
+      "solution_boutique": "Matching ohm / watt / profil client.",
+      "questions_de_diagnostic": ["Quelle résistance (ohm) ?", "Watts actuels ?"]
+    },
+    {
+      "probleme_id": "incompatibility",
+      "aliases": ["incompatible", "pas compatible", "mauvaise resistance", "pas la bonne cartouche"],
+      "controles_sans_risque": [
+        "Confirmez marque + modèle de la box et de la cartouche / clearo.",
+        "Ne forcez jamais une pièce qui ne s'adapte pas.",
+        "Avez-vous la référence exacte de la résistance / cartouche ?"
+      ],
+      "solution_client": "A.V.A. ne valide une compatibilité que si le modèle est confirmé — sinon orientation boutique.",
+      "solution_boutique": "Vérif compatibilité catalogue / constructeur.",
+      "questions_de_diagnostic": ["Modèle box + référence cartouche ?"]
+    },
+    {
+      "probleme_id": "swollen_battery",
+      "aliases": ["batterie gonflee", "batterie gonflée", "accu gonfle", "swollen", "deformee", "ventre"],
+      "controles_sans_risque": [
+        "Arrêtez immédiatement. Ne chargez plus. Ne vapotez plus.",
+        "Isolez l'appareil / l'accu (sac si possible), loin de la chaleur.",
+        "Ne percez pas, ne jetez pas avec les ordures ménagères."
+      ],
+      "solution_client": "Batterie gonflée = danger. Apportez en boutique pour consigne de sécurité / recyclage — sans démonter.",
+      "solution_boutique": "Protocole sécurité, isolation, filière recyclage.",
+      "questions_de_diagnostic": ["L'appareil est-il déjà hors tension ?"],
+      "arret_immediat_recommande": true,
+      "niveau_risque": "critique"
+    }
+  ]
+}

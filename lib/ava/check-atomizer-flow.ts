@@ -243,5 +243,19 @@ export function progressCheckAtomizer(
   }
 
   // unknown — rester sur l'étape, reformuler
+  if (step === "CONFIRM_CONTEXT" && !s.manufacturer) {
+    return {
+      content:
+        "Pour démarrer, confirmez le modèle (ex. « Oui, c'est la Drag 6 ») ou indiquez marque + modèle.",
+      session: touchSession({
+        ...s,
+        lastQuestion: "Confirmez-vous le modèle ?",
+      }),
+      showMediaUploader: true,
+      photoButtons: CHECK_ATOMIZER_PHOTO_BUTTONS,
+      suggestions: ["Oui, c'est la Drag 6", "Non, autre modèle", "Ajouter une photo"],
+    };
+  }
+
   return replyForCheckAtomizerStep(s);
 }

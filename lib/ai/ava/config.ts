@@ -28,7 +28,8 @@ export const AVA_VOICE_CONFIG = {
   postTtsEchoDelayMs: 500,
   /** Interruption client pendant TTS — désactivé par défaut (faux positifs HP) */
   bargeInEnabled: false,
-  maxRecognitionRestarts: 8,
+  /** Relances Web Speech avant soft-reset (Chrome coupe souvent onend) */
+  maxRecognitionRestarts: 40,
   recognitionRestartBaseMs: 400,
 } as const;
 

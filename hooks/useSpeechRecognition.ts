@@ -192,6 +192,9 @@ export function useSpeechRecognition(
 
       const hasSpeech = Boolean(finalChunk.trim() || interim.trim() || bufferRef.current);
       if (hasSpeech) {
+        // Mode continu boutique : chaque parole remet le compteur de relances
+        // sinon Chrome coupe l'écoute après ~8 onend naturels.
+        restartCountRef.current = 0;
         setState((s) => ({
           ...s,
           interimTranscript: interim.trim(),
@@ -257,12 +260,23 @@ export function useSpeechRecognition(
       if (!auto) return;
 
       if (restartCountRef.current >= AVA_VOICE_CONFIG.maxRecognitionRestarts) {
+        // Soft-reset : ne pas tuer le mode écoute en boutique (relance après pause)
+        restartCountRef.current = 0;
         setState((s) => ({
           ...s,
           error:
-            "L'écoute s'est interrompue. Vous pouvez m'écrire, ou AVA reprendra si le micro est autorisé.",
+            s.error ||
+            "Je réactive l'écoute… Vous pouvez aussi m'écrire en dessous.",
         }));
-        wantListeningRef.current = false;
+        restartTimerRef.current = setTimeout(() => {
+          if (!wantListeningRef.current || !recognitionRef.current) return;
+          try {
+            recognitionRef.current.start();
+            setState((s) => ({ ...s, isListening: true, error: null }));
+          } catch {
+            /* déjà démarré */
+          }
+        }, 1500);
         return;
       }
 

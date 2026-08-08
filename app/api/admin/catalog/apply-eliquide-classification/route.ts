@@ -87,14 +87,27 @@ export async function POST(request: NextRequest) {
           },
         },
       });
-      const rangeId = ice[0]?.id;
-      const sample = rangeId
-        ? await prisma.product.findMany({
+      const range =
+        [...ice].sort((a, b) => b._count.products - a._count.products)[0] ??
+        null;
+      let pageQueryCount = 0;
+      let pageQueryError: string | null = null;
+      let filteredCount = 0;
+      let sampleNames: string[] = [];
+      if (range) {
+        try {
+          const productsRaw = await prisma.product.findMany({
             where: {
-              rangeId,
               visibleOnline: true,
               isActive: true,
               catalogStatus: { in: ["valide", "actif"] },
+              rangeId: range.id,
+              NOT: {
+                OR: [
+                  { productFamily: "ICE_COOL_X" },
+                  { name: { contains: "Ice Cool X", mode: "insensitive" } },
+                ],
+              },
             },
             include: {
               manufacturer: { select: { id: true, slug: true } },
@@ -106,37 +119,34 @@ export async function POST(request: NextRequest) {
                 },
               },
             },
-            take: 8,
-          })
-        : [];
-      const { filterProductsZeroMix } = await import(
-        "@/lib/catalog/zero-mix-gate"
-      );
-      const zm = filterProductsZeroMix(sample);
+            take: 50,
+          });
+          pageQueryCount = productsRaw.length;
+          sampleNames = productsRaw.slice(0, 5).map((p) => p.name);
+          filteredCount = productsRaw.filter((p) => {
+            const productMfr = p.manufacturerId || p.manufacturer?.id || null;
+            const rangeMfr =
+              p.rangeRef?.manufacturerId ||
+              p.rangeRef?.manufacturer?.id ||
+              null;
+            if (!productMfr) return false;
+            if (!p.rangeId && !p.rangeRef?.id) return false;
+            if (productMfr && rangeMfr && productMfr !== rangeMfr) return false;
+            return true;
+          }).length;
+        } catch (e) {
+          pageQueryError = e instanceof Error ? e.message : String(e);
+        }
+      }
       return NextResponse.json({
         ok: true,
         diag: true,
         iceCoolRanges: ice,
-        zeroMix: {
-          ok: zm.ok.length,
-          rejected: zm.rejected.map((r) => ({
-            name: r.product.name,
-            reasons: r.reasons,
-            visibleOnline: r.product.visibleOnline,
-          })),
-        },
-        sample: sample.map((p) => ({
-          id: p.id,
-          name: p.name,
-          manufacturerId: p.manufacturerId,
-          rangeId: p.rangeId,
-          imageUrl: p.imageUrl,
-          imageStatus: p.imageStatus,
-          visibleOnline: p.visibleOnline,
-          classificationStatus: (
-            p as { classificationStatus?: string }
-          ).classificationStatus,
-        })),
+        pickedRangeId: range?.id ?? null,
+        pageQueryCount,
+        filteredCount,
+        pageQueryError,
+        sampleNames,
         stocksTouched: false,
       });
     }

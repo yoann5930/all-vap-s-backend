@@ -52,6 +52,10 @@ export function getProblemLibrary(): AvaProblemTemplate[] {
 }
 
 export function findProblemsBySymptoms(message: string): AvaProblemTemplate[] {
+  // Import dynamique évite cycle sav-memory ↔ problems-knowledge
+  const { matchSavProblems } = require("@/lib/ava/sav-memory") as typeof import("@/lib/ava/sav-memory");
+  const hits = matchSavProblems(message, 5);
+  if (hits.length) return hits;
   const lib = getProblemLibrary();
   const n = message
     .toLowerCase()

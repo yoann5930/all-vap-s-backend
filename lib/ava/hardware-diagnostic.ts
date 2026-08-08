@@ -4,7 +4,11 @@
  */
 import { checkHardwareSafety } from "@/lib/ava/hardware-safety";
 import { detectHardwareIntent } from "@/lib/ava/hardware-intent-detector";
-import { identifyDeviceFromText } from "@/lib/ava/device-identification";
+import {
+  identifyDeviceFromText,
+  findDeviceBySlug,
+  buildConfirmedContext,
+} from "@/lib/ava/device-identification";
 import { matchDeviceError } from "@/lib/ava/device-error-messages";
 import {
   isDeviceConfirmed,
@@ -29,9 +33,13 @@ import {
   startCheckAtomizerSession,
   CHECK_ATOMIZER_PHOTO_BUTTONS,
 } from "@/lib/ava/check-atomizer-flow";
+import {
+  detectSymptomKey,
+  progressGenericDiagnostic,
+  replyForGenericStep,
+  startGenericSession,
+} from "@/lib/ava/generic-diagnostic-flow";
 import { recognizeDeviceFromVisualText } from "@/lib/ava/visual-recognition";
-import { findDeviceBySlug } from "@/lib/ava/device-support";
-
 export type DiagnosticPhase =
   | "safety_stop"
   | "need_device"
@@ -205,7 +213,7 @@ export function runHardwareDiagnostic(input: {
       detectCheckAtomizer(message) ||
       session.issueCode === "CHECK_ATOMIZER" ||
       Boolean(matchDeviceError(message)?.display === "Check Atomizer");
-    if (hasCheck || session.active) {
+    if (hasCheck) {
       session = startCheckAtomizerSession({
         manufacturer: correction.manufacturer,
         model: correction.model,
@@ -227,20 +235,76 @@ export function runHardwareDiagnostic(input: {
         suggestions: reply.suggestions,
       });
     }
-    session = {
-      ...session,
-      active: true,
+    const prevSymptom =
+      (session.issueCode?.startsWith("GENERIC:")
+        ? session.issueCode.slice("GENERIC:".length)
+        : null) ||
+      session.confirmedObservations
+        .find((o) => o.startsWith("symptom:"))
+        ?.replace("symptom:", "") ||
+      (detectSymptomKey(message) !== "generic" ? detectSymptomKey(message) : null);
+    session = startGenericSession({
       manufacturer: correction.manufacturer,
       model: correction.model,
-      identifiedDevice: correction.identifiedDevice,
+      symptomKey: prevSymptom,
       confirmedByUser: true,
-      confidence: 0.95,
-      updatedAt: new Date().toISOString(),
-    };
+    });
+    const gen = replyForGenericStep(session);
+    return toReply({
+      phase: "step",
+      content: humanSellerPolish(gen.content),
+      showMediaUploader: gen.showMediaUploader,
+      showDeviceConfirmation: false,
+      candidates: [],
+      deviceContext,
+      diagnosticSession: gen.session,
+      assistanceMode: true,
+      photoButtons: gen.photoButtons,
+      suggestions: gen.suggestions,
+    });
   }
 
   // Session diagnostic active : priorité absolue (même si message court / « atomiseur »)
   if (session.active) {
+    // Confirmation modèle pendant Check Atomizer (oui / Drag 6)
+    if (
+      session.issueCode === "CHECK_ATOMIZER" &&
+      session.currentStep === "CONFIRM_CONTEXT" &&
+      !session.manufacturer
+    ) {
+      const shortConfirm = interpretShortDiagnosticAnswer(message, session.lastQuestion);
+      if (shortConfirm.kind === "yes" || parseUserDeviceCorrection(message)) {
+        const corr = parseUserDeviceCorrection(message);
+        session = startCheckAtomizerSession({
+          manufacturer: corr?.manufacturer || "VOOPOO",
+          model: corr?.model || "DRAG 6",
+          identifiedDevice: corr?.identifiedDevice || "VOOPOO_DRAG_6",
+          confidence: 0.9,
+          confirmedByUser: true,
+        });
+        deviceContext = {
+          manufacturer: session.manufacturer!,
+          model: session.model!,
+          confirmationMethod: "USER_EXPLICIT_TEXT",
+          confirmedAt: new Date().toISOString(),
+          confidence: 0.9,
+        };
+        const reply = replyForCheckAtomizerStep(session);
+        return toReply({
+          phase: "step",
+          content: humanSellerPolish(reply.content),
+          showMediaUploader: reply.showMediaUploader,
+          showDeviceConfirmation: false,
+          candidates: [],
+          deviceContext,
+          diagnosticSession: reply.session,
+          assistanceMode: true,
+          photoButtons: reply.photoButtons,
+          suggestions: reply.suggestions,
+        });
+      }
+    }
+
     if (session.issueCode === "CHECK_ATOMIZER") {
       const short = interpretShortDiagnosticAnswer(message, session.lastQuestion);
       const progressed = progressCheckAtomizer(session, short);
@@ -257,17 +321,18 @@ export function runHardwareDiagnostic(input: {
         suggestions: progressed.suggestions,
       });
     }
-    // Diagnostic générique actif
-    const err = matchDeviceError(message);
-    if (err?.display === "Check Atomizer" && deviceContext) {
+
+    // Passage Check Atomizer si le message l'indique pendant un diagnostic générique
+    const errActive = matchDeviceError(message);
+    if (errActive?.display === "Check Atomizer" && (deviceContext || session.manufacturer)) {
+      const mfr = deviceContext?.manufacturer || session.manufacturer || "VOOPOO";
+      const mdl = deviceContext?.model || session.model || "DRAG 6";
       session = startCheckAtomizerSession({
-        manufacturer: deviceContext.manufacturer,
-        model: deviceContext.model,
-        identifiedDevice: `${deviceContext.manufacturer}_${deviceContext.model}`
-          .toUpperCase()
-          .replace(/\s+/g, "_"),
-        confidence: deviceContext.confidence,
-        confirmedByUser: session.confirmedByUser,
+        manufacturer: mfr,
+        model: mdl,
+        identifiedDevice: `${mfr}_${mdl}`.toUpperCase().replace(/\s+/g, "_"),
+        confidence: deviceContext?.confidence ?? session.confidence ?? 0.8,
+        confirmedByUser: session.confirmedByUser || Boolean(deviceContext),
       });
       const reply = replyForCheckAtomizerStep(session);
       return toReply({
@@ -283,23 +348,79 @@ export function runHardwareDiagnostic(input: {
         suggestions: reply.suggestions,
       });
     }
+
+    // Identification / confirmation modèle pendant session générique
+    const idWhileActive = identifyDeviceFromText(message);
+    if (
+      (session.currentStep === "NEED_DEVICE" || session.currentStep === "CONFIRM_DEVICE") &&
+      idWhileActive.candidates.length === 1
+    ) {
+      const device = idWhileActive.candidates[0];
+      deviceContext = buildConfirmedContext(device, "USER_EXPLICIT_TEXT");
+      session = {
+        ...session,
+        manufacturer: device.manufacturer,
+        model: device.model,
+        identifiedDevice: `${device.manufacturer}_${device.model}`.toUpperCase().replace(/\s+/g, "_"),
+        confirmedByUser: /oui|c['’]est (bien |ça|ca)|confirm/i.test(message) || Boolean(parseUserDeviceCorrection(message)),
+        confidence: 0.9,
+        currentStep: session.confirmedObservations.some((o) => o.startsWith("symptom:"))
+          ? "SAFE_CHECK"
+          : /oui|c['’]est/i.test(message)
+            ? "ASK_SYMPTOM"
+            : "CONFIRM_DEVICE",
+        updatedAt: new Date().toISOString(),
+      };
+      if (detectCheckAtomizer(message) || errActive?.display === "Check Atomizer") {
+        session = startCheckAtomizerSession({
+          manufacturer: device.manufacturer,
+          model: device.model,
+          identifiedDevice: session.identifiedDevice!,
+          confidence: 0.9,
+          confirmedByUser: true,
+        });
+        const reply = replyForCheckAtomizerStep(session);
+        return toReply({
+          phase: "step",
+          content: humanSellerPolish(reply.content),
+          showMediaUploader: true,
+          showDeviceConfirmation: false,
+          candidates: [],
+          deviceContext,
+          diagnosticSession: reply.session,
+          assistanceMode: true,
+          photoButtons: reply.photoButtons,
+          suggestions: reply.suggestions,
+        });
+      }
+      const gen = replyForGenericStep(session);
+      return toReply({
+        phase: "step",
+        content: humanSellerPolish(gen.content),
+        showMediaUploader: gen.showMediaUploader,
+        showDeviceConfirmation: gen.showDeviceConfirmation,
+        candidates: idWhileActive.candidates,
+        deviceContext,
+        diagnosticSession: gen.session,
+        assistanceMode: true,
+        photoButtons: gen.photoButtons,
+        suggestions: gen.suggestions,
+      });
+    }
+
+    const short = interpretShortDiagnosticAnswer(message, session.lastQuestion);
+    const progressed = progressGenericDiagnostic(session, short, message);
     return toReply({
       phase: "step",
-      content: humanSellerPolish(
-        session.lastQuestion ||
-          `${pickPhrase("reassure", message.length)} On reste sur le diagnostic de votre ${session.manufacturer || ""} ${session.model || "appareil"}. ${message.length < 8 ? "Précisez ce que vous constatez, ou ajoutez une photo." : "Que constatez-vous maintenant ?"}`
-      ),
-      showMediaUploader: true,
-      showDeviceConfirmation: false,
+      content: humanSellerPolish(progressed.content),
+      showMediaUploader: progressed.showMediaUploader,
+      showDeviceConfirmation: progressed.showDeviceConfirmation,
       candidates: [],
       deviceContext,
-      diagnosticSession: {
-        ...session,
-        lastQuestion: session.lastQuestion,
-        updatedAt: new Date().toISOString(),
-      },
+      diagnosticSession: progressed.session,
       assistanceMode: true,
-      photoButtons: CHECK_ATOMIZER_PHOTO_BUTTONS,
+      photoButtons: progressed.photoButtons,
+      suggestions: progressed.suggestions,
     });
   }
 
@@ -396,12 +517,48 @@ export function runHardwareDiagnostic(input: {
     const candidates = filtered.length ? filtered : id.candidates;
     const intro = pickPhrase("ack", message.length);
     const mediaHint = pickPhrase("invite_media", message.length + 1);
-    session = {
-      ...session,
-      active: true,
-      issueCode: err?.display === "Check Atomizer" ? "CHECK_ATOMIZER" : session.issueCode,
-      updatedAt: new Date().toISOString(),
-    };
+    const isCheck = err?.display === "Check Atomizer" || detectCheckAtomizer(message);
+    const symptomKey = detectSymptomKey(message);
+
+    if (isCheck) {
+      session = {
+        ...emptyDiagnosticSession(),
+        active: true,
+        issueCode: "CHECK_ATOMIZER",
+        currentStep: "CONFIRM_CONTEXT",
+        lastQuestion: "Confirmez-vous le modèle de votre appareil ?",
+        confirmedObservations: [],
+        updatedAt: new Date().toISOString(),
+      };
+    } else {
+      session = startGenericSession({
+        manufacturer: candidates.length === 1 ? candidates[0].manufacturer : null,
+        model: candidates.length === 1 ? candidates[0].model : null,
+        symptomKey,
+        confirmedByUser: false,
+      });
+      if (candidates.length === 1) {
+        session = { ...session, currentStep: "CONFIRM_DEVICE", confidence: 0.7 };
+      }
+      const gen = replyForGenericStep(session);
+      return toReply({
+        phase: candidates.length ? "need_confirm_device" : "need_media",
+        content: humanSellerPolish(
+          `${intro} ${id.message} ${mediaHint}${
+            err ? ` J'ai noté « ${err.display} » — on confirme d'abord le modèle.` : ""
+          } ${gen.content}`
+        ),
+        showMediaUploader: true,
+        showDeviceConfirmation: candidates.length > 0,
+        candidates,
+        deviceContext: null,
+        diagnosticSession: gen.session,
+        assistanceMode: true,
+        photoButtons: gen.photoButtons,
+        suggestions: gen.suggestions,
+      });
+    }
+
     return toReply({
       phase: id.status === "unknown" ? "need_media" : "need_confirm_device",
       content: humanSellerPolish(
@@ -415,6 +572,7 @@ export function runHardwareDiagnostic(input: {
       deviceContext: null,
       diagnosticSession: session,
       assistanceMode: true,
+      suggestions: ["Oui, c'est ça", "Ajouter une photo", "C'est une Drag 6"],
     });
   }
 
@@ -476,31 +634,46 @@ export function runHardwareDiagnostic(input: {
         suggestions: reply.suggestions,
       });
     }
-    session = { ...session, active: true, updatedAt: new Date().toISOString() };
-    const first = err.safeChecks[0] ?? "On vérifie ensemble.";
+    session = startGenericSession({
+      manufacturer: deviceContext.manufacturer,
+      model: deviceContext.model,
+      symptomKey: detectSymptomKey(message),
+      confirmedByUser: session.confirmedByUser,
+    });
+    const gen = replyForGenericStep(session);
     return toReply({
       phase: "step",
-      content: humanSellerPolish(`${err.display} : ${err.meaning} Première vérification : ${first}`),
-      showMediaUploader: true,
+      content: humanSellerPolish(
+        `${err.display} : ${err.meaning} ${gen.content}`
+      ),
+      showMediaUploader: gen.showMediaUploader,
       showDeviceConfirmation: false,
       candidates: [],
       deviceContext,
-      diagnosticSession: session,
+      diagnosticSession: gen.session,
       assistanceMode: true,
+      photoButtons: gen.photoButtons,
+      suggestions: gen.suggestions,
     });
   }
 
-  session = { ...session, active: true, updatedAt: new Date().toISOString() };
+  session = startGenericSession({
+    manufacturer: deviceContext.manufacturer,
+    model: deviceContext.model,
+    symptomKey: detectSymptomKey(message),
+    confirmedByUser: true,
+  });
+  const gen = replyForGenericStep(session);
   return toReply({
     phase: "step",
-    content: humanSellerPolish(
-      `${pickPhrase("reassure", message.length)} Quel est le symptôme principal en une phrase ?`
-    ),
-    showMediaUploader: true,
+    content: humanSellerPolish(gen.content),
+    showMediaUploader: gen.showMediaUploader,
     showDeviceConfirmation: false,
     candidates: [],
     deviceContext,
-    diagnosticSession: session,
+    diagnosticSession: gen.session,
     assistanceMode: true,
+    photoButtons: gen.photoButtons,
+    suggestions: gen.suggestions,
   });
 }

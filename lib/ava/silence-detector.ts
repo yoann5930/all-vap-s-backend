@@ -11,10 +11,10 @@ export const SILENCE_HINTS = [
 
 /** Délai avant 1ʳᵉ invitation texte (ms) */
 export const SILENCE_FIRST_HINT_MS = 8000;
-/** Délai avant ouverture auto du clavier (ms) */
-export const SILENCE_AUTO_TEXT_MS = 16000;
-/** Max relances vocales avant bascule texte forcée */
-export const MAX_VOICE_PROMPTS = 2;
+/** Délai avant ouverture auto du clavier (ms) — n'arrête pas le micro */
+export const SILENCE_AUTO_TEXT_MS = 28000;
+/** Max relances vocales avant suggestion texte (écoute reste active) */
+export const MAX_VOICE_PROMPTS = 3;
 
 export function pickSilenceHint(index: number): string {
   return SILENCE_HINTS[Math.abs(index) % SILENCE_HINTS.length];
