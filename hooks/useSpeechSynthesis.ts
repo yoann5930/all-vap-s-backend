@@ -67,8 +67,21 @@ function speakUtterance(text: string, voice: SpeechSynthesisVoice | null): Promi
     utterance.volume = 1;
     if (voice) utterance.voice = voice;
 
-    utterance.onend = () => resolve();
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(watchdog);
+      resolve();
+    };
+    // Chrome peut ne jamais émettre onend → débloque le dialogue
+    const watchdog = window.setTimeout(done, Math.min(20000, 2500 + text.length * 70));
+
+    utterance.onend = () => done();
     utterance.onerror = (ev) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(watchdog);
       if (ev.error === "canceled" || ev.error === "interrupted") {
         resolve();
         return;

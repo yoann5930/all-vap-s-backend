@@ -187,17 +187,17 @@ export function ImmersiveAvaScreen({
     }
   }, [voice.ready, voice.micPermission, voice.voiceState, voice.blocked]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Réponses A.V.A. → historique UI (session inchangée)
+  // Réponses A.V.A. → historique UI (texte complet, pas le sous-titre tronqué)
   useEffect(() => {
-    const sub = voice.subtitle?.trim();
-    if (!sub || sub === lastAvaSubtitleRef.current) return;
-    lastAvaSubtitleRef.current = sub;
+    const full = (voice.lastReplyText || voice.subtitle || "").trim();
+    if (!full || full === lastAvaSubtitleRef.current) return;
+    lastAvaSubtitleRef.current = full;
     setChatMessages((prev) => {
       const last = prev[prev.length - 1];
-      if (last?.role === "ava" && last.text === sub) return prev;
-      return [...prev, { id: nextChatId(), role: "ava", text: sub }];
+      if (last?.role === "ava" && last.text === full) return prev;
+      return [...prev, { id: nextChatId(), role: "ava", text: full }];
     });
-  }, [voice.subtitle]);
+  }, [voice.lastReplyText, voice.subtitle]);
 
   useEffect(() => {
     if (
@@ -231,11 +231,20 @@ export function ImmersiveAvaScreen({
       setTextDraft(undefined);
       setTextSending(true);
       try {
+        const textFirst =
+          continuous.textPanelForced ||
+          continuous.a11y.pauseListening ||
+          voice.micPermission !== "granted";
         const resume =
+          !textFirst &&
           !continuous.a11y.pauseListening &&
           voice.canListen &&
           voice.micPermission === "granted";
-        await voice.sendMessage(text, { speak: true, resumeListening: resume });
+        // Mode écrit : ne pas attendre la synthèse vocale (sinon « réfléchit… » infini)
+        await voice.sendMessage(text, {
+          speak: !textFirst,
+          resumeListening: resume,
+        });
       } finally {
         setTextSending(false);
       }

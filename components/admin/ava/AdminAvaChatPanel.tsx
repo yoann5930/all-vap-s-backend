@@ -198,7 +198,7 @@ function speakSafe(text: string): Promise<void> {
       if (sawSpeaking) finish();
     }, 200);
     // Garde-fou absolu (évite hang infini)
-    setTimeout(finish, 90_000);
+    setTimeout(finish, 12_000);
   });
 }
 

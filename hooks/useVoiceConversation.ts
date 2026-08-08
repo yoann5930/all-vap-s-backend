@@ -43,6 +43,8 @@ export interface AvaProduct {
 }
 
 interface AvaReplyPayload {
+  /** Texte complet pour l’historique chat (jamais tronqué) */
+  text: string;
   subtitle: string;
   spoken: string;
   products: AvaProduct[];
@@ -111,6 +113,8 @@ function saveCtx(ctx: AvaConversationContext | null | undefined) {
 export function useVoiceConversation() {
   const [voiceState, setVoiceState] = useState<AvaVoiceState>("IDLE");
   const [subtitle, setSubtitle] = useState("");
+  /** Texte complet dernière réponse (historique chat) */
+  const [lastReplyText, setLastReplyText] = useState("");
   const [products, setProducts] = useState<AvaProduct[]>([]);
   const [blocked, setBlocked] = useState(false);
   const [ready, setReady] = useState(false);
@@ -220,6 +224,7 @@ export function useVoiceConversation() {
           : FRIENDLY;
       const productsRaw = Array.isArray(data.products) ? data.products : [];
       return {
+        text: content,
         subtitle: toSubtitle(content),
         spoken: toSpokenText(
           (typeof data.spoken === "string" && data.spoken) || content
@@ -286,6 +291,7 @@ export function useVoiceConversation() {
       } catch (err2) {
         console.error("[ava] askApi retry failed", err2);
         return {
+          text: FRIENDLY,
           subtitle: toSubtitle(FRIENDLY),
           spoken: FRIENDLY,
           products: [],
@@ -317,6 +323,7 @@ export function useVoiceConversation() {
       // Par défaut : reprendre l’écoute après TTS. Mode accessibilité : resumeListening false.
       const shouldResume = options?.resumeListening !== false;
       setSubtitle(reply.subtitle);
+      setLastReplyText(reply.text || reply.subtitle);
       setProducts(reply.products);
       setHardwareAssistance(reply.hardwareAssistance ?? null);
       ignoreResultsRef.current = true;
@@ -324,7 +331,16 @@ export function useVoiceConversation() {
 
       if (shouldSpeak) {
         setVoiceState("AVA_SPEAKING");
-        await synthesis.speak(reply.spoken);
+        // Ne jamais bloquer le dialogue si speechSynthesis plante / n’émet pas onend
+        await Promise.race([
+          synthesis.speak(reply.spoken).catch(() => undefined),
+          new Promise<void>((resolve) => setTimeout(resolve, 10000)),
+        ]);
+        try {
+          synthesis.stopSpeaking();
+        } catch {
+          /* ignore */
+        }
       }
 
       ignoreResultsRef.current = false;
@@ -376,6 +392,7 @@ export function useVoiceConversation() {
         console.error("[ava] sendMessage error", err);
         await respond(
           {
+            text: "Un instant… Je rencontre un petit problème. Je réessaie — vous pouvez aussi reformuler ou écrire votre demande.",
             subtitle: "Un instant…",
             spoken:
               "Je rencontre un petit problème. Je réessaie — vous pouvez aussi reformuler ou écrire votre demande.",
@@ -443,6 +460,7 @@ export function useVoiceConversation() {
     }
 
     setSubtitle(spoken);
+    setLastReplyText(spoken);
 
     if (!greetedRef.current) {
       greetedRef.current = true;
@@ -455,6 +473,11 @@ export function useVoiceConversation() {
         ]);
       } catch {
         /* ok */
+      }
+      try {
+        synthesis.stopSpeaking();
+      } catch {
+        /* ignore */
       }
       ignoreResultsRef.current = false;
     }
@@ -610,6 +633,7 @@ export function useVoiceConversation() {
     setOnUserSpoke,
     hardwareAssistance,
     setHardwareAssistance,
+    lastReplyText,
     init,
     toggleMic,
     activateMic,
