@@ -15,7 +15,7 @@ export const metadata = {
 async function getPromoProducts() {
   try {
     return await prisma.product.findMany({
-      where: { isActive: true, isPromo: true },
+      where: { isActive: true, visibleOnline: true, isPromo: true },
     });
   } catch {
     return [];

@@ -120,7 +120,9 @@ function toCard(p: CatalogProduct, reason: string): AvaProductCard {
 }
 
 async function loadCatalog(): Promise<CatalogProduct[]> {
-  const rows = await prisma.product.findMany({ where: { isActive: true } });
+  const rows = await prisma.product.findMany({
+    where: { isActive: true, visibleOnline: true },
+  });
   const location = await prisma.stockLocation.findUnique({ where: { code: "GLOBAL_ALL_VAPS" } });
   const levels = location
     ? await prisma.stockLevel.findMany({
@@ -480,6 +482,17 @@ export async function chatAva(
     };
   }
 
+  // Exclusion explicite Puff / JNR / jetables (réponse métier, pas de recherche catalogue)
+  if (/\bpuff\b|jnr|jetable|disposable/i.test(text)) {
+    return {
+      content:
+        "Je ne recommande pas les puffs, JNR ni les produits jetables. Je peux vous orienter vers un pod rechargeable ou un e-liquide adapté — dites-moi votre usage.",
+      suggestions: ["Kit pod débutant", "E-liquide fruité", "DIY", "Nos magasins"],
+      products: [],
+      speaking: true,
+    };
+  }
+
   // Mémoire métier vape (~15 ans) — culture / technique / législation / sécurité
   {
     const {
@@ -724,7 +737,20 @@ export async function chatAva(
   }
 
   // Recherche catalogue réelle
-  const catalog = await loadCatalogForAva();
+  let catalog;
+  try {
+    catalog = await loadCatalogForAva();
+  } catch (err) {
+    console.error("[ava] loadCatalogForAva failed", err);
+    return {
+      content:
+        "Je n'arrive pas à accéder au catalogue produits pour le moment. Réessayez dans un instant, ou précisez une saveur / un type de matériel et je vous oriente autrement.",
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      conversationContext: ctx,
+      speaking: true,
+    };
+  }
 
   if (/promo|promotion|solde|offre/i.test(text)) {
     criteria.promoOnly = true;

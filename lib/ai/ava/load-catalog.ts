@@ -4,7 +4,8 @@ import { AVA_SEARCH_CONFIG } from "./config";
 
 /**
  * Charge le catalogue réel pour A.V.A. (produits actifs + saveurs + variantes + stock SumUp).
- * Aucun secret / coût / marge.
+ * Sélection limitée aux colonnes présentes dans prisma/schema.prisma
+ * (évite le crash runtime → FRIENDLY_ERROR en prod).
  */
 export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
   const rows = await prisma.product.findMany({
@@ -49,8 +50,6 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
           primaryFlavor: true,
           secondaryFlavor: true,
           flavorFamily: true,
-          flavors: true,
-          searchKeywords: true,
           isFresh: true,
           isFruity: true,
           isGourmet: true,
@@ -69,10 +68,7 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
           nicotineMg: true,
           nicotineLabel: true,
           capacityMl: true,
-          stock: true,
-          priceCents: true,
           active: true,
-          pgVgLabel: true,
         },
       },
     },
@@ -95,7 +91,9 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
   const productLevel = new Map<string, number>();
   const variantLevel = new Map<string, number>();
   for (const l of levels) {
-    variantLevel.set(l.variantId, l.availableQuantity);
+    if (l.variantId) {
+      variantLevel.set(l.variantId, l.availableQuantity);
+    }
     productLevel.set(
       l.productId,
       (productLevel.get(l.productId) ?? 0) + l.availableQuantity
@@ -111,7 +109,8 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
 
     const variants: AvaVariantInfo[] = p.variants.map((v) => {
       const hasV = variantLevel.has(v.id);
-      const stock = hasV ? (variantLevel.get(v.id) as number) : v.stock;
+      // Stock variante uniquement via StockLevel (pas de colonne stock sur ProductVariant)
+      const stock = hasV ? (variantLevel.get(v.id) as number) : 0;
       return {
         id: v.id,
         name: v.name,
@@ -119,19 +118,22 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
         nicotineLabel: v.nicotineLabel,
         capacityMl: v.capacityMl,
         stock,
-        priceCents: v.priceCents,
+        priceCents: null,
         active: v.active,
-        pgVgLabel: v.pgVgLabel,
+        pgVgLabel: null,
       };
     });
 
     const variantStockSum = variants.reduce((s, v) => s + Math.max(0, v.stock), 0);
-    const availableQuantity =
-      hasProductLevel
-        ? productAvail
-        : variants.length > 0
-          ? Math.max(productAvail, variantStockSum)
-          : productAvail;
+    const availableQuantity = hasProductLevel
+      ? productAvail
+      : variants.length > 0
+        ? Math.max(productAvail, variantStockSum)
+        : productAvail;
+
+    const flavorTags = [flavor?.primaryFlavor, flavor?.secondaryFlavor].filter(
+      (x): x is string => Boolean(x && String(x).trim())
+    );
 
     return {
       id: p.id,
@@ -160,8 +162,8 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
       primaryFlavor: flavor?.primaryFlavor ?? null,
       secondaryFlavor: flavor?.secondaryFlavor ?? null,
       flavorFamily: flavor?.flavorFamily ?? null,
-      flavors: flavor?.flavors ?? [],
-      searchKeywords: flavor?.searchKeywords ?? null,
+      flavors: flavorTags,
+      searchKeywords: p.avaMeta?.avaKeywords ?? null,
       isFresh: flavor?.isFresh ?? null,
       isFruity: flavor?.isFruity ?? null,
       isGourmet: flavor?.isGourmet ?? null,
@@ -169,7 +171,8 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
       isMint: flavor?.isMint ?? null,
       isDrink: flavor?.isDrink ?? null,
       flavorValidated: Boolean(
-        flavor?.validatedManually || (flavor?.confidenceScore != null && flavor.confidenceScore >= 0.7)
+        flavor?.validatedManually ||
+          (flavor?.confidenceScore != null && flavor.confidenceScore >= 0.7)
       ),
       avaKeywords: p.avaMeta?.avaKeywords ?? null,
       avaSaveurs: p.avaMeta?.avaSaveurs ?? null,

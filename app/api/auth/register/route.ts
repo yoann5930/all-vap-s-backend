@@ -7,24 +7,51 @@ import { assertSameOrigin } from "@/lib/security";
 
 const registerSchema = z
   .object({
-    email: z.string().email().max(254),
+    email: z
+      .string({ required_error: "Veuillez renseigner une adresse email valide." })
+      .email("Veuillez renseigner une adresse email valide.")
+      .max(254),
     password: z
-      .string()
-      .min(8)
+      .string({ required_error: "Veuillez renseigner un mot de passe." })
+      .min(8, "Le mot de passe doit contenir au moins 8 caractères.")
       .max(128)
-      .regex(/[A-Za-z]/, "Le mot de passe doit contenir une lettre")
-      .regex(/[0-9]/, "Le mot de passe doit contenir un chiffre"),
-    passwordConfirm: z.string().min(8).max(128),
-    firstName: z.string().min(1).max(80),
-    lastName: z.string().min(1).max(80),
-    phone: z.string().min(6).max(30),
-    adultConfirmed: z.literal(true),
-    acceptTerms: z.literal(true),
-    acceptPrivacy: z.literal(true),
+      .regex(/[A-Za-z]/, "Le mot de passe doit contenir une lettre.")
+      .regex(/[0-9]/, "Le mot de passe doit contenir un chiffre."),
+    passwordConfirm: z
+      .string({ required_error: "Veuillez confirmer votre mot de passe." })
+      .min(1, "Veuillez confirmer votre mot de passe.")
+      .max(128),
+    firstName: z
+      .string({ required_error: "Veuillez renseigner votre prénom." })
+      .min(1, "Veuillez renseigner votre prénom.")
+      .max(80),
+    lastName: z
+      .string({ required_error: "Veuillez renseigner votre nom." })
+      .min(1, "Veuillez renseigner votre nom.")
+      .max(80),
+    phone: z
+      .string({ required_error: "Veuillez renseigner votre numéro de téléphone." })
+      .min(6, "Veuillez renseigner votre numéro de téléphone.")
+      .max(30),
+    adultConfirmed: z.literal(true, {
+      errorMap: () => ({
+        message: "Vous devez confirmer être majeur(e) pour créer un compte.",
+      }),
+    }),
+    acceptTerms: z.literal(true, {
+      errorMap: () => ({
+        message: "Vous devez accepter les Conditions Générales d’Utilisation.",
+      }),
+    }),
+    acceptPrivacy: z.literal(true, {
+      errorMap: () => ({
+        message: "Vous devez accepter la politique de confidentialité.",
+      }),
+    }),
     newsletter: z.boolean().optional().default(false),
   })
   .refine((d) => d.password === d.passwordConfirm, {
-    message: "Les mots de passe ne correspondent pas",
+    message: "Les mots de passe ne correspondent pas.",
     path: ["passwordConfirm"],
   });
 

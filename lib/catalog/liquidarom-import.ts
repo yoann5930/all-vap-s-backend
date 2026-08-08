@@ -94,9 +94,12 @@ export function parseSemicolonCsv(content: string): Record<string, string>[] {
     });
 }
 
-function yes(value: string | undefined): boolean {
-  const v = (value || "").trim().toLowerCase();
-  return v === "oui" || v === "yes" || v === "true" || v === "1";
+function parseOuiNon(value: string | undefined): boolean | null {
+  if (value === undefined || value === null || String(value).trim() === "") return null;
+  const v = String(value).trim().toLowerCase();
+  if (["oui", "yes", "true", "1"].includes(v)) return true;
+  if (["non", "no", "false", "0"].includes(v)) return false;
+  return null;
 }
 
 function parsePriceEuros(raw: string | undefined): number | null {
@@ -170,7 +173,8 @@ async function ensureBrand(name: string) {
   return prisma.brand.upsert({
     where: { slug },
     create: { name, slug, isActive: true },
-    update: { name, isActive: true },
+    // Ne pas forcer isActive sur une marque déjà présente
+    update: { name },
   });
 }
 
@@ -178,7 +182,8 @@ async function ensureCategory(slug: string, name: string) {
   return prisma.category.upsert({
     where: { slug },
     create: { name, slug, isActive: true, sortOrder: 10 },
-    update: { name, isActive: true },
+    // Ne pas forcer isActive sur une catégorie déjà présente
+    update: { name },
   });
 }
 
@@ -261,6 +266,8 @@ export async function importLiquidaromFromCsv(params: {
       const pgvg = parsePgVg(row["Ratio PG/VG"] || row.pgvg);
       const flavorSlug = row.slug || productFlavorSlug(name);
       const slugBase = slugify(`liquidarom-${range || "eliquide"}-${flavorSlug}-50ml`);
+      const activeBoutiqueCsv = parseOuiNon(row["Actif en boutique"]);
+      const activeOnlineCsv = parseOuiNon(row["Actif en ligne"]);
       const sku = externalId;
       const imageUrlCandidateRaw = resolveLocalImageUrl(row, range, name);
       let imageUrlCandidate = imageUrlCandidateRaw;
@@ -314,8 +321,8 @@ export async function importLiquidaromFromCsv(params: {
 
       const normalizedName = normalizeProductName(name);
       const specs = extractExplicitSpecs(`${name} ${capacityRaw} ${description || ""}`);
-      const isActive = true;
-      const visibleOnline = yes(row["Actif en ligne"]) || yes(row.visibility) || true;
+      // Respecter CSV ; si colonne absente, préserver l'existant ; défaut création = false
+      // (ne jamais forcer true via `|| true`)
 
       const brand = await ensureBrand(brandName);
       const category = await ensureCategory(
@@ -355,6 +362,10 @@ export async function importLiquidaromFromCsv(params: {
           ? stockTotal
           : (existing?.stock ?? 0);
 
+      // Respecter CSV ; si colonne absente, préserver l'existant ; défaut création = false
+      const isActive = activeBoutiqueCsv ?? existing?.isActive ?? false;
+      const visibleOnline = activeOnlineCsv ?? existing?.visibleOnline ?? false;
+
       const data = {
         sku,
         reference: externalId,
@@ -392,6 +403,7 @@ export async function importLiquidaromFromCsv(params: {
           existing.priceCents !== data.priceCents ||
           existing.description !== data.description ||
           existing.isActive !== data.isActive ||
+          existing.visibleOnline !== data.visibleOnline ||
           existing.brand !== data.brand ||
           existing.range !== data.range;
 
