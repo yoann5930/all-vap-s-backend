@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 export const knownErrors: Record<string, { message: string; status: number }> = {
   UNAUTHORIZED: { message: "Non authentifié", status: 401 },
   FORBIDDEN: { message: "Accès refusé", status: 403 },
-  EMAIL_EXISTS: { message: "Cet email est déjà utilisé", status: 409 },
+  EMAIL_EXISTS: { message: "Un compte existe déjà avec cette adresse email.", status: 409 },
   INVALID_CREDENTIALS: { message: "Email ou mot de passe incorrect", status: 401 },
   NOT_FOUND: { message: "Ressource introuvable", status: 404 },
   SUMUP_NOT_CONFIGURED: { message: "Paiement SumUp non configuré", status: 503 },

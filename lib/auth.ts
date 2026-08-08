@@ -36,6 +36,7 @@ export async function registerUser(data: {
   password: string;
   firstName?: string;
   lastName?: string;
+  phone?: string;
 }) {
   const existing = await prisma.user.findUnique({
     where: { email: data.email.toLowerCase() },
@@ -53,6 +54,7 @@ export async function registerUser(data: {
       passwordHash,
       firstName: data.firstName,
       lastName: data.lastName,
+      phone: data.phone?.trim() || null,
       emailVerified: false,
     },
   });
