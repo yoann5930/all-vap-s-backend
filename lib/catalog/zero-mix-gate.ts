@@ -87,7 +87,15 @@ export function checkProductZeroMix(p: ZeroMixProductInput): ZeroMixCheck {
       nameProvenance: parseNameProvenance(p.sumupMapping),
     });
     if (!gate.canPublishOnline) {
-      reasons.push(...gate.reasons.map((r) => `gate:${r}`));
+      // Produits déjà publiés (visibleOnline) : afficher sans inventer d'image.
+      // Le gate photo/publication reste bloquant pour la mise en ligne initiale.
+      const soft =
+        p.visibleOnline === true
+          ? gate.reasons.filter((r) => r !== "photo_officielle_manquante")
+          : gate.reasons;
+      if (soft.length > 0) {
+        reasons.push(...soft.map((r) => `gate:${r}`));
+      }
     }
   } else {
     // Non e-liquide : image média minimale si visible
