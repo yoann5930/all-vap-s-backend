@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const range = await prisma.productRange.findFirst({
     where: { slug },
-    include: { brand: true, manufacturer: true },
+    select: { name: true, slug: true },
   });
   if (!range) return { title: "Gamme" };
   return {
@@ -41,9 +41,17 @@ export default async function GammePage({ params, searchParams }: Props) {
       slug,
       ...(sp.fabricant ? { manufacturer: { slug: sp.fabricant } } : {}),
     },
-    include: {
-      manufacturer: true,
-      brand: true,
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      manufacturerId: true,
+      verificationStatus: true,
+      catalogVisible: true,
+      status: true,
+      isActive: true,
+      manufacturer: { select: { id: true, slug: true, name: true } },
+      brand: { select: { id: true, slug: true, name: true } },
     },
   });
 

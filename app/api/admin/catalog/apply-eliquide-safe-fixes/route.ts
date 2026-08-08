@@ -273,9 +273,33 @@ export async function POST(request: NextRequest) {
       const key = `${cover.mfrSlug}/${cover.rangeSlug}`;
       const confirm = !EXCLUDE_CONFIRM.has(key);
       try {
-        const mfrRows = await prisma.$queryRawUnsafe<
+        let mfrRows = await prisma.$queryRawUnsafe<
           Array<{ id: string; name: string }>
         >(`SELECT id, name FROM "Manufacturer" WHERE slug = $1 LIMIT 1`, cover.mfrSlug);
+        if (!mfrRows[0]) {
+          const mfrName =
+            cover.mfrSlug === "liquide-lab"
+              ? "Liquide Lab"
+              : cover.mfrSlug === "cookin-cloud"
+                ? "Cookin'Cloud"
+                : cover.mfrSlug
+                    .split("-")
+                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(" ");
+          const mfrId = newId();
+          await prisma.$executeRawUnsafe(
+            `INSERT INTO "Manufacturer" (
+               id, name, slug, status, "isActive", "sortOrder", "createdAt", "updatedAt"
+             ) VALUES ($1, $2, $3, 'partiel', true, 100, NOW(), NOW())
+             ON CONFLICT (slug) DO UPDATE SET "isActive" = true, "updatedAt" = NOW()`,
+            mfrId,
+            mfrName,
+            cover.mfrSlug
+          );
+          mfrRows = await prisma.$queryRawUnsafe<
+            Array<{ id: string; name: string }>
+          >(`SELECT id, name FROM "Manufacturer" WHERE slug = $1 LIMIT 1`, cover.mfrSlug);
+        }
         const mfr = mfrRows[0];
         if (!mfr) {
           errors.push(`no manufacturer: ${cover.mfrSlug}`);

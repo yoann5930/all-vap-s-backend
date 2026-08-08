@@ -30,13 +30,25 @@ export async function generateMetadata({ params }: Props) {
  */
 export default async function FabricantPage({ params }: Props) {
   const { slug } = await params;
+  // select explicite (pas include *) — schéma prod parfois partiel
   const manufacturer = await prisma.manufacturer.findUnique({
     where: { slug },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      status: true,
       ranges: {
         where: { isActive: true },
         orderBy: { sortOrder: "asc" },
-        include: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          isActive: true,
+          verificationStatus: true,
+          catalogVisible: true,
+          status: true,
           products: {
             where: {
               visibleOnline: true,
