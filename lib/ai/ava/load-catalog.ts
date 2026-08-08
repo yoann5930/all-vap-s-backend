@@ -103,14 +103,22 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
   return rows.map((p) => {
     const flavor = p.flavors[0];
     const hasProductLevel = productLevel.has(p.id);
+    const hasVariantLevel = p.variants.some((v) => variantLevel.has(v.id));
+    // Inventaire SumUp présent → stock fiable. Sinon catalogue online proposable
+    // (évite 0 résultat A.V.A. quand StockLevel n'est pas encore rempli).
+    const stockKnown = hasProductLevel || hasVariantLevel;
     const productAvail = hasProductLevel
       ? (productLevel.get(p.id) as number)
       : p.stock;
 
     const variants: AvaVariantInfo[] = p.variants.map((v) => {
       const hasV = variantLevel.has(v.id);
-      // Stock variante uniquement via StockLevel (pas de colonne stock sur ProductVariant)
-      const stock = hasV ? (variantLevel.get(v.id) as number) : 0;
+      // Stock variante via StockLevel ; si inventaire absent, ne pas forcer 0 bloquant
+      const stock = hasV
+        ? (variantLevel.get(v.id) as number)
+        : stockKnown
+          ? 0
+          : Math.max(0, p.stock);
       return {
         id: v.id,
         name: v.name,
@@ -153,7 +161,7 @@ export async function loadCatalogForAva(): Promise<AvaCatalogProduct[]> {
       isBestSeller: p.isBestSeller,
       stock: availableQuantity,
       availableQuantity,
-      stockKnown: true,
+      stockKnown,
       imageUrl: p.imageUrl,
       isActive: p.isActive,
       visibleOnline: p.visibleOnline,

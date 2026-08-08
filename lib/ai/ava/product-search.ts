@@ -39,8 +39,12 @@ function productBlob(p: AvaCatalogProduct): string {
 
 function isInStock(p: AvaCatalogProduct): boolean {
   if (!AVA_SEARCH_CONFIG.onlyInStockProducts) return true;
+  // Sans ligne StockLevel : le catalogue visibleOnline reste proposable
+  if (!p.stockKnown) return true;
   if (p.variants.length > 0) {
-    return p.variants.some((v) => v.active && v.stock > 0);
+    return (
+      p.variants.some((v) => v.active && v.stock > 0) || p.availableQuantity > 0
+    );
   }
   return p.availableQuantity > 0;
 }
@@ -51,6 +55,9 @@ function pickVariant(
 ): AvaVariantInfo | null {
   if (!p.variants.length) return null;
   let list = p.variants.filter((v) => v.active && v.stock > 0);
+  if (!list.length && !p.stockKnown) {
+    list = p.variants.filter((v) => v.active);
+  }
   if (!list.length) list = p.variants.filter((v) => v.active);
 
   if (criteria.nicotineMg != null) {
@@ -155,6 +162,10 @@ function categoryMatch(p: AvaCatalogProduct, category: string | null | undefined
   const needle = norm(category).replace(/-/g, "");
   if (category === "e-liquides") {
     return /e-?liquid|liquide|diy/.test(c) || /e-?liquid|liquide/.test(norm(p.productType ?? ""));
+  }
+  if (category === "diy") {
+    const blob = `${c} ${norm(p.name)} ${norm(p.productType ?? "")} ${norm(p.range ?? "")}`;
+    return /diy|arome|concentre|base\b|booster|100\s*ml|e-?liquid|liquide/.test(blob);
   }
   if (category === "materiel") {
     return /pod|cigarette|box|mod|kit|aio/.test(c);
@@ -266,7 +277,7 @@ export function searchProductsForAva(
     }
 
     if (!isInStock(p) && !matchedVariant) {
-      if (score > 8) {
+      if (score > 8 || criteria.flavorFamily || criteria.category) {
         ranked.push({
           product: p,
           score,
@@ -279,15 +290,48 @@ export function searchProductsForAva(
       continue;
     }
 
-    if (AVA_SEARCH_CONFIG.onlyInStockProducts && !isInStock(p)) continue;
-    // Variante choisie doit être commandable
-    if (AVA_SEARCH_CONFIG.onlyInStockProducts) {
+    if (AVA_SEARCH_CONFIG.onlyInStockProducts && p.stockKnown && !isInStock(p)) {
+      if (score > 8 || criteria.flavorFamily || criteria.category) {
+        ranked.push({
+          product: p,
+          score,
+          matchedVariant: matchedVariant ?? pickVariant(p, { ...criteria, nicotineMg: null }),
+          reason: "rupture",
+          needsVerification: AVA_SEARCH_CONFIG.verifyStatuses.includes(p.catalogStatus),
+          outOfStockExact: true,
+        });
+      }
+      continue;
+    }
+    // Variante choisie doit être commandable quand le stock inventaire est connu
+    if (AVA_SEARCH_CONFIG.onlyInStockProducts && p.stockKnown) {
       if (!matchedVariant || matchedVariant.stock <= 0) {
         matchedVariant = pickVariant(p, { ...criteria, nicotineMg: null });
       }
-      if (!matchedVariant || matchedVariant.stock <= 0) continue;
+      if (p.variants.length > 0 && (!matchedVariant || matchedVariant.stock <= 0)) {
+        if (score > 8 || criteria.flavorFamily || criteria.category) {
+          ranked.push({
+            product: p,
+            score,
+            matchedVariant: matchedVariant,
+            reason: "rupture",
+            needsVerification: AVA_SEARCH_CONFIG.verifyStatuses.includes(p.catalogStatus),
+            outOfStockExact: true,
+          });
+        }
+        continue;
+      }
+    } else if (!matchedVariant && p.variants.length > 0) {
+      matchedVariant = pickVariant(p, { ...criteria, nicotineMg: null });
     }
-    if (matchedVariant && matchedVariant.stock <= 0 && criteria.nicotineMg != null) continue;
+    if (
+      p.stockKnown &&
+      matchedVariant &&
+      matchedVariant.stock <= 0 &&
+      criteria.nicotineMg != null
+    ) {
+      continue;
+    }
 
     if (score <= 0 && !criteria.flavorFamily && !criteria.category) continue;
     if (score <= 0 && criteria.flavorFamily) continue;
@@ -302,10 +346,11 @@ export function searchProductsForAva(
     });
   }
 
-  return ranked
-    .filter((r) => !r.outOfStockExact)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+  const sorted = ranked.sort((a, b) => b.score - a.score);
+  const inStock = sorted.filter((r) => !r.outOfStockExact);
+  if (inStock.length > 0) return inStock.slice(0, limit);
+  // Fallback : aligné sur /api/search (catalogue visibleOnline même si StockLevel à 0)
+  return sorted.slice(0, limit);
 }
 
 export function searchInStockProducts(
