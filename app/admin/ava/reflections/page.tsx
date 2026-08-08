@@ -89,7 +89,7 @@ export default function AdminAvaReflectionsPage() {
               Radar marché
             </Link>
             <Button type="button" onClick={() => void refresh()} disabled={refreshing}>
-              {refreshing ? "Analyse…" : "Relancer l'analyse"}
+              {refreshing ? "Analyse…" : "Relancer l&apos;analyse"}
             </Button>
           </div>
         </div>
