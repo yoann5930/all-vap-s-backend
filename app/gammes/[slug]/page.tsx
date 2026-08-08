@@ -4,7 +4,6 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ProductCard } from "@/components/products/ProductCard";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
 import { rangeCoverUrl } from "@/lib/catalog/range-cover";
-import { filterProductsZeroMix } from "@/lib/catalog/zero-mix-gate";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 import { A_CLASSER_SLUG } from "@/lib/catalog/eliquide-range-tokens";
@@ -117,7 +116,17 @@ export default async function GammePage({ params, searchParams }: Props) {
     orderBy: { name: "asc" },
   });
 
-  const { ok: products } = filterProductsZeroMix(productsRaw);
+  // Affichage gamme : zéro-mélange fabricant/gamme uniquement.
+  // Ne re-applique pas le gate publication (photo/prix) — produits déjà visibleOnline.
+  const products = productsRaw.filter((p) => {
+    const productMfr = p.manufacturerId || p.manufacturer?.id || null;
+    const rangeMfr =
+      p.rangeRef?.manufacturerId || p.rangeRef?.manufacturer?.id || null;
+    if (!productMfr) return false;
+    if (!p.rangeId && !p.rangeRef?.id) return false;
+    if (productMfr && rangeMfr && productMfr !== rangeMfr) return false;
+    return true;
+  });
 
   // Cover recommandé ; typo autorisée pour gammes éligibles confirmées
   const hasCover = Boolean(rangeCoverUrl(range.manufacturer?.slug, range.slug));
