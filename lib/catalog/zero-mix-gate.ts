@@ -73,28 +73,24 @@ export function checkProductZeroMix(p: ZeroMixProductInput): ZeroMixCheck {
       volumeMl: p.volumeMl,
     })
   ) {
-    const gate = evaluateEliquidePublishGate({
-      category: p.category,
-      productType: p.productType,
-      volumeMl: p.volumeMl,
-      name: p.name,
-      sumupName: p.sumupName,
-      sumupProductId: p.sumupProductId,
-      imageStatus: p.imageStatus,
-      imageUrl: p.imageUrl,
-      priceCents: p.priceCents,
-      sumupMapping: p.sumupMapping,
-      nameProvenance: parseNameProvenance(p.sumupMapping),
-    });
-    if (!gate.canPublishOnline) {
-      // Produits déjà publiés (visibleOnline) : afficher sans inventer d'image.
-      // Le gate photo/publication reste bloquant pour la mise en ligne initiale.
-      const soft =
-        p.visibleOnline === true
-          ? gate.reasons.filter((r) => r !== "photo_officielle_manquante")
-          : gate.reasons;
-      if (soft.length > 0) {
-        reasons.push(...soft.map((r) => `gate:${r}`));
+    // Déjà en ligne : ne pas re-bloquer l'affichage gamme pour photo/prix/sumup.
+    // Le gate publication reste pour la mise en ligne initiale.
+    if (p.visibleOnline !== true) {
+      const gate = evaluateEliquidePublishGate({
+        category: p.category,
+        productType: p.productType,
+        volumeMl: p.volumeMl,
+        name: p.name,
+        sumupName: p.sumupName,
+        sumupProductId: p.sumupProductId,
+        imageStatus: p.imageStatus,
+        imageUrl: p.imageUrl,
+        priceCents: p.priceCents,
+        sumupMapping: p.sumupMapping,
+        nameProvenance: parseNameProvenance(p.sumupMapping),
+      });
+      if (!gate.canPublishOnline) {
+        reasons.push(...gate.reasons.map((r) => `gate:${r}`));
       }
     }
   } else {
