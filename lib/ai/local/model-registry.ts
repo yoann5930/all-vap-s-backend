@@ -107,13 +107,23 @@ export function pickInstalledModel(
   candidates: string[],
   installed: string[]
 ): { model: string; fallbacks: string[] } | null {
-  const hit = candidates.find((c) => installed.some((i) => modelMatches(i, c)));
-  if (!hit) return null;
-  const resolved =
-    installed.find((i) => modelMatches(i, hit)) || hit;
-  const fallbacks = candidates
-    .filter((c) => c !== hit)
-    .map((c) => installed.find((i) => modelMatches(i, c)))
-    .filter((x): x is string => Boolean(x));
-  return { model: resolved, fallbacks };
+  // Prefer exact tag matches first
+  for (const c of candidates) {
+    if (installed.includes(c)) {
+      const fallbacks = candidates.filter((x) => x !== c && installed.includes(x));
+      return { model: c, fallbacks };
+    }
+  }
+  // Then family-only candidates (no tag)
+  for (const c of candidates) {
+    if (c.includes(":")) continue;
+    const hit = installed.find((i) => i === c || i.startsWith(c + ":"));
+    if (hit) {
+      const fallbacks = candidates
+        .map((x) => (installed.includes(x) ? x : null))
+        .filter((x): x is string => Boolean(x) && x !== hit);
+      return { model: hit, fallbacks };
+    }
+  }
+  return null;
 }

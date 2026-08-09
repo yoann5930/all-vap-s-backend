@@ -431,16 +431,9 @@ async function main() {
   console.log("Installed", installed.join(", "));
   console.log("Roles", ENGINE_ROLE_ASSIGNMENTS.map((r) => r.role).join(", "));
 
-  // Benchmark models already installed that are in our candidate lists (cap 3)
-  const candidates = [
-    "llama3.2:3b",
-    "qwen2.5:7b",
-    "llama3.1:8b",
-    "qwen2.5:3b",
-    "gemma2:2b",
-  ].filter((c) => installed.some((i) => i === c || i.startsWith(c.split(":")[0] + ":")));
-
-  const unique = [...new Set(candidates.map((c) => installed.find((i) => i === c || i.startsWith(c.split(":")[0])) || c))].slice(0, 3);
+  // Benchmark models already installed that match EXACT candidate tags (cap 3)
+  const preferred = ["llama3.2:3b", "qwen2.5:7b", "llama3.1:8b", "qwen2.5:3b", "gemma2:2b"];
+  const unique = preferred.filter((c) => installed.includes(c)).slice(0, 3);
   console.log("Benchmark set:", unique.join(", "));
   console.log("Cases:", buildCases().length);
 
