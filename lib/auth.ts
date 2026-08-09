@@ -11,6 +11,10 @@ import {
 import { sendAccountConfirmationEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import type { Role } from "@prisma/client";
+import {
+  assertPreviewTestUserEligible,
+  matchesPreviewTestCredentials,
+} from "@/lib/auth/preview-test-login";
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 12);
@@ -125,7 +129,7 @@ export async function confirmUserEmail(token: string) {
 export async function loginUser(
   email: string,
   password: string,
-  opts?: { setCookies?: boolean }
+  opts?: { setCookies?: boolean; host?: string | null }
 ) {
   const setCookies = opts?.setCookies !== false;
   let user: Awaited<ReturnType<typeof prisma.user.findUnique>>;
@@ -150,7 +154,32 @@ export async function loginUser(
     throw new Error("AUTH_DB_UNAVAILABLE");
   }
 
-  if (!user || !(await verifyPassword(password, user.passwordHash))) {
+  const previewGate = matchesPreviewTestCredentials({
+    email,
+    password,
+    host: opts?.host,
+  });
+  let authenticated = false;
+  let authVia: "password" | "preview_test" = "password";
+
+  if (previewGate.ok) {
+    if (!user) {
+      console.warn("[auth] preview_test_login denied: user_missing");
+      throw new Error("INVALID_CREDENTIALS");
+    }
+    const eligible = assertPreviewTestUserEligible(user);
+    if (!eligible.ok) {
+      console.warn("[auth] preview_test_login denied:", eligible.reason);
+      throw new Error("INVALID_CREDENTIALS");
+    }
+    authenticated = true;
+    authVia = "preview_test";
+    console.info("[auth] preview_test_login ok email=", user.email.toLowerCase());
+  } else if (user && (await verifyPassword(password, user.passwordHash))) {
+    authenticated = true;
+  }
+
+  if (!user || !authenticated) {
     throw new Error("INVALID_CREDENTIALS");
   }
 
@@ -201,7 +230,12 @@ export async function loginUser(
     console.error("[auth] issueRefreshToken failed:", err);
   }
 
-  return { user: sanitizeUser(user), token, refreshToken };
+  return {
+    user: sanitizeUser(user),
+    token,
+    refreshToken,
+    authVia,
+  };
 }
 
 export async function logoutUser() {

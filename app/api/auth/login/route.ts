@@ -60,7 +60,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await loginUser(data.email, data.password, { setCookies: false });
+    const result = await loginUser(data.email, data.password, {
+      setCookies: false,
+      host: request.headers.get("host"),
+    });
     const isOwnerIdentity = await isOwnerEmail(result.user.email);
     const appRole = await resolveAppRole(result.user.role, result.user.email);
     const redirectTo = resolvePostLoginPath(appRole, data.next, {
@@ -76,6 +79,7 @@ export async function POST(request: NextRequest) {
       },
       token: result.token,
       redirectTo,
+      ...(result.authVia === "preview_test" ? { authVia: "preview_test" } : {}),
     });
 
     response.cookies.set(COOKIE_NAME, result.token, accessCookieOptions(secure));
