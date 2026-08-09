@@ -5,6 +5,7 @@ import type {
   FreshnessPref,
 } from "./types";
 import { emptyConversationContext } from "./types";
+import { parseDeviceFromMessage } from "./conversation-engine";
 
 function norm(s: string): string {
   return s
@@ -240,6 +241,13 @@ export function mergeContextFromMessage(
     /\b(e-?tasty|pulp|fruizee|liquideo|vaporesso|geekvape|lost\s*vape|elfbar|puff)\b/i
   );
   if (brandMatch) base.manufacturer = brandMatch[1];
+
+  // Matériel exact + corrections (« non c'est une XROS 4 ») → remplace l’ancien modèle
+  const deviceParsed = parseDeviceFromMessage(message);
+  if (deviceParsed.deviceModel) {
+    base.deviceModel = deviceParsed.deviceModel;
+    if (deviceParsed.manufacturer) base.manufacturer = deviceParsed.manufacturer;
+  }
 
   let needsClarification: AvaSearchCriteria["needsClarification"] = null;
   let clarificationQuestion: string | null = null;

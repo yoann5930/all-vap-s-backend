@@ -161,7 +161,13 @@ check("client-3d", "Portrait SVG présent", fs.existsSync(faceSvg), faceSvg);
 // —— Age / script vente ——
 check("client-rules", "AGE_REFUSAL +18", /majeur|18/i.test(AGE_REFUSAL));
 check("client-rules", "isAgeConfirmed Oui", isAgeConfirmed("Oui, j'ai 18 ans ou plus") === true);
-check("client-rules", "isAgeConfirmed Non", isAgeConfirmed("Non") === false);
+check("client-rules", "isAgeConfirmed Non seul", isAgeConfirmed("Non") === null);
+check(
+  "client-rules",
+  "isAgeConfirmed correction Legend 2",
+  isAgeConfirmed("Non, c'est une Legend 2") === null
+);
+check("client-rules", "isAgeConfirmed mineur", isAgeConfirmed("Je suis mineur") === false);
 check("client-rules", "SALES_STEPS ≥ 5", SALES_STEPS.length >= 5, String(SALES_STEPS.length));
 
 // —— Exclusion puff (logique advisor, pas searchCatalog seul) ——

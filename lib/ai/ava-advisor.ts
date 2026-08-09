@@ -22,7 +22,7 @@ import {
   emptyConversationContext,
   type AvaConversationContext,
 } from "@/lib/ai/ava";
-import { isAgeConfirmed, AGE_REFUSAL } from "@/lib/ai/sales-script";
+import { AGE_REFUSAL } from "@/lib/ai/sales-script";
 import {
   AVA_GREETING,
   AVA_SUGGESTIONS,
@@ -329,9 +329,12 @@ export async function chatAva(
 ): Promise<AvaReply> {
   const text = message.toLowerCase();
 
-  const ageCheck = isAgeConfirmed(message);
-  if (ageCheck === false || /mineur|moins de 18|< 18 ans/i.test(text)) {
-    return { content: AGE_REFUSAL, suggestions: [], products: [], blocked: true };
+  // Âge : uniquement signal explicite (jamais une correction matériel / « Non, … »)
+  {
+    const { detectAgeIntent } = await import("@/lib/ai/ava/age-intent");
+    if (detectAgeIntent(message) === "underage") {
+      return { content: AGE_REFUSAL, suggestions: [], products: [], blocked: true };
+    }
   }
 
   if (isNameQuestion(message)) {
@@ -341,6 +344,23 @@ export async function chatAva(
       products: [],
       speaking: true,
     };
+  }
+
+  // Social / small talk AVANT tout catalogue
+  {
+    const { detectClientIntent, socialReplyForIntent } = await import(
+      "@/lib/ai/ava/client-intent-router"
+    );
+    const intent = detectClientIntent(message, options?.conversationContext ?? null);
+    if (intent === "SOCIAL_GREETING" || intent === "SOCIAL_SMALLTALK") {
+      return {
+        content: socialReplyForIntent(intent),
+        suggestions: ["Je cherche un liquide", "Conseil matériel", "Ça fuit"],
+        products: [],
+        speaking: true,
+        conversationContext: options?.conversationContext ?? undefined,
+      };
+    }
   }
 
   // Jamais orienter vers le budget — ignorer ces questions côté réponses Ava

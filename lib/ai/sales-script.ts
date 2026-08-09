@@ -95,12 +95,8 @@ export function parseStepAnswer(step: number, message: string): Partial<VapeProf
   return updates;
 }
 
-export function isAgeConfirmed(message: string): boolean | null {
-  const text = message.toLowerCase();
-  if (/^non\b|mineur|moins de 18|pas 18|< 18/.test(text)) return false;
-  if (/^oui|yes|18|majeur|confirm/.test(text)) return true;
-  return null;
-}
+/** @deprecated utiliser detectAgeIntent — réexport sécurisé (plus de faux positifs « Non, … ») */
+export { isAgeConfirmed, detectAgeIntent } from "@/lib/ai/ava/age-intent";
 
 export function getStepQuestion(step: number): (typeof SALES_STEPS)[number] | null {
   return SALES_STEPS.find((s) => s.id === step) ?? null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,19 +11,35 @@ interface HeaderSearchProps {
   onClose?: () => void;
 }
 
+type SearchUiState = "IDLE" | "LOADING" | "READY";
+
 export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [uiState, setUiState] = useState<SearchUiState>("IDLE");
+
+  useEffect(() => {
+    if (query.trim().length < 2) {
+      setUiState("IDLE");
+      return;
+    }
+    setUiState("LOADING");
+    const t = window.setTimeout(() => setUiState("READY"), 200);
+    return () => window.clearTimeout(t);
+  }, [query]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = query.trim();
-    if (trimmed) {
-      router.push(`/boutique?search=${encodeURIComponent(trimmed)}`);
-    } else {
+    if (!trimmed) {
       router.push("/boutique");
+      setOpen(false);
+      onClose?.();
+      return;
     }
+    setUiState("LOADING");
+    router.push(`/boutique?search=${encodeURIComponent(trimmed)}`);
     setOpen(false);
     onClose?.();
   }
@@ -54,7 +70,8 @@ export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full rounded-xl border border-white/10 bg-[#0B1016] py-2.5 pl-11 pr-10 text-sm text-[#F5F7FA] placeholder:text-[#A7B0BC]/65 transition-colors focus:border-brand-500/50 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
-            aria-label="Rechercher"
+            aria-label="Rechercher un produit, une marque"
+            aria-busy={uiState === "LOADING"}
           />
           {query && (
             <button
@@ -67,6 +84,13 @@ export function HeaderSearch({ mobile, expanded, onClose }: HeaderSearchProps) {
             </button>
           )}
         </div>
+        <p className="mt-1 text-[11px] text-[#A7B0BC]/80" aria-live="polite">
+          {uiState === "LOADING"
+            ? "Préparation de la recherche…"
+            : query.trim().length >= 2
+              ? "Entrée pour afficher les résultats boutique"
+              : "Saisissez au moins 2 caractères"}
+        </p>
       </form>
     );
   }

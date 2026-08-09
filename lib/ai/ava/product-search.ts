@@ -161,11 +161,16 @@ function categoryMatch(p: AvaCatalogProduct, category: string | null | undefined
   const c = norm(p.category);
   const needle = norm(category).replace(/-/g, "");
   if (category === "e-liquides") {
-    return /e-?liquid|liquide|diy/.test(c) || /e-?liquid|liquide/.test(norm(p.productType ?? ""));
+    // E-liquides ≠ concentrés DIY
+    const typeBlob = `${norm(p.productType ?? "")} ${c} ${norm(p.name)} ${norm(p.range ?? "")}`;
+    if (/concentre|concentrate|arome\b|diy\b/.test(typeBlob) && !/e-?liquid|pret\s*a\s*vaper|ready/.test(typeBlob)) {
+      return false;
+    }
+    return /e-?liquid|liquide/.test(c) || /e-?liquid|liquide|nic.?salt|sel/.test(norm(p.productType ?? ""));
   }
   if (category === "diy") {
     const blob = `${c} ${norm(p.name)} ${norm(p.productType ?? "")} ${norm(p.range ?? "")}`;
-    return /diy|arome|concentre|base\b|booster|100\s*ml|e-?liquid|liquide/.test(blob);
+    return /diy|arome|concentre|concentrate|base\b|booster/.test(blob);
   }
   if (category === "materiel") {
     return /pod|cigarette|box|mod|kit|aio/.test(c);
@@ -391,11 +396,12 @@ export function searchNearbyAlternatives(
   const alt = searchProductsForAva(products, relaxed, { limit });
   if (alt.length) return alt;
 
+  // Ne jamais abandonner « pas trop frais » → sinon Ice Cool revient en silence
   const looser: AvaSearchCriteria = {
     ...criteria,
     nicotineMg: null,
     volumeMl: null,
-    freshness: null,
+    freshness: criteria.freshness === "without" ? "without" : null,
     flavorTerms: criteria.flavorTerms.slice(0, 2),
   };
   return searchProductsForAva(products, looser, { limit });

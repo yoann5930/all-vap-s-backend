@@ -1,31 +1,32 @@
 "use client";
 
 import type { CatalogProductFull } from "@/lib/catalog/types";
+import { getProductAdviceProfile } from "@/lib/catalog/product-advice-profile";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface ProductDetailSectionsProps {
   product: CatalogProductFull;
   faq?: Array<{ q: string; a: string }>;
 }
 
-const DEFAULT_FAQ = [
-  {
-    q: "Quel taux de nicotine choisir ?",
-    a: "Pour un vapoteur débutant, 6 à 12 mg/ml est souvent conseillé. Les vapoteurs confirmés préfèrent généralement 0 à 6 mg/ml. Nos équipes All Vap's vous orientent en boutique.",
-  },
-  {
-    q: "Ce e-liquide convient-il à mon matériel ?",
-    a: "Vérifiez le ratio PG/VG indiqué sur la fiche. Les ratios 50/50 conviennent aux pods et petites résistances ; les ratios plus VG aux clearomiseurs plus ouverts.",
-  },
-  {
-    q: "Puis-je le tester en boutique ?",
-    a: "Oui, dans nos bar à vape de Hautmont et Le Quesnoy, nos conseillers vous proposent un test avant achat.",
-  },
-];
-
-export function ProductDetailSections({ product, faq = DEFAULT_FAQ }: ProductDetailSectionsProps) {
+export function ProductDetailSections({ product, faq }: ProductDetailSectionsProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const advice = useMemo(
+    () =>
+      getProductAdviceProfile({
+        category: product.categorie,
+        productType: product.format,
+        format: product.format,
+        name: product.nom,
+        range: product.gamme,
+        nicotineMg: product.nicotine,
+      }),
+    [product]
+  );
+
+  const faqItems = faq ?? advice.faq;
 
   const profil = product.profilGustatif ?? {
     fruit: false,
@@ -94,10 +95,20 @@ export function ProductDetailSections({ product, faq = DEFAULT_FAQ }: ProductDet
           Compatibilités &amp; conseils
         </h2>
         <ul className="mt-4 space-y-2 text-sm text-[#A7B0BC]">
-          {product.pgVg && <li>Ratio PG/VG : {product.pgVg}</li>}
+          {advice.tips.map((tip) => (
+            <li key={tip}>{tip}</li>
+          ))}
+          {product.pgVg && advice.kind !== "DIY_CONCENTRATE" && (
+            <li>Ratio PG/VG : {product.pgVg}</li>
+          )}
           {product.format && <li>Format : {product.format}</li>}
-          {product.nicotine != null && <li>Nicotine : {product.nicotine} mg/ml</li>}
-          <li>Produit réservé aux adultes (+18 ans). Contient de la nicotine — substance addictive.</li>
+          {advice.showEliquidNicotineAdvice && product.nicotine != null && (
+            <li>Nicotine : {product.nicotine} mg/ml</li>
+          )}
+          {advice.kind === "DIY_CONCENTRATE" && (
+            <li>Nicotine : uniquement si vous ajoutez un booster / base nicotinée.</li>
+          )}
+          <li>Produit réservé aux adultes (+18 ans).</li>
           <li>Conservez hors de portée des enfants et des animaux.</li>
         </ul>
       </section>
@@ -107,7 +118,7 @@ export function ProductDetailSections({ product, faq = DEFAULT_FAQ }: ProductDet
           Questions fréquentes
         </h2>
         <div className="mt-4 divide-y divide-white/8 rounded-xl border border-white/8 bg-[#101720]">
-          {faq.map((item, i) => (
+          {faqItems.map((item, i) => (
             <div key={item.q}>
               <button
                 type="button"

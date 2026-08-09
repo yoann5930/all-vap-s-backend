@@ -24,23 +24,41 @@ interface SearchResult {
   suggestedNic?: string | null;
 }
 
+type SearchUiState = "IDLE" | "LOADING" | "RESULTS" | "NO_RESULT" | "ERROR";
+
 export function InstantSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [open, setOpen] = useState(false);
+  const [uiState, setUiState] = useState<SearchUiState>("IDLE");
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (query.length < 2) {
       setResults([]);
+      setUiState("IDLE");
       return;
     }
 
+    setUiState("LOADING");
+    setOpen(true);
     const timer = setTimeout(async () => {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-      setResults(Array.isArray(data) ? data : []);
-      setOpen(true);
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        if (!res.ok) {
+          setResults([]);
+          setUiState("ERROR");
+          return;
+        }
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : [];
+        setResults(list);
+        setUiState(list.length > 0 ? "RESULTS" : "NO_RESULT");
+        setOpen(true);
+      } catch {
+        setResults([]);
+        setUiState("ERROR");
+      }
     }, 300);
 
     return () => clearTimeout(timer);
@@ -66,7 +84,25 @@ export function InstantSearch() {
         className="w-full rounded-xl border border-white/10 bg-[#0B1016] py-3.5 pl-12 pr-4 text-sm text-[#F5F7FA] placeholder:text-[#A7B0BC]/65 shadow-[0_0_0_1px_rgba(0,174,239,0.04)] focus:border-brand-500/50 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
         aria-label="Recherche produits"
       />
-      {open && results.length > 0 && (
+      {open && uiState === "LOADING" && (
+        <div
+          className="absolute z-50 mt-2 w-full rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-sm text-[#A7B0BC] shadow-2xl"
+          role="status"
+        >
+          Recherche en cours…
+        </div>
+      )}
+      {open && uiState === "NO_RESULT" && (
+        <div className="absolute z-50 mt-2 w-full rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-sm text-[#A7B0BC] shadow-2xl">
+          Aucun résultat pour « {query} ».
+        </div>
+      )}
+      {open && uiState === "ERROR" && (
+        <div className="absolute z-50 mt-2 w-full rounded-xl border border-red-500/30 bg-[#101720] px-4 py-3 text-sm text-red-300 shadow-2xl">
+          Recherche indisponible pour le moment.
+        </div>
+      )}
+      {open && uiState === "RESULTS" && results.length > 0 && (
         <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-[#101720] shadow-2xl">
           {results.map((p) => {
             const nicMatch = query.match(/(\d+)\s*mg/i);
