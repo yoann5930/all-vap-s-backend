@@ -66,7 +66,10 @@ function vercelCurl(
     args.push("--header", "Content-Type: application/json");
     args.push("--data-binary", `@${dataFile}`);
   }
-  if (opts.token) args.push("--header", `Authorization: Bearer ${opts.token}`);
+  if (opts.token) {
+    // Un seul argument pour éviter le split Windows sur l'espace Bearer
+    args.push(`--header=Authorization: Bearer ${opts.token}`);
+  }
 
   const r = spawnSync("npx", args, {
     encoding: "utf8",

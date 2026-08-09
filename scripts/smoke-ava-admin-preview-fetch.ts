@@ -54,13 +54,18 @@ async function api(
   };
   if (BYPASS) {
     headers["x-vercel-protection-bypass"] = BYPASS;
-    headers["x-vercel-set-bypass-cookie"] = "true";
   }
   if (opts.token) headers.Authorization = `Bearer ${opts.token}`;
   const res = await fetch(`${DEPLOY}${path}`, {
     method: opts.method || "GET",
     headers,
     body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+  }).catch((e: any) => {
+    throw new Error(
+      `fetch failed ${opts.method || "GET"} ${path}: ${e?.message || e}${
+        e?.cause ? ` cause=${e.cause?.message || e.cause}` : ""
+      }`
+    );
   });
   const text = await res.text();
   let json: any = null;
@@ -148,7 +153,7 @@ async function main() {
   }
 
   const probe = await chat(
-    "Explique-moi en une phrase naturelle ce que tu fais pour moi aujourd'hui, sans menu."
+    "Sans menu ni outils : en 2 phrases naturelles, dis-moi comment tu travailles avec moi au quotidien en tant que collaboratrice Admin."
   );
   if (!/openai/i.test(String(probe.json?.source || ""))) {
     verdict.OPENAI_REEL = "KO";
