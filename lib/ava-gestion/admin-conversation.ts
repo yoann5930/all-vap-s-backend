@@ -146,11 +146,39 @@ async function chatAdminWithOpenAI(params: {
         temperature: params.preferShort ? 0.45 : 0.55,
       }),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      // Preview only: classe d'erreur sans body / sans clé
+      if (process.env.VERCEL_ENV === "preview") {
+        console.warn(
+          `[ava-admin-openai] http=${res.status} class=${
+            res.status === 401 || res.status === 403
+              ? "auth_rejected"
+              : res.status === 429
+                ? "rate_limited"
+                : res.status >= 500
+                  ? "openai_5xx"
+                  : `http_${res.status}`
+          }`
+        );
+      }
+      return null;
+    }
     const data = await res.json();
     const text = data.choices?.[0]?.message?.content?.trim();
     return text || null;
-  } catch {
+  } catch (e) {
+    if (process.env.VERCEL_ENV === "preview") {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.warn(
+        `[ava-admin-openai] throw class=${
+          /timeout|aborted/i.test(msg)
+            ? "network_timeout"
+            : /fetch|ENOTFOUND|ECONN|network/i.test(msg)
+              ? "network_error"
+              : "throw"
+        }`
+      );
+    }
     return null;
   }
 }
