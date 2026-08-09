@@ -5,6 +5,7 @@ import type {
   AvaSearchCriteria,
   AvaVariantInfo,
 } from "./types";
+import { contradictionReasons } from "./contradiction-guard";
 
 function norm(s: string): string {
   return s
@@ -225,6 +226,9 @@ export function searchProductsForAva(
 
     const fresh = freshnessMatch(p, criteria);
     if (!fresh.ok) continue;
+
+    // Garde contradictions (volume / fabricant / frais / type)
+    if (contradictionReasons(criteria, p).length > 0) continue;
 
     let score = flavorMatchScore(p, criteria) + fresh.score;
 

@@ -94,6 +94,8 @@ export interface AvaConversationContext {
   volumeMl: number | null;
   manufacturer: string | null;
   deviceModel: string | null;
+  /** Valeurs remplacées par correction utilisateur (ne plus réutiliser). */
+  superseded: Record<string, string[]>;
   refusedCriteria: string[];
   lastProposedProductIds: string[];
   lastProposedNames: string[];
@@ -119,6 +121,7 @@ export function emptyConversationContext(
     volumeMl: null,
     manufacturer: null,
     deviceModel: null,
+    superseded: {},
     refusedCriteria: [],
     lastProposedProductIds: [],
     lastProposedNames: [],

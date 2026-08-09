@@ -154,3 +154,29 @@ export function getProductAdviceProfile(input: {
     ],
   };
 }
+
+/** Recommandations « produits proches » : même type canonique uniquement. */
+export function sameTypeRecommendations<T extends { id: string }>(
+  current: T & {
+    category?: string | null;
+    productType?: string | null;
+    name?: string | null;
+    range?: string | null;
+    format?: string | null;
+  },
+  candidates: Array<
+    T & {
+      category?: string | null;
+      productType?: string | null;
+      name?: string | null;
+      range?: string | null;
+      format?: string | null;
+    }
+  >
+): T[] {
+  const currentKind = resolveCanonicalProductKind(current);
+  return candidates.filter((c) => {
+    if (c.id === current.id) return false;
+    return resolveCanonicalProductKind(c) === currentKind;
+  });
+}

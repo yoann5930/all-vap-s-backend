@@ -245,8 +245,22 @@ export function mergeContextFromMessage(
   // Matériel exact + corrections (« non c'est une XROS 4 ») → remplace l’ancien modèle
   const deviceParsed = parseDeviceFromMessage(message);
   if (deviceParsed.deviceModel) {
+    if (base.deviceModel && base.deviceModel !== deviceParsed.deviceModel) {
+      base.superseded = {
+        ...base.superseded,
+        deviceModel: [...(base.superseded.deviceModel ?? []), base.deviceModel],
+      };
+    }
     base.deviceModel = deviceParsed.deviceModel;
-    if (deviceParsed.manufacturer) base.manufacturer = deviceParsed.manufacturer;
+    if (deviceParsed.manufacturer) {
+      if (base.manufacturer && base.manufacturer !== deviceParsed.manufacturer) {
+        base.superseded = {
+          ...base.superseded,
+          manufacturer: [...(base.superseded.manufacturer ?? []), base.manufacturer],
+        };
+      }
+      base.manufacturer = deviceParsed.manufacturer;
+    }
   }
 
   let needsClarification: AvaSearchCriteria["needsClarification"] = null;

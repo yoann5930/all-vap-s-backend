@@ -12,6 +12,8 @@ import { parseDeviceFromMessage } from "../../lib/ai/ava/conversation-engine";
 import { mergeContextFromMessage } from "../../lib/ai/ava/conversation-context";
 import { emptyConversationContext } from "../../lib/ai/ava/types";
 import { resolveCanonicalProductKind } from "../../lib/catalog/product-advice-profile";
+import { resolveEntity } from "../../lib/ai/ava/device-exact-match";
+import { adminProductGuard } from "../../lib/catalog/admin-guards";
 
 let passed = 0;
 let failed = 0;
@@ -118,6 +120,32 @@ assert(
   }) === "ELIQUID",
   "eliquid"
 );
+
+console.log("\n=== PACK WORK — exact match + supersede + prix ===");
+{
+  const entities = [
+    { id: "1", name: "XROS 4", aliases: ["xros4", "vaporesso xros 4"] },
+    { id: "2", name: "XROS 3", aliases: ["xros3"] },
+  ];
+  assert(resolveEntity("XROS 4", entities).kind === "EXACT", "exact XROS 4");
+  assert(resolveEntity("XROS 4", entities).entity?.name === "XROS 4", "not XROS 3");
+  assert(resolveEntity("xros4", entities).kind === "ALIAS", "alias");
+}
+{
+  const prev = emptyConversationContext(null);
+  prev.deviceModel = "XROS 3";
+  const merged = mergeContextFromMessage(prev, "non c'est une XROS 4");
+  assert(merged.context.deviceModel === "XROS 4", "device → XROS 4");
+  assert(
+    (merged.context.superseded.deviceModel || []).includes("XROS 3"),
+    "XROS 3 superseded"
+  );
+}
+assert(
+  adminProductGuard({ active: true, priceCents: 0 }) === "PRODUCT_REVIEW_REQUIRED",
+  "prix 0 → review"
+);
+assert(adminProductGuard({ active: true, priceCents: 1290 }) === "OK", "prix OK");
 
 console.log(`\n=== RESULT ${passed} passed / ${failed} failed ===`);
 if (failed > 0) process.exit(1);
