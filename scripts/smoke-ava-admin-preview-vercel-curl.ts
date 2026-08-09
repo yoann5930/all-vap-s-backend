@@ -44,6 +44,8 @@ function vercelCurl(
   path: string,
   opts: { method?: string; body?: unknown; token?: string | null } = {}
 ): { status: number; json: any; text: string } {
+  const bodyFile = `.tmp-vercel-body-${Date.now()}-${Math.random().toString(36).slice(2)}.txt`;
+  const dataFile = opts.body !== undefined ? `.tmp-vercel-data-${Date.now()}.json` : null;
   const args = [
     "vercel",
     "curl",
@@ -53,47 +55,53 @@ function vercelCurl(
     "--",
     "--silent",
     "--show-error",
+    "--output",
+    bodyFile,
     "--write-out",
-    "\n__HTTP_STATUS__:%{http_code}",
+    "HTTPCODE:%{http_code}",
   ];
-  if (opts.method) {
-    args.push("--request", opts.method);
-  }
-  let tmp: string | null = null;
-  if (opts.body !== undefined) {
-    tmp = `.tmp-vercel-curl-${Date.now()}.json`;
-    writeFileSync(tmp, JSON.stringify(opts.body), "utf8");
+  if (opts.method) args.push("--request", opts.method);
+  if (dataFile) {
+    writeFileSync(dataFile, JSON.stringify(opts.body), "utf8");
     args.push("--header", "Content-Type: application/json");
-    args.push("--data-binary", `@${tmp}`);
+    args.push("--data-binary", `@${dataFile}`);
   }
-  if (opts.token) {
-    args.push("--header", `Authorization: Bearer ${opts.token}`);
-  }
+  if (opts.token) args.push("--header", `Authorization: Bearer ${opts.token}`);
+
   const r = spawnSync("npx", args, {
     encoding: "utf8",
     shell: true,
-    maxBuffer: 8 * 1024 * 1024,
+    maxBuffer: 2 * 1024 * 1024,
   });
-  if (tmp && existsSync(tmp)) unlinkSync(tmp);
-  const out = `${r.stdout || ""}${r.stderr || ""}`;
-  const m = out.match(/__HTTP_STATUS__:(\d+)/);
-  const status = m ? Number(m[1]) : r.status === 0 ? 200 : 500;
-  const text = out.replace(/\n__HTTP_STATUS__:\d+\s*$/, "").trim();
-  // vercel curl sometimes prints progress lines; keep last JSON-looking chunk
-  const jsonLine = text
-    .split("\n")
-    .reverse()
-    .find((l) => l.trim().startsWith("{") || l.trim().startsWith("["));
+  const meta = `${r.stdout || ""}${r.stderr || ""}`;
+  const m = meta.match(/HTTPCODE:(\d+)/);
+  let status = m ? Number(m[1]) : 0;
+  let text = "";
+  try {
+    text = existsSync(bodyFile) ? require("fs").readFileSync(bodyFile, "utf8") : "";
+  } catch {
+    text = "";
+  }
+  if (existsSync(bodyFile)) {
+    try {
+      unlinkSync(bodyFile);
+    } catch {
+      /* ignore */
+    }
+  }
+  if (dataFile && existsSync(dataFile)) {
+    try {
+      unlinkSync(dataFile);
+    } catch {
+      /* ignore */
+    }
+  }
+  if (!status) status = r.status === 0 ? 200 : 500;
   let json: any = null;
   try {
-    json = JSON.parse(jsonLine || text);
+    json = JSON.parse(text);
   } catch {
-    try {
-      const i = text.lastIndexOf("{");
-      if (i >= 0) json = JSON.parse(text.slice(i));
-    } catch {
-      json = null;
-    }
+    json = null;
   }
   return { status, json, text };
 }
@@ -112,9 +120,11 @@ async function main() {
     process.exit(2);
   }
 
-  const health = vercelCurl("/");
-  if (health.status >= 200 && health.status < 500) verdict.PREVIEW = "OK";
-  else {
+  // Health : la home HTML peut être volumineuse — on accepte 2xx/3xx/404 HTML
+  const health = vercelCurl("/api/auth/me");
+  if (health.status === 401 || health.status === 200 || (health.status >= 200 && health.status < 500)) {
+    verdict.PREVIEW = "OK";
+  } else {
     errors.push(`Preview health HTTP ${health.status}`);
     print();
     process.exit(2);
