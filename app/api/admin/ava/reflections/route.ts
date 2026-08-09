@@ -60,20 +60,38 @@ export async function POST(request: NextRequest) {
     if ("error" in gate && gate.error) return gate.error;
     const user = gate.user!;
     const body = postSchema.parse(await request.json().catch(() => ({ action: "refresh" })));
-    const bundle = await runBusinessIntelligence({
-      ownerUserId: user.userId,
-      includeMarket: body.includeMarket ?? false,
-      persist: true,
-    });
-    return jsonResponse({
-      ok: true,
-      reflections: bundle.reflections,
-      anomalies: bundle.anomalies,
-      ideas: bundle.ideas.filter((i) => i.verdict !== "A_EVITER").slice(0, 12),
-      tour: bundle.tour,
-      missingData: bundle.missingData,
-      generatedAt: bundle.generatedAt,
-    });
+    try {
+      const bundle = await runBusinessIntelligence({
+        ownerUserId: user.userId,
+        includeMarket: body.includeMarket ?? false,
+        persist: true,
+      });
+      return jsonResponse({
+        ok: true,
+        reflections: bundle.reflections,
+        anomalies: bundle.anomalies,
+        ideas: bundle.ideas.filter((i) => i.verdict !== "A_EVITER").slice(0, 12),
+        tour: bundle.tour,
+        missingData: bundle.missingData,
+        generatedAt: bundle.generatedAt,
+        warning:
+          bundle.reflections.length === 0 && bundle.missingData.length
+            ? `Analyse partielle — sources manquantes : ${bundle.missingData.join(", ")}`
+            : undefined,
+      });
+    } catch (e) {
+      const detail = e instanceof Error ? e.message : String(e);
+      console.error("[ava.reflections] refresh failed", detail.slice(0, 500));
+      return jsonResponse(
+        {
+          ok: false,
+          error: "Analyse impossible",
+          detail: detail.slice(0, 400),
+          code: "BI_PIPELINE_FAILED",
+        },
+        500
+      );
+    }
   } catch (e) {
     return handleApiError(e);
   }

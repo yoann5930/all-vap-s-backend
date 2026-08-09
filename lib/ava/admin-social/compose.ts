@@ -135,48 +135,65 @@ export function composeSocialReply(input: SocialComposeInput): string {
 
     case "smalltalk": {
       const n = msg.toLowerCase();
+      const mem = (input.memoryHint || "").trim();
+      const threadBit =
+        thread?.subject && thread.subject !== "discussion"
+          ? ` On avait « ${thread.subject} » en fil si tu veux y revenir.`
+          : "";
       if (/crev|fatigu|dormi/.test(n)) {
         return pick(
           [
-            "Je vois. On peut rester léger, ou tu as un point précis à regarder ?",
-            "OK. Tu veux juste discuter, ou tu as quelque chose sous la main ?",
+            `Je vois${name ? ` ${name}` : ""}. On peut rester léger — ou tu as un point précis ?`,
+            "OK. On discute sans basculer sur les chiffres, sauf si tu en as besoin.",
           ],
-          msg
+          msg + (thread?.subject || "")
         );
       }
       if (/quoi de neuf|quoi de beau/.test(n)) {
+        if (mem && /sujet=|FIL ACTIF|FAITS MÉMORISÉS/i.test(mem)) {
+          const hint = mem.match(/Dernier sujet\s*:\s*([^\n]+)/i)?.[1]?.trim();
+          if (hint && hint !== "discussion") {
+            return `Rien d'urgent sous les yeux. Le dernier fil qu'on avait, c'était « ${hint.slice(0, 60)} » — on y retourne ou autre chose ?`;
+          }
+        }
         return pick(
           [
-            "Pas grand-chose de brûlant sous les yeux pour l'instant. Toi, tu as un truc en tête ?",
+            "Pas grand-chose de brûlant pour l'instant. Toi, tu as un truc en tête ?",
             "Rien d'urgent de mon côté. Tu voulais parler de quelque chose ?",
           ],
-          msg
+          msg + (thread?.updatedAt || "")
         );
       }
       if (/on parle|on discute/.test(n)) {
-        return pick(
-          [
-            "OK, on discute. Qu'est-ce qui te passe par la tête ?",
-            "Vas-y. Je t'écoute — sans basculer tout de suite sur les chiffres.",
-          ],
-          msg
-        );
+        return `OK, on discute.${threadBit} Qu'est-ce qui te passe par la tête ?`;
       }
       if (/site|tour/.test(n) && !/stock|vente|commande/.test(n)) {
         return pick(
           [
-            "Je m'en doutais. Tu regardes quelque chose de précis, ou tu fais juste un tour ?",
-            "OK. Tu cherches un truc précis sur le site, ou c'est une passe générale ?",
+            "OK. Tu regardes quelque chose de précis sur le site, ou c'est une passe générale ?",
+            "Je vois. Tu cherches une fiche / une gamme, ou tu fais juste un tour ?",
           ],
           msg
         );
       }
+      // Rebond concret sur le message user — jamais « Je te suis » / « Dis-moi ce qui te préoccupe »
+      const snippet = msg.replace(/\s+/g, " ").trim().slice(0, 90);
+      if (snippet.length > 8) {
+        return pick(
+          [
+            `Sur « ${snippet} » : je suis là. Tu veux qu'on creuse ça, ou c'est juste une remarque ?`,
+            `OK pour « ${snippet} ». Tu précises un peu, ou on reste là-dessus ?`,
+            `${name ? name + ", " : ""}j'ai bien lu. Tu veux mon avis là-dessus, ou on enchaîne sur autre chose ?`,
+          ],
+          msg + String(thread?.updatedAt || "") + snippet.slice(0, 12)
+        );
+      }
       return pick(
         [
-          "OK. Dis-moi ce qui te préoccupe — ou on reste sur du simple si tu préfères.",
-          "Je te suis. Tu veux qu'on reste en mode discussion, ou on passe sur un point concret ?",
+          `OK${name ? ` ${name}` : ""}.${threadBit} Tu me dis ce que tu as en tête.`,
+          `Je suis là.${threadBit} Dis-moi juste sur quoi tu veux qu'on avance.`,
         ],
-        msg
+        msg + (thread?.subject || "x") + String((thread?.updatedAt || msg).length % 7)
       );
     }
 
@@ -264,7 +281,9 @@ export function composeSocialReply(input: SocialComposeInput): string {
 
     case "light_ack": {
       if (signal) return leadWithWork(signal) + " " + pick(["Tu suis ?", "Je continue ?", ""], signal);
-      if (thread?.summary) return `${thread.summary.slice(0, 200)} Je continue ?`;
+      if (thread?.summary) {
+        return `Sur « ${thread.subject} » : ${thread.summary.slice(0, 180).replace(/\s+/g, " ")} — tu veux que je précise, ou on change d'angle ?`;
+      }
       return "OK — je continue sur le dernier point.";
     }
 
@@ -371,9 +390,10 @@ export function nextThreadAfterTurn(params: {
   if (params.move === "thanks" || params.move === "identity" || params.move === "greeting") {
     return {
       subject: params.previous?.subject || "discussion",
-      summary: params.assistantText.slice(0, 220),
-      status: "open",
-      register: "social",
+      summary: params.previous?.summary || params.assistantText.slice(0, 220),
+      status: params.previous?.status === "deferred" ? "deferred" : "open",
+      deferredNote: params.previous?.deferredNote,
+      register: params.previous?.register || "social",
       updatedAt: now,
     };
   }
@@ -381,9 +401,10 @@ export function nextThreadAfterTurn(params: {
   if (params.move === "check_in" || params.move === "smalltalk" || params.move === "leave_work") {
     return {
       subject: params.previous?.subject || "discussion",
-      summary: params.assistantText.slice(0, 220),
-      status: "open",
-      register: "social",
+      summary: params.previous?.summary || params.assistantText.slice(0, 220),
+      status: params.previous?.status === "deferred" ? "deferred" : "open",
+      deferredNote: params.previous?.deferredNote,
+      register: params.previous?.register || "social",
       updatedAt: now,
     };
   }
@@ -406,8 +427,10 @@ export function nextThreadAfterTurn(params: {
 
 function inferSubjectFromText(text: string): string | null {
   if (/ventes?\s*\/\s*insatisf|possible frein/i.test(text)) return "ruptures stock";
+  if (/banni[eè]re/i.test(text) && /twenty/i.test(text)) return "bannière Twenty";
+  if (/teste?r?\s+une\s+banni[eè]re/i.test(text)) return "bannière Twenty";
   const m = text.match(
-    /(?:gamme|stock|ruptures?|promo|prix|hautmont|quesnoy|commande|anomal\w*|banni[eè]re|mise en avant)[^.!?\n]{0,50}/i
+    /(?:gamme|stock|ruptures?|promo|prix|hautmont|quesnoy|commande|anomal\w*|banni[eè]re|mise en avant|twenty)[^.!?\n]{0,50}/i
   );
   return m?.[0]?.trim().slice(0, 80) || null;
 }

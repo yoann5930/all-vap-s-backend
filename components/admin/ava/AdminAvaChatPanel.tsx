@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
+import { authFetch } from "@/lib/auth-client";
 
 type LinkItem = { label: string; href: string; kind?: string };
 type Msg = {
@@ -298,7 +299,7 @@ export function AdminAvaChatPanel() {
 
   const loadIdentities = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/ava/identities", { cache: "no-store" });
+      const res = await authFetch("/api/admin/ava/identities");
       if (!res.ok) return;
       const data = await res.json();
       setIdentities(data.identities || []);
@@ -311,7 +312,7 @@ export function AdminAvaChatPanel() {
   const loadMemory = useCallback(async (cid?: string | null) => {
     try {
       const q = cid ? `?conversationId=${encodeURIComponent(cid)}` : "";
-      const res = await fetch(`/api/admin/ava/memory${q}`, { cache: "no-store" });
+      const res = await authFetch(`/api/admin/ava/memory${q}`);
       if (!res.ok) return;
       const data = await res.json();
       setMemoryFacts(data.facts || []);
@@ -323,7 +324,7 @@ export function AdminAvaChatPanel() {
 
   const load = useCallback(async (cid?: string | null) => {
     const q = cid ? `?conversationId=${encodeURIComponent(cid)}` : "";
-    const res = await fetch(`/api/admin/ava/chat${q}`, { cache: "no-store" });
+    const res = await authFetch(`/api/admin/ava/chat${q}`);
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       setError(
@@ -388,7 +389,7 @@ export function AdminAvaChatPanel() {
   }, [messages, loading]);
 
   async function newConversation() {
-    const res = await fetch("/api/admin/ava/conversations", {
+    const res = await authFetch("/api/admin/ava/conversations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({}),
@@ -421,7 +422,7 @@ export function AdminAvaChatPanel() {
     setInput("");
     setTranscriptLive("");
     try {
-      const res = await fetch("/api/admin/ava/chat", {
+      const res = await authFetch("/api/admin/ava/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -815,7 +816,7 @@ export function AdminAvaChatPanel() {
   async function addOwner() {
     const email = newOwnerEmail.trim();
     if (!email) return;
-    const res = await fetch("/api/admin/ava/identities", {
+    const res = await authFetch("/api/admin/ava/identities", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ primaryEmail: email, verify: true }),
@@ -830,7 +831,7 @@ export function AdminAvaChatPanel() {
   }
 
   async function removeOwner(email: string) {
-    const res = await fetch("/api/admin/ava/identities", {
+    const res = await authFetch("/api/admin/ava/identities", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ primaryEmail: email }),
@@ -944,7 +945,7 @@ export function AdminAvaChatPanel() {
                   className="text-xs text-brand-700 hover:underline"
                   onClick={() =>
                     void (async () => {
-                      await fetch("/api/admin/ava/memory", {
+                      await authFetch("/api/admin/ava/memory", {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -990,7 +991,7 @@ export function AdminAvaChatPanel() {
                           void (async () => {
                             const content = window.prompt("Corriger ce souvenir :", f.content);
                             if (!content) return;
-                            await fetch("/api/admin/ava/memory", {
+                            await authFetch("/api/admin/ava/memory", {
                               method: "PATCH",
                               headers: { "Content-Type": "application/json" },
                               body: JSON.stringify({
@@ -1010,7 +1011,7 @@ export function AdminAvaChatPanel() {
                         className="text-brand-700 hover:underline"
                         onClick={() =>
                           void (async () => {
-                            await fetch("/api/admin/ava/memory", {
+                            await authFetch("/api/admin/ava/memory", {
                               method: "PATCH",
                               headers: { "Content-Type": "application/json" },
                               body: JSON.stringify({
@@ -1030,7 +1031,7 @@ export function AdminAvaChatPanel() {
                         className="text-red-600 hover:underline"
                         onClick={() =>
                           void (async () => {
-                            await fetch("/api/admin/ava/memory", {
+                            await authFetch("/api/admin/ava/memory", {
                               method: "PATCH",
                               headers: { "Content-Type": "application/json" },
                               body: JSON.stringify({ action: "delete", itemId: f.id }),

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
+import { authFetch } from "@/lib/auth-client";
 
 type Reflection = {
   id: string;
@@ -24,19 +25,41 @@ type MemoryItem = {
   confidence: number;
 };
 
+async function readApiError(res: Response, fallback: string): Promise<string> {
+  try {
+    const data = (await res.json()) as {
+      error?: string;
+      message?: string;
+      detail?: string;
+      code?: string;
+    };
+    const parts = [
+      data.error || data.message || fallback,
+      data.detail,
+      data.code ? `(${data.code})` : null,
+      `HTTP ${res.status}`,
+    ].filter(Boolean);
+    return parts.join(" — ");
+  } catch {
+    return `${fallback} — HTTP ${res.status}`;
+  }
+}
+
 export default function AdminAvaReflectionsPage() {
   const [reflections, setReflections] = useState<Reflection[]>([]);
   const [memory, setMemory] = useState<MemoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastGeneratedAt, setLastGeneratedAt] = useState<string | null>(null);
+  const [missingData, setMissingData] = useState<string[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/ava/reflections", { cache: "no-store" });
-      if (!res.ok) throw new Error("Lecture impossible");
+      const res = await authFetch("/api/admin/ava/reflections");
+      if (!res.ok) throw new Error(await readApiError(res, "Lecture impossible"));
       const data = await res.json();
       setReflections(data.reflections || []);
       setMemory(data.businessMemory || []);
@@ -55,14 +78,21 @@ export default function AdminAvaReflectionsPage() {
     setRefreshing(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/ava/reflections", {
+      const res = await authFetch("/api/admin/ava/reflections", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "refresh" }),
       });
-      if (!res.ok) throw new Error("Analyse impossible");
+      if (!res.ok) {
+        throw new Error(await readApiError(res, "Analyse impossible"));
+      }
       const data = await res.json();
       setReflections(data.reflections || []);
+      setLastGeneratedAt(data.generatedAt || null);
+      setMissingData(Array.isArray(data.missingData) ? data.missingData : []);
+      if (data.warning) {
+        setError(String(data.warning));
+      }
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
@@ -80,6 +110,11 @@ export default function AdminAvaReflectionsPage() {
             <p className="text-sm text-gray-600">
               Synthèses métier structurées — pas de chaîne de pensée privée.
             </p>
+            {lastGeneratedAt && (
+              <p className="text-xs text-gray-500">
+                Dernière analyse : {new Date(lastGeneratedAt).toLocaleString("fr-FR")}
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             <Link href="/admin/ava" className="text-sm text-brand-700 hover:underline">
@@ -89,14 +124,22 @@ export default function AdminAvaReflectionsPage() {
               Radar marché
             </Link>
             <Button type="button" onClick={() => void refresh()} disabled={refreshing}>
-              {refreshing ? "Analyse…" : "Relancer l&apos;analyse"}
+              {refreshing ? "Analyse…" : "Relancer l'analyse"}
             </Button>
           </div>
         </div>
       </header>
 
       {error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          {error}
+        </p>
+      )}
+
+      {missingData.length > 0 && (
+        <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-900">
+          Données partielles : {missingData.join(", ")}
+        </p>
       )}
 
       {loading ? (

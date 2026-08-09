@@ -71,6 +71,28 @@ export async function updateAdminMemoryAfterTurn(params: {
       }
     }
 
+    // Décision / projet en cours
+    if (
+      /on (va|fait|teste|garde|lance)|d[eé]cision|mission|projet|todo|à faire/i.test(userMessage) &&
+      userMessage.length > 12 &&
+      userMessage.length < 280
+    ) {
+      await upsertAdminMemoryItem(ownerUserId, {
+        kind: /pr[eé]f[eè]re|toujours/i.test(userMessage)
+          ? "user_preference"
+          : "pending_decision",
+        subject:
+          params.activeThread?.subject ||
+          intent.topicHint ||
+          extractProjectHint(userMessage) ||
+          "decision",
+        content: userMessage.slice(0, 300),
+        importance: "high",
+        taskStatus: intent.isPause || params.socialMove === "defer" ? "paused" : "in_progress",
+        source: "user",
+      });
+    }
+
     // Faits outils / statut utiles (courts)
     if (intent.topicHint && intent.preferShort && assistantText.length < 900) {
       await upsertAdminMemoryItem(ownerUserId, {

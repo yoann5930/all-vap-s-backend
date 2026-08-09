@@ -13,9 +13,11 @@ import {
   analyzeAdminIntent,
   compactHistoryForLlm,
   dampenRepetition,
+  forceGroundedReply,
   isTooSimilarToRecent,
   loadAdminPersistentMemory,
   loadAdminSessionMemory,
+  looksLikeBannedGeneric,
   retrieveRelevantAdminMemory,
   updateAdminMemoryAfterTurn,
   type AdminIntentAnalysis,
@@ -34,6 +36,7 @@ import {
   detectSocialMove,
   firstNameFromEmail,
   nextThreadAfterTurn,
+  shouldPreferLocalCompose,
   type ActiveThread,
 } from "@/lib/ava/admin-social";
 
@@ -68,13 +71,19 @@ const ADMIN_SYSTEM = `Tu es A.V.A., collaboratrice numérique senior All Vap's (
 STYLE :
 - collègue qui travaille déjà, pas chatbot d'accueil ;
 - naturel, direct, tutoiement ; phrases courtes si question simple ;
-- continue la conversation ; références (« ça », « pourquoi », « l'autre boutique », « on reprend ») via MÉMOIRE ;
+- continue la conversation ; références (« ça », « pourquoi », « l'autre boutique », « on reprend ») via MÉMOIRE et HISTORIQUE ;
 - tu peux avoir un avis argumenté et ne pas être d'accord ; si une donnée contredit ton idée, tu changes d'avis clairement ;
 - pas de chaîne de pensée privée : structure métier (observation / hypothèse / idée / risque / confiance) quand c'est utile ;
 - si le contexte outils contient un tour / anomalies / idées : réutilise-les en prose humaine, ne redis pas un menu.
 
+ANTI-RÉPÉTITION (critique) :
+- ne jamais recycler « Je te suis », « Dis-moi ce qui te préoccupe », ni une formule déjà dite dans l'historique ;
+- chaque réponse doit avancer : répondre précisément au DERNIER message de l'admin ;
+- si tu n'as pas l'info : dis-le clairement, sans blabla générique.
+
 RÈGLES :
 - n'invente jamais chiffres, stocks, droits, états ;
+- ne prétends jamais te souvenir d'un fait absent de CONTEXTE UTILE / MÉMOIRE ;
 - distingue : mémoire vs outils vérifiés vs observation marché web vs inconnu ;
 - corrélation ≠ causalité ; données insuffisantes → le dire ;
 - ne propose pas systématiquement une remise ; préfère tests mesurables (visibilité, contenu, animation) quand pertinent ;
@@ -92,6 +101,7 @@ async function chatAdminWithOpenAI(params: {
   sessionLine?: string;
   intent: AdminIntentAnalysis;
   preferShort: boolean;
+  antiRepeatHint?: string;
 }): Promise<string | null> {
   const key = getOpenAIKey();
   if (!key) return null;
@@ -109,8 +119,11 @@ async function chatAdminWithOpenAI(params: {
     params.factsBlock
       ? `CONTEXTE UTILE :\n${params.factsBlock.slice(0, 7000)}`
       : "CONTEXTE UTILE : (vide)",
+    params.antiRepeatHint
+      ? `CONSIGNE ANTI-RÉPÉTITION : ${params.antiRepeatHint}`
+      : "",
     "",
-    `Message admin : ${params.message}`,
+    `Message admin (réponds À CE MESSAGE, pas à un message précédent) : ${params.message}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -130,7 +143,7 @@ async function chatAdminWithOpenAI(params: {
           { role: "user", content: userContent },
         ],
         max_tokens: params.preferShort ? 320 : 900,
-        temperature: params.preferShort ? 0.35 : 0.45,
+        temperature: params.preferShort ? 0.45 : 0.55,
       }),
     });
     if (!res.ok) return null;
@@ -401,7 +414,12 @@ export async function answerAdminAvaConversation(params: {
         })
       : null;
 
-  const socialText = social.preferLocalCompose
+  const useLocalSocial = shouldPreferLocalCompose(
+    social.move,
+    social.preferLocalCompose
+  );
+
+  const socialText = useLocalSocial
     ? composeSocialReply({
         move: social.move,
         ownerFirstName,
@@ -418,12 +436,19 @@ export async function answerAdminAvaConversation(params: {
     ? `SESSION AUTHENTIFIÉE : email=${params.sessionIdentity.email} ; rôleApplicatif=${params.sessionIdentity.appRole} ; rôleBase=${params.sessionIdentity.effectiveRole}`
     : "";
 
+  const recentUser = history
+    .filter((h) => h.role === "user")
+    .slice(-3)
+    .map((h) => h.content.slice(0, 160))
+    .join(" | ");
+
   const factsParts = [
     sessionLine,
     memoryBlock,
     activeThread
       ? `FIL SOCIAL : ${activeThread.status} · ${activeThread.subject} · ${activeThread.summary.slice(0, 200)}`
       : "",
+    recentUser ? `DERNIERS MESSAGES ADMIN : ${recentUser}` : "",
     params.opsText ? `VÉRIFIÉ À L'INSTANT (OPS) :\n${params.opsText}` : "",
     toolRun?.factsText
       ? `VÉRIFIÉ À L'INSTANT (OUTILS) :\n${
@@ -440,8 +465,8 @@ export async function answerAdminAvaConversation(params: {
   const factsBlock = factsParts.join("\n\n") || undefined;
 
   let openai: string | null = null;
-  // Social local prioritaire : on n'appelle OpenAI que pour le travail « open »
-  if (!social.preferLocalCompose) {
+  // Social local seulement pour salut / check-in / defer… — le reste passe par OpenAI + contexte
+  if (!useLocalSocial) {
     try {
       openai = await chatAdminWithOpenAI({
         message: msg,
@@ -465,7 +490,29 @@ export async function answerAdminAvaConversation(params: {
     memoryHint: memoryBlock,
   });
 
+  // Fallback sans OpenAI : compose contextualisé (smalltalk / follow-ups)
+  const socialFallback =
+    !useLocalSocial &&
+    !openai &&
+    (social.move === "smalltalk" ||
+      social.move === "light_ack" ||
+      social.move === "work")
+      ? composeSocialReply({
+          move: social.move === "work" ? "light_ack" : social.move,
+          ownerFirstName,
+          message: msg,
+          resolvedSubject: social.resolvedSubject,
+          activeThread,
+          workSignal,
+          stance: null,
+          memoryHint: memoryBlock,
+        })
+      : null;
+
   if (openai && looksLikeChatbot(openai)) {
+    openai = null;
+  }
+  if (openai && looksLikeBannedGeneric(openai)) {
     openai = null;
   }
 
@@ -474,40 +521,90 @@ export async function answerAdminAvaConversation(params: {
     openai = null;
   }
 
-  let text = socialText || openai || local;
+  let text = socialText || openai || socialFallback || local;
   text = dampenRepetition(text, social.preferShort || intent.preferShort);
-  text = stripChatbotVoice(text, socialText || local);
+  text = stripChatbotVoice(text, socialText || socialFallback || local);
   text = stripTechnicalLeak(
     text,
     "J'ai un souci de lecture sur les commandes pour l'instant — je ne te balance pas le détail technique. On réessaie ?"
   );
 
+  const recentAssistantTexts = [
+    ...sessionFingerprints,
+    ...history.filter((h) => h.role === "assistant").slice(-3).map((h) => h.content),
+  ];
+
   // Anti-répétition vs dernières réponses
   if (
-    isTooSimilarToRecent(text, sessionFingerprints) ||
-    isTooSimilarToRecent(
-      text,
-      history.filter((h) => h.role === "assistant").slice(-2).map((h) => h.content)
-    )
+    looksLikeBannedGeneric(text) ||
+    isTooSimilarToRecent(text, recentAssistantTexts)
   ) {
-    if (socialText && workSignal) {
+    // Moves structurés locaux : variante, jamais « reformule en une phrase »
+    if (
+      social.move === "greeting" ||
+      social.move === "check_in" ||
+      social.move === "thanks" ||
+      social.move === "identity" ||
+      social.move === "defer" ||
+      social.move === "resume" ||
+      social.move === "leave_work" ||
+      social.move === "ask_opinion" ||
+      social.move === "disagree_prompt"
+    ) {
       text = composeSocialReply({
-        move: social.move === "greeting" ? "check_in" : social.move,
+        move: social.move,
         ownerFirstName,
-        message: msg + "|alt",
+        message: msg + "|alt|" + String(recentAssistantTexts.length),
         resolvedSubject: social.resolvedSubject,
         activeThread,
-        workSignal,
+        workSignal: social.move === "ask_opinion" || social.move === "disagree_prompt" ? workSignal : null,
         stance,
         memoryHint: memoryBlock,
       });
-    } else if (toolRun?.results.length) {
-      text = shortFromTool(toolRun.results, intent.topicHint);
     } else {
-      text = dampenRepetition(text, true);
-      if (text.length > 200) {
-        text =
-          text.split(/[.!?]/).filter(Boolean).slice(0, 2).join(". ").trim() + ".";
+      let rewritten: string | null = null;
+      if (!useLocalSocial) {
+        try {
+          rewritten = await chatAdminWithOpenAI({
+            message: msg,
+            history,
+            factsBlock,
+            sessionLine,
+            intent: { ...intent, preferShort: true },
+            preferShort: true,
+            antiRepeatHint:
+              "Ta précédente réponse était trop générique ou répétitive. Reformule complètement. Interdit : « Je te suis », « Dis-moi ce qui te préoccupe ». Réponds au dernier message admin.",
+          });
+        } catch {
+          rewritten = null;
+        }
+      }
+      if (
+        rewritten &&
+        !looksLikeBannedGeneric(rewritten) &&
+        !isTooSimilarToRecent(rewritten, recentAssistantTexts, 0.55)
+      ) {
+        text = rewritten;
+      } else if (toolRun?.results.length) {
+        text = shortFromTool(toolRun.results, intent.topicHint);
+      } else if (workSignal) {
+        text = composeSocialReply({
+          move: social.move === "work" ? "light_ack" : social.move,
+          ownerFirstName,
+          message: msg + "|alt",
+          resolvedSubject: social.resolvedSubject,
+          activeThread,
+          workSignal,
+          stance,
+          memoryHint: memoryBlock,
+        });
+      } else {
+        text = forceGroundedReply({
+          userMessage: msg,
+          recentAssistant: recentAssistantTexts,
+          ownerFirstName,
+          threadSubject: activeThread?.subject || social.resolvedSubject,
+        });
       }
     }
   }

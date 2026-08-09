@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
+import { authFetch } from "@/lib/auth-client";
 
 type Signal = {
   id: string;
@@ -38,8 +39,15 @@ export default function AdminAvaRadarPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/ava/radar", { cache: "no-store" });
-      if (!res.ok) throw new Error("Lecture impossible");
+      const res = await authFetch("/api/admin/ava/radar");
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(
+          [body.error || body.message || "Lecture impossible", body.detail, `HTTP ${res.status}`]
+            .filter(Boolean)
+            .join(" — ")
+        );
+      }
       const data = await res.json();
       setSignals(data.signals || []);
     } catch (e) {
@@ -57,12 +65,19 @@ export default function AdminAvaRadarPage() {
     setRefreshing(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/ava/radar", {
+      const res = await authFetch("/api/admin/ava/radar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "refresh" }),
       });
-      if (!res.ok) throw new Error("Veille impossible");
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(
+          [body.error || body.message || "Veille impossible", body.detail, `HTTP ${res.status}`]
+            .filter(Boolean)
+            .join(" — ")
+        );
+      }
       const data = await res.json();
       setSignals(data.signals || []);
       setMissing(data.missingData || []);

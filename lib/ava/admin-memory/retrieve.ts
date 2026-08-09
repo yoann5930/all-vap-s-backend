@@ -54,6 +54,20 @@ export function retrieveRelevantAdminMemory(params: {
     .slice(0, params.limit ?? 8)
     .map((x) => x.item);
 
+  // Préférences + faits confirmés toujours injectés (même hors score lexical)
+  const always = active
+    .filter(
+      (i) =>
+        i.kind === "user_preference" ||
+        i.kind === "confirmed_fact" ||
+        i.kind === "pending_decision" ||
+        i.importance === "high"
+    )
+    .slice(0, 5);
+  for (const t of always) {
+    if (!scored.find((s) => s.id === t.id)) scored.push(t);
+  }
+
   // Toujours inclure tâches paused / in_progress (max 3) si absentes
   const tasks = active
     .filter((i) => i.taskStatus === "paused" || i.taskStatus === "in_progress")
@@ -93,7 +107,7 @@ export function compactHistoryForLlm(
   history: { role: "user" | "assistant"; content: string }[],
   preferShort: boolean
 ): { role: "user" | "assistant"; content: string }[] {
-  const take = preferShort ? 8 : 12;
+  const take = preferShort ? 12 : 20;
   return history.slice(-take).map((t) => {
     if (t.role === "user") {
       return { role: t.role, content: t.content.slice(0, 800) };

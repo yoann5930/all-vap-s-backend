@@ -24,12 +24,14 @@ function lastAssistantWorkSubject(
     if (t.role !== "assistant") continue;
     const c = t.content;
     if (
-      /stock|rupture|hautmont|quesnoy|vente|gamme|promo|prix|commande|anomal|banni|mise en avant|remise|%-|insatisf/i.test(
+      /stock|rupture|hautmont|quesnoy|vente|gamme|promo|prix|commande|anomal|banni|mise en avant|remise|%-|insatisf|twenty|simulation/i.test(
         c
       )
     ) {
+      const banner = c.match(/banni[eè]re[^.!?\n]{0,40}|twenty[^.!?\n]{0,20}/i);
+      if (banner) return banner[0].trim().slice(0, 80);
       const m = c.match(
-        /(?:gamme|stock|ventes?|promo|prix|commande|anomal\w*|hautmont|quesnoy|banni[eè]re|mise en avant|remise)[^.!?\n]{0,70}/i
+        /(?:gamme|stock|ventes?|promo|prix|commande|anomal\w*|hautmont|quesnoy|banni[eè]re|mise en avant|remise|twenty)[^.!?\n]{0,70}/i
       );
       if (m) return m[0].trim().slice(0, 80);
       const first = c.split(/[.!?]/)[0]?.trim().slice(0, 80) || null;
@@ -174,7 +176,7 @@ export function detectSocialMove(
     return base("check_in", "SOCIAL_SMALLTALK", { wantTools: false });
   }
 
-  // Smalltalk / conversation pure
+  // Smalltalk / conversation pure — outils OFF, mais LLM ON (pas de template figé)
   if (
     has(n, [
       "on parle un peu",
@@ -198,7 +200,10 @@ export function detectSocialMove(
         preferShort: false,
       });
     }
-    return base("smalltalk", "SOCIAL_SMALLTALK", { wantTools: false });
+    return base("smalltalk", "SOCIAL_SMALLTALK", {
+      wantTools: false,
+      preferLocalCompose: false,
+    });
   }
 
   if (
@@ -229,7 +234,14 @@ export function detectSocialMove(
     ]) ||
     (/^demain[!?.]*$/.test(n) && n.length < 20)
   ) {
-    return base("defer", "FOLLOW_UP", { wantTools: false });
+    const deferSubject =
+      sanitizeSubject(activeThread?.subject) ||
+      sanitizeSubject(lastAssistantWorkSubject(history)) ||
+      resolvedSubject;
+    return base("defer", "FOLLOW_UP", {
+      wantTools: false,
+      resolvedSubject: deferSubject,
+    });
   }
 
   if (
@@ -269,24 +281,77 @@ export function detectSocialMove(
     return base("thanks", "GENERAL_CONVERSATION", { wantTools: false });
   }
 
-  if (/^(ah oui|vas y|continue|dis moi|et alors|ok et)[!?.]*$/.test(n)) {
+  if (
+    /^(ah oui|vas y|continue|dis moi|et alors|ok et)(\s*[!?]*)?$/.test(n)
+  ) {
     return base("light_ack", "FOLLOW_UP", {
       wantTools: Boolean(resolvedSubject && looksBusinessAsk(norm(resolvedSubject))),
+      preferLocalCompose: false,
+    });
+  }
+
+  // Relance courte après un sujet métier (« pourquoi ? », « et Hautmont ? »)
+  if (
+    /^(pourquoi|et alors|comment)(\s*[!?]*)?$/.test(n) ||
+    (/^(et)\b/.test(n) && n.length < 40)
+  ) {
+    const biz = Boolean(resolvedSubject && looksBusinessAsk(norm(resolvedSubject)));
+    return base(biz ? "work" : "smalltalk", biz ? "FOLLOW_UP" : "GENERAL_CONVERSATION", {
+      wantTools: biz,
+      preferLocalCompose: false,
+      preferShort: true,
+      resolvedSubject,
+    });
+  }
+
+  if (
+    has(n, [
+      "je suis pas d accord",
+      "je ne suis pas d accord",
+      "pas d accord",
+      "non je suis pas d accord",
+    ]) ||
+    /^non\b.*(d accord|daccord)/.test(n)
+  ) {
+    return base("disagree_prompt", "FOLLOW_UP", {
+      resolvedSubject: resolvedSubject || "proposition en cours",
+      wantTools: false,
+      preferShort: true,
+      preferLocalCompose: true,
+    });
+  }
+
+  if (/propose autre chose|autre piste|autre idee|autre id[eé]e/.test(n)) {
+    return base("ask_opinion", "FOLLOW_UP", {
+      resolvedSubject: resolvedSubject || "alternative",
+      wantTools: false,
+      preferShort: true,
+      preferLocalCompose: true,
     });
   }
 
   // Demande métier explicite
   if (looksBusinessAsk(n)) {
+    const fromMsg =
+      sanitizeSubject(
+        message.match(
+          /(?:stock|vente|commande|hautmont|quesnoy|catalogue|anomal|promo|banni[eè]re|twenty)[^.!?\n]{0,50}/i
+        )?.[0] || null
+      ) || resolvedSubject;
     return base("work", "BUSINESS_QUESTION", {
       preferLocalCompose: false,
       wantTools: true,
       preferShort: n.length < 55,
+      resolvedSubject: fromMsg,
     });
   }
 
-  // Court message non classé → conversation générale, pas d'outils
+  // Court message non classé → conversation générale via LLM (pas de template « Je te suis »)
   if (n.length < 40 && !looksBusinessAsk(n)) {
-    return base("smalltalk", "GENERAL_CONVERSATION", { wantTools: false });
+    return base("smalltalk", "GENERAL_CONVERSATION", {
+      wantTools: false,
+      preferLocalCompose: false,
+    });
   }
 
   return base("work", "BUSINESS_QUESTION", {
@@ -294,6 +359,25 @@ export function detectSocialMove(
     wantTools: true,
     preferShort: n.length < 55,
   });
+}
+
+/** Moves qui restent en compose local déterministe (salut / check-in / identité…). */
+export function shouldPreferLocalCompose(
+  move: SocialMove,
+  preferLocalCompose: boolean
+): boolean {
+  if (!preferLocalCompose) return false;
+  return (
+    move === "greeting" ||
+    move === "check_in" ||
+    move === "thanks" ||
+    move === "identity" ||
+    move === "leave_work" ||
+    move === "defer" ||
+    move === "resume" ||
+    move === "ask_opinion" ||
+    move === "disagree_prompt"
+  );
 }
 
 export function firstNameFromEmail(email?: string | null): string | null {

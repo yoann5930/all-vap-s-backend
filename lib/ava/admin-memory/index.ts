@@ -29,6 +29,8 @@ export {
   dampenRepetition,
   makeReplyFingerprint,
   replySimilarity,
+  looksLikeBannedGeneric,
+  forceGroundedReply,
 } from "./anti-repeat";
 export { updateAdminMemoryAfterTurn, getAdminMemorySnapshot } from "./extract";
 

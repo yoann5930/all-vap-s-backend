@@ -12,6 +12,7 @@ export {
   firstNameFromEmail,
   isSocialMove,
   isPureSocialMove,
+  shouldPreferLocalCompose,
 } from "./detect";
 
 export {

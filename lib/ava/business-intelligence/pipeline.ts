@@ -31,7 +31,6 @@ function buildReflections(
   for (const a of anomalies.slice(0, 8)) {
     const hyp = hypotheses.find((h) => h.anomalyId === a.id);
     const idea = ideas.find((i) => i.subject === a.title && i.verdict !== "A_EVITER");
-    if (!hyp && !idea) continue;
     cards.push({
       id: id("ref"),
       observation: a.text,

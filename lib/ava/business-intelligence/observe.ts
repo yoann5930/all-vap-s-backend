@@ -17,125 +17,144 @@ export async function observeSales(periodKey: DatePeriod = "today"): Promise<{
   observations: BiObservation[];
   missingData: string[];
 }> {
-  const settings = await getReportSettings();
-  const period = resolvePeriod(periodKey, settings.timezone);
-  const prevKey: DatePeriod =
-    periodKey === "today"
-      ? "yesterday"
-      : periodKey === "this_week"
-        ? "last_week"
-        : periodKey === "this_month"
-          ? "last_month"
-          : "yesterday";
-  const prev = resolvePeriod(prevKey, settings.timezone);
-  const [cur, previous] = await Promise.all([
-    buildGestionSnapshot(period),
-    buildGestionSnapshot(prev),
-  ]);
-  const cmp = compareSnapshots(cur, previous);
-  const observations: BiObservation[] = [
-    {
-      id: id("obs"),
-      kind: "sales",
-      subject: "ventes_periode",
-      text: `Période ${cur.period.label} : ${cur.orders.paid} commandes payées, CA ${cur.revenue.confirmedLabel}, panier moyen ${cur.revenue.averageBasketLabel ?? "n/a"}.`,
-      metrics: {
-        paid: cur.orders.paid,
-        received: cur.orders.received,
-        pendingPayment: cur.orders.pendingPayment,
-        revenueCents: cur.revenue.confirmedCents,
-        toPrepare: cur.preparation.toPrepare,
+  try {
+    const settings = await getReportSettings();
+    const period = resolvePeriod(periodKey, settings.timezone);
+    const prevKey: DatePeriod =
+      periodKey === "today"
+        ? "yesterday"
+        : periodKey === "this_week"
+          ? "last_week"
+          : periodKey === "this_month"
+            ? "last_month"
+            : "yesterday";
+    const prev = resolvePeriod(prevKey, settings.timezone);
+    const [cur, previous] = await Promise.all([
+      buildGestionSnapshot(period),
+      buildGestionSnapshot(prev),
+    ]);
+    const cmp = compareSnapshots(cur, previous);
+    const observations: BiObservation[] = [
+      {
+        id: id("obs"),
+        kind: "sales",
+        subject: "ventes_periode",
+        text: `Période ${cur.period.label} : ${cur.orders.paid} commandes payées, CA ${cur.revenue.confirmedLabel}, panier moyen ${cur.revenue.averageBasketLabel ?? "n/a"}.`,
+        metrics: {
+          paid: cur.orders.paid,
+          received: cur.orders.received,
+          pendingPayment: cur.orders.pendingPayment,
+          revenueCents: cur.revenue.confirmedCents,
+          toPrepare: cur.preparation.toPrepare,
+        },
+        periodLabel: cur.period.label,
+        source: cur.source,
+        observedAt: new Date().toISOString(),
       },
-      periodLabel: cur.period.label,
-      source: cur.source,
-      observedAt: new Date().toISOString(),
-    },
-    {
-      id: id("obs"),
-      kind: "sales",
-      subject: "comparaison_periode",
-      text: `Vs ${previous.period.label} : Δ commandes payées ${cmp.ordersDelta >= 0 ? "+" : ""}${cmp.ordersDelta}${
-        cmp.revenueDeltaPct != null ? ` · Δ CA ${cmp.revenueDeltaPct > 0 ? "+" : ""}${cmp.revenueDeltaPct}%` : ""
-      }.`,
-      metrics: {
-        ordersDelta: cmp.ordersDelta,
-        revenueDeltaPct: cmp.revenueDeltaPct,
+      {
+        id: id("obs"),
+        kind: "sales",
+        subject: "comparaison_periode",
+        text: `Vs ${previous.period.label} : Δ commandes payées ${cmp.ordersDelta >= 0 ? "+" : ""}${cmp.ordersDelta}${
+          cmp.revenueDeltaPct != null ? ` · Δ CA ${cmp.revenueDeltaPct > 0 ? "+" : ""}${cmp.revenueDeltaPct}%` : ""
+        }.`,
+        metrics: {
+          ordersDelta: cmp.ordersDelta,
+          revenueDeltaPct: cmp.revenueDeltaPct,
+        },
+        periodLabel: `${cur.period.label} vs ${previous.period.label}`,
+        source: "compareSnapshots",
+        observedAt: new Date().toISOString(),
       },
-      periodLabel: `${cur.period.label} vs ${previous.period.label}`,
-      source: "compareSnapshots",
-      observedAt: new Date().toISOString(),
-    },
-  ];
+    ];
 
-  if (cur.sales.topProducts.length) {
-    observations.push({
-      id: id("obs"),
-      kind: "sales",
-      subject: "top_produits",
-      text: `Top produits : ${cur.sales.topProducts
-        .slice(0, 5)
-        .map((p) => `${p.name}×${p.qty}`)
-        .join(" · ")}.`,
-      metrics: { topCount: cur.sales.topProducts.length },
-      periodLabel: cur.period.label,
-      source: cur.source,
-      observedAt: new Date().toISOString(),
-    });
+    if (cur.sales.topProducts.length) {
+      observations.push({
+        id: id("obs"),
+        kind: "sales",
+        subject: "top_produits",
+        text: `Top produits : ${cur.sales.topProducts
+          .slice(0, 5)
+          .map((p) => `${p.name}×${p.qty}`)
+          .join(" · ")}.`,
+        metrics: { topCount: cur.sales.topProducts.length },
+        periodLabel: cur.period.label,
+        source: cur.source,
+        observedAt: new Date().toISOString(),
+      });
+    }
+
+    return { observations, missingData: cur.missing.slice(0, 8) };
+  } catch (e) {
+    console.error(
+      "[ava.bi] observeSales failed",
+      e instanceof Error ? e.message.slice(0, 300) : e
+    );
+    return {
+      observations: [],
+      missingData: ["ventes_indisponibles"],
+    };
   }
-
-  return { observations, missingData: cur.missing.slice(0, 8) };
 }
 
 export async function observeStock(): Promise<{
   observations: BiObservation[];
   missingData: string[];
 }> {
-  const settings = await getReportSettings();
-  const period = resolvePeriod("today", settings.timezone);
-  const snap = await buildGestionSnapshot(period);
-  const observations: BiObservation[] = [
-    {
-      id: id("obs"),
-      kind: "stock",
-      subject: "stock_alertes",
-      text: `Stocks : ${snap.stock.low.length} faibles, ${snap.stock.out.length} ruptures, ${snap.stock.negative.length} négatifs.`,
-      metrics: {
-        low: snap.stock.low.length,
-        out: snap.stock.out.length,
-        negative: snap.stock.negative.length,
-        stockIssues: snap.alerts.stockIssues,
+  try {
+    const settings = await getReportSettings();
+    const period = resolvePeriod("today", settings.timezone);
+    const snap = await buildGestionSnapshot(period);
+    const observations: BiObservation[] = [
+      {
+        id: id("obs"),
+        kind: "stock",
+        subject: "stock_alertes",
+        text: `Stocks : ${snap.stock.low.length} faibles, ${snap.stock.out.length} ruptures, ${snap.stock.negative.length} négatifs.`,
+        metrics: {
+          low: snap.stock.low.length,
+          out: snap.stock.out.length,
+          negative: snap.stock.negative.length,
+          stockIssues: snap.alerts.stockIssues,
+        },
+        source: snap.source,
+        observedAt: new Date().toISOString(),
       },
-      source: snap.source,
-      observedAt: new Date().toISOString(),
-    },
-  ];
-  if (snap.stock.negative[0]) {
-    observations.push({
-      id: id("obs"),
-      kind: "stock",
-      subject: "stock_negatif",
-      text: `Stock négatif détecté : ${snap.stock.negative
-        .slice(0, 5)
-        .map((p) => `${p.name} (${p.available})`)
-        .join(" · ")}.`,
-      source: snap.source,
-      observedAt: new Date().toISOString(),
-    });
+    ];
+    if (snap.stock.negative[0]) {
+      observations.push({
+        id: id("obs"),
+        kind: "stock",
+        subject: "stock_negatif",
+        text: `Stock négatif détecté : ${snap.stock.negative
+          .slice(0, 5)
+          .map((p) => `${p.name} (${p.available})`)
+          .join(" · ")}.`,
+        source: snap.source,
+        observedAt: new Date().toISOString(),
+      });
+    }
+    if (snap.stock.low[0]) {
+      observations.push({
+        id: id("obs"),
+        kind: "stock",
+        subject: "stock_faible",
+        text: `Stocks faibles urgents : ${snap.stock.low
+          .slice(0, 6)
+          .map((p) => `${p.name} (${p.available})`)
+          .join(" · ")}.`,
+        source: snap.source,
+        observedAt: new Date().toISOString(),
+      });
+    }
+    return { observations, missingData: snap.missing.slice(0, 5) };
+  } catch (e) {
+    console.error(
+      "[ava.bi] observeStock failed",
+      e instanceof Error ? e.message.slice(0, 300) : e
+    );
+    return { observations: [], missingData: ["stocks_indisponibles"] };
   }
-  if (snap.stock.low[0]) {
-    observations.push({
-      id: id("obs"),
-      kind: "stock",
-      subject: "stock_faible",
-      text: `Stocks faibles urgents : ${snap.stock.low
-        .slice(0, 6)
-        .map((p) => `${p.name} (${p.available})`)
-        .join(" · ")}.`,
-      source: snap.source,
-      observedAt: new Date().toISOString(),
-    });
-  }
-  return { observations, missingData: snap.missing.slice(0, 5) };
 }
 
 export async function observeCatalog(): Promise<{
