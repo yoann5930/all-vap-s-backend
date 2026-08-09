@@ -7,6 +7,12 @@ import {
   type AvaLlmFailureKind,
 } from "./types";
 import { adminOpenAIUnavailableMessage } from "@/lib/ai/openai-chat";
+import {
+  chatWithEngineRole,
+  getReachableRuntime,
+  inferEngineRole,
+  type AvaEngineRole,
+} from "@/lib/ai/local";
 
 const localProvider = new OllamaAvaProvider();
 const openaiProvider = new OpenAIAvaProvider();
@@ -35,9 +41,50 @@ export function adminLlmUnavailableMessage(
   return `Moteur IA indisponible (${kind}). Je ne fabule pas une réponse — vérifie AVA_LLM_PROVIDER / Ollama / OpenAI.`;
 }
 
+async function chatLocalMultiEngine(
+  req: AvaLlmChatRequest
+): Promise<AvaLlmChatResult> {
+  const lastUser =
+    [...req.messages].reverse().find((m) => m.role === "user")?.content || "";
+  const role: AvaEngineRole = inferEngineRole(lastUser, Boolean(req.preferShort));
+
+  const result = await chatWithEngineRole({
+    role,
+    messages: req.messages,
+    maxTokens: req.maxTokens ?? (req.preferShort ? 320 : 900),
+    temperature: req.temperature ?? (req.preferShort ? 0.45 : 0.55),
+    logTag: req.logTag || "ava-llm-local-multi",
+  });
+
+  if (result.ok) {
+    return {
+      ok: true,
+      text: result.text,
+      provider: "local",
+      model: result.model,
+      kind: "ok",
+      httpStatus: 200,
+      apiCode: null,
+      apiMessage: null,
+      attempts: result.triedModels.length,
+      latencyMs: result.latencyMs,
+      tried: ["local"],
+    };
+  }
+
+  const fallback = await localProvider.chat(req);
+  return {
+    ...fallback,
+    tried: ["local"],
+    apiMessage:
+      fallback.apiMessage ||
+      result.error ||
+      `multi-engine fail tried=${result.triedModels.join(",")}`,
+  };
+}
+
 /**
- * Routage unique : local → openai (auto), sans boucle.
- * OpenAI reste optionnel ; local gratuit en priorité.
+ * Routage : multi-moteurs locaux → OpenAI optionnel (auto), sans boucle.
  */
 export async function chatWithAvaLlm(
   req: AvaLlmChatRequest
@@ -51,16 +98,15 @@ export async function chatWithAvaLlm(
 
   if (tryLocal) {
     tried.push("local");
-    const reachable = await localProvider.isReachable();
-    if (reachable) {
-      const result = await localProvider.chat(req);
+    const rt = await getReachableRuntime();
+    if (rt) {
+      const result = await chatLocalMultiEngine(req);
       if (result.ok) {
         console.info(
           `[${tag}] provider=local model=${result.model} latencyMs=${result.latencyMs}`
         );
         return { ...result, tried };
       }
-      // Local joignable mais échec modèle → en auto, tenter openai une fois
       if (mode === "local") {
         return { ...result, tried };
       }
@@ -76,20 +122,17 @@ export async function chatWithAvaLlm(
         kind: "provider_unavailable",
         httpStatus: null,
         apiCode: null,
-        apiMessage: `Ollama injoignable à ${getOllamaBaseUrl()}`,
+        apiMessage: `Runtime local injoignable (Ollama ${getOllamaBaseUrl()} / llama.cpp)`,
         attempts: 0,
         latencyMs: 0,
         tried,
       };
     } else {
-      console.warn(
-        `[${tag}] local unreachable at ${getOllamaBaseUrl()} → try openai`
-      );
+      console.warn(`[${tag}] local unreachable → try openai`);
     }
   }
 
   if (tryOpenAI) {
-    // Ne jamais reboucler : openai au plus une fois
     if (!tried.includes("openai")) tried.push("openai");
     const result = await openaiProvider.chat(req);
     if (result.ok) {
@@ -128,9 +171,15 @@ export async function probeAvaLlmProviders(): Promise<{
     model: string;
   };
   openai: { configured: boolean };
+  multiEngine?: {
+    runtime: string | null;
+    installedModels: string[];
+  };
 }> {
   const mode = resolveAvaLlmProviderMode();
   const reachable = await localProvider.isReachable();
+  const rt = await getReachableRuntime();
+  const installed = rt ? (await rt.listModels()).map((m) => m.name) : [];
   return {
     mode,
     local: {
@@ -140,5 +189,9 @@ export async function probeAvaLlmProviders(): Promise<{
       model: getOllamaModel(),
     },
     openai: { configured: openaiProvider.isConfigured() },
+    multiEngine: {
+      runtime: rt?.id || null,
+      installedModels: installed,
+    },
   };
 }
