@@ -387,6 +387,7 @@ export async function POST(request: NextRequest) {
       grounded: reply.grounded,
       intentLabel: reply.intentLabel,
       toolsUsed: reply.toolsUsed,
+      openaiStatus: reply.openaiStatus,
       errorCode: toolErrorCode,
       canRetry: !!toolErrorCode,
       effectiveRole: ctx.effectiveRole,
