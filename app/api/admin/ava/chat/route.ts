@@ -388,6 +388,7 @@ export async function POST(request: NextRequest) {
       intentLabel: reply.intentLabel,
       toolsUsed: reply.toolsUsed,
       openaiStatus: reply.openaiStatus,
+      llmStatus: reply.llmStatus,
       errorCode: toolErrorCode,
       canRetry: !!toolErrorCode,
       effectiveRole: ctx.effectiveRole,

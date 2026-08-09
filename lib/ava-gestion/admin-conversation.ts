@@ -40,10 +40,10 @@ import {
   type ActiveThread,
 } from "@/lib/ava/admin-social";
 import {
-  adminOpenAIUnavailableMessage,
-  createOpenAIChatCompletion,
-  type OpenAIErrorKind,
-} from "@/lib/ai/openai-chat";
+  adminLlmUnavailableMessage,
+  chatWithAvaLlm,
+  type AvaLlmFailureKind,
+} from "@/lib/ai/providers";
 
 export type AdminChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -60,10 +60,21 @@ export type AdminAvaConversationReply = {
   toolsUsed?: string[];
   conversationalIntent?: string;
   openaiStatus?: {
-    kind: OpenAIErrorKind;
+    kind: AvaLlmFailureKind;
     httpStatus: number | null;
     apiCode: string | null;
     attempts: number;
+    provider?: "local" | "openai" | "none";
+    tried?: Array<"local" | "openai">;
+  };
+  llmStatus?: {
+    kind: AvaLlmFailureKind;
+    httpStatus: number | null;
+    apiCode: string | null;
+    attempts: number;
+    provider: "local" | "openai" | "none";
+    tried: Array<"local" | "openai">;
+    model: string | null;
   };
 };
 
@@ -95,15 +106,18 @@ ${ADMIN_COLLEAGUE_SYSTEM_EXTRA}
 
 INTENTION COURANTE indique réponse courte ou détaillée.`;
 
-type OpenAIChatOutcome = {
+type LlmChatOutcome = {
   text: string | null;
-  kind: OpenAIErrorKind;
+  kind: AvaLlmFailureKind;
   httpStatus: number | null;
   apiCode: string | null;
   attempts: number;
+  provider: "local" | "openai" | "none";
+  tried: Array<"local" | "openai">;
+  model: string | null;
 };
 
-async function chatAdminWithOpenAI(params: {
+async function chatAdminWithLlm(params: {
   message: string;
   history: AdminChatTurn[];
   factsBlock?: string;
@@ -111,7 +125,7 @@ async function chatAdminWithOpenAI(params: {
   intent: AdminIntentAnalysis;
   preferShort: boolean;
   antiRepeatHint?: string;
-}): Promise<OpenAIChatOutcome> {
+}): Promise<LlmChatOutcome> {
   const historyMessages = compactHistoryForLlm(params.history, params.preferShort).map(
     (t) => ({
       role: t.role as "user" | "assistant",
@@ -134,7 +148,7 @@ async function chatAdminWithOpenAI(params: {
     .filter(Boolean)
     .join("\n");
 
-  const result = await createOpenAIChatCompletion({
+  const result = await chatWithAvaLlm({
     messages: [
       { role: "system", content: ADMIN_SYSTEM },
       ...historyMessages,
@@ -142,9 +156,8 @@ async function chatAdminWithOpenAI(params: {
     ],
     maxTokens: params.preferShort ? 320 : 900,
     temperature: params.preferShort ? 0.45 : 0.55,
-    // Backoff limité : 3 essais max, jamais sur quota/billing
-    maxAttempts: 3,
-    logTag: "ava-admin-openai",
+    preferShort: params.preferShort,
+    logTag: "ava-admin-llm",
   });
 
   return {
@@ -153,6 +166,9 @@ async function chatAdminWithOpenAI(params: {
     httpStatus: result.httpStatus,
     apiCode: result.apiCode,
     attempts: result.attempts,
+    provider: result.provider,
+    tried: result.tried,
+    model: result.model,
   };
 }
 
@@ -465,12 +481,12 @@ export async function answerAdminAvaConversation(params: {
   ].filter(Boolean);
   const factsBlock = factsParts.join("\n\n") || undefined;
 
-  let openai: string | null = null;
-  let openaiMeta: OpenAIChatOutcome | null = null;
-  // Social local seulement pour salut / check-in / defer… — le reste passe par OpenAI + contexte
+  let llmText: string | null = null;
+  let llmMeta: LlmChatOutcome | null = null;
+  // Social local seulement pour salut / check-in / defer… — le reste passe par le routeur LLM
   if (!useLocalSocial) {
     try {
-      openaiMeta = await chatAdminWithOpenAI({
+      llmMeta = await chatAdminWithLlm({
         message: msg,
         history,
         factsBlock,
@@ -478,15 +494,18 @@ export async function answerAdminAvaConversation(params: {
         intent: { ...intent, preferShort: social.preferShort || intent.preferShort },
         preferShort: social.preferShort || intent.preferShort,
       });
-      openai = openaiMeta.text;
+      llmText = llmMeta.text;
     } catch {
-      openai = null;
-      openaiMeta = {
+      llmText = null;
+      llmMeta = {
         text: null,
         kind: "throw",
         httpStatus: null,
         apiCode: null,
         attempts: 0,
+        provider: "none",
+        tried: [],
+        model: null,
       };
     }
   }
@@ -500,10 +519,10 @@ export async function answerAdminAvaConversation(params: {
     memoryHint: memoryBlock,
   });
 
-  const openaiHardFail =
-    Boolean(openaiMeta) &&
-    !openai &&
-    openaiMeta!.kind !== "ok" &&
+  const llmHardFail =
+    Boolean(llmMeta) &&
+    !llmText &&
+    llmMeta!.kind !== "ok" &&
     [
       "insufficient_quota",
       "rate_limit_exceeded",
@@ -511,15 +530,18 @@ export async function answerAdminAvaConversation(params: {
       "auth_rejected",
       "missing_key",
       "model_not_found",
-    ].includes(openaiMeta!.kind);
+      "provider_unavailable",
+      "network_error",
+      "network_timeout",
+    ].includes(llmMeta!.kind);
 
   const hasToolFacts = Boolean(toolRun?.results.some((r) => r.ok));
 
-  // Pas de faux « OK je continue » quand OpenAI est down — sauf si outils métier ont déjà répondu
+  // Pas de faux « OK je continue » quand le LLM est down — sauf si outils métier ont déjà répondu
   const socialFallback =
     !useLocalSocial &&
-    !openai &&
-    !openaiHardFail &&
+    !llmText &&
+    !llmHardFail &&
     (social.move === "smalltalk" ||
       social.move === "light_ack" ||
       social.move === "work")
@@ -535,33 +557,33 @@ export async function answerAdminAvaConversation(params: {
         })
       : null;
 
-  const openaiUnavailableText =
-    openaiHardFail && !hasToolFacts
-      ? adminOpenAIUnavailableMessage(openaiMeta!.kind)
-      : openaiHardFail && hasToolFacts
-        ? `${shortFromTool(toolRun!.results, intent.topicHint)} (Note : cerveau OpenAI indisponible — ${openaiMeta!.kind}.)`
+  const llmUnavailableText =
+    llmHardFail && !hasToolFacts
+      ? adminLlmUnavailableMessage(llmMeta!.kind, llmMeta!.tried)
+      : llmHardFail && hasToolFacts
+        ? `${shortFromTool(toolRun!.results, intent.topicHint)} (Note : cerveau LLM indisponible — ${llmMeta!.kind} / ${llmMeta!.provider}.)`
         : null;
 
-  if (openai && looksLikeChatbot(openai)) {
-    openai = null;
+  if (llmText && looksLikeChatbot(llmText)) {
+    llmText = null;
   }
-  if (openai && looksLikeBannedGeneric(openai)) {
-    openai = null;
+  if (llmText && looksLikeBannedGeneric(llmText)) {
+    llmText = null;
   }
 
   const hasTour = toolRun?.results.some((r) => r.ok && r.tool === "runDailyTour");
-  if (openai && hasTour && (intent.preferShort || social.preferShort)) {
-    openai = null;
+  if (llmText && hasTour && (intent.preferShort || social.preferShort)) {
+    llmText = null;
   }
 
-  let text = socialText || openai || openaiUnavailableText || socialFallback || local;
-  const pickedOpenaiUnavailable = Boolean(
-    openaiUnavailableText && text === openaiUnavailableText
+  let text = socialText || llmText || llmUnavailableText || socialFallback || local;
+  const pickedLlmUnavailable = Boolean(
+    llmUnavailableText && text === llmUnavailableText
   );
   text = dampenRepetition(text, social.preferShort || intent.preferShort);
   text = stripChatbotVoice(
     text,
-    socialText || openaiUnavailableText || socialFallback || local
+    socialText || llmUnavailableText || socialFallback || local
   );
   text = stripTechnicalLeak(
     text,
@@ -602,9 +624,9 @@ export async function answerAdminAvaConversation(params: {
       });
     } else {
       let rewritten: string | null = null;
-      if (!useLocalSocial && !openaiHardFail) {
+      if (!useLocalSocial && !llmHardFail) {
         try {
-          const rewriteMeta = await chatAdminWithOpenAI({
+          const rewriteMeta = await chatAdminWithLlm({
             message: msg,
             history,
             factsBlock,
@@ -615,7 +637,8 @@ export async function answerAdminAvaConversation(params: {
               "Ta précédente réponse était trop générique ou répétitive. Reformule complètement. Interdit : « Je te suis », « Dis-moi ce qui te préoccupe ». Réponds au dernier message admin.",
           });
           rewritten = rewriteMeta.text;
-          if (!openaiMeta || openaiMeta.kind === "ok") openaiMeta = rewriteMeta;
+          if (!llmMeta || llmMeta.kind === "ok") llmMeta = rewriteMeta;
+          if (rewritten) llmText = rewritten;
         } catch {
           rewritten = null;
         }
@@ -691,7 +714,19 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
-  const usedUnavailable = pickedOpenaiUnavailable && !openai;
+  const usedUnavailable = pickedLlmUnavailable && !llmText;
+  const llmProvider = llmMeta?.provider || "none";
+  const llmSourceOk =
+    llmText && llmProvider === "local"
+      ? grounded
+        ? "admin_ava_local_llm+memory+tools"
+        : "admin_ava_local_llm+memory"
+      : llmText && llmProvider === "openai"
+        ? grounded
+          ? "admin_ava_openai+memory+tools"
+          : "admin_ava_openai+memory"
+        : null;
+
   return {
     text,
     links: toolRun?.links || [],
@@ -700,12 +735,10 @@ export async function answerAdminAvaConversation(params: {
       ? grounded
         ? "admin_ava_social+memory+tools"
         : "admin_ava_social+memory"
-      : openai
-        ? grounded
-          ? "admin_ava_openai+memory+tools"
-          : "admin_ava_openai+memory"
+      : llmSourceOk
+        ? llmSourceOk
         : usedUnavailable
-          ? `admin_ava_openai_unavailable:${openaiMeta?.kind || "unknown"}`
+          ? `admin_ava_llm_unavailable:${llmMeta?.kind || "unknown"}`
           : grounded
             ? "admin_ava_local+memory+tools"
             : "admin_ava_local+memory",
@@ -716,12 +749,25 @@ export async function answerAdminAvaConversation(params: {
     intentLabel: `social:${social.move}|${toolRun?.plan.intentLabel || intent.intent}`,
     conversationalIntent: intent.intent,
     toolsUsed: toolRun?.plan.tools,
-    openaiStatus: openaiMeta
+    openaiStatus: llmMeta
       ? {
-          kind: openaiMeta.kind,
-          httpStatus: openaiMeta.httpStatus,
-          apiCode: openaiMeta.apiCode,
-          attempts: openaiMeta.attempts,
+          kind: llmMeta.kind,
+          httpStatus: llmMeta.httpStatus,
+          apiCode: llmMeta.apiCode,
+          attempts: llmMeta.attempts,
+          provider: llmMeta.provider,
+          tried: llmMeta.tried,
+        }
+      : undefined,
+    llmStatus: llmMeta
+      ? {
+          kind: llmMeta.kind,
+          httpStatus: llmMeta.httpStatus,
+          apiCode: llmMeta.apiCode,
+          attempts: llmMeta.attempts,
+          provider: llmMeta.provider,
+          tried: llmMeta.tried,
+          model: llmMeta.model,
         }
       : undefined,
   };

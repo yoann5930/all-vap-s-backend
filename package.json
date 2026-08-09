@@ -16,7 +16,9 @@
     "db:setup": "prisma migrate deploy && tsx prisma/seed.ts",
     "brand:assets": "node scripts/generate-brand-assets.mjs",
     "catalog:liquidarom:dry-run": "tsx scripts/import-liquidarom-products.ts --dry-run",
-    "catalog:liquidarom:import": "tsx scripts/import-liquidarom-products.ts"
+    "catalog:liquidarom:import": "tsx scripts/import-liquidarom-products.ts",
+    "ava:llm:probe": "tsx scripts/ava-llm-local-probe.ts",
+    "ava:llm:smoke-local": "tsx scripts/smoke-ava-llm-local-no-openai.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
