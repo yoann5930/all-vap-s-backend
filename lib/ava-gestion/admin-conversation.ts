@@ -39,6 +39,11 @@ import {
   shouldPreferLocalCompose,
   type ActiveThread,
 } from "@/lib/ava/admin-social";
+import {
+  adminOpenAIUnavailableMessage,
+  createOpenAIChatCompletion,
+  type OpenAIErrorKind,
+} from "@/lib/ai/openai-chat";
 
 export type AdminChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -54,17 +59,13 @@ export type AdminAvaConversationReply = {
   intentLabel?: string;
   toolsUsed?: string[];
   conversationalIntent?: string;
+  openaiStatus?: {
+    kind: OpenAIErrorKind;
+    httpStatus: number | null;
+    apiCode: string | null;
+    attempts: number;
+  };
 };
-
-function envTrim(name: string, fallback = ""): string {
-  const raw = process.env[name];
-  if (!raw) return fallback;
-  return raw.trim().replace(/^["']|["']$/g, "");
-}
-
-function getOpenAIKey(): string {
-  return envTrim("OPENAI_API_KEY");
-}
 
 const ADMIN_SYSTEM = `Tu es A.V.A., collaboratrice numérique senior All Vap's (Hautmont & Le Quesnoy) — mode Admin uniquement, jamais vendeuse client.
 
@@ -94,6 +95,14 @@ ${ADMIN_COLLEAGUE_SYSTEM_EXTRA}
 
 INTENTION COURANTE indique réponse courte ou détaillée.`;
 
+type OpenAIChatOutcome = {
+  text: string | null;
+  kind: OpenAIErrorKind;
+  httpStatus: number | null;
+  apiCode: string | null;
+  attempts: number;
+};
+
 async function chatAdminWithOpenAI(params: {
   message: string;
   history: AdminChatTurn[];
@@ -102,10 +111,7 @@ async function chatAdminWithOpenAI(params: {
   intent: AdminIntentAnalysis;
   preferShort: boolean;
   antiRepeatHint?: string;
-}): Promise<string | null> {
-  const key = getOpenAIKey();
-  if (!key) return null;
-
+}): Promise<OpenAIChatOutcome> {
   const historyMessages = compactHistoryForLlm(params.history, params.preferShort).map(
     (t) => ({
       role: t.role as "user" | "assistant",
@@ -128,59 +134,26 @@ async function chatAdminWithOpenAI(params: {
     .filter(Boolean)
     .join("\n");
 
-  try {
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: envTrim("OPENAI_MODEL", "gpt-4o-mini") || "gpt-4o-mini",
-        messages: [
-          { role: "system", content: ADMIN_SYSTEM },
-          ...historyMessages,
-          { role: "user", content: userContent },
-        ],
-        max_tokens: params.preferShort ? 320 : 900,
-        temperature: params.preferShort ? 0.45 : 0.55,
-      }),
-    });
-    if (!res.ok) {
-      // Preview only: classe d'erreur sans body / sans clé
-      if (process.env.VERCEL_ENV === "preview") {
-        console.warn(
-          `[ava-admin-openai] http=${res.status} class=${
-            res.status === 401 || res.status === 403
-              ? "auth_rejected"
-              : res.status === 429
-                ? "rate_limited"
-                : res.status >= 500
-                  ? "openai_5xx"
-                  : `http_${res.status}`
-          }`
-        );
-      }
-      return null;
-    }
-    const data = await res.json();
-    const text = data.choices?.[0]?.message?.content?.trim();
-    return text || null;
-  } catch (e) {
-    if (process.env.VERCEL_ENV === "preview") {
-      const msg = e instanceof Error ? e.message : String(e);
-      console.warn(
-        `[ava-admin-openai] throw class=${
-          /timeout|aborted/i.test(msg)
-            ? "network_timeout"
-            : /fetch|ENOTFOUND|ECONN|network/i.test(msg)
-              ? "network_error"
-              : "throw"
-        }`
-      );
-    }
-    return null;
-  }
+  const result = await createOpenAIChatCompletion({
+    messages: [
+      { role: "system", content: ADMIN_SYSTEM },
+      ...historyMessages,
+      { role: "user", content: userContent },
+    ],
+    maxTokens: params.preferShort ? 320 : 900,
+    temperature: params.preferShort ? 0.45 : 0.55,
+    // Backoff limité : 3 essais max, jamais sur quota/billing
+    maxAttempts: 3,
+    logTag: "ava-admin-openai",
+  });
+
+  return {
+    text: result.text,
+    kind: result.kind,
+    httpStatus: result.httpStatus,
+    apiCode: result.apiCode,
+    attempts: result.attempts,
+  };
 }
 
 /** Synthèse courte à partir d'un dump outil (questions d'état). */
@@ -493,10 +466,11 @@ export async function answerAdminAvaConversation(params: {
   const factsBlock = factsParts.join("\n\n") || undefined;
 
   let openai: string | null = null;
+  let openaiMeta: OpenAIChatOutcome | null = null;
   // Social local seulement pour salut / check-in / defer… — le reste passe par OpenAI + contexte
   if (!useLocalSocial) {
     try {
-      openai = await chatAdminWithOpenAI({
+      openaiMeta = await chatAdminWithOpenAI({
         message: msg,
         history,
         factsBlock,
@@ -504,8 +478,16 @@ export async function answerAdminAvaConversation(params: {
         intent: { ...intent, preferShort: social.preferShort || intent.preferShort },
         preferShort: social.preferShort || intent.preferShort,
       });
+      openai = openaiMeta.text;
     } catch {
       openai = null;
+      openaiMeta = {
+        text: null,
+        kind: "throw",
+        httpStatus: null,
+        apiCode: null,
+        attempts: 0,
+      };
     }
   }
 
@@ -518,10 +500,26 @@ export async function answerAdminAvaConversation(params: {
     memoryHint: memoryBlock,
   });
 
-  // Fallback sans OpenAI : compose contextualisé (smalltalk / follow-ups)
+  const openaiHardFail =
+    Boolean(openaiMeta) &&
+    !openai &&
+    openaiMeta!.kind !== "ok" &&
+    [
+      "insufficient_quota",
+      "rate_limit_exceeded",
+      "tokens_limit",
+      "auth_rejected",
+      "missing_key",
+      "model_not_found",
+    ].includes(openaiMeta!.kind);
+
+  const hasToolFacts = Boolean(toolRun?.results.some((r) => r.ok));
+
+  // Pas de faux « OK je continue » quand OpenAI est down — sauf si outils métier ont déjà répondu
   const socialFallback =
     !useLocalSocial &&
     !openai &&
+    !openaiHardFail &&
     (social.move === "smalltalk" ||
       social.move === "light_ack" ||
       social.move === "work")
@@ -537,6 +535,13 @@ export async function answerAdminAvaConversation(params: {
         })
       : null;
 
+  const openaiUnavailableText =
+    openaiHardFail && !hasToolFacts
+      ? adminOpenAIUnavailableMessage(openaiMeta!.kind)
+      : openaiHardFail && hasToolFacts
+        ? `${shortFromTool(toolRun!.results, intent.topicHint)} (Note : cerveau OpenAI indisponible — ${openaiMeta!.kind}.)`
+        : null;
+
   if (openai && looksLikeChatbot(openai)) {
     openai = null;
   }
@@ -549,9 +554,15 @@ export async function answerAdminAvaConversation(params: {
     openai = null;
   }
 
-  let text = socialText || openai || socialFallback || local;
+  let text = socialText || openai || openaiUnavailableText || socialFallback || local;
+  const pickedOpenaiUnavailable = Boolean(
+    openaiUnavailableText && text === openaiUnavailableText
+  );
   text = dampenRepetition(text, social.preferShort || intent.preferShort);
-  text = stripChatbotVoice(text, socialText || socialFallback || local);
+  text = stripChatbotVoice(
+    text,
+    socialText || openaiUnavailableText || socialFallback || local
+  );
   text = stripTechnicalLeak(
     text,
     "J'ai un souci de lecture sur les commandes pour l'instant — je ne te balance pas le détail technique. On réessaie ?"
@@ -591,9 +602,9 @@ export async function answerAdminAvaConversation(params: {
       });
     } else {
       let rewritten: string | null = null;
-      if (!useLocalSocial) {
+      if (!useLocalSocial && !openaiHardFail) {
         try {
-          rewritten = await chatAdminWithOpenAI({
+          const rewriteMeta = await chatAdminWithOpenAI({
             message: msg,
             history,
             factsBlock,
@@ -603,6 +614,8 @@ export async function answerAdminAvaConversation(params: {
             antiRepeatHint:
               "Ta précédente réponse était trop générique ou répétitive. Reformule complètement. Interdit : « Je te suis », « Dis-moi ce qui te préoccupe ». Réponds au dernier message admin.",
           });
+          rewritten = rewriteMeta.text;
+          if (!openaiMeta || openaiMeta.kind === "ok") openaiMeta = rewriteMeta;
         } catch {
           rewritten = null;
         }
@@ -678,6 +691,7 @@ export async function answerAdminAvaConversation(params: {
     }
   }
 
+  const usedUnavailable = pickedOpenaiUnavailable && !openai;
   return {
     text,
     links: toolRun?.links || [],
@@ -690,9 +704,11 @@ export async function answerAdminAvaConversation(params: {
         ? grounded
           ? "admin_ava_openai+memory+tools"
           : "admin_ava_openai+memory"
-        : grounded
-          ? "admin_ava_local+memory+tools"
-          : "admin_ava_local+memory",
+        : usedUnavailable
+          ? `admin_ava_openai_unavailable:${openaiMeta?.kind || "unknown"}`
+          : grounded
+            ? "admin_ava_local+memory+tools"
+            : "admin_ava_local+memory",
     lastSyncAt: null,
     missingData: toolRun?.missingData || [],
     conversational: true,
@@ -700,6 +716,14 @@ export async function answerAdminAvaConversation(params: {
     intentLabel: `social:${social.move}|${toolRun?.plan.intentLabel || intent.intent}`,
     conversationalIntent: intent.intent,
     toolsUsed: toolRun?.plan.tools,
+    openaiStatus: openaiMeta
+      ? {
+          kind: openaiMeta.kind,
+          httpStatus: openaiMeta.httpStatus,
+          apiCode: openaiMeta.apiCode,
+          attempts: openaiMeta.attempts,
+        }
+      : undefined,
   };
 }
 
