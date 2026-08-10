@@ -346,6 +346,23 @@ export async function chatAva(
     };
   }
 
+  // Consigne explicite « Réponds uniquement : … » — avant tout catalogue / SAV
+  {
+    const { parseExplicitReplyInstruction } = await import(
+      "@/lib/ava/admin-social/explicit-reply"
+    );
+    const explicit = parseExplicitReplyInstruction(message);
+    if (explicit) {
+      return {
+        content: explicit,
+        suggestions: [],
+        products: [],
+        speaking: true,
+        conversationContext: options?.conversationContext ?? undefined,
+      };
+    }
+  }
+
   // Social / small talk AVANT tout catalogue
   {
     const { detectClientIntent, socialReplyForIntent } = await import(

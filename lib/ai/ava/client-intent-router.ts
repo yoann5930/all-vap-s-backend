@@ -4,6 +4,7 @@
 import type { AvaConversationContext } from "./types";
 import { detectConversationMode, type AvaConversationMode } from "./conversation-engine";
 import { detectAgeIntent } from "./age-intent";
+import { isExplicitReplyInstruction } from "@/lib/ava/admin-social/explicit-reply";
 
 export type ClientIntent =
   | "SOCIAL_GREETING"
@@ -18,6 +19,7 @@ export type ClientIntent =
   | "FOLLOW_UP"
   | "CORRECTION"
   | "AGE_SAFETY"
+  | "EXPLICIT_REPLY"
   | "GENERAL";
 
 function norm(s: string): string {
@@ -62,6 +64,9 @@ export function detectClientIntent(
   prev: AvaConversationContext | null | undefined
 ): ClientIntent {
   if (detectAgeIntent(message) === "underage") return "AGE_SAFETY";
+
+  // Avant toute recherche catalogue (évite « produit introuvable » sur un smoke PONG)
+  if (isExplicitReplyInstruction(message)) return "EXPLICIT_REPLY";
 
   if (isSocialGreeting(message)) return "SOCIAL_GREETING";
   if (isSocialSmalltalk(message)) return "SOCIAL_SMALLTALK";
