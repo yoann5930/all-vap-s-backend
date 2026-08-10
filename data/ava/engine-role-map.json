@@ -1,27 +1,29 @@
-{
-  "version": 1,
-  "updatedAt": "2026-08-10T00:04:04.665Z",
-  "benchmarkSource": "rapports/ava-multi-engine-benchmark-latest.json",
-  "notes": "Généré après benchmark 50 cas, OpenAI désactivé. llama3.2:3b préféré pour résumé/outils (vitesse + score tools).",
-  "roles": {
-    "conversation": "qwen2.5:7b",
-    "reasoning": "qwen2.5:7b",
-    "json_extract": "qwen2.5:7b",
-    "summary": "llama3.2:3b",
-    "tool_call": "llama3.2:3b",
-    "reflection": "qwen2.5:7b"
-  },
-  "fallbacks": {
-    "conversation": ["llama3.2:3b", "llama3.1:8b"],
-    "reasoning": ["llama3.1:8b", "llama3.2:3b"],
-    "json_extract": ["llama3.2:3b", "qwen2.5-coder:7b"],
-    "summary": ["qwen2.5:7b", "llama3.1:8b"],
-    "tool_call": ["qwen2.5:7b", "llama3.1:8b"],
-    "reflection": ["llama3.1:8b", "llama3.2:3b"]
-  },
-  "ranking": [
-    { "model": "qwen2.5:7b", "score": 48 },
-    { "model": "llama3.2:3b", "score": 45 },
-    { "model": "llama3.1:8b", "score": 42 }
-  ]
-}
+{
+  "version": 2,
+  "updatedAt": "2026-08-10T03:35:00.000Z",
+  "benchmarkSource": "rapports/ava-multi-engine-benchmark-latest.json",
+  "notes": "Baseline locale validée 24 Go. Rôles figés (architecture métier) : Gemma 3 12B conversation/raisonnement/réflexion ; Llama 3.1 8B outils/JSON ; Llama 3.2 3B résumé/rapide. Un seul modèle chargé à la fois. Scores bench informatifs — qwen2.5:7b gagne le score brut mais n'est pas promu (fallback uniquement).",
+  "roles": {
+    "conversation": "gemma3:12b",
+    "reasoning": "gemma3:12b",
+    "json_extract": "llama3.1:8b",
+    "summary": "llama3.2:3b",
+    "tool_call": "llama3.1:8b",
+    "reflection": "gemma3:12b"
+  },
+  "fallbacks": {
+    "conversation": ["llama3.1:8b", "qwen2.5:7b", "llama3.2:3b"],
+    "reasoning": ["llama3.1:8b", "qwen2.5:7b", "llama3.2:3b"],
+    "json_extract": ["llama3.2:3b", "qwen2.5-coder:7b", "qwen2.5:7b"],
+    "summary": ["llama3.1:8b", "qwen2.5:3b"],
+    "tool_call": ["llama3.2:3b", "qwen2.5:7b"],
+    "reflection": ["llama3.1:8b", "llama3.2:3b", "qwen2.5:7b"]
+  },
+  "ranking": [
+    { "model": "qwen2.5:7b", "score": 48, "note": "bench brut 48/50 — fallback seulement, pas rôle principal" },
+    { "model": "llama3.2:3b", "score": 47, "note": "résumé / rapide" },
+    { "model": "gemma3:12b", "score": 46, "note": "cible conversation / raisonnement / réflexion" },
+    { "model": "llama3.1:8b", "score": 40, "note": "outils / JSON / fallback" }
+  ]
+}
+

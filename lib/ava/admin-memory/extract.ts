@@ -71,6 +71,18 @@ export async function updateAdminMemoryAfterTurn(params: {
       }
     }
 
+    // Demande explicite de mémorisation (« Mémorise : … », « retenons que … »)
+    const memorize = extractMemorizeFact(userMessage);
+    if (memorize) {
+      await upsertAdminMemoryItem(ownerUserId, {
+        kind: "confirmed_fact",
+        subject: memorize.subject,
+        content: memorize.content,
+        importance: "high",
+        source: "user",
+      });
+    }
+
     // Décision / projet en cours
     if (
       /on (va|fait|teste|garde|lance)|d[eé]cision|mission|projet|todo|à faire/i.test(userMessage) &&
@@ -165,6 +177,49 @@ function extractCorrectionFact(
     };
   }
   return { subject: "correction_utilisateur", content: msg.slice(0, 300) };
+}
+
+/** « Mémorise exactement : le code rayon est XYZ » → confirmed_fact durable. */
+function extractMemorizeFact(
+  msg: string
+): { subject: string; content: string } | null {
+  if (
+    !/\b(m[eé]morise|reten(?:s|ir|ons)|souviens[- ]toi|note\s+(?:que|ceci|exactement)|enregistre)\b/i.test(
+      msg
+    )
+  ) {
+    return null;
+  }
+
+  const code = msg.match(
+    /code\s+(rayon|magasin|secret)\s+(?:est\s+|:\s*)?([A-Za-z0-9_\-]+)/i
+  );
+  if (code) {
+    const kind = code[1].toLowerCase();
+    return {
+      subject: `code_${kind}`,
+      content: `Le code ${kind} est ${code[2]}`,
+    };
+  }
+
+  const after = msg.match(
+    /(?:m[eé]morise(?:\s+ceci)?(?:\s+exactement)?|reten(?:s|ir|ons)|souviens[- ]toi|note\s+(?:que|ceci|exactement)|enregistre)\s*[:\-–]?\s*(.+)$/i
+  );
+  const content = (after?.[1] || msg).trim().slice(0, 300);
+  if (content.length < 6) return null;
+
+  const subjectHint =
+    content.match(/\bcode\s+(rayon|magasin|secret)\b/i)?.[0]?.replace(/\s+/g, "_") ||
+    content
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{M}/gu, "")
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_|_$/g, "")
+      .slice(0, 40) ||
+    "fait_memorise";
+
+  return { subject: subjectHint, content };
 }
 
 function buildSessionSummary(

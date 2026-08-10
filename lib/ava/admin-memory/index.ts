@@ -23,7 +23,11 @@ export {
 } from "./store";
 
 export { analyzeAdminIntent } from "./intent";
-export { retrieveRelevantAdminMemory, compactHistoryForLlm } from "./retrieve";
+export {
+  retrieveRelevantAdminMemory,
+  compactHistoryForLlm,
+  tryAnswerFromConfirmedMemory,
+} from "./retrieve";
 export {
   isTooSimilarToRecent,
   dampenRepetition,

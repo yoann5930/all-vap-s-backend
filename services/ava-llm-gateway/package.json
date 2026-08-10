@@ -1,0 +1,21 @@
+{
+  "name": "allvaps-ava-llm-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Passerelle sécurisée A.V.A. → Ollama local. Ne jamais exposer :11434 publiquement.",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "health": "tsx src/healthcheck.ts",
+    "smoke": "tsx src/smoke-hmac.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "tsx": "^4.23.1",
+    "typescript": "^5.7.2"
+  }
+}

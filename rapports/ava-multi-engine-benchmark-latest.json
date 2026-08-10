@@ -1,0 +1,104 @@
+{
+  "generatedAt": "2026-08-10T03:34:48.441Z",
+  "ramGb": {
+    "free": 3.4,
+    "total": 23.2
+  },
+  "caseCount": 50,
+  "ranking": [
+    {
+      "model": "qwen2.5:7b",
+      "runtime": "ollama",
+      "ramPeakGbApprox": 19.8,
+      "loadMs": 11481,
+      "tokensPerSec": 4.1,
+      "french": 20.5,
+      "conversation": 12,
+      "reasoning": 12,
+      "json": 5,
+      "tools": 5,
+      "systemPrompt": 3,
+      "hallucinationResistance": 1,
+      "contextUse": 6,
+      "voiceTypos": 5,
+      "total": 48,
+      "notes": [
+        "passed 48/50"
+      ],
+      "errors": []
+    },
+    {
+      "model": "llama3.2:3b",
+      "runtime": "ollama",
+      "ramPeakGbApprox": 17.6,
+      "loadMs": 7928,
+      "tokensPerSec": 8.3,
+      "french": 22.5,
+      "conversation": 12,
+      "reasoning": 12,
+      "json": 5,
+      "tools": 5,
+      "systemPrompt": 2,
+      "hallucinationResistance": 1,
+      "contextUse": 6,
+      "voiceTypos": 5,
+      "total": 47,
+      "notes": [
+        "passed 47/50"
+      ],
+      "errors": []
+    },
+    {
+      "model": "gemma3:12b",
+      "runtime": "ollama",
+      "ramPeakGbApprox": 22.4,
+      "loadMs": 37306,
+      "tokensPerSec": 2.4,
+      "french": 20.5,
+      "conversation": 12,
+      "reasoning": 12,
+      "json": 5,
+      "tools": 4,
+      "systemPrompt": 3,
+      "hallucinationResistance": 1,
+      "contextUse": 6,
+      "voiceTypos": 4,
+      "total": 46,
+      "notes": [
+        "passed 46/50"
+      ],
+      "errors": []
+    },
+    {
+      "model": "llama3.1:8b",
+      "runtime": "ollama",
+      "ramPeakGbApprox": 19.3,
+      "loadMs": 20826,
+      "tokensPerSec": 2.8,
+      "french": 21,
+      "conversation": 11,
+      "reasoning": 10,
+      "json": 3,
+      "tools": 4,
+      "systemPrompt": 2,
+      "hallucinationResistance": 1,
+      "contextUse": 5,
+      "voiceTypos": 5,
+      "total": 40,
+      "notes": [
+        "passed 40/50"
+      ],
+      "errors": []
+    }
+  ],
+  "roleWinners": {
+    "conversation": "qwen2.5:7b",
+    "reasoning": "qwen2.5:7b",
+    "json_extract": "qwen2.5:7b",
+    "summary": "qwen2.5:7b",
+    "tool_call": "qwen2.5:7b",
+    "reflection": "qwen2.5:7b"
+  },
+  "openaiDisabled": true,
+  "costApiEur": 0
+}

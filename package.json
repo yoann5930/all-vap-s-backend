@@ -20,7 +20,12 @@
     "ava:llm:probe": "tsx scripts/ava-llm-local-probe.ts",
     "ava:llm:smoke-local": "tsx scripts/smoke-ava-llm-local-no-openai.ts",
     "ava:llm:benchmark": "tsx scripts/ava-multi-engine-benchmark.ts",
-    "ava:llm:benchmark:pull-safe": "tsx scripts/ava-multi-engine-benchmark.ts --pull-safe"
+    "ava:llm:benchmark:pull-safe": "tsx scripts/ava-multi-engine-benchmark.ts --pull-safe",
+    "ava:llm:gateway:prepare": "powershell -ExecutionPolicy Bypass -File ./services/ava-llm-gateway/scripts/prepare-local.ps1",
+    "ava:llm:gateway:start": "powershell -ExecutionPolicy Bypass -File ./services/ava-llm-gateway/scripts/start-ava-llm-stack.ps1",
+    "ava:llm:gateway:smoke": "npm --prefix services/ava-llm-gateway run smoke",
+    "ava:llm:gateway:health": "npm --prefix services/ava-llm-gateway run health",
+    "ava:admin:brain-e2e": "tsx scripts/smoke-ava-admin-brain-e2e.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",

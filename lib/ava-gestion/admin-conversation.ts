@@ -18,10 +18,11 @@ import {
   loadAdminPersistentMemory,
   loadAdminSessionMemory,
   looksLikeBannedGeneric,
-  retrieveRelevantAdminMemory,
+  tryAnswerFromConfirmedMemory,
   updateAdminMemoryAfterTurn,
   type AdminIntentAnalysis,
 } from "@/lib/ava/admin-memory";
+import { buildOrchestratorMemoryBlock } from "@/lib/ai/local/memory-levels";
 import type { DatePeriod } from "@/lib/timezone/shop-tz";
 import {
   ADMIN_COLLEAGUE_SYSTEM_EXTRA,
@@ -75,6 +76,10 @@ export type AdminAvaConversationReply = {
     provider: "local" | "openai" | "none";
     tried: Array<"local" | "openai">;
     model: string | null;
+  };
+  memoryStatus?: {
+    active: boolean;
+    activeCount: number;
   };
 };
 
@@ -339,25 +344,78 @@ export async function answerAdminAvaConversation(params: {
 
   // Mémoire persistante + session (Admin only — jamais côté client)
   let memoryBlock = "";
+  let memoryActiveCount = 0;
   let sessionFingerprints: string[] = [];
   let activeThread: ActiveThread | null = null;
+  let persistentForRecall: Awaited<ReturnType<typeof loadAdminPersistentMemory>> | null =
+    null;
   if (params.userId) {
     try {
       const persistent = await loadAdminPersistentMemory(params.userId);
+      persistentForRecall = persistent;
       const session = params.conversationId
         ? await loadAdminSessionMemory(params.userId, params.conversationId)
         : null;
       sessionFingerprints = session?.recentReplyFingerprints || [];
       activeThread = (session?.activeThread as ActiveThread | null) || null;
-      const retrieved = retrieveRelevantAdminMemory({
+      const orch = buildOrchestratorMemoryBlock({
         persistent,
         session,
         message: msg,
         topicHint: intent.topicHint || activeThread?.subject || null,
       });
-      memoryBlock = retrieved.factsBlock;
+      memoryBlock = orch.factsBlock;
+      memoryActiveCount = orch.activeCount;
     } catch {
       /* optional */
+    }
+  }
+
+  // Rappel déterministe d'un fait confirmé (indépendant du modèle chargé)
+  if (persistentForRecall) {
+    const direct = tryAnswerFromConfirmedMemory(msg, persistentForRecall);
+    if (direct) {
+      if (params.userId && params.conversationId) {
+        try {
+          await updateAdminMemoryAfterTurn({
+            ownerUserId: params.userId,
+            conversationId: params.conversationId,
+            userMessage: msg,
+            assistantText: direct.text,
+            intent,
+            toolsUsed: [],
+            history,
+          });
+        } catch {
+          /* optional */
+        }
+      }
+      return {
+        text: direct.text,
+        links: [],
+        periodLabel: "",
+        source: "admin_ava_memory_recall",
+        lastSyncAt: null,
+        missingData: [],
+        conversational: true,
+        grounded: true,
+        intentLabel: intent.intent,
+        conversationalIntent: intent.intent,
+        toolsUsed: [],
+        memoryStatus: {
+          active: true,
+          activeCount: memoryActiveCount || 1,
+        },
+        llmStatus: {
+          kind: "ok",
+          httpStatus: null,
+          apiCode: null,
+          attempts: 0,
+          provider: "local",
+          tried: ["local"],
+          model: "memory-store",
+        },
+      };
     }
   }
 
@@ -770,6 +828,10 @@ export async function answerAdminAvaConversation(params: {
           model: llmMeta.model,
         }
       : undefined,
+    memoryStatus: {
+      active: Boolean(params.userId),
+      activeCount: memoryActiveCount,
+    },
   };
 }
 

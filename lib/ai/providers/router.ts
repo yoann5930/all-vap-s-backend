@@ -9,8 +9,10 @@ import {
 import { adminOpenAIUnavailableMessage } from "@/lib/ai/openai-chat";
 import {
   chatWithEngineRole,
+  getLocalAiGatewayUrl,
   getReachableRuntime,
   inferEngineRole,
+  localBrainEndpointLabel,
   type AvaEngineRole,
 } from "@/lib/ai/local";
 
@@ -30,6 +32,10 @@ export function adminLlmUnavailableMessage(
   }
   if (kind === "provider_unavailable" || kind === "network_error" || kind === "network_timeout") {
     const via = tried.length ? ` (tenté : ${tried.join(" → ")})` : "";
+    const gw = getLocalAiGatewayUrl();
+    if (gw || tried.includes("local")) {
+      return `Moteur local temporairement indisponible${via}. Vérifie le PC fixe (Ollama + ava-llm-gateway + Caddy). Je ne simule pas une réponse LLM.`;
+    }
     return `Aucun moteur IA joignable pour A.V.A. Admin${via}. Démarre Ollama en local (provider=local) ou régularise OpenAI. Je ne simule pas une réponse LLM.`;
   }
   if (kind === "model_not_found") {
@@ -122,13 +128,13 @@ export async function chatWithAvaLlm(
         kind: "provider_unavailable",
         httpStatus: null,
         apiCode: null,
-        apiMessage: `Runtime local injoignable (Ollama ${getOllamaBaseUrl()} / llama.cpp)`,
+        apiMessage: `Moteur local temporairement indisponible (${localBrainEndpointLabel()})`,
         attempts: 0,
         latencyMs: 0,
         tried,
       };
     } else {
-      console.warn(`[${tag}] local unreachable → try openai`);
+      console.warn(`[${tag}] local unreachable → try openai (one-shot)`);
     }
   }
 
@@ -170,6 +176,10 @@ export async function probeAvaLlmProviders(): Promise<{
     baseUrl: string;
     model: string;
   };
+  gateway: {
+    configured: boolean;
+    url: string | null;
+  };
   openai: { configured: boolean };
   multiEngine?: {
     runtime: string | null;
@@ -177,16 +187,23 @@ export async function probeAvaLlmProviders(): Promise<{
   };
 }> {
   const mode = resolveAvaLlmProviderMode();
-  const reachable = await localProvider.isReachable();
   const rt = await getReachableRuntime();
   const installed = rt ? (await rt.listModels()).map((m) => m.name) : [];
+  const gwUrl = getLocalAiGatewayUrl() || null;
+  const gatewayConfigured = Boolean(gwUrl);
+  // Reachable = runtime multi-engine (gateway prioritaire si configuré)
+  const reachable = Boolean(rt) || (await localProvider.isReachable());
   return {
     mode,
     local: {
-      configured: localProvider.isConfigured(),
+      configured: localProvider.isConfigured() || gatewayConfigured,
       reachable,
-      baseUrl: getOllamaBaseUrl(),
+      baseUrl: gwUrl || getOllamaBaseUrl(),
       model: getOllamaModel(),
+    },
+    gateway: {
+      configured: gatewayConfigured,
+      url: gwUrl,
     },
     openai: { configured: openaiProvider.isConfigured() },
     multiEngine: {

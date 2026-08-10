@@ -389,6 +389,7 @@ export async function POST(request: NextRequest) {
       toolsUsed: reply.toolsUsed,
       openaiStatus: reply.openaiStatus,
       llmStatus: reply.llmStatus,
+      memoryStatus: reply.memoryStatus,
       errorCode: toolErrorCode,
       canRetry: !!toolErrorCode,
       effectiveRole: ctx.effectiveRole,

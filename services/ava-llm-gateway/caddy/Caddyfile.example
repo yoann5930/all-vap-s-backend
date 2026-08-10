@@ -1,0 +1,12 @@
+# Exemple — à MERGER dans le Caddyfile existant (Fidelatoo),
+# PAS un second Caddy sur le port 443.
+#
+# Architecture :
+#   Internet → :443 Caddy (TLS) → 127.0.0.1:8791 (ava-llm-gateway) → 127.0.0.1:11434 (Ollama)
+#
+# Ollama ne doit JAMAIS écouter sur 0.0.0.0:11434 exposé NAT.
+
+llm.allvaps.fr {
+	encode gzip
+	reverse_proxy 127.0.0.1:8791
+}

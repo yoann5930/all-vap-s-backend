@@ -8,8 +8,13 @@ import { authFetch } from "@/lib/auth-client";
 
 type Reflection = {
   id: string;
+  subject?: string;
   observation: string;
+  observations?: string;
+  dataUsed?: string;
+  problem?: string;
   hypothesis: string;
+  conclusion?: string;
   idea: string;
   confidence: number;
   proposedAction: string;
@@ -156,25 +161,36 @@ export default function AdminAvaReflectionsPage() {
             <Card key={r.id}>
               <CardBody className="space-y-2 text-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                    {r.verdict}
+                  <span className="font-semibold text-gray-900">
+                    {r.subject || "Réflexion métier"}
                   </span>
-                  <span className="text-xs text-gray-500">Confiance {r.confidence}%</span>
+                  <span className="text-xs text-gray-500">
+                    {r.verdict} · Confiance {r.confidence}%
+                    {r.updatedAt
+                      ? ` · ${new Date(r.updatedAt).toLocaleString("fr-FR")}`
+                      : ""}
+                  </span>
                 </div>
                 <p>
-                  <span className="font-medium text-gray-900">OBSERVATION — </span>
-                  {r.observation}
+                  <span className="font-medium text-gray-900">Observations — </span>
+                  {r.observations || r.observation}
+                </p>
+                {r.dataUsed && (
+                  <p>
+                    <span className="font-medium text-gray-900">Données utilisées — </span>
+                    {r.dataUsed}
+                  </p>
+                )}
+                <p>
+                  <span className="font-medium text-gray-900">Problème détecté — </span>
+                  {r.problem || r.observation}
                 </p>
                 <p>
-                  <span className="font-medium text-gray-900">HYPOTHÈSE — </span>
-                  {r.hypothesis}
-                </p>
-                <p>
-                  <span className="font-medium text-gray-900">IDÉE — </span>
-                  {r.idea}
+                  <span className="font-medium text-gray-900">Conclusion — </span>
+                  {r.conclusion || r.hypothesis}
                 </p>
                 <p className="text-gray-700">
-                  <span className="font-medium text-gray-900">ACTION PROPOSÉE — </span>
+                  <span className="font-medium text-gray-900">Action proposée — </span>
                   {r.proposedAction}
                 </p>
               </CardBody>

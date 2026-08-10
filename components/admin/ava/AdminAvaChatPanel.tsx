@@ -32,6 +32,17 @@ type AvaStatus = {
   orchestratorReachable?: boolean;
 };
 
+type BrainStatus = {
+  engine?: {
+    local?: string;
+    loadedModelHint?: string | null;
+    providerMode?: string;
+  };
+  memory?: { state?: string; activeCount?: number };
+  reflections?: { state?: string; count?: number };
+  orchestrator?: { state?: string };
+};
+
 type AgentInfo = {
   suspended?: boolean;
   lastAction?: string | null;
@@ -214,6 +225,7 @@ export function AdminAvaChatPanel() {
   const [lastFailedMessage, setLastFailedMessage] = useState<string | null>(null);
   const [online, setOnline] = useState(false);
   const [status, setStatus] = useState<AvaStatus | null>(null);
+  const [brain, setBrain] = useState<BrainStatus | null>(null);
   const [agent, setAgent] = useState<AgentInfo | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [effectiveRole, setEffectiveRole] = useState<string>("");
@@ -322,6 +334,17 @@ export function AdminAvaChatPanel() {
     }
   }, []);
 
+  const loadBrain = useCallback(async () => {
+    try {
+      const res = await authFetch("/api/admin/ava/brain-status");
+      if (!res.ok) return;
+      const data = (await res.json()) as BrainStatus;
+      setBrain(data);
+    } catch {
+      /* optional */
+    }
+  }, []);
+
   const load = useCallback(async (cid?: string | null) => {
     const q = cid ? `?conversationId=${encodeURIComponent(cid)}` : "";
     const res = await authFetch(`/api/admin/ava/chat${q}`);
@@ -374,9 +397,13 @@ export function AdminAvaChatPanel() {
     void load(saved);
     void loadIdentities();
     void loadMemory(saved);
-    const t = setInterval(() => void load(conversationIdRef.current), 30_000);
+    void loadBrain();
+    const t = setInterval(() => {
+      void load(conversationIdRef.current);
+      void loadBrain();
+    }, 30_000);
     return () => clearInterval(t);
-  }, [load, loadIdentities, loadMemory]);
+  }, [load, loadIdentities, loadMemory, loadBrain]);
 
   useEffect(() => {
     if (conversationId && typeof window !== "undefined") {
@@ -485,6 +512,7 @@ export function AdminAvaChatPanel() {
 
       await load(data.conversationId || conversationIdRef.current);
       void loadMemory(data.conversationId || conversationIdRef.current);
+      void loadBrain();
 
       // Relance mains libres après traitement (+ TTS si activé)
       if (
@@ -932,6 +960,45 @@ export function AdminAvaChatPanel() {
             <Link href="/admin/fidelatoo/control-center" className="text-brand-700 hover:underline">
               Centre de contrôle
             </Link>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardBody className="grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Moteur IA
+              </div>
+              <p className="text-gray-900">
+                Local : {brain?.engine?.local || "—"}
+                {brain?.engine?.loadedModelHint
+                  ? ` · ${brain.engine.loadedModelHint}`
+                  : ""}
+              </p>
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Mémoire
+              </div>
+              <p className="text-gray-900">
+                {brain?.memory?.state || "—"}
+                {typeof brain?.memory?.activeCount === "number"
+                  ? ` · ${brain.memory.activeCount} souvenir(s)`
+                  : ""}
+              </p>
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Réflexions
+              </div>
+              <p className="text-gray-900">{brain?.reflections?.state || "—"}</p>
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Orchestrateur
+              </div>
+              <p className="text-gray-900">{brain?.orchestrator?.state || "—"}</p>
+            </div>
           </CardBody>
         </Card>
 

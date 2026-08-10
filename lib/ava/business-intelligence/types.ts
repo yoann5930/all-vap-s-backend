@@ -156,8 +156,20 @@ export type BiDailyTour = {
 
 export type BiReflectionCard = {
   id: string;
+  /** Sujet métier (titre court). */
+  subject: string;
+  /** Observations factuelles. */
   observation: string;
+  /** Alias UI : Observations. */
+  observations?: string;
+  /** Données / sources utilisées. */
+  dataUsed?: string;
+  /** Problème détecté. */
+  problem?: string;
+  /** Hypothèse (interne BI). */
   hypothesis: string;
+  /** Conclusion métier. */
+  conclusion?: string;
   idea: string;
   confidence: BiConfidence;
   proposedAction: string;

@@ -13,9 +13,10 @@ import {
   chatWithEngineRole,
   freeRamGb,
   totalRamGb,
-  SAFE_PULL_CANDIDATES,
   FUTURE_UPGRADE_MODELS,
+  BENCHMARK_ONLY_MODELS,
   ENGINE_ROLE_ASSIGNMENTS,
+  pullCandidatesForRam,
   type ModelScorecard,
   type AvaEngineRole,
 } from "@/lib/ai/local";
@@ -403,12 +404,13 @@ async function scoreModel(model: string): Promise<ModelScorecard> {
 
 async function maybePullSafe() {
   if (!process.argv.includes("--pull-safe")) return;
-  console.log("Pull safe small models only:", SAFE_PULL_CANDIDATES.join(", "));
-  console.log("Skip future upgrades:", FUTURE_UPGRADE_MODELS.join(", "));
-  for (const m of SAFE_PULL_CANDIDATES) {
+  const candidates = pullCandidatesForRam(totalRamGb());
+  console.log("Pull selon RAM", totalRamGb(), "Go →", candidates.join(", "));
+  console.log("Skip bench-only / futurs:", [...BENCHMARK_ONLY_MODELS, ...FUTURE_UPGRADE_MODELS].join(", "));
+  for (const m of candidates) {
     try {
       console.log("pulling", m, "...");
-      execSync(`ollama pull ${m}`, { stdio: "inherit", timeout: 600000 });
+      execSync(`ollama pull ${m}`, { stdio: "inherit", timeout: 1_200_000 });
     } catch (e) {
       console.warn("pull failed", m, e instanceof Error ? e.message : e);
     }
@@ -431,9 +433,15 @@ async function main() {
   console.log("Installed", installed.join(", "));
   console.log("Roles", ENGINE_ROLE_ASSIGNMENTS.map((r) => r.role).join(", "));
 
-  // Benchmark models already installed that match EXACT candidate tags (cap 3)
-  const preferred = ["llama3.2:3b", "qwen2.5:7b", "llama3.1:8b", "qwen2.5:3b", "gemma2:2b"];
-  const unique = preferred.filter((c) => installed.includes(c)).slice(0, 3);
+  // Benchmark models already installed (cap 4) — priorité 24 Go
+  const preferred = [
+    "gemma3:12b",
+    "llama3.1:8b",
+    "llama3.2:3b",
+    "qwen2.5:7b",
+    "qwen2.5:3b",
+  ];
+  const unique = preferred.filter((c) => installed.includes(c)).slice(0, 4);
   console.log("Benchmark set:", unique.join(", "));
   console.log("Cases:", buildCases().length);
 

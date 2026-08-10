@@ -1,5 +1,9 @@
 import { OllamaLocalRuntime } from "./runtime-ollama";
 import { LlamaCppLocalRuntime } from "./runtime-llamacpp";
+import {
+  GatewayLocalRuntime,
+  getLocalAiGatewayUrl,
+} from "./runtime-gateway";
 import { pickInstalledModel, roleAssignment } from "./model-registry";
 import type {
   AvaEngineRole,
@@ -46,10 +50,21 @@ function loadRoleMap(): RoleMapFile | null {
 }
 
 export function getLocalRuntimes(): LocalAIRuntime[] {
-  const runtimes: LocalAIRuntime[] = [new OllamaLocalRuntime()];
+  const runtimes: LocalAIRuntime[] = [];
+  // Vercel → HTTPS gateway → Ollama localhost (prioritaire si configuré)
+  const gateway = new GatewayLocalRuntime();
+  if (gateway.isConfigured()) runtimes.push(gateway);
+  // Dev PC fixe : Ollama direct (jamais exposé publiquement)
+  runtimes.push(new OllamaLocalRuntime());
   const llama = new LlamaCppLocalRuntime();
   if (llama.isConfigured()) runtimes.push(llama);
   return runtimes;
+}
+
+export function localBrainEndpointLabel(): string {
+  const gw = getLocalAiGatewayUrl();
+  if (gw) return `gateway:${gw}`;
+  return "ollama:local";
 }
 
 export async function getReachableRuntime(): Promise<LocalAIRuntime | null> {

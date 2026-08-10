@@ -1,6 +1,11 @@
 /**
  * Niveaux de mémoire « humaine » — façade sur la mémoire Admin existante.
  * Aucun modèle ne possède la mémoire : elle appartient à l'orchestrateur.
+ *
+ * Catégories exposées (obligation métier) :
+ * working_memory · episodic_memory · semantic_memory · business_memory ·
+ * task_memory · user_preference · confirmed_fact · pending_decision ·
+ * completed_action · superseded
  */
 
 import type {
@@ -18,6 +23,19 @@ export type AvaMemoryLayer =
   | "task"
   | "relationship";
 
+/** Noms canoniques demandés pour le cerveau Admin. */
+export type AvaMemoryCategory =
+  | "working_memory"
+  | "episodic_memory"
+  | "semantic_memory"
+  | "business_memory"
+  | "task_memory"
+  | "user_preference"
+  | "confirmed_fact"
+  | "pending_decision"
+  | "completed_action"
+  | "superseded";
+
 export type AvaMemoryEnvelope = {
   layer: AvaMemoryLayer;
   id: string;
@@ -27,22 +45,47 @@ export type AvaMemoryEnvelope = {
   date: string;
   importance: "low" | "medium" | "high";
   confidence: number;
-  category: string;
+  category: AvaMemoryCategory | string;
   lastUsedAt: string;
 };
 
 function mapKindToLayer(item: AdminMemoryItem): AvaMemoryLayer {
+  if (item.status === "superseded") return "episodic";
   if (item.taskStatus && item.taskStatus !== "done") return "task";
   if (item.kind === "user_preference") return "relationship";
   if (item.kind === "pending_decision" || item.kind === "temporary_context") return "episodic";
   if (item.kind === "completed_action") return "episodic";
   if (item.kind === "confirmed_fact") {
-    if (/boutique|hautmont|quesnoy|stock|commande|produit|fabricant|gamme/i.test(item.subject + item.content)) {
+    if (
+      /boutique|hautmont|quesnoy|stock|commande|produit|fabricant|gamme/i.test(
+        item.subject + item.content
+      )
+    ) {
       return "business";
     }
     return "semantic";
   }
   return "semantic";
+}
+
+export function categoryForItem(item: AdminMemoryItem): AvaMemoryCategory {
+  if (item.status === "superseded") return "superseded";
+  if (item.taskStatus && item.taskStatus !== "done") return "task_memory";
+  if (item.kind === "user_preference") return "user_preference";
+  if (item.kind === "pending_decision") return "pending_decision";
+  if (item.kind === "completed_action") return "completed_action";
+  if (item.kind === "confirmed_fact") {
+    if (
+      /boutique|hautmont|quesnoy|stock|commande|produit|fabricant|gamme/i.test(
+        item.subject + item.content
+      )
+    ) {
+      return "business_memory";
+    }
+    return "confirmed_fact";
+  }
+  if (item.kind === "temporary_context") return "episodic_memory";
+  return "semantic_memory";
 }
 
 function confidenceFor(item: AdminMemoryItem): number {
@@ -63,7 +106,7 @@ export function toMemoryEnvelope(item: AdminMemoryItem): AvaMemoryEnvelope {
     date: item.createdAt,
     importance: item.importance,
     confidence: confidenceFor(item),
-    category: item.kind,
+    category: categoryForItem(item),
     lastUsedAt: item.updatedAt,
   };
 }
@@ -71,6 +114,7 @@ export function toMemoryEnvelope(item: AdminMemoryItem): AvaMemoryEnvelope {
 /**
  * Construit le bloc contexte mémoire pour un prompt LLM —
  * sélectif, jamais la base entière, jamais d'invention.
+ * Les items superseded ne sont jamais injectés comme vérité.
  */
 export function buildOrchestratorMemoryBlock(params: {
   persistent: AdminPersistentMemory;
@@ -81,11 +125,14 @@ export function buildOrchestratorMemoryBlock(params: {
   factsBlock: string;
   envelopes: AvaMemoryEnvelope[];
   layersPresent: AvaMemoryLayer[];
+  categoriesPresent: string[];
+  activeCount: number;
 } {
   const retrieved = retrieveRelevantAdminMemory(params);
-  const envelopes = retrieved.items.map(toMemoryEnvelope);
+  // Double filet : jamais de superseded comme vérité
+  const safeItems = retrieved.items.filter((i) => i.status === "active");
+  const envelopes = safeItems.map(toMemoryEnvelope);
 
-  // Working memory = session
   if (params.session?.summary) {
     envelopes.unshift({
       layer: "working",
@@ -96,17 +143,20 @@ export function buildOrchestratorMemoryBlock(params: {
       date: params.session.updatedAt,
       importance: "high",
       confidence: 85,
-      category: "working_session",
+      category: "working_memory",
       lastUsedAt: params.session.updatedAt,
     });
   }
 
   const layersPresent = [...new Set(envelopes.map((e) => e.layer))];
+  const categoriesPresent = [...new Set(envelopes.map((e) => String(e.category)))];
+  const activeCount = params.persistent.items.filter((i) => i.status === "active").length;
+
   const lines = [
-    "MÉMOIRE A.V.A. (orchestrateur — ne pas inventer hors de cette liste) :",
+    "MÉMOIRE A.V.A. (orchestrateur — ne pas inventer hors de cette liste ; superseded exclus) :",
     ...envelopes.slice(0, 12).map(
       (e) =>
-        `- [${e.layer}|${e.category}|conf=${e.confidence}] ${e.subject}: ${e.content}`
+        `- [${e.category}|${e.layer}|conf=${e.confidence}] ${e.subject}: ${e.content}`
     ),
   ];
 
@@ -114,5 +164,7 @@ export function buildOrchestratorMemoryBlock(params: {
     factsBlock: lines.join("\n") || retrieved.factsBlock,
     envelopes,
     layersPresent,
+    categoriesPresent,
+    activeCount,
   };
 }

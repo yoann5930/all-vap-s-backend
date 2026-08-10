@@ -102,6 +102,69 @@ export function retrieveRelevantAdminMemory(params: {
   return { factsBlock: lines.join("\n"), items: scored };
 }
 
+/**
+ * Rappel déterministe : si l'admin demande explicitement un fait mémorisé
+ * et qu'un confirmed_fact / high match, répondre sans dépendre du LLM.
+ */
+export function tryAnswerFromConfirmedMemory(
+  message: string,
+  persistent: AdminPersistentMemory
+): { text: string; subject: string } | null {
+  const looksLikeRecall =
+    /\b(quel(?:le)?\s+est|rappelle[- ]moi|tu\s+(?:as\s+)?m[eé]moris|code\s+(?:magasin|rayon|secret)|m[eé]moris[ée]s?|qu['’]as[- ]tu\s+(?:retenu|not[eé]))\b/i.test(
+      message
+    );
+  if (!looksLikeRecall) return null;
+
+  const active = listActiveFacts(persistent).filter(
+    (i) =>
+      i.status === "active" &&
+      (i.kind === "confirmed_fact" ||
+        i.kind === "user_preference" ||
+        i.importance === "high")
+  );
+  if (!active.length) return null;
+
+  const scored = active
+    .map((item) => ({ item, score: scoreItem(item, message, null) }))
+    .sort((a, b) => b.score - a.score);
+
+  const best = scored[0];
+  // Au moins importance high (scoreItem +2) ou un token lexical
+  // Questions « code rayon / magasin mémorisé » → match sur subject/content même score bas
+  if (/code\s*(rayon|magasin|secret)|m[eé]moris/i.test(message)) {
+    const byCode = active.find(
+      (i) =>
+        /code_(rayon|magasin|secret)|code\s+(rayon|magasin|secret)/i.test(
+          `${i.subject} ${i.content}`
+        )
+    );
+    if (byCode) {
+      return { text: `Oui — ${byCode.content}`, subject: byCode.subject };
+    }
+  }
+
+  if (!best || best.score < 2) {
+    // Si une seule mémoire confirmée récente et question générique « code … mémorisé »
+    if (
+      /code|m[eé]moris/i.test(message) &&
+      active.length === 1 &&
+      active[0].kind === "confirmed_fact"
+    ) {
+      return {
+        text: `Oui — ${active[0].content}`,
+        subject: active[0].subject,
+      };
+    }
+    return null;
+  }
+
+  return {
+    text: `Oui — ${best.item.content}`,
+    subject: best.item.subject,
+  };
+}
+
 /** Compacte l'historique pour le LLM (évite de réinjecter des dumps rapports). */
 export function compactHistoryForLlm(
   history: { role: "user" | "assistant"; content: string }[],

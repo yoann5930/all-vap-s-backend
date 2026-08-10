@@ -57,9 +57,35 @@ export class OllamaLocalRuntime implements LocalAIRuntime {
     }
   }
 
+  /**
+   * Un seul modèle chargé : décharge les autres via keep_alive=0.
+   * Activé par défaut (désactiver avec OLLAMA_SINGLE_MODEL=0).
+   */
+  private async unloadOtherModels(keepModel: string): Promise<void> {
+    if (envTrim("OLLAMA_SINGLE_MODEL", "1") === "0") return;
+    try {
+      const res = await fetch(`${this.baseUrl}/api/ps`);
+      if (!res.ok) return;
+      const j = (await res.json()) as { models?: Array<{ name?: string }> };
+      const loaded = (j.models || []).map((m) => m.name || "").filter(Boolean);
+      for (const name of loaded) {
+        if (name === keepModel) continue;
+        // keep_alive=0 force le unload immédiat de ce modèle
+        await fetch(`${this.baseUrl}/api/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model: name, keep_alive: 0, prompt: "" }),
+        }).catch(() => null);
+      }
+    } catch {
+      /* best-effort */
+    }
+  }
+
   async chat(req: LocalChatRequest): Promise<LocalChatResponse> {
     const started = Date.now();
     try {
+      await this.unloadOtherModels(req.model);
       const ctrl = new AbortController();
       const timeout = req.timeoutMs ?? (Number(envTrim("AVA_OLLAMA_TIMEOUT_MS", "120000")) || 120000);
       const t = setTimeout(() => ctrl.abort(), timeout);
@@ -67,6 +93,8 @@ export class OllamaLocalRuntime implements LocalAIRuntime {
         model: req.model,
         messages: req.messages,
         stream: false,
+        // Un seul gros modèle en RAM : libère rapidement après idle
+        keep_alive: envTrim("OLLAMA_KEEP_ALIVE", "2m") || "2m",
         options: {
           temperature: req.temperature ?? 0.5,
           num_predict: req.maxTokens ?? 512,

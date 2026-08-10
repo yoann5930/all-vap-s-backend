@@ -3,7 +3,7 @@
  */
 
 const BANNED_GENERIC =
-  /je te suis\.?|dis[- ]moi ce qui te pr[eé]occupe|en quoi puis[- ]je t['’]?aider|comment puis[- ]je (vous |t['’])?aider|je t['’]écoute\.?$|je reste à (ta|votre) disposition|c['’]est une excellente question/i;
+  /je te suis\.?|dis[- ]moi ce qui te pr[eé]occupe|qu['’]est[- ]ce qui te pr[eé]occupe|en quoi puis[- ]je t['’]?aider|comment puis[- ]je (vous |t['’])?aider|je t['’]écoute\.?|je reste à (ta|votre) disposition|c['’]est une excellente question/i;
 
 function fingerprint(text: string): string {
   return text

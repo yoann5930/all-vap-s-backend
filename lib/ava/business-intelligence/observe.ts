@@ -240,26 +240,45 @@ export async function observeOpsPriorities(): Promise<{
 export async function collectObservations(opts?: {
   periodKey?: DatePeriod;
 }): Promise<{ observations: BiObservation[]; missingData: string[] }> {
-  const [sales, stock, catalog, ops] = await Promise.all([
-    observeSales(opts?.periodKey || "today"),
-    observeStock(),
-    observeCatalog(),
-    observeOpsPriorities(),
-  ]);
-  return {
-    observations: [
-      ...sales.observations,
-      ...stock.observations,
-      ...catalog.observations,
-      ...ops.observations,
-    ],
-    missingData: [
-      ...new Set([
-        ...sales.missingData,
-        ...stock.missingData,
-        ...catalog.missingData,
-        ...ops.missingData,
-      ]),
-    ],
-  };
+  try {
+    const [sales, stock, catalog, ops] = await Promise.all([
+      observeSales(opts?.periodKey || "today").catch(() => ({
+        observations: [] as BiObservation[],
+        missingData: ["ventes_indisponibles"],
+      })),
+      observeStock().catch(() => ({
+        observations: [] as BiObservation[],
+        missingData: ["stock_indisponible"],
+      })),
+      observeCatalog().catch(() => ({
+        observations: [] as BiObservation[],
+        missingData: ["catalogue_indisponible"],
+      })),
+      observeOpsPriorities().catch(() => ({
+        observations: [] as BiObservation[],
+        missingData: ["priorites_indisponibles"],
+      })),
+    ]);
+    return {
+      observations: [
+        ...sales.observations,
+        ...stock.observations,
+        ...catalog.observations,
+        ...ops.observations,
+      ],
+      missingData: [
+        ...new Set([
+          ...sales.missingData,
+          ...stock.missingData,
+          ...catalog.missingData,
+          ...ops.missingData,
+        ]),
+      ],
+    };
+  } catch {
+    return {
+      observations: [],
+      missingData: ["observations_indisponibles"],
+    };
+  }
 }

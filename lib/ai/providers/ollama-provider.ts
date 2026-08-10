@@ -6,7 +6,7 @@ import type {
 import { envTrim, scrubMessagesForLlm } from "./types";
 
 /** Modèle léger FR-capable déjà courant chez Ollama (quantifié ~4–5 Go). */
-export const DEFAULT_OLLAMA_MODEL = "qwen2.5:7b";
+export const DEFAULT_OLLAMA_MODEL = "gemma3:12b";
 
 export function getOllamaBaseUrl(): string {
   return (
@@ -18,6 +18,7 @@ export function getOllamaBaseUrl(): string {
 
 export function getOllamaModel(): string {
   return (
+    envTrim("AVA_LOCAL_MODEL") ||
     envTrim("AVA_OLLAMA_MODEL") ||
     envTrim("OLLAMA_MODEL") ||
     DEFAULT_OLLAMA_MODEL
