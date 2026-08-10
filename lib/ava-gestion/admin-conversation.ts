@@ -38,6 +38,7 @@ import {
   firstNameFromEmail,
   nextThreadAfterTurn,
   shouldPreferLocalCompose,
+  parseExplicitReplyInstruction,
   type ActiveThread,
 } from "@/lib/ava/admin-social";
 import {
@@ -317,6 +318,33 @@ export async function answerAdminAvaConversation(params: {
   const history = params.history || [];
   const msg = params.message.trim();
   const intent = analyzeAdminIntent(msg, history);
+
+  // Consigne explicite « Réponds uniquement : TOKEN » → réponse conversationnelle stricte, 0 outil
+  const explicitReply = parseExplicitReplyInstruction(msg);
+  if (explicitReply) {
+    return {
+      text: explicitReply,
+      links: [],
+      periodLabel: "",
+      source: "admin_ava_explicit_reply",
+      lastSyncAt: null,
+      missingData: [],
+      conversational: true,
+      grounded: true,
+      intentLabel: "explicit_reply",
+      conversationalIntent: "general",
+      toolsUsed: [],
+      llmStatus: {
+        kind: "ok",
+        httpStatus: null,
+        apiCode: null,
+        attempts: 0,
+        provider: "local",
+        tried: ["local"],
+        model: "explicit-reply",
+      },
+    };
+  }
 
   // Qui suis-je ? → session serveur
   if (

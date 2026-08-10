@@ -4,6 +4,7 @@ import type {
   SocialIntentClass,
   SocialMove,
 } from "./types";
+import { isExplicitReplyInstruction } from "./explicit-reply";
 
 function norm(s: string): string {
   return s
@@ -135,6 +136,16 @@ export function detectSocialMove(
     has(n, ["tu es une ia", "t es une ia", "es tu une ia", "es tu une intelligence"])
   ) {
     return base("identity", "GENERAL_CONVERSATION", { wantTools: false });
+  }
+
+  // Consigne explicite de réponse simple — jamais d'outils / sujet métier hérité
+  if (isExplicitReplyInstruction(message)) {
+    return base("smalltalk", "GENERAL_CONVERSATION", {
+      wantTools: false,
+      preferLocalCompose: false,
+      preferShort: true,
+      resolvedSubject: null,
+    });
   }
 
   // Sortie explicite du registre métier

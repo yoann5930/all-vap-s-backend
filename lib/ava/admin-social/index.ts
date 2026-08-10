@@ -16,6 +16,11 @@ export {
 } from "./detect";
 
 export {
+  isExplicitReplyInstruction,
+  parseExplicitReplyInstruction,
+} from "./explicit-reply";
+
+export {
   composeSocialReply,
   buildStance,
   nextThreadAfterTurn,

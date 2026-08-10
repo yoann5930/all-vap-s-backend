@@ -3,6 +3,7 @@
  * Évite les regex \b fragiles sur les mots accentués (cause du bug « rapports »).
  */
 import type { AvaAdminToolName, AvaAdminToolPlan } from "./types";
+import { isExplicitReplyInstruction } from "@/lib/ava/admin-social/explicit-reply";
 
 function norm(s: string): string {
   return s
@@ -298,6 +299,18 @@ function planFromMessageAlone(message: string): AvaAdminToolPlan {
     };
   }
 
+  // « Réponds uniquement : … » → zéro outil, zéro clarification métier
+  if (isExplicitReplyInstruction(message)) {
+    return {
+      tools: [],
+      storeQuery: null,
+      limit: null,
+      periodKey: null,
+      needsClarification: false,
+      intentLabel: "explicit_reply",
+    };
+  }
+
   if (isThanks(n)) {
     return {
       tools: [],
@@ -403,9 +416,16 @@ export function selectAdminTools(
     return base;
   }
 
+  // Consigne de réponse simple : ne jamais hériter des outils du tour précédent
+  // (évite que « … uniquement : … » soit pris pour un follow-up « uniquement Hautmont »)
+  if (isExplicitReplyInstruction(message) || base.intentLabel === "explicit_reply") {
+    return base;
+  }
+
   const isFollowUp =
     (/^(et|donc|ensuite|uniquement|seulement|juste|aussi|pareil|idem)\b/.test(n) &&
-      !/^(et si)\b/.test(n)) ||
+      !/^(et si)\b/.test(n) &&
+      !/\br[eé]ponds\b/.test(n)) ||
     (n.length < 48 &&
       (detectStore(n) ||
         detectLimit(n) ||
