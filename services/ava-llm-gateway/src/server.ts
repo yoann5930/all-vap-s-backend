@@ -52,16 +52,15 @@ async function handleHealth(
   _req: http.IncomingMessage,
   res: http.ServerResponse
 ) {
+  // Public / minimal — pas de noms de modèles, pas d'empreinte secret, pas d'host
   const ollamaOk = await probeOllama(cfg.ollamaBaseUrl);
-  const ok = ollamaOk && !breaker.open && Boolean(cfg.secret);
+  const secretOk = cfg.secret.length >= 32;
+  const ok = ollamaOk && !breaker.open && secretOk;
   json(res, ok ? 200 : 503, {
     ok,
     service: "ava-llm-gateway",
     ollama: ollamaOk ? "up" : "down",
     circuit: breaker.open ? "open" : "closed",
-    primaryModel: cfg.primaryModel,
-    fallbackModel: cfg.fallbackModel,
-    secretConfigured: cfg.secret.length >= 32,
   });
 }
 
