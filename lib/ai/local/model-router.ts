@@ -9,6 +9,8 @@ import type {
   RouterDecision,
 } from "./types";
 import { scrubSecretsForLlm } from "@/lib/ai/providers/types";
+import { existsSync, readFileSync } from "fs";
+import { join } from "path";
 
 function freeRamGb(): number {
   try {
@@ -28,6 +30,21 @@ function totalRamGb(): number {
   }
 }
 
+type RoleMapFile = {
+  roles?: Partial<Record<AvaEngineRole, string>>;
+  fallbacks?: Partial<Record<AvaEngineRole, string[]>>;
+};
+
+function loadRoleMap(): RoleMapFile | null {
+  try {
+    const p = join(process.cwd(), "data", "ava", "engine-role-map.json");
+    if (!existsSync(p)) return null;
+    return JSON.parse(readFileSync(p, "utf8")) as RoleMapFile;
+  } catch {
+    return null;
+  }
+}
+
 export function getLocalRuntimes(): LocalAIRuntime[] {
   const runtimes: LocalAIRuntime[] = [new OllamaLocalRuntime()];
   const llama = new LlamaCppLocalRuntime();
@@ -44,7 +61,6 @@ export async function getReachableRuntime(): Promise<LocalAIRuntime | null> {
 
 /**
  * Choisit le moteur pour un rôle — sans exposer le nom au user.
- * Fallback automatique vers un autre candidat installé si le premier échoue (géré par chatWithRole).
  */
 export async function decideEngineRole(
   role: AvaEngineRole,
@@ -53,18 +69,32 @@ export async function decideEngineRole(
   const rt = runtime ?? (await getReachableRuntime());
   if (!rt) return null;
   const installed = (await rt.listModels()).map((m) => m.name);
+  const map = loadRoleMap();
+  const preferred = map?.roles?.[role];
+  const mapFallbacks = map?.fallbacks?.[role] || [];
+
+  if (preferred && installed.includes(preferred)) {
+    const fallbacks = mapFallbacks.filter((m) => installed.includes(m) && m !== preferred);
+    return {
+      role,
+      model: preferred,
+      runtime: rt.id,
+      reason: `role=${role} model=${preferred} from engine-role-map ram=${freeRamGb()}/${totalRamGb()}Go`,
+      fallbacks,
+    };
+  }
+
   const assignment = roleAssignment(role);
-  const pick = pickInstalledModel(assignment.candidates, installed);
+  const candidates = preferred
+    ? [preferred, ...mapFallbacks, ...assignment.candidates]
+    : assignment.candidates;
+  const pick = pickInstalledModel(candidates, installed);
   if (!pick) return null;
 
   const free = freeRamGb();
-  const total = totalRamGb();
-  let reason = `role=${role} model=${pick.model} runtime=${rt.id} ram=${free}/${total}Go`;
-  // Sur RAM libre très basse, préférer le candidat le plus léger installé
   if (free < 4) {
-    const lightFirst = [...assignment.candidates].reverse();
     const light = pickInstalledModel(
-      lightFirst.filter((c) => /3b|1b|2b|mini/i.test(c)).concat(assignment.candidates),
+      candidates.filter((c) => /3b|1b|2b|mini/i.test(c)).concat(candidates),
       installed
     );
     if (light) {
@@ -72,7 +102,7 @@ export async function decideEngineRole(
         role,
         model: light.model,
         runtime: rt.id,
-        reason: `${reason} · low_free_ram→prefer_light`,
+        reason: `role=${role} model=${light.model} low_free_ram`,
         fallbacks: light.fallbacks,
       };
     }
@@ -82,7 +112,7 @@ export async function decideEngineRole(
     role,
     model: pick.model,
     runtime: rt.id,
-    reason,
+    reason: `role=${role} model=${pick.model} runtime=${rt.id}`,
     fallbacks: pick.fallbacks,
   };
 }
