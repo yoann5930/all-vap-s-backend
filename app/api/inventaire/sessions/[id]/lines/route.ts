@@ -31,8 +31,19 @@ import {
   parseResistanceIdentityFromLine,
 } from "@/lib/catalog/resistance-identification";
 import { classifyOnInventoryScan } from "@/lib/catalog/classification-engine";
+import {
+  INVENTORY_PLACEMENTS,
+  normalizeInventoryPlacement,
+  validateInventoryPlacementQuantity,
+} from "@/lib/inventory/placement";
 
 type Ctx = { params: Promise<{ id: string }> };
+
+async function ensurePlacementColumn() {
+  await prisma.$executeRawUnsafe(
+    `ALTER TABLE "InventoryLine" ADD COLUMN IF NOT EXISTS "placement" TEXT NOT NULL DEFAULT 'STOCK'`
+  );
+}
 
 export async function GET(_request: NextRequest, context: Ctx) {
   try {
@@ -106,6 +117,8 @@ export async function POST(request: NextRequest, context: Ctx) {
         brand: z.string().max(120).optional(),
         range: z.string().max(120).optional(),
         quantityCounted: z.number().int().min(0),
+        /** STOCK (défaut, illimité) | VITRINE (max 1) */
+        placement: z.enum(INVENTORY_PLACEMENTS).optional(),
         photoPath: z.string().optional(),
         photoConfirmed: z.boolean().optional(),
         notes: z.string().max(500).optional(),
@@ -131,6 +144,19 @@ export async function POST(request: NextRequest, context: Ctx) {
         powerRangeMaxW: z.number().int().positive().max(500).optional(),
       })
       .parse(await request.json());
+
+    await ensurePlacementColumn();
+    const placement = normalizeInventoryPlacement(body.placement);
+    const placementCheck = validateInventoryPlacementQuantity({
+      placement,
+      quantityCounted: body.quantityCounted,
+    });
+    if (!placementCheck.ok) {
+      return jsonResponse(
+        { error: placementCheck.error, code: placementCheck.code },
+        400
+      );
+    }
 
     let barcode = (body.barcode || "").trim() || null;
     let productId = body.productId || null;
@@ -524,6 +550,7 @@ export async function POST(request: NextRequest, context: Ctx) {
         nicotineSnapshot,
         catalogImageUrl,
         quantityCounted: body.quantityCounted,
+        placement,
         expectedQuantitySnapshot,
         unitPriceCents,
         totalValueCents,
@@ -537,6 +564,7 @@ export async function POST(request: NextRequest, context: Ctx) {
             `employé=${session.employeeName}`,
             `boutique=${session.location.code}`,
             `gamme=${rangeSnapshot}`,
+            `emplacement=${placement}`,
             body.taxonomyGroup ? `taxonomy=${body.taxonomyGroup}/${body.taxonomySubtype || ""}` : null,
             body.resistanceValueOhm != null
               ? `ohm=${body.resistanceValueOhm.toFixed(3)}`

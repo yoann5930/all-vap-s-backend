@@ -6,6 +6,8 @@ export interface OfflineInventoryLine {
   sessionId: string;
   barcode: string;
   quantityCounted: number;
+  /** STOCK | VITRINE */
+  placement?: "STOCK" | "VITRINE";
   unitPrice?: string;
   unitPriceCents?: number;
   priceSource?: string;
@@ -81,6 +83,7 @@ export async function flushOfflineInventoryQueue(
         body: JSON.stringify({
           barcode: item.barcode || undefined,
           quantityCounted: item.quantityCounted,
+          placement: item.placement || "STOCK",
           unitPrice: item.unitPrice,
           unitPriceCents: item.unitPriceCents,
           priceSource: item.priceSource,

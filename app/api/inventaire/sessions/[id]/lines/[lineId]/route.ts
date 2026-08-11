@@ -11,8 +11,19 @@ import {
 import { writeInventoryAudit } from "@/lib/inventory/inventory-audit";
 import { writeAuditLog } from "@/lib/audit/log";
 import { clientIp } from "@/lib/rate-limit";
+import {
+  INVENTORY_PLACEMENTS,
+  normalizeInventoryPlacement,
+  validateInventoryPlacementQuantity,
+} from "@/lib/inventory/placement";
 
 type Ctx = { params: Promise<{ id: string; lineId: string }> };
+
+async function ensurePlacementColumn() {
+  await prisma.$executeRawUnsafe(
+    `ALTER TABLE "InventoryLine" ADD COLUMN IF NOT EXISTS "placement" TEXT NOT NULL DEFAULT 'STOCK'`
+  );
+}
 
 /** Correction employé d'une ligne tant que la session est EN COURS. */
 export async function PATCH(request: NextRequest, context: Ctx) {
@@ -37,6 +48,7 @@ export async function PATCH(request: NextRequest, context: Ctx) {
     const body = z
       .object({
         quantityCounted: z.number().int().min(0).optional(),
+        placement: z.enum(INVENTORY_PLACEMENTS).optional(),
         unitPrice: z.union([z.string(), z.number()]).optional(),
         unitPriceCents: z.number().int().optional(),
         notes: z.string().max(500).optional(),
@@ -46,6 +58,8 @@ export async function PATCH(request: NextRequest, context: Ctx) {
       })
       .parse(await request.json());
 
+    await ensurePlacementColumn();
+
     const line = await prisma.inventoryLine.findFirst({
       where: { id: lineId, sessionId: id },
     });
@@ -54,6 +68,36 @@ export async function PATCH(request: NextRequest, context: Ctx) {
     const data: Record<string, unknown> = {};
     const audits: Array<{ field: string; old: string | number | null; next: string | number | null }> =
       [];
+
+    const nextPlacement = body.placement
+      ? normalizeInventoryPlacement(body.placement)
+      : normalizeInventoryPlacement(
+          (line as { placement?: string | null }).placement
+        );
+    const nextQty =
+      body.quantityCounted != null
+        ? body.quantityCounted
+        : line.quantityCounted;
+    const placementCheck = validateInventoryPlacementQuantity({
+      placement: nextPlacement,
+      quantityCounted: nextQty,
+    });
+    if (!placementCheck.ok) {
+      return jsonResponse(
+        { error: placementCheck.error, code: placementCheck.code },
+        400
+      );
+    }
+
+    if (body.placement != null) {
+      const prev = normalizeInventoryPlacement(
+        (line as { placement?: string | null }).placement
+      );
+      if (prev !== nextPlacement) {
+        audits.push({ field: "placement", old: prev, next: nextPlacement });
+        data.placement = nextPlacement;
+      }
+    }
 
     if (body.quantityCounted != null && body.quantityCounted !== line.quantityCounted) {
       audits.push({
