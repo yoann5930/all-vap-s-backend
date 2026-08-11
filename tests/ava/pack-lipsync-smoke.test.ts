@@ -7,6 +7,7 @@ import { existsSync, statSync } from "node:fs";
 import path from "node:path";
 import {
   createSpeechTimeline,
+  sampleVisemeAt,
   visemeForCharacter,
 } from "../../lib/ava/pack-lipsync";
 
@@ -37,8 +38,8 @@ for (const rel of assets) {
   });
 }
 
-run("voyelles ouvertes", () => {
-  assert.ok(visemeForCharacter("a").open > 0.5);
+run("voyelles bien ouvertes", () => {
+  assert.ok(visemeForCharacter("a").open > 0.85);
   assert.ok(visemeForCharacter("é").wide > 0.5);
 });
 
@@ -51,8 +52,17 @@ run("bilabiales fermées", () => {
   assert.ok(visemeForCharacter("m").open < 0.1);
 });
 
-run("ponctuation au repos", () => {
-  assert.deepEqual(visemeForCharacter("."), { open: 0, wide: 0, round: 0 });
+run("digramme ou arrondi", () => {
+  const tl = createSpeechTimeline("Bonjour", 1000);
+  const ou = tl.find((k) => k.round > 0.7);
+  assert.ok(ou, "attendu un keyframe arrondi (ou)");
+});
+
+run("sampleVisemeAt interpolé", () => {
+  const tl = createSpeechTimeline("Salut Ava!", 2000);
+  const mid = sampleVisemeAt(tl, 400);
+  assert.ok(mid.open >= 0);
+  assert.ok(mid.open <= 1);
 });
 
 run("timeline ordonnée", () => {

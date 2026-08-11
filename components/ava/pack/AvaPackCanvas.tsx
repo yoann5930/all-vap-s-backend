@@ -1,21 +1,19 @@
 "use client";
 
 /**
- * Canvas Ava (pack Cursor) — Three.js chargé uniquement côté navigateur.
- * Lip-sync piloté par speechText / isSpeaking (voix ImmersiveAvaScreen).
+ * Canvas Ava — plein viewport, lip-sync branché sur la voix immersive.
  */
 import { useEffect, useRef, useState } from "react";
 import {
   createSpeechTimeline,
   estimateSpeechDurationMs,
 } from "@/lib/ava/pack-lipsync";
-import type { AvaPackRuntime } from "@/components/ava/pack/avatarRuntime";
+import type { AvaPackRuntime } from "@/components/ava/pack/avaPackTypes";
 
 interface AvaPackCanvasProps {
   isSpeaking: boolean;
   speechText?: string;
   className?: string;
-  /** Orbit souris (désactivé en immersif plein écran). */
   enableOrbit?: boolean;
 }
 
@@ -35,8 +33,8 @@ export function AvaPackCanvas({
   const [webgl, setWebgl] = useState(true);
   const [, setLevel] = useState(0);
   const lastSpeechRef = useRef("");
+  const speakGen = useRef(0);
 
-  // Montage runtime (dynamic import — pas de Three.js au SSR)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -61,7 +59,6 @@ export function AvaPackCanvas({
     };
   }, [enableOrbit]);
 
-  // Sync lèvres avec le TTS / réponses Ava existantes
   useEffect(() => {
     const text = speechText.trim();
     if (!isSpeaking || !text) {
@@ -70,17 +67,19 @@ export function AvaPackCanvas({
       return;
     }
     if (text === lastSpeechRef.current && runtime.current.speaking) return;
+
     lastSpeechRef.current = text;
+    const gen = ++speakGen.current;
     const duration = estimateSpeechDurationMs(text);
     runtime.current.timeline = createSpeechTimeline(text, duration);
     runtime.current.start = performance.now();
     runtime.current.speaking = true;
 
     const endAt = window.setTimeout(() => {
-      if (lastSpeechRef.current === text) {
+      if (speakGen.current === gen) {
         runtime.current.speaking = false;
       }
-    }, duration + 120);
+    }, duration + 180);
 
     return () => window.clearTimeout(endAt);
   }, [isSpeaking, speechText]);
@@ -93,6 +92,7 @@ export function AvaPackCanvas({
         inset: 0,
         width: "100%",
         height: "100%",
+        minHeight: "100dvh",
         overflow: "hidden",
         background: "#05070d",
       }}
@@ -127,12 +127,14 @@ export function AvaPackCanvas({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "rgba(255,255,255,0.45)",
+            color: "rgba(255,255,255,0.4)",
             fontSize: 14,
             pointerEvents: "none",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
           }}
         >
-          Chargement d&apos;Ava…
+          Ava arrive…
         </div>
       )}
     </div>

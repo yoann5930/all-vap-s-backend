@@ -25,7 +25,6 @@ import {
   readPendingIntent,
   type PendingAvaIntent,
 } from "@/lib/ava/quick-actions";
-import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
 
 function nextChatId() {
   return `m-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -355,11 +354,11 @@ export function ImmersiveAvaScreen({
         transition={{ duration: 0.7 }}
         className="ava-immersive ava-fullscreen-root fixed inset-0 z-[70] bg-black"
         data-ava-continuous="v1"
-        data-ava-layout="fullscreen-contain"
+        data-ava-layout="salesfloor-closeup"
       >
-        {/* Stage plein écran — indépendant du chat (AVATAR-03) */}
+        {/* Stage plein viewport — Ava = sujet unique (vendeuse en face) */}
         <div
-          className="ava-fullscreen-stage absolute inset-0 z-0 h-full w-full overflow-hidden"
+          className="ava-fullscreen-stage absolute inset-0 z-0 h-[100dvh] w-screen overflow-hidden"
           aria-hidden={false}
         >
           <div className="ava-immersive-face ava-fullscreen-avatar absolute inset-0 h-full w-full">
@@ -376,19 +375,13 @@ export function ImmersiveAvaScreen({
             />
           </div>
           {!voice.ready && (
-            <div className="pointer-events-none absolute inset-0 z-[5] flex items-center justify-center bg-black/40">
-              <Loader2 className="h-7 w-7 animate-spin text-cyan-700/40" aria-label="Chargement" />
+            <div className="pointer-events-none absolute inset-0 z-[5] flex items-center justify-center bg-black/35">
+              <Loader2 className="h-7 w-7 animate-spin text-cyan-700/35" aria-label="Chargement" />
             </div>
           )}
         </div>
 
-        <div className="absolute left-4 top-4 z-[80] sm:left-6 sm:top-6">
-          <p
-            className="mb-2 text-[9px] tracking-[0.2em] text-cyan-700/45"
-            aria-label="Statut du modèle 3D"
-          >
-            {AVA_3D_ROADMAP.statusLabel}
-          </p>
+        <div className="absolute left-3 top-3 z-[80] opacity-50 transition hover:opacity-100 sm:left-5 sm:top-5">
           <AccessibilitySettings
             prefs={continuous.a11y}
             onChange={continuous.updateA11y}
@@ -456,7 +449,7 @@ export function ImmersiveAvaScreen({
             chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"
           }`}
         >
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/95 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black via-black/80 to-transparent" />
 
           <div className="relative flex flex-col items-center gap-3">
             {showSubtitles ? (
