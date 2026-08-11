@@ -615,6 +615,8 @@ model InventoryLine {
   nicotineSnapshot     String?
   catalogImageUrl      String?
   quantityCounted      Int
+  /// STOCK = réserve (pas de limite) | VITRINE = exposition (max 1)
+  placement            String           @default("STOCK")
   /// Stock théorique boutique au moment du scan (serveur — ne pas faire confiance au client)
   expectedQuantitySnapshot Int?
   unitPriceCents       Int?

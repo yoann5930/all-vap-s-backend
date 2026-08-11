@@ -7,6 +7,11 @@ import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanne
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
+import {
+  type InventoryPlacement,
+  placementLabel,
+  validateInventoryPlacementQuantity,
+} from "@/lib/inventory/placement";
 import { authFetch, clearAccessToken, storeAccessToken } from "@/lib/auth-client";
 import {
   buildVisualIndex,
@@ -34,6 +39,7 @@ interface SessionLine {
   id: string;
   barcode: string | null;
   quantityCounted: number;
+  placement?: string | null;
   unitPriceCents?: number | null;
   totalValueCents?: number | null;
   priceSource?: string | null;
@@ -108,6 +114,7 @@ export function EmployeeInventoryApp() {
     reason?: "SAME_SESSION" | "SAME_DAY" | "WITHIN_MONTH";
   } | null>(null);
   const [quantity, setQuantity] = useState("");
+  const [placement, setPlacement] = useState<InventoryPlacement>("STOCK");
   const [unitPrice, setUnitPrice] = useState("");
   const [applyToRange, setApplyToRange] = useState(false);
   const [lookup, setLookup] = useState<LookupState | null>(null);
@@ -1215,6 +1222,14 @@ export function EmployeeInventoryApp() {
       setError("Quantité obligatoire");
       return;
     }
+    const placementCheck = validateInventoryPlacementQuantity({
+      placement,
+      quantityCounted: qty,
+    });
+    if (!placementCheck.ok) {
+      setError(placementCheck.error);
+      return;
+    }
     if (!unitPrice.trim()) {
       setError("Prix manquant — saisissez le tarif avant enregistrement");
       return;
@@ -1238,6 +1253,7 @@ export function EmployeeInventoryApp() {
           sessionId: session.id,
           barcode: code,
           quantityCounted: qty,
+          placement,
           unitPrice: unitPrice.trim() || undefined,
           productId: productId || undefined,
           productName: productName.trim() || undefined,
@@ -1246,7 +1262,7 @@ export function EmployeeInventoryApp() {
           confirmZeroPrice: confirmZero,
         });
         setMessage(
-          `Hors ligne — ligne mise en file (${code || productName} × ${qty}). Sync à la reconnexion.`
+          `Hors ligne — ligne mise en file (${code || productName} × ${qty} · ${placementLabel(placement)}). Sync à la reconnexion.`
         );
         clearDraftLine();
         setLoading(false);
@@ -1262,6 +1278,7 @@ export function EmployeeInventoryApp() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               quantityCounted: qty,
+              placement,
               reason: "correction quantité anti-doublon",
             }),
           }
@@ -1285,6 +1302,7 @@ export function EmployeeInventoryApp() {
         brand: brandName.trim() || undefined,
         range: rangeName.trim() || "Non classé",
         quantityCounted: qty,
+        placement,
         confirmZeroPrice: confirmZero,
         applyToRange: applyToRange && Boolean(rangeName.trim()),
       };
@@ -1743,18 +1761,57 @@ export function EmployeeInventoryApp() {
 
             <div className="grid grid-cols-2 gap-3">
               <label className="block">
+                <span className="text-sm font-medium">Emplacement *</span>
+                <select
+                  className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base"
+                  value={placement}
+                  onChange={(e) => {
+                    const next = e.target.value === "VITRINE" ? "VITRINE" : "STOCK";
+                    setPlacement(next);
+                    if (next === "VITRINE") {
+                      setQuantity("1");
+                      setError(null);
+                    }
+                  }}
+                >
+                  <option value="STOCK">Stock (illimité)</option>
+                  <option value="VITRINE">Vitrine (max 1)</option>
+                </select>
+              </label>
+              <label className="block">
                 <span className="text-sm font-medium">Quantité *</span>
                 <input
                   ref={quantityRef}
                   type="number"
                   min={0}
+                  max={placement === "VITRINE" ? 1 : undefined}
                   className="mt-1.5 w-full rounded-xl border border-emerald-300 bg-emerald-50/40 px-3 py-3 text-base"
                   value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  placeholder="À saisir"
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (placement === "VITRINE") {
+                      const n = parseInt(v, 10);
+                      if (v !== "" && !isNaN(n) && n > 1) {
+                        setError(
+                          "Vitrine : un seul produit autorisé (quantité max = 1)"
+                        );
+                        setQuantity("1");
+                        return;
+                      }
+                    }
+                    setQuantity(v);
+                  }}
+                  placeholder={placement === "VITRINE" ? "1" : "À saisir"}
                   inputMode="numeric"
                 />
               </label>
+            </div>
+            {placement === "VITRINE" ? (
+              <p className="text-xs text-amber-800">
+                Vitrine : quantité limitée à 1. Pour compter plusieurs unités, choisissez Stock.
+              </p>
+            ) : null}
+            <div className="grid grid-cols-1 gap-3">
               <label className="block">
                 <span className="text-sm font-medium">Prix unitaire (€) *</span>
                 <input
@@ -1907,6 +1964,7 @@ export function EmployeeInventoryApp() {
                   <div className="min-w-0 flex-1">
                     <div className="font-medium text-gray-900">
                       {name} × {l.quantityCounted}
+                      {l.placement === "VITRINE" ? " · Vitrine" : " · Stock"}
                     </div>
                     <div className="text-xs text-gray-500">
                       EAN {l.barcode || "—"}
