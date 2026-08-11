@@ -174,7 +174,9 @@ export function ImmersiveAvaScreen({
     }
   }, [voice.ready, intentSignal, intentNeedsConfirm, applyIntent]);
 
-  // Après init : démarrer écoute si micro OK et pas suspendu
+  const lastAutoListenAt = useRef(0);
+
+  // Écoute permanente : démarrer / reprendre dès que possible (IDLE ou PAUSED)
   useEffect(() => {
     if (!voice.ready || voice.blocked) return;
     if (continuous.a11y.pauseListening) return;
@@ -182,7 +184,14 @@ export function ImmersiveAvaScreen({
       continuous.setTextPanelForced(true);
       return;
     }
-    if (voice.micPermission === "granted" && voice.voiceState === "IDLE") {
+    if (
+      (voice.micPermission === "granted" || voice.micPermission === "unknown") &&
+      (voice.voiceState === "IDLE" || voice.voiceState === "PAUSED")
+    ) {
+      const now = Date.now();
+      // Anti-boucle si startListening échoue → PAUSED
+      if (now - lastAutoListenAt.current < 2200) return;
+      lastAutoListenAt.current = now;
       void voice.ensureListening();
     }
   }, [voice.ready, voice.micPermission, voice.voiceState, voice.blocked]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -205,10 +214,13 @@ export function ImmersiveAvaScreen({
       /pas (bien )?entendu|n['']ai pas compris|écoute s'est interrompue/i.test(voice.error)
     ) {
       continuous.onEmptyRecognition();
+      if (!continuous.a11y.pauseListening && voice.micPermission === "granted") {
+        void voice.ensureListening();
+      }
     }
   }, [voice.error]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Correction / a11y / micro indisponible → ouvrir le panneau (pas de champ permanent)
+  // Chat overlay (silence / correction / a11y) — n'interrompt jamais l'écoute
   useEffect(() => {
     if (
       continuous.textPanelForced ||
@@ -231,22 +243,23 @@ export function ImmersiveAvaScreen({
       setTextDraft(undefined);
       setTextSending(true);
       try {
-        const textFirst =
-          continuous.textPanelForced ||
-          continuous.a11y.pauseListening ||
-          voice.micPermission !== "granted";
-        const resume =
-          !textFirst &&
+        const voiceOk =
           !continuous.a11y.pauseListening &&
           voice.canListen &&
           voice.micPermission === "granted";
-        // Mode écrit : ne pas attendre la synthèse vocale (sinon « réfléchit… » infini)
+        // Écriture = canal parallèle : on parle + on reprend l'écoute (sauf a11y / micro refusé)
         await voice.sendMessage(text, {
-          speak: !textFirst,
-          resumeListening: resume,
+          speak: voiceOk || voice.micPermission === "unknown",
+          resumeListening: voiceOk || voice.micPermission === "unknown",
         });
       } finally {
         setTextSending(false);
+        if (
+          !continuous.a11y.pauseListening &&
+          (voice.micPermission === "granted" || voice.micPermission === "unknown")
+        ) {
+          void voice.ensureListening();
+        }
       }
     },
     [continuous, pushUserMessage, voice]
@@ -267,33 +280,36 @@ export function ImmersiveAvaScreen({
     if (draft) setTextDraft(draft);
   }, [continuous, voice]);
 
-  const showMicModal =
-    !continuous.a11y.pauseListening &&
-    !chatOpen &&
-    !continuous.textPanelForced &&
-    (voice.isPromptingMic ||
-      voice.micPermission === "prompting" ||
-      voice.micPermission === "unsupported" ||
-      (voice.micPermission === "unknown" &&
-        (voice.voiceState === "REQUESTING_PERMISSION" || voice.voiceState === "IDLE")) ||
-      voice.micPermission === "denied");
-
   const handleContinueWithText = useCallback(() => {
-    continuous.setTextPanelForced(true);
+    // Ouvre le chat sans abandonner l'écoute (sauf micro vraiment indisponible)
     setChatOpen(true);
-    // Ne coupe pas définitivement la session — l’utilisateur peut réactiver le micro
-  }, [continuous]);
+    continuous.setTextPanelForced(true);
+    if (
+      !continuous.a11y.pauseListening &&
+      voice.micPermission !== "denied" &&
+      voice.micPermission !== "unsupported"
+    ) {
+      void voice.ensureListening();
+    }
+  }, [continuous, voice]);
 
   const handleCloseChat = useCallback(() => {
     setChatOpen(false);
     continuous.setTextPanelForced(false);
     setTextDraft(undefined);
-    // Historique + session conservés — pas de stopAll()
-  }, [continuous]);
+    // Historique + session conservés — reprise écoute si besoin
+    if (
+      !continuous.a11y.pauseListening &&
+      (voice.micPermission === "granted" || voice.micPermission === "unknown")
+    ) {
+      void voice.ensureListening();
+    }
+  }, [continuous, voice]);
 
+  /** Toujours réactiver l'écoute — pas de coupe micro via le chat (sauf a11y). */
   const handleToggleMic = useCallback(() => {
-    if (micActiveLike(voice.voiceState) && !continuous.a11y.pauseListening) {
-      voice.stopListeningOnly();
+    if (continuous.a11y.pauseListening) {
+      continuous.updateA11y({ pauseListening: false });
       return;
     }
     continuous.setTextPanelForced(false);
@@ -308,7 +324,6 @@ export function ImmersiveAvaScreen({
       voice.voiceState === "RESUMING_LISTENING");
 
   const showSubtitles =
-    !chatOpen &&
     continuous.a11y.subtitlesAlways !== false &&
     (Boolean(voice.subtitle) || Boolean(voice.interimTranscript));
 
@@ -317,6 +332,16 @@ export function ImmersiveAvaScreen({
     voice.isPromptingMic,
     voice.voiceState
   );
+
+  // Permission micro : uniquement si vraiment nécessaire (pas pendant reprise silencieuse)
+  const showMicModal =
+    !continuous.a11y.pauseListening &&
+    (voice.isPromptingMic ||
+      voice.micPermission === "prompting" ||
+      voice.micPermission === "unsupported" ||
+      (voice.micPermission === "unknown" &&
+        voice.voiceState === "REQUESTING_PERMISSION") ||
+      voice.micPermission === "denied");
 
   return (
     <AnimatePresence>
@@ -328,9 +353,35 @@ export function ImmersiveAvaScreen({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.7 }}
-        className="ava-immersive fixed inset-0 z-[70] flex flex-col bg-black"
+        className="ava-immersive ava-fullscreen-root fixed inset-0 z-[70] bg-black"
         data-ava-continuous="v1"
+        data-ava-layout="fullscreen-contain"
       >
+        {/* Stage plein écran — indépendant du chat (AVATAR-03) */}
+        <div
+          className="ava-fullscreen-stage absolute inset-0 z-0 h-full w-full overflow-hidden"
+          aria-hidden={false}
+        >
+          <div className="ava-immersive-face ava-fullscreen-avatar absolute inset-0 h-full w-full">
+            <AvaHologramScene
+              state={
+                voice.isSpeaking && voice.avaState !== "speaking"
+                  ? "speaking"
+                  : voice.avaState
+              }
+              isSpeaking={voice.isSpeaking}
+              audioElement={voice.activeAudio}
+              speechText={voice.lastReplyText || voice.subtitle || ""}
+              className="absolute inset-0 h-full w-full"
+            />
+          </div>
+          {!voice.ready && (
+            <div className="pointer-events-none absolute inset-0 z-[5] flex items-center justify-center bg-black/40">
+              <Loader2 className="h-7 w-7 animate-spin text-cyan-700/40" aria-label="Chargement" />
+            </div>
+          )}
+        </div>
+
         <div className="absolute left-4 top-4 z-[80] sm:left-6 sm:top-6">
           <p
             className="mb-2 text-[9px] tracking-[0.2em] text-cyan-700/45"
@@ -399,22 +450,12 @@ export function ImmersiveAvaScreen({
           </div>
         ) : null}
 
-        <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center">
-          {!voice.ready ? (
-            <Loader2 className="h-7 w-7 animate-spin text-cyan-700/30" aria-label="Chargement" />
-          ) : (
-            <div className="ava-immersive-face relative h-[min(52vh,480px)] w-full max-w-3xl">
-              <AvaHologramScene
-                state={voice.avaState}
-                isSpeaking={voice.isSpeaking}
-                audioElement={voice.activeAudio}
-                className="h-full w-full"
-              />
-            </div>
-          )}
-        </div>
-
-        <div className={`relative z-20 pt-2 ${chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"}`}>
+        {/* UI overlay — ne redimensionne jamais le stage avatar */}
+        <div
+          className={`ava-fullscreen-ui absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end pt-2 ${
+            chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"
+          }`}
+        >
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/95 to-transparent" />
 
           <div className="relative flex flex-col items-center gap-3">
@@ -609,15 +650,6 @@ export function ImmersiveAvaScreen({
         )}
       </motion.div>
     </AnimatePresence>
-  );
-}
-
-function micActiveLike(voiceState: string) {
-  return (
-    voiceState === "LISTENING" ||
-    voiceState === "USER_SPEAKING" ||
-    voiceState === "WAITING_FOR_END_OF_SPEECH" ||
-    voiceState === "RESUMING_LISTENING"
   );
 }
 
