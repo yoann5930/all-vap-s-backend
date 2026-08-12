@@ -19,6 +19,31 @@ export default function CatalogHubPage() {
   const [importResult, setImportResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [sumupSyncResult, setSumupSyncResult] = useState<string | null>(null);
+  const [barcodeResult, setBarcodeResult] = useState<string | null>(null);
+
+  async function triggerBarcodeBackfill(apply: boolean) {
+    setLoading(true);
+    setBarcodeResult(null);
+    try {
+      const res = await fetch("/api/admin/catalog/backfill-barcodes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ apply }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setBarcodeResult(json.error || `Erreur HTTP ${res.status}`);
+        return;
+      }
+      setBarcodeResult(
+        `${apply ? "Appliqué" : "Dry-run"} · planifiés ${json.planned ?? 0} · appliqués ${json.applied ?? 0} · déjà OK ${json.withBarcodeBefore ?? 0}/${json.productsTotal ?? 0} · map SumUp ${json.mapCount ?? 0} · stock intact`
+      );
+    } catch {
+      setBarcodeResult("Erreur backfill codes-barres");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function triggerSumUpApiSync(dryRun: boolean) {
     setLoading(true);
@@ -123,6 +148,36 @@ export default function CatalogHubPage() {
           </button>
         </div>
         {importResult && <p className="mt-4 text-sm text-gray-700">{importResult}</p>}
+      </section>
+
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+          <Package className="h-5 w-5" aria-hidden="true" />
+          Codes-barres SumUp → inventaire (scan)
+        </h2>
+        <p className="mt-2 text-sm text-gray-600">
+          Enregistre les EAN SumUp sur les produits du site pour que le scan inventaire retrouve les
+          articles. <strong>Ne modifie jamais les quantités / stocks.</strong>
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => triggerBarcodeBackfill(false)}
+            disabled={loading}
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Dry-run codes-barres
+          </button>
+          <button
+            type="button"
+            onClick={() => triggerBarcodeBackfill(true)}
+            disabled={loading}
+            className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600"
+          >
+            Enregistrer codes-barres
+          </button>
+        </div>
+        {barcodeResult && <p className="mt-4 text-sm text-gray-700">{barcodeResult}</p>}
       </section>
 
       <section className="rounded-xl border border-gray-200 bg-white p-6">
