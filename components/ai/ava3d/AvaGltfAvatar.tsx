@@ -10,9 +10,10 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
+import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
 
 /** GLB non compressé — fiable sans Meshopt decoder */
-export const AVA_MODEL_PATH = "/models/ava/Ava_FacialRig.glb";
+export const AVA_MODEL_PATH = AVA_3D_ROADMAP.modelPath;
 
 /** @deprecated chemins historiques */
 export const AVA_TEST_MODEL_PATH = AVA_MODEL_PATH;
