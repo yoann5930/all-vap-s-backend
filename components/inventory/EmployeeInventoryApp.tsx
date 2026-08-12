@@ -1094,19 +1094,11 @@ export function EmployeeInventoryApp() {
       if (!res.ok) return;
       const list = data.suggestions || [];
       setNameSuggestions(list);
+      // Suggestions déroulantes uniquement — jamais de sélection forcée pendant la frappe
       setShowSuggestions(list.length > 0);
-
-      // Auto-repérage fort : un seul match catalogue très proche
-      if (!suggestOnlyAuto(list) && list.length === 1 && (list[0].score ?? 1) >= 0.9) {
-        await selectNameSuggestion(list[0]);
-      }
     } catch {
       /* ignore */
     }
-  }
-
-  function suggestOnlyAuto(list: Array<{ score?: number }>) {
-    return list.length > 1;
   }
 
   async function selectNameSuggestion(s: {
