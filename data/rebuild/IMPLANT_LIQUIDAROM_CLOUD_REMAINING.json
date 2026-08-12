@@ -1,0 +1,306 @@
+{
+  "date": "2026-08-12T12:11:05.693Z",
+  "mode": "apply",
+  "naming": "Fabricant — Gamme — Produit format",
+  "implanted": [
+    {
+      "hierarchy": "Liquidarom → Les Collègues → La Coquette 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — La Coquette 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - La Coquette - 50 ml",
+      "losers": [
+        "Les Collègues - La Coquette"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/la-coquette.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → La Mimi 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — La Mimi 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - La Mimi - 50 ml",
+      "losers": [
+        "Les Collègues - La Mimi"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/la-mimi.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le Balèze 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le Balèze 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le Balèze - 50 ml",
+      "losers": [
+        "Les Collègues - Le Balèze"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-baleze.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le Charmeur 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le Charmeur 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le Charmeur - 50 ml",
+      "losers": [
+        "Les Collègues - Le Charmeur"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-charmeur.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le ChocoStar 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le ChocoStar 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le ChocoStar - 50 ml",
+      "losers": [
+        "Les Collègues - Le ChocoStar"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-chocostar.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le Flambeur 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le Flambeur 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le Flambeur - 50 ml",
+      "losers": [
+        "Les Collègues - Le Flambeur"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-flambeur.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le Funkie 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le Funkie 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le Funkie - 50 ml",
+      "losers": [
+        "Les Collègues - Le Funkie"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-funkie.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Collègues → Le Tchatcheur 50 ml",
+      "cleanName": "Liquidarom — Les Collègues — Le Tchatcheur 50 ml",
+      "keeper": "Liquidarom - Les Collègues - Les Collègues - Le Tchatcheur - 50 ml",
+      "losers": [
+        "Les Collègues - Le Tchatcheur"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-collegues/50ml/le-tchatcheur.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Essentiels → Le P'tit Blond 50 ml",
+      "cleanName": "Liquidarom — Les Essentiels — Le P'tit Blond 50 ml",
+      "keeper": "Liquidarom - Les Essentiels - Les Essentiels - Le P'tit Blond - 50 ml",
+      "losers": [
+        "Les Essentiels - Le P'tit Blond"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-essentiels/50ml/le-p-tit-blond.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Les Essentiels → Mojito des îles 50 ml",
+      "cleanName": "Liquidarom — Les Essentiels — Mojito des îles 50 ml",
+      "keeper": "Liquidarom - Les Essentiels - Les Essentiels - Mojito des îles - 50 ml",
+      "losers": [
+        "Les Essentiels - Mojito des îles"
+      ],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/les-essentiels/50ml/mojito-des-iles.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Eleven 100 ml",
+      "cleanName": "Liquidarom — Replay — Eleven 100 ml",
+      "keeper": "Eleven 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/eleven.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Harry 100 ml",
+      "cleanName": "Liquidarom — Replay — Harry 100 ml",
+      "keeper": "Harry 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/harry.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Joueur 01 100 ml",
+      "cleanName": "Liquidarom — Replay — Joueur 01 100 ml",
+      "keeper": "Joueur 01 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/joueur-01.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → L'Aventurier 100 ml",
+      "cleanName": "Liquidarom — Replay — L'Aventurier 100 ml",
+      "keeper": "L’Aventurier 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/l-aventurier.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Mercredi 100 ml",
+      "cleanName": "Liquidarom — Replay — Mercredi 100 ml",
+      "keeper": "Mercredi 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/mercredi.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Sacha 100 ml",
+      "cleanName": "Liquidarom — Replay — Sacha 100 ml",
+      "keeper": "Sacha 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/sacha.webp"
+    },
+    {
+      "hierarchy": "Liquidarom → Replay → Tokyo 100 ml",
+      "cleanName": "Liquidarom — Replay — Tokyo 100 ml",
+      "keeper": "Tokyo 0mg 100ml - Replay By Liquidarom",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/liquidarom/replay/100ml/tokyo.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Assault 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Assault 100 ml",
+      "keeper": "Call of vape - Assault 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/assault.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Blackout 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Blackout 100 ml",
+      "keeper": "Call of vape - Blackout 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/blackout.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Crimson 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Crimson 100 ml",
+      "keeper": "Call of vape - crimson 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/crimson.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Ghost 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Ghost 100 ml",
+      "keeper": "Call of vape - ghost 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/ghost.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Operator 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Operator 100 ml",
+      "keeper": "Call of vape - operator 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/operator.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Prestige 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Prestige 100 ml",
+      "keeper": "Call of vape - prestige 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/prestige.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Scout 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Scout 100 ml",
+      "keeper": "Call of vape - scout 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/scout.webp"
+    },
+    {
+      "hierarchy": "Cloud Vapor → Call of Vape → Support 100 ml",
+      "cleanName": "Cloud Vapor — Call of Vape — Support 100 ml",
+      "keeper": "Call of vape - support 100ml - Cloud Vapor",
+      "losers": [],
+      "stockSum": 0,
+      "publicUrl": "/media/products/cloud-vapor/call-of-vape/100ml/support.webp"
+    }
+  ],
+  "skipped": [
+    {
+      "job": "call-of-vape",
+      "file": "zombie-100ml-call of vape.webp",
+      "flavor": "zombie",
+      "reason": "no_product"
+    }
+  ],
+  "renamed": [
+    {
+      "from": "Blue rasphell hellfest 50ml - cloud vapor",
+      "to": "Cloud Vapor — Hellfest — Blue Rasphell 50 ml",
+      "stock": 6
+    },
+    {
+      "from": "Cloud Vapor Sunrise 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Sunrise 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cloud Vapor Midnight 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Midnight 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "dragon blast hellfest 50ml - cloud vapor",
+      "to": "Cloud Vapor — Hellfest — Dragon Blast 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cloud Vapor Dragon 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Dragon 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cloud Vapor Red 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Red 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cloud Vapor Sunlight 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Sunlight 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cloud Vapor Black 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Black 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Cherry devil hellfest 50ml - cloud vapor",
+      "to": "Cloud Vapor — Hellfest — Cherry Devil 50 ml",
+      "stock": 2
+    },
+    {
+      "from": "Cloud Vapor Sunsef 50ml Kung Freeze",
+      "to": "Cloud Vapor — Kung Freeze — Sunset 50 ml",
+      "stock": 0
+    },
+    {
+      "from": "Les Essentiels - Pastis 13",
+      "to": "Liquidarom — Les Essentiels — Pastis 13 50 ml",
+      "stock": 0,
+      "photoKept": null
+    },
+    {
+      "from": "Liquidarom - Les Essentiels - Les Essentiels - Pastis 13 - 50 ml",
+      "to": "Liquidarom — Les Essentiels — Pastis 13 50 ml",
+      "stock": 0,
+      "photoKept": "/media/products/liquidarom/les-essentiels/pastis-13-50ml-saveur-boisson-f21e40ff.webp"
+    }
+  ],
+  "notes": [
+    "stock préservé / transféré vers keeper",
+    "covers gamme non touchées",
+    "bloodmon non intégré (doute)",
+    "concentrés Call of Vape 30ml exclus",
+    "Zombie 50ml Call of Vape exclu (photo 100ml)"
+  ]
+}

@@ -1,0 +1,37 @@
+---
+description: Triage obligatoire dossiers images catalogue — fabricant → gamme → produit, zéro mélange
+globs:
+alwaysApply: true
+---
+
+# Dossiers images catalogue — mission obligatoire
+
+À **chaque** dossier d'images fourni par l'utilisateur (`Pictures/...` ou équivalent) :
+
+## Pipeline obligatoire (dans l'ordre)
+
+1. **Inventorier** les fichiers (noms, sous-dossiers = indices de gamme).
+2. **Identifier le fabricant** (dossier parent / nom fichier / site officiel). Si doute → **demander**, ne pas inventer.
+3. **Identifier la gamme** (sous-dossier ou suffixe fichier). Une gamme = un seul fabricant.
+4. **Matcher le produit** (saveur + format ml). Ne jamais coller une photo 100 ml sur un 50 ml / concentré 30 ml.
+5. **Vérifier en base** : `manufacturerId` + `rangeId` + nom avant écriture.
+6. **Intégrer** uniquement si fabricant → gamme → produit est cohérent.
+7. **Normaliser** l'image produit au style e-tasty (fond noir, fruits, cercle) à chaque ajout/maj.
+8. **Renommer** le produit : `Fabricant — Gamme — Produit format`.
+
+## Interdits absolus
+
+- Mélanger deux **fabricants**.
+- Mélanger deux **gammes**.
+- Mettre un produit Liquidarom dans une gamme Cloud Vapor (et inverse).
+- Utiliser Ice Cool X comme Ice Cool (et inverse).
+- Toucher au **stock**, logos fabricant non demandés, **covers de gamme** déjà déployées (sauf demande explicite).
+- Inventer une couverture de gamme manquante (`ASSET_MANQUANT`).
+
+## En cas de doute
+
+Demander à l'utilisateur. Ne pas forcer un match (`bloodmon` ≠ `Dark` tant que non confirmé).
+
+## Après intégration
+
+Relancer un audit no-mix (`scripts/audit-no-mix-fabricant-gamme.ts`) : `wrongManufacturer=0`, `rangeManufacturerMismatch=0`.

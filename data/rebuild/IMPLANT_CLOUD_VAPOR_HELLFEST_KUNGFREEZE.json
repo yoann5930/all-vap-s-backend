@@ -1,0 +1,235 @@
+{
+  "date": "2026-08-12T12:01:45.144Z",
+  "mode": "apply",
+  "logo": {
+    "skipped": false,
+    "backup": "D:\\all vaps\\all-vap-s-backend\\public\\media\\manufacturers\\cloud-vapor\\logo.backup-1786536105147.webp",
+    "dest": "/media/manufacturers/cloud-vapor/logo.webp",
+    "bytes": 15542
+  },
+  "implanted": [
+    {
+      "hierarchy": "Cloud Vapor → Hellfest → blue-rasphell 50ml",
+      "file": "blue rasphell-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/hellfest/50ml/blue-rasphell.webp",
+      "primary": "Blue rasphell hellfest 50ml - cloud vapor",
+      "stockPreserved": [
+        {
+          "id": "cms6eubkg0076utmkrb9p74h7",
+          "name": "Blue rasphell hellfest 50ml - cloud vapor",
+          "stock": 6
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6eubkg0076utmkrb9p74h7",
+          "name": "Blue rasphell hellfest 50ml - cloud vapor",
+          "score": 0.95,
+          "stock": 6
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Hellfest → cherry-devil 50ml",
+      "file": "cherry devil-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/hellfest/50ml/cherry-devil.webp",
+      "primary": "Cherry devil hellfest 50ml - cloud vapor",
+      "stockPreserved": [
+        {
+          "id": "cms6euc3c00b7utmk7a2keply",
+          "name": "Cherry devil hellfest 50ml - cloud vapor",
+          "stock": 2
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc3c00b7utmk7a2keply",
+          "name": "Cherry devil hellfest 50ml - cloud vapor",
+          "score": 0.95,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Hellfest → dragon-blast 50ml",
+      "file": "dragon blast-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/hellfest/50ml/dragon-blast.webp",
+      "primary": "dragon blast hellfest 50ml - cloud vapor",
+      "stockPreserved": [
+        {
+          "id": "cms6eujda01v5utmk02z6xk8b",
+          "name": "dragon blast hellfest 50ml - cloud vapor",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6eujda01v5utmk02z6xk8b",
+          "name": "dragon blast hellfest 50ml - cloud vapor",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → black 50ml",
+      "file": "black-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/black.webp",
+      "primary": "Cloud Vapor Black 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc8r00ceutmkqoqp3uqj",
+          "name": "Cloud Vapor Black 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc8r00ceutmkqoqp3uqj",
+          "name": "Cloud Vapor Black 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → dragon 50ml",
+      "file": "dragon-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/dragon.webp",
+      "primary": "Cloud Vapor Dragon 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9000cgutmk3oqfi8cz",
+          "name": "Cloud Vapor Dragon 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9000cgutmk3oqfi8cz",
+          "name": "Cloud Vapor Dragon 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → midnight 50ml",
+      "file": "midnight-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/midnight.webp",
+      "primary": "Cloud Vapor Midnight 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9600chutmkln75rm8m",
+          "name": "Cloud Vapor Midnight 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9600chutmkln75rm8m",
+          "name": "Cloud Vapor Midnight 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → red 50ml",
+      "file": "red-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/red.webp",
+      "primary": "Cloud Vapor Red 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9b00ciutmkxog1ehsk",
+          "name": "Cloud Vapor Red 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9b00ciutmkxog1ehsk",
+          "name": "Cloud Vapor Red 50ml Kung Freeze",
+          "score": 0.8,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → sunlight 50ml",
+      "file": "sunlight-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/sunlight.webp",
+      "primary": "Cloud Vapor Sunlight 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9g00cjutmk90speqwa",
+          "name": "Cloud Vapor Sunlight 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9g00cjutmk90speqwa",
+          "name": "Cloud Vapor Sunlight 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → sunrise 50ml",
+      "file": "sunrise-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/sunrise.webp",
+      "primary": "Cloud Vapor Sunrise 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9m00ckutmkxszcbzlo",
+          "name": "Cloud Vapor Sunrise 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9m00ckutmkxszcbzlo",
+          "name": "Cloud Vapor Sunrise 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "hierarchy": "Cloud Vapor → Kung Freeze → sunset 50ml",
+      "file": "sunset-50ml.webp",
+      "publicUrl": "/media/products/cloud-vapor/kung-freeze/50ml/sunset.webp",
+      "primary": "Cloud Vapor Sunsef 50ml Kung Freeze",
+      "stockPreserved": [
+        {
+          "id": "cms6euc9s00clutmkuub8g3lb",
+          "name": "Cloud Vapor Sunsef 50ml Kung Freeze",
+          "stock": 0
+        }
+      ],
+      "linked": [
+        {
+          "id": "cms6euc9s00clutmkuub8g3lb",
+          "name": "Cloud Vapor Sunsef 50ml Kung Freeze",
+          "score": 0.95,
+          "stock": 0
+        }
+      ]
+    }
+  ],
+  "skippedFiles": [
+    {
+      "range": "kung-freeze",
+      "file": "bloodmon-50ml.webp",
+      "reason": "doute_match_dark_ou_autre"
+    }
+  ],
+  "notes": [
+    "stock non modifié",
+    "covers de gamme non inventées / non touchées",
+    "bloodmon.webp ignoré (doute Dark)",
+    "Call of Vape / Grand Taste City hors scope de ce script"
+  ]
+}
