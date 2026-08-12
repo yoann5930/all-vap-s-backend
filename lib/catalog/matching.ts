@@ -87,7 +87,13 @@ export function matchCatalogProduct(
   }
 
   if (barcode) {
-    const hit = catalog.find((p) => p.barcode && p.barcode === barcode);
+    const want = barcode.replace(/\D/g, "") || barcode;
+    const hit = catalog.find((p) => {
+      if (!p.barcode) return false;
+      if (p.barcode === barcode) return true;
+      const got = p.barcode.replace(/\D/g, "");
+      return Boolean(got && want && got === want);
+    });
     if (hit) {
       return { productId: hit.id, method: "barcode", confidence: 1, decision: "AUTO" };
     }

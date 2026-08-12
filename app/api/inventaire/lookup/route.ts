@@ -13,6 +13,8 @@ import {
   duplicateMessage,
   findInventoryDuplicate,
 } from "@/lib/inventory/duplicates";
+import { resolveProductByScannedBarcode } from "@/lib/inventory/resolve-barcode";
+import { normalizeEan } from "@/lib/catalog/backfill-product-barcodes";
 
 type CatalogRow = {
   id: string;
@@ -258,9 +260,14 @@ export async function GET(request: NextRequest) {
         return jsonResponse({ ...base, duplicate });
       };
 
-      const fromSession = sessionMemory.find(
-        (m) => (m.barcode || "").trim() === barcode
-      );
+      const fromSession = sessionMemory.find((m) => {
+        const mb = (m.barcode || "").trim();
+        if (!mb) return false;
+        if (mb === barcode) return true;
+        const a = normalizeEan(mb);
+        const b = normalizeEan(barcode);
+        return Boolean(a && b && a === b);
+      });
       if (fromSession?.productId) {
         const product = catalog.find((p) => p.id === fromSession.productId);
         if (product) {
@@ -282,13 +289,72 @@ export async function GET(request: NextRequest) {
         }
       }
 
+      // Résolution directe DB : Product.barcode / variante / sku / sumupSku
+      const resolved = await resolveProductByScannedBarcode(barcode);
+      if (resolved) {
+        let product = catalog.find((p) => p.id === resolved.productId);
+        if (!product) {
+          const row = await prisma.product.findUnique({
+            where: { id: resolved.productId },
+            select: {
+              id: true,
+              name: true,
+              normalizedName: true,
+              sku: true,
+              barcode: true,
+              sumupProductId: true,
+              brand: true,
+              range: true,
+              category: true,
+              imageUrl: true,
+              priceCents: true,
+              promoPriceCents: true,
+              source: true,
+              variants: {
+                where: { active: true },
+                take: 1,
+                orderBy: { createdAt: "asc" },
+                select: {
+                  nicotineMg: true,
+                  nicotineLabel: true,
+                  capacityMl: true,
+                  size: true,
+                  name: true,
+                },
+              },
+            },
+          });
+          if (row) product = row as CatalogRow;
+        }
+        if (product) {
+          const payload = await buildProductPayload(
+            product,
+            user.role,
+            resolved.matchedBy
+          );
+          return attachDup(
+            {
+              ...payload,
+              decision: "AUTO",
+              method: resolved.matchedBy,
+              confidence: 1,
+              fromMemory: false,
+            },
+            product.id
+          );
+        }
+      }
+
       const match = matchCatalogProduct(
         {
           name: barcode,
           normalizedName: normalizeProductName(barcode),
-          barcode,
+          barcode: normalizeEan(barcode) || barcode,
         },
-        catalog
+        catalog.map((p) => ({
+          ...p,
+          barcode: normalizeEan(p.barcode) || p.barcode,
+        }))
       );
 
       if (match.productId && (match.decision === "AUTO" || match.confidence >= 0.9)) {
