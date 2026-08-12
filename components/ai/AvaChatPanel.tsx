@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader2, Mic, MicOff, Minimize2, Send, X } from "lucide-react";
+import { Loader2, MessageCircle, Mic, MicOff, Minimize2, Send, X } from "lucide-react";
 
 export type AvaChatMessage = {
   id: string;
@@ -251,7 +251,7 @@ interface AvaDiscussButtonProps {
   onClick: () => void;
 }
 
-/** Bouton unique sous l’avatar — ouvre / rouvre la discussion. */
+/** Bouton unique sous l’avatar — icône seule, ouvre / rouvre l’écrit. */
 export function AvaDiscussButton({ open, disabled = false, onClick }: AvaDiscussButtonProps) {
   if (open) return null;
 
@@ -260,12 +260,14 @@ export function AvaDiscussButton({ open, disabled = false, onClick }: AvaDiscuss
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label="Discuter avec A.V.A."
+      aria-label="Ouvrir le chat écrit avec A.V.A."
+      title="Ouvrir le chat écrit"
       whileHover={{ scale: disabled ? 1 : 1.02 }}
       whileTap={{ scale: disabled ? 1 : 0.98 }}
-      className="relative inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-7 py-3 text-sm font-medium tracking-wide text-cyan-50 shadow-[0_0_32px_rgba(0,212,255,0.16)] backdrop-blur-sm transition hover:border-cyan-300/55 hover:bg-cyan-400/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:opacity-40"
+      className="relative inline-flex h-14 w-14 items-center justify-center rounded-full border border-cyan-300/55 bg-cyan-500/15 text-cyan-50 shadow-[0_0_34px_rgba(0,212,255,0.25)] backdrop-blur-md transition hover:border-cyan-200/75 hover:bg-cyan-400/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:opacity-40"
     >
-      Discuter avec A.V.A.
+      <MessageCircle className="h-6 w-6" strokeWidth={1.7} aria-hidden />
+      <span className="sr-only">Ouvrir le chat écrit</span>
     </motion.button>
   );
 }

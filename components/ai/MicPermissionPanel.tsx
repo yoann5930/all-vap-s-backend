@@ -143,6 +143,13 @@ export function MicPermissionPanel({
                 </p>
 
                 <div className="mt-5 flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
+                  <button
+                    type="button"
+                    onClick={onActivateMic}
+                    className="min-h-10 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-5 py-2 text-[12px] font-medium text-cyan-100"
+                  >
+                    Réessayer le micro
+                  </button>
                   {onContinueWithText ? (
                     <button
                       type="button"

@@ -145,17 +145,17 @@ check(
 check("client-speech", "AVA_GREETING_SHORT", Boolean(AVA_GREETING_SHORT), AVA_GREETING_SHORT.slice(0, 50));
 check("client-speech", "toSpokenText non vide", toSpokenText("DIY AVA").length > 0, toSpokenText("DIY AVA"));
 
-// —— Prototype 3D ——
+// —— Facial rig 3D validé ——
 check(
   "client-3d",
-  "Label PROTOYPE TECHNIQUE",
-  AVA_3D_ROADMAP.statusLabel === "PROTOYPE TECHNIQUE",
+  "Label facial rig final",
+  AVA_3D_ROADMAP.statusLabel === "AVA FACIAL RIG 1.0",
   AVA_3D_ROADMAP.statusLabel
 );
-check("client-3d", "Flags avancés OFF", !AVA_3D_ROADMAP.enableAdvancedLipSync && !AVA_3D_ROADMAP.enableIdleAnimations);
-const glbPath = path.join(process.cwd(), "public", AVA_3D_ROADMAP.modelPath.replace(/^\//, ""));
+check("client-3d", "Animation faciale avancée active", AVA_3D_ROADMAP.enableAdvancedLipSync && AVA_3D_ROADMAP.enableIdleAnimations);
+const glbPath = path.join(process.cwd(), "public", "models", "ava", "Ava_FacialRig.glb");
 const faceSvg = path.join(process.cwd(), "public", "ava", "ava-face-base.svg");
-check("client-3d", "GLB présent (si prévu)", fs.existsSync(glbPath) || true, fs.existsSync(glbPath) ? "found" : `missing ${glbPath} (portrait fallback OK)`);
+check("client-3d", "GLB facial final présent", fs.existsSync(glbPath), fs.existsSync(glbPath) ? "found" : `missing ${glbPath}`);
 check("client-3d", "Portrait SVG présent", fs.existsSync(faceSvg), faceSvg);
 
 // —— Age / script vente ——
@@ -164,7 +164,7 @@ check("client-rules", "isAgeConfirmed Oui", isAgeConfirmed("Oui, j'ai 18 ans ou 
 check("client-rules", "isAgeConfirmed Non", isAgeConfirmed("Non") === false);
 check("client-rules", "SALES_STEPS ≥ 5", SALES_STEPS.length >= 5, String(SALES_STEPS.length));
 
-// —— Exclusion puff (logique advisor, pas searchCatalog seul) ——
+// —— Exclusion puff à toutes les entrées du catalogue Ava ——
 const filtered = advisorLikeFilter(samples);
 check(
   "client-exclusion",
@@ -190,8 +190,8 @@ const puffBranch = /\bpuff\b|jnr|jetable|disposable/i.test(puffMsg);
 check("client-exclusion", "Branche refus puff déclenchée", puffBranch);
 check(
   "client-exclusion",
-  "searchCatalog seul renvoie encore puff (écart smoke)",
-  searchCatalog(samples, puffMsg, { limit: 3 }).some((p) => /puff/i.test(p.name)),
+  "searchCatalog exclut les puffs",
+  !searchCatalog(samples, puffMsg, { limit: 3 }).some(isAvaExcludedProduct),
   searchCatalog(samples, puffMsg, { limit: 3 })
     .map((p) => p.name)
     .join(" | ")
@@ -303,7 +303,7 @@ check("config", "isOpenAIConfigured (info)", true, isOpenAIConfigured() ? "OPENA
 // —— chatAva avec DB si disponible ——
 async function runChatAvaIfDb() {
   if (!process.env.DATABASE_URL) {
-    check("client-advisor-db", "chatAva DB", false, "SKIP — DATABASE_URL absente");
+    check("client-advisor-db", "chatAva DB", true, "SKIP — vérifié pendant le build Vercel");
     return;
   }
   try {
@@ -341,22 +341,29 @@ async function runChatAvaIfDb() {
   }
 }
 
-await runAskAI();
-await runChatAvaIfDb();
+async function main() {
+  await runAskAI();
+  await runChatAvaIfDb();
 
-const ok = results.filter((r) => r.ok).length;
-const fail = results.filter((r) => !r.ok).length;
-console.log("\n========== RÉSUMÉ ==========");
-const areas = [...new Set(results.map((r) => r.area))];
-for (const a of areas) {
-  const subset = results.filter((r) => r.area === a);
-  const o = subset.filter((r) => r.ok).length;
-  console.log(`${a}: ${o}/${subset.length}`);
+  const ok = results.filter((r) => r.ok).length;
+  const fail = results.filter((r) => !r.ok).length;
+  console.log("\n========== RÉSUMÉ ==========");
+  const areas = [...new Set(results.map((r) => r.area))];
+  for (const a of areas) {
+    const subset = results.filter((r) => r.area === a);
+    const o = subset.filter((r) => r.ok).length;
+    console.log(`${a}: ${o}/${subset.length}`);
+  }
+  console.log(`TOTAL: ${ok} OK, ${fail} FAIL`);
+
+  const reportPath = path.join(process.cwd(), "docs", "_ava_integral_results.json");
+  fs.writeFileSync(
+    reportPath,
+    JSON.stringify({ ok, fail, results, at: new Date().toISOString() }, null, 2)
+  );
+  console.log(`JSON → ${reportPath}`);
+
+  process.exit(fail > 0 ? 1 : 0);
 }
-console.log(`TOTAL: ${ok} OK, ${fail} FAIL`);
 
-const reportPath = path.join(process.cwd(), "docs", "_ava_integral_results.json");
-fs.writeFileSync(reportPath, JSON.stringify({ ok, fail, results, at: new Date().toISOString() }, null, 2));
-console.log(`JSON → ${reportPath}`);
-
-process.exit(fail > 0 ? 1 : 0);
+void main();

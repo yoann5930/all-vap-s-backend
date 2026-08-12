@@ -1,11 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { AvaRealisticFace } from "@/components/ai/ava3d/AvaRealisticFace";
+import * as THREE from "three";
+import { AvaGltfAvatar } from "@/components/ai/ava3d/AvaGltfAvatar";
 import { HoloParticles3D } from "@/components/ai/ava3d/HoloParticles3D";
 import { HoloProjectionBase } from "@/components/ai/ava3d/HoloProjectionBase";
 import { useAvaLipSync } from "@/hooks/useAvaLipSync";
+import { getAvaCameraFraming } from "@/lib/ava/camera-framing";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
 
 interface AvaSceneContentProps {
@@ -16,14 +18,17 @@ interface AvaSceneContentProps {
 }
 
 function CameraRig() {
-  const { camera, size } = useThree();
-  useEffect(() => {
-    const isNarrow = size.width < 640;
-    const z = isNarrow ? 2.35 : 2.05;
-    const y = isNarrow ? 0.12 : 0.1;
-    camera.position.set(0, y, z);
-    camera.lookAt(0, 0.08, 0);
-  }, [camera, size.width]);
+  const { camera, gl, size } = useThree();
+  useLayoutEffect(() => {
+    const framing = getAvaCameraFraming(size.width, size.height);
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = framing.fov;
+    }
+    camera.position.set(0, framing.cameraY, framing.cameraZ);
+    camera.lookAt(0, framing.targetY, 0);
+    camera.updateProjectionMatrix();
+    gl.domElement.dataset.avaScreenProfile = framing.profile;
+  }, [camera, gl, size.height, size.width]);
   return null;
 }
 
@@ -64,15 +69,17 @@ function AvaSceneContent({
     <>
       <color attach="background" args={["#000000"]} />
       <CameraRig />
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[0.8, 1.6, 2.2]} intensity={0.55} color="#ffffff" />
-      <pointLight position={[0, -0.4, 1.2]} intensity={0.7} color="#00c8e8" distance={6} />
+      <ambientLight intensity={0.7} />
+      <hemisphereLight args={["#d9f4ff", "#07121d", 1.05]} />
+      <directionalLight position={[-1.4, 1.8, 2.4]} intensity={1.8} color="#fff2e8" />
+      <directionalLight position={[1.8, 1.1, -1.4]} intensity={1.35} color="#3ab9ff" />
+      <pointLight position={[0, -0.25, 1.35]} intensity={1.1} color="#00c8e8" distance={6} />
 
       <HoloParticles3D count={particleCount} />
       <HoloProjectionBase state={state} />
 
       <Suspense fallback={null}>
-        <AvaRealisticFace
+        <AvaGltfAvatar
           state={state}
           lipSync={lipSync}
           lookX={look.x}
@@ -121,7 +128,7 @@ export function AvaCanvas({ state, isSpeaking, audioElement, className = "" }: A
           powerPreference: "high-performance",
           preserveDrawingBuffer: true,
         }}
-        camera={{ fov: 34, near: 0.1, far: 100 }}
+        camera={{ fov: 48, near: 0.1, far: 100 }}
         style={{ width: "100%", height: "100%" }}
       >
         <AvaSceneContent
