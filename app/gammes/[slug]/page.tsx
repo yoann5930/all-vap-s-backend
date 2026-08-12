@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ProductCard } from "@/components/products/ProductCard";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
 import { rangeCoverUrl } from "@/lib/catalog/range-cover";
+import { inferProductPackshotUrl } from "@/lib/catalog/infer-product-packshot-url";
 import { absoluteUrl } from "@/lib/seo/config";
 import prisma from "@/lib/prisma";
 import { A_CLASSER_SLUG } from "@/lib/catalog/eliquide-range-tokens";
@@ -126,15 +127,32 @@ export default async function GammePage({ params, searchParams }: Props) {
 
   // Affichage gamme : zéro-mélange fabricant/gamme uniquement.
   // Ne re-applique pas le gate publication (photo/prix) — produits déjà visibleOnline.
-  const products = productsRaw.filter((p) => {
-    const productMfr = p.manufacturerId || p.manufacturer?.id || null;
-    const rangeMfr =
-      p.rangeRef?.manufacturerId || p.rangeRef?.manufacturer?.id || null;
-    if (!productMfr) return false;
-    if (!p.rangeId && !p.rangeRef?.id) return false;
-    if (productMfr && rangeMfr && productMfr !== rangeMfr) return false;
-    return true;
-  });
+  const products = productsRaw
+    .filter((p) => {
+      const productMfr = p.manufacturerId || p.manufacturer?.id || null;
+      const rangeMfr =
+        p.rangeRef?.manufacturerId || p.rangeRef?.manufacturer?.id || null;
+      if (!productMfr) return false;
+      if (!p.rangeId && !p.rangeRef?.id) return false;
+      if (productMfr && rangeMfr && productMfr !== rangeMfr) return false;
+      return true;
+    })
+    .map((p) => {
+      const inferred = inferProductPackshotUrl({
+        imageUrl: p.imageUrl,
+        productName: p.name,
+        manufacturerSlug: p.manufacturer?.slug || range.manufacturer?.slug,
+        manufacturerName: p.manufacturer?.name || range.manufacturer?.name,
+        rangeSlug: p.rangeRef?.slug || range.slug,
+        rangeName: p.rangeRef?.name || range.name,
+      });
+      if (!inferred || inferred === p.imageUrl) return p;
+      return {
+        ...p,
+        imageUrl: inferred,
+        imageStatus: p.imageStatus === "validated" ? p.imageStatus : "official",
+      };
+    });
 
   // Cover recommandé ; typo autorisée pour gammes éligibles confirmées
   const hasCover = Boolean(rangeCoverUrl(range.manufacturer?.slug, range.slug));
