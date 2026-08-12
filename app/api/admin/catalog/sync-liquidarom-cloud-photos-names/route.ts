@@ -14,6 +14,8 @@ export const maxDuration = 120;
 
 const bodySchema = z.object({
   apply: z.boolean().optional().default(false),
+  /** true = imageUrl uniquement, jamais de rename / stock. */
+  photosOnly: z.boolean().optional().default(true),
 });
 
 function unauthorized() {
@@ -44,6 +46,9 @@ export async function POST(request: NextRequest) {
   if (!auth.ok) return unauthorized();
 
   const body = bodySchema.parse(await request.json().catch(() => ({})));
-  const report = await syncLiquidaromCloudPhotosNames({ apply: body.apply });
+  const report = await syncLiquidaromCloudPhotosNames({
+    apply: body.apply,
+    photosOnly: body.photosOnly,
+  });
   return NextResponse.json(report);
 }

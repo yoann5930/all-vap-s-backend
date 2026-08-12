@@ -20,7 +20,7 @@ async function main() {
       "content-type": "application/json",
       "x-inventory-sync-secret": SECRET,
     },
-    body: JSON.stringify({ apply: APPLY }),
+    body: JSON.stringify({ apply: APPLY, photosOnly: true }),
   });
   const text = await res.text();
   console.log(res.status, text.slice(0, 4000));

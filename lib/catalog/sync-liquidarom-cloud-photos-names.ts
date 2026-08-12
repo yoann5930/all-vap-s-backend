@@ -138,20 +138,25 @@ function scoreMatch(fileFlavor: string, productFlavor: string) {
 
 export type SyncPhotosNamesResult = {
   mode: "apply" | "dry-run";
-  untouched: { stock: true };
+  photosOnly: boolean;
+  untouched: { stock: true; names?: true };
   totals: { updated: number; renameOnly: number; unmatchedFiles: number };
   ranges: Array<Record<string, unknown>>;
 };
 
 export async function syncLiquidaromCloudPhotosNames(options: {
   apply: boolean;
+  /** Si true : met à jour imageUrl uniquement (pas de rename / brand / range). */
+  photosOnly?: boolean;
   ranges?: SyncRangeCfg[];
 }): Promise<SyncPhotosNamesResult> {
   const APPLY = options.apply;
+  const photosOnly = options.photosOnly === true;
   const ranges = options.ranges ?? LIQUIDAROM_CLOUD_PHOTO_RANGES;
   const report: SyncPhotosNamesResult = {
     mode: APPLY ? "apply" : "dry-run",
-    untouched: { stock: true },
+    photosOnly,
+    untouched: { stock: true, ...(photosOnly ? { names: true as const } : {}) },
     totals: { updated: 0, renameOnly: 0, unmatchedFiles: 0 },
     ranges: [],
   };
@@ -207,7 +212,12 @@ export async function syncLiquidaromCloudPhotosNames(options: {
       unmatchedFiles: [] as string[],
     };
 
-    if (rangeRow && APPLY && (!rangeRow.catalogVisible || !rangeRow.isActive)) {
+    if (
+      !photosOnly &&
+      rangeRow &&
+      APPLY &&
+      (!rangeRow.catalogVisible || !rangeRow.isActive)
+    ) {
       await prisma.productRange.update({
         where: { id: rangeRow.id },
         data: { catalogVisible: true, isActive: true },
@@ -216,20 +226,30 @@ export async function syncLiquidaromCloudPhotosNames(options: {
     }
 
     const used = new Set<string>();
+    /** photosOnly → règle certaine ≥ 0.7 ; sinon historique ≥ 0.55 */
+    const minScore = photosOnly ? 0.7 : 0.55;
 
     for (const file of files) {
       let best: (typeof products)[0] | null = null;
       let bestScore = 0;
+      let secondScore = 0;
       for (const p of products) {
         if (used.has(p.id)) continue;
         const pf = flavorFromProductName(p.name, cfg.rangeName, cfg.manufacturerName);
         const sc = scoreMatch(file.flavor, pf);
         if (sc > bestScore) {
+          secondScore = bestScore;
           bestScore = sc;
           best = p;
+        } else if (sc > secondScore) {
+          secondScore = sc;
         }
       }
-      if (!best || bestScore < 0.55) {
+      const certain =
+        !!best &&
+        bestScore >= minScore &&
+        (secondScore < minScore || bestScore - secondScore >= 0.05);
+      if (!best || !certain) {
         (rangeReport.unmatchedFiles as string[]).push(file.flavor);
         report.totals.unmatchedFiles++;
         continue;
@@ -239,7 +259,9 @@ export async function syncLiquidaromCloudPhotosNames(options: {
         best.volumeMl === 100 || /100/i.test(best.productType || "") || /100ml/i.test(file.publicUrl)
           ? "100 ml"
           : "50 ml";
-      const newName = `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(file.flavor)} ${formatMl}`;
+      const newName = photosOnly
+        ? best.name
+        : `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(file.flavor)} ${formatMl}`;
       (rangeReport.updates as unknown[]).push({
         id: best.id,
         stock: best.stock,
@@ -247,19 +269,25 @@ export async function syncLiquidaromCloudPhotosNames(options: {
         to: newName,
         imageUrl: file.publicUrl,
         score: bestScore,
+        photosOnly,
       });
       if (APPLY) {
         await prisma.product.update({
           where: { id: best.id },
-          data: {
-            name: newName,
-            brand: cfg.manufacturerName,
-            range: cfg.rangeName,
-            imageUrl: file.publicUrl,
-            imageStatus: "validated",
-            isNew: false,
-            ...(rangeRow ? { rangeId: rangeRow.id } : {}),
-          },
+          data: photosOnly
+            ? {
+                imageUrl: file.publicUrl,
+                imageStatus: "validated",
+              }
+            : {
+                name: newName,
+                brand: cfg.manufacturerName,
+                range: cfg.rangeName,
+                imageUrl: file.publicUrl,
+                imageStatus: "validated",
+                isNew: false,
+                ...(rangeRow ? { rangeId: rangeRow.id } : {}),
+              },
         });
         await prisma.productImage.deleteMany({ where: { productId: best.id } });
         await prisma.productImage.create({
@@ -275,33 +303,35 @@ export async function syncLiquidaromCloudPhotosNames(options: {
       report.totals.updated++;
     }
 
-    for (const p of products) {
-      if (used.has(p.id)) continue;
-      const pf = flavorFromProductName(p.name, cfg.rangeName, cfg.manufacturerName);
-      if (!pf) continue;
-      const formatMl = p.volumeMl === 100 || /100/i.test(p.productType || "") ? "100 ml" : "50 ml";
-      const newName = `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(pf)} ${formatMl}`;
-      if (newName === p.name && p.brand === cfg.manufacturerName) continue;
-      (rangeReport.updates as unknown[]).push({
-        id: p.id,
-        stock: p.stock,
-        from: p.name,
-        to: newName,
-        renameOnly: true,
-      });
-      if (APPLY) {
-        await prisma.product.update({
-          where: { id: p.id },
-          data: {
-            name: newName,
-            brand: cfg.manufacturerName,
-            range: cfg.rangeName,
-            isNew: false,
-            ...(rangeRow ? { rangeId: rangeRow.id } : {}),
-          },
+    if (!photosOnly) {
+      for (const p of products) {
+        if (used.has(p.id)) continue;
+        const pf = flavorFromProductName(p.name, cfg.rangeName, cfg.manufacturerName);
+        if (!pf) continue;
+        const formatMl = p.volumeMl === 100 || /100/i.test(p.productType || "") ? "100 ml" : "50 ml";
+        const newName = `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(pf)} ${formatMl}`;
+        if (newName === p.name && p.brand === cfg.manufacturerName) continue;
+        (rangeReport.updates as unknown[]).push({
+          id: p.id,
+          stock: p.stock,
+          from: p.name,
+          to: newName,
+          renameOnly: true,
         });
+        if (APPLY) {
+          await prisma.product.update({
+            where: { id: p.id },
+            data: {
+              name: newName,
+              brand: cfg.manufacturerName,
+              range: cfg.rangeName,
+              isNew: false,
+              ...(rangeRow ? { rangeId: rangeRow.id } : {}),
+            },
+          });
+        }
+        report.totals.renameOnly++;
       }
-      report.totals.renameOnly++;
     }
 
     report.ranges.push(rangeReport);
