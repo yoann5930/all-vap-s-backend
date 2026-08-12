@@ -1,0 +1,539 @@
+{
+  "date": "2026-08-12T10:12:35.467Z",
+  "mode": "apply",
+  "hierarchy": "Liquidarom → Ice Cool|Ice Cool X → produit 50ml",
+  "untouched": {
+    "stock": true,
+    "manufacturerLogo": true,
+    "rangeCovers": true,
+    "otherLiquidaromRanges": true
+  },
+  "clear": {
+    "clearedDb": 58,
+    "deletedImages": 30
+  },
+  "mediaWipe": {
+    "ice-cool": {
+      "removed": 40,
+      "dir": "D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\ice-cool",
+      "backupRoot": "D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\_backup_reimplant\\ice-cool\\2026-08-12T10-12-35-905Z"
+    },
+    "ice-cool-x": {
+      "removed": 20,
+      "dir": "D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\ice-cool-x",
+      "backupRoot": "D:\\all vaps\\all-vap-s-backend\\public\\media\\products\\liquidarom\\_backup_reimplant\\ice-cool-x\\2026-08-12T10-12-37-453Z"
+    }
+  },
+  "implanted": [
+    {
+      "hierarchy": "Liquidarom → Ice Cool → ananas-kiwi-jaune 50ml",
+      "file": "e-liquide-ananas-kiwi-jaune-50ml-ice-cool.jpg",
+      "flavor": "ananas-kiwi-jaune",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/ananas-kiwi-jaune.webp",
+      "primary": "Ice Cool - Ananas Kiwi jaune",
+      "linkedProducts": [
+        {
+          "id": "cms6euefu00u1utmkyur6sk2f",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Ananas Kiwi jaune - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c2e0037utcgg8wh0tas",
+          "name": "Ice Cool - Ananas Kiwi jaune",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cactus-fruit-du-dragon-aloe-vera 50ml",
+      "file": "e-liquide-cactus-fruit-du-dragon-aloe-vera-50ml-ice-cool.jpg",
+      "flavor": "cactus-fruit-du-dragon-aloe-vera",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cactus-fruit-du-dragon-aloe-vera.webp",
+      "primary": "Ice Cool Cactus Aloe Vera & Fruit du Dragon 50 ml",
+      "linkedProducts": [
+        {
+          "id": "cms6eueg000u2utmk1rosbklu",
+          "name": "Ice Cool Cactus Aloe Vera & Fruit du Dragon 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cassis-citron 50ml",
+      "file": "e-liquide-cassis-citron-50ml-ice-cool.jpg",
+      "flavor": "cassis-citron",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-citron.webp",
+      "primary": "Ice Cool - Cassis Citron",
+      "linkedProducts": [
+        {
+          "id": "cms4l4bum0003utcgx8ditlze",
+          "name": "Ice Cool - Cassis Citron",
+          "score": 1
+        },
+        {
+          "id": "cms6eueg500u3utmk1g220jnv",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Citron - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cassis-framboise-raisin 50ml",
+      "file": "e-liquide-cassis-framboise-raisin-50ml-ice-cool.jpg",
+      "flavor": "cassis-framboise-raisin",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-framboise-raisin.webp",
+      "primary": "Ice Cool - Cassis Framboise Raisin",
+      "linkedProducts": [
+        {
+          "id": "cms6eueib00ujutmkcovap4en",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Framboise Raisin - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4by40017utcg5q0u1zxh",
+          "name": "Ice Cool - Cassis Framboise Raisin",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cassis-mangue 50ml",
+      "file": "e-liquide-cassis-mangue-50ml-ice-cool.jpg",
+      "flavor": "cassis-mangue",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cassis-mangue.webp",
+      "primary": "Ice Cool - Cassis Mangue",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c4s004butcg6rt5hza3",
+          "name": "Ice Cool - Cassis Mangue",
+          "score": 1
+        },
+        {
+          "id": "cms6eueig00ukutmkbmh59y0g",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Mangue - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → citron-pasteque 50ml",
+      "file": "e-liquide-citron-pasteque-50ml-ice-cool.jpg",
+      "flavor": "citron-pasteque",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/citron-pasteque.webp",
+      "primary": "Ice Cool - Citron Pastèque",
+      "linkedProducts": [
+        {
+          "id": "cms6euega00u4utmkath9iruo",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Citron Pastèque - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c59004jutcgss411p4k",
+          "name": "Ice Cool - Citron Pastèque",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → citron-vert-orange-sanguine 50ml",
+      "file": "e-liquide-citron-vert-orange-sanguine-50ml-ice-cool.jpg",
+      "flavor": "citron-vert-orange-sanguine",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/citron-vert-orange-sanguine.webp",
+      "primary": "Ice Cool - Citron vert Orange sanguine",
+      "linkedProducts": [
+        {
+          "id": "cms6euegg00u5utmk04z6bu0v",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Citron vert Orange sanguine - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c030023utcg4o3yf58o",
+          "name": "Ice Cool - Citron vert Orange sanguine",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cocktail-exotique 50ml",
+      "file": "e-liquide-cocktail-exotique-50ml-ice-cool.jpg",
+      "flavor": "cocktail-exotique",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cocktail-exotique.webp",
+      "primary": "Ice Cool - Cocktail exotique",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c0z002jutcgd7uqsi1d",
+          "name": "Ice Cool - Cocktail exotique",
+          "score": 1
+        },
+        {
+          "id": "cms6eueik00ulutmkr345c04l",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Cocktail exotique - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → cola-pomme 50ml",
+      "file": "e-liquide-cola-pomme-50ml-ice-cool.jpg",
+      "flavor": "cola-pomme",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/cola-pomme.webp",
+      "primary": "Ice Cool - Cola Pomme",
+      "linkedProducts": [
+        {
+          "id": "cms6euein00umutmk6uubxpt9",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Cola Pomme - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4bxk000zutcg22mxwpa0",
+          "name": "Ice Cool - Cola Pomme",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → extra-fruits-rouges 50ml",
+      "file": "e-liquide-extra-fruits-rouges-50ml-ice-cool.jpg",
+      "flavor": "extra-fruits-rouges",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/extra-fruits-rouges.webp",
+      "primary": "Ice Cool - Extra Fruits rouges",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c1w002zutcgoa8yfzam",
+          "name": "Ice Cool - Extra Fruits rouges",
+          "score": 1
+        },
+        {
+          "id": "cms6euegl00u6utmk3ow8xrv9",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Extra Fruits rouges - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → fraise-framboise-basilic 50ml",
+      "file": "e-liquide-fraise-framboise-basilic-50ml-ice-cool.jpg",
+      "flavor": "fraise-framboise-basilic",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fraise-framboise-basilic.webp",
+      "primary": "Ice Cool - Fraise Framboise Basilic",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c1f002rutcgrr1upit3",
+          "name": "Ice Cool - Fraise Framboise Basilic",
+          "score": 1
+        },
+        {
+          "id": "cms6euegu00u8utmk0vft7jua",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Fraise Framboise Basilic - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → framboise-bleue-pitaya 50ml",
+      "file": "e-liquide-framboise-bleue-pitaya-50ml-ice-cool.jpg",
+      "flavor": "framboise-bleue-pitaya",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/framboise-bleue-pitaya.webp",
+      "primary": "Ice Cool - Framboise bleue Pitaya",
+      "linkedProducts": [
+        {
+          "id": "cms6euaot0009utmk6vbunqbv",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Framboise bleue Pitaya - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c5r004rutcgmjlgc9o6",
+          "name": "Ice Cool - Framboise bleue Pitaya",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → framboise-fraise-des-bois 50ml",
+      "file": "e-liquide-framboise-fraise-des-bois-50ml-ice-cool.jpg",
+      "flavor": "framboise-fraise-des-bois",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/framboise-fraise-des-bois.webp",
+      "primary": "Ice Cool - Framboise des bois",
+      "linkedProducts": [
+        {
+          "id": "cms6eueh000u9utmkb5flnmuu",
+          "name": "Ice Cool Framboise Fraise des Bois 50ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4bwi000jutcgnt27ni8z",
+          "name": "Ice Cool - Framboise des bois",
+          "score": 0.75
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → fruit-du-dragon-fruits-rouges 50ml",
+      "file": "e-liquide-fruit-du-dragon-fruits-rouges-50ml-ice-cool.jpg",
+      "flavor": "fruit-du-dragon-fruits-rouges",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-dragon-fruits-rouges.webp",
+      "primary": "Ice Cool - Fruit du dragon Fruits rouges",
+      "linkedProducts": [
+        {
+          "id": "cms4l4byn001futcg8x9lwy2i",
+          "name": "Ice Cool - Fruit du dragon Fruits rouges",
+          "score": 1
+        },
+        {
+          "id": "cms6eueh400uautmkm4nxf16x",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du dragon Fruits rouges - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → fruit-du-serpent-framboise 50ml",
+      "file": "e-liquide-fruit-du-serpent-framboise-50ml-ice-cool.jpg",
+      "flavor": "fruit-du-serpent-framboise",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-serpent-framboise.webp",
+      "primary": "Ice Cool - Fruit du serpent Framboise",
+      "linkedProducts": [
+        {
+          "id": "cms6euegq00u7utmkuzhjpjh9",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du serpent Framboise - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c3v003vutcg6bwy0od1",
+          "name": "Ice Cool - Fruit du serpent Framboise",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → fruit-du-soleil-levant-grenade 50ml",
+      "file": "e-liquide-fruit-du-soleil-levant-grenade-50ml-ice-cool.jpg",
+      "flavor": "fruit-du-soleil-levant-grenade",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/fruit-du-soleil-levant-grenade.webp",
+      "primary": "Ice Cool fruit du soleil levant grenade 50ml",
+      "linkedProducts": [
+        {
+          "id": "cms6eueit00unutmkcxjw2tdi",
+          "name": "Ice Cool fruit du soleil levant grenade 50ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → grenade-tropicale 50ml",
+      "file": "e-liquide-grenade-tropicale-50ml-ice-cool.jpg",
+      "flavor": "grenade-tropicale",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/grenade-tropicale.webp",
+      "primary": "Ice Cool - Grenade tropicale",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c69004zutcg0v23qkjt",
+          "name": "Ice Cool - Grenade tropicale",
+          "score": 1
+        },
+        {
+          "id": "cms6euefb00txutmkjmxsrod3",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Grenade tropicale - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → kiwi-banane 50ml",
+      "file": "e-liquide-kiwi-banane-50ml-ice-cool.jpg",
+      "flavor": "kiwi-banane",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/kiwi-banane.webp",
+      "primary": "Ice Cool - Kiwi Banane",
+      "linkedProducts": [
+        {
+          "id": "cms4l4c4b0043utcgf9u93o1q",
+          "name": "Ice Cool - Kiwi Banane",
+          "score": 1
+        },
+        {
+          "id": "cms6eueff00tyutmku819m482",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Kiwi Banane - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → mangue-passion 50ml",
+      "file": "e-liquide-mangue-passion-50ml-ice-cool.jpg",
+      "flavor": "mangue-passion",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/mangue-passion.webp",
+      "primary": "Ice Cool - Mangue Passion",
+      "linkedProducts": [
+        {
+          "id": "cms6euejd00urutmkvv18tv1f",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Mangue Passion - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4bzm001vutcghu6pq3mq",
+          "name": "Ice Cool - Mangue Passion",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → mure-framboise 50ml",
+      "file": "e-liquide-mure-framboise-50ml-ice-cool.jpg",
+      "flavor": "mure-framboise",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/mure-framboise.webp",
+      "primary": "Ice Cool - Mûre Framboise",
+      "linkedProducts": [
+        {
+          "id": "cms4l4bz5001nutcgnoqsfv7y",
+          "name": "Ice Cool - Mûre Framboise",
+          "score": 1
+        },
+        {
+          "id": "cms6euehd00ucutmk8xkc3rnr",
+          "name": "Ice Cool Mûre Framboise 50ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → pasteque-fruits-rouges 50ml",
+      "file": "e-liquide-pasteque-fruits-rouges-50ml-ice-cool.jpg",
+      "flavor": "pasteque-fruits-rouges",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/pasteque-fruits-rouges.webp",
+      "primary": "Ice Cool - Pastèque Fruits rouges",
+      "linkedProducts": [
+        {
+          "id": "cms6eueix00uoutmkh5fg5dt7",
+          "name": "Liquidarom - Ice Cool - Ice Cool - Pastèque Fruits rouges - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4c3d003nutcgeqjfo8cg",
+          "name": "Ice Cool - Pastèque Fruits rouges",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool → pomme-verte-orange 50ml",
+      "file": "e-liquide-pomme-verte-orange-50ml-ice-cool.jpg",
+      "flavor": "pomme-verte-orange",
+      "publicUrl": "/media/products/liquidarom/ice-cool/50ml/pomme-verte-orange.webp",
+      "primary": "Ice Cool - Pomme verte Orange",
+      "linkedProducts": [
+        {
+          "id": "cms4l4bx1000rutcgclh9grec",
+          "name": "Ice Cool - Pomme verte Orange",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool X → blackberry-raspberry 50ml",
+      "file": "e-liquide-blackberry-raspberry-50ml-ice-cool-x.jpg",
+      "flavor": "blackberry-raspberry",
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blackberry-raspberry.webp",
+      "primary": "Ice Cool X - Blackberry Raspberry",
+      "linkedProducts": [
+        {
+          "id": "cms6euei500uiutmkv8uwghiy",
+          "name": "Liquidarom - Ice Cool X - Ice Cool X - Blackberry Raspberry - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4cei008rutcghhvo70m2",
+          "name": "Ice Cool X - Blackberry Raspberry",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool X → blackcurrant-raspberry-grape 50ml",
+      "file": "e-liquide-blackcurrant-raspberry-grape-50ml-ice-cool-x.jpg",
+      "flavor": "blackcurrant-raspberry-grape",
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blackcurrant-raspberry-grape.webp",
+      "primary": "Ice Cool X - Blackcurrant Raspberry Grape",
+      "linkedProducts": [
+        {
+          "id": "cms6euehn00ueutmknhunojya",
+          "name": "Liquidarom - Ice Cool X - Ice Cool X - Blackcurrant Raspberry Grape - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4cdk008butcg46vlm9sw",
+          "name": "Ice Cool X - Blackcurrant Raspberry Grape",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool X → blue-raspberry-pitaya 50ml",
+      "file": "e-liquide-blue-raspberry-pitaya-50ml-ice-cool-x.jpg",
+      "flavor": "blue-raspberry-pitaya",
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/blue-raspberry-pitaya.webp",
+      "primary": "Ice Cool X - Blue Raspberry Pitaya",
+      "linkedProducts": [
+        {
+          "id": "cms6euehw00ugutmkl7vahmbn",
+          "name": "Liquidarom - Ice Cool X - Ice Cool X - Blue Raspberry Pitaya - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4ccm007vutcgg1iyiwtv",
+          "name": "Ice Cool X - Blue Raspberry Pitaya",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool X → mixed-red-berries 50ml",
+      "file": "e-liquide-mixed-red-berries-50ml-ice-cool-x.jpg",
+      "flavor": "mixed-red-berries",
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/mixed-red-berries.webp",
+      "primary": "Liquidarom - Ice Cool X - Ice Cool X - Mixed Red Berries - 50 ml",
+      "linkedProducts": [
+        {
+          "id": "cms6euei100uhutmk1s648nqz",
+          "name": "Liquidarom - Ice Cool X - Ice Cool X - Mixed Red Berries - 50 ml",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "hierarchy": "Liquidarom → Ice Cool X → watermelon-lemon 50ml",
+      "file": "e-liquide-watermelon-lemon-50ml-ice-cool-x.jpg",
+      "flavor": "watermelon-lemon",
+      "publicUrl": "/media/products/liquidarom/ice-cool-x/50ml/watermelon-lemon.webp",
+      "primary": "Ice Cool X - Watermelon Lemon",
+      "linkedProducts": [
+        {
+          "id": "cms6euehq00ufutmketh8qgz7",
+          "name": "Liquidarom - Ice Cool X - Ice Cool X - Watermelon Lemon - 50 ml",
+          "score": 1
+        },
+        {
+          "id": "cms4l4cd20083utcgdai5lde6",
+          "name": "Ice Cool X - Watermelon Lemon",
+          "score": 1
+        }
+      ]
+    }
+  ],
+  "skippedFiles": [
+    {
+      "file": "e-liquide-duo-de-cerises-50ml-ice-cool.jpg",
+      "flavor": "duo-de-cerises",
+      "reason": "aucun produit fabricant→gamme→saveur"
+    }
+  ],
+  "productsWithoutNewPhoto": [
+    "Ice Cool Mûre Sauvage Violette 50ml",
+    "Ice Cool Lychee Myrtille 50ml",
+    "Ice Cool X - Mixed Berries",
+    "Ice Cool pomme vert orange 50ml",
+    "Ice Cool - Pêche Raisin",
+    "Ice Cool - Pêche Myrtille",
+    "Liquidarom - Ice Cool - Ice Cool - Pêche Raisin - 50 ml",
+    "Ice Cool - Cactus citronné Framboise Fruit du dragon"
+  ]
+}
