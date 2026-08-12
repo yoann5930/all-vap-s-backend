@@ -392,7 +392,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             images={catalog.galerie}
           />
           <div className="absolute left-4 top-4 flex flex-col gap-2">
-            {product.isNew && <Badge>Nouveau</Badge>}
             {product.isBestSeller && <Badge variant="warning">Best-seller</Badge>}
             {hasPromo && <Badge variant="danger">-{discountPct}%</Badge>}
           </div>

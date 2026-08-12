@@ -59,8 +59,34 @@ export function ProductCard({ product }: ProductCardProps) {
     catalogImages: product.catalogImages,
     legacyImages: (product.images ?? []).filter((u) => !isGroupPhotoUrl(u)),
   });
-  const shortName = product.name.replace(/^Ice Cool X\s*[-–—]\s*/i, "").trim();
-  const gammeLabel = product.rangeRef?.name ?? product.range;
+  const manufacturerLabel =
+    product.manufacturer?.name?.trim() || product.brand?.trim() || "";
+  const gammeLabel = (product.rangeRef?.name ?? product.range ?? "").trim();
+  /** Affiche Fabricant — Gamme — Produit (ne jamais tronquer la hiérarchie). */
+  const displayName = (() => {
+    const raw = (product.name || "").trim();
+    if (/—/.test(raw) || /-->/.test(raw)) return raw;
+    const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    let stripNoise = raw;
+    if (manufacturerLabel) {
+      stripNoise = stripNoise.replace(
+        new RegExp(`^${esc(manufacturerLabel)}\\s*[-–—:>\\s]*`, "i"),
+        "",
+      );
+    }
+    if (gammeLabel) {
+      stripNoise = stripNoise.replace(
+        new RegExp(`^${esc(gammeLabel)}\\s*[-–—:>\\s]*`, "i"),
+        "",
+      );
+    }
+    stripNoise = stripNoise.replace(/^Ice Cool X?\s*[-–—]\s*/i, "").trim();
+    const flavor = stripNoise || raw;
+    if (manufacturerLabel && gammeLabel) {
+      return `${manufacturerLabel} — ${gammeLabel} — ${flavor}`;
+    }
+    return raw;
+  })();
   const showPromo10ml = isPromo10mlEligible({
     category: product.category,
     productType: product.productType,
@@ -152,9 +178,6 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           <div className="absolute left-2.5 top-2.5 flex flex-col gap-1.5">
-            {(product.isNew || product.source === "liquidarom") && (
-              <Badge className="text-[10px]">Nouveau</Badge>
-            )}
             {hasPromo && (
               <Badge variant="danger" className="text-[10px]">
                 Promo
@@ -167,14 +190,9 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="flex flex-1 flex-col px-3 pb-3 pt-3 sm:px-3.5">
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-[13px] font-semibold leading-snug text-[#F5F7FA] transition-colors group-hover:text-brand-400">
-            {shortName}
+          <h3 className="line-clamp-3 min-h-[2.5rem] text-[13px] font-semibold leading-snug text-[#F5F7FA] transition-colors group-hover:text-brand-400">
+            {displayName}
           </h3>
-          {product.brand && (
-            <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A7B0BC]/75">
-              {[product.brand, gammeLabel].filter(Boolean).join(" · ")}
-            </p>
-          )}
           {multiDosage ? (
             <div className="mt-1.5 flex flex-wrap items-center gap-1">
               {dosages.map((v) => (
