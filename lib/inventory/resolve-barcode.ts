@@ -1,10 +1,13 @@
 /**
  * Résolution code-barres inventaire → Product.
  * Ne lit / n’écrit jamais le stock.
- * Ordre : ProductBarcode → Product.barcode → variante → CatalogEanMap → sku/sumupSku.
+ * Ordre : ProductBarcode → Product.barcode → variante → CatalogEanMap (CONFIRME) → sku/sumupSku.
  */
 import prisma from "@/lib/prisma";
 import { barcodeCandidates } from "@/lib/inventory/product-barcodes";
+
+/** Seuls les rapprochements validés peuvent résoudre un scan via CatalogEanMap. */
+export const CATALOG_EAN_MAP_TRUSTED_CONFIDENCE = ["CONFIRME"] as const;
 
 export type BarcodeResolveHit = {
   productId: string;
@@ -72,9 +75,13 @@ export async function resolveProductByScannedBarcode(
     };
   }
 
+  // P0#3 — ignorer PROBABLE / A_VALIDER (jamais traités comme vérité scan)
   const byMap = await prisma.catalogEanMap.findFirst({
-    where: { ean: { in: candidates } },
-    select: { productId: true, ean: true },
+    where: {
+      ean: { in: candidates },
+      confidence: { in: [...CATALOG_EAN_MAP_TRUSTED_CONFIDENCE] },
+    },
+    select: { productId: true, ean: true, confidence: true },
   });
   if (byMap) {
     return {
