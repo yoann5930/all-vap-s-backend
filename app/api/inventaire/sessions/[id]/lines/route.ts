@@ -361,16 +361,8 @@ export async function POST(request: NextRequest, context: Ctx) {
           if (unitsPerBoxSnapshot == null && product.unitsPerBox != null) {
             unitsPerBoxSnapshot = normalizeUnitsPerBox(product.unitsPerBox);
           }
-          // Persister le conditionnement saisi sur la fiche produit
-          if (
-            unitsPerBoxSnapshot != null &&
-            product.unitsPerBox !== unitsPerBoxSnapshot
-          ) {
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { unitsPerBox: unitsPerBoxSnapshot },
-            });
-          }
+          // P1#4 : ne jamais écrire Product.unitsPerBox depuis un scan inventaire
+          // (employé ou admin) — snapshot ligne seulement ; fiche = admin packaging.
         } else {
           // Produit standard : ignorer conditionnement éventuel
           if (fullBoxesSnapshot != null || looseUnitsSnapshot != null) {
