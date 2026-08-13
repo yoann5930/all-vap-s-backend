@@ -432,13 +432,8 @@ body {
 
 .ava-immersive-face {
   will-change: transform;
-  transform: translateZ(0);
-}
-
-@media (max-width: 640px) {
-  .ava-immersive-face .ava-holo-root {
-    transform: scale(0.82);
-  }
+  transform: translateY(3vh);
+  min-height: 100dvh;
 }
 
 @keyframes ava-projection-pulse {
@@ -515,7 +510,19 @@ body {
 }
 
 .ava-3d-vignette {
-  background: radial-gradient(ellipse 70% 60% at 50% 42%, transparent 0%, rgba(0, 0, 0, 0.45) 100%);
+  background: radial-gradient(ellipse 76% 72% at 50% 45%, transparent 0%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+@media (max-width: 900px) and (orientation: portrait), (max-height: 540px) {
+  .ava-immersive-face {
+    transform: translateZ(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .ava-3d-vignette {
+    background: radial-gradient(ellipse 92% 68% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.38) 100%);
+  }
 }
 
 .ava-3d-loading {

@@ -41,6 +41,9 @@ const PHRASE_BOOSTS: Array<{ pattern: RegExp; boost: number }> = [
   { pattern: /cigarette\s*[ée]lectronique/i, boost: 8 },
 ];
 
+const AVA_EXCLUDED_PRODUCT =
+  /\b(puff|jnr|jetable|disposables?|puff\s*bar|elf\s*bar)\b/i;
+
 function productBlob(p: CatalogProduct): string {
   const flavorBits = [
     (p as CatalogProduct & { searchKeywords?: string }).searchKeywords,
@@ -57,6 +60,10 @@ function isAvailableForOffer(p: CatalogProduct): boolean {
   return available > 0;
 }
 
+function isAvailableForAva(p: CatalogProduct): boolean {
+  return isAvailableForOffer(p) && !AVA_EXCLUDED_PRODUCT.test(productBlob(p));
+}
+
 export function searchCatalog(
   products: CatalogProduct[],
   query: string,
@@ -64,11 +71,7 @@ export function searchCatalog(
 ): CatalogProduct[] {
   const text = query.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
   // Ne jamais remonter Puff / JNR / jetables via searchCatalog (smoke + legacy)
-  let pool = products.filter((p) => {
-    if (!isAvailableForOffer(p)) return false;
-    const blob = `${p.name} ${p.brand ?? ""} ${p.category} ${p.description ?? ""}`.toLowerCase();
-    return !/\bpuff\b|\bjnr\b|jetable|disposables?/.test(blob);
-  });
+  let pool = products.filter(isAvailableForAva);
 
   if (options.promoOnly) pool = pool.filter((p) => p.isPromo);
   if (options.newOnly) pool = pool.filter((p) => p.isNew);
@@ -86,9 +89,7 @@ export function searchCatalog(
     if (aliases.some((a) => text.includes(a))) {
       const needle = cat.replace(/-/g, "");
       const inCat = products.filter((p) => {
-        if (!isAvailableForOffer(p)) return false;
-        const blob = `${p.name} ${p.brand ?? ""} ${p.category} ${p.description ?? ""}`.toLowerCase();
-        if (/\bpuff\b|\bjnr\b|jetable|disposables?/.test(blob)) return false;
+        if (!isAvailableForAva(p)) return false;
         const c = p.category.toLowerCase().replace(/-/g, "");
         return c.includes(needle) || p.category.toLowerCase() === cat || c.includes(aliases[0]);
       });
@@ -166,7 +167,7 @@ export function searchCatalogAlternatives(
 
   // Dernier recours : bestsellers / promo en stock
   return products
-    .filter(isAvailableForOffer)
+    .filter(isAvailableForAva)
     .sort((a, b) => Number(b.isBestSeller) - Number(a.isBestSeller) || Number(b.isPromo) - Number(a.isPromo))
     .slice(0, limit);
 }
@@ -176,7 +177,7 @@ export function recommendForProfile(
   profile: VapeProfileData,
   limit = 4
 ): CatalogProduct[] {
-  return getPersonalizedRecommendations(products, profile, { limit }).map((r) => ({
+  return getPersonalizedRecommendations(products.filter(isAvailableForAva), profile, { limit }).map((r) => ({
     ...r.product,
     imageUrl: (r.product as CatalogProduct).imageUrl ?? null,
   }));

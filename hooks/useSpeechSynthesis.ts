@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { humanizeForSpeech, splitSpokenSentences } from "@/lib/ai/ava-speech-utils";
+import { emitAvaSpeechBoundary } from "@/lib/ava/facial-speech";
 
 export interface SpeechSynthesisState {
   isSpeaking: boolean;
@@ -72,11 +73,16 @@ function speakUtterance(text: string, voice: SpeechSynthesisVoice | null): Promi
       if (settled) return;
       settled = true;
       clearTimeout(watchdog);
+      emitAvaSpeechBoundary({ text, charIndex: text.length, ended: true });
       resolve();
     };
     // Chrome peut ne jamais émettre onend → débloque le dialogue
     const watchdog = window.setTimeout(done, Math.min(20000, 2500 + text.length * 70));
 
+    utterance.onstart = () => emitAvaSpeechBoundary({ text, charIndex: 0 });
+    utterance.onboundary = (event) => {
+      emitAvaSpeechBoundary({ text, charIndex: event.charIndex });
+    };
     utterance.onend = () => done();
     utterance.onerror = (ev) => {
       if (settled) return;

@@ -155,11 +155,56 @@ export function useSpeechRecognition(
 
     if (!supported) return;
 
-    void queryMicPermission().then((status) => {
-      if (status !== "unknown") {
-        setState((s) => ({ ...s, micPermission: status }));
+    let mounted = true;
+    let permissionStatus: PermissionStatus | null = null;
+
+    const applyPermissionState = (permissionState: PermissionState) => {
+      if (!mounted) return;
+      const micPermission: MicPermissionStatus =
+        permissionState === "granted"
+          ? "granted"
+          : permissionState === "denied"
+            ? "denied"
+            : "unknown";
+      setState((s) =>
+        s.isPrompting ? s : { ...s, micPermission, error: micPermission === "granted" ? null : s.error }
+      );
+    };
+
+    const syncPermission = async () => {
+      if (permissionStatus) {
+        applyPermissionState(permissionStatus.state);
+        return;
       }
-    });
+      const status = await queryMicPermission();
+      if (mounted && status !== "unknown") {
+        setState((s) => (s.isPrompting ? s : { ...s, micPermission: status }));
+      }
+    };
+
+    const handlePermissionChange = () => {
+      if (permissionStatus) applyPermissionState(permissionStatus.state);
+    };
+    const handleFocus = () => void syncPermission();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") void syncPermission();
+    };
+
+    if (navigator.permissions?.query) {
+      void navigator.permissions
+        .query({ name: "microphone" as PermissionName })
+        .then((result) => {
+          if (!mounted) return;
+          permissionStatus = result;
+          result.addEventListener("change", handlePermissionChange);
+          applyPermissionState(result.state);
+        })
+        .catch(() => void syncPermission());
+    } else {
+      void syncPermission();
+    }
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const Ctor = getRecognitionCtor();
     if (!Ctor) return;
@@ -298,6 +343,10 @@ export function useSpeechRecognition(
     recognitionRef.current = rec;
 
     return () => {
+      mounted = false;
+      permissionStatus?.removeEventListener("change", handlePermissionChange);
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       wantListeningRef.current = false;
       clearTimers();
       try {

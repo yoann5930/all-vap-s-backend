@@ -18,20 +18,28 @@ export const AVA_NO_EXACT_MATCH =
 
 export const AVA_NAME_REPLY = "Je m'appelle Ava.";
 
-/**
- * Feuille de route 3D AVA — flags non activés (préparation sans changer le rendu actuel).
- * Activer uniquement après validation modèle + tests.
- */
+/** Configuration du modèle facial 3D validé d’AVA. */
 export const AVA_3D_ROADMAP = {
-  /** PROTOYPE TECHNIQUE — jamais présenté comme final */
-  statusLabel: "PROTOYPE TECHNIQUE",
-  /** Chemin relatif public du modèle de test */
-  modelPath: "/models/ava/ava-test-model.glb",
-  texturePath: "/models/ava/ava-test-texture.png",
-  /** Morph targets à brancher quand le GLB final les exposera */
-  plannedMorphs: ["mouthOpen", "jawOpen", "eyeBlinkLeft", "eyeBlinkRight", "mouthSmile"] as const,
-  /** Features futures — toutes OFF pour ne pas casser la prod */
-  enableAdvancedLipSync: false,
-  enableIdleAnimations: false,
+  statusLabel: "AVA FACIAL RIG 1.0",
+  modelPath:
+    "https://pbpecrqwlec9usa3.public.blob.vercel-storage.com/ava/Ava_FacialRig.glb",
+  plannedMorphs: [
+    "viseme_AA",
+    "viseme_E",
+    "viseme_I",
+    "viseme_O",
+    "viseme_U",
+    "viseme_MBP",
+    "viseme_FV",
+    "viseme_L",
+    "viseme_CH",
+    "viseme_RR",
+    "jawOpen",
+    "blinkLeft",
+    "blinkRight",
+    "expressionSmile",
+  ] as const,
+  enableAdvancedLipSync: true,
+  enableIdleAnimations: true,
   enableCompressedAssets: false,
 } as const;

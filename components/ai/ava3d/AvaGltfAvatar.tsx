@@ -10,9 +10,10 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
+import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
 
 /** GLB non compressé — fiable sans Meshopt decoder */
-export const AVA_MODEL_PATH = "/models/ava/AVA_HOLOGRAM.glb";
+export const AVA_MODEL_PATH = AVA_3D_ROADMAP.modelPath;
 
 /** @deprecated chemins historiques */
 export const AVA_TEST_MODEL_PATH = AVA_MODEL_PATH;
@@ -22,15 +23,21 @@ export const AVA_LEGACY_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
 const MODEL_TRANSFORM = {
   position: [0, -0.02, 0] as [number, number, number],
   rotation: [0, 0, 0] as [number, number, number],
-  scale: 0.48,
+  scale: 1,
 };
 
 const MORPH = {
-  mouthOpen: ["mouthOpen", "jawOpen", "viseme_aa", "MouthOpen", "jaw_open"],
-  smile: ["mouthSmile", "mouthSmileLeft", "mouthSmileRight", "MouthSmile"],
-  blinkL: ["eyeBlinkLeft", "EyeBlinkLeft", "blinkLeft"],
-  blinkR: ["eyeBlinkRight", "EyeBlinkRight", "blinkRight"],
+  blinkL: ["blinkLeft"],
+  blinkR: ["blinkRight"],
+  smile: ["expressionSmile"],
+  concern: ["expressionConcern"],
+  browUp: ["browUp"],
+  browDown: ["browDown"],
+  jawOpen: ["jawOpen"],
+  oralReveal: ["oralReveal"],
 };
+
+const VISEMES = ["AA", "E", "I", "O", "U", "MBP", "FV", "L", "CH", "RR"] as const;
 
 interface AvaGltfAvatarProps {
   state: AvaConversationState;
@@ -42,6 +49,12 @@ interface AvaGltfAvatarProps {
 
 export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAvatarProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const jawBoneRef = useRef<THREE.Bone | null>(null);
+  const leftEyeBoneRef = useRef<THREE.Bone | null>(null);
+  const rightEyeBoneRef = useRef<THREE.Bone | null>(null);
+  const jawRestRef = useRef(new THREE.Quaternion());
+  const leftEyeRestRef = useRef(new THREE.Quaternion());
+  const rightEyeRestRef = useRef(new THREE.Quaternion());
   const { scene } = useGLTF(AVA_MODEL_PATH);
 
   const cloned = useMemo(() => {
@@ -59,6 +72,23 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
     });
     return root;
   }, [scene]);
+
+  useEffect(() => {
+    cloned.traverse((object) => {
+      const bone = object as THREE.Bone;
+      if (!bone.isBone) return;
+      if (bone.name === "Jaw") {
+        jawBoneRef.current = bone;
+        jawRestRef.current.copy(bone.quaternion);
+      } else if (bone.name === "Eye.L" || bone.name === "EyeL") {
+        leftEyeBoneRef.current = bone;
+        leftEyeRestRef.current.copy(bone.quaternion);
+      } else if (bone.name === "Eye.R" || bone.name === "EyeR") {
+        rightEyeBoneRef.current = bone;
+        rightEyeRestRef.current.copy(bone.quaternion);
+      }
+    });
+  }, [cloned]);
 
   const morphMeshes = useMemo(() => {
     const found: THREE.Mesh[] = [];
@@ -101,23 +131,47 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
   const isSpeaking = state === "speaking";
   const isListening = state === "listening";
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const t = clock.getElapsedTime();
+    const mouth = isSpeaking ? lipSync.mouthOpen : 0;
+    const activeViseme = isSpeaking ? lipSync.visemeName : "REST";
+    const smile = isSpeaking ? 0.1 + lipSync.smile * 0.18 : isListening ? 0.07 : 0.045;
+    const concern = state === "thinking" ? 0.08 : 0;
 
     morphMeshes.forEach((mesh) => {
       const dict = mesh.morphTargetDictionary!;
       const inf = mesh.morphTargetInfluences!;
-      const mouth = isSpeaking ? lipSync.mouthOpen * 0.85 : 0;
-      const smile = isSpeaking
-        ? lipSync.smile * 0.55 + 0.04
-        : isListening
-          ? 0.05
-          : 0.02;
-      setMorph(dict, inf, MORPH.mouthOpen, mouth);
-      setMorph(dict, inf, MORPH.smile, smile);
-      setMorph(dict, inf, MORPH.blinkL, blink);
-      setMorph(dict, inf, MORPH.blinkR, blink);
+      for (const viseme of VISEMES) {
+        dampMorph(dict, inf, [`viseme_${viseme}`], activeViseme === viseme ? 1 : 0, 24, delta);
+      }
+      dampMorph(dict, inf, MORPH.jawOpen, mouth * 0.14, 19, delta);
+      dampMorph(dict, inf, MORPH.oralReveal, activeViseme !== "REST" && activeViseme !== "MBP" ? 1 : 0, 22, delta);
+      dampMorph(dict, inf, MORPH.smile, smile, 9, delta);
+      dampMorph(dict, inf, MORPH.concern, concern, 9, delta);
+      dampMorph(dict, inf, MORPH.browUp, isListening ? 0.08 : 0.035, 8, delta);
+      dampMorph(dict, inf, MORPH.browDown, state === "thinking" ? 0.045 : 0, 8, delta);
+      dampMorph(dict, inf, MORPH.blinkL, blink, 30, delta);
+      dampMorph(dict, inf, MORPH.blinkR, blink, 30, delta);
     });
+
+    const jawBone = jawBoneRef.current;
+    if (jawBone) {
+      const jawDelta = new THREE.Quaternion().setFromAxisAngle(
+        new THREE.Vector3(1, 0, 0),
+        -mouth * 0.075
+      );
+      jawBone.quaternion.copy(jawRestRef.current).multiply(jawDelta);
+    }
+
+    const gaze = new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(-lookY * 0.035, lookX * 0.06, 0, "XYZ")
+    );
+    if (leftEyeBoneRef.current) {
+      leftEyeBoneRef.current.quaternion.copy(leftEyeRestRef.current).multiply(gaze);
+    }
+    if (rightEyeBoneRef.current) {
+      rightEyeBoneRef.current.quaternion.copy(rightEyeRestRef.current).multiply(gaze);
+    }
 
     if (groupRef.current) {
       groupRef.current.position.y =
@@ -154,6 +208,23 @@ function setMorph(
     const idx = dict[key];
     if (idx !== undefined) {
       inf[idx] = value;
+      return;
+    }
+  }
+}
+
+function dampMorph(
+  dict: Record<string, number>,
+  inf: number[],
+  keys: string[],
+  value: number,
+  lambda: number,
+  delta: number
+) {
+  for (const key of keys) {
+    const idx = dict[key];
+    if (idx !== undefined) {
+      inf[idx] = THREE.MathUtils.damp(inf[idx] ?? 0, value, lambda, delta);
       return;
     }
   }

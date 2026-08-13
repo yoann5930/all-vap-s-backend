@@ -7,7 +7,6 @@ import { AvaHologramScene } from "@/components/ai/ava3d/AvaHologramScene";
 import { AvaChatPanel, AvaDiscussButton, type AvaChatMessage } from "@/components/ai/AvaChatPanel";
 import { MicPermissionPanel } from "@/components/ai/MicPermissionPanel";
 import { ProductSuggestionCard } from "@/components/ai/ProductSuggestionCard";
-import { ConversationStatus } from "@/components/ava/ConversationStatus";
 import { LiveSubtitles } from "@/components/ava/LiveSubtitles";
 import { AccessibilitySettings } from "@/components/ava/AccessibilitySettings";
 import { DiagnosticConversation } from "@/components/ava/DiagnosticConversation";
@@ -58,6 +57,7 @@ export function ImmersiveAvaScreen({
   const [diagConfirm, setDiagConfirm] = useState<PendingAvaIntent | null>(null);
   const consumedIdsRef = useRef<Set<string>>(new Set());
   const skipGreetingRef = useRef(false);
+  const previousMicPermissionRef = useRef(voice.micPermission);
 
   // Détecter intention avant init pour éviter le greeting générique
   if (typeof window !== "undefined" && !skipGreetingRef.current) {
@@ -179,13 +179,23 @@ export function ImmersiveAvaScreen({
     if (!voice.ready || voice.blocked) return;
     if (continuous.a11y.pauseListening) return;
     if (voice.micPermission === "denied" || voice.micPermission === "unsupported") {
-      continuous.setTextPanelForced(true);
       return;
     }
     if (voice.micPermission === "granted" && voice.voiceState === "IDLE") {
       void voice.ensureListening();
     }
   }, [voice.ready, voice.micPermission, voice.voiceState, voice.blocked]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Une autorisation changée dans les réglages du navigateur est prise en compte
+  // sans rechargement : retour à Ava seule puis reprise automatique de l'écoute.
+  useEffect(() => {
+    const previous = previousMicPermissionRef.current;
+    previousMicPermissionRef.current = voice.micPermission;
+    if (previous === "granted" || voice.micPermission !== "granted") return;
+    continuous.setTextPanelForced(false);
+    setChatOpen(false);
+    void voice.ensureListening();
+  }, [continuous, voice]);
 
   // Réponses A.V.A. → historique UI (texte complet, pas le sous-titre tronqué)
   useEffect(() => {
@@ -221,6 +231,7 @@ export function ImmersiveAvaScreen({
 
   const handlePermissionGranted = useCallback(() => {
     continuous.setTextPanelForced(false);
+    setChatOpen(false);
     void voice.ensureListening();
   }, [continuous, voice]);
 
@@ -330,6 +341,9 @@ export function ImmersiveAvaScreen({
         transition={{ duration: 0.7 }}
         className="ava-immersive fixed inset-0 z-[70] flex flex-col bg-black"
         data-ava-continuous="v1"
+        data-ava-mic-permission={voice.micPermission}
+        data-ava-voice-state={voice.voiceState}
+        data-ava-mic-active={micActive ? "true" : "false"}
       >
         <div className="absolute left-4 top-4 z-[80] sm:left-6 sm:top-6">
           <p
@@ -399,11 +413,11 @@ export function ImmersiveAvaScreen({
           </div>
         ) : null}
 
-        <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center">
+        <div className="absolute inset-0 z-10 flex items-center justify-center overflow-hidden">
           {!voice.ready ? (
             <Loader2 className="h-7 w-7 animate-spin text-cyan-700/30" aria-label="Chargement" />
           ) : (
-            <div className="ava-immersive-face relative h-[min(52vh,480px)] w-full max-w-3xl">
+            <div className="ava-immersive-face relative h-full w-full">
               <AvaHologramScene
                 state={voice.avaState}
                 isSpeaking={voice.isSpeaking}
@@ -414,7 +428,7 @@ export function ImmersiveAvaScreen({
           )}
         </div>
 
-        <div className={`relative z-20 pt-2 ${chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"}`}>
+        <div className={`relative z-20 mt-auto pt-2 ${chatOpen ? "pb-2 sm:pb-4" : "pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:pb-8"}`}>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/95 to-transparent" />
 
           <div className="relative flex flex-col items-center gap-3">
@@ -452,14 +466,6 @@ export function ImmersiveAvaScreen({
                   />
                 ))}
               </div>
-            ) : null}
-
-            {!chatOpen ? (
-              <ConversationStatus
-                mode={continuous.mode}
-                phase={voice.avaState}
-                micActive={micActive}
-              />
             ) : null}
 
             {voice.hardwareAssistance?.showMediaUploader ||
@@ -570,10 +576,9 @@ export function ImmersiveAvaScreen({
             ) : null}
 
             {/* Un seul CTA — pas de champ texte permanent */}
-            <div className="flex flex-col items-center gap-2 px-4 pb-2">
+            <div className="flex flex-col items-center px-4 pb-2">
               <AvaDiscussButton
                 open={chatOpen}
-                disabled={!voice.ready || voice.blocked}
                 onClick={() => setChatOpen(true)}
               />
             </div>
