@@ -42,13 +42,8 @@ export function isAllowedOrigin(origin: string | null, requestHost?: string): bo
       const host = requestHost.split(":")[0].toLowerCase();
       if (o.hostname.toLowerCase() === host) return true;
     }
-    // Previews Vercel / tunnels Cloudflare (HTTPS public temporaire)
-    if (
-      o.hostname.endsWith(".vercel.app") ||
-      o.hostname.endsWith(".trycloudflare.com")
-    ) {
-      return true;
-    }
+    // P1#3 : plus de wildcard *.vercel.app / *.trycloudflare.com
+    // (allowlist + VERCEL_URL projet + same-host uniquement)
     return allowed.some((a) => {
       try {
         return new URL(a).origin === o.origin;

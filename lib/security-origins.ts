@@ -2,6 +2,9 @@
  * Helpers CSRF / Origin — Edge-safe (pas de Node crypto).
  * Utilisé par middleware.ts.
  * Doit rester aligné avec lib/security.ts (inventaire.allvaps.fr inclus).
+ *
+ * P1#3 : pas de wildcard *.vercel.app / *.trycloudflare.com —
+ * seuls allowlist + même hôte + VERCEL_URL du projet.
  */
 
 /** Origines autorisées pour les mutations cookie-auth. */
@@ -57,12 +60,6 @@ export function isAllowedOrigin(origin: string | null, requestHost?: string): bo
     if (
       process.env.NODE_ENV !== "production" &&
       (o.hostname === "localhost" || o.hostname === "127.0.0.1" || o.hostname === "::1")
-    ) {
-      return true;
-    }
-    if (
-      o.hostname.endsWith(".vercel.app") ||
-      o.hostname.endsWith(".trycloudflare.com")
     ) {
       return true;
     }

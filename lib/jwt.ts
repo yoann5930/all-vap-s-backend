@@ -4,11 +4,10 @@ import type { Role } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { generateSecureToken, hashToken } from "@/lib/security";
 import { isOwnerRole, isStaffRole, roleAtLeast } from "@/lib/admin/roles";
-
-function isLocalAppUrl(): boolean {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
-  return /localhost|127\.0\.0\.1/i.test(appUrl);
-}
+import {
+  isLocalAppUrl,
+  requiresHardenedSecrets,
+} from "@/lib/production-guards";
 
 /**
  * Secure cookie si la requête est réellement en HTTPS (tunnel Cloudflare, prod),
@@ -25,27 +24,29 @@ async function cookieSecureFlag(): Promise<boolean> {
   } catch {
     /* hors contexte requête */
   }
-  if (isLocalAppUrl()) return false;
-  return process.env.NODE_ENV === "production";
+  if (isLocalAppUrl() && !requiresHardenedSecrets()) return false;
+  return process.env.NODE_ENV === "production" || requiresHardenedSecrets();
 }
 
-/** Lazy secret — ne pas throw au import (sinon `next build` plante sans env Vercel). */
+/** Lazy secret — ne pas throw au import pendant `next build` (env absents sur Vercel build). */
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET;
+  const secret = (process.env.JWT_SECRET || "").trim();
+  const duringBuild =
+    process.env.NEXT_PHASE === "phase-production-build" ||
+    process.env.npm_lifecycle_event === "build";
+
   if (!secret) {
-    // Pendant le build / collect data, les secrets peuvent être absents.
-    const duringBuild =
-      process.env.NEXT_PHASE === "phase-production-build" ||
-      process.env.npm_lifecycle_event === "build";
-
-    if (process.env.NODE_ENV === "production" && !isLocalAppUrl() && !duringBuild) {
-      throw new Error("JWT_SECRET manquant — refus de démarrer en production");
+    if (requiresHardenedSecrets() && !duringBuild) {
+      throw new Error("JWT_SECRET manquant — refus de démarrer en déploiement");
     }
-
     if (!duringBuild) {
       console.warn("[All Vap's] JWT_SECRET absent — secret de développement utilisé");
     }
     return new TextEncoder().encode("dev-secret-change-in-production");
+  }
+
+  if (secret.length < 32 && requiresHardenedSecrets() && !duringBuild) {
+    throw new Error("JWT_SECRET trop court (< 32) — refus en déploiement");
   }
   if (secret.length < 32 && process.env.NODE_ENV === "production") {
     console.warn("[All Vap's] JWT_SECRET trop court (< 32 caractères) — renforcez-le");
