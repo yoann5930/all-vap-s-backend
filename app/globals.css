@@ -432,7 +432,7 @@ body {
 
 .ava-immersive-face {
   will-change: transform;
-  transform: translateY(3vh);
+  transform: translateZ(0);
   min-height: 100dvh;
 }
 
@@ -513,11 +513,6 @@ body {
   background: radial-gradient(ellipse 76% 72% at 50% 45%, transparent 0%, rgba(0, 0, 0, 0.34) 100%);
 }
 
-@media (max-width: 900px) and (orientation: portrait), (max-height: 540px) {
-  .ava-immersive-face {
-    transform: translateZ(0);
-  }
-}
 
 @media (max-width: 640px) {
   .ava-3d-vignette {
