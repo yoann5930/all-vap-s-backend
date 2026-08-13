@@ -5,7 +5,7 @@
  * Ne jamais écraser les maps UV par une texture plate unique (cause du visage déformé).
  */
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, Center } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
@@ -21,7 +21,9 @@ export const AVA_TEST_TEXTURE_PATH = "/models/ava/ava-hologram-texture.png";
 export const AVA_LEGACY_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
 
 const MODEL_TRANSFORM = {
-  position: [0, -0.02, 0] as [number, number, number],
+  // Centre géométrique mesuré du GLB : Y va de 0 à 0,9789886 m.
+  // <Center> n'est pas fiable ici car le visage est un SkinnedMesh animé.
+  position: [0, -0.4894943, 0] as [number, number, number],
   rotation: [0, 0, 0] as [number, number, number],
   scale: 1,
 };
@@ -191,9 +193,7 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
 
   return (
     <group ref={groupRef} position={MODEL_TRANSFORM.position} scale={MODEL_TRANSFORM.scale}>
-      <Center>
-        <primitive object={cloned} rotation={MODEL_TRANSFORM.rotation} />
-      </Center>
+      <primitive object={cloned} rotation={MODEL_TRANSFORM.rotation} />
     </group>
   );
 }
