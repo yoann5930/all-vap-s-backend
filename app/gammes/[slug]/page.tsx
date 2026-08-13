@@ -118,7 +118,7 @@ export default async function GammePage({ params, searchParams }: Props) {
           name: true,
           slug: true,
           manufacturerId: true,
-          manufacturer: { select: { id: true, slug: true } },
+          manufacturer: { select: { id: true, slug: true, name: true } },
         },
       },
     },
@@ -146,11 +146,17 @@ export default async function GammePage({ params, searchParams }: Props) {
         rangeSlug: p.rangeRef?.slug || range.slug,
         rangeName: p.rangeRef?.name || range.name,
       });
-      if (!inferred || inferred === p.imageUrl) return p;
+      // Si l’URL DB ne correspond pas à la saveur, on force null (placeholder)
+      // plutôt que d’afficher la photo d’une autre référence.
+      if (inferred === p.imageUrl) return p;
       return {
         ...p,
         imageUrl: inferred,
-        imageStatus: p.imageStatus === "validated" ? p.imageStatus : "official",
+        imageStatus: inferred
+          ? p.imageStatus === "validated"
+            ? p.imageStatus
+            : "official"
+          : "pending",
       };
     });
 

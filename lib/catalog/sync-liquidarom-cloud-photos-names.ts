@@ -126,14 +126,18 @@ function listFlavorWebps(mediaDir: string, root = process.cwd()) {
 }
 
 function scoreMatch(fileFlavor: string, productFlavor: string) {
+  // Aligné sur infer-product-packshot-url (pas de sous-ensemble approximatif).
   if (!fileFlavor || !productFlavor) return 0;
   if (fileFlavor === productFlavor) return 1;
-  if (productFlavor.includes(fileFlavor) || fileFlavor.includes(productFlavor)) return 0.92;
   const a = fileFlavor.split("-").filter(Boolean);
   const b = productFlavor.split("-").filter(Boolean);
   if (!a.length || !b.length) return 0;
   const inter = a.filter((t) => b.includes(t)).length;
-  return inter / Math.max(a.length, b.length);
+  const union = new Set([...a, ...b]).size;
+  const jaccard = inter / union;
+  if (a.length === b.length && jaccard === 1) return 1;
+  if (Math.abs(a.length - b.length) <= 1 && jaccard >= 0.85) return jaccard;
+  return jaccard >= 0.7 ? jaccard * 0.9 : jaccard;
 }
 
 export type SyncPhotosNamesResult = {

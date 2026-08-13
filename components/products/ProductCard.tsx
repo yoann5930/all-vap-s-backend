@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import { getEffectivePrice } from "@/lib/products/queries";
 import { extractExplicitSpecs } from "@/lib/catalog/normalize";
 import { resolveProductImage, isGroupPhotoUrl } from "@/lib/catalog/images";
+import { inferProductPackshotUrlClient } from "@/lib/catalog/infer-product-packshot-url.client";
 import { Badge } from "@/components/ui/Badge";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
@@ -25,7 +26,7 @@ type ProductCardData = Product & {
     name: string;
     slug?: string;
     manufacturerId?: string | null;
-    manufacturer?: { id?: string; slug?: string } | null;
+    manufacturer?: { id?: string; slug?: string; name?: string } | null;
   } | null;
   manufacturer?: { id: string; slug: string; name?: string } | null;
 };
@@ -53,11 +54,25 @@ export function ProductCard({ product }: ProductCardProps) {
     variant?.capacityMl ??
     (product.productType ? parseFloat(product.productType) : null) ??
     specs.capacityMl;
-  const { url: displayImage } = resolveProductImage({
+  const { url: resolvedImage } = resolveProductImage({
     imageUrl: product.imageUrl && !isGroupPhotoUrl(product.imageUrl) ? product.imageUrl : null,
     imageStatus: product.imageStatus,
     catalogImages: product.catalogImages,
     legacyImages: (product.images ?? []).filter((u) => !isGroupPhotoUrl(u)),
+  });
+  // Résolution unique desktop/mobile : n’accepte une URL DB que si la saveur
+  // du fichier correspond ; sinon reconnecte via packshot-index (ou placeholder).
+  const displayImage = inferProductPackshotUrlClient({
+    imageUrl: resolvedImage && !isGroupPhotoUrl(resolvedImage) ? resolvedImage : null,
+    productName: product.name,
+    manufacturerSlug:
+      product.manufacturer?.slug || product.rangeRef?.manufacturer?.slug || null,
+    manufacturerName:
+      product.manufacturer?.name ||
+      product.rangeRef?.manufacturer?.name ||
+      product.brand,
+    rangeSlug: product.rangeRef?.slug || null,
+    rangeName: product.rangeRef?.name || product.range,
   });
   const manufacturerLabel =
     product.manufacturer?.name?.trim() || product.brand?.trim() || "";

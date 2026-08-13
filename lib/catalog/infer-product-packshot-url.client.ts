@@ -1,17 +1,9 @@
 /**
- * Déduit l’URL packshot si Product.imageUrl est vide / fichier absent.
- * Source primaire : data/catalog/packshot-index.json (fonctionne sur Vercel).
- * Fallback disque : public/media/products/{mfr}/{range}/… (dev local).
- * Ne modifie jamais la DB / stock.
- *
- * Règle : fabricant → gamme → saveur, score certain ≥ 0.7
- * (aligné scripts/reimplant-liquidarom-ice-cool-photos.ts + attach-existing-media-photos-safe.ts).
+ * Inférence packshot côté client (navigateur) — index JSON uniquement, pas de fs.
+ * Même règles de score que le serveur pour éviter desktop ≠ mobile.
  */
-import fs from "node:fs";
-import path from "node:path";
 import packshotIndex from "@/data/catalog/packshot-index.json";
 
-const PUBLIC_ROOT = path.join(process.cwd(), "public");
 const CERTAIN = 0.7;
 
 const EN_FR: Record<string, string> = {
@@ -58,50 +50,9 @@ function score(a: string, b: string) {
   const inter = aa.filter((t) => bb.includes(t)).length;
   const union = new Set([...aa, ...bb]).size;
   const jaccard = inter / union;
-  // Même ensemble de tokens (ordre libre) = match exact
   if (aa.length === bb.length && jaccard === 1) return 1;
-  // Quasi-égalité stricte uniquement (pas de sous-ensemble type « framboise-des-bois »
-  // → « framboise-fraise-des-bois »)
   if (Math.abs(aa.length - bb.length) <= 1 && jaccard >= 0.85) return jaccard;
   return jaccard >= 0.7 ? jaccard * 0.9 : jaccard;
-}
-
-function listFromDisk(mfrSlug: string, rangeSlug: string): Array<{ flavor: string; url: string }> {
-  const root = path.join(PUBLIC_ROOT, "media", "products", mfrSlug, rangeSlug);
-  if (!fs.existsSync(root)) return [];
-  const out: Array<{ flavor: string; url: string }> = [];
-  const walk = (dir: string) => {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, ent.name);
-      if (ent.isDirectory()) {
-        if (/_backup/i.test(ent.name)) continue;
-        walk(full);
-        continue;
-      }
-      if (!/\.webp$/i.test(ent.name) || /-thumb\.webp$/i.test(ent.name)) continue;
-      const flavor = norm(ent.name.replace(/\.webp$/i, ""));
-      const rel = "/" + path.relative(PUBLIC_ROOT, full).replace(/\\/g, "/");
-      out.push({ flavor, url: rel });
-    }
-  };
-  walk(root);
-  return out;
-}
-
-function listPackshots(mfrSlug: string, rangeSlug: string): Array<{ flavor: string; url: string }> {
-  const key = `${mfrSlug}/${rangeSlug}`;
-  const fromIndex = (packshotIndex as { ranges?: Record<string, Array<{ flavor: string; url: string }>> })
-    .ranges?.[key] ?? [];
-  const fromDisk = listFromDisk(mfrSlug, rangeSlug);
-  // Fusion index + disque : un fichier nouvellement ajouté n'est jamais ignoré
-  // à cause d'un packshot-index.json périmé.
-  const byFlavor = new Map<string, { flavor: string; url: string }>();
-  for (const f of fromIndex) byFlavor.set(f.flavor, f);
-  for (const f of fromDisk) {
-    const prev = byFlavor.get(f.flavor);
-    if (!prev || f.url.length < prev.url.length) byFlavor.set(f.flavor, f);
-  }
-  return [...byFlavor.values()];
 }
 
 function flavorFromMediaUrl(url: string): string | null {
@@ -111,17 +62,14 @@ function flavorFromMediaUrl(url: string): string | null {
   return norm(base.replace(/\.webp$/i, ""));
 }
 
-function urlMatchesProduct(
-  url: string,
-  productFlavor: string,
-): boolean {
+function urlMatchesProduct(url: string, productFlavor: string): boolean {
   const fileFlavor = flavorFromMediaUrl(url);
   if (!fileFlavor || !productFlavor) return false;
   const alts = [fileFlavor, EN_FR[fileFlavor]].filter(Boolean) as string[];
   return alts.some((alt) => score(alt, productFlavor) >= CERTAIN);
 }
 
-export function inferProductPackshotUrl(params: {
+export function inferProductPackshotUrlClient(params: {
   imageUrl?: string | null;
   productName: string;
   manufacturerSlug?: string | null;
@@ -131,19 +79,16 @@ export function inferProductPackshotUrl(params: {
 }): string | null {
   const pf = flavorTokens(params.productName, params.manufacturerName, params.rangeName);
 
-  // Ne garder imageUrl DB que si la saveur du fichier correspond vraiment au produit
-  // (évite « Framboise des bois » → framboise-fraise-des-bois.webp).
   if (params.imageUrl && urlMatchesProduct(params.imageUrl, pf)) {
-    if (params.imageUrl.startsWith("/media/products/")) return params.imageUrl;
-    const abs = path.join(PUBLIC_ROOT, params.imageUrl.replace(/^\//, ""));
-    if (fs.existsSync(abs)) return params.imageUrl;
+    return params.imageUrl;
   }
 
   const mfr = params.manufacturerSlug;
   const range = params.rangeSlug;
   if (!mfr || !range) return null;
-
-  const files = listPackshots(mfr, range);
+  const files =
+    (packshotIndex as { ranges?: Record<string, Array<{ flavor: string; url: string }>> })
+      .ranges?.[`${mfr}/${range}`] ?? [];
   if (!files.length) return null;
 
   let bestUrl: string | null = null;
@@ -162,7 +107,6 @@ export function inferProductPackshotUrl(params: {
       }
     }
   }
-  // Certain uniquement : ≥ 0.7 et écart ou second < certain
   if (best < CERTAIN) return null;
   if (second >= CERTAIN && best - second < 0.05) return null;
   return bestUrl;

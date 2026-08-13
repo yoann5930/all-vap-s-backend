@@ -1,6 +1,6 @@
 /**
  * Génère data/catalog/packshot-index.json depuis public/media/products.
- * Permet l’inférence packshot sur Vercel (sans fs.existsSync runtime).
+ * Découvre automatiquement tous les dossiers fabricant/gamme.
  *
  *   npx tsx scripts/build-packshot-index.ts
  */
@@ -11,17 +11,6 @@ const ROOT = process.cwd();
 const MEDIA = path.join(ROOT, "public", "media", "products");
 const OUT = path.join(ROOT, "data", "catalog", "packshot-index.json");
 
-const RANGES = [
-  "liquidarom/ice-cool",
-  "liquidarom/ice-cool-x",
-  "liquidarom/les-collegues",
-  "liquidarom/les-essentiels",
-  "liquidarom/replay",
-  "cloud-vapor/hellfest",
-  "cloud-vapor/kung-freeze",
-  "cloud-vapor/call-of-vape",
-];
-
 function norm(s: string) {
   return s
     .toLowerCase()
@@ -31,29 +20,28 @@ function norm(s: string) {
     .replace(/^-|-$/g, "");
 }
 
-function walkWebps(absDir: string, key: string) {
+function walkWebps(absDir: string) {
   const out: Array<{ flavor: string; url: string }> = [];
   if (!fs.existsSync(absDir)) return out;
   const walk = (dir: string) => {
     for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, ent.name);
       if (ent.isDirectory()) {
-        if (/_backup/i.test(ent.name)) continue;
+        if (/^_/.test(ent.name) || /_backup/i.test(ent.name)) continue;
         walk(full);
         continue;
       }
       if (!/\.webp$/i.test(ent.name) || /-thumb\.webp$/i.test(ent.name)) continue;
-      // Ignorer doublons mal nommés (préfixe gamme / hash suffix)
       const base = ent.name.replace(/\.webp$/i, "");
       if (/^[a-f0-9]{8}$/i.test(base.slice(-8)) && base.includes("-50ml-")) continue;
       if (base.startsWith("les-collegues-") || base.startsWith("les-essentiels-")) continue;
       const flavor = norm(base);
-      const url = "/" + path.relative(path.join(ROOT, "public"), full).split(path.sep).join("/");
+      const url =
+        "/" + path.relative(path.join(ROOT, "public"), full).split(path.sep).join("/");
       out.push({ flavor, url });
     }
   };
   walk(absDir);
-  // Préférer chemins courts /50ml/ /100ml/ et noms saveur purs
   out.sort((a, b) => a.url.length - b.url.length || a.flavor.localeCompare(b.flavor));
   const seen = new Set<string>();
   const dedup: typeof out = [];
@@ -65,10 +53,25 @@ function walkWebps(absDir: string, key: string) {
   return dedup;
 }
 
+function discoverRanges(): string[] {
+  if (!fs.existsSync(MEDIA)) return [];
+  const keys: string[] = [];
+  for (const mfr of fs.readdirSync(MEDIA, { withFileTypes: true })) {
+    if (!mfr.isDirectory() || mfr.name.startsWith("_")) continue;
+    const mfrDir = path.join(MEDIA, mfr.name);
+    for (const range of fs.readdirSync(mfrDir, { withFileTypes: true })) {
+      if (!range.isDirectory() || range.name.startsWith("_")) continue;
+      keys.push(`${mfr.name}/${range.name}`);
+    }
+  }
+  return keys.sort();
+}
+
 const index: Record<string, Array<{ flavor: string; url: string }>> = {};
 let total = 0;
-for (const key of RANGES) {
-  const files = walkWebps(path.join(MEDIA, ...key.split("/")), key);
+for (const key of discoverRanges()) {
+  const files = walkWebps(path.join(MEDIA, ...key.split("/")));
+  if (!files.length) continue;
   index[key] = files;
   total += files.length;
   console.log(`${key}: ${files.length}`);
@@ -78,6 +81,6 @@ fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(
   OUT,
   JSON.stringify({ generatedAt: new Date().toISOString(), total, ranges: index }, null, 2),
-  "utf8",
+  "utf8"
 );
-console.log(`Wrote ${OUT} total=${total}`);
+console.log(`Wrote ${OUT} total=${total} ranges=${Object.keys(index).length}`);
