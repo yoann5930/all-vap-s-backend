@@ -30,12 +30,23 @@ import {
   normalizeResistanceOhmValue,
   parseResistanceIdentityFromLine,
 } from "@/lib/catalog/resistance-identification";
+import {
+  isResistanceProduct,
+  parseUnitsPerPackFromName,
+  resolveResistanceBoxPriceCents,
+} from "@/lib/inventory/resistance-box-pricing";
 import { classifyOnInventoryScan } from "@/lib/catalog/classification-engine";
 import {
   INVENTORY_PLACEMENTS,
   normalizeInventoryPlacement,
   validateInventoryPlacementQuantity,
 } from "@/lib/inventory/placement";
+import { resolveProductByScannedBarcode } from "@/lib/inventory/resolve-barcode";
+import {
+  computeTotalUnits,
+  isPackagedHardwareCategory,
+  normalizeUnitsPerBox,
+} from "@/lib/inventory/packaging";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -140,6 +151,16 @@ export async function POST(request: NextRequest, context: Ctx) {
         resistanceValueOhm: z.number().positive().max(5).optional(),
         coilTechnology: z.string().max(40).optional(),
         unitsPerPack: z.number().int().positive().max(50).optional(),
+        /** Conditionnement 1–5 (résistances / réservoirs) */
+        unitsPerBox: z.union([
+          z.literal(1),
+          z.literal(2),
+          z.literal(3),
+          z.literal(4),
+          z.literal(5),
+        ]).optional(),
+        fullBoxes: z.number().int().min(0).optional(),
+        looseUnits: z.number().int().min(0).max(20).optional(),
         powerRangeMinW: z.number().int().positive().max(500).optional(),
         powerRangeMaxW: z.number().int().positive().max(500).optional(),
       })
@@ -147,9 +168,49 @@ export async function POST(request: NextRequest, context: Ctx) {
 
     await ensurePlacementColumn();
     const placement = normalizeInventoryPlacement(body.placement);
+
+    // Conditionnement : quantité stock = unités réelles
+    let unitsPerBoxSnapshot: number | null =
+      normalizeUnitsPerBox(body.unitsPerBox) ??
+      normalizeUnitsPerBox(body.unitsPerPack) ??
+      null;
+    let fullBoxesSnapshot: number | null =
+      body.fullBoxes != null ? Math.max(0, Math.floor(body.fullBoxes)) : null;
+    let looseUnitsSnapshot: number | null =
+      body.looseUnits != null ? Math.max(0, Math.floor(body.looseUnits)) : null;
+    let quantityCounted = body.quantityCounted;
+
+    if (fullBoxesSnapshot != null || looseUnitsSnapshot != null) {
+      if (unitsPerBoxSnapshot == null) {
+        return jsonResponse(
+          {
+            error: "Conditionnement : quantité par boîte obligatoire (1 à 5)",
+            code: "UNITS_PER_BOX_REQUIRED",
+          },
+          400
+        );
+      }
+      fullBoxesSnapshot = fullBoxesSnapshot ?? 0;
+      looseUnitsSnapshot = looseUnitsSnapshot ?? 0;
+      if (looseUnitsSnapshot >= unitsPerBoxSnapshot) {
+        return jsonResponse(
+          {
+            error: `Unités restantes doit être < ${unitsPerBoxSnapshot} (sinon comptez une boîte de plus)`,
+            code: "LOOSE_UNITS_INVALID",
+          },
+          400
+        );
+      }
+      quantityCounted = computeTotalUnits({
+        fullBoxes: fullBoxesSnapshot,
+        unitsPerBox: unitsPerBoxSnapshot,
+        looseUnits: looseUnitsSnapshot,
+      });
+    }
+
     const placementCheck = validateInventoryPlacementQuantity({
       placement,
-      quantityCounted: body.quantityCounted,
+      quantityCounted,
     });
     if (!placementCheck.ok) {
       return jsonResponse(
@@ -170,15 +231,21 @@ export async function POST(request: NextRequest, context: Ctx) {
     let catalogImageUrl: string | null = null;
     let catalogPrice: { cents: number; source: PriceSource } | null = null;
 
-    // EAN scanné : correspondance EXACTE uniquement (jamais approximative)
+    // EAN scanné : ProductBarcode (alias) → Product.barcode → variante → CatalogEanMap
+    // Conserve l’EAN scanné dans `barcode` (traçabilité packaging).
     if (!productId && barcode) {
-      const exact = await prisma.product.findFirst({
-        where: {
-          OR: [{ barcode }, { sku: barcode }, { sumupSku: barcode }],
-        },
-        select: { id: true },
-      });
-      if (exact) productId = exact.id;
+      const resolved = await resolveProductByScannedBarcode(barcode);
+      if (resolved) {
+        productId = resolved.productId;
+      } else {
+        const exact = await prisma.product.findFirst({
+          where: {
+            OR: [{ barcode }, { sku: barcode }, { sumupSku: barcode }],
+          },
+          select: { id: true },
+        });
+        if (exact) productId = exact.id;
+      }
     }
 
     // Match par nom si pas d'EAN / EAN inconnu
@@ -217,6 +284,8 @@ export async function POST(request: NextRequest, context: Ctx) {
           brand: true,
           range: true,
           category: true,
+          productFamily: true,
+          unitsPerBox: true,
           imageUrl: true,
           barcode: true,
           priceCents: true,
@@ -258,6 +327,39 @@ export async function POST(request: NextRequest, context: Ctx) {
             variant.nicotineLabel ||
             (variant.nicotineMg != null ? `${variant.nicotineMg} mg` : null);
         }
+
+        const packaged = isPackagedHardwareCategory({
+          name: product.name,
+          category: product.category,
+          productFamily: (product as { productFamily?: string | null }).productFamily,
+        });
+        if (packaged) {
+          if (unitsPerBoxSnapshot == null && product.unitsPerBox != null) {
+            unitsPerBoxSnapshot = normalizeUnitsPerBox(product.unitsPerBox);
+          }
+          // Persister le conditionnement saisi sur la fiche produit
+          if (
+            unitsPerBoxSnapshot != null &&
+            product.unitsPerBox !== unitsPerBoxSnapshot
+          ) {
+            await prisma.product.update({
+              where: { id: product.id },
+              data: { unitsPerBox: unitsPerBoxSnapshot },
+            });
+          }
+        } else {
+          // Produit standard : ignorer conditionnement éventuel
+          if (fullBoxesSnapshot != null || looseUnitsSnapshot != null) {
+            // garder quantityCounted déjà fourni / recalculé seulement si packaging pertinent
+          }
+          if (!packaged && (body.fullBoxes != null || body.looseUnits != null)) {
+            // Si l’UI a envoyé boîtes par erreur, garder body.quantityCounted original
+            quantityCounted = body.quantityCounted;
+            unitsPerBoxSnapshot = null;
+            fullBoxesSnapshot = null;
+            looseUnitsSnapshot = null;
+          }
+        }
       }
     }
 
@@ -279,8 +381,19 @@ export async function POST(request: NextRequest, context: Ctx) {
 
     // Anti-doublon : même inventaire / même jour / 30 jours
     // Résistances : ohms strictement identiques pour fusion / multi-EAN
+    const unitsPerPackResolved =
+      unitsPerBoxSnapshot ??
+      body.unitsPerPack ??
+      parseUnitsPerPackFromName(productNameSnapshot) ??
+      null;
     const resistanceIdentity =
-      body.resistanceValueOhm != null || body.taxonomyGroup === "RESISTANCES"
+      body.resistanceValueOhm != null ||
+      body.taxonomyGroup === "RESISTANCES" ||
+      isResistanceProduct({
+        name: productNameSnapshot,
+        category: categorySnapshot,
+        taxonomyGroup: body.taxonomyGroup,
+      })
         ? {
             manufacturer: brandSnapshot,
             coilFamily: rangeSnapshot,
@@ -304,7 +417,7 @@ export async function POST(request: NextRequest, context: Ctx) {
               | "other_confirmed"
               | "unknown"
               | null) || null,
-            unitsPerPack: body.unitsPerPack ?? null,
+            unitsPerPack: unitsPerPackResolved,
             powerRangeMinW: body.powerRangeMinW ?? null,
             powerRangeMaxW: body.powerRangeMaxW ?? null,
           }
@@ -414,20 +527,76 @@ export async function POST(request: NextRequest, context: Ctx) {
       }
     }
 
+    const unitsPerPackForPrice =
+      unitsPerPackResolved ??
+      body.unitsPerPack ??
+      parseUnitsPerPackFromName(productNameSnapshot) ??
+      null;
+    const isResistanceLine =
+      body.taxonomyGroup === "RESISTANCES" ||
+      isResistanceProduct({
+        name: productNameSnapshot,
+        category: categorySnapshot || undefined,
+        taxonomyGroup: body.taxonomyGroup,
+      });
+
+    if (isResistanceLine) {
+      if (unitsPerPackForPrice == null || unitsPerPackForPrice < 1) {
+        return jsonResponse(
+          {
+            error:
+              "Résistance : nombre d’unités par boîte obligatoire (validé via le nom / fiche officielle)",
+            code: "UNITS_PER_PACK_REQUIRED",
+          },
+          400
+        );
+      }
+      // Prix enregistré = prix boîte. Si catalogue = unitaire, convertir.
+      if (catalogPrice && catalogPrice.cents > 0) {
+        const expectedBox = resolveResistanceBoxPriceCents({
+          catalogPriceCents: catalogPrice.cents,
+          unitsPerPack: unitsPerPackForPrice,
+        });
+        if (expectedBox != null) {
+          if (unitPriceCents == null || unitPriceCents === catalogPrice.cents) {
+            unitPriceCents = expectedBox;
+            if (!priceSource) priceSource = catalogPrice.source;
+          }
+        }
+      }
+    }
+
     if (body.priceSource && !priceSource) {
       priceSource = body.priceSource;
     } else if (unitPriceCents != null && !priceSource) {
       priceSource = "SAISIE_MANUELLE";
     }
 
+    const expectedBoxPrice =
+      isResistanceLine &&
+      unitsPerPackForPrice != null &&
+      catalogPrice &&
+      catalogPrice.cents > 0
+        ? resolveResistanceBoxPriceCents({
+            catalogPriceCents: catalogPrice.cents,
+            unitsPerPack: unitsPerPackForPrice,
+          })
+        : null;
+    const matchesResistanceBoxPrice =
+      expectedBoxPrice != null &&
+      unitPriceCents != null &&
+      Math.abs(unitPriceCents - expectedBoxPrice) <= 1;
+
     // Employé : ne peut pas écraser un prix catalogue existant
+    // (sauf prix boîte résistance cohérent avec la règle métier)
     if (
       user.role !== "ADMIN" &&
       catalogPrice &&
       catalogPrice.cents > 0 &&
       unitPriceCents != null &&
       unitPriceCents !== catalogPrice.cents &&
-      !body.allowCatalogPriceOverride
+      !body.allowCatalogPriceOverride &&
+      !matchesResistanceBoxPrice
     ) {
       // Tolérance : si la saisie est le prix catalogue arrondi, forcer catalogue
       if (Math.abs(unitPriceCents - catalogPrice.cents) <= 1) {
@@ -442,6 +611,10 @@ export async function POST(request: NextRequest, context: Ctx) {
           403
         );
       }
+    }
+
+    if (matchesResistanceBoxPrice && expectedBoxPrice != null) {
+      unitPriceCents = expectedBoxPrice;
     }
 
     if (unitPriceCents == null) {
@@ -481,7 +654,15 @@ export async function POST(request: NextRequest, context: Ctx) {
       }
     }
 
-    const totalValueCents = computeLineTotalCents(body.quantityCounted, unitPriceCents);
+    const totalValueCents =
+      isResistanceLine &&
+      fullBoxesSnapshot != null &&
+      unitsPerBoxSnapshot != null &&
+      unitPriceCents != null
+        ? fullBoxesSnapshot * unitPriceCents +
+          (looseUnitsSnapshot ?? 0) *
+            Math.round(unitPriceCents / Math.max(1, unitsPerBoxSnapshot))
+        : computeLineTotalCents(quantityCounted, unitPriceCents);
     const now = new Date();
 
     let expectedQuantitySnapshot: number | null = null;
@@ -549,7 +730,10 @@ export async function POST(request: NextRequest, context: Ctx) {
         formatSnapshot,
         nicotineSnapshot,
         catalogImageUrl,
-        quantityCounted: body.quantityCounted,
+        quantityCounted,
+        unitsPerBoxSnapshot,
+        fullBoxesSnapshot,
+        looseUnitsSnapshot,
         placement,
         expectedQuantitySnapshot,
         unitPriceCents,
@@ -570,7 +754,12 @@ export async function POST(request: NextRequest, context: Ctx) {
               ? `ohm=${body.resistanceValueOhm.toFixed(3)}`
               : null,
             body.coilTechnology ? `coilTech=${body.coilTechnology}` : null,
-            body.unitsPerPack != null ? `unitsPerPack=${body.unitsPerPack}` : null,
+            (body.unitsPerPack ?? unitsPerPackResolved ?? unitsPerBoxSnapshot) != null
+              ? `unitsPerPack=${body.unitsPerPack ?? unitsPerPackResolved ?? unitsPerBoxSnapshot}`
+              : null,
+            unitsPerBoxSnapshot != null ? `unitsPerBox=${unitsPerBoxSnapshot}` : null,
+            fullBoxesSnapshot != null ? `fullBoxes=${fullBoxesSnapshot}` : null,
+            looseUnitsSnapshot != null ? `looseUnits=${looseUnitsSnapshot}` : null,
             body.powerRangeMinW != null && body.powerRangeMaxW != null
               ? `watts=${body.powerRangeMinW}-${body.powerRangeMaxW}`
               : null,
@@ -641,7 +830,7 @@ export async function POST(request: NextRequest, context: Ctx) {
       inventoryId: id,
       sessionId: id,
       oldQuantity: oldQty,
-      newQuantity: body.quantityCounted,
+      newQuantity: quantityCounted,
       ip,
       deviceInfo: request.headers.get("user-agent"),
       metadata: {
@@ -650,6 +839,9 @@ export async function POST(request: NextRequest, context: Ctx) {
         unitPriceCents,
         priceSource,
         totalValueCents,
+        unitsPerBoxSnapshot,
+        fullBoxesSnapshot,
+        looseUnitsSnapshot,
       },
     });
 
@@ -660,7 +852,7 @@ export async function POST(request: NextRequest, context: Ctx) {
       action: "LINE_CREATED",
       fieldName: "quantityCounted",
       oldValue: null,
-      newValue: body.quantityCounted,
+      newValue: quantityCounted,
       reason: `prix=${unitPriceCents}; source=${priceSource}`,
     });
 

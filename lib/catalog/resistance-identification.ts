@@ -7,6 +7,8 @@
  * structurée n'est disponible. Ne modifie pas le catalogue public / A.V.A.
  */
 
+import { parseUnitsPerPackFromName } from "@/lib/inventory/resistance-box-pricing";
+
 export const OHM_VALUE_CONFLICT = "OHM_VALUE_CONFLICT";
 
 export type ResistanceIdentity = {
@@ -54,7 +56,7 @@ export function normalizeResistanceOhmValue(
 
 /**
  * Extrait une identité résistance depuis une ligne inventaire.
- * Sans parser avancé : retourne null sur resistanceValueOhm → pas de conflit.
+ * unitsPerPack : uniquement si le nom valide N (Pack de N / Npk…), jamais inventé.
  */
 export function parseResistanceIdentityFromLine(_input: {
   notes?: string | null;
@@ -66,6 +68,9 @@ export function parseResistanceIdentityFromLine(_input: {
   const fromNotes = normalizeResistanceOhmValue(_input.notes);
   const fromFormat = normalizeResistanceOhmValue(_input.formatSnapshot);
   const ohm = fromNotes ?? fromFormat;
+  const unitsPerPack =
+    parseUnitsPerPackFromName(_input.productNameSnapshot) ??
+    parseUnitsPerPackFromName(_input.notes);
   return {
     manufacturer: null,
     coilFamily: null,
@@ -73,7 +78,7 @@ export function parseResistanceIdentityFromLine(_input: {
     resistanceValueOhm: ohm?.value ?? null,
     resistanceValueDisplay: ohm?.display ?? null,
     coilTechnology: null,
-    unitsPerPack: null,
+    unitsPerPack,
     powerRangeMinW: null,
     powerRangeMaxW: null,
   };

@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { z } from "zod";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import prisma from "@/lib/prisma";
 import { matchCatalogProduct } from "@/lib/catalog/matching";
@@ -15,6 +16,13 @@ import {
 } from "@/lib/inventory/duplicates";
 import { resolveProductByScannedBarcode } from "@/lib/inventory/resolve-barcode";
 import { normalizeEan } from "@/lib/catalog/backfill-product-barcodes";
+import { suggestProductForUnknownBarcode } from "@/lib/inventory/barcode-alias-suggest";
+import {
+  formatPackagedStockLabel,
+  isPackagedHardwareCategory,
+  splitUnitsIntoBoxes,
+} from "@/lib/inventory/packaging";
+import { attachBarcodeToProduct } from "@/lib/inventory/product-barcodes";
 
 type CatalogRow = {
   id: string;
@@ -26,6 +34,9 @@ type CatalogRow = {
   brand: string | null;
   range: string | null;
   category: string | null;
+  productFamily?: string | null;
+  unitsPerBox?: number | null;
+  volumeMl?: number | null;
   imageUrl: string | null;
   priceCents: number;
   promoPriceCents: number | null;
@@ -117,12 +128,40 @@ async function buildProductPayload(
       brand: product.brand,
       range: product.range,
       category: product.category,
+      volumeMl: product.volumeMl ?? null,
+      unitsPerBox: product.unitsPerBox ?? null,
       format,
       nicotine,
       imageUrl: product.imageUrl,
       stockHautmont: dual.hautmont.quantity,
       stockLeQuesnoy: dual.leQuesnoy.quantity,
       stockGlobal: dual.global.quantity,
+      stockLabel: formatPackagedStockLabel({
+        totalUnits: dual.global.quantity,
+        unitsPerBox: product.unitsPerBox,
+      }),
+      packaging: isPackagedHardwareCategory({
+        name: product.name,
+        category: product.category,
+        productFamily: product.productFamily,
+      })
+        ? (() => {
+            const per = product.unitsPerBox ?? null;
+            const split =
+              per != null
+                ? splitUnitsIntoBoxes({
+                    totalUnits: dual.global.quantity,
+                    unitsPerBox: per,
+                  })
+                : null;
+            return {
+              unitsPerBox: per,
+              fullBoxes: split?.fullBoxes ?? null,
+              looseUnits: split?.looseUnits ?? null,
+              totalUnits: dual.global.quantity,
+            };
+          })()
+        : null,
     },
   };
 }
@@ -188,6 +227,9 @@ export async function GET(request: NextRequest) {
         brand: true,
         range: true,
         category: true,
+        productFamily: true,
+        unitsPerBox: true,
+        volumeMl: true,
         imageUrl: true,
         priceCents: true,
         promoPriceCents: true,
@@ -306,6 +348,9 @@ export async function GET(request: NextRequest) {
               brand: true,
               range: true,
               category: true,
+              productFamily: true,
+              unitsPerBox: true,
+              volumeMl: true,
               imageUrl: true,
               priceCents: true,
               promoPriceCents: true,
@@ -420,21 +465,25 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      return jsonResponse({
-        found: false,
-        barcode,
-        decision: match.decision,
-        confidence: match.confidence,
-        price: null,
-        priceMissing: true,
-        requiresManualIdentity: true,
-        suggestions: [],
-        duplicate: sessionId
-          ? await maybeDuplicateInfo({ sessionId, barcode })
-          : null,
-        message:
-          "Code-barres inconnu en mémoire — saisissez le nom pour rechercher dans le catalogue",
-      });
+      // EAN inconnu : si un nom est fourni, continuer vers la recherche + proposition d’alias
+      if (!nameQuery) {
+        return jsonResponse({
+          found: false,
+          barcode,
+          decision: match.decision,
+          confidence: match.confidence,
+          price: null,
+          priceMissing: true,
+          requiresManualIdentity: true,
+          suggestions: [],
+          aliasSuggestion: null,
+          duplicate: sessionId
+            ? await maybeDuplicateInfo({ sessionId, barcode })
+            : null,
+          message:
+            "Code-barres inconnu en mémoire — saisissez le nom pour rechercher dans le catalogue",
+        });
+      }
     }
 
     // 2) Recherche par nom (avec ou sans code-barres en mémoire)
@@ -479,11 +528,27 @@ export async function GET(request: NextRequest) {
     ].slice(0, 15);
 
     if (suggestOnly) {
+      const aliasSuggestion =
+        barcode && q
+          ? await suggestProductForUnknownBarcode({
+              barcode,
+              nameHint: q,
+              brandHint: null,
+              rangeHint: null,
+              volumeMlHint: null,
+              nicotineMgHint: null,
+            })
+          : null;
       return jsonResponse({
         found: suggestions.length > 0,
         query: q,
+        barcode: barcode || null,
         suggestions,
+        aliasSuggestion,
         fromMemory: true,
+        message: aliasSuggestion
+          ? `Ce code-barres semble correspondre à : ${aliasSuggestion.name}. Voulez-vous associer ce nouveau code-barres au produit existant ?`
+          : undefined,
       });
     }
 
@@ -557,17 +622,117 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    const aliasSuggestion =
+      barcode && q
+        ? await suggestProductForUnknownBarcode({
+            barcode,
+            nameHint: q,
+            brandHint: null,
+            rangeHint: null,
+            volumeMlHint: null,
+            nicotineMgHint: null,
+          })
+        : null;
+
     return jsonResponse({
       found: false,
       query: q,
+      barcode: barcode || null,
       priceMissing: true,
       requiresManualIdentity: true,
       suggestions,
+      aliasSuggestion,
       fromMemory: true,
-      message:
-        suggestions.length > 0
+      message: aliasSuggestion
+        ? `Ce code-barres semble correspondre à : ${aliasSuggestion.name}. Voulez-vous associer ce nouveau code-barres au produit existant ?`
+        : suggestions.length > 0
           ? "Plusieurs produits en mémoire — choisissez une suggestion"
           : "Aucun produit trouvé en mémoire pour ce nom",
+    });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+/** Associer un EAN scanné à un produit existant (après confirmation employé). */
+export async function POST(request: NextRequest) {
+  try {
+    const auth = await requireInventoryAuth(request);
+    if (!auth.ok) return auth.response;
+    const user = auth.user;
+
+    const limit = checkRateLimit(`inv-lookup-post:${user.userId}:${clientIp(request)}`, {
+      windowMs: 60_000,
+      max: 60,
+    });
+    if (!limit.ok) {
+      return jsonResponse({ error: "Trop de requêtes" }, 429);
+    }
+
+    const body = z
+      .object({
+        action: z.literal("associate_barcode"),
+        productId: z.string().min(1),
+        barcode: z.string().min(6).max(64),
+        label: z.string().max(120).optional().nullable(),
+      })
+      .parse(await request.json());
+
+    const result = await attachBarcodeToProduct({
+      productId: body.productId,
+      barcode: body.barcode,
+      role: "ALIAS",
+      label: body.label ?? "nouveau packaging",
+    });
+    if (!result.ok) {
+      return jsonResponse(result, 400);
+    }
+
+    const product = await prisma.product.findUnique({
+      where: { id: body.productId },
+      select: {
+        id: true,
+        name: true,
+        normalizedName: true,
+        sku: true,
+        barcode: true,
+        sumupProductId: true,
+        brand: true,
+        range: true,
+        category: true,
+        productFamily: true,
+        unitsPerBox: true,
+        volumeMl: true,
+        imageUrl: true,
+        priceCents: true,
+        promoPriceCents: true,
+        source: true,
+        variants: {
+          where: { active: true },
+          take: 1,
+          orderBy: { createdAt: "asc" },
+          select: {
+            nicotineMg: true,
+            nicotineLabel: true,
+            capacityMl: true,
+            size: true,
+            name: true,
+          },
+        },
+      },
+    });
+    if (!product) return jsonResponse({ error: "Produit introuvable" }, 404);
+
+    const payload = await buildProductPayload(
+      product as CatalogRow,
+      user.role,
+      "barcode_alias_attached"
+    );
+    return jsonResponse({
+      ok: true,
+      associated: true,
+      scannedBarcode: body.barcode,
+      ...payload,
     });
   } catch (error) {
     return handleApiError(error);

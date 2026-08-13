@@ -8,6 +8,19 @@ import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitio
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
+  formatResistanceBoxHint,
+  isResistanceProduct,
+  parseUnitsPerPackFromName,
+  resolveResistanceBoxPriceCents,
+} from "@/lib/inventory/resistance-box-pricing";
+import {
+  UNITS_PER_BOX_ALLOWED,
+  computeTotalUnits,
+  formatPackagedStockLabel,
+  isPackagedHardwareCategory,
+  type UnitsPerBox,
+} from "@/lib/inventory/packaging";
+import {
   type InventoryPlacement,
   placementLabel,
   validateInventoryPlacementQuantity,
@@ -130,6 +143,20 @@ export function EmployeeInventoryApp() {
   const [quantity, setQuantity] = useState("");
   const [placement, setPlacement] = useState<InventoryPlacement>("STOCK");
   const [unitPrice, setUnitPrice] = useState("");
+  /** Unités par boîte (résistances / réservoirs) — 1 à 5. */
+  const [unitsPerPack, setUnitsPerPack] = useState<number | null>(null);
+  const [looseUnits, setLooseUnits] = useState("");
+  const [aliasSuggestion, setAliasSuggestion] = useState<{
+    productId: string;
+    name: string;
+    brand: string | null;
+    range: string | null;
+    volumeMl: number | null;
+    barcode: string | null;
+    score: number;
+    message?: string;
+  } | null>(null);
+  const [productCategory, setProductCategory] = useState<string | null>(null);
   const [applyToRange, setApplyToRange] = useState(false);
   const [lookup, setLookup] = useState<LookupState | null>(null);
   const [lookupHint, setLookupHint] = useState<string | null>(null);
@@ -531,6 +558,10 @@ export function EmployeeInventoryApp() {
     setDuplicateInfo(null);
     setQuantity("");
     setUnitPrice("");
+    setUnitsPerPack(null);
+    setLooseUnits("");
+    setAliasSuggestion(null);
+    setProductCategory(null);
     setLookup(null);
     setLookupHint(null);
     setConfirmZero(false);
@@ -546,15 +577,34 @@ export function EmployeeInventoryApp() {
         brand?: string | null;
         range?: string | null;
         category?: string | null;
+        productFamily?: string | null;
         barcode?: string | null;
         imageUrl?: string | null;
+        unitsPerBox?: number | null;
         stockHautmont?: number;
         stockLeQuesnoy?: number;
+        stockLabel?: string | null;
+        packaging?: {
+          unitsPerBox?: number | null;
+          fullBoxes?: number | null;
+          looseUnits?: number | null;
+          totalUnits?: number | null;
+        } | null;
       };
       price?: { unitPriceCents?: number; source?: string } | null;
       priceMissing?: boolean;
       priceFromRange?: boolean;
       matchedBy?: string;
+      aliasSuggestion?: {
+        productId: string;
+        name: string;
+        brand: string | null;
+        range: string | null;
+        volumeMl: number | null;
+        barcode: string | null;
+        score: number;
+      } | null;
+      message?: string;
     },
     opts?: {
       /**
@@ -564,6 +614,15 @@ export function EmployeeInventoryApp() {
       scannedBarcode?: string | null;
     }
   ) {
+    if (data.aliasSuggestion) {
+      setAliasSuggestion({
+        ...data.aliasSuggestion,
+        message: data.message,
+      });
+    } else {
+      setAliasSuggestion(null);
+    }
+
     const p = data.product;
     if (!p?.name) return;
     const cents = data.price?.unitPriceCents;
@@ -572,9 +631,8 @@ export function EmployeeInventoryApp() {
     setProductName(p.name || "");
     setBrandName(p.brand || "");
     setRangeName(p.range || p.category || "Non classé");
+    setProductCategory(p.category || null);
 
-    // Priorité : EAN scanné/saisi (opts) → sinon EAN catalogue.
-    // Ne jamais écraser un scan par un barcode catalogue différent.
     const scanned = barcodeDigits(opts?.scannedBarcode);
     const catalog = barcodeDigits(p.barcode);
     const shownEan =
@@ -587,26 +645,76 @@ export function EmployeeInventoryApp() {
         !barcodesEquivalent(scanned, catalog)
     );
 
+    const isPackaged = isPackagedHardwareCategory({
+      name: p.name,
+      category: p.category,
+      productFamily: p.productFamily,
+    });
+    const isRes = isResistanceProduct({
+      name: p.name,
+      category: p.category,
+    });
+    const packFromProduct = p.unitsPerBox ?? p.packaging?.unitsPerBox ?? null;
+    const packFromName = parseUnitsPerPackFromName(p.name);
+    const packN =
+      (packFromProduct != null &&
+      UNITS_PER_BOX_ALLOWED.includes(packFromProduct as UnitsPerBox)
+        ? packFromProduct
+        : null) ??
+      (packFromName != null &&
+      UNITS_PER_BOX_ALLOWED.includes(packFromName as UnitsPerBox)
+        ? packFromName
+        : null);
+    setUnitsPerPack(packN);
+    if (p.packaging?.looseUnits != null) {
+      setLooseUnits(String(p.packaging.looseUnits));
+    }
+    if (p.packaging?.fullBoxes != null) {
+      setQuantity(String(p.packaging.fullBoxes));
+    }
+
+    const priceLocked =
+      !missing && me?.role !== "ADMIN" && data.price?.source !== "GAMME";
+
+    let displayCents = missing ? null : cents!;
+    if (isRes && packN && displayCents != null && !priceLocked) {
+      const box = resolveResistanceBoxPriceCents({
+        catalogPriceCents: displayCents,
+        unitsPerPack: packN,
+      });
+      if (box != null) displayCents = box;
+    }
+
     setLookup({
       found: true,
       name: p.name || undefined,
       brand: p.brand || undefined,
       range: p.range || undefined,
-      unitPriceCents: missing ? null : cents,
+      unitPriceCents: displayCents,
       priceSource: data.price?.source || null,
       priceMissing: missing,
-      priceLocked:
-        !missing && me?.role !== "ADMIN" && data.price?.source !== "GAMME",
+      priceLocked,
       priceFromRange: Boolean(data.priceFromRange),
       imageUrl: p.imageUrl,
     });
-    setUnitPrice(missing ? "" : ((cents || 0) / 100).toFixed(2).replace(".", ","));
+    setUnitPrice(
+      displayCents == null
+        ? ""
+        : (displayCents / 100).toFixed(2).replace(".", ",")
+    );
+    const packHint =
+      isPackaged && packN
+        ? ` · ${packN}/boîte`
+        : isPackaged
+          ? " · qté/boîte à confirmer"
+          : "";
+    const stockHint = p.stockLabel ? ` · ${p.stockLabel}` : "";
     setLookupHint(
       `Mémoire : ${p.name}${p.brand ? ` · ${p.brand}` : ""}${
         p.range ? ` · gamme ${p.range}` : p.category ? ` · ${p.category}` : ""
       }${shownEan ? ` · EAN ${shownEan}` : " · sans EAN"}${
         eanMismatch ? ` · ⚠ catalogue ${catalog}` : ""
-      }${data.matchedBy ? ` (${data.matchedBy})` : ""}`
+      }${packHint}${stockHint}${data.matchedBy ? ` (${data.matchedBy})` : ""}`
     );
     setShowSuggestions(false);
     setVisualSuggestions([]);
@@ -649,6 +757,14 @@ export function EmployeeInventoryApp() {
         applyDuplicateFromLookup(data);
         focusQuantityField();
         return true;
+      }
+      if (data.aliasSuggestion) {
+        setAliasSuggestion({
+          ...data.aliasSuggestion,
+          message: data.message,
+        });
+      } else {
+        setAliasSuggestion(null);
       }
       setLookup({
         found: false,
@@ -1126,6 +1242,8 @@ export function EmployeeInventoryApp() {
       const sid = sessionRef.current?.id;
       const qs = new URLSearchParams({ name: q, suggest: "1" });
       if (sid) qs.set("sessionId", sid);
+      const code = barcode.trim();
+      if (code.length >= 6) qs.set("barcode", code);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return;
@@ -1133,9 +1251,50 @@ export function EmployeeInventoryApp() {
       setNameSuggestions(list);
       // Suggestions déroulantes uniquement — jamais de sélection forcée pendant la frappe
       setShowSuggestions(list.length > 0);
+      if (data.aliasSuggestion) {
+        setAliasSuggestion({
+          ...data.aliasSuggestion,
+          message: data.message,
+        });
+      }
     } catch {
       /* ignore */
     }
+  }
+
+  async function associateAliasBarcode() {
+    if (!aliasSuggestion || !barcode.trim()) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await authFetch("/api/inventaire/lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "associate_barcode",
+          productId: aliasSuggestion.productId,
+          barcode: barcode.trim(),
+          label: "nouveau packaging",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Association impossible");
+      applyMemoryProduct(data, { scannedBarcode: barcode.trim() });
+      setAliasSuggestion(null);
+      setMessage(
+        `Code-barres associé à ${data.product?.name || aliasSuggestion.name} — même stock`
+      );
+      focusQuantityField();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur association");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function dismissAliasSuggestion() {
+    setAliasSuggestion(null);
+    setMessage("Nouveau produit — continuez la saisie manuelle");
   }
 
   async function selectNameSuggestion(s: {
@@ -1200,6 +1359,8 @@ export function EmployeeInventoryApp() {
   function onProductNameChange(value: string) {
     setProductName(value);
     setProductId(null);
+    const n = parseUnitsPerPackFromName(value);
+    if (n != null) setUnitsPerPack(n);
     if (nameLookupTimer.current != null) {
       window.clearTimeout(nameLookupTimer.current);
     }
@@ -1237,8 +1398,18 @@ export function EmployeeInventoryApp() {
 
   async function addLine() {
     if (!session) return;
-    const qty = parseInt(quantity, 10);
+    const boxes = parseInt(quantity, 10);
+    const loose = looseUnits.trim() === "" ? 0 : parseInt(looseUnits, 10);
     const code = barcode.trim();
+    const packaged = isPackagedHardwareCategory({
+      name: productName,
+      category: productCategory,
+    });
+    const packN =
+      unitsPerPack ??
+      parseUnitsPerPackFromName(productName.trim()) ??
+      null;
+
     if (code.length < 6 && !productId) {
       setError("Code-barres ou produit mémoire requis");
       return;
@@ -1247,13 +1418,30 @@ export function EmployeeInventoryApp() {
       setError("Nom du produit obligatoire");
       return;
     }
-    if (quantity.trim() === "" || isNaN(qty) || qty < 0) {
-      setError("Quantité obligatoire");
+    if (quantity.trim() === "" || isNaN(boxes) || boxes < 0) {
+      setError(packaged ? "Nombre de boîtes obligatoire" : "Quantité obligatoire");
       return;
     }
+    if (packaged) {
+      if (packN == null || !UNITS_PER_BOX_ALLOWED.includes(packN as UnitsPerBox)) {
+        setError("Quantité par boîte obligatoire : 1, 2, 3, 4 ou 5");
+        return;
+      }
+      if (isNaN(loose) || loose < 0 || loose >= packN) {
+        setError(`Unités restantes : 0 à ${packN - 1}`);
+        return;
+      }
+    }
+    const qty = packaged
+      ? computeTotalUnits({
+          fullBoxes: boxes,
+          unitsPerBox: packN!,
+          looseUnits: loose,
+        })
+      : boxes;
     const placementCheck = validateInventoryPlacementQuantity({
       placement,
-      quantityCounted: qty,
+      quantityCounted: packaged ? boxes : qty,
     });
     if (!placementCheck.ok) {
       setError(placementCheck.error);
@@ -1261,6 +1449,13 @@ export function EmployeeInventoryApp() {
     }
     if (!unitPrice.trim()) {
       setError("Prix manquant — saisissez le tarif avant enregistrement");
+      return;
+    }
+    if (
+      isResistanceProduct({ name: productName, category: productCategory }) &&
+      (packN == null || packN < 1)
+    ) {
+      setError("Résistance : indiquez le nombre d’unités par boîte (1 à 5)");
       return;
     }
 
@@ -1288,10 +1483,20 @@ export function EmployeeInventoryApp() {
           productName: productName.trim() || undefined,
           brand: brandName.trim() || undefined,
           range: rangeName.trim() || undefined,
+          unitsPerPack: packN ?? undefined,
+          unitsPerBox: packaged ? packN ?? undefined : undefined,
+          fullBoxes: packaged ? boxes : undefined,
+          looseUnits: packaged ? loose : undefined,
+          taxonomyGroup: isResistanceProduct({
+            name: productName,
+            category: productCategory,
+          })
+            ? "RESISTANCES"
+            : undefined,
           confirmZeroPrice: confirmZero,
         });
         setMessage(
-          `Hors ligne — ligne mise en file (${code || productName} × ${qty} · ${placementLabel(placement)}). Sync à la reconnexion.`
+          `Hors ligne — ligne mise en file (${code || productName} × ${qty} unités · ${placementLabel(placement)}). Sync à la reconnexion.`
         );
         clearDraftLine();
         setLoading(false);
@@ -1335,6 +1540,26 @@ export function EmployeeInventoryApp() {
         confirmZeroPrice: confirmZero,
         applyToRange: applyToRange && Boolean(rangeName.trim()),
       };
+      if (packaged && packN != null) {
+        payload.unitsPerBox = packN;
+        payload.unitsPerPack = packN;
+        payload.fullBoxes = boxes;
+        payload.looseUnits = loose;
+        if (
+          isResistanceProduct({ name: productName, category: productCategory })
+        ) {
+          payload.taxonomyGroup = "RESISTANCES";
+        }
+      } else if (
+        isResistanceProduct({ name: productName, category: productCategory })
+      ) {
+        const n =
+          unitsPerPack ?? parseUnitsPerPackFromName(productName.trim()) ?? null;
+        if (n != null) {
+          payload.unitsPerPack = n;
+          payload.taxonomyGroup = "RESISTANCES";
+        }
+      }
       if (lookup?.priceLocked && lookup.unitPriceCents != null) {
         payload.unitPriceCents = lookup.unitPriceCents;
         payload.priceSource = lookup.priceSource || "CATALOGUE";
@@ -1392,7 +1617,7 @@ export function EmployeeInventoryApp() {
           ? ` · prix appliqué à ${data.meta.rangePriceApplied} produit(s) de la gamme`
           : "";
       setMessage(
-        `${name} × ${qty} · ${formatEuroFromCents(data.line.unitPriceCents)} — ${when}${rangeNote}`
+        `${name} × ${qty} unités · ${formatEuroFromCents(data.line.unitPriceCents)} — ${when}${rangeNote}`
       );
       clearDraftLine();
       await refreshSession(session.id);
@@ -1525,6 +1750,40 @@ export function EmployeeInventoryApp() {
   if (!me) return null;
 
   const priceReadOnly = Boolean(lookup?.priceLocked);
+  const isResistanceLine = isResistanceProduct({
+    name: productName,
+    category: productCategory,
+  });
+  const isPackagedLine = isPackagedHardwareCategory({
+    name: productName,
+    category: productCategory,
+  });
+  const qtyNum = quantity.trim() === "" ? NaN : parseInt(quantity, 10);
+  const looseNum = looseUnits.trim() === "" ? 0 : parseInt(looseUnits, 10);
+  const packagedTotal =
+    isPackagedLine &&
+    unitsPerPack != null &&
+    Number.isFinite(qtyNum) &&
+    Number.isFinite(looseNum)
+      ? computeTotalUnits({
+          fullBoxes: qtyNum,
+          unitsPerBox: unitsPerPack,
+          looseUnits: looseNum,
+        })
+      : null;
+  const resistanceBoxHint = isResistanceLine
+    ? formatResistanceBoxHint({
+        boxes: Number.isFinite(qtyNum) ? qtyNum : -1,
+        unitsPerPack,
+      })
+    : null;
+  const packagedStockHint =
+    packagedTotal != null && unitsPerPack != null
+      ? formatPackagedStockLabel({
+          totalUnits: packagedTotal,
+          unitsPerBox: unitsPerPack,
+        })
+      : null;
 
   return (
     <div className="mx-auto min-h-dvh max-w-lg px-4 py-6 text-gray-900">
@@ -1790,6 +2049,38 @@ export function EmployeeInventoryApp() {
               </div>
             </div>
 
+            {aliasSuggestion ? (
+              <div className="rounded-xl border border-sky-300 bg-sky-50 px-3 py-3 text-sm text-sky-950">
+                <p className="font-medium">
+                  {aliasSuggestion.message ||
+                    `Ce code-barres semble correspondre à : ${aliasSuggestion.name}. Voulez-vous associer ce nouveau code-barres au produit existant ?`}
+                </p>
+                <p className="mt-1 text-xs text-sky-800">
+                  {[aliasSuggestion.brand, aliasSuggestion.range, aliasSuggestion.volumeMl != null ? `${aliasSuggestion.volumeMl} ml` : null]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => void associateAliasBarcode()}
+                    className="rounded-lg bg-sky-700 px-3 py-2 text-xs font-semibold text-white"
+                  >
+                    Associer au produit existant
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={dismissAliasSuggestion}
+                    className="rounded-lg border border-sky-400 bg-white px-3 py-2 text-xs font-semibold text-sky-900"
+                  >
+                    Créer un nouveau produit
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
             {lookup?.priceMissing && (
               <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900">
                 Prix manquant — saisie obligatoire. Ce tarif pourra s’appliquer à toute la gamme.
@@ -1807,6 +2098,7 @@ export function EmployeeInventoryApp() {
                     setPlacement(next);
                     if (next === "VITRINE") {
                       setQuantity("1");
+                      setLooseUnits("0");
                       setError(null);
                     }
                   }}
@@ -1816,7 +2108,9 @@ export function EmployeeInventoryApp() {
                 </select>
               </label>
               <label className="block">
-                <span className="text-sm font-medium">Quantité *</span>
+                <span className="text-sm font-medium">
+                  {isPackagedLine ? "Boîtes complètes *" : "Quantité *"}
+                </span>
                 <input
                   ref={quantityRef}
                   type="number"
@@ -1838,11 +2132,100 @@ export function EmployeeInventoryApp() {
                     }
                     setQuantity(v);
                   }}
-                  placeholder={placement === "VITRINE" ? "1" : "À saisir"}
+                  placeholder={
+                    placement === "VITRINE"
+                      ? "1"
+                      : isPackagedLine
+                        ? "Nb de boîtes"
+                        : "À saisir"
+                  }
                   inputMode="numeric"
                 />
               </label>
             </div>
+            {isPackagedLine ? (
+              <div className="space-y-2">
+                <label className="block">
+                  <span className="text-sm font-medium">Quantité par boîte *</span>
+                  <select
+                    className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
+                    value={unitsPerPack ?? ""}
+                    onChange={(e) => {
+                      const raw = e.target.value;
+                      if (raw === "") {
+                        setUnitsPerPack(null);
+                        return;
+                      }
+                      const n = parseInt(raw, 10);
+                      if (!UNITS_PER_BOX_ALLOWED.includes(n as UnitsPerBox)) return;
+                      setUnitsPerPack(n);
+                      if (
+                        isResistanceLine &&
+                        !priceReadOnly &&
+                        lookup?.unitPriceCents != null &&
+                        lookup.unitPriceCents > 0
+                      ) {
+                        const box = resolveResistanceBoxPriceCents({
+                          catalogPriceCents: lookup.unitPriceCents,
+                          unitsPerPack: n,
+                        });
+                        const parsed = unitPrice.replace(",", ".");
+                        const euros = Number(parsed);
+                        if (Number.isFinite(euros) && euros > 0) {
+                          const currentCents = Math.round(euros * 100);
+                          const paid = n >= 4 ? n - 1 : n;
+                          const maybeUnit =
+                            paid > 0 && currentCents % paid === 0
+                              ? currentCents / paid
+                              : currentCents;
+                          const next = resolveResistanceBoxPriceCents({
+                            catalogPriceCents: maybeUnit,
+                            unitsPerPack: n,
+                          });
+                          if (next != null) {
+                            setUnitPrice((next / 100).toFixed(2).replace(".", ","));
+                          } else if (box != null) {
+                            setUnitPrice((box / 100).toFixed(2).replace(".", ","));
+                          }
+                        }
+                      }
+                    }}
+                  >
+                    <option value="">— Choisir —</option>
+                    {UNITS_PER_BOX_ALLOWED.map((n) => (
+                      <option key={n} value={n}>
+                        {n} unité{n > 1 ? "s" : ""}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="text-sm font-medium">Unités restantes (boîte ouverte)</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={unitsPerPack != null ? unitsPerPack - 1 : 4}
+                    className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
+                    value={looseUnits}
+                    onChange={(e) => setLooseUnits(e.target.value)}
+                    placeholder="0"
+                    inputMode="numeric"
+                  />
+                </label>
+                {packagedStockHint ? (
+                  <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-900">
+                    {packagedStockHint}
+                  </p>
+                ) : null}
+                {resistanceBoxHint ? (
+                  <p className="text-xs text-emerald-800">{resistanceBoxHint}</p>
+                ) : isResistanceLine ? (
+                  <p className="text-xs text-amber-800">
+                    Le prix affiché est le <strong>prix de la boîte</strong> (offre 1 dès 4 unités).
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
             {placement === "VITRINE" ? (
               <p className="text-xs text-amber-800">
                 Vitrine : quantité limitée à 1. Pour compter plusieurs unités, choisissez Stock.
@@ -1850,7 +2233,9 @@ export function EmployeeInventoryApp() {
             ) : null}
             <div className="grid grid-cols-1 gap-3">
               <label className="block">
-                <span className="text-sm font-medium">Prix unitaire (€) *</span>
+                <span className="text-sm font-medium">
+                  {isResistanceLine || isPackagedLine ? "Prix boîte (€) *" : "Prix unitaire (€) *"}
+                </span>
                 <input
                   inputMode="decimal"
                   className={`mt-1.5 w-full rounded-xl border px-3 py-3 text-base ${

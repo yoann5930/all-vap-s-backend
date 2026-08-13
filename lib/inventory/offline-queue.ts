@@ -15,6 +15,11 @@ export interface OfflineInventoryLine {
   productName?: string;
   brand?: string;
   range?: string;
+  unitsPerPack?: number;
+  unitsPerBox?: number;
+  fullBoxes?: number;
+  looseUnits?: number;
+  taxonomyGroup?: string;
   confirmZeroPrice?: boolean;
   queuedAt: string;
   clientLineId: string;
@@ -91,6 +96,11 @@ export async function flushOfflineInventoryQueue(
           productName: item.productName,
           brand: item.brand,
           range: item.range,
+          unitsPerPack: item.unitsPerPack,
+          unitsPerBox: item.unitsPerBox,
+          fullBoxes: item.fullBoxes,
+          looseUnits: item.looseUnits,
+          taxonomyGroup: item.taxonomyGroup,
           confirmZeroPrice: item.confirmZeroPrice,
           clientLineId: item.clientLineId,
         }),

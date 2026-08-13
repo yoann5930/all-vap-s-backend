@@ -457,6 +457,8 @@ model Product {
   volumeMl              Int?
   /// Éligible à l'offre 10 ml uniquement (jamais 50/100 ni hors e-liquide)
   promotion10mlEligible Boolean              @default(false)
+  /// Conditionnement résistances/réservoirs : 1–5 unités par boîte (null = non applicable)
+  unitsPerBox           Int?
   /// Classification catalogue : CONFIRMED | AUTO_CLASSIFIED | TO_REVIEW | UNCLASSIFIED
   classificationStatus  String               @default("UNCLASSIFIED")
   /// Sources JSON de classification (sumup, inventaire, token_range, …)
@@ -473,6 +475,7 @@ model Product {
   catalogImages         ProductImage[]
   productMatches        ProductMatch[]       @relation("MatchedProduct")
   variants              ProductVariant[]
+  barcodes              ProductBarcode[]
   reviews               Review[]
   stockLevels           StockLevel[]
   stockMovements        StockMovement[]
@@ -503,6 +506,23 @@ model Product {
   @@index([lastCatalogImportAt])
   @@index([volumeMl])
   @@index([promotion10mlEligible])
+  @@index([unitsPerBox])
+}
+
+/// Codes-barres associés à un produit canonique (packagings distincts, même stock)
+model ProductBarcode {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  barcode   String   @unique
+  /// PRIMARY | ALIAS
+  role      String   @default("ALIAS")
+  label     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([role])
 }
 
 model ProductVariant {
@@ -515,6 +535,8 @@ model ProductVariant {
   nicotineMg      Float?
   nicotineLabel   String?
   powerWatts      Float?
+  /// Override conditionnement (sinon Product.unitsPerBox)
+  unitsPerBox     Int?
   resistanceOhms  Float?
   capacityMl      Float?
   color           String?
@@ -617,6 +639,10 @@ model InventoryLine {
   quantityCounted      Int
   /// STOCK = réserve (pas de limite) | VITRINE = exposition (max 1)
   placement            String           @default("STOCK")
+  /// Snapshots conditionnement (résistances/réservoirs) — quantitéCounted = total unités
+  unitsPerBoxSnapshot  Int?
+  fullBoxesSnapshot    Int?
+  looseUnitsSnapshot   Int?
   /// Stock théorique boutique au moment du scan (serveur — ne pas faire confiance au client)
   expectedQuantitySnapshot Int?
   unitPriceCents       Int?

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
+import { AdminProductPackagingPanel } from "@/components/admin/AdminProductPackagingPanel";
 
 interface AdminProductsClientProps {
   initialProducts: Product[];
@@ -205,6 +206,7 @@ export function AdminProductsClient({ initialProducts, categories, brands }: Adm
                 <Button type="button" variant="outline" onClick={() => setShowForm(false)}>Annuler</Button>
               </div>
             </form>
+            {editingId ? <AdminProductPackagingPanel productId={editingId} /> : null}
           </CardBody>
         </Card>
       )}
