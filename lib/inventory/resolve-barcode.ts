@@ -15,6 +15,20 @@ export type BarcodeResolveHit = {
   barcodeStored: string | null;
 };
 
+/** Variantes de chiffres pour le même code physique (UPC-A ↔ EAN-13). */
+function barcodeCandidates(raw: string): string[] {
+  const scanned = String(raw || "").trim();
+  const ean = normalizeEan(scanned);
+  const out = new Set<string>();
+  if (scanned) out.add(scanned);
+  if (ean) {
+    out.add(ean);
+    if (ean.length === 12) out.add(`0${ean}`);
+    if (ean.length === 13 && ean.startsWith("0")) out.add(ean.slice(1));
+  }
+  return [...out];
+}
+
 /**
  * Retrouve un produit catalogue pour un scan.
  * Ordre : Product.barcode → variante.barcode → sku → sumupSku.
@@ -22,10 +36,8 @@ export type BarcodeResolveHit = {
 export async function resolveProductByScannedBarcode(
   raw: string
 ): Promise<BarcodeResolveHit | null> {
-  const scanned = String(raw || "").trim();
-  if (!scanned) return null;
-  const ean = normalizeEan(scanned);
-  const candidates = [...new Set([scanned, ean].filter(Boolean))] as string[];
+  const candidates = barcodeCandidates(raw);
+  if (!candidates.length) return null;
 
   const byBarcode = await prisma.product.findFirst({
     where: { barcode: { in: candidates } },

@@ -24,6 +24,20 @@ import {
 
 type StoreCode = "HAUTMONT" | "LE_QUESNOY";
 
+/** Chiffres seuls — ce que l’opérateur lit sur l’étiquette. */
+function barcodeDigits(raw: string | null | undefined): string {
+  return String(raw || "").replace(/\D/g, "");
+}
+
+/** UPC-A (12) ↔ EAN-13 (0 + 12) = même code physique. */
+function barcodesEquivalent(a: string, b: string): boolean {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  if (a.length === 12 && b.length === 13 && b === `0${a}`) return true;
+  if (b.length === 12 && a.length === 13 && a === `0${b}`) return true;
+  return false;
+}
+
 interface MeUser {
   id: string;
   email: string;
@@ -524,23 +538,32 @@ export function EmployeeInventoryApp() {
     setRecognitionHint(null);
   }
 
-  function applyMemoryProduct(data: {
-    product?: {
-      id?: string | null;
-      name?: string | null;
-      brand?: string | null;
-      range?: string | null;
-      category?: string | null;
-      barcode?: string | null;
-      imageUrl?: string | null;
-      stockHautmont?: number;
-      stockLeQuesnoy?: number;
-    };
-    price?: { unitPriceCents?: number; source?: string } | null;
-    priceMissing?: boolean;
-    priceFromRange?: boolean;
-    matchedBy?: string;
-  }) {
+  function applyMemoryProduct(
+    data: {
+      product?: {
+        id?: string | null;
+        name?: string | null;
+        brand?: string | null;
+        range?: string | null;
+        category?: string | null;
+        barcode?: string | null;
+        imageUrl?: string | null;
+        stockHautmont?: number;
+        stockLeQuesnoy?: number;
+      };
+      price?: { unitPriceCents?: number; source?: string } | null;
+      priceMissing?: boolean;
+      priceFromRange?: boolean;
+      matchedBy?: string;
+    },
+    opts?: {
+      /**
+       * EAN réellement scanné / saisi. Prioritaire sur Product.barcode :
+       * la case doit afficher les chiffres de l’étiquette, pas une valeur catalogue différente.
+       */
+      scannedBarcode?: string | null;
+    }
+  ) {
     const p = data.product;
     if (!p?.name) return;
     const cents = data.price?.unitPriceCents;
@@ -549,7 +572,21 @@ export function EmployeeInventoryApp() {
     setProductName(p.name || "");
     setBrandName(p.brand || "");
     setRangeName(p.range || p.category || "Non classé");
-    if (p.barcode) setBarcode(p.barcode);
+
+    // Priorité : EAN scanné/saisi (opts) → sinon EAN catalogue.
+    // Ne jamais écraser un scan par un barcode catalogue différent.
+    const scanned = barcodeDigits(opts?.scannedBarcode);
+    const catalog = barcodeDigits(p.barcode);
+    const shownEan =
+      scanned.length >= 8 ? scanned : catalog || (p.barcode || "").trim();
+    if (shownEan) setBarcode(shownEan);
+
+    const eanMismatch = Boolean(
+      scanned.length >= 8 &&
+        catalog.length >= 8 &&
+        !barcodesEquivalent(scanned, catalog)
+    );
+
     setLookup({
       found: true,
       name: p.name || undefined,
@@ -567,9 +604,9 @@ export function EmployeeInventoryApp() {
     setLookupHint(
       `Mémoire : ${p.name}${p.brand ? ` · ${p.brand}` : ""}${
         p.range ? ` · gamme ${p.range}` : p.category ? ` · ${p.category}` : ""
-      }${p.barcode ? ` · EAN ${p.barcode}` : " · sans EAN"}${
-        data.matchedBy ? ` (${data.matchedBy})` : ""
-      }`
+      }${shownEan ? ` · EAN ${shownEan}` : " · sans EAN"}${
+        eanMismatch ? ` · ⚠ catalogue ${catalog}` : ""
+      }${data.matchedBy ? ` (${data.matchedBy})` : ""}`
     );
     setShowSuggestions(false);
     setVisualSuggestions([]);
@@ -608,7 +645,7 @@ export function EmployeeInventoryApp() {
       const data = await res.json();
       if (!res.ok) return false;
       if (data.found && data.product?.name) {
-        applyMemoryProduct(data);
+        applyMemoryProduct(data, { scannedBarcode: code });
         applyDuplicateFromLookup(data);
         focusQuantityField();
         return true;
@@ -1400,11 +1437,12 @@ export function EmployeeInventoryApp() {
    * Le comportement du scanner (détection EAN) n’est pas modifié.
    */
   const onBarcodeScanned = useCallback(async (code: string): Promise<boolean | void> => {
-    const cleaned = code.trim();
+    const cleaned = barcodeDigits(code) || code.trim();
     if (!cleaned || scanBusyRef.current) return;
     scanBusyRef.current = true;
 
     const current = sessionRef.current;
+    // Afficher immédiatement les chiffres lus (avant lookup catalogue).
     setBarcode(cleaned);
     setError(null);
     setDuplicateInfo(null);
@@ -1423,14 +1461,19 @@ export function EmployeeInventoryApp() {
       if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
 
       if (look.found && look.product?.name) {
-        applyMemoryProduct(look);
+        applyMemoryProduct(look, { scannedBarcode: cleaned });
         applyDuplicateFromLookup(look);
         focusQuantityField();
         setRecognitionHint(null);
+        const catalogEan = barcodeDigits(look.product?.barcode);
+        const mismatch =
+          catalogEan.length >= 8 && !barcodesEquivalent(cleaned, catalogEan);
         setMessage(
           look.duplicate
             ? `Fiche remplie — ${look.duplicate.message}`
-            : `Fiche remplie automatiquement — saisissez uniquement la quantité`
+            : mismatch
+              ? `Fiche remplie — EAN scanné ${cleaned} (catalogue ${catalogEan}) — saisissez la quantité`
+              : `Fiche remplie automatiquement — saisissez uniquement la quantité`
         );
         return false;
       }
@@ -1447,6 +1490,8 @@ export function EmployeeInventoryApp() {
       setProductId(null);
       setUnitPrice("");
       setQuantity("");
+      // Garder le code scanné dans la case même si inconnu.
+      setBarcode(cleaned);
       setLookupHint(
         "EAN inconnu — appuyez sur Photo pour reconnaître l’étiquette, ou tapez le nom"
       );
