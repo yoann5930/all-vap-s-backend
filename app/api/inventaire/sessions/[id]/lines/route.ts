@@ -47,6 +47,10 @@ import {
   isPackagedHardwareCategory,
   normalizeUnitsPerBox,
 } from "@/lib/inventory/packaging";
+import {
+  parseNicotineMgFromText,
+  parseVolumeMlFromText,
+} from "@/lib/inventory/barcode-alias-suggest";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -248,7 +252,7 @@ export async function POST(request: NextRequest, context: Ctx) {
       }
     }
 
-    // Match par nom si pas d'EAN / EAN inconnu
+    // Match par nom si pas d'EAN / EAN inconnu (garde volume/nicotine — P1#1)
     if (!productId && productNameSnapshot) {
       const catalog = await prisma.product.findMany({
         select: {
@@ -259,6 +263,12 @@ export async function POST(request: NextRequest, context: Ctx) {
           barcode: true,
           sumupProductId: true,
           brand: true,
+          volumeMl: true,
+          variants: {
+            where: { active: true },
+            select: { nicotineMg: true },
+            take: 8,
+          },
         },
       });
       const match = matchCatalogProduct(
@@ -266,8 +276,22 @@ export async function POST(request: NextRequest, context: Ctx) {
           name: productNameSnapshot,
           normalizedName: normalizeProductName(productNameSnapshot),
           barcode: barcode || undefined,
+          volumeMlHint: parseVolumeMlFromText(productNameSnapshot),
+          nicotineMgHint: parseNicotineMgFromText(productNameSnapshot),
         },
-        catalog
+        catalog.map((p) => ({
+          id: p.id,
+          name: p.name,
+          normalizedName: p.normalizedName,
+          sku: p.sku,
+          barcode: p.barcode,
+          sumupProductId: p.sumupProductId,
+          brand: p.brand,
+          volumeMl: p.volumeMl,
+          nicotineMgs: p.variants
+            .map((v) => v.nicotineMg)
+            .filter((n): n is number => n != null),
+        }))
       );
       if (match.productId && (match.decision === "AUTO" || match.confidence >= 0.95)) {
         productId = match.productId;

@@ -1,4 +1,5 @@
 import { normalizeProductName } from "@/lib/catalog/normalize";
+import { canAutoLinkByName } from "@/lib/inventory/product-identity-guards";
 
 export type MatchMethod =
   | "sumup_id"
@@ -19,6 +20,10 @@ export interface CatalogMatchCandidate {
   barcode: string | null;
   sumupProductId: string | null;
   brand: string | null;
+  /** Contenance produit (ml) — pour garde anti-fusion */
+  volumeMl?: number | null;
+  /** Nicotines variantes actives — pour garde anti-fusion */
+  nicotineMgs?: number[];
 }
 
 export interface MatchResult {
@@ -61,6 +66,21 @@ export interface SourceIdentity {
   sku?: string | null;
   sumupProductId?: string | null;
   supplierRef?: string | null;
+  volumeMlHint?: number | null;
+  nicotineMgHint?: number | null;
+}
+
+function nameLinkAllowed(source: SourceIdentity, p: CatalogMatchCandidate): boolean {
+  return canAutoLinkByName({
+    sourceName: source.name,
+    sourceVolumeMl: source.volumeMlHint,
+    sourceNicotineMg: source.nicotineMgHint,
+    candidate: {
+      name: p.name,
+      volumeMl: p.volumeMl,
+      nicotineMgs: p.nicotineMgs,
+    },
+  });
 }
 
 /**
@@ -68,6 +88,7 @@ export interface SourceIdentity {
  * Auto-match uniquement si confidence >= 0.95.
  * 0.75–0.94 → REVIEW (jamais fusion auto).
  * < 0.75 → UNMATCHED.
+ * P1#1 : match par nom refuse volume/nicotine incompatibles (jamais 50↔100 silencieux).
  */
 export function matchCatalogProduct(
   source: SourceIdentity,
@@ -119,7 +140,9 @@ export function matchCatalogProduct(
   }
 
   const exact = catalog.find(
-    (p) => (p.normalizedName || normalizeProductName(p.name)) === norm
+    (p) =>
+      (p.normalizedName || normalizeProductName(p.name)) === norm &&
+      nameLinkAllowed(source, p)
   );
   if (exact) {
     return {
@@ -132,6 +155,7 @@ export function matchCatalogProduct(
 
   let best: { id: string; score: number } | null = null;
   for (const p of catalog) {
+    if (!nameLinkAllowed(source, p)) continue;
     const pNorm = p.normalizedName || normalizeProductName(p.name);
     const score = similarity(norm, pNorm);
     if (!best || score > best.score) best = { id: p.id, score };

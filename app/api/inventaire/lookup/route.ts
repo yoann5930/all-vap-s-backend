@@ -16,13 +16,18 @@ import {
 } from "@/lib/inventory/duplicates";
 import { resolveProductByScannedBarcode } from "@/lib/inventory/resolve-barcode";
 import { normalizeEan } from "@/lib/catalog/backfill-product-barcodes";
-import { suggestProductForUnknownBarcode } from "@/lib/inventory/barcode-alias-suggest";
+import {
+  parseNicotineMgFromText,
+  parseVolumeMlFromText,
+  suggestProductForUnknownBarcode,
+} from "@/lib/inventory/barcode-alias-suggest";
 import {
   formatPackagedStockLabel,
   isPackagedHardwareCategory,
   splitUnitsIntoBoxes,
 } from "@/lib/inventory/packaging";
 import { attachBarcodeToProduct } from "@/lib/inventory/product-barcodes";
+import { canAutoLinkByName } from "@/lib/inventory/product-identity-guards";
 
 type CatalogRow = {
   id: string;
@@ -535,8 +540,8 @@ export async function GET(request: NextRequest) {
               nameHint: q,
               brandHint: null,
               rangeHint: null,
-              volumeMlHint: null,
-              nicotineMgHint: null,
+              volumeMlHint: parseVolumeMlFromText(q),
+              nicotineMgHint: parseNicotineMgFromText(q),
             })
           : null;
       return jsonResponse({
@@ -552,21 +557,39 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const best = scored[0];
-    if (best && best.score >= 0.85) {
-      const payload = await buildProductPayload(best.product, user.role, "name_memory");
+    // P1#1 : jamais d'AUTO si volume/nicotine conflictuels (ex. 50≠100 ml)
+    const bestCompatible = scored.find(
+      (x) =>
+        x.score >= 0.85 &&
+        canAutoLinkByName({
+          sourceName: q,
+          sourceVolumeMl: parseVolumeMlFromText(q),
+          sourceNicotineMg: parseNicotineMgFromText(q),
+          candidate: {
+            name: x.product.name,
+            volumeMl: x.product.volumeMl ?? null,
+            nicotineMgs: (x.product.variants || []).map((v) => v.nicotineMg),
+          },
+        })
+    );
+    if (bestCompatible) {
+      const payload = await buildProductPayload(
+        bestCompatible.product,
+        user.role,
+        "name_memory"
+      );
       const duplicate = sessionId
         ? await maybeDuplicateInfo({
             sessionId,
-            barcode: best.product.barcode,
-            productId: best.product.id,
+            barcode: bestCompatible.product.barcode,
+            productId: bestCompatible.product.id,
           })
         : null;
       return jsonResponse({
         ...payload,
-        decision: best.score >= 0.95 ? "AUTO" : "REVIEW",
+        decision: bestCompatible.score >= 0.95 ? "AUTO" : "REVIEW",
         method: "normalized_name",
-        confidence: best.score,
+        confidence: bestCompatible.score,
         fromMemory: true,
         suggestions,
         duplicate,
@@ -629,8 +652,8 @@ export async function GET(request: NextRequest) {
             nameHint: q,
             brandHint: null,
             rangeHint: null,
-            volumeMlHint: null,
-            nicotineMgHint: null,
+            volumeMlHint: parseVolumeMlFromText(q),
+            nicotineMgHint: parseNicotineMgFromText(q),
           })
         : null;
 
