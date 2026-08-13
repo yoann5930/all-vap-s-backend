@@ -1439,9 +1439,10 @@ export function EmployeeInventoryApp() {
           looseUnits: loose,
         })
       : boxes;
+    // Toujours en unités (aligné serveur) — pas le nb de boîtes UI
     const placementCheck = validateInventoryPlacementQuantity({
       placement,
-      quantityCounted: packaged ? boxes : qty,
+      quantityCounted: qty,
     });
     if (!placementCheck.ok) {
       setError(placementCheck.error);
@@ -2097,14 +2098,20 @@ export function EmployeeInventoryApp() {
                     const next = e.target.value === "VITRINE" ? "VITRINE" : "STOCK";
                     setPlacement(next);
                     if (next === "VITRINE") {
-                      setQuantity("1");
-                      setLooseUnits("0");
+                      // 1 unité max (pas 1 boîte) — conditionné → 0 boîte + 1 loose
+                      if (isPackagedLine) {
+                        setQuantity("0");
+                        setLooseUnits("1");
+                      } else {
+                        setQuantity("1");
+                        setLooseUnits("0");
+                      }
                       setError(null);
                     }
                   }}
                 >
                   <option value="STOCK">Stock (illimité)</option>
-                  <option value="VITRINE">Vitrine (max 1)</option>
+                  <option value="VITRINE">Vitrine (max 1 unité)</option>
                 </select>
               </label>
               <label className="block">
@@ -2115,12 +2122,14 @@ export function EmployeeInventoryApp() {
                   ref={quantityRef}
                   type="number"
                   min={0}
-                  max={placement === "VITRINE" ? 1 : undefined}
+                  max={
+                    placement === "VITRINE" && !isPackagedLine ? 1 : undefined
+                  }
                   className="mt-1.5 w-full rounded-xl border border-emerald-300 bg-emerald-50/40 px-3 py-3 text-base"
                   value={quantity}
                   onChange={(e) => {
                     const v = e.target.value;
-                    if (placement === "VITRINE") {
+                    if (placement === "VITRINE" && !isPackagedLine) {
                       const n = parseInt(v, 10);
                       if (v !== "" && !isNaN(n) && n > 1) {
                         setError(
@@ -2133,7 +2142,7 @@ export function EmployeeInventoryApp() {
                     setQuantity(v);
                   }}
                   placeholder={
-                    placement === "VITRINE"
+                    placement === "VITRINE" && !isPackagedLine
                       ? "1"
                       : isPackagedLine
                         ? "Nb de boîtes"
@@ -2228,7 +2237,9 @@ export function EmployeeInventoryApp() {
             ) : null}
             {placement === "VITRINE" ? (
               <p className="text-xs text-amber-800">
-                Vitrine : quantité limitée à 1. Pour compter plusieurs unités, choisissez Stock.
+                {isPackagedLine
+                  ? "Vitrine : 1 unité max (ex. 0 boîte + 1 restante). Une boîte complète = plusieurs unités → choisissez Stock."
+                  : "Vitrine : quantité limitée à 1 unité. Pour compter plusieurs, choisissez Stock."}
               </p>
             ) : null}
             <div className="grid grid-cols-1 gap-3">

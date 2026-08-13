@@ -1,6 +1,6 @@
 /**
  * Emplacement inventaire : stock boutique vs vitrine.
- * Vitrine = exactement 1 unité max (refus si quantité > 1).
+ * Vitrine = 1 unité max (quantityCounted toujours en unités, jamais en boîtes).
  * Stock = aucune limite.
  */
 export const INVENTORY_PLACEMENTS = ["STOCK", "VITRINE"] as const;
