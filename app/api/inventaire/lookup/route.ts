@@ -657,16 +657,19 @@ export async function GET(request: NextRequest) {
 /** Associer un EAN scanné à un produit existant (après confirmation employé). */
 export async function POST(request: NextRequest) {
   try {
-    const auth = await requireInventoryAuth(request);
-    if (!auth.ok) return auth.response;
-    const user = auth.user;
-
-    const limit = checkRateLimit(`inv-lookup-post:${user.userId}:${clientIp(request)}`, {
-      windowMs: 60_000,
-      max: 60,
-    });
+    // Même contrat que GET : requireInventoryAuth() retourne InventoryAuthUser
+    // (lance UNAUTHORIZED / FORBIDDEN — géré par handleApiError).
+    const user = await requireInventoryAuth();
+    const limit = checkRateLimit(
+      `inventaire:lookup-post:${user.userId}:${clientIp(request)}`,
+      60,
+      60_000
+    );
     if (!limit.ok) {
-      return jsonResponse({ error: "Trop de requêtes" }, 429);
+      return jsonResponse(
+        { error: "Trop de requêtes", retryAfterSec: limit.retryAfterSec },
+        429
+      );
     }
 
     const body = z
