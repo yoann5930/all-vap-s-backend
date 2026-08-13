@@ -39,6 +39,9 @@ yarn-error.log*
 /public/uploads/inventory/*
 !/public/uploads/inventory/.gitkeep
 
+# photos inventaire privées (hors public web)
+.data/
+
 # vercel
 .vercel
 
