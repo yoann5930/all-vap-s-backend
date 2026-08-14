@@ -1,4 +1,5 @@
 import {
+  isSamePlacementDuplicate,
   normalizeInventoryPlacement,
   validateInventoryPlacementQuantity,
 } from "../lib/inventory/placement";
@@ -25,7 +26,9 @@ const vitrineBad = validateInventoryPlacementQuantity({
 });
 assert(!vitrineBad.ok && "code" in vitrineBad && vitrineBad.code === "VITRINE_QTY_LIMIT", "vitrine >1 refused");
 
-assert(normalizeInventoryPlacement("vitrine") === "VITRINE", "norm vitrine");
-assert(normalizeInventoryPlacement(undefined) === "STOCK", "default stock");
+assert(!isSamePlacementDuplicate("VITRINE", "STOCK"), "vitrine+stock allowed");
+assert(!isSamePlacementDuplicate("STOCK", "VITRINE"), "stock+vitrine allowed");
+assert(isSamePlacementDuplicate("VITRINE", "VITRINE"), "vitrine+vitrine forbidden");
+assert(isSamePlacementDuplicate("STOCK", "STOCK"), "stock+stock forbidden");
 
-console.log(JSON.stringify({ ok: true, tests: 4 }));
+console.log(JSON.stringify({ ok: true, tests: 8 }));

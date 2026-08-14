@@ -142,6 +142,7 @@ export function EmployeeInventoryApp() {
   } | null>(null);
   const [quantity, setQuantity] = useState("");
   const [placement, setPlacement] = useState<InventoryPlacement>("STOCK");
+  const placementRef = useRef<InventoryPlacement>("STOCK");
   const [unitPrice, setUnitPrice] = useState("");
   /** Unités par boîte (résistances / réservoirs) — 1 à 5. */
   const [unitsPerPack, setUnitsPerPack] = useState<number | null>(null);
@@ -518,6 +519,10 @@ export function EmployeeInventoryApp() {
   }, []);
 
   useEffect(() => {
+    placementRef.current = placement;
+  }, [placement]);
+
+  useEffect(() => {
     setOnline(navigator.onLine);
     const on = () => {
       setOnline(true);
@@ -744,11 +749,17 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  function withPlacement(qs: URLSearchParams) {
+    qs.set("placement", placementRef.current);
+    return qs;
+  }
+
   async function lookupBarcode(code: string): Promise<boolean> {
     try {
       const sid = sessionRef.current?.id;
       const qs = new URLSearchParams({ barcode: code });
       if (sid) qs.set("sessionId", sid);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return false;
@@ -993,6 +1004,7 @@ export function EmployeeInventoryApp() {
           const qs = new URLSearchParams({ name: match.name });
           const sid = sessionRef.current?.id;
           if (sid) qs.set("sessionId", sid);
+          withPlacement(qs);
           const res = await authFetch(`/api/inventaire/lookup?${qs}`);
           const data = await res.json();
           if (res.ok && data.found && data.product?.name) {
@@ -1061,6 +1073,7 @@ export function EmployeeInventoryApp() {
 
       const qs = new URLSearchParams({ name: match.name });
       if (sid) qs.set("sessionId", sid);
+      withPlacement(qs);
       try {
         const res = await authFetch(`/api/inventaire/lookup?${qs}`);
         const data = await res.json();
@@ -1244,6 +1257,7 @@ export function EmployeeInventoryApp() {
       if (sid) qs.set("sessionId", sid);
       const code = barcode.trim();
       if (code.length >= 6) qs.set("barcode", code);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return;
@@ -1315,6 +1329,7 @@ export function EmployeeInventoryApp() {
       const qs = new URLSearchParams({ name: s.name });
       if (sid) qs.set("sessionId", sid);
       if (s.barcode) qs.set("barcode", s.barcode);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (res.ok && data.found) {
@@ -1681,7 +1696,7 @@ export function EmployeeInventoryApp() {
       }
 
       const lookRes = await authFetch(
-        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}`
+        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}&placement=${encodeURIComponent(placementRef.current)}`
       );
       const look = await lookRes.json();
       if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
@@ -1971,10 +1986,11 @@ export function EmployeeInventoryApp() {
                 {duplicateInfo.reason === "SAME_SESSION" ? (
                   <p className="mt-1 text-xs">
                     Ancienne qté : {duplicateInfo.quantityCounted} — entrez la nouvelle puis « Mettre à jour ».
+                    Vitrine + stock du même produit reste autorisé.
                   </p>
                 ) : (
                   <p className="mt-1 text-xs">
-                    Impossible de recréer ce produit (même jour ou &lt; 30 jours).
+                    Corrigez la ligne existante — ne créez pas de faux doublon.
                   </p>
                 )}
               </div>
@@ -2097,6 +2113,8 @@ export function EmployeeInventoryApp() {
                   onChange={(e) => {
                     const next = e.target.value === "VITRINE" ? "VITRINE" : "STOCK";
                     setPlacement(next);
+                    placementRef.current = next;
+                    setDuplicateInfo(null);
                     if (next === "VITRINE") {
                       // 1 unité max (pas 1 boîte) — conditionné → 0 boîte + 1 loose
                       if (isPackagedLine) {
@@ -2108,11 +2126,16 @@ export function EmployeeInventoryApp() {
                       }
                       setError(null);
                     }
+                    const code = barcode.trim();
+                    if (code.length >= 6) void lookupBarcode(code);
                   }}
                 >
-                  <option value="STOCK">Stock (illimité)</option>
-                  <option value="VITRINE">Vitrine (max 1 unité)</option>
+                  <option value="STOCK">Stock (quantité illimitée)</option>
+                  <option value="VITRINE">Vitrine (1 unité, pas de doublon)</option>
                 </select>
+                <span className="mt-1 block text-xs text-gray-500">
+                  Même produit : vitrine + stock OK · 2 vitrines interdit · 2 stocks interdit
+                </span>
               </label>
               <label className="block">
                 <span className="text-sm font-medium">

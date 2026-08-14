@@ -59,6 +59,7 @@ async function maybeDuplicateInfo(params: {
   sessionId: string;
   barcode?: string | null;
   productId?: string | null;
+  placement?: string | null;
 }) {
   if (!params.sessionId) return null;
   const session = await prisma.inventorySession.findUnique({
@@ -72,6 +73,7 @@ async function maybeDuplicateInfo(params: {
     locationId: session.locationId,
     locationCode: session.location.code,
     currentSessionId: params.sessionId,
+    placement: params.placement,
   });
   if (!dup) return null;
   return {
@@ -213,6 +215,7 @@ export async function GET(request: NextRequest) {
     const suggestOnly = url.searchParams.get("suggest") === "1";
     const sessionId = url.searchParams.get("sessionId")?.trim() || "";
     const locationCode = url.searchParams.get("store")?.trim() || "";
+    const placement = url.searchParams.get("placement")?.trim() || "";
 
     if (!barcode && !nameQuery) {
       return jsonResponse(
@@ -302,6 +305,7 @@ export async function GET(request: NextRequest) {
               sessionId,
               barcode,
               productId: productId || null,
+              placement,
             })
           : null;
         return jsonResponse({ ...base, duplicate });
@@ -483,7 +487,7 @@ export async function GET(request: NextRequest) {
           suggestions: [],
           aliasSuggestion: null,
           duplicate: sessionId
-            ? await maybeDuplicateInfo({ sessionId, barcode })
+            ? await maybeDuplicateInfo({ sessionId, barcode, placement })
             : null,
           message:
             "Code-barres inconnu en mémoire — saisissez le nom pour rechercher dans le catalogue",
@@ -583,6 +587,7 @@ export async function GET(request: NextRequest) {
             sessionId,
             barcode: bestCompatible.product.barcode,
             productId: bestCompatible.product.id,
+            placement,
           })
         : null;
       return jsonResponse({
@@ -604,6 +609,7 @@ export async function GET(request: NextRequest) {
             sessionId,
             barcode: sessionBest.barcode,
             productId: sessionBest.productId,
+            placement,
           })
         : null;
       return jsonResponse({

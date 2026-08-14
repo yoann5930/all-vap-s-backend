@@ -474,6 +474,7 @@ export async function POST(request: NextRequest, context: Ctx) {
       locationId: session.locationId,
       locationCode: session.location.code,
       currentSessionId: id,
+      placement,
       resistanceIdentity,
     });
     if (dup && !(body.allowDuplicate && user.role === "ADMIN")) {
