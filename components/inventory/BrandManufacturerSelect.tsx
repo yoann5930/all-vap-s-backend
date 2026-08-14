@@ -1,6 +1,10 @@
 "use client";
 
 import type { ManufacturerOption } from "@/lib/inventory/match-manufacturer";
+import {
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+} from "@/lib/catalog/ranges-not-manufacturers";
 
 type Props = {
   value: string;
@@ -16,15 +20,19 @@ export function BrandManufacturerSelect({
   disabled,
 }: Props) {
   const names = manufacturers.map((m) => m.name);
+  const trimmed = value.trim();
+  const blocked =
+    isRangeNotManufacturerName(trimmed) || isNonexistentBrandName(trimmed);
   const extra =
-    value.trim() && !names.some((n) => n === value.trim()) ? value.trim() : null;
+    trimmed && !blocked && !names.some((n) => n === trimmed) ? trimmed : null;
+  const selectValue = blocked ? "" : value;
 
   return (
     <label className="block">
       <span className="text-sm font-medium">Marque / fabricant</span>
       <select
         className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base"
-        value={value}
+        value={selectValue}
         disabled={disabled}
         onChange={(e) => onChange(e.target.value)}
       >

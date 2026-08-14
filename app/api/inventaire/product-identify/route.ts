@@ -5,6 +5,7 @@ import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { requireInventoryAuth } from "@/lib/inventory/auth";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
+import { classifyInventoryBrandRange } from "@/lib/catalog/ranges-not-manufacturers";
 import {
   extractLabelWithOpenAI,
   isPlausibleBarcode,
@@ -297,6 +298,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Tri + limite 5
+    for (const s of suggestions) {
+      const classified = classifyInventoryBrandRange({
+        brand: s.brand,
+        range: s.range,
+      });
+      s.brand = classified.brand;
+      s.range = classified.range;
+    }
     suggestions.sort((a, b) => b.confidence - a.confidence);
     const top = suggestions.slice(0, 5);
     diagnostics.resultCount = top.length;

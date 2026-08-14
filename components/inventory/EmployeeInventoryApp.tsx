@@ -12,6 +12,13 @@ import {
   matchManufacturerName,
   type ManufacturerOption,
 } from "@/lib/inventory/match-manufacturer";
+import {
+  classifyInventoryBrandRange,
+  excludeRangesFromManufacturers,
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+  matchRangeNotManufacturer,
+} from "@/lib/catalog/ranges-not-manufacturers";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
   formatResistanceBoxHint,
@@ -244,15 +251,33 @@ export function EmployeeInventoryApp() {
     const fromSite =
       matchManufacturerName(raw, list) ||
       guessManufacturerFromProductName(productNameForGuess || raw, list);
-    setBrandName(fromSite || (raw || "").trim());
+    const classified = classifyInventoryBrandRange({
+      brand: fromSite || (raw || "").trim() || null,
+      range: null,
+    });
+    const rangeHit =
+      classified.range ||
+      matchRangeNotManufacturer(productNameForGuess || raw || "");
+    if (rangeHit) {
+      setRangeName((prev) => (prev.trim() ? prev : rangeHit));
+    }
+    if (
+      classified.brand &&
+      !isRangeNotManufacturerName(classified.brand) &&
+      !isNonexistentBrandName(classified.brand)
+    ) {
+      setBrandName(classified.brand);
+    } else {
+      setBrandName("");
+    }
   }
 
   function applyIdentifySuggestion(s: IdentifySuggestion) {
     brandTouchedRef.current = false;
     setProductId(s.localProductId);
     setProductName(s.name || "");
-    applyBrandSuggestion(s.brand, s.name);
     setRangeName(s.range || "");
+    applyBrandSuggestion(s.brand, s.name);
     if (s.barcode) setBarcode(s.barcode);
     const priceOk = s.unitPriceCents != null && s.unitPriceCents > 0;
     setLookup({
@@ -543,6 +568,20 @@ export function EmployeeInventoryApp() {
   }, [manufacturers]);
 
   useEffect(() => {
+    if (!brandName.trim()) return;
+    if (
+      isRangeNotManufacturerName(brandName) ||
+      isNonexistentBrandName(brandName)
+    ) {
+      const rangeHit = matchRangeNotManufacturer(brandName);
+      if (rangeHit) {
+        setRangeName((prev) => (prev.trim() ? prev : rangeHit));
+      }
+      setBrandName("");
+    }
+  }, [brandName]);
+
+  useEffect(() => {
     brandNameRef.current = brandName;
   }, [brandName]);
 
@@ -554,7 +593,9 @@ export function EmployeeInventoryApp() {
         const res = await authFetch("/api/inventaire/manufacturers");
         if (!res.ok || cancelled) return;
         const data = await res.json();
-        const list = (data.manufacturers || []) as ManufacturerOption[];
+        const list = excludeRangesFromManufacturers(
+          (data.manufacturers || []) as ManufacturerOption[]
+        );
         if (!cancelled) setManufacturers(list);
       } catch {
         /* liste optionnelle */
@@ -687,8 +728,8 @@ export function EmployeeInventoryApp() {
     setProductId(p.id || null);
     setProductName(p.name || "");
     brandTouchedRef.current = false;
-    applyBrandSuggestion(p.brand, p.name);
     setRangeName(p.range || p.category || "Non classé");
+    applyBrandSuggestion(p.brand, p.name);
     setProductCategory(p.category || null);
 
     const scanned = barcodeDigits(opts?.scannedBarcode);
@@ -1035,8 +1076,8 @@ export function EmployeeInventoryApp() {
         brandTouchedRef.current = false;
         setProductId(null);
         setProductName(match.name || "");
-        applyBrandSuggestion(match.brand, match.name);
         setRangeName(match.range || match.category || "");
+        applyBrandSuggestion(match.brand, match.name);
         if (match.barcode) setBarcode(match.barcode);
         setLookup({
           found: true,
@@ -1091,8 +1132,8 @@ export function EmployeeInventoryApp() {
       setProductId(match.id);
       setProductName(match.name || "");
       brandTouchedRef.current = false;
-      applyBrandSuggestion(match.brand, match.name);
       setRangeName(match.range || match.category || "");
+      applyBrandSuggestion(match.brand, match.name);
       if (match.barcode) setBarcode(match.barcode);
       const matchPriceOk = match.priceCents != null && match.priceCents > 0;
       setLookup({
@@ -1402,8 +1443,8 @@ export function EmployeeInventoryApp() {
     setProductId(s.id.startsWith("mem-") ? null : s.id);
     setProductName(s.name);
     brandTouchedRef.current = false;
-    applyBrandSuggestion(s.brand, s.name);
     setRangeName(s.range || "Non classé");
+    applyBrandSuggestion(s.brand, s.name);
     if (s.barcode) setBarcode(s.barcode);
     const missing = s.unitPriceCents == null || s.unitPriceCents <= 0;
     setLookup({

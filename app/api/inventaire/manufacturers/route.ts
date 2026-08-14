@@ -3,10 +3,13 @@ import prisma from "@/lib/prisma";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
 import { requireInventoryAuth } from "@/lib/inventory/auth";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
+import { excludeRangesFromManufacturers } from "@/lib/catalog/ranges-not-manufacturers";
 
 /**
  * GET /api/inventaire/manufacturers
  * Fabricants actifs du site (liste officielle, rien d’inventé).
+ * Les gammes (Yumi Bot, Vapecity, Revenge Juice, Le Maudit, Fruity Cool, Big Kawa)
+ * sont exclues : ce ne sont pas des fabricants.
  */
 export async function GET(request: NextRequest) {
   try {
@@ -24,11 +27,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const manufacturers = await prisma.manufacturer.findMany({
-      where: { isActive: true },
-      orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      select: { id: true, name: true, slug: true },
-    });
+    const manufacturers = excludeRangesFromManufacturers(
+      await prisma.manufacturer.findMany({
+        where: { isActive: true },
+        orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+        select: { id: true, name: true, slug: true },
+      })
+    );
 
     return jsonResponse({ manufacturers });
   } catch (error) {

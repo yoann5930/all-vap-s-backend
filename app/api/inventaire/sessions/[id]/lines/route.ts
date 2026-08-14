@@ -37,6 +37,11 @@ import {
 } from "@/lib/inventory/resistance-box-pricing";
 import { classifyOnInventoryScan } from "@/lib/catalog/classification-engine";
 import {
+  classifyInventoryBrandRange,
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+} from "@/lib/catalog/ranges-not-manufacturers";
+import {
   INVENTORY_PLACEMENTS,
   normalizeInventoryPlacement,
   validateInventoryPlacementQuantity,
@@ -333,12 +338,20 @@ export async function POST(request: NextRequest, context: Ctx) {
       });
       if (product) {
         productNameSnapshot = product.name;
-        if (!brandSnapshot) {
-          brandSnapshot =
-            (product as { manufacturer?: { name: string } | null }).manufacturer
-              ?.name || product.brand;
+        const classified = classifyInventoryBrandRange({
+          brand: brandSnapshot || product.brand,
+          range: product.range,
+          manufacturerName: (product as { manufacturer?: { name: string } | null })
+            .manufacturer?.name,
+        });
+        if (
+          !brandSnapshot ||
+          isRangeNotManufacturerName(brandSnapshot) ||
+          isNonexistentBrandName(brandSnapshot)
+        ) {
+          brandSnapshot = classified.brand;
         }
-        rangeSnapshot = product.range;
+        rangeSnapshot = product.range || classified.range;
         categorySnapshot = product.category;
         catalogImageUrl = product.imageUrl;
         catalogPrice = resolveCatalogUnitPriceCents(product);
@@ -830,13 +843,20 @@ export async function POST(request: NextRequest, context: Ctx) {
           },
         });
         if (refreshed) {
+          const classified = classifyInventoryBrandRange({
+            brand: refreshed.brand,
+            range: refreshed.rangeRef?.name || refreshed.range,
+            manufacturerName: refreshed.manufacturer?.name,
+          });
           await prisma.inventoryLine.update({
             where: { id: line.id },
             data: {
-              brandSnapshot:
-                refreshed.manufacturer?.name || refreshed.brand || brandSnapshot,
+              brandSnapshot: classified.brand || brandSnapshot,
               rangeSnapshot:
-                refreshed.rangeRef?.name || refreshed.range || rangeSnapshot,
+                classified.range ||
+                refreshed.rangeRef?.name ||
+                refreshed.range ||
+                rangeSnapshot,
             },
           });
         }

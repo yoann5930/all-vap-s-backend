@@ -19,6 +19,11 @@ import {
   type ClassificationStatus,
 } from "@/lib/catalog/eliquide-range-tokens";
 import { loadKnownManufacturers } from "@/lib/catalog/sumup-eliquide-manufacturers";
+import {
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+  isRangeNotManufacturerSlug,
+} from "@/lib/catalog/ranges-not-manufacturers";
 
 export type EngineConfidence = "CONFIRME" | "PROBABLE" | "A_VALIDER";
 
@@ -412,6 +417,29 @@ export async function classifyProductById(params: {
     known,
   });
   const confidence = toConfidence(row.classificationStatus);
+
+  if (
+    isRangeNotManufacturerSlug(row.manufacturerSlug) ||
+    isRangeNotManufacturerName(row.manufacturerName) ||
+    isNonexistentBrandName(row.manufacturerName)
+  ) {
+    return {
+      productId: product.id,
+      ean,
+      confidence: "A_VALIDER",
+      applied: false,
+      skipped: true,
+      reason: "range_not_manufacturer",
+      oldManufacturerId: product.manufacturerId,
+      newManufacturerId: product.manufacturerId,
+      oldRangeId: product.rangeId,
+      newRangeId: product.rangeId,
+      manufacturerSlug: null,
+      rangeSlug: row.rangeSlug,
+      classificationStatus:
+        (product.classificationStatus as ClassificationStatus) || "UNCLASSIFIED",
+    };
+  }
 
   // Toujours synchroniser le statut / sources (pas les stocks)
   if (apply) {
