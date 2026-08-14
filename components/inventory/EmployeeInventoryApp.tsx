@@ -6,6 +6,12 @@ import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inv
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
+import { BrandManufacturerSelect } from "@/components/inventory/BrandManufacturerSelect";
+import {
+  guessManufacturerFromProductName,
+  matchManufacturerName,
+  type ManufacturerOption,
+} from "@/lib/inventory/match-manufacturer";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
   formatResistanceBoxHint,
@@ -116,6 +122,11 @@ export function EmployeeInventoryApp() {
   const [barcode, setBarcode] = useState("");
   const [productName, setProductName] = useState("");
   const [brandName, setBrandName] = useState("");
+  const [manufacturers, setManufacturers] = useState<ManufacturerOption[]>([]);
+  const manufacturersRef = useRef<ManufacturerOption[]>([]);
+  const brandTouchedRef = useRef(false);
+  const brandWebTimer = useRef<number | null>(null);
+  const brandNameRef = useRef("");
   const [rangeName, setRangeName] = useState("");
   const [productId, setProductId] = useState<string | null>(null);
   const [nameSuggestions, setNameSuggestions] = useState<
@@ -224,10 +235,23 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  function applyBrandSuggestion(
+    raw: string | null | undefined,
+    productNameForGuess?: string | null
+  ) {
+    if (brandTouchedRef.current) return;
+    const list = manufacturersRef.current;
+    const fromSite =
+      matchManufacturerName(raw, list) ||
+      guessManufacturerFromProductName(productNameForGuess || raw, list);
+    setBrandName(fromSite || (raw || "").trim());
+  }
+
   function applyIdentifySuggestion(s: IdentifySuggestion) {
+    brandTouchedRef.current = false;
     setProductId(s.localProductId);
     setProductName(s.name || "");
-    setBrandName(s.brand || "");
+    applyBrandSuggestion(s.brand, s.name);
     setRangeName(s.range || "");
     if (s.barcode) setBarcode(s.barcode);
     const priceOk = s.unitPriceCents != null && s.unitPriceCents > 0;
@@ -515,6 +539,33 @@ export function EmployeeInventoryApp() {
   }, [router]);
 
   useEffect(() => {
+    manufacturersRef.current = manufacturers;
+  }, [manufacturers]);
+
+  useEffect(() => {
+    brandNameRef.current = brandName;
+  }, [brandName]);
+
+  useEffect(() => {
+    if (!me) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await authFetch("/api/inventaire/manufacturers");
+        if (!res.ok || cancelled) return;
+        const data = await res.json();
+        const list = (data.manufacturers || []) as ManufacturerOption[];
+        if (!cancelled) setManufacturers(list);
+      } catch {
+        /* liste optionnelle */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [me]);
+
+  useEffect(() => {
     restoreLineId();
   }, []);
 
@@ -553,6 +604,7 @@ export function EmployeeInventoryApp() {
   }
 
   function clearDraftLine() {
+    brandTouchedRef.current = false;
     setBarcode("");
     setProductName("");
     setBrandName("");
@@ -634,7 +686,8 @@ export function EmployeeInventoryApp() {
     const missing = Boolean(data.priceMissing) || cents == null || cents <= 0;
     setProductId(p.id || null);
     setProductName(p.name || "");
-    setBrandName(p.brand || "");
+    brandTouchedRef.current = false;
+    applyBrandSuggestion(p.brand, p.name);
     setRangeName(p.range || p.category || "Non classé");
     setProductCategory(p.category || null);
 
@@ -979,9 +1032,10 @@ export function EmployeeInventoryApp() {
         (match.imageUrl || "").includes("/api/inventaire/image-proxy");
 
       if (isRef) {
+        brandTouchedRef.current = false;
         setProductId(null);
         setProductName(match.name || "");
-        setBrandName(match.brand || "");
+        applyBrandSuggestion(match.brand, match.name);
         setRangeName(match.range || match.category || "");
         if (match.barcode) setBarcode(match.barcode);
         setLookup({
@@ -1011,7 +1065,7 @@ export function EmployeeInventoryApp() {
             applyMemoryProduct(data);
             applyDuplicateFromLookup(data);
             if (match.barcode) setBarcode(match.barcode);
-            if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+            if (!(data.product.brand) && match.brand) applyBrandSuggestion(match.brand, match.name);
             if (
               !(data.product.range || data.product.category) &&
               (match.range || match.category)
@@ -1036,7 +1090,8 @@ export function EmployeeInventoryApp() {
 
       setProductId(match.id);
       setProductName(match.name || "");
-      setBrandName(match.brand || "");
+      brandTouchedRef.current = false;
+      applyBrandSuggestion(match.brand, match.name);
       setRangeName(match.range || match.category || "");
       if (match.barcode) setBarcode(match.barcode);
       const matchPriceOk = match.priceCents != null && match.priceCents > 0;
@@ -1081,7 +1136,7 @@ export function EmployeeInventoryApp() {
           applyMemoryProduct(data);
           applyDuplicateFromLookup(data);
           if (match.barcode) setBarcode(match.barcode);
-          if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+          if (!(data.product.brand) && match.brand) applyBrandSuggestion(match.brand, match.name);
           if (!(data.product.range || data.product.category) && (match.range || match.category)) {
             setRangeName(match.range || match.category || "");
           }
@@ -1346,7 +1401,8 @@ export function EmployeeInventoryApp() {
     }
     setProductId(s.id.startsWith("mem-") ? null : s.id);
     setProductName(s.name);
-    setBrandName(s.brand || "");
+    brandTouchedRef.current = false;
+    applyBrandSuggestion(s.brand, s.name);
     setRangeName(s.range || "Non classé");
     if (s.barcode) setBarcode(s.barcode);
     const missing = s.unitPriceCents == null || s.unitPriceCents <= 0;
@@ -1382,6 +1438,36 @@ export function EmployeeInventoryApp() {
     nameLookupTimer.current = window.setTimeout(() => {
       void lookupNameMemory(value);
     }, 280);
+    if (!brandTouchedRef.current) {
+      applyBrandSuggestion(null, value);
+      if (brandWebTimer.current != null) window.clearTimeout(brandWebTimer.current);
+      brandWebTimer.current = window.setTimeout(() => {
+        void fillBrandFromWeb(value);
+      }, 700);
+    }
+  }
+
+  async function fillBrandFromWeb(name: string) {
+    if (brandTouchedRef.current) return;
+    if (matchManufacturerName(brandNameRef.current, manufacturersRef.current)) return;
+    try {
+      const res = await authFetch("/api/inventaire/product-identify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: name }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const brand =
+        data.suggestion?.brand ||
+        data.suggestions?.[0]?.brand ||
+        null;
+      if (!brandTouchedRef.current && brand) {
+        applyBrandSuggestion(brand, name);
+      }
+    } catch {
+      /* suggestion optionnelle */
+    }
   }
 
   async function startSession() {
@@ -2045,15 +2131,14 @@ export function EmployeeInventoryApp() {
                 ) : null}
               </label>
               <div className="grid grid-cols-2 gap-3">
-                <label className="block">
-                  <span className="text-sm font-medium">Marque</span>
-                  <input
-                    className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
-                    placeholder="Marque"
-                  />
-                </label>
+                <BrandManufacturerSelect
+                  value={brandName}
+                  manufacturers={manufacturers}
+                  onChange={(name) => {
+                    brandTouchedRef.current = true;
+                    setBrandName(name);
+                  }}
+                />
                 <label className="block">
                   <span className="text-sm font-medium">Gamme</span>
                   <input

@@ -306,6 +306,7 @@ export async function POST(request: NextRequest, context: Ctx) {
           id: true,
           name: true,
           brand: true,
+          manufacturer: { select: { name: true } },
           range: true,
           category: true,
           productFamily: true,
@@ -332,7 +333,11 @@ export async function POST(request: NextRequest, context: Ctx) {
       });
       if (product) {
         productNameSnapshot = product.name;
-        brandSnapshot = product.brand;
+        if (!brandSnapshot) {
+          brandSnapshot =
+            (product as { manufacturer?: { name: string } | null }).manufacturer
+              ?.name || product.brand;
+        }
         rangeSnapshot = product.range;
         categorySnapshot = product.category;
         catalogImageUrl = product.imageUrl;
