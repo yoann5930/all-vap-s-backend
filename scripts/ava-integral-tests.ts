@@ -17,6 +17,7 @@ import { AGE_REFUSAL, isAgeConfirmed, SALES_STEPS } from "../lib/ai/sales-script
 import { isOpenAIConfigured } from "../lib/ai/openai-voice";
 import { AI_SERVICES, askAI } from "../lib/ai";
 import { extractProfileUpdates } from "../lib/vape-profile/learning";
+import { evaluateRespiratoryGuardrail } from "../lib/ava/respiratory-guardrails";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -280,6 +281,8 @@ const mustExist = [
   "lib/ai/holographic-advisor.ts",
   "lib/ai/local-advisor.ts",
   "lib/ai/local-advisor-provider.ts",
+  "lib/ava/respiratory-guardrails.ts",
+  "data/ava/formation-nicotine-respiratoire/ava_engine/ava_regles_respiratoires.json",
 ];
 for (const f of mustExist) {
   check("structure", f, fs.existsSync(path.join(process.cwd(), f)));
@@ -296,6 +299,20 @@ const iaPage = fs.readFileSync(path.join(process.cwd(), "app/ia/page.tsx"), "utf
 check("client-ui", "Page /ia appelle /api/ai", iaPage.includes("/api/ai"));
 const voiceHook = fs.readFileSync(path.join(process.cwd(), "hooks/useVoiceConversation.ts"), "utf8");
 check("client-ui", "Voix utilise /api/ai-assistant", voiceHook.includes("/api/ai-assistant"));
+
+{
+  const red = evaluateRespiratoryGuardrail("Mes lèvres deviennent bleues, je manque d'air");
+  check("ava-sante", "signal rouge lèvres bleues", red?.level === "red" && Boolean(red.blocked), red?.level || "null");
+  const never = evaluateRespiratoryGuardrail("Je suis non-fumeur, je voudrais essayer");
+  check("ava-sante", "non-fumeur non encouragé", never?.level === "never_smoker", never?.level || "null");
+  const asthme = evaluateRespiratoryGuardrail("J'ai de l'asthme, quel taux de nicotine ?");
+  check(
+    "ava-sante",
+    "asthme ne dicte pas le taux",
+    asthme?.level === "nicotine_not_from_disease" && asthme.startNicotineFlow === true,
+    asthme?.level || "null",
+  );
+}
 
 // OpenAI flag (info)
 check("config", "isOpenAIConfigured (info)", true, isOpenAIConfigured() ? "OPENAI_API_KEY présent" : "local/browser voice only");

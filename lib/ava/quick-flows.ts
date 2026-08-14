@@ -34,8 +34,9 @@ export type QuickFlowResult = {
   };
 };
 
-const MEDICAL_REDIRECT =
-  "Je ne peux pas donner de conseil médical. Pour toute question de santé, adressez-vous à un professionnel de santé. Je peux en revanche vous aider à comprendre les formats disponibles en boutique.";
+import { allvapsUncertainNicotineReply } from "@/lib/ava/respiratory-guardrails";
+
+const MEDICAL_REDIRECT = allvapsUncertainNicotineReply();
 
 function yesNo(text: string): "yes" | "no" | "unknown" {
   const t = text.toLowerCase();
@@ -78,7 +79,7 @@ export function startQuickFlow(intent: AvaQuickIntent): QuickFlowResult | null {
     case "NICOTINE_GUIDANCE":
       return {
         content:
-          "D’accord. Je peux vous aider à vous orienter parmi les taux proposés en boutique — sans avis médical. Fumez-vous encore des cigarettes, ou vapotez-vous déjà ?",
+          "D’accord. Je peux vous aider à vous orienter parmi les taux proposés en boutique, selon votre consommation de tabac et votre matériel — jamais pour traiter une gêne respiratoire. Fumez-vous encore des cigarettes, ou vapotez-vous déjà ?",
         suggestions: ["Je fume encore", "Je vapote déjà", "Les deux", "Je débute"],
         continueFlow: true,
         state: nextState(null, intent, 1, {}),
@@ -153,11 +154,20 @@ function beginnerStep(state: AvaQuickFlowState, message: string): QuickFlowResul
   const step = state.step;
 
   if (step === 1) {
+    if (/jamais fum/i.test(message)) {
+      return {
+        content:
+          "Je ne peux pas vous encourager à commencer la vape si vous ne fumez pas. Les produits nicotinés sont réservés aux fumeurs adultes qui cherchent une alternative au tabac. Notre équipe All Vap's peut vous renseigner en boutique si la question concerne un proche.",
+        suggestions: ["Nos magasins", "Autre question"],
+        continueFlow: false,
+        state: null,
+      };
+    }
     const yn = yesNo(message);
     answers.smokes = yn === "unknown" ? message.slice(0, 80) : yn;
     return {
       content:
-        yn === "no" || /jamais/i.test(message)
+        yn === "no"
           ? "Merci. Environ combien de cigarettes fumiez-vous par jour auparavant, si vous vous en souvenez — ou préférez-vous passer cette étape ?"
           : "Merci. Environ combien de cigarettes par jour, approximativement ?",
       suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20", "Passer"],
@@ -225,7 +235,7 @@ function beginnerStep(state: AvaQuickFlowState, message: string): QuickFlowResul
   const wantsNic = /oui|guide/i.test(message);
   return {
     content: wantsNic
-      ? "Très bien. En boutique, les taux courants vont souvent de 0 à 18 mg selon les formats. Plus vous fumiez, plus les personnes débutantes se tournent parfois vers un taux plus élevé — mais le choix reste personnel et n’est pas un avis médical. Voulez-vous que je vous propose des e-liquides fruités ou un matériel débutant du catalogue ?"
+      ? "Très bien. En boutique, les taux courants vont souvent de 0 à 18 mg selon les formats. Plus vous fumiez, plus les personnes débutantes se tournent parfois vers un taux plus élevé — le choix se fait selon la satisfaction et le matériel, jamais pour traiter une toux ou un essoufflement. Voulez-vous que je vous propose des e-liquides fruités ou un matériel débutant du catalogue ?"
       : "Parfait. Je peux maintenant vous proposer des pistes du catalogue selon vos préférences (hors puff et jetable). Souhaitez-vous plutôt voir des e-liquides, ou un matériel pour débuter ?",
     suggestions: ["E-liquides", "Matériel débutant", "Les deux"],
     continueFlow: false,
@@ -251,10 +261,19 @@ function nicotineStep(state: AvaQuickFlowState, message: string): QuickFlowResul
   const step = state.step;
 
   if (step === 1) {
+    if (/jamais fum|non[- ]?fumeur/i.test(message)) {
+      return {
+        content:
+          "Je ne peux pas vous encourager à commencer la vape si vous ne fumez pas. Les produits nicotinés sont réservés aux fumeurs adultes qui cherchent une alternative au tabac.",
+        suggestions: ["Nos magasins", "Autre question"],
+        continueFlow: false,
+        state: null,
+      };
+    }
     answers.status = message.slice(0, 80);
     return {
       content:
-        "Merci. Si vous fumiez encore, environ combien de cigarettes par jour ? (Approximation suffisante — ce n’est pas un diagnostic médical.)",
+        "Merci. Environ combien de cigarettes par jour, actuellement ou avant de passer à la vape ? Une approximation suffit — ce n’est pas un calcul médical.",
       suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20", "Je vapote déjà"],
       continueFlow: true,
       state: nextState(state, state.intent, 2, answers),
@@ -265,30 +284,107 @@ function nicotineStep(state: AvaQuickFlowState, message: string): QuickFlowResul
     answers.cigs = message.slice(0, 80);
     return {
       content:
-        "Préférez-vous un sels de nicotine (souvent ressenti plus doux) ou une nicotine classique librebase, ou vous n’avez pas de préférence ?",
-      suggestions: ["Sels de nicotine", "Librebase", "Sans préférence", "Je ne sais pas"],
+        "À quel moment fumez-vous (ou fumiez-vous) la première cigarette après le réveil : dans les 5 minutes, dans la demi-heure, ou plus tard ?",
+      suggestions: ["Dans les 5 minutes", "Dans la demi-heure", "Plus tard", "Je ne sais plus"],
       continueFlow: true,
       state: nextState(state, state.intent, 3, answers),
     };
   }
 
-  // Orientation prudente
-  answers.salt = message.slice(0, 80);
+  if (step === 3) {
+    answers.firstCig = message.slice(0, 80);
+    return {
+      content: "Quel taux de nicotine utilisez-vous actuellement, si vous vapotez déjà ?",
+      suggestions: ["Je débute, pas encore", "3 mg", "6 mg", "10–12 mg", "18–20 mg"],
+      continueFlow: true,
+      state: nextState(state, state.intent, 4, answers),
+    };
+  }
+
+  if (step === 4) {
+    answers.currentMg = message.slice(0, 80);
+    return {
+      content:
+        "Quel matériel utilisez-vous, et plutôt un tirage serré (proche cigarette) ou plus aérien ?",
+      suggestions: ["Pod, tirage serré", "Kit, plus aérien", "Je ne sais pas encore"],
+      continueFlow: true,
+      state: nextState(state, state.intent, 5, answers),
+    };
+  }
+
+  if (step === 5) {
+    answers.device = message.slice(0, 80);
+    return {
+      content: "Avez-vous encore souvent envie d’une cigarette, malgré la vape ?",
+      suggestions: ["Oui, souvent", "Un peu", "Presque plus", "Je fume encore les deux"],
+      continueFlow: true,
+      state: nextState(state, state.intent, 6, answers),
+    };
+  }
+
+  if (step === 6) {
+    answers.cravings = message.slice(0, 80);
+    return {
+      content: "Vous arrive-t-il de vapoter presque en continu pour compenser ?",
+      suggestions: ["Oui, très souvent", "De temps en temps", "Non"],
+      continueFlow: true,
+      state: nextState(state, state.intent, 7, answers),
+    };
+  }
+
+  if (step === 7) {
+    answers.frequent = message.slice(0, 80);
+    return {
+      content:
+        "Après avoir vapote, ressentez-vous des nausées, vertiges, maux de tête, palpitations ou un malaise ?",
+      suggestions: ["Non", "Un peu", "Oui, clairement", "Je ne sais pas"],
+      continueFlow: true,
+      state: nextState(state, state.intent, 8, answers),
+    };
+  }
+
+  answers.overSupply = message.slice(0, 80);
+  const over =
+    /\b(oui|naus[eé]e|vertige|mal de t[eê]te|palpitation|malaise|clairement)\b/i.test(message) &&
+    !/\bnon\b/i.test(message);
+  const lowUse = /moins de 5|vapote d[eé]j[aà]/i.test(answers.cigs || "");
+  const highUse = /20|plus de/i.test(answers.cigs || "");
+  const stillCraves = /oui|souvent|les deux/i.test(answers.cravings || "");
+
+  if (over) {
+    return {
+      content:
+        "Je ne pose pas de diagnostic. Avec ce type de ressenti, je n’oriente pas vers une augmentation de nicotine. " +
+        "On peut revoir ensemble le taux, le matériel et la fréquence, ou faire contrôler l’ensemble en boutique. " +
+        allvapsUncertainNicotineReply(),
+      suggestions: ["Parler à la boutique", "Voir des e-liquides", "Autre question"],
+      continueFlow: false,
+      state: null,
+      catalogHint: { category: "e-liquides", flavorTerms: [] },
+    };
+  }
+
   let hint =
-    "À titre indicatif boutique uniquement : beaucoup de débutants qui fumaient beaucoup regardent souvent des taux plus élevés (ex. 12–18 mg selon formats), tandis qu’une consommation plus faible oriente parfois vers 3–6 mg. ";
-  if (/moins de 5|vapote d[eé]j[aà]/i.test(answers.cigs)) {
-    hint =
-      "À titre indicatif boutique uniquement : avec une faible consommation ou si vous vapotez déjà, des taux plus bas (0–6 mg) sont souvent regardés en premier. ";
-  } else if (/20|plus de/i.test(answers.cigs)) {
-    hint =
-      "À titre indicatif boutique uniquement : avec une consommation élevée de cigarettes, certaines personnes regardent d’abord des taux plus hauts disponibles en boutique. ";
+    "Il n’existe pas de conversion automatique cigarettes → mg/ml. À titre indicatif boutique uniquement : ";
+  if (lowUse && !stillCraves) {
+    hint +=
+      "avec une consommation plus faible, des taux plus bas (souvent 0–6 mg selon le matériel) sont regardés en premier. ";
+  } else if (highUse || stillCraves) {
+    hint +=
+      "avec une consommation élevée ou une envie de cigarette qui reste, certaines personnes regardent d’abord des taux plus hauts disponibles en boutique, en tenant compte du matériel. ";
+  } else {
+    hint +=
+      "beaucoup de débutants qui fumaient régulièrement regardent souvent des taux intermédiaires (ex. 6–12 mg selon formats), puis ajustent selon la satisfaction. ";
   }
 
   return {
     content:
       hint +
-      "Ce n’est pas un avis médical : en cas de doute (grossesse, pathologie, traitement), demandez conseil à un professionnel de santé. Voulez-vous que je vous montre des e-liquides du catalogue pour comparer les taux affichés ?",
-    suggestions: ["Voir des e-liquides", "Autre question", "Parler à la boutique"],
+      "On n’augmente jamais un taux pour « soigner » une toux ou un essoufflement. " +
+      "Si vous préférez affiner ça avec un conseiller, " +
+      allvapsUncertainNicotineReply() +
+      " Voulez-vous que je vous montre des e-liquides du catalogue pour comparer les taux affichés ?",
+    suggestions: ["Voir des e-liquides", "Parler à la boutique", "Autre question"],
     continueFlow: false,
     state: null,
     catalogHint: { category: "e-liquides", flavorTerms: [] },
@@ -441,7 +537,13 @@ export function matchQuickIntentFromMessage(message: string): AvaQuickIntent | n
   // Tolérance légère sur formulations proches
   const t = trimmed.toLowerCase();
   if (/d[eé]bute la vape|besoin d['’][eê]tre guid/i.test(t)) return "BEGINNER_VAPING";
-  if (/taux de nicotine choisir/i.test(t)) return "NICOTINE_GUIDANCE";
+  if (
+    /taux de nicotine|quel taux|combien de (mg|nicotine)|nicotine me conseil|taux me conseil/i.test(
+      t,
+    )
+  ) {
+    return "NICOTINE_GUIDANCE";
+  }
   if (/e-liquide fruit[eé]|meilleurs fruits|fruit[eé].*conseil/i.test(t))
     return "FRUIT_FLAVOUR_GUIDANCE";
   if (/mat[eé]riel.*commencer|mat[eé]riel adapt[eé] pour commencer/i.test(t))
@@ -455,4 +557,27 @@ export function getQuickFlowFromContext(
   const q = ctx?.quickFlow;
   if (!q?.flow || !q?.intent) return null;
   return q as AvaQuickFlowState;
+}
+
+/** Démarre le bilan nicotine ; si le client a déjà donné un nombre de cigarettes, on n'invente pas un taux. */
+export function startNicotineAssessmentFromMessage(message: string): QuickFlowResult | null {
+  const started = startQuickFlow("NICOTINE_GUIDANCE");
+  if (!started?.state) return started;
+
+  const cigsMatch = message.match(/(\d+)\s*cigarettes?/i);
+  if (!cigsMatch) return started;
+
+  const cigs = cigsMatch[1];
+  return {
+    content:
+      `Merci, environ ${cigs} cigarettes par jour, c’est un bon point de départ. ` +
+      `Il n’existe pas de conversion automatique vers un taux en mg/ml : je vais d’abord préciser votre dépendance et votre matériel. ` +
+      `À quel moment fumez-vous (ou fumiez-vous) la première cigarette après le réveil : dans les 5 minutes, dans la demi-heure, ou plus tard ?`,
+    suggestions: ["Dans les 5 minutes", "Dans la demi-heure", "Plus tard", "Je ne sais plus"],
+    continueFlow: true,
+    state: nextState(started.state, "NICOTINE_GUIDANCE", 3, {
+      status: "smokes",
+      cigs: `${cigs} cigarettes par jour`,
+    }),
+  };
 }

@@ -61,6 +61,8 @@ export interface AvaReply {
   suggestions: string[];
   products: AvaProductCard[];
   blocked?: boolean;
+  /** Réponse de sécurité : ne pas reformuler (OpenAI) ni proposer du catalogue. */
+  safetyLocked?: boolean;
   speaking?: boolean;
   conversationContext?: AvaConversationContext;
   /** Médiathèque pédagogique (cartes UI) — médias souvent encore DRAFT. */
@@ -334,6 +336,54 @@ export async function chatAva(
     return { content: AGE_REFUSAL, suggestions: [], products: [], blocked: true };
   }
 
+  // Garde-fous nicotine / respiration — prioritaires sur la vente et la FAQ
+  {
+    const { evaluateRespiratoryGuardrail } = await import("@/lib/ava/respiratory-guardrails");
+    const { startQuickFlow, getQuickFlowFromContext } = await import("@/lib/ava/quick-flows");
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    const existingFlow = getQuickFlowFromContext(prevCtx);
+    const guard = evaluateRespiratoryGuardrail(message, {
+      inNicotineFlow: existingFlow?.flow === "NICOTINE_SELECTION",
+      inBeginnerFlow: existingFlow?.flow === "BEGINNER_ONBOARDING",
+      inDiagnostic: Boolean(prevCtx.diagnosticSession?.active),
+    });
+    if (guard) {
+      if (guard.startNicotineFlow) {
+        const started = startQuickFlow("NICOTINE_GUIDANCE");
+        if (started) {
+          return {
+            content: `${guard.content}\n\n${started.content}`,
+            suggestions: started.suggestions,
+            products: [],
+            speaking: true,
+            safetyLocked: true,
+            conversationContext: {
+              ...prevCtx,
+              turn: (prevCtx.turn ?? 0) + 1,
+              quickFlow: started.state,
+              lastQuestion: started.content,
+              diagnosticSession: null,
+            },
+          };
+        }
+      }
+      return {
+        content: guard.content,
+        suggestions: guard.suggestions,
+        products: [],
+        speaking: true,
+        blocked: guard.blocked,
+        safetyLocked: true,
+        conversationContext: {
+          ...prevCtx,
+          turn: (prevCtx.turn ?? 0) + 1,
+          quickFlow: null,
+          lastQuestion: guard.content,
+        },
+      };
+    }
+  }
+
   if (isNameQuestion(message)) {
     return {
       content: AVA_NAME_REPLY,
@@ -491,6 +541,35 @@ export async function chatAva(
       products: [],
       speaking: true,
     };
+  }
+
+  // Bilan nicotine avant la FAQ métier (sinon un article « sels vs freebase » court-circuite le parcours)
+  {
+    const { matchQuickIntentFromMessage, startNicotineAssessmentFromMessage, getQuickFlowFromContext } = await import(
+      "@/lib/ava/quick-flows"
+    );
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    if (!prevCtx.diagnosticSession?.active && !getQuickFlowFromContext(prevCtx)) {
+      const intent = matchQuickIntentFromMessage(message);
+      if (intent === "NICOTINE_GUIDANCE") {
+        const started = startNicotineAssessmentFromMessage(message);
+        if (started) {
+          return {
+            content: started.content,
+            suggestions: started.suggestions,
+            products: [],
+            speaking: true,
+            conversationContext: {
+              ...prevCtx,
+              turn: (prevCtx.turn ?? 0) + 1,
+              quickFlow: started.state,
+              lastQuestion: started.content,
+              diagnosticSession: null,
+            },
+          };
+        }
+      }
+    }
   }
 
   // Mémoire métier vape (~15 ans) — culture / technique / législation / sécurité

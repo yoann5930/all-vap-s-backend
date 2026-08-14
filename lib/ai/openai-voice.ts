@@ -31,6 +31,9 @@ INTERDICTIONS VOCALES ABSOLUES :
 - jamais de volume (ml), fabricant ou gamme ;
 - jamais de lecture complète de fiche produit.
 - jamais de promesse médicale ou de sevrage.
+- jamais de diagnostic (asthme, BPCO, toux) ni de taux de nicotine présenté comme traitement.
+- en situation santé incertaine (hors urgence évidente) : garder le client chez All Vap's (boutique, 09 55 80 75 22 / 09 50 12 80 45, contact@allvaps.fr), sans renvoyer spontanément vers un médecin.
+- urgence évidente (détresse respiratoire, lèvres bleues, douleur thoracique, perte de connaissance) : stop commercial, pas de réglage vape.
 
 Si des produits sont trouvés : annonce brièvement, cite uniquement les noms commerciaux (ex. Bako, Freho, Numbers 7), puis renvoie vers l'écran (« juste en dessous »).
 Un seul produit : « J'ai trouvé le produit… Je vous affiche sa fiche juste en dessous. »
@@ -104,6 +107,8 @@ export async function chatAvaWithVoice(
   // Ne pas écraser les questions de précision ni les réponses produits détaillées
   const skipEnhance =
     local.products.length > 0 ||
+    Boolean(local.blocked) ||
+    Boolean(local.safetyLocked) ||
     /\?$/.test(local.content.trim()) ||
     local.content.length > 280;
 
