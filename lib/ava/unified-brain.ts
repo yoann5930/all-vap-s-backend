@@ -5,8 +5,8 @@
 import { getAvaCatalogService } from "@/lib/ai/ava";
 import { toAvaProductCard } from "@/lib/ai/ava/response-builder";
 import { chatWithAvaLlm } from "@/lib/ava/production-llm";
-import { stores } from "@/lib/stores";
 import { searchWebForAva, speakWebHits } from "@/lib/ava/android-web-search";
+import { AVA_LOYALTY_NOT_WIRED, speakAllVapsShops } from "@/lib/ava/shop-facts";
 import {
   AVA_IDENTITY_SPOKEN,
   AVA_SYSTEM_ID,
@@ -36,7 +36,16 @@ export type AvaBrainReply = {
   proposedAction: { type: string };
 };
 
-export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "MEMORY" | "GENERAL" {
+export type AvaNeed =
+  | "PRODUCT"
+  | "WEB"
+  | "BUSINESS"
+  | "MEMORY"
+  | "GENERAL"
+  | "SITE"
+  | "LOYALTY";
+
+export function classifyAvaNeed(raw: string): AvaNeed {
   const n = raw
     .toLowerCase()
     .normalize("NFD")
@@ -48,6 +57,20 @@ export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "
     /\b(memorise|retiens?|retient|retenir|retenons|souviens[- ]toi|tu te souviens|rappelle[- ]moi)\b/.test(n)
   ) {
     return "MEMORY";
+  }
+  if (
+    /\b(fidelatoo|fidelite|points? fidel|compte fidel|carte fidel|recompense fidel|qr code fidel)\b/.test(
+      n,
+    ) ||
+    /programme de fidelite|points de fidelite/.test(n)
+  ) {
+    return "LOYALTY";
+  }
+  if (
+    /le site|allvaps\.fr|site all vap/.test(n) &&
+    /fonctionn|marche|en ligne|disponible|sante|status|ca marche/.test(n)
+  ) {
+    return "SITE";
   }
   if (
     /recherche sur internet|cherche sur internet|meteo|météo|quel temps|actualit|dernier modele|dernier modèle/.test(
@@ -67,7 +90,7 @@ export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "
     return "BUSINESS";
   }
   const seeking =
-    /cherche|trouve|tu as|t as|vous avez|avez vous|il me faut|je veux|s il te plait|catalogue|stock|disponible|en rayon|il reste|rupture/.test(
+    /cherche|trouve|tu as|t as|vous avez|avez vous|il me faut|je veux|s il te plait|catalogue|stock|disponible|en rayon|il reste|rupture|recherche ce produit sur/.test(
       n,
     );
   const catalogItem =
@@ -82,6 +105,9 @@ export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "
     catalogItem &&
     (/^un |^une |^des |^du |s il te plait/.test(n) || /tu as quoi en |trouve[- ]moi |cherche[- ]moi /.test(n))
   ) {
+    return "PRODUCT";
+  }
+  if (!definition && /recherche .{0,80}sur (le site |all\s*vap)/.test(n)) {
     return "PRODUCT";
   }
   return "GENERAL";
@@ -227,6 +253,18 @@ export async function runAvaBrain(params: {
     }
   }
 
+  if (kind === "LOYALTY") {
+    console.info("FIDELATOO_CUSTOMER_LOOKUP status=not_implemented");
+    await appendTurn(session, message, AVA_LOYALTY_NOT_WIRED);
+    return reply(channel, personId, AVA_LOYALTY_NOT_WIRED, "SOURCE_ALLVAPS_SITE", "loyalty_status", false);
+  }
+
+  if (kind === "SITE") {
+    const spoken = await speakSiteHealth();
+    await appendTurn(session, message, spoken);
+    return reply(channel, personId, spoken, "SOURCE_ALLVAPS_SITE", "site_health", false);
+  }
+
   if (kind === "WEB") {
     try {
       const hits = await searchWebForAva(message, 3);
@@ -248,10 +286,7 @@ export async function runAvaBrain(params: {
   }
 
   if (kind === "BUSINESS") {
-    const lines = stores.map(
-      (s) => `${s.name}, ${s.address}, ${s.postalCode} ${s.city}. ${s.hours[0]}.`,
-    );
-    const spoken = `On a deux boutiques. ${lines.join(" ")}`;
+    const spoken = speakAllVapsShops();
     await appendTurn(session, message, spoken);
     return reply(channel, personId, spoken, "SOURCE_ALLVAPS_SITE", "search_allvaps_knowledge", false);
   }
@@ -290,6 +325,35 @@ export async function runAvaBrain(params: {
     null,
     Boolean(memoryLine),
   );
+}
+
+async function speakSiteHealth(): Promise<string> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+  try {
+    const res = await fetch("https://www.allvaps.fr/api/health", {
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return "Je n'arrive pas à confirmer l'état du site pour le moment.";
+    }
+    const data = (await res.json()) as {
+      status?: string;
+      checks?: { database?: string };
+    };
+    if (data.status === "ok" && data.checks?.database === "ok") {
+      return "Oui, le site All Vap's répond. La base catalogue est joignable.";
+    }
+    if (data.status === "ok") {
+      return "Le site All Vap's répond. Je n'ai pas le détail de tous les contrôles.";
+    }
+    return "Le site All Vap's répond, mais un contrôle n'est pas au vert.";
+  } catch {
+    return "Je n'arrive pas à confirmer l'état du site pour le moment.";
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function appendTurn(

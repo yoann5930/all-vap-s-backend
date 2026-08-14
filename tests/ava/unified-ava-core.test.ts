@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import { AVA_IDENTITY_SPOKEN, AVA_SYSTEM_ID, avaSystemPrompt, isAvaSelfIntro } from "../../lib/ava/ava-core";
 import { personIdFromEmail, personIdFromEmployee, extractMemorizeFact } from "../../lib/ava/shared-memory";
 import { classifyAvaNeed } from "../../lib/ava/unified-brain";
+import { AVA_OFFICIAL_PHONES, AVA_PUBLIC_EMAIL, AVA_LOYALTY_NOT_WIRED, speakAllVapsShops } from "../../lib/ava/shop-facts";
 
 const brainSrc = readFileSync("lib/ava/unified-brain.ts", "utf8");
 
@@ -42,7 +43,14 @@ assert(classifyAvaNeed("Un liquide fruité s'il te plaît") === "PRODUCT", "liqu
 assert(classifyAvaNeed("Est-ce que ce liquide fraise est disponible ?") === "PRODUCT", "disponible = stock lecture");
 assert(classifyAvaNeed("Vous êtes ouvert ?") === "BUSINESS", "ouvert = boutique");
 assert(classifyAvaNeed("Où vous êtes ?") === "BUSINESS", "où vous êtes = boutique");
+assert(classifyAvaNeed("Le site All Vap's fonctionne ?") === "SITE", "site health = SITE");
+assert(classifyAvaNeed("J'ai un compte Fidelatoo ?") === "LOYALTY", "fidelatoo = loyalty");
+assert(classifyAvaNeed("Recherche ce produit sur All Vap's") === "PRODUCT", "recherche allvaps = catalogue");
 assert(classifyAvaNeed("Recherche sur Internet une information récente.") === "WEB", "internet = outil interne");
+assert(speakAllVapsShops().includes(AVA_OFFICIAL_PHONES.hautmont), "téléphone Hautmont officiel");
+assert(speakAllVapsShops().includes(AVA_OFFICIAL_PHONES.leQuesnoy), "téléphone Quesnoy officiel");
+assert(speakAllVapsShops().includes(AVA_PUBLIC_EMAIL), "email contact officiel");
+assert(AVA_LOYALTY_NOT_WIRED.includes("sans compte fidélité"), "fidélité facultative");
 assert(Boolean(extractMemorizeFact("Pour ce test, retiens le mot ORANGE.")), "retiens ORANGE = mémoire");
 assert(classifyAvaNeed("Pour ce test, retiens le mot ORANGE.") === "MEMORY", "retiens = intent MEMORY");
 assert(!extractMemorizeFact("Quel est mon mot de test ?"), "rappel n'est pas une écriture");
