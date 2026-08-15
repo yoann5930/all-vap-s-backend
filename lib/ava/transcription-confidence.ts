@@ -5,13 +5,17 @@ export type TranscriptionConfidence = "high" | "medium" | "low";
 
 const UNCERTAIN_MARKERS = [
   /\b(euh+|hum+|hmm+)\b/i,
-  /\b(truc|machin|bidule)\b/i,
+  /^(truc|machin|bidule)$/i,
   /^.{1,2}$/,
 ];
+
+const CONTEXTUAL_SHORT =
+  /^(fruit[ée]|gourmand|menthe|fraise|frais|hautmont|quesnoy|mint|fruity|oui|non|le premier|le deuxi[eè]me|l['’]autre)$/i;
 
 export function estimateTranscriptionConfidence(text: string): TranscriptionConfidence {
   const t = text.trim();
   if (!t) return "low";
+  if (CONTEXTUAL_SHORT.test(t)) return "high";
   if (UNCERTAIN_MARKERS.some((re) => re.test(t))) return "low";
   if (t.split(/\s+/).length < 2) return "medium";
   if (t.length < 8) return "medium";

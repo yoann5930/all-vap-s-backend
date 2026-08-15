@@ -28,6 +28,11 @@ const FLAVOR_SYNONYMS: Array<{ family: AvaFlavorFamily; terms: string[] }> = [
       "groseille",
       "cerise",
       "berry",
+      "berries",
+      "baies",
+      "red fruits",
+      "red fruit",
+      "strawberry",
       "fraise tagada",
     ],
   },
@@ -53,11 +58,14 @@ const FLAVOR_SYNONYMS: Array<{ family: AvaFlavorFamily; terms: string[] }> = [
       "cookie",
       "tarte",
       "chocolat",
+      "bonbon",
+      "candy",
+      "sucre",
     ],
   },
   {
     family: "menthe",
-    terms: ["menthe", "menthol", "mint", "chlorophylle"],
+    terms: ["menthe", "menthol", "mint", "chlorophylle", "mentholé", "menthole"],
   },
   {
     family: "tabac",
@@ -69,11 +77,11 @@ const FLAVOR_SYNONYMS: Array<{ family: AvaFlavorFamily; terms: string[] }> = [
   },
   {
     family: "fruite",
-    terms: ["fruite", "fruit", "fruits"],
+    terms: ["fruite", "fruit", "fruits", "fruity"],
   },
   {
     family: "frais",
-    terms: ["frais", "fraicheur", "ice", "freeze", "glace", "fresh", "cool"],
+    terms: ["frais", "fraicheur", "ice", "freeze", "glace", "glacee", "fresh", "cool", "glacé"],
   },
 ];
 
@@ -248,10 +256,10 @@ export function mergeContextFromMessage(
   const hasExplicitLiquid = /(e-?liquide|liquide|eliquide)/.test(t);
   const hasSpecificFlavor =
     terms.some((x) =>
-      /fraise|framboise|cassis|myrtille|mure|cerise|vanille|caramel|menthe|citron|mangue|ananas|tabac/.test(
+      /fraise|framboise|cassis|myrtille|mure|cerise|vanille|caramel|menthe|citron|mangue|ananas|tabac|fruit.?rouge/.test(
         norm(x)
       )
-    ) || /fraise|framboise|cassis|myrtille|menthe|vanille|citron|mangue/.test(t);
+    ) || /fraise|framboise|cassis|myrtille|menthe|vanille|citron|mangue|fruit.?rouge/.test(t);
   const isVagueLiquid =
     /^(je\s+)?(cherche|veux|voudrais)\s+(un\s+)?(liquide|e-?liquide)\.?$/i.test(message.trim()) ||
     (Boolean(base.category === "e-liquides" || /liquide/.test(t)) &&

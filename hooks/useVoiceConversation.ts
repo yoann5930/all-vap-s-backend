@@ -7,6 +7,7 @@ import { AVA_VOICE_CONFIG } from "@/lib/ai/ava/config";
 import type { AvaConversationContext } from "@/lib/ai/ava/types";
 import { emptyConversationContext } from "@/lib/ai/ava/types";
 import { needsConfirmation } from "@/lib/ava/transcription-confidence";
+import { AvaSpeechNormalizer } from "@/lib/ava/speech";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 
@@ -147,9 +148,9 @@ export function useVoiceConversation() {
     (text) => {
       const trimmed = text.trim();
       if (!trimmed) return;
-      // Transcription incertaine : confirmer avant envoi (diagnostic sensible)
-      if (needsConfirmation(trimmed)) {
-        setPendingConfirm(trimmed);
+      const normalized = AvaSpeechNormalizer(trimmed).normalized || trimmed;
+      if (needsConfirmation(normalized) && needsConfirmation(trimmed)) {
+        setPendingConfirm(normalized);
         ignoreResultsRef.current = true;
         recognitionApiRef.current?.stopListening();
         setVoiceState("PAUSED");
@@ -157,7 +158,7 @@ export function useVoiceConversation() {
         return;
       }
       onUserSpokeRef.current?.();
-      void sendRef.current(trimmed);
+      void sendRef.current(normalized);
     },
     {
       continuous: AVA_VOICE_CONFIG.continuousMode,

@@ -1,0 +1,152 @@
+{
+  "version": "1.0",
+  "updatedAt": "2026-08-15",
+  "note": "Variantes STT / orales All Vap's. Corrections uniquement si le contexte de catégorie le justifie.",
+  "entries": [
+    {
+      "id": "brand-allvaps",
+      "category": "BRAND",
+      "canonical": "All Vap's",
+      "variants": [
+        "all vap's",
+        "all vaps",
+        "all vap",
+        "all vape",
+        "ol vaps",
+        "ol vap",
+        "allvaps",
+        "al vaps"
+      ]
+    },
+    {
+      "id": "city-hautmont",
+      "category": "CITY",
+      "canonical": "Hautmont",
+      "variants": [
+        "hautmont",
+        "haut mont",
+        "o mon",
+        "omon",
+        "au monde",
+        "au mont",
+        "oh mon",
+        "hautmon",
+        "omont"
+      ]
+    },
+    {
+      "id": "city-quesnoy",
+      "category": "CITY",
+      "canonical": "Le Quesnoy",
+      "variants": [
+        "le quesnoy",
+        "quesnoy",
+        "le quenois",
+        "quenois",
+        "le kenoi",
+        "kenoi",
+        "le kenoa",
+        "kenoa",
+        "le kenois",
+        "kenois",
+        "quesnoi",
+        "le quesnoi"
+      ]
+    },
+    {
+      "id": "fidelatoo",
+      "category": "FIDELATOO_TERM",
+      "canonical": "Fidelatoo",
+      "variants": ["fidelatoo", "fidélato", "fidelato", "fidélatoo", "fidelato", "fidel a too"]
+    },
+    {
+      "id": "flavor-menthe",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "menthe",
+      "variants": ["menthe", "mint", "mente", "montte", "monte", "ment", "chlorophylle"]
+    },
+    {
+      "id": "flavor-fraise",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "fraise",
+      "variants": ["fraise", "strawberry", "frez", "fraize"]
+    },
+    {
+      "id": "flavor-fruits-rouges",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "fruits rouges",
+      "variants": [
+        "fruits rouges",
+        "fruit rouge",
+        "fruit rouges",
+        "frui rouj",
+        "frui rouge",
+        "red fruits",
+        "red fruit",
+        "baies",
+        "berries",
+        "berry"
+      ]
+    },
+    {
+      "id": "flavor-fruite",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "fruité",
+      "variants": ["fruite", "fruité", "fruity", "fruiti"]
+    },
+    {
+      "id": "flavor-frais",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "frais",
+      "variants": ["frais", "frai", "fresh", "fraiche", "fraicheur", "glace", "glace", "ice", "cool"]
+    },
+    {
+      "id": "flavor-gourmand",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "gourmand",
+      "variants": ["gourmand", "dessert", "patissier", "pâtissier", "bonbon", "candy", "sucre", "sweet"]
+    },
+    {
+      "id": "flavor-tabac",
+      "category": "PRODUCT_FLAVOR",
+      "canonical": "classic",
+      "variants": ["classic", "classique", "tabac", "tobacco"]
+    },
+    {
+      "id": "business-horaire",
+      "category": "BUSINESS_TERM",
+      "canonical": "horaires",
+      "variants": ["horaire", "horaires", "oraires", "orraire"]
+    },
+    {
+      "id": "business-open",
+      "category": "BUSINESS_TERM",
+      "canonical": "ouvert",
+      "variants": ["ouvert", "ouverte", "ouverture", "c ouvert"]
+    },
+    {
+      "id": "business-close",
+      "category": "BUSINESS_TERM",
+      "canonical": "fermez",
+      "variants": ["fermez", "fermer", "fermeture", "vous fermez"]
+    },
+    {
+      "id": "business-magasin",
+      "category": "BUSINESS_TERM",
+      "canonical": "magasin",
+      "variants": ["magasin", "boutique", "store", "shop"]
+    },
+    {
+      "id": "volume-50",
+      "category": "BUSINESS_TERM",
+      "canonical": "50 ml",
+      "variants": ["50 ml", "50ml", "cinquante ml", "50 millilitres"]
+    },
+    {
+      "id": "volume-100",
+      "category": "BUSINESS_TERM",
+      "canonical": "100 ml",
+      "variants": ["100 ml", "100ml", "cent ml"]
+    }
+  ]
+}

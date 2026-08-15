@@ -105,6 +105,9 @@ export interface AvaConversationContext {
   diagnosticSession?: import("@/lib/ava/diagnostic-session").DiagnosticSession | null;
   /** Parcours action rapide (débutant, nicotine, fruits, matériel). */
   quickFlow?: import("@/lib/ava/quick-flows").AvaQuickFlowState | null;
+  /** Dernier sujet oral (follow-up « et demain », « et en fraise »). */
+  lastSpeechTopic?: "store" | "product" | "identity" | "hours" | "stock" | null;
+  lastStoreHint?: PreferredStoreId | null;
 }
 
 export function emptyConversationContext(

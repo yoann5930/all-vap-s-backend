@@ -109,6 +109,7 @@ export async function chatAvaWithVoice(
     local.products.length > 0 ||
     Boolean(local.blocked) ||
     Boolean(local.safetyLocked) ||
+    Boolean(local.factsLocked) ||
     /\?$/.test(local.content.trim()) ||
     local.content.length > 280;
 

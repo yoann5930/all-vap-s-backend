@@ -63,6 +63,8 @@ export interface AvaReply {
   blocked?: boolean;
   /** Réponse de sécurité : ne pas reformuler (OpenAI) ni proposer du catalogue. */
   safetyLocked?: boolean;
+  /** Chiffres métier (stock) : ne pas reformuler, ne pas envoyer au LLM. */
+  factsLocked?: boolean;
   speaking?: boolean;
   conversationContext?: AvaConversationContext;
   /** Médiathèque pédagogique (cartes UI) — médias souvent encore DRAFT. */
@@ -175,7 +177,7 @@ async function storeInfo(
 ): Promise<string | null> {
   const lower = text.toLowerCase();
   const asksStore =
-    /boutique|magasin|horaire|adresse|où|ou trouver|contact|téléphone|telephone|proche|près de|pres de|itin[eé]raire/i.test(
+    /boutique|magasin|horaire|adresse|où|ou trouver|etes ou|êtes où|contact|téléphone|telephone|proche|près de|pres de|itin[eé]raire|fermez|fermeture|ouvert|ouverture|num[eé]ro|\bwhere\b|\bstore\b|\bclose\b/i.test(
       lower
     );
   if (!asksStore) return null;
@@ -243,7 +245,7 @@ function isHardwareAssistanceMessage(text: string): boolean {
 }
 
 function isNameQuestion(text: string): boolean {
-  return /(?:comment\s+(?:tu\s+t['’]appelle|vous\s+appelez)|quel\s+est\s+(?:ton|votre)\s+nom|t['’]appelle|qui\s+es[- ]tu|qui\s+[êe]tes[- ]vous)/i.test(
+  return /(?:comment\s+(?:tu\s+t['’]appelle[s]?|vous\s+appelez)|quel\s+est\s+(?:ton|votre)\s+nom|t['’]appelle|qui\s+es[- ]tu|qui\s+tu\s+es|qui\s+[êe]tes[- ]vous|tu\s+es\s+qui|t['’]es\s+qui|t\s+es\s+qui|c['’]est\s+qui|c\s+qui\s+ava|who\s+are\s+you|what\s+are\s+you)/i.test(
     text
   );
 }
@@ -329,12 +331,123 @@ export async function chatAva(
   message: string,
   options?: AvaChatOptions
 ): Promise<AvaReply> {
-  const text = message.toLowerCase();
+  const prevForSpeech = options?.conversationContext ?? emptyConversationContext();
+  const { understandUtterance, emitUnderstandLogs } = await import("@/lib/ava/speech");
+  const understanding = understandUtterance(message, {
+    lastQuestion: prevForSpeech.lastQuestion,
+    lastTopic: prevForSpeech.lastSpeechTopic ?? null,
+    lastStoreHint: prevForSpeech.lastStoreHint ?? null,
+    lastProposedNames: prevForSpeech.lastProposedNames,
+    flavorFamily: prevForSpeech.flavorFamily,
+  });
+  emitUnderstandLogs(understanding);
 
-  const ageCheck = isAgeConfirmed(message);
-  if (ageCheck === false || /mineur|moins de 18|< 18 ans/i.test(text)) {
+  const ageSource = `${message} ${understanding.normalizedForRouter}`;
+  const ageDenied =
+    isAgeConfirmed(message) === false ||
+    isAgeConfirmed(understanding.normalizedForRouter) === false;
+  if (ageDenied || /mineur|moins de 18|< 18 ans/i.test(ageSource)) {
     return { content: AGE_REFUSAL, suggestions: [], products: [], blocked: true };
   }
+
+  if (
+    understanding.clarificationRequired &&
+    understanding.clarification &&
+    (understanding.intentConfidence === "low" || understanding.rootCause === "ENTITY_AMBIGUOUS")
+  ) {
+    return {
+      content: understanding.clarification,
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      speaking: true,
+      conversationContext: prevForSpeech,
+    };
+  }
+
+  if (understanding.intent === "FIDELATOO") {
+    return {
+      content:
+        "Ici je t'aide sur les e-liquides, le matériel et les boutiques All Vap's. Fidelatoo reste un outil interne de l'équipe.",
+      suggestions: ["E-liquide fruité", "Nos magasins"],
+      products: [],
+      speaking: true,
+      conversationContext: prevForSpeech,
+    };
+  }
+
+  {
+    const { detectAvaStockQuestion, isAvaStockIntent } = await import("@/lib/ava/stock-question");
+    const stockQ =
+      detectAvaStockQuestion(understanding.normalizedForRouter || message, {
+        lastTopic: prevForSpeech.lastSpeechTopic,
+        lastStoreHint: prevForSpeech.lastStoreHint,
+        lastProposedNames: prevForSpeech.lastProposedNames,
+      }) ||
+      (isAvaStockIntent(understanding.intent)
+        ? {
+            intent: understanding.intent,
+            storeHint: prevForSpeech.lastStoreHint ?? null,
+            productHint: null,
+          }
+        : null);
+    if (stockQ) {
+      const {
+        getAvaStockSummaryReadonly,
+        formatAvaStockSummaryAnswer,
+        formatAvaProductStockDetail,
+        FORBIDDEN_GLOBAL_STOCK_REPLY,
+      } = await import("@/lib/ava/stock-summary");
+      let content =
+        stockQ.intent === "PRODUCT_STOCK_DETAIL"
+          ? await formatAvaProductStockDetail(
+              stockQ.productHint,
+              prevForSpeech.lastProposedProductIds ?? [],
+            )
+          : formatAvaStockSummaryAnswer(
+              stockQ.intent,
+              await getAvaStockSummaryReadonly(),
+              stockQ.storeHint,
+            );
+      if (FORBIDDEN_GLOBAL_STOCK_REPLY.test(content) && stockQ.intent !== "PRODUCT_STOCK_DETAIL") {
+        content =
+          "Je te donne l'état global du stock, pas une recherche produit. Relance-moi si le total ne s'affiche pas.";
+      }
+      const hint = stockQ.storeHint ?? prevForSpeech.lastStoreHint ?? null;
+      return {
+        content,
+        suggestions: ["Détail Hautmont", "Détail Le Quesnoy", "Références en rupture"],
+        products: [],
+        speaking: true,
+        factsLocked: true,
+        conversationContext: {
+          ...prevForSpeech,
+          lastSpeechTopic: "stock",
+          lastStoreHint: hint,
+          lastQuestion: content,
+          turn: (prevForSpeech.turn ?? 0) + 1,
+        },
+      };
+    }
+  }
+
+  if (
+    understanding.intent === "GENERAL" &&
+    /\b(why is the sky blue|pourquoi le ciel est bleu|capitale de la france)\b/i.test(
+      understanding.normalizedForRouter
+    )
+  ) {
+    return {
+      content:
+        "Je peux surtout t'aider sur la vape All Vap's : e-liquides, matériel et boutiques. Tu cherches un liquide, un kit, ou un magasin ?",
+      suggestions: AVA_SUGGESTIONS,
+      products: [],
+      speaking: true,
+      conversationContext: prevForSpeech,
+    };
+  }
+
+  message = understanding.normalizedForRouter;
+  const text = message.toLowerCase();
 
   // Garde-fous nicotine / respiration — prioritaires sur la vente et la FAQ
   {
@@ -390,6 +503,11 @@ export async function chatAva(
       suggestions: AVA_SUGGESTIONS,
       products: [],
       speaking: true,
+      conversationContext: {
+        ...prevForSpeech,
+        lastSpeechTopic: "identity",
+        turn: (prevForSpeech.turn ?? 0) + 1,
+      },
     };
   }
 
@@ -470,14 +588,25 @@ export async function chatAva(
     }
   }
 
-  const store = await storeInfo(message, options?.preferredStoreId);
+  const store = await storeInfo(message, options?.preferredStoreId ?? prevForSpeech.lastStoreHint);
   if (store) {
+    const hint =
+      /quesnoy/i.test(message) ? "le-quesnoy" : /hautmont/i.test(message) ? "hautmont" : prevForSpeech.lastStoreHint ?? null;
     return {
       content: store.startsWith("Pouvez-vous") || store.startsWith("La boutique")
         ? store
         : `Voici nos boutiques :\n\n${store}`,
       suggestions: ["E-liquide fruité", "Je débute", "Promotions"],
       products: [],
+      conversationContext: {
+        ...prevForSpeech,
+        lastSpeechTopic: /fermez|ouvert|horaire|quelle heure|close|open today/i.test(message)
+          ? "hours"
+          : "store",
+        lastStoreHint: hint,
+        lastQuestion: store,
+        turn: (prevForSpeech.turn ?? 0) + 1,
+      },
     };
   }
 
@@ -890,6 +1019,7 @@ export async function chatAva(
         ? built.suggestions
         : built.products.map((p) => p.name),
       lastQuestion: null,
+      lastSpeechTopic: "product",
     };
 
     if (userId) {
