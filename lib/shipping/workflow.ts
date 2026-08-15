@@ -38,7 +38,7 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
 }> {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
-    include: { items: { include: { product: true, variant: true } } },
+    include: { items: { include: { product: true } } },
   });
   if (!order) throw new Error("NOT_FOUND");
 
@@ -72,7 +72,7 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     items: order.items.map((i) => ({
       name: i.product.name,
       qty: i.quantity,
-      nicotine: i.variant?.nicotineLabel || i.variant?.nicotineMg,
+      nicotine: null,
       sku: i.product.sku,
     })),
     weightGramsEstimate: Math.max(200, order.items.reduce((s, i) => s + i.quantity * 40, 0)),
@@ -168,9 +168,11 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     },
   });
 
-  await emailManagerShipmentPack({ orderId, shipmentId: shipment.id });
+  if (!order.isAudit) {
+    await emailManagerShipmentPack({ orderId, shipmentId: shipment.id });
+  }
 
-  if (order.userId) {
+  if (order.userId && !order.isAudit) {
     await refreshClientMemoryFromOrders(order.userId).catch(() => null);
   }
 

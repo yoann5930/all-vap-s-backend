@@ -45,7 +45,6 @@ async function loadOrder(orderId: string) {
       items: {
         include: {
           product: { select: { name: true, sku: true } },
-          variant: { select: { name: true, nicotineLabel: true, nicotineMg: true } },
         },
       },
     },
@@ -91,7 +90,14 @@ async function buildPdf(
   type: OrderDocumentType,
   invoiceNumber?: string | null
 ): Promise<Uint8Array> {
-  return buildBrandedOrderPdf(order, type, invoiceNumber);
+  return buildBrandedOrderPdf(
+    {
+      ...order,
+      items: order.items.map((item) => ({ ...item, variant: null })),
+    },
+    type,
+    invoiceNumber
+  );
 }
 
 /**

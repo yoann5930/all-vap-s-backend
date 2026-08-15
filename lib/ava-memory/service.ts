@@ -100,7 +100,6 @@ export async function refreshClientMemoryFromOrders(userId: string) {
                   },
                 },
               },
-              variant: { select: { nicotineMg: true, nicotineLabel: true } },
             },
           },
           documents: { select: { type: true, invoiceNumber: true } },
@@ -144,7 +143,6 @@ export async function refreshClientMemoryFromOrders(userId: string) {
           flavorCount.set(part, (flavorCount.get(part) || 0) + item.quantity);
         }
       }
-      if (item.variant?.nicotineMg != null) nicotine.push(item.variant.nicotineMg);
     }
   }
 
@@ -267,7 +265,6 @@ export async function getClientMemoryDossier(userId: string) {
       items: {
         include: {
           product: { select: { name: true, brand: true } },
-          variant: { select: { nicotineLabel: true, nicotineMg: true } },
         },
       },
     },
@@ -316,7 +313,7 @@ export async function getClientMemoryDossier(userId: string) {
         name: i.product.name,
         brand: i.product.brand,
         qty: i.quantity,
-        nicotine: i.variant?.nicotineLabel || i.variant?.nicotineMg,
+        nicotine: null,
       })),
     })),
     emails: emails.map((e) => ({

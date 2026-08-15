@@ -35,7 +35,6 @@ export async function transitionOrderStatus(
       items: {
         include: {
           product: { select: { name: true } },
-          variant: { select: { name: true, nicotineLabel: true, nicotineMg: true } },
         },
       },
     },
@@ -58,7 +57,11 @@ export async function transitionOrderStatus(
     throw new Error("INVALID_STATUS_TRANSITION");
   }
 
-  if (toStatus === "SHIPPED" && order.deliveryMethod !== "STORE_PICKUP") {
+  if (
+    toStatus === "SHIPPED" &&
+    order.deliveryMethod !== "STORE_PICKUP" &&
+    !order.isAudit
+  ) {
     const tracking = options.trackingNumber?.trim() || order.trackingNumber;
     if (!tracking) throw new Error("TRACKING_REQUIRED");
   }
@@ -91,7 +94,7 @@ export async function transitionOrderStatus(
     return o;
   });
 
-  if (!options.skipNotifications) {
+  if (!options.skipNotifications && !order.isAudit) {
     await runStatusSideEffects(orderId, order.status, toStatus, updated);
   }
 

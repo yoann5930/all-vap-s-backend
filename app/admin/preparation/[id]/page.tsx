@@ -25,7 +25,6 @@ export default async function PreparationDetailPage({
       items: {
         include: {
           product: { select: { name: true, imageUrl: true } },
-          variant: { select: { name: true, nicotineLabel: true, nicotineMg: true } },
         },
       },
     },
@@ -58,7 +57,7 @@ export default async function PreparationDetailPage({
       <PreparationWorkstation
         orderId={order.id}
         status={order.status}
-        items={order.items}
+        items={order.items.map((item) => ({ ...item, variant: null }))}
       />
     </div>
   );

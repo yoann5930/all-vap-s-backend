@@ -31,7 +31,6 @@ export default async function AdminOrderDetailPage({
       items: {
         include: {
           product: { select: { name: true, sku: true } },
-          variant: { select: { name: true, nicotineLabel: true, nicotineMg: true } },
         },
       },
       user: {
@@ -186,13 +185,6 @@ export default async function AdminOrderDetailPage({
                 <li key={item.id} className="flex justify-between py-2 text-sm">
                   <span>
                     {item.quantity}× {item.product.name}
-                    {item.variant
-                      ? ` — ${item.variant.name}${
-                          item.variant.nicotineLabel
-                            ? ` (${item.variant.nicotineLabel})`
-                            : ""
-                        }`
-                      : ""}
                     {item.priceCents === 0 ? " [OFFERT]" : ""}
                   </span>
                   <span>{formatPrice(item.priceCents * item.quantity)}</span>

@@ -21,7 +21,6 @@ export default async function AdminPreparationPage() {
       items: {
         include: {
           product: { select: { name: true, imageUrl: true } },
-          variant: { select: { name: true, nicotineLabel: true, nicotineMg: true } },
         },
       },
     },
