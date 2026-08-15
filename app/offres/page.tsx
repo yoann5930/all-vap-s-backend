@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Offres",
   description:
-    "Offres boutique All Vap's : e-liquides 10 ml 5+1 et Twenty dégressive. Remise au panier, prix catalogue inchangé.",
+    "Offres boutique All Vap's : e-liquides 10 ml dégressive et Twenty dégressive. Remise au panier, prix catalogue inchangé.",
   alternates: { canonical: absoluteUrl("/offres") },
 };
 

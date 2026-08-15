@@ -9,9 +9,9 @@ import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Offre 10 ml — 5+1",
+  title: "Offre 10 ml dégressive",
   description:
-    "Offre boutique All Vap's : 5 e-liquides 10 ml + 1 offert. Remise au panier uniquement.",
+    "Offre boutique All Vap's : e-liquides 10 ml dégressifs (6,90 € → 3,90 €, 5+1 à 10+6). Remise au panier uniquement.",
   alternates: { canonical: absoluteUrl("/offres/10ml") },
 };
 
@@ -37,8 +37,7 @@ export default async function Offre10mlPage() {
       isActive: true,
       visibleOnline: true,
       catalogStatus: { in: ["valide", "actif"] },
-      promotion10mlEligible: true,
-      volumeMl: 10,
+      OR: [{ volumeMl: 10 }, { productType: "10ml" }],
     },
     include: productInclude,
     orderBy: { name: "asc" },
@@ -49,11 +48,9 @@ export default async function Offre10mlPage() {
       category: p.category,
       productType: p.productType,
       volumeMl: p.volumeMl,
-      promotion10mlEligible: p.promotion10mlEligible,
       visibleOnline: p.visibleOnline,
       isActive: p.isActive,
       catalogStatus: p.catalogStatus,
-      stock: p.stock,
     })
   );
 
@@ -63,7 +60,7 @@ export default async function Offre10mlPage() {
         items={[
           { name: "Accueil", path: "/" },
           { name: "Offres", path: "/offres" },
-          { name: "10 ml 5+1", path: "/offres/10ml" },
+          { name: "10 ml", path: "/offres/10ml" },
         ]}
       />
       <div className="mt-4">
@@ -77,7 +74,14 @@ export default async function Offre10mlPage() {
       <section className="mt-8">
         <h2 className="font-display text-xl text-white">E-liquides 10 ml éligibles</h2>
         <div className="mt-5">
-          <ProductGrid products={products} />
+          {products.length === 0 ? (
+            <p className="text-sm text-[#A7B0BC]">
+              L’offre ci-dessus s’applique au panier dès qu’un e-liquide 10 ml est publié.
+              Le catalogue 10 ml se reconstitue référence par référence.
+            </p>
+          ) : (
+            <ProductGrid products={products} />
+          )}
         </div>
       </section>
     </div>

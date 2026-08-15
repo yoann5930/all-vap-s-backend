@@ -1,20 +1,44 @@
 /**
- * Offre dégressive e-liquides 10 ml UNIQUEMENT.
+ * Offre dégressive e-liquides 10 ml UNIQUEMENT — panier / checkout.
  *
- * Éligibilité STRICTE (toutes conditions requises) :
- * - category = e-liquide
- * - volumeMl = 10
- * - promotion10mlEligible = true
- * - variante / produit publié et disponible
+ * Prix catalogue / SumUp inchangé (souvent 6,90 €). Aucune écriture SumUp.
+ * Toutes saveurs 10 ml éligibles se cumulent (1 pool).
  *
- * JAMAIS : 50 ml, 100 ml, e-cigs, pods, résistances, accessoires, DIY, autres.
- * Aucune modification de prix SumUp — remise calculée côté panier uniquement.
+ * Paliers (quantité payante dans le panier) :
+ *  1 → 6,90 €/u
+ *  2 → 5,90 €/u
+ *  3 → 4,90 €/u
+ *  4 → 3,90 €/u
+ *  5 → 3,90 €/u + 1 offert (5+1, livré en plus)
+ *  6 → 3,90 €/u + 2 offerts (6+2)
+ *  7 → 3,90 €/u + 3 offerts
+ *  8 → 3,90 €/u + 4 offerts
+ *  9 → 3,90 €/u + 5 offerts
+ * 10 → 3,90 €/u + 6 offerts (10+6)
+ *
+ * Au-delà de 10 : packs de 10 (3,90 € + 6 offerts) + palier du reste.
+ * JAMAIS : 20 / 50 / 100 ml, e-cigs, pods, résistances, accessoires, DIY.
  */
 
-/** Palier 5+1 : pour chaque groupe de 6 unités éligibles, 1 offerte (la moins chère). */
-export const PROMO_10ML_GROUP_SIZE = 6;
-export const PROMO_10ML_FREE_PER_GROUP = 1;
-export const PROMO_10ML_LABEL = "Offre 10 ml — 5+1";
+export const PROMO_10ML_LABEL = "Offre 10 ml dégressive";
+export const TEN_ML_CATALOG_UNIT_CENTS = 690;
+export const TEN_ML_PACK_UNIT_CENTS = 390;
+export const TEN_ML_PACK_FREE_EXTRA = 6;
+
+export const TEN_ML_TIERS = [
+  { qty: 1, unitCents: 690, freeExtra: 0 },
+  { qty: 2, unitCents: 590, freeExtra: 0 },
+  { qty: 3, unitCents: 490, freeExtra: 0 },
+  { qty: 4, unitCents: 390, freeExtra: 0 },
+  { qty: 5, unitCents: 390, freeExtra: 1 },
+  { qty: 6, unitCents: 390, freeExtra: 2 },
+  { qty: 7, unitCents: 390, freeExtra: 3 },
+  { qty: 8, unitCents: 390, freeExtra: 4 },
+  { qty: 9, unitCents: 390, freeExtra: 5 },
+  { qty: 10, unitCents: 390, freeExtra: 6 },
+] as const;
+
+export type TenMlTier = (typeof TEN_ML_TIERS)[number];
 
 export interface Promo10mlEligibleInput {
   category?: string | null;
@@ -25,7 +49,6 @@ export interface Promo10mlEligibleInput {
   visibleOnline?: boolean | null;
   isActive?: boolean | null;
   catalogStatus?: string | null;
-  /** Stock disponible de la ligne (variante ou produit) */
   availableQuantity?: number | null;
   stock?: number | null;
 }
@@ -43,12 +66,35 @@ export interface Promo10mlCartLine {
   availableQuantity?: number | null;
 }
 
+export interface Promo10mlFreeExtra {
+  productId: string;
+  variantId?: string | null;
+  name: string;
+  quantity: number;
+  unitPriceCents: number;
+}
+
+export interface Promo10mlQuote {
+  paidQuantity: number;
+  unitCents: number | null;
+  freeExtra: number;
+  payCents: number;
+  label: string | null;
+}
+
 export interface Promo10mlResult {
   eligibleQuantity: number;
   ignoredQuantity: number;
+  unitCents: number | null;
+  /** Flacons offerts à livrer EN PLUS du panier. */
+  freeExtra: number;
+  /** Alias de freeExtra (affichage historique). */
   freeQuantity: number;
+  catalogSubtotalCents: number;
+  payCents: number;
   discountCents: number;
-  /** Indices / lignes contribuant aux unités offertes (pour affichage) */
+  extras: Promo10mlFreeExtra[];
+  unfulfilledFreeExtra: number;
   freeUnits: Array<{
     productId: string;
     variantId?: string | null;
@@ -56,14 +102,14 @@ export interface Promo10mlResult {
     unitPriceCents: number;
   }>;
   label: string | null;
-  /** Détail debug / admin */
+  quoteLabel: string | null;
   reasonExcludedSample: string[];
+  avaSummary: string;
 }
 
 function isEliquideCategory(category?: string | null, categoryName?: string | null): boolean {
   const t = `${category || ""} ${categoryName || ""}`.toLowerCase();
   if (!t.trim()) return false;
-  // Exclusions explicites hors e-liquide
   if (
     /cigarette|e-?cig|pod|r[eé]sistance|accessoire|diy|base\b|booster|matériel|materiel|kit\b|mod\b|atomiseur/.test(
       t
@@ -86,15 +132,13 @@ function resolveVolumeMl(input: Promo10mlEligibleInput): number | null {
 }
 
 /**
- * Règle d'éligibilité unique — utilisée panier, checkout, admin, badges, tests.
+ * E-liquide 10 ml publié. Le flag admin n'est plus bloquant :
+ * en production il n'était jamais posé, ce qui vidait l'offre.
  */
 export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
-  if (input.promotion10mlEligible !== true) return false;
-
   const volumeMl = resolveVolumeMl(input);
   if (volumeMl !== 10) return false;
 
-  // Filet de sécurité : jamais 50 / 100 / 20 même si volumeMl mal renseigné
   const pt = (input.productType || "").toLowerCase();
   if (
     /\b50\s*ml\b|\b100\s*ml\b|\b20\s*ml\b|50ml|100ml|20ml/.test(pt) &&
@@ -107,10 +151,7 @@ export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
 
   if (input.isActive === false) return false;
   if (input.visibleOnline === false) return false;
-  if (
-    input.catalogStatus &&
-    !["valide", "actif"].includes(input.catalogStatus)
-  ) {
+  if (input.catalogStatus && !["valide", "actif"].includes(input.catalogStatus)) {
     return false;
   }
 
@@ -121,7 +162,6 @@ export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
 }
 
 export function whyNotPromo10mlEligible(input: Promo10mlEligibleInput): string | null {
-  if (input.promotion10mlEligible !== true) return "promotion10mlEligible=false";
   const volumeMl = resolveVolumeMl(input);
   if (volumeMl !== 10) return `volumeMl=${volumeMl ?? "null"} (requis: 10)`;
   if (!isEliquideCategory(input.category, input.categoryName)) {
@@ -137,23 +177,140 @@ export function whyNotPromo10mlEligible(input: Promo10mlEligibleInput): string |
   return null;
 }
 
-/**
- * Calcule la remise 5+1 sur les seules lignes éligibles 10 ml.
- * Les 50/100 ml et le reste du panier sont totalement ignorés pour le palier.
- */
+export function quoteTenMlPaidQuantity(paidQty: number): Promo10mlQuote {
+  if (!Number.isFinite(paidQty) || paidQty <= 0) {
+    return { paidQuantity: 0, unitCents: null, freeExtra: 0, payCents: 0, label: null };
+  }
+
+  const packs = Math.floor(paidQty / 10);
+  const rem = paidQty % 10;
+  let payCents = packs * 10 * TEN_ML_PACK_UNIT_CENTS;
+  let freeExtra = packs * TEN_ML_PACK_FREE_EXTRA;
+  let unitCents: number | null = packs > 0 ? TEN_ML_PACK_UNIT_CENTS : null;
+
+  if (rem > 0) {
+    const tier = TEN_ML_TIERS[rem - 1];
+    payCents += rem * tier.unitCents;
+    freeExtra += tier.freeExtra;
+    unitCents = packs > 0 ? TEN_ML_PACK_UNIT_CENTS : tier.unitCents;
+  }
+
+  const label =
+    freeExtra > 0
+      ? `${PROMO_10ML_LABEL} — ${paidQty} × ${formatTenMlUnitEuro(unitCents!)} + ${freeExtra} offert${freeExtra > 1 ? "s" : ""}`
+      : `${PROMO_10ML_LABEL} — ${paidQty} × ${formatTenMlUnitEuro(unitCents!)}`;
+
+  return {
+    paidQuantity: paidQty,
+    unitCents,
+    freeExtra,
+    payCents,
+    label,
+  };
+}
+
+export function formatTenMlUnitEuro(cents: number): string {
+  return `${(cents / 100).toFixed(2).replace(".", ",")} €`;
+}
+
+export function tenMlTiersForDisplay(): Array<{
+  qty: number;
+  unitLabel: string;
+  extraLabel: string;
+}> {
+  return TEN_ML_TIERS.map((t) => ({
+    qty: t.qty,
+    unitLabel: formatTenMlUnitEuro(t.unitCents),
+    extraLabel:
+      t.freeExtra > 0
+        ? `+ ${t.freeExtra} offert${t.freeExtra > 1 ? "s" : ""}`
+        : "—",
+  }));
+}
+
+export function allocateTenMlFreeExtras(
+  eligibleLines: Promo10mlCartLine[],
+  freeExtra: number
+): { extras: Promo10mlFreeExtra[]; unfulfilled: number } {
+  if (freeExtra <= 0) return { extras: [], unfulfilled: 0 };
+
+  const sorted = [...eligibleLines]
+    .filter((l) => l.quantity > 0 && l.productId)
+    .sort((a, b) => a.unitPriceCents - b.unitPriceCents);
+
+  let leftover = freeExtra;
+  const extras: Promo10mlFreeExtra[] = [];
+
+  for (const line of sorted) {
+    if (leftover <= 0) break;
+    const known = line.availableQuantity;
+    const remaining =
+      typeof known === "number" && Number.isFinite(known)
+        ? Math.max(0, known - line.quantity)
+        : leftover;
+    const take = Math.min(leftover, remaining);
+    if (take <= 0) continue;
+    extras.push({
+      productId: line.productId,
+      variantId: line.variantId,
+      name: line.name,
+      quantity: take,
+      unitPriceCents: 0,
+    });
+    leftover -= take;
+  }
+
+  if (leftover > 0 && sorted[0]) {
+    const first = extras.find(
+      (e) =>
+        e.productId === sorted[0].productId &&
+        (e.variantId || "") === (sorted[0].variantId || "")
+    );
+    if (first) first.quantity += leftover;
+    else {
+      extras.push({
+        productId: sorted[0].productId,
+        variantId: sorted[0].variantId,
+        name: sorted[0].name,
+        quantity: leftover,
+        unitPriceCents: 0,
+      });
+    }
+    leftover = 0;
+  }
+
+  return { extras, unfulfilled: leftover };
+}
+
+function buildAvaSummary(params: {
+  eligibleQuantity: number;
+  unitCents: number | null;
+  freeExtra: number;
+  payCents: number;
+  discountCents: number;
+}): string {
+  if (params.eligibleQuantity <= 0) {
+    return "A.V.A. : aucun e-liquide 10 ml dans ce panier — offre dégressive non applicable.";
+  }
+  const unit = params.unitCents != null ? formatTenMlUnitEuro(params.unitCents) : "—";
+  const extra =
+    params.freeExtra > 0
+      ? ` Vous recevez ${params.freeExtra} flacon${params.freeExtra > 1 ? "s" : ""} 10 ml offert${params.freeExtra > 1 ? "s" : ""} en plus.`
+      : "";
+  const disc =
+    params.discountCents > 0
+      ? ` Remise ${formatTenMlUnitEuro(params.discountCents)} sur le tarif catalogue.`
+      : "";
+  return `A.V.A. a vérifié l'offre 10 ml avant paiement : ${params.eligibleQuantity} flacon${params.eligibleQuantity > 1 ? "s" : ""} à ${unit} l'unité (${formatTenMlUnitEuro(params.payCents)}).${extra}${disc} Prix catalogue inchangé. Uniquement les e-liquides 10 ml.`;
+}
+
 export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult {
   const reasonExcludedSample: string[] = [];
-  const eligibleUnits: Array<{
-    productId: string;
-    variantId?: string | null;
-    name: string;
-    unitPriceCents: number;
-  }> = [];
-
+  const eligible: Promo10mlCartLine[] = [];
   let ignoredQuantity = 0;
 
   for (const line of lines) {
-    const eligible = isPromo10mlEligible({
+    const eligibleFlag = isPromo10mlEligible({
       category: line.category,
       productType: line.productType,
       volumeMl: line.volumeMl,
@@ -164,7 +321,7 @@ export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult 
       catalogStatus: "valide",
     });
 
-    if (!eligible) {
+    if (!eligibleFlag) {
       ignoredQuantity += line.quantity;
       const why = whyNotPromo10mlEligible({
         category: line.category,
@@ -182,43 +339,55 @@ export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult 
       continue;
     }
 
-    if (line.unitPriceCents <= 0) {
+    if (line.unitPriceCents <= 0 || line.quantity <= 0) {
       ignoredQuantity += line.quantity;
       reasonExcludedSample.push(`${line.name}: prix_invalide`);
       continue;
     }
-
-    for (let i = 0; i < line.quantity; i++) {
-      eligibleUnits.push({
-        productId: line.productId,
-        variantId: line.variantId,
-        name: line.name,
-        unitPriceCents: line.unitPriceCents,
-      });
-    }
+    eligible.push(line);
   }
 
-  const eligibleQuantity = eligibleUnits.length;
-  const freeQuantity =
-    Math.floor(eligibleQuantity / PROMO_10ML_GROUP_SIZE) * PROMO_10ML_FREE_PER_GROUP;
+  const eligibleQuantity = eligible.reduce((s, l) => s + l.quantity, 0);
+  const catalogSubtotalCents = eligible.reduce((s, l) => s + l.unitPriceCents * l.quantity, 0);
+  const quote = quoteTenMlPaidQuantity(eligibleQuantity);
+  const payCents = Math.min(quote.payCents, catalogSubtotalCents);
+  const discountCents = Math.max(0, catalogSubtotalCents - payCents);
+  const { extras, unfulfilled } = allocateTenMlFreeExtras(eligible, quote.freeExtra);
 
-  // Offrir les unités les moins chères
-  const sorted = [...eligibleUnits].sort((a, b) => a.unitPriceCents - b.unitPriceCents);
-  const freeUnits = sorted.slice(0, freeQuantity);
-  const discountCents = freeUnits.reduce((s, u) => s + u.unitPriceCents, 0);
+  const freeUnits = extras.flatMap((e) =>
+    Array.from({ length: e.quantity }, () => ({
+      productId: e.productId,
+      variantId: e.variantId,
+      name: e.name,
+      unitPriceCents: 0,
+    }))
+  );
 
   return {
     eligibleQuantity,
     ignoredQuantity,
-    freeQuantity,
+    unitCents: quote.unitCents,
+    freeExtra: quote.freeExtra,
+    freeQuantity: quote.freeExtra,
+    catalogSubtotalCents,
+    payCents,
     discountCents,
+    extras,
+    unfulfilledFreeExtra: unfulfilled,
     freeUnits,
-    label: freeQuantity > 0 ? PROMO_10ML_LABEL : null,
+    label: eligibleQuantity > 0 ? quote.label : null,
+    quoteLabel: quote.label,
     reasonExcludedSample,
+    avaSummary: buildAvaSummary({
+      eligibleQuantity,
+      unitCents: quote.unitCents,
+      freeExtra: quote.freeExtra,
+      payCents,
+      discountCents,
+    }),
   };
 }
 
-/** Prix panier après remise 10 ml (ne touche pas SumUp). */
 export function applyPromo10mlToSubtotal(
   subtotalCents: number,
   lines: Promo10mlCartLine[]
@@ -231,4 +400,20 @@ export function applyPromo10mlToSubtotal(
     totalCents: Math.max(0, subtotalCents - discountCents),
     promo,
   };
+}
+
+export function tenMlOfferFaqAnswer(): string {
+  const lines = TEN_ML_TIERS.map((t) => {
+    const extra =
+      t.freeExtra > 0
+        ? ` + ${t.freeExtra} flacon${t.freeExtra > 1 ? "s" : ""} offert${t.freeExtra > 1 ? "s" : ""} (livré en plus)`
+        : "";
+    return `${t.qty} = ${formatTenMlUnitEuro(t.unitCents)} / unité${extra}`;
+  });
+  return [
+    "Offre dégressive e-liquides 10 ml chez All Vap's. Le prix affiché catalogue reste celui de la caisse (souvent 6,90 €) ; la remise se calcule au panier, toutes saveurs 10 ml cumulées.",
+    ...lines,
+    "Au-delà de 10 : packs de 10 (3,90 € / unité + 6 offerts) + palier du reste.",
+    "Uniquement les e-liquides 10 ml — jamais 20 / 50 / 100 ml. Je vérifie cette offre sur le panier avant paiement. Ce n'est pas l'offre Twenty.",
+  ].join("\n");
 }

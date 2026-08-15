@@ -76,9 +76,9 @@ export default function AdminPromotionsPage() {
       <section className="mt-8 rounded-xl border border-brand-200 bg-brand-50/40 p-5">
         <h2 className="text-lg font-semibold text-gray-900">{PROMO_10ML_LABEL}</h2>
         <p className="mt-1 text-sm text-gray-600">
-          Applicable <strong>uniquement</strong> aux e-liquides 10 ml (volumeMl = 10,
-          promotion10mlEligible = true). Les 50 ml, 100 ml, pods, DIY, etc. sont exclus du
-          calcul.
+          Applicable <strong>uniquement</strong> aux e-liquides 10 ml (volumeMl = 10).
+          Paliers 6,90 → 3,90 €, puis 5+1 jusqu’à 10+6, calculés au panier. Les 50 ml, 100 ml,
+          pods, DIY, etc. sont exclus.
         </p>
         <button
           type="button"

@@ -177,7 +177,7 @@ export function ProductCard({ product }: ProductCardProps) {
               </Badge>
             )}
             {showPromo10ml && (
-                <Badge className="text-[10px]">5+1 · 10 ml</Badge>
+                <Badge className="text-[10px]">Offre 10 ml</Badge>
               )}
             {showPromoTwenty && (
                 <Badge className="text-[10px]">Offre Twenty</Badge>

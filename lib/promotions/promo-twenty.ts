@@ -449,6 +449,6 @@ export function twentyOfferFaqAnswer(): string {
     "Offre dégressive Twenty (e.Tasty, 20 ml) — All Vap's. Le prix affiché catalogue reste 12,90 € ; la remise se calcule au panier, toutes saveurs Twenty cumulées.",
     ...lines,
     "Au-delà de 10 : packs de 10 (8,90 € / unité + 5 offerts) + palier du reste.",
-    "Je vérifie cette offre sur le panier avant paiement. Ce n'est pas l'offre 10 ml (5+1).",
+    "Je vérifie cette offre sur le panier avant paiement. Ce n'est pas l'offre 10 ml dégressive.",
   ].join("\n");
 }

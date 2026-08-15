@@ -1,13 +1,15 @@
 /**
- * Tests offre 10 ml — éligibilité stricte + calcul paliers.
+ * Tests offre 10 ml dégressive — éligibilité stricte + paliers.
  * Run: npx tsx scripts/test-promo-10ml.ts
  */
 import {
   isPromo10mlEligible,
   calculatePromo10ml,
   whyNotPromo10mlEligible,
+  quoteTenMlPaidQuantity,
   type Promo10mlCartLine,
 } from "../lib/promotions/promo-10ml";
+import { isTenMlOfferQuestion, isShopOfferQuestion } from "../lib/ava/shop-offers";
 
 let passed = 0;
 let failed = 0;
@@ -22,19 +24,17 @@ function assert(cond: boolean, label: string) {
   }
 }
 
-// Éligibilité
 assert(
   isPromo10mlEligible({
     category: "05.E-liquide 10ml",
     volumeMl: 10,
     productType: "10ml",
-    promotion10mlEligible: true,
     visibleOnline: true,
     isActive: true,
     catalogStatus: "valide",
     stock: 5,
   }),
-  "10ml e-liquide éligible"
+  "10ml e-liquide éligible sans flag"
 );
 
 assert(
@@ -56,7 +56,6 @@ assert(
     category: "05.E-liquide 10ml",
     volumeMl: 100,
     productType: "100ml",
-    promotion10mlEligible: true,
     visibleOnline: true,
     isActive: true,
     catalogStatus: "valide",
@@ -70,7 +69,6 @@ assert(
     category: "Pods",
     volumeMl: 10,
     productType: "10ml",
-    promotion10mlEligible: true,
     visibleOnline: true,
     isActive: true,
     catalogStatus: "valide",
@@ -84,7 +82,6 @@ assert(
     category: "18.DIY",
     volumeMl: 10,
     productType: "10ml",
-    promotion10mlEligible: true,
     visibleOnline: true,
     isActive: true,
     catalogStatus: "valide",
@@ -94,29 +91,23 @@ assert(
 );
 
 assert(
-  !isPromo10mlEligible({
-    category: "05.E-liquide 10ml",
-    volumeMl: 10,
-    productType: "10ml",
-    promotion10mlEligible: false,
-    visibleOnline: true,
-    isActive: true,
-    catalogStatus: "valide",
-    stock: 5,
-  }),
-  "flag false → exclus"
-);
-
-assert(
   whyNotPromo10mlEligible({
     category: "06.E-liquide 50ml",
     volumeMl: 50,
-    promotion10mlEligible: true,
   })?.includes("volumeMl=50") === true,
   "motif exclusion volume"
 );
 
-// Calcul panier : 3×10ml + 2×50ml → palier sur 3 seulement
+assert(quoteTenMlPaidQuantity(1).payCents === 690 && quoteTenMlPaidQuantity(1).freeExtra === 0, "1 → 6,90");
+assert(quoteTenMlPaidQuantity(2).payCents === 1180 && quoteTenMlPaidQuantity(2).unitCents === 590, "2 → 5,90");
+assert(quoteTenMlPaidQuantity(3).payCents === 1470, "3 → 4,90");
+assert(quoteTenMlPaidQuantity(4).payCents === 1560 && quoteTenMlPaidQuantity(4).freeExtra === 0, "4 → 3,90");
+assert(quoteTenMlPaidQuantity(5).payCents === 1950 && quoteTenMlPaidQuantity(5).freeExtra === 1, "5+1");
+assert(quoteTenMlPaidQuantity(6).payCents === 2340 && quoteTenMlPaidQuantity(6).freeExtra === 2, "6+2");
+assert(quoteTenMlPaidQuantity(10).payCents === 3900 && quoteTenMlPaidQuantity(10).freeExtra === 6, "10+6");
+assert(quoteTenMlPaidQuantity(12).freeExtra === 6, "12 → pack 10+6 + palier 2");
+assert(quoteTenMlPaidQuantity(12).payCents === 3900 + 1180, "12 → 10×3,90 + 2×5,90");
+
 const mix: Promo10mlCartLine[] = [
   {
     productId: "a",
@@ -126,7 +117,6 @@ const mix: Promo10mlCartLine[] = [
     category: "05.E-liquide 10ml",
     productType: "10ml",
     volumeMl: 10,
-    promotion10mlEligible: true,
   },
   {
     productId: "b",
@@ -136,16 +126,15 @@ const mix: Promo10mlCartLine[] = [
     category: "06.E-liquide 50ml",
     productType: "50ml",
     volumeMl: 50,
-    promotion10mlEligible: false,
   },
 ];
 const r1 = calculatePromo10ml(mix);
 assert(r1.eligibleQuantity === 3, "eligible=3 (ignore 50ml)");
 assert(r1.ignoredQuantity === 2, "ignored=2 (50ml)");
-assert(r1.freeQuantity === 0, "pas encore de gratuit avec 3");
-assert(r1.discountCents === 0, "remise 0 avec 3");
+assert(r1.freeExtra === 0, "pas d'offert avec 3");
+assert(r1.payCents === 1470, "3 × 4,90");
+assert(r1.discountCents === 3 * 690 - 1470, "remise palier 3");
 
-// 6×10ml → 1 offert (le moins cher)
 const six: Promo10mlCartLine[] = [
   {
     productId: "c1",
@@ -155,7 +144,6 @@ const six: Promo10mlCartLine[] = [
     category: "05.E-liquide 10ml",
     productType: "10ml",
     volumeMl: 10,
-    promotion10mlEligible: true,
   },
   {
     productId: "c2",
@@ -165,15 +153,15 @@ const six: Promo10mlCartLine[] = [
     category: "05.E-liquide 10ml",
     productType: "10ml",
     volumeMl: 10,
-    promotion10mlEligible: true,
   },
 ];
 const r2 = calculatePromo10ml(six);
 assert(r2.eligibleQuantity === 6, "6 unités 10ml");
-assert(r2.freeQuantity === 1, "1 offert");
-assert(r2.discountCents === 590, "offre le moins cher (590)");
+assert(r2.freeExtra === 2, "6+2 offerts en plus");
+assert(r2.payCents === 2340, "6 × 3,90");
+assert(r2.discountCents === 2 * 590 + 4 * 690 - 2340, "remise 6 flacons");
+assert(r2.extras.reduce((s, e) => s + e.quantity, 0) === 2, "2 extras alloués");
 
-// 12×10ml → 2 offerts
 const twelve: Promo10mlCartLine[] = [
   {
     productId: "d",
@@ -183,18 +171,28 @@ const twelve: Promo10mlCartLine[] = [
     category: "05.E-liquide 10ml",
     productType: "10ml",
     volumeMl: 10,
-    promotion10mlEligible: true,
   },
 ];
 const r3 = calculatePromo10ml(twelve);
-assert(r3.freeQuantity === 2, "2 offerts sur 12");
-assert(r3.discountCents === 1380, "2×690");
+assert(r3.freeExtra === 6, "12 → 6 offerts (pack 10+6)");
+assert(r3.payCents === 5080, "12 payés au palier pack+reste");
 
-// Produit offert ne peut pas être 50ml (déjà garanti car seuls éligibles entrent)
 assert(
-  r2.freeUnits.every((u) => u.unitPriceCents === 590 || u.unitPriceCents === 690),
-  "unités offertes issues des 10ml uniquement"
+  !isPromo10mlEligible({
+    category: "05.E-liquide 10ml",
+    volumeMl: 20,
+    productType: "20ml",
+    visibleOnline: true,
+    isActive: true,
+    catalogStatus: "valide",
+    stock: 5,
+  }),
+  "20ml Twenty hors offre 10 ml"
 );
+
+assert(isTenMlOfferQuestion("Quelle est l'offre 10 ml ?"), "AVA détecte offre 10 ml");
+assert(isShopOfferQuestion("5+1 sur les 10 ml"), "AVA détecte 5+1 10 ml");
+assert(!isTenMlOfferQuestion("Je cherche un liquide fruité"), "pas d'interception fruité");
 
 console.log(`\n${passed} OK / ${failed} FAIL`);
 process.exit(failed > 0 ? 1 : 0);

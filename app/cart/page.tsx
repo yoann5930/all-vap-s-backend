@@ -198,7 +198,7 @@ export default function CartPage() {
                       isActive: true,
                       catalogStatus: "valide",
                     }) && (
-                      <p className="text-xs text-brand-700">Éligible offre 10 ml (5+1)</p>
+                      <p className="text-xs text-brand-700">Éligible offre 10 ml dégressive</p>
                     )}
                     {isPromoTwentyEligible({
                       name: item.name,
@@ -264,13 +264,19 @@ export default function CartPage() {
                   <span className="text-gray-600">Sous-total</span>
                   <span>{formatPrice(subtotal)}</span>
                 </div>
-                {promo.discountCents > 0 && (
+                {promo.eligibleQuantity > 0 && promo.discountCents > 0 && (
+                  <div className="flex justify-between text-sm text-brand-700">
+                    <span>{promo.label}</span>
+                    <span>-{formatPrice(promo.discountCents)}</span>
+                  </div>
+                )}
+                {promo.freeExtra > 0 && (
                   <div className="flex justify-between text-sm text-brand-700">
                     <span>
-                      {promo.label} ({promo.freeQuantity} offert
-                      {promo.freeQuantity > 1 ? "s" : ""})
+                      10 ml offert{promo.freeExtra > 1 ? "s" : ""} (livré
+                      {promo.freeExtra > 1 ? "s" : ""} en plus)
                     </span>
-                    <span>-{formatPrice(promo.discountCents)}</span>
+                    <span>+{promo.freeExtra}</span>
                   </div>
                 )}
                 {twenty.eligibleQuantity > 0 && twenty.discountCents > 0 && (

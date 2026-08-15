@@ -584,13 +584,18 @@ function CheckoutPageInner() {
               <span className="text-[#A7B0BC]">Sous-total</span>
               <span>{formatPrice(subtotal)}</span>
             </div>
-            {promo10.discountCents > 0 && (
+            {promo10.eligibleQuantity > 0 && promo10.discountCents > 0 && (
+              <div className="flex justify-between text-brand-300">
+                <span>{promo10.label}</span>
+                <span>-{formatPrice(promo10.discountCents)}</span>
+              </div>
+            )}
+            {promo10.freeExtra > 0 && (
               <div className="flex justify-between text-brand-300">
                 <span>
-                  {promo10.label} ({promo10.freeQuantity} offert
-                  {promo10.freeQuantity > 1 ? "s" : ""})
+                  10 ml offert{promo10.freeExtra > 1 ? "s" : ""} (en plus)
                 </span>
-                <span>-{formatPrice(promo10.discountCents)}</span>
+                <span>+{promo10.freeExtra}</span>
               </div>
             )}
             {twenty.eligibleQuantity > 0 && twenty.discountCents > 0 && (

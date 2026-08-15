@@ -1,5 +1,5 @@
 /**
- * Remises panier cumulées (10 ml 5+1 + Twenty dégressive).
+ * Remises panier cumulées (10 ml dégressive + Twenty dégressive).
  * Les deux offres ne se recouvrent pas (10 ml vs 20 ml Twenty).
  */
 import {

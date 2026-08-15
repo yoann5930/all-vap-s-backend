@@ -47,7 +47,7 @@ export function TwentyOfferBanner({ compact = false, className = "" }: TwentyOff
       {!compact ? (
         <p className="mt-3 text-xs text-[#A7B0BC]/80">
           A.V.A. vérifie cette offre sur votre panier avant le paiement. Ce n’est pas l’offre
-          10 ml (5+1).
+          10 ml dégressive.
         </p>
       ) : null}
     </section>

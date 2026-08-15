@@ -103,7 +103,14 @@
       "title": "Offre dégressive Twenty (e.Tasty 20 ml)",
       "tags": ["offres", "twenty", "e-liquides", "panier", "paiement"],
       "keywords": ["twenty", "offre twenty", "promo twenty", "degressive", "8,90", "12,90", "avant paiement", "verifier panier", "flacon offert"],
-      "content": "Gamme Twenty e.Tasty, format 20 ml. Prix unitaire catalogue : 12,90 € (inchangé côté SumUp). Remise boutique calculée uniquement au panier / checkout, toutes saveurs Twenty mélangées. Paliers : 1=12,90 € ; 2=11,90 €/u ; 3=10,90 €/u ; 4=9,90 €/u ; 5=7,90 €/u ; 6=8,90 €/u + 1 offert en plus ; 7=+2 offerts ; 8=+3 ; 9=+4 ; 10=+5. A.V.A. doit confirmer le palier et le total avant paiement. Ne pas confondre avec l'offre 10 ml 5+1."
+      "content": "Gamme Twenty e.Tasty, format 20 ml. Prix unitaire catalogue : 12,90 € (inchangé côté SumUp). Remise boutique calculée uniquement au panier / checkout, toutes saveurs Twenty mélangées. Paliers : 1=12,90 € ; 2=11,90 €/u ; 3=10,90 €/u ; 4=9,90 €/u ; 5=7,90 €/u ; 6=8,90 €/u + 1 offert en plus ; 7=+2 offerts ; 8=+3 ; 9=+4 ; 10=+5. A.V.A. doit confirmer le palier et le total avant paiement. Ne pas confondre avec l'offre 10 ml dégressive (6,90→3,90, 5+1 à 10+6)."
+    },
+    {
+      "id": "offre-10ml-degressive",
+      "title": "Offre dégressive e-liquides 10 ml",
+      "tags": ["offres", "10ml", "e-liquides", "panier", "paiement"],
+      "keywords": ["10 ml", "offre 10", "5+1", "10+6", "6,90", "3,90", "degressive", "avant paiement"],
+      "content": "E-liquides 10 ml uniquement. Prix catalogue souvent 6,90 € (inchangé côté SumUp). Remise boutique au panier, toutes saveurs 10 ml cumulées. Paliers : 1=6,90 € ; 2=5,90 €/u ; 3=4,90 €/u ; 4=3,90 €/u ; 5=3,90 €/u + 1 offert en plus (5+1) ; 6=+2 ; 7=+3 ; 8=+4 ; 9=+5 ; 10=3,90 €/u + 6 offerts (10+6). Jamais 20/50/100 ml. A.V.A. vérifie avant paiement. Ce n'est pas l'offre Twenty."
     },
     {
       "id": "ecologie-puffs",

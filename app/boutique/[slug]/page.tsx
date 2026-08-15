@@ -21,6 +21,7 @@ import { absoluteUrl } from "@/lib/seo/config";
 import { productSchema, reviewSchema } from "@/lib/seo/schema";
 import { SetMainNavActive } from "@/components/layout/MainNavContext";
 import { navIdFromProduct } from "@/lib/navigation/active-main-nav";
+import { isPromo10mlEligible } from "@/lib/promotions/promo-10ml";
 
 export const dynamic = "force-dynamic";
 
@@ -432,10 +433,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             )}
             {catalog.format && <Badge>{catalog.format}</Badge>}
             {catalog.pgVg && <Badge>{catalog.pgVg}</Badge>}
-            {product.promotion10mlEligible &&
-              (product.volumeMl === 10 || product.productType === "10ml") && (
-                <Badge>5+1 · 10 ml</Badge>
-              )}
+            {isPromo10mlEligible({
+              category: product.category,
+              productType: product.productType,
+              volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
+              visibleOnline: product.visibleOnline,
+              isActive: product.isActive,
+              catalogStatus: product.catalogStatus,
+            }) && <Badge>Offre 10 ml</Badge>}
           </div>
 
           {!hasMultiDosage && (

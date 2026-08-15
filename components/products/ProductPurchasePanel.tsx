@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/Button";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";
-import { isPromo10mlEligible, PROMO_10ML_LABEL } from "@/lib/promotions/promo-10ml";
+import { isPromo10mlEligible } from "@/lib/promotions/promo-10ml";
 import { isPromoTwentyEligible, twentyCartMeta } from "@/lib/promotions/promo-twenty";
 import { TwentyOfferBanner } from "@/components/promotions/TwentyOfferBanner";
+import { TenMlOfferBanner } from "@/components/offres/TenMlOfferBanner";
 import type { Product, ProductVariant } from "@prisma/client";
 
 type VariantRow = Pick<
@@ -196,15 +197,7 @@ export function ProductPurchasePanel({
 
   return (
     <div className="space-y-5">
-      {showPromo10ml && (
-        <p className="rounded-lg border border-brand-500/30 bg-brand-500/10 px-3 py-2 text-sm text-brand-300">
-          {PROMO_10ML_LABEL} — uniquement e-liquides 10 ml. Détail dans{" "}
-          <a href="/offres/10ml" className="underline hover:text-white">
-            Offres
-          </a>
-          .
-        </p>
-      )}
+      {showPromo10ml && <TenMlOfferBanner compact className="!px-3 !py-3" />}
       {showPromoTwenty && (
         <TwentyOfferBanner compact className="!px-3 !py-3" />
       )}

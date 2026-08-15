@@ -81,11 +81,7 @@ export async function POST(request: NextRequest) {
         category: product.category,
         productType: product.productType,
         volumeMl: product.volumeMl,
-        promotion10mlEligible:
-          product.promotion10mlEligible === true &&
-          ["valide", "actif"].includes(product.catalogStatus || "")
-            ? true
-            : false,
+        promotion10mlEligible: product.promotion10mlEligible,
         availableQuantity: variant?.stock ?? product.stock,
       });
     }
@@ -99,8 +95,7 @@ export async function POST(request: NextRequest) {
       ok: true,
       avaMessage: formatAvaCheckoutVerification({
         twenty,
-        promo10Label: promo10.label,
-        promo10DiscountCents: promo10.discountCents,
+        promo10,
         totalCents,
       }),
       subtotalCents: subtotal,
@@ -117,9 +112,14 @@ export async function POST(request: NextRequest) {
       },
       promo10ml: {
         eligibleQuantity: promo10.eligibleQuantity,
+        unitCents: promo10.unitCents,
+        freeExtra: promo10.freeExtra,
         freeQuantity: promo10.freeQuantity,
+        payCents: promo10.payCents,
         discountCents: promo10.discountCents,
         label: promo10.label,
+        extras: promo10.extras,
+        avaSummary: promo10.avaSummary,
       },
     });
   } catch (error) {

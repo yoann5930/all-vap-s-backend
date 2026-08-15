@@ -1,5 +1,5 @@
 /**
- * Marque les e-liquides 10 ml publiés comme éligibles à l'offre 5+1.
+ * Marque les e-liquides 10 ml publiés comme éligibles à l'offre dégressive.
  * Retire le flag de tout le reste (50/100, DIY…).
  * Aucune écriture SumUp.
  */

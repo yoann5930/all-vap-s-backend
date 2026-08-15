@@ -114,13 +114,7 @@ export async function POST(request: NextRequest) {
         category: product.category,
         productType: product.productType,
         volumeMl: product.volumeMl,
-        promotion10mlEligible:
-          product.promotion10mlEligible === true &&
-          product.visibleOnline === true &&
-          product.isActive === true &&
-          ["valide", "actif"].includes(product.catalogStatus || "")
-            ? true
-            : false,
+        promotion10mlEligible: product.promotion10mlEligible,
         availableQuantity: variant?.stock ?? product.stock,
       });
 
@@ -153,12 +147,13 @@ export async function POST(request: NextRequest) {
     const promo10 = calculatePromo10ml(promoLines);
     const promoTwenty = calculatePromoTwenty(twentyLines);
 
+    const extras = [...promoTwenty.extras, ...promo10.extras];
     const stockLines = data.items.map((i) => ({
       productId: i.productId,
       variantId: i.variantId,
       quantity: i.quantity,
     }));
-    for (const extra of promoTwenty.extras) {
+    for (const extra of extras) {
       const hit = stockLines.find(
         (l) =>
           l.productId === extra.productId &&
@@ -251,7 +246,7 @@ export async function POST(request: NextRequest) {
               priceCents: price,
             };
           }),
-            ...promoTwenty.extras.map((extra) => ({
+            ...extras.map((extra) => ({
               productId: extra.productId,
               quantity: extra.quantity,
               priceCents: 0,
@@ -303,9 +298,13 @@ export async function POST(request: NextRequest) {
           : undefined,
         promo10ml: {
           eligibleQuantity: promo10.eligibleQuantity,
+          unitCents: promo10.unitCents,
+          freeExtra: promo10.freeExtra,
           freeQuantity: promo10.freeQuantity,
+          payCents: promo10.payCents,
           discountCents: promo10.discountCents,
           label: promo10.label,
+          avaSummary: promo10.avaSummary,
         },
         promoTwenty: {
           eligibleQuantity: promoTwenty.eligibleQuantity,

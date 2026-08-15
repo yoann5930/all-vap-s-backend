@@ -232,7 +232,7 @@ async function main() {
     `## Implantation UI PC / mobile`,
     ``,
     `- \`/gammes/twenty\` — bannière paliers + cartes 2 colonnes mobile / 4 desktop`,
-    `- \`/offres\` — menu Offres (10 ml 5+1 + Twenty), pas une promo catalogue`,
+    `- \`/offres\` — menu Offres (10 ml dégressive + Twenty), pas une promo catalogue`,
     `- \`/offres/twenty\` — paliers + fiches Twenty`,
     `- Fiche produit — \`TwentyOfferBanner\` compact`,
     `- Panier / checkout — remise + flacons offerts`,

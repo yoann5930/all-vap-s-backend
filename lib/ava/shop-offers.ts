@@ -1,6 +1,6 @@
 /**
  * Offres boutique connues d'A.V.A. — vérification avant paiement.
- * Pas d'invention de prix : paliers Twenty figés + recalcul panier.
+ * Pas d'invention de prix : paliers figés + recalcul panier.
  */
 import {
   calculatePromoTwenty,
@@ -9,22 +9,59 @@ import {
   type PromoTwentyCartLine,
   type PromoTwentyResult,
 } from "@/lib/promotions/promo-twenty";
-import { calculatePromo10ml, type Promo10mlCartLine } from "@/lib/promotions/promo-10ml";
+import {
+  calculatePromo10ml,
+  tenMlOfferFaqAnswer,
+  tenMlTiersForDisplay,
+  type Promo10mlCartLine,
+  type Promo10mlResult,
+} from "@/lib/promotions/promo-10ml";
 
-export function isShopOfferQuestion(message: string): boolean {
-  const t = message
+function normOfferText(message: string): string {
+  return message
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{M}/gu, "")
     .replace(/['’]/g, " ");
+}
+
+export function isTenMlOfferQuestion(message: string): boolean {
+  const t = normOfferText(message);
+  if (/\b10\s*ml\b/.test(t) && /offre|promo|palier|degress|prix|panier|paye|paiement|5\s*\+\s*1|10\s*\+\s*6/.test(t)) {
+    return true;
+  }
+  return /offre\s+10|10\s*ml\s+degress|5\s*\+\s*1/.test(t);
+}
+
+export function isTwentyOfferQuestion(message: string): boolean {
+  const t = normOfferText(message);
   if (/\btwenty\b/.test(t) && /offre|promo| palier|degress|prix|panier|paye|paiement|combien/.test(t)) {
     return true;
   }
-  if (/offre\s+twenty|twenty\s+degress|5\s+twenty|lot\s+twenty/.test(t)) return true;
+  return /offre\s+twenty|twenty\s+degress|5\s+twenty|lot\s+twenty/.test(t);
+}
+
+export function isShopOfferQuestion(message: string): boolean {
+  const t = normOfferText(message);
+  if (isTenMlOfferQuestion(message) || isTwentyOfferQuestion(message)) return true;
   if (/verif(ie|ier).*(offre|panier|paiement)|avant\s+pay/.test(t) && /twenty|10\s*ml|panier/.test(t)) {
     return true;
   }
-  return /\boffre degressive\b|\bdegressive twenty\b/.test(t);
+  return /\boffre degressive\b|\bdegressive twenty\b|\boffres boutique\b/.test(t);
+}
+
+export function formatTenMlOfferKnowledge(): string {
+  const rows = tenMlTiersForDisplay()
+    .map((r) => `• ${r.qty} flacon(s) 10 ml : ${r.unitLabel} / unité${r.extraLabel !== "—" ? ` ${r.extraLabel}` : ""}`)
+    .join("\n");
+  return [
+    tenMlOfferFaqAnswer(),
+    "",
+    "Paliers :",
+    rows,
+    "",
+    "Avant paiement je recalcule le panier : e-liquides 10 ml uniquement, flacons offerts livrés en plus à partir de 5 (5+1 jusqu'à 10+6).",
+  ].join("\n");
 }
 
 export function formatTwentyOfferKnowledge(): string {
@@ -41,18 +78,25 @@ export function formatTwentyOfferKnowledge(): string {
   ].join("\n");
 }
 
+export function formatShopOffersKnowledge(message?: string): string {
+  const ten = message ? isTenMlOfferQuestion(message) : false;
+  const twenty = message ? isTwentyOfferQuestion(message) : false;
+  if (ten && !twenty) return formatTenMlOfferKnowledge();
+  if (twenty && !ten) return formatTwentyOfferKnowledge();
+  return [formatTenMlOfferKnowledge(), "", formatTwentyOfferKnowledge()].join("\n");
+}
+
 export function formatAvaCheckoutVerification(params: {
   twenty: PromoTwentyResult;
-  promo10Label?: string | null;
-  promo10DiscountCents?: number;
+  promo10: Promo10mlResult;
   totalCents: number;
 }): string {
   const parts: string[] = [];
   if (params.twenty.eligibleQuantity > 0) {
     parts.push(params.twenty.avaSummary);
   }
-  if ((params.promo10DiscountCents || 0) > 0 && params.promo10Label) {
-    parts.push(`Offre 10 ml aussi appliquée : ${params.promo10Label}.`);
+  if (params.promo10.eligibleQuantity > 0) {
+    parts.push(params.promo10.avaSummary);
   }
   if (!parts.length) {
     return "A.V.A. : aucune offre Twenty ou 10 ml à appliquer sur ce panier. Le total correspond aux prix catalogue.";
@@ -80,6 +124,7 @@ export function verifyCheckoutOffers(params: {
   subtotalCents: number;
 }): {
   twenty: PromoTwentyResult;
+  promo10: Promo10mlResult;
   avaMessage: string;
   discountCents: number;
   totalCents: number;
@@ -93,12 +138,12 @@ export function verifyCheckoutOffers(params: {
   const totalCents = Math.max(0, params.subtotalCents - discountCents);
   return {
     twenty,
+    promo10,
     discountCents,
     totalCents,
     avaMessage: formatAvaCheckoutVerification({
       twenty,
-      promo10Label: promo10.label,
-      promo10DiscountCents: promo10.discountCents,
+      promo10,
       totalCents,
     }),
   };

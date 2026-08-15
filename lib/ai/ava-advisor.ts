@@ -547,10 +547,10 @@ export async function chatAva(
 
   // Offre Twenty — A.V.A. connaît les paliers et vérifie avant paiement
   {
-    const { isShopOfferQuestion, formatTwentyOfferKnowledge, verifyCheckoutOffers } =
+    const { isShopOfferQuestion, formatShopOffersKnowledge, verifyCheckoutOffers } =
       await import("@/lib/ava/shop-offers");
-    if (isShopOfferQuestion(message) || (/\btwenty\b/i.test(message) && /offre|promo|prix|panier|paye|paiement|degress/i.test(message))) {
-      let content = formatTwentyOfferKnowledge();
+    if (isShopOfferQuestion(message) || (/\btwenty\b/i.test(message) && /offre|promo|prix|panier|paye|paiement|degress/i.test(message)) || (/\b10\s*ml\b/i.test(message) && /offre|promo|prix|panier|palier|degress/i.test(message))) {
+      let content = formatShopOffersKnowledge(message);
       if (options?.cartItems && options.cartItems.length > 0) {
         const lines = options.cartItems.map((i) => ({
           productId: i.productId,
