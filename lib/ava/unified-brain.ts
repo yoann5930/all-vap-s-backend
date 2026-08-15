@@ -170,6 +170,29 @@ export async function runAvaBrain(params: {
     return reply(channel, personId, AVA_IDENTITY_SPOKEN, "SOURCE_IDENTITY", null, false);
   }
 
+  {
+    const { detectAvaStockQuestion } = await import("@/lib/ava/stock-question");
+    const stockQ = detectAvaStockQuestion(message, {});
+    if (stockQ) {
+      const {
+        getAvaStockSummaryReadonly,
+        formatAvaStockSummaryAnswer,
+        formatAvaProductStockDetail,
+      } = await import("@/lib/ava/stock-summary");
+      console.info(`AVA_INTENT_${stockQ.intent}`);
+      const spoken =
+        stockQ.intent === "PRODUCT_STOCK_DETAIL"
+          ? await formatAvaProductStockDetail(stockQ.productHint, [])
+          : formatAvaStockSummaryAnswer(
+              stockQ.intent,
+              await getAvaStockSummaryReadonly(),
+              stockQ.storeHint,
+            );
+      await appendTurn(session, message, spoken);
+      return reply(channel, personId, spoken, "SOURCE_ALLVAPS_STOCK", "stock_summary", false);
+    }
+  }
+
   const kind = classifyAvaNeed(message);
   console.info(`AVA_INTENT_${kind}`);
 
