@@ -49,7 +49,11 @@ export async function prepareParcel(
   }
 
   if (order.isAudit) {
-    await startCarrierShipmentForOrder(orderId);
+    try {
+      await startCarrierShipmentForOrder(orderId);
+    } catch (err) {
+      console.warn("[shipping] AUDIT: pas d'enregistrement transporteur", err);
+    }
     const freshAudit = await prisma.order.findUnique({ where: { id: orderId } });
     return {
       orderId,

@@ -71,10 +71,7 @@ export async function transitionOrderStatus(
   if (options.trackingNumber?.trim()) {
     data.trackingNumber = options.trackingNumber.trim();
   }
-  if (toStatus === "PREPARING") data.preparingAt = now;
-  if (toStatus === "PREPARED") data.preparedAt = now;
   if (toStatus === "SHIPPED") data.shippedAt = now;
-  if (toStatus === "AT_RELAY") data.atRelayAt = now;
   if (toStatus === "DELIVERED") data.deliveredAt = now;
 
   const updated = await prisma.$transaction(async (tx) => {
