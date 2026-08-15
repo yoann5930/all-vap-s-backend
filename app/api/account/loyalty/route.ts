@@ -17,10 +17,6 @@ export async function GET() {
         lastName: true,
         email: true,
         phone: true,
-        fideleAToutMemberId: true,
-        fideleAToutBarcode: true,
-        fideleAToutSyncStatus: true,
-        fideleAToutLastSyncAt: true,
       },
     });
 
@@ -66,10 +62,10 @@ export async function GET() {
       history,
       fideleATout: {
         ...fidele,
-        memberId: user.fideleAToutMemberId,
-        barcode: user.fideleAToutBarcode,
-        syncStatus: user.fideleAToutSyncStatus || "unlinked",
-        lastSyncAt: user.fideleAToutLastSyncAt,
+        memberId: null,
+        barcode: null,
+        syncStatus: "unlinked",
+        lastSyncAt: null,
       },
     });
   } catch (error) {

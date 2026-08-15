@@ -57,7 +57,6 @@ export async function resolveAvailability(
         select: {
           id: true,
           name: true,
-          stock: true,
           barcode: true,
           nicotineLabel: true,
           nicotineMg: true,
@@ -133,7 +132,7 @@ export async function resolveAvailability(
   }
 
   // Miroir e-commerce si pas encore de StockLevel SumUp
-  const qty = Math.max(0, variant?.stock ?? product.stock ?? 0);
+  const qty = Math.max(0, product.stock ?? 0);
   const known = true;
   return {
     productId,
