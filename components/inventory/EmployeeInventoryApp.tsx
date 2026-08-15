@@ -6,6 +6,19 @@ import { flushOfflineInventoryQueue, queueOfflineInventoryLine } from "@/lib/inv
 import { BarcodeCameraScanner } from "@/components/inventory/BarcodeCameraScanner";
 import { VisualRecognitionCamera } from "@/components/inventory/VisualRecognitionCamera";
 import { InventoryInstallButton } from "@/components/inventory/InventoryInstallButton";
+import { BrandManufacturerSelect } from "@/components/inventory/BrandManufacturerSelect";
+import {
+  guessManufacturerFromProductName,
+  matchManufacturerName,
+  type ManufacturerOption,
+} from "@/lib/inventory/match-manufacturer";
+import {
+  classifyInventoryBrandRange,
+  excludeRangesFromManufacturers,
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+  matchRangeNotManufacturer,
+} from "@/lib/catalog/ranges-not-manufacturers";
 import { formatEuroFromCents } from "@/lib/inventory/pricing";
 import {
   formatResistanceBoxHint,
@@ -116,6 +129,11 @@ export function EmployeeInventoryApp() {
   const [barcode, setBarcode] = useState("");
   const [productName, setProductName] = useState("");
   const [brandName, setBrandName] = useState("");
+  const [manufacturers, setManufacturers] = useState<ManufacturerOption[]>([]);
+  const manufacturersRef = useRef<ManufacturerOption[]>([]);
+  const brandTouchedRef = useRef(false);
+  const brandWebTimer = useRef<number | null>(null);
+  const brandNameRef = useRef("");
   const [rangeName, setRangeName] = useState("");
   const [productId, setProductId] = useState<string | null>(null);
   const [nameSuggestions, setNameSuggestions] = useState<
@@ -142,6 +160,7 @@ export function EmployeeInventoryApp() {
   } | null>(null);
   const [quantity, setQuantity] = useState("");
   const [placement, setPlacement] = useState<InventoryPlacement>("STOCK");
+  const placementRef = useRef<InventoryPlacement>("STOCK");
   const [unitPrice, setUnitPrice] = useState("");
   /** Unités par boîte (résistances / réservoirs) — 1 à 5. */
   const [unitsPerPack, setUnitsPerPack] = useState<number | null>(null);
@@ -223,11 +242,42 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  function applyBrandSuggestion(
+    raw: string | null | undefined,
+    productNameForGuess?: string | null
+  ) {
+    if (brandTouchedRef.current) return;
+    const list = manufacturersRef.current;
+    const fromSite =
+      matchManufacturerName(raw, list) ||
+      guessManufacturerFromProductName(productNameForGuess || raw, list);
+    const classified = classifyInventoryBrandRange({
+      brand: fromSite || (raw || "").trim() || null,
+      range: null,
+    });
+    const rangeHit =
+      classified.range ||
+      matchRangeNotManufacturer(productNameForGuess || raw || "");
+    if (rangeHit) {
+      setRangeName((prev) => (prev.trim() ? prev : rangeHit));
+    }
+    if (
+      classified.brand &&
+      !isRangeNotManufacturerName(classified.brand) &&
+      !isNonexistentBrandName(classified.brand)
+    ) {
+      setBrandName(classified.brand);
+    } else {
+      setBrandName("");
+    }
+  }
+
   function applyIdentifySuggestion(s: IdentifySuggestion) {
+    brandTouchedRef.current = false;
     setProductId(s.localProductId);
     setProductName(s.name || "");
-    setBrandName(s.brand || "");
     setRangeName(s.range || "");
+    applyBrandSuggestion(s.brand, s.name);
     if (s.barcode) setBarcode(s.barcode);
     const priceOk = s.unitPriceCents != null && s.unitPriceCents > 0;
     setLookup({
@@ -514,8 +564,55 @@ export function EmployeeInventoryApp() {
   }, [router]);
 
   useEffect(() => {
+    manufacturersRef.current = manufacturers;
+  }, [manufacturers]);
+
+  useEffect(() => {
+    if (!brandName.trim()) return;
+    if (
+      isRangeNotManufacturerName(brandName) ||
+      isNonexistentBrandName(brandName)
+    ) {
+      const rangeHit = matchRangeNotManufacturer(brandName);
+      if (rangeHit) {
+        setRangeName((prev) => (prev.trim() ? prev : rangeHit));
+      }
+      setBrandName("");
+    }
+  }, [brandName]);
+
+  useEffect(() => {
+    brandNameRef.current = brandName;
+  }, [brandName]);
+
+  useEffect(() => {
+    if (!me) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await authFetch("/api/inventaire/manufacturers");
+        if (!res.ok || cancelled) return;
+        const data = await res.json();
+        const list = excludeRangesFromManufacturers(
+          (data.manufacturers || []) as ManufacturerOption[]
+        );
+        if (!cancelled) setManufacturers(list);
+      } catch {
+        /* liste optionnelle */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [me]);
+
+  useEffect(() => {
     restoreLineId();
   }, []);
+
+  useEffect(() => {
+    placementRef.current = placement;
+  }, [placement]);
 
   useEffect(() => {
     setOnline(navigator.onLine);
@@ -548,6 +645,7 @@ export function EmployeeInventoryApp() {
   }
 
   function clearDraftLine() {
+    brandTouchedRef.current = false;
     setBarcode("");
     setProductName("");
     setBrandName("");
@@ -629,8 +727,9 @@ export function EmployeeInventoryApp() {
     const missing = Boolean(data.priceMissing) || cents == null || cents <= 0;
     setProductId(p.id || null);
     setProductName(p.name || "");
-    setBrandName(p.brand || "");
+    brandTouchedRef.current = false;
     setRangeName(p.range || p.category || "Non classé");
+    applyBrandSuggestion(p.brand, p.name);
     setProductCategory(p.category || null);
 
     const scanned = barcodeDigits(opts?.scannedBarcode);
@@ -744,11 +843,17 @@ export function EmployeeInventoryApp() {
     }
   }
 
+  function withPlacement(qs: URLSearchParams) {
+    qs.set("placement", placementRef.current);
+    return qs;
+  }
+
   async function lookupBarcode(code: string): Promise<boolean> {
     try {
       const sid = sessionRef.current?.id;
       const qs = new URLSearchParams({ barcode: code });
       if (sid) qs.set("sessionId", sid);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return false;
@@ -968,10 +1073,11 @@ export function EmployeeInventoryApp() {
         (match.imageUrl || "").includes("/api/inventaire/image-proxy");
 
       if (isRef) {
+        brandTouchedRef.current = false;
         setProductId(null);
         setProductName(match.name || "");
-        setBrandName(match.brand || "");
         setRangeName(match.range || match.category || "");
+        applyBrandSuggestion(match.brand, match.name);
         if (match.barcode) setBarcode(match.barcode);
         setLookup({
           found: true,
@@ -993,13 +1099,14 @@ export function EmployeeInventoryApp() {
           const qs = new URLSearchParams({ name: match.name });
           const sid = sessionRef.current?.id;
           if (sid) qs.set("sessionId", sid);
+          withPlacement(qs);
           const res = await authFetch(`/api/inventaire/lookup?${qs}`);
           const data = await res.json();
           if (res.ok && data.found && data.product?.name) {
             applyMemoryProduct(data);
             applyDuplicateFromLookup(data);
             if (match.barcode) setBarcode(match.barcode);
-            if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+            if (!(data.product.brand) && match.brand) applyBrandSuggestion(match.brand, match.name);
             if (
               !(data.product.range || data.product.category) &&
               (match.range || match.category)
@@ -1024,8 +1131,9 @@ export function EmployeeInventoryApp() {
 
       setProductId(match.id);
       setProductName(match.name || "");
-      setBrandName(match.brand || "");
+      brandTouchedRef.current = false;
       setRangeName(match.range || match.category || "");
+      applyBrandSuggestion(match.brand, match.name);
       if (match.barcode) setBarcode(match.barcode);
       const matchPriceOk = match.priceCents != null && match.priceCents > 0;
       setLookup({
@@ -1061,6 +1169,7 @@ export function EmployeeInventoryApp() {
 
       const qs = new URLSearchParams({ name: match.name });
       if (sid) qs.set("sessionId", sid);
+      withPlacement(qs);
       try {
         const res = await authFetch(`/api/inventaire/lookup?${qs}`);
         const data = await res.json();
@@ -1068,7 +1177,7 @@ export function EmployeeInventoryApp() {
           applyMemoryProduct(data);
           applyDuplicateFromLookup(data);
           if (match.barcode) setBarcode(match.barcode);
-          if (!(data.product.brand) && match.brand) setBrandName(match.brand);
+          if (!(data.product.brand) && match.brand) applyBrandSuggestion(match.brand, match.name);
           if (!(data.product.range || data.product.category) && (match.range || match.category)) {
             setRangeName(match.range || match.category || "");
           }
@@ -1244,6 +1353,7 @@ export function EmployeeInventoryApp() {
       if (sid) qs.set("sessionId", sid);
       const code = barcode.trim();
       if (code.length >= 6) qs.set("barcode", code);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (!res.ok) return;
@@ -1315,6 +1425,7 @@ export function EmployeeInventoryApp() {
       const qs = new URLSearchParams({ name: s.name });
       if (sid) qs.set("sessionId", sid);
       if (s.barcode) qs.set("barcode", s.barcode);
+      withPlacement(qs);
       const res = await authFetch(`/api/inventaire/lookup?${qs}`);
       const data = await res.json();
       if (res.ok && data.found) {
@@ -1331,8 +1442,9 @@ export function EmployeeInventoryApp() {
     }
     setProductId(s.id.startsWith("mem-") ? null : s.id);
     setProductName(s.name);
-    setBrandName(s.brand || "");
+    brandTouchedRef.current = false;
     setRangeName(s.range || "Non classé");
+    applyBrandSuggestion(s.brand, s.name);
     if (s.barcode) setBarcode(s.barcode);
     const missing = s.unitPriceCents == null || s.unitPriceCents <= 0;
     setLookup({
@@ -1367,6 +1479,36 @@ export function EmployeeInventoryApp() {
     nameLookupTimer.current = window.setTimeout(() => {
       void lookupNameMemory(value);
     }, 280);
+    if (!brandTouchedRef.current) {
+      applyBrandSuggestion(null, value);
+      if (brandWebTimer.current != null) window.clearTimeout(brandWebTimer.current);
+      brandWebTimer.current = window.setTimeout(() => {
+        void fillBrandFromWeb(value);
+      }, 700);
+    }
+  }
+
+  async function fillBrandFromWeb(name: string) {
+    if (brandTouchedRef.current) return;
+    if (matchManufacturerName(brandNameRef.current, manufacturersRef.current)) return;
+    try {
+      const res = await authFetch("/api/inventaire/product-identify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: name }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const brand =
+        data.suggestion?.brand ||
+        data.suggestions?.[0]?.brand ||
+        null;
+      if (!brandTouchedRef.current && brand) {
+        applyBrandSuggestion(brand, name);
+      }
+    } catch {
+      /* suggestion optionnelle */
+    }
   }
 
   async function startSession() {
@@ -1681,7 +1823,7 @@ export function EmployeeInventoryApp() {
       }
 
       const lookRes = await authFetch(
-        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}`
+        `/api/inventaire/lookup?barcode=${encodeURIComponent(cleaned)}&sessionId=${encodeURIComponent(current.id)}&placement=${encodeURIComponent(placementRef.current)}`
       );
       const look = await lookRes.json();
       if (!lookRes.ok) throw new Error(look.error || "Lookup impossible");
@@ -1971,10 +2113,11 @@ export function EmployeeInventoryApp() {
                 {duplicateInfo.reason === "SAME_SESSION" ? (
                   <p className="mt-1 text-xs">
                     Ancienne qté : {duplicateInfo.quantityCounted} — entrez la nouvelle puis « Mettre à jour ».
+                    Vitrine + stock du même produit reste autorisé.
                   </p>
                 ) : (
                   <p className="mt-1 text-xs">
-                    Impossible de recréer ce produit (même jour ou &lt; 30 jours).
+                    Corrigez la ligne existante — ne créez pas de faux doublon.
                   </p>
                 )}
               </div>
@@ -2029,15 +2172,14 @@ export function EmployeeInventoryApp() {
                 ) : null}
               </label>
               <div className="grid grid-cols-2 gap-3">
-                <label className="block">
-                  <span className="text-sm font-medium">Marque</span>
-                  <input
-                    className="mt-1.5 w-full rounded-xl border border-gray-300 px-3 py-3 text-base"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
-                    placeholder="Marque"
-                  />
-                </label>
+                <BrandManufacturerSelect
+                  value={brandName}
+                  manufacturers={manufacturers}
+                  onChange={(name) => {
+                    brandTouchedRef.current = true;
+                    setBrandName(name);
+                  }}
+                />
                 <label className="block">
                   <span className="text-sm font-medium">Gamme</span>
                   <input
@@ -2097,6 +2239,8 @@ export function EmployeeInventoryApp() {
                   onChange={(e) => {
                     const next = e.target.value === "VITRINE" ? "VITRINE" : "STOCK";
                     setPlacement(next);
+                    placementRef.current = next;
+                    setDuplicateInfo(null);
                     if (next === "VITRINE") {
                       // 1 unité max (pas 1 boîte) — conditionné → 0 boîte + 1 loose
                       if (isPackagedLine) {
@@ -2108,11 +2252,16 @@ export function EmployeeInventoryApp() {
                       }
                       setError(null);
                     }
+                    const code = barcode.trim();
+                    if (code.length >= 6) void lookupBarcode(code);
                   }}
                 >
-                  <option value="STOCK">Stock (illimité)</option>
-                  <option value="VITRINE">Vitrine (max 1 unité)</option>
+                  <option value="STOCK">Stock (quantité illimitée)</option>
+                  <option value="VITRINE">Vitrine (1 unité, pas de doublon)</option>
                 </select>
+                <span className="mt-1 block text-xs text-gray-500">
+                  Même produit : vitrine + stock OK · 2 vitrines interdit · 2 stocks interdit
+                </span>
               </label>
               <label className="block">
                 <span className="text-sm font-medium">

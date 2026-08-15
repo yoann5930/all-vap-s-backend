@@ -16,6 +16,7 @@ import {
   normalizeInventoryPlacement,
   validateInventoryPlacementQuantity,
 } from "@/lib/inventory/placement";
+import { duplicateMessage, findInventoryDuplicate } from "@/lib/inventory/duplicates";
 
 type Ctx = { params: Promise<{ id: string; lineId: string }> };
 
@@ -94,6 +95,25 @@ export async function PATCH(request: NextRequest, context: Ctx) {
         (line as { placement?: string | null }).placement
       );
       if (prev !== nextPlacement) {
+        const dup = await findInventoryDuplicate({
+          barcode: line.barcode,
+          productId: line.productId,
+          locationId: session.locationId,
+          locationCode: session.location.code,
+          currentSessionId: id,
+          placement: nextPlacement,
+          excludeLineId: line.id,
+        });
+        if (dup) {
+          return jsonResponse(
+            {
+              error: duplicateMessage(dup),
+              code: "DUPLICATE",
+              duplicate: { ...dup, scannedAt: dup.scannedAt.toISOString() },
+            },
+            409
+          );
+        }
         audits.push({ field: "placement", old: prev, next: nextPlacement });
         data.placement = nextPlacement;
       }

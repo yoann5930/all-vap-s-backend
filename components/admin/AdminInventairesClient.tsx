@@ -335,7 +335,7 @@ export function AdminInventairesClient() {
               <thead className="border-b bg-gray-50 text-xs uppercase tracking-wide text-black">
                 <tr>
                   <th className="px-3 py-3 font-semibold text-black">Produit</th>
-                  <th className="px-3 py-3 font-semibold text-black">Marque</th>
+                  <th className="px-3 py-3 font-semibold text-black">Marque / fabricant</th>
                   <th className="px-3 py-3 font-semibold text-black">Gamme</th>
                   <th className="px-3 py-3 font-semibold text-black">EAN</th>
                   <th className="px-3 py-3 font-semibold text-black">Prix</th>

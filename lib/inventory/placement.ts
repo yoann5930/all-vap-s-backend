@@ -1,7 +1,12 @@
 /**
  * Emplacement inventaire : stock boutique vs vitrine.
  * Vitrine = 1 unité max (quantityCounted toujours en unités, jamais en boîtes).
- * Stock = aucune limite.
+ * Stock = aucune limite de quantité, une seule ligne stock par produit.
+ *
+ * Par produit (même barcode / productId, rien d’inventé) :
+ * - vitrine + vitrine = interdit
+ * - stock + stock = interdit
+ * - vitrine + stock = autorisé
  */
 export const INVENTORY_PLACEMENTS = ["STOCK", "VITRINE"] as const;
 export type InventoryPlacement = (typeof INVENTORY_PLACEMENTS)[number];
@@ -29,6 +34,14 @@ export function validateInventoryPlacementQuantity(params: {
     };
   }
   return { ok: true };
+}
+
+/** Même emplacement = doublon. Vitrine + stock du même produit = OK. */
+export function isSamePlacementDuplicate(
+  existing: InventoryPlacement,
+  incoming: InventoryPlacement
+): boolean {
+  return existing === incoming;
 }
 
 export function placementLabel(placement: InventoryPlacement): string {

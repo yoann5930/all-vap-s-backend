@@ -6,6 +6,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseCsv } from "@/lib/import/csv";
 import { slugify } from "@/lib/utils";
+import {
+  isNonexistentBrandName,
+  isRangeNotManufacturerName,
+  isRangeNotManufacturerSlug,
+} from "@/lib/catalog/ranges-not-manufacturers";
 
 export type KnownManufacturer = {
   name: string;
@@ -84,13 +89,7 @@ const EXTRA_ALIASES: Record<string, string[]> = {
     "aromes secrets",
   ],
   "mexican-cartel": ["mexican cartel"],
-  "fruity-cool": ["fruity cool"],
-  "vape-city": ["vape city"],
-  "revenge-juices": ["revenge juices", "revenge juice"],
   "kf-studio": ["kf studio"],
-  "big-kawa": ["big kawa"],
-  "yum-ebot": ["yum e-bot", "yum ebot", "yum-ebot"],
-  "le-maudit": ["le maudit"],
   "tribal-force": ["tribal force", "tribal lords"],
   "vape-maker": ["vape maker"],
   "maison-fuel": ["maison fuel", "fighter fuel"],
@@ -147,6 +146,7 @@ export function loadKnownManufacturers(): KnownManufacturer[] {
     };
     for (const m of j.manufacturers || []) {
       if (!m.name) continue;
+      if (isRangeNotManufacturerName(m.name) || isNonexistentBrandName(m.name)) continue;
       const rawSlug = m.slug || m.id || slugify(m.name);
       const slug = SLUG_CANONICAL[rawSlug] || rawSlug;
       map.set(slug, {
@@ -161,6 +161,7 @@ export function loadKnownManufacturers(): KnownManufacturer[] {
     for (const d of fs.readdirSync(MEDIA, { withFileTypes: true })) {
       if (!d.isDirectory()) continue;
       const slug = d.name;
+      if (isRangeNotManufacturerSlug(slug)) continue;
       if (!map.has(slug)) {
         map.set(slug, {
           name: slug
@@ -194,11 +195,17 @@ export function loadKnownManufacturers(): KnownManufacturer[] {
   }
 
   for (const [slug, aliases] of Object.entries(EXTRA_ALIASES)) {
+    if (isRangeNotManufacturerSlug(slug)) continue;
     const m = map.get(slug);
     if (m) m.aliases = [...new Set([...m.aliases, ...aliases])];
   }
 
-  return [...map.values()];
+  return [...map.values()].filter(
+    (m) =>
+      !isRangeNotManufacturerName(m.name) &&
+      !isRangeNotManufacturerSlug(m.slug) &&
+      !isNonexistentBrandName(m.name)
+  );
 }
 
 function matchManufacturer(
@@ -240,6 +247,7 @@ function matchManufacturer(
     const raw = by[1].trim();
     // Rejeter les suffixes qui sont clairement une contenance / nicotine
     if (/^\d+\s*ml/i.test(raw) || /^\d+\s*mg/i.test(raw)) return null;
+    if (isRangeNotManufacturerName(raw) || isNonexistentBrandName(raw)) return null;
     const slug = slugify(raw);
     const hit = known.find((k) => k.slug === slug || norm(k.name) === norm(raw));
     if (hit) {

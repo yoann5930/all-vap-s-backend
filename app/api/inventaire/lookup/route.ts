@@ -28,6 +28,7 @@ import {
 } from "@/lib/inventory/packaging";
 import { attachBarcodeToProduct } from "@/lib/inventory/product-barcodes";
 import { canAutoLinkByName } from "@/lib/inventory/product-identity-guards";
+import { classifyInventoryBrandRange } from "@/lib/catalog/ranges-not-manufacturers";
 
 type CatalogRow = {
   id: string;
@@ -59,6 +60,7 @@ async function maybeDuplicateInfo(params: {
   sessionId: string;
   barcode?: string | null;
   productId?: string | null;
+  placement?: string | null;
 }) {
   if (!params.sessionId) return null;
   const session = await prisma.inventorySession.findUnique({
@@ -72,6 +74,7 @@ async function maybeDuplicateInfo(params: {
     locationId: session.locationId,
     locationCode: session.location.code,
     currentSessionId: params.sessionId,
+    placement: params.placement,
   });
   if (!dup) return null;
   return {
@@ -111,6 +114,11 @@ async function buildProductPayload(
       ? `${variant.capacityMl} ml`
       : variant?.size || variant?.name || null;
 
+  const classified = classifyInventoryBrandRange({
+    brand: product.brand,
+    range: product.range,
+  });
+
   return {
     found: true as const,
     matchedBy,
@@ -130,8 +138,8 @@ async function buildProductPayload(
       name: product.name,
       sku: product.sku,
       barcode: product.barcode,
-      brand: product.brand,
-      range: product.range,
+      brand: classified.brand,
+      range: classified.range,
       category: product.category,
       volumeMl: product.volumeMl ?? null,
       unitsPerBox: product.unitsPerBox ?? null,
@@ -213,6 +221,7 @@ export async function GET(request: NextRequest) {
     const suggestOnly = url.searchParams.get("suggest") === "1";
     const sessionId = url.searchParams.get("sessionId")?.trim() || "";
     const locationCode = url.searchParams.get("store")?.trim() || "";
+    const placement = url.searchParams.get("placement")?.trim() || "";
 
     if (!barcode && !nameQuery) {
       return jsonResponse(
@@ -302,6 +311,7 @@ export async function GET(request: NextRequest) {
               sessionId,
               barcode,
               productId: productId || null,
+              placement,
             })
           : null;
         return jsonResponse({ ...base, duplicate });
@@ -483,7 +493,7 @@ export async function GET(request: NextRequest) {
           suggestions: [],
           aliasSuggestion: null,
           duplicate: sessionId
-            ? await maybeDuplicateInfo({ sessionId, barcode })
+            ? await maybeDuplicateInfo({ sessionId, barcode, placement })
             : null,
           message:
             "Code-barres inconnu en mémoire — saisissez le nom pour rechercher dans le catalogue",
@@ -504,11 +514,16 @@ export async function GET(request: NextRequest) {
       .slice(0, 5);
 
     const suggestions = [
-      ...scored.slice(0, 12).map(({ product, score }) => ({
+      ...scored.slice(0, 12).map(({ product, score }) => {
+        const classified = classifyInventoryBrandRange({
+          brand: product.brand,
+          range: product.range,
+        });
+        return {
         id: product.id,
         name: product.name,
-        brand: product.brand,
-        range: product.range,
+        brand: classified.brand,
+        range: classified.range,
         barcode: product.barcode,
         imageUrl: product.imageUrl,
         unitPriceCents: product.priceCents > 0 ? product.priceCents : null,
@@ -516,12 +531,18 @@ export async function GET(request: NextRequest) {
           product.priceCents > 0 ? formatEuroFromCents(product.priceCents) : null,
         score,
         source: "catalog" as const,
-      })),
-      ...sessionHits.map((m) => ({
+      };
+      }),
+      ...sessionHits.map((m) => {
+        const classified = classifyInventoryBrandRange({
+          brand: m.brand,
+          range: m.range,
+        });
+        return {
         id: m.productId || `mem-${m.barcode || m.name}`,
         name: m.name || "",
-        brand: m.brand,
-        range: m.range,
+        brand: classified.brand,
+        range: classified.range,
         barcode: m.barcode,
         imageUrl: null as string | null,
         unitPriceCents: m.unitPriceCents,
@@ -529,7 +550,8 @@ export async function GET(request: NextRequest) {
           m.unitPriceCents != null ? formatEuroFromCents(m.unitPriceCents) : null,
         score: 0.8,
         source: "session" as const,
-      })),
+      };
+      }),
     ].slice(0, 15);
 
     if (suggestOnly) {
@@ -583,6 +605,7 @@ export async function GET(request: NextRequest) {
             sessionId,
             barcode: bestCompatible.product.barcode,
             productId: bestCompatible.product.id,
+            placement,
           })
         : null;
       return jsonResponse({
@@ -604,6 +627,7 @@ export async function GET(request: NextRequest) {
             sessionId,
             barcode: sessionBest.barcode,
             productId: sessionBest.productId,
+            placement,
           })
         : null;
       return jsonResponse({

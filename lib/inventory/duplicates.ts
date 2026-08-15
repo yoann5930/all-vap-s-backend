@@ -1,4 +1,10 @@
 import prisma from "@/lib/prisma";
+import {
+  isSamePlacementDuplicate,
+  normalizeInventoryPlacement,
+  placementLabel,
+  type InventoryPlacement,
+} from "@/lib/inventory/placement";
 
 export type DuplicateHit = {
   lineId: string;
@@ -10,15 +16,16 @@ export type DuplicateHit = {
   scannedAt: Date;
   sessionStatus: string;
   storeCode: string;
-  reason: "SAME_SESSION" | "SAME_DAY" | "WITHIN_MONTH";
+  placement: InventoryPlacement;
+  reason: "SAME_SESSION";
 };
 
 /**
- * Anti-doublon inventaire :
- * - même session
- * - même boutique + même jour
- * - même boutique dans les 30 derniers jours
- * (sessions non annulées)
+ * Anti-doublon par produit et par emplacement, dans l’inventaire en cours.
+ * - vitrine + vitrine = interdit
+ * - stock + stock = interdit
+ * - vitrine + stock = autorisé (deux lignes du même produit, pas un faux doublon)
+ * Identité produit = barcode et/ou productId existants. Aucune création, aucun match flou.
  */
 export async function findInventoryDuplicate(params: {
   barcode?: string | null;
@@ -26,51 +33,41 @@ export async function findInventoryDuplicate(params: {
   locationId: string;
   locationCode: string;
   currentSessionId: string;
+  placement?: string | null;
   excludeLineId?: string;
+  resistanceIdentity?: unknown;
 }): Promise<DuplicateHit | null> {
   const barcode = (params.barcode || "").trim();
   if (!barcode && !params.productId) return null;
 
-  const monthAgo = new Date();
-  monthAgo.setDate(monthAgo.getDate() - 30);
+  const incoming = normalizeInventoryPlacement(params.placement);
 
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
+  const or: Array<{ barcode?: string; productId?: string }> = [];
+  if (barcode) or.push({ barcode });
+  if (params.productId) or.push({ productId: params.productId });
 
   const lines = await prisma.inventoryLine.findMany({
     where: {
       ...(params.excludeLineId ? { id: { not: params.excludeLineId } } : {}),
-      OR: [
-        ...(barcode ? [{ barcode }] : []),
-        ...(params.productId ? [{ productId: params.productId }] : []),
-      ],
+      OR: or,
       session: {
+        id: params.currentSessionId,
         locationId: params.locationId,
         status: { not: "CANCELLED" },
-        OR: [
-          { id: params.currentSessionId },
-          { startedAt: { gte: monthAgo } },
-        ],
       },
     },
     include: {
       session: { include: { location: true } },
     },
     orderBy: { scannedAt: "desc" },
-    take: 20,
+    take: 50,
   });
 
   for (const line of lines) {
-    const sameSession = line.sessionId === params.currentSessionId;
-    const sameDay = line.scannedAt >= startOfDay;
-    const withinMonth = line.scannedAt >= monthAgo;
-
-    let reason: DuplicateHit["reason"] | null = null;
-    if (sameSession) reason = "SAME_SESSION";
-    else if (sameDay) reason = "SAME_DAY";
-    else if (withinMonth) reason = "WITHIN_MONTH";
-
-    if (!reason) continue;
+    const existing = normalizeInventoryPlacement(
+      (line as { placement?: string | null }).placement
+    );
+    if (!isSamePlacementDuplicate(existing, incoming)) continue;
 
     return {
       lineId: line.id,
@@ -82,7 +79,8 @@ export async function findInventoryDuplicate(params: {
       scannedAt: line.scannedAt,
       sessionStatus: line.session.status,
       storeCode: line.session.location.code,
-      reason,
+      placement: existing,
+      reason: "SAME_SESSION",
     };
   }
 
@@ -90,13 +88,10 @@ export async function findInventoryDuplicate(params: {
 }
 
 export function duplicateMessage(hit: DuplicateHit): string {
-  const when = new Date(hit.scannedAt).toLocaleString("fr-FR");
   const name = hit.productName || hit.barcode || "ce produit";
-  if (hit.reason === "SAME_SESSION") {
-    return `Doublon : ${name} déjà dans cet inventaire (qté ${hit.quantityCounted}) — modifiez la quantité, ne recréez pas la ligne.`;
+  const where = placementLabel(hit.placement).toLowerCase();
+  if (hit.placement === "VITRINE") {
+    return `${name} déjà compté en vitrine (1 max). Corrigez la ligne existante, ne créez pas de doublon vitrine.`;
   }
-  if (hit.reason === "SAME_DAY") {
-    return `Doublon du jour : ${name} déjà inventorié aujourd’hui (${when}, qté ${hit.quantityCounted}).`;
-  }
-  return `Doublon < 30 jours : ${name} déjà inventorié le ${when} (qté ${hit.quantityCounted}).`;
+  return `${name} déjà compté en stock (qté ${hit.quantityCounted}). Corrigez la quantité, ne créez pas une deuxième ligne ${where}.`;
 }
