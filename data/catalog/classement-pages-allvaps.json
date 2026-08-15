@@ -1,0 +1,2698 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "All Vap's",
+  "purpose": "Tableau de référence obligatoire pour remplir les pages allvaps.fr : Fabricant → Gamme → Produit",
+  "generatedAt": "2026-08-15T12:03:14.047Z",
+  "source": "production all_vaps_db — produits publiés",
+  "pages": {
+    "fabricants": "/e-liquides",
+    "gammes": "/fabricants/[slug]",
+    "produits": "/gammes/[slug]",
+    "fiche": "/products/[slug]"
+  },
+  "rules": [
+    "Une fiche = un fabricant + une gamme (sauf matériel hors e-liquide clairement identifié)",
+    "Les pages /e-liquides, /fabricants et /gammes se remplissent uniquement depuis ce classement",
+    "Ne jamais mettre un produit d’un fabricant sur la page d’un autre",
+    "Une gamme n’appartient qu’à un fabricant (Unik / Ferox / Blue Hopper = Airmust ; Vaping Quest ≠ Cookin'Cloud)",
+    "Kuix 10/20 mg et batteries = Liquide Lab / Kuix — pas les 50 ml Kuix mélangés aux pods"
+  ],
+  "counts": {
+    "products": 458,
+    "manufacturers": 16,
+    "ranges": 38,
+    "unplaced": 3
+  },
+  "manufacturers": [
+    {
+      "name": "AirMust",
+      "slug": "airmust",
+      "page": "/fabricants/airmust",
+      "ranges": [
+        {
+          "name": "Blue Hopper",
+          "slug": "blue-hopper-airmust",
+          "page": "/gammes/blue-hopper-airmust",
+          "products": [
+            {
+              "name": "Cassis mure frais Blue hopper 200ml",
+              "slug": "cassis-mure-frais-blue-hopper-200ml",
+              "page": "/products/cassis-mure-frais-blue-hopper-200ml"
+            }
+          ]
+        },
+        {
+          "name": "Ferox",
+          "slug": "ferox-airmust",
+          "page": "/gammes/ferox-airmust",
+          "products": [
+            {
+              "name": "Ferox - Aspik 60ml - Airmust",
+              "slug": "ferox-aspik-60ml-airmust",
+              "page": "/products/ferox-aspik-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Grizz 60ml - Airmust",
+              "slug": "ferox-grizz-60ml-airmust",
+              "page": "/products/ferox-grizz-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Hippox 60ml - Airmust",
+              "slug": "ferox-hippox-60ml-airmust",
+              "page": "/products/ferox-hippox-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Konga 60ml - Airmust",
+              "slug": "ferox-konga-60ml-airmust",
+              "page": "/products/ferox-konga-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Krak 60ml - Airmust",
+              "slug": "ferox-krak-60ml-airmust",
+              "page": "/products/ferox-krak-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Leox 60ml - Airmust",
+              "slug": "ferox-leox-60ml-airmust",
+              "page": "/products/ferox-leox-60ml-airmust"
+            },
+            {
+              "name": "Ferox - Shark 60ml - Airmust",
+              "slug": "ferox-shark-60ml-airmust",
+              "page": "/products/ferox-shark-60ml-airmust"
+            }
+          ]
+        },
+        {
+          "name": "Press Start",
+          "slug": "press-start-airmust",
+          "page": "/gammes/press-start-airmust",
+          "products": [
+            {
+              "name": "Press Start - Dunky 50ml - Airmust",
+              "slug": "press-start-dunky-50ml-airmust",
+              "page": "/products/press-start-dunky-50ml-airmust"
+            },
+            {
+              "name": "Press Start - Jump 50ml - Airmust",
+              "slug": "press-start-jump-50ml-airmust",
+              "page": "/products/press-start-jump-50ml-airmust"
+            },
+            {
+              "name": "Press Start - Paka Paka 50ml - Airmust",
+              "slug": "press-start-paka-paka-50ml-airmust",
+              "page": "/products/press-start-paka-paka-50ml-airmust"
+            },
+            {
+              "name": "Press Start - Speed 50ml - Airmust",
+              "slug": "press-start-speed-50ml-airmust",
+              "page": "/products/press-start-speed-50ml-airmust"
+            },
+            {
+              "name": "Press Start - Sword 50ml - Airmust",
+              "slug": "press-start-sword-50ml-airmust",
+              "page": "/products/press-start-sword-50ml-airmust"
+            }
+          ]
+        },
+        {
+          "name": "UNIK",
+          "slug": "unik-airmust",
+          "page": "/gammes/unik-airmust",
+          "products": [
+            {
+              "name": "Bonbon Citron 60ml - Unik",
+              "slug": "bonbon-citron-60ml-unik",
+              "page": "/products/bonbon-citron-60ml-unik"
+            },
+            {
+              "name": "Bonbon Cola 60ml - Unik",
+              "slug": "bonbon-cola-60ml-unik",
+              "page": "/products/bonbon-cola-60ml-unik"
+            },
+            {
+              "name": "Cerise intense 60ml - Unik",
+              "slug": "cerise-intense-60ml-unik",
+              "page": "/products/cerise-intense-60ml-unik"
+            },
+            {
+              "name": "Fraise sauvage 60ml - Unik",
+              "slug": "fraise-sauvage-60ml-unik",
+              "page": "/products/fraise-sauvage-60ml-unik"
+            },
+            {
+              "name": "Framboise 60ml - Unik",
+              "slug": "framboise-60ml-unik",
+              "page": "/products/framboise-60ml-unik"
+            },
+            {
+              "name": "Fruits Rouges 60ml - Unik",
+              "slug": "fruits-rouges-60ml-unik",
+              "page": "/products/fruits-rouges-60ml-unik"
+            },
+            {
+              "name": "Mangue 60ml - Unik",
+              "slug": "mangue-60ml-unik",
+              "page": "/products/mangue-60ml-unik"
+            },
+            {
+              "name": "Menthe du jardin 60ml - Unik",
+              "slug": "menthe-du-jardin-60ml-unik",
+              "page": "/products/menthe-du-jardin-60ml-unik"
+            },
+            {
+              "name": "Menthe glaciale 60ml - Unik",
+              "slug": "menthe-glaciale-60ml-unik",
+              "page": "/products/menthe-glaciale-60ml-unik"
+            },
+            {
+              "name": "Pêche 60ml - Unik",
+              "slug": "peche-60ml-unik",
+              "page": "/products/peche-60ml-unik"
+            },
+            {
+              "name": "Pomme harmonie 60ml - Unik",
+              "slug": "pomme-harmonie-60ml-unik",
+              "page": "/products/pomme-harmonie-60ml-unik"
+            },
+            {
+              "name": "Pop Corn 60ml - Unik",
+              "slug": "pop-corn-60ml-unik",
+              "page": "/products/pop-corn-60ml-unik"
+            },
+            {
+              "name": "Pure Passion 60ml - Unik",
+              "slug": "pure-passion-60ml-unik",
+              "page": "/products/pure-passion-60ml-unik"
+            },
+            {
+              "name": "Raisin Noir 60ml - Unik",
+              "slug": "raisin-noir-60ml-unik",
+              "page": "/products/raisin-noir-60ml-unik"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AVAP",
+      "slug": "avap",
+      "page": "/fabricants/avap",
+      "ranges": [
+        {
+          "name": "Devil",
+          "slug": "devil-avap",
+          "page": "/gammes/devil-avap",
+          "products": [
+            {
+              "name": "Devil's Juice (50mL)",
+              "slug": "devil-s-juice-50ml",
+              "page": "/products/devil-s-juice-50ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Biarritz Lab",
+      "slug": "biarritz-lab",
+      "page": "/fabricants/biarritz-lab",
+      "ranges": [
+        {
+          "name": "Double Dragon",
+          "slug": "double-dragon",
+          "page": "/gammes/double-dragon",
+          "products": [
+            {
+              "name": "Double dragon 50ml - fruit du dragon cerise",
+              "slug": "double-dragon-50ml-fruit-du-dragon-cerise",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-cerise"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon fraise",
+              "slug": "double-dragon-50ml-fruit-du-dragon-fraise",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-fraise"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon framboise",
+              "slug": "double-dragon-50ml-fruit-du-dragon-framboise",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-framboise"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon limonade",
+              "slug": "double-dragon-50ml-fruit-du-dragon-limonade",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-limonade"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon mandarine",
+              "slug": "double-dragon-50ml-fruit-du-dragon-mandarine",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-mandarine"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon mure",
+              "slug": "double-dragon-50ml-fruit-du-dragon-mure",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-mure"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon passion",
+              "slug": "double-dragon-50ml-fruit-du-dragon-passion",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-passion"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon peche",
+              "slug": "double-dragon-50ml-fruit-du-dragon-peche",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-peche"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon vanilla ice",
+              "slug": "double-dragon-50ml-fruit-du-dragon-vanilla-ice",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-vanilla-ice"
+            },
+            {
+              "name": "Double dragon 50ml - fruit du dragon violette",
+              "slug": "double-dragon-50ml-fruit-du-dragon-violette",
+              "page": "/products/double-dragon-50ml-fruit-du-dragon-violette"
+            },
+            {
+              "name": "Double dragons fruit du dragons vanille 50 ml",
+              "slug": "double-dragons-fruit-du-dragons-vanille-50-ml",
+              "page": "/products/double-dragons-fruit-du-dragons-vanille-50-ml"
+            }
+          ]
+        },
+        {
+          "name": "Le Fruit Défendu",
+          "slug": "le-fruit-defendu",
+          "page": "/gammes/le-fruit-defendu",
+          "products": [
+            {
+              "name": "Fruit defendu - cassis cerise violette frais- 50ml - biarritz lab",
+              "slug": "fruit-defendu-cassis-cerise-violette-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-cassis-cerise-violette-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - fraise frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-fraise-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-fraise-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - fruit du dragon ananas frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-fruit-du-dragon-ananas-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-fruit-du-dragon-ananas-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - limonade pomme mure frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-limonade-pomme-mure-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-limonade-pomme-mure-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - mangue frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-mangue-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-mangue-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - melon abricot pêche frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-melon-abricot-peche-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-melon-abricot-peche-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - myrtille frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-myrtille-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-myrtille-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - pastèque fraise frais - 50ml - biarritz lab",
+              "slug": "fruit-defendu-pasteque-fraise-frais-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-pasteque-fraise-frais-50ml-biarritz-lab"
+            },
+            {
+              "name": "Fruit defendu - pêche grenadine - 50ml - biarritz lab",
+              "slug": "fruit-defendu-peche-grenadine-50ml-biarritz-lab",
+              "page": "/products/fruit-defendu-peche-grenadine-50ml-biarritz-lab"
+            }
+          ]
+        },
+        {
+          "name": "Mamita",
+          "slug": "mamita",
+          "page": "/gammes/mamita",
+          "products": [
+            {
+              "name": "Mamita 50ml - tarte sable citron",
+              "slug": "mamita-50ml-tarte-sable-citron",
+              "page": "/products/mamita-50ml-tarte-sable-citron"
+            },
+            {
+              "name": "Mamita - Bowl de Céréales Noisette Pécan Crème - 50 ml",
+              "slug": "mamita-bowl-de-cereales-noisette-pecan-creme-50-ml",
+              "page": "/products/mamita-bowl-de-cereales-noisette-pecan-creme-50-ml"
+            },
+            {
+              "name": "Mamita - Café Stout - 50 ml",
+              "slug": "mamita-cafe-stout-50-ml",
+              "page": "/products/mamita-cafe-stout-50-ml"
+            },
+            {
+              "name": "Mamita - Café Vanille Custard - 50 ml",
+              "slug": "mamita-cafe-vanille-custard-50-ml",
+              "page": "/products/mamita-cafe-vanille-custard-50-ml"
+            },
+            {
+              "name": "Mamita - Cookie Choco Noisette - 50 ml",
+              "slug": "mamita-cookie-choco-noisette-50-ml",
+              "page": "/products/mamita-cookie-choco-noisette-50-ml"
+            },
+            {
+              "name": "Mamita - Custard Vanille Pécan - 50 ml",
+              "slug": "mamita-custard-vanille-pecan-50-ml",
+              "page": "/products/mamita-custard-vanille-pecan-50-ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cloud Vapor",
+      "slug": "cloud-vapor",
+      "page": "/fabricants/cloud-vapor",
+      "ranges": [
+        {
+          "name": "À classer",
+          "slug": "a-classer",
+          "page": "/gammes/a-classer",
+          "products": [
+            {
+              "name": "Cherry devil hellfest 50ml - cloud vapor",
+              "slug": "cherry-devil-hellfest-50ml-cloud-vapor",
+              "page": "/products/cherry-devil-hellfest-50ml-cloud-vapor"
+            }
+          ]
+        },
+        {
+          "name": "Grand Taste City",
+          "slug": "grand-taste-city-cloud-vapor",
+          "page": "/gammes/grand-taste-city-cloud-vapor",
+          "products": [
+            {
+              "name": "Diamond Casino 50ml - Grand Taste City",
+              "slug": "diamond-casino-50ml-grand-taste-city",
+              "page": "/products/diamond-casino-50ml-grand-taste-city"
+            },
+            {
+              "name": "Mint Heist 50ml - Grand Taste City",
+              "slug": "mint-heist-50ml-grand-taste-city",
+              "page": "/products/mint-heist-50ml-grand-taste-city"
+            },
+            {
+              "name": "Paleta Score 50ml - Grand Taste City",
+              "slug": "paleta-score-50ml-grand-taste-city",
+              "page": "/products/paleta-score-50ml-grand-taste-city"
+            },
+            {
+              "name": "Perico 50ml - Grand Taste City",
+              "slug": "perico-50ml-grand-taste-city",
+              "page": "/products/perico-50ml-grand-taste-city"
+            },
+            {
+              "name": "Redwood 50ml - Grand Taste City",
+              "slug": "redwood-50ml-grand-taste-city",
+              "page": "/products/redwood-50ml-grand-taste-city"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cookin'Cloud",
+      "slug": "cookin-cloud",
+      "page": "/fabricants/cookin-cloud",
+      "ranges": [
+        {
+          "name": "Myst",
+          "slug": "myst",
+          "page": "/gammes/myst",
+          "products": [
+            {
+              "name": "Myst - Da Crazy Bird - 50 ml",
+              "slug": "myst-da-crazy-bird-50-ml",
+              "page": "/products/myst-da-crazy-bird-50-ml"
+            },
+            {
+              "name": "Myst - Da Crusty King - 50 ml",
+              "slug": "myst-da-crusty-king-50-ml",
+              "page": "/products/myst-da-crusty-king-50-ml"
+            },
+            {
+              "name": "Myst - Da Good Snake - 50 ml",
+              "slug": "myst-da-good-snake-50-ml",
+              "page": "/products/myst-da-good-snake-50-ml"
+            },
+            {
+              "name": "Myst - Da Loving Witch - 50 ml",
+              "slug": "myst-da-loving-witch-50-ml",
+              "page": "/products/myst-da-loving-witch-50-ml"
+            },
+            {
+              "name": "Myst - Da Smoky Eye - 50 ml",
+              "slug": "myst-da-smoky-eye-50-ml",
+              "page": "/products/myst-da-smoky-eye-50-ml"
+            },
+            {
+              "name": "Myst - Da Sweet Face - 50 ml",
+              "slug": "myst-da-sweet-face-50-ml",
+              "page": "/products/myst-da-sweet-face-50-ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "e.Tasty",
+      "slug": "e-tasty",
+      "page": "/fabricants/e-tasty",
+      "ranges": [
+        {
+          "name": "Bankiz",
+          "slug": "bankiz",
+          "page": "/gammes/bankiz",
+          "products": [
+            {
+              "name": "Bako 50ml -Bankiz- ETasty",
+              "slug": "bako-50ml-bankiz-etasty",
+              "page": "/products/bako-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Bisto 50ml -Bankiz- ETasty",
+              "slug": "bisto-50ml-bankiz-etasty",
+              "page": "/products/bisto-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Bisto Extra Frais 50ml -Bankiz- ETasty",
+              "slug": "bisto-extra-frais-50ml-bankiz-etasty",
+              "page": "/products/bisto-extra-frais-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Freho 50ml -Bankiz- ETasty",
+              "slug": "freho-50ml-bankiz-etasty",
+              "page": "/products/freho-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Freho extra frais 50ml -Bankiz- ETasty",
+              "slug": "freho-extra-frais-50ml-bankiz-etasty",
+              "page": "/products/freho-extra-frais-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Kalio 50ml -Bankiz- ETasty",
+              "slug": "kalio-50ml-bankiz-etasty",
+              "page": "/products/kalio-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Kalio extra frais 50ml -Bankiz- ETasty",
+              "slug": "kalio-extra-frais-50ml-bankiz-etasty",
+              "page": "/products/kalio-extra-frais-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Peïkø- BANKIZ E-TASTY 50ml",
+              "slug": "peik-bankiz-e-tasty-50ml",
+              "page": "/products/peik-bankiz-e-tasty-50ml"
+            },
+            {
+              "name": "Peïkø extra frais- BANKIZ E-TASTY 50ml",
+              "slug": "peik-extra-frais-bankiz-e-tasty-50ml",
+              "page": "/products/peik-extra-frais-bankiz-e-tasty-50ml"
+            },
+            {
+              "name": "Serko 50ml -Bankiz- ETasty",
+              "slug": "serko-50ml-bankiz-etasty",
+              "page": "/products/serko-50ml-bankiz-etasty"
+            },
+            {
+              "name": "Serko Extra Frais 50ml -Bankiz- ETasty",
+              "slug": "serko-extra-frais-50ml-bankiz-etasty",
+              "page": "/products/serko-extra-frais-50ml-bankiz-etasty"
+            }
+          ]
+        },
+        {
+          "name": "Freezy Crush",
+          "slug": "freezy-crush",
+          "page": "/gammes/freezy-crush",
+          "products": [
+            {
+              "name": "DIAVITA-Freezy Crush E-TASTY",
+              "slug": "diavita-freezy-crush-e-tasty",
+              "page": "/products/diavita-freezy-crush-e-tasty"
+            },
+            {
+              "name": "FELICITA-Freezy Crush E-TASTY",
+              "slug": "felicita-freezy-crush-e-tasty",
+              "page": "/products/felicita-freezy-crush-e-tasty"
+            },
+            {
+              "name": "LIMONATA-Freezy Crush E-TASTY",
+              "slug": "limonata-freezy-crush-e-tasty",
+              "page": "/products/limonata-freezy-crush-e-tasty"
+            }
+          ]
+        },
+        {
+          "name": "God Fall City",
+          "slug": "god-fall-city",
+          "page": "/gammes/god-fall-city",
+          "products": [
+            {
+              "name": "Adess 100ml - GodFallcity - E-Tasty",
+              "slug": "adess-100ml-godfallcity-e-tasty",
+              "page": "/products/adess-100ml-godfallcity-e-tasty"
+            },
+            {
+              "name": "Dzeus 100ml - GodFallcity - E-Tasty",
+              "slug": "dzeus-100ml-godfallcity-e-tasty",
+              "page": "/products/dzeus-100ml-godfallcity-e-tasty"
+            },
+            {
+              "name": "Posei 100ml - GodFallcity - E-Tasty",
+              "slug": "posei-100ml-godfallcity-e-tasty",
+              "page": "/products/posei-100ml-godfallcity-e-tasty"
+            },
+            {
+              "name": "Thena 100ml - GodFallcity - E-Tasty",
+              "slug": "thena-100ml-godfallcity-e-tasty",
+              "page": "/products/thena-100ml-godfallcity-e-tasty"
+            }
+          ]
+        },
+        {
+          "name": "Inspiration",
+          "slug": "inspiration",
+          "page": "/gammes/inspiration",
+          "products": [
+            {
+              "name": "Amani 50Ml Inspiration - E-Tasty",
+              "slug": "amani-50ml-inspiration-e-tasty",
+              "page": "/products/amani-50ml-inspiration-e-tasty"
+            },
+            {
+              "name": "Azura 50 Ml Inspiration - E-Tasty",
+              "slug": "azura-50-ml-inspiration-e-tasty",
+              "page": "/products/azura-50-ml-inspiration-e-tasty"
+            },
+            {
+              "name": "Carmi 50 Ml Inspiration - E-Tasty",
+              "slug": "carmi-50-ml-inspiration-e-tasty",
+              "page": "/products/carmi-50-ml-inspiration-e-tasty"
+            },
+            {
+              "name": "Kaheli 50Ml Inspiration - E-Tasty",
+              "slug": "kaheli-50ml-inspiration-e-tasty",
+              "page": "/products/kaheli-50ml-inspiration-e-tasty"
+            },
+            {
+              "name": "Napela 50 Ml Inspiration - E-Tasty",
+              "slug": "napela-50-ml-inspiration-e-tasty",
+              "page": "/products/napela-50-ml-inspiration-e-tasty"
+            },
+            {
+              "name": "Opali 50 Ml Inspiration - E-Tasty",
+              "slug": "opali-50-ml-inspiration-e-tasty",
+              "page": "/products/opali-50-ml-inspiration-e-tasty"
+            }
+          ]
+        },
+        {
+          "name": "Letters",
+          "slug": "letters",
+          "page": "/gammes/letters",
+          "products": [
+            {
+              "name": "Concentré letters A e-tasty",
+              "slug": "concentre-letters-a-e-tasty",
+              "page": "/products/concentre-letters-a-e-tasty"
+            },
+            {
+              "name": "Concentré letters B e-tasty",
+              "slug": "concentre-letters-b-e-tasty",
+              "page": "/products/concentre-letters-b-e-tasty"
+            },
+            {
+              "name": "Concentré letters C e-tasty",
+              "slug": "concentre-letters-c-e-tasty",
+              "page": "/products/concentre-letters-c-e-tasty"
+            },
+            {
+              "name": "Letters A",
+              "slug": "letters-a",
+              "page": "/products/letters-a"
+            },
+            {
+              "name": "Letters B",
+              "slug": "letters-b",
+              "page": "/products/letters-b"
+            },
+            {
+              "name": "Letters C",
+              "slug": "letters-c",
+              "page": "/products/letters-c"
+            }
+          ]
+        },
+        {
+          "name": "Numbers",
+          "slug": "numbers",
+          "page": "/gammes/numbers",
+          "products": [
+            {
+              "name": "Concentré Numbers10 30ml - e-TASTY",
+              "slug": "concentre-numbers10-30ml-e-tasty",
+              "page": "/products/concentre-numbers10-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers11 30ml - e-TASTY",
+              "slug": "concentre-numbers11-30ml-e-tasty",
+              "page": "/products/concentre-numbers11-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers1 30ml - e-TASTY",
+              "slug": "concentre-numbers1-30ml-e-tasty",
+              "page": "/products/concentre-numbers1-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers2 30ml - e-TASTY",
+              "slug": "concentre-numbers2-30ml-e-tasty",
+              "page": "/products/concentre-numbers2-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers3 30ml - e-TASTY",
+              "slug": "concentre-numbers3-30ml-e-tasty",
+              "page": "/products/concentre-numbers3-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers4 30ml - e-TASTY",
+              "slug": "concentre-numbers4-30ml-e-tasty",
+              "page": "/products/concentre-numbers4-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers5 30ml - e-TASTY",
+              "slug": "concentre-numbers5-30ml-e-tasty",
+              "page": "/products/concentre-numbers5-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers6 30ml - e-TASTY",
+              "slug": "concentre-numbers6-30ml-e-tasty",
+              "page": "/products/concentre-numbers6-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers7 30ml - e-TASTY",
+              "slug": "concentre-numbers7-30ml-e-tasty",
+              "page": "/products/concentre-numbers7-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers8 30ml - e-TASTY",
+              "slug": "concentre-numbers8-30ml-e-tasty",
+              "page": "/products/concentre-numbers8-30ml-e-tasty"
+            },
+            {
+              "name": "Concentré Numbers9 30ml - e-TASTY",
+              "slug": "concentre-numbers9-30ml-e-tasty",
+              "page": "/products/concentre-numbers9-30ml-e-tasty"
+            },
+            {
+              "name": "Numbers 10 100ml",
+              "slug": "numbers-10-100ml",
+              "page": "/products/numbers-10-100ml"
+            },
+            {
+              "name": "Numbers 1 100ml",
+              "slug": "numbers-1-100ml",
+              "page": "/products/numbers-1-100ml"
+            },
+            {
+              "name": "Numbers 11 100ml",
+              "slug": "numbers-11-100ml",
+              "page": "/products/numbers-11-100ml"
+            },
+            {
+              "name": "Numbers 2 100ml",
+              "slug": "numbers-2-100ml",
+              "page": "/products/numbers-2-100ml"
+            },
+            {
+              "name": "Numbers 3 100ml",
+              "slug": "numbers-3-100ml",
+              "page": "/products/numbers-3-100ml"
+            },
+            {
+              "name": "Numbers 4 100ml",
+              "slug": "numbers-4-100ml",
+              "page": "/products/numbers-4-100ml"
+            },
+            {
+              "name": "Numbers 5 100ml",
+              "slug": "numbers-5-100ml",
+              "page": "/products/numbers-5-100ml"
+            },
+            {
+              "name": "Numbers 6 100ml",
+              "slug": "numbers-6-100ml",
+              "page": "/products/numbers-6-100ml"
+            },
+            {
+              "name": "Numbers 7 100ml",
+              "slug": "numbers-7-100ml",
+              "page": "/products/numbers-7-100ml"
+            },
+            {
+              "name": "Numbers 8 100ml",
+              "slug": "numbers-8-100ml",
+              "page": "/products/numbers-8-100ml"
+            },
+            {
+              "name": "Numbers 9 100ml",
+              "slug": "numbers-9-100ml",
+              "page": "/products/numbers-9-100ml"
+            }
+          ]
+        },
+        {
+          "name": "One Taste",
+          "slug": "one-taste",
+          "page": "/gammes/one-taste",
+          "products": [
+            {
+              "name": "Ananas 10ml 0mg e-tasty",
+              "slug": "ananas-10ml-0mg-e-tasty",
+              "page": "/products/ananas-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Ananas 10ml 12mg e-tasty",
+              "slug": "ananas-10ml-12mg-e-tasty",
+              "page": "/products/ananas-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Ananas 10ml 3mg e-tasty",
+              "slug": "ananas-10ml-3mg-e-tasty",
+              "page": "/products/ananas-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Ananas 10ml 6mg e-tasty",
+              "slug": "ananas-10ml-6mg-e-tasty",
+              "page": "/products/ananas-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Bonbon carnival 10ml 0mg e-tasty",
+              "slug": "bonbon-carnival-10ml-0mg-e-tasty",
+              "page": "/products/bonbon-carnival-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Bonbon carnival 10ml 12mg e-tasty",
+              "slug": "bonbon-carnival-10ml-12mg-e-tasty",
+              "page": "/products/bonbon-carnival-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Bonbon carnival 10ml 3mg e-tasty",
+              "slug": "bonbon-carnival-10ml-3mg-e-tasty",
+              "page": "/products/bonbon-carnival-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Bonbon carnival 10ml 6mg e-tasty",
+              "slug": "bonbon-carnival-10ml-6mg-e-tasty",
+              "page": "/products/bonbon-carnival-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Bonbon violette 10ml 0mg e-tasty",
+              "slug": "bonbon-violette-10ml-0mg-e-tasty",
+              "page": "/products/bonbon-violette-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Bonbon violette 10ml 12mg e-tasty",
+              "slug": "bonbon-violette-10ml-12mg-e-tasty",
+              "page": "/products/bonbon-violette-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Bonbon violette 10ml 3mg e-tasty",
+              "slug": "bonbon-violette-10ml-3mg-e-tasty",
+              "page": "/products/bonbon-violette-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Bonbon violette 10ml 6mg e-tasty",
+              "slug": "bonbon-violette-10ml-6mg-e-tasty",
+              "page": "/products/bonbon-violette-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cafe Expresso 10ml 0mg e-tasty",
+              "slug": "cafe-expresso-10ml-0mg-e-tasty",
+              "page": "/products/cafe-expresso-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cafe Expresso 10ml 12mg e-tasty",
+              "slug": "cafe-expresso-10ml-12mg-e-tasty",
+              "page": "/products/cafe-expresso-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cafe Expresso 10ml 3mg e-tasty",
+              "slug": "cafe-expresso-10ml-3mg-e-tasty",
+              "page": "/products/cafe-expresso-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cafe Expresso 10ml 6mg e-tasty",
+              "slug": "cafe-expresso-10ml-6mg-e-tasty",
+              "page": "/products/cafe-expresso-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cafe speculos 10ml 0mg e-tasty",
+              "slug": "cafe-speculos-10ml-0mg-e-tasty",
+              "page": "/products/cafe-speculos-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cafe speculos 10ml 12mg e-tasty",
+              "slug": "cafe-speculos-10ml-12mg-e-tasty",
+              "page": "/products/cafe-speculos-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cafe speculos 10ml 3mg e-tasty",
+              "slug": "cafe-speculos-10ml-3mg-e-tasty",
+              "page": "/products/cafe-speculos-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cafe speculos 10ml 6mg e-tasty",
+              "slug": "cafe-speculos-10ml-6mg-e-tasty",
+              "page": "/products/cafe-speculos-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Caramel doré 10ml 0mg e-tasty",
+              "slug": "caramel-dore-10ml-0mg-e-tasty",
+              "page": "/products/caramel-dore-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Caramel doré 10ml 12mg e-tasty",
+              "slug": "caramel-dore-10ml-12mg-e-tasty",
+              "page": "/products/caramel-dore-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Caramel doré 10ml 3mg e-tasty",
+              "slug": "caramel-dore-10ml-3mg-e-tasty",
+              "page": "/products/caramel-dore-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Caramel doré 10ml 6mg e-tasty",
+              "slug": "caramel-dore-10ml-6mg-e-tasty",
+              "page": "/products/caramel-dore-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cassis frais 10ml 0mg e-tasty",
+              "slug": "cassis-frais-10ml-0mg-e-tasty",
+              "page": "/products/cassis-frais-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cassis frais 10ml 12mg e-tasty",
+              "slug": "cassis-frais-10ml-12mg-e-tasty",
+              "page": "/products/cassis-frais-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cassis frais 10ml 3mg e-tasty",
+              "slug": "cassis-frais-10ml-3mg-e-tasty",
+              "page": "/products/cassis-frais-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cassis frais 10ml 6mg e-tasty",
+              "slug": "cassis-frais-10ml-6mg-e-tasty",
+              "page": "/products/cassis-frais-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 0mg e-tasty",
+              "slug": "cerise-noire-10ml-0mg-e-tasty",
+              "page": "/products/cerise-noire-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 10mg sel de nicotine e-tasty",
+              "slug": "cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 12mg e-tasty",
+              "slug": "cerise-noire-10ml-12mg-e-tasty",
+              "page": "/products/cerise-noire-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 3mg e-tasty",
+              "slug": "cerise-noire-10ml-3mg-e-tasty",
+              "page": "/products/cerise-noire-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 5mg sel de nicotine e-tasty",
+              "slug": "cerise-noire-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/cerise-noire-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Cerise noire 10ml 6mg e-tasty",
+              "slug": "cerise-noire-10ml-6mg-e-tasty",
+              "page": "/products/cerise-noire-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cherry cola 10ml 0mg e-tasty",
+              "slug": "cherry-cola-10ml-0mg-e-tasty",
+              "page": "/products/cherry-cola-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cherry cola 10ml 12mg e-tasty",
+              "slug": "cherry-cola-10ml-12mg-e-tasty",
+              "page": "/products/cherry-cola-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cherry cola 10ml 3mg e-tasty",
+              "slug": "cherry-cola-10ml-3mg-e-tasty",
+              "page": "/products/cherry-cola-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cherry cola 10ml 6mg e-tasty",
+              "slug": "cherry-cola-10ml-6mg-e-tasty",
+              "page": "/products/cherry-cola-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Chlorophylle 10ml 0mg e-tasty",
+              "slug": "chlorophylle-10ml-0mg-e-tasty",
+              "page": "/products/chlorophylle-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Chlorophylle 10ml 12mg e-tasty",
+              "slug": "chlorophylle-10ml-12mg-e-tasty",
+              "page": "/products/chlorophylle-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Chlorophylle 10ml 3mg e-tasty",
+              "slug": "chlorophylle-10ml-3mg-e-tasty",
+              "page": "/products/chlorophylle-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Chlorophylle 10ml 6mg e-tasty",
+              "slug": "chlorophylle-10ml-6mg-e-tasty",
+              "page": "/products/chlorophylle-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Citron givree 10ml 0mg e-tasty",
+              "slug": "citron-givree-10ml-0mg-e-tasty",
+              "page": "/products/citron-givree-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Citron givree 10ml 12mg e-tasty",
+              "slug": "citron-givree-10ml-12mg-e-tasty",
+              "page": "/products/citron-givree-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Citron givree 10ml 3mg e-tasty",
+              "slug": "citron-givree-10ml-3mg-e-tasty",
+              "page": "/products/citron-givree-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Citron givree 10ml 6mg e-tasty",
+              "slug": "citron-givree-10ml-6mg-e-tasty",
+              "page": "/products/citron-givree-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Citron vert 10ml 0mg e-tasty",
+              "slug": "citron-vert-10ml-0mg-e-tasty",
+              "page": "/products/citron-vert-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Citron vert 10ml 12mg e-tasty",
+              "slug": "citron-vert-10ml-12mg-e-tasty",
+              "page": "/products/citron-vert-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Citron vert 10ml 3mg e-tasty",
+              "slug": "citron-vert-10ml-3mg-e-tasty",
+              "page": "/products/citron-vert-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Citron vert 10ml 6mg e-tasty",
+              "slug": "citron-vert-10ml-6mg-e-tasty",
+              "page": "/products/citron-vert-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Cookie gourmand 10 ml 0mg e-tasty",
+              "slug": "cookie-gourmand-10-ml-0mg-e-tasty",
+              "page": "/products/cookie-gourmand-10-ml-0mg-e-tasty"
+            },
+            {
+              "name": "Cookie gourmand 10ml 12mg e-tasty",
+              "slug": "cookie-gourmand-10ml-12mg-e-tasty",
+              "page": "/products/cookie-gourmand-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Cookie gourmand 10 ml 3mg e-tasty",
+              "slug": "cookie-gourmand-10-ml-3mg-e-tasty",
+              "page": "/products/cookie-gourmand-10-ml-3mg-e-tasty"
+            },
+            {
+              "name": "Cookie gourmand 10 ml 6mg e-tasty",
+              "slug": "cookie-gourmand-10-ml-6mg-e-tasty",
+              "page": "/products/cookie-gourmand-10-ml-6mg-e-tasty"
+            },
+            {
+              "name": "E-Tasty One Taste - Cafe expresso 50ml",
+              "slug": "e-tasty-one-taste-cafe-expresso-50ml",
+              "page": "/products/e-tasty-one-taste-cafe-expresso-50ml"
+            },
+            {
+              "name": "E tasty One taste CASSIS FRAIS 50ML",
+              "slug": "e-tasty-one-taste-cassis-frais-50ml",
+              "page": "/products/e-tasty-one-taste-cassis-frais-50ml"
+            },
+            {
+              "name": "E tasty ONE TASTE- FRAMBOISE SAUVAGE 50ML",
+              "slug": "e-tasty-one-taste-framboise-sauvage-50ml",
+              "page": "/products/e-tasty-one-taste-framboise-sauvage-50ml"
+            },
+            {
+              "name": "E-Tasty One Taste - Menthe fraiche 50ml",
+              "slug": "e-tasty-one-taste-menthe-fraiche-50ml",
+              "page": "/products/e-tasty-one-taste-menthe-fraiche-50ml"
+            },
+            {
+              "name": "E-Tasty One Taste - Menthe polaire 50ml",
+              "slug": "e-tasty-one-taste-menthe-polaire-50ml",
+              "page": "/products/e-tasty-one-taste-menthe-polaire-50ml"
+            },
+            {
+              "name": "E tasty One taste PASTEQUE JUTEUSE 50ML",
+              "slug": "e-tasty-one-taste-pasteque-juteuse-50ml",
+              "page": "/products/e-tasty-one-taste-pasteque-juteuse-50ml"
+            },
+            {
+              "name": "E-Tasty One Taste - United 50ml",
+              "slug": "e-tasty-one-taste-united-50ml",
+              "page": "/products/e-tasty-one-taste-united-50ml"
+            },
+            {
+              "name": "Fraise sauvage 10ml 10mg sel de nicotine e-tasty",
+              "slug": "fraise-sauvage-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fraise-sauvage-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fraise sauvage 10ml 20mg sel de nicotine e-tasty",
+              "slug": "fraise-sauvage-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fraise-sauvage-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fraise sauvage 10ml 5mg sel de nicotine e-tasty",
+              "slug": "fraise-sauvage-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fraise-sauvage-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fraise sauvege 10ml 0mg e-tasty",
+              "slug": "fraise-sauvege-10ml-0mg-e-tasty",
+              "page": "/products/fraise-sauvege-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Fraise sauvege 10ml 12mg e-tasty",
+              "slug": "fraise-sauvege-10ml-12mg-e-tasty",
+              "page": "/products/fraise-sauvege-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Fraise sauvege 10ml 3mg e-tasty",
+              "slug": "fraise-sauvege-10ml-3mg-e-tasty",
+              "page": "/products/fraise-sauvege-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Fraise sauvege 10ml 6mg e-tasty",
+              "slug": "fraise-sauvege-10ml-6mg-e-tasty",
+              "page": "/products/fraise-sauvege-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 0mg e-tasty",
+              "slug": "fruit-du-dragon-10ml-0mg-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 10mg sel de nicotine e-tasty",
+              "slug": "fruit-du-dragon-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 12mg e-tasty",
+              "slug": "fruit-du-dragon-10ml-12mg-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 3mg e-tasty",
+              "slug": "fruit-du-dragon-10ml-3mg-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 5mg sel de nicotine e-tasty",
+              "slug": "fruit-du-dragon-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fruit du dragon 10ml 6mg e-tasty",
+              "slug": "fruit-du-dragon-10ml-6mg-e-tasty",
+              "page": "/products/fruit-du-dragon-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 0mg e-tasty",
+              "slug": "fruits-rouges-10ml-0mg-e-tasty",
+              "page": "/products/fruits-rouges-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 10mg sel de nicotine e-tasty",
+              "slug": "fruits-rouges-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fruits-rouges-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 12mg e-tasty",
+              "slug": "fruits-rouges-10ml-12mg-e-tasty",
+              "page": "/products/fruits-rouges-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 20mg sel de nicotine e-tasty",
+              "slug": "fruits-rouges-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fruits-rouges-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 3mg e-tasty",
+              "slug": "fruits-rouges-10ml-3mg-e-tasty",
+              "page": "/products/fruits-rouges-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 5mg sel de nicotine e-tasty",
+              "slug": "fruits-rouges-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/fruits-rouges-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Fruits rouges 10ml 6mg e-tasty",
+              "slug": "fruits-rouges-10ml-6mg-e-tasty",
+              "page": "/products/fruits-rouges-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Kenton 10ml 0mg e-tasty",
+              "slug": "kenton-10ml-0mg-e-tasty",
+              "page": "/products/kenton-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Kenton 10ml 12mg e-tasty",
+              "slug": "kenton-10ml-12mg-e-tasty",
+              "page": "/products/kenton-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Kenton 10ml 3mg e-tasty",
+              "slug": "kenton-10ml-3mg-e-tasty",
+              "page": "/products/kenton-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Kenton 10ml 6mg e-tasty",
+              "slug": "kenton-10ml-6mg-e-tasty",
+              "page": "/products/kenton-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Mangue juteuse 10ml 0mg e-tasty",
+              "slug": "mangue-juteuse-10ml-0mg-e-tasty",
+              "page": "/products/mangue-juteuse-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Mangue juteuse 10ml 12mg e-tasty",
+              "slug": "mangue-juteuse-10ml-12mg-e-tasty",
+              "page": "/products/mangue-juteuse-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Mangue juteuse 10ml 3mg e-tasty",
+              "slug": "mangue-juteuse-10ml-3mg-e-tasty",
+              "page": "/products/mangue-juteuse-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Mangue juteuse 10ml 6mg e-tasty",
+              "slug": "mangue-juteuse-10ml-6mg-e-tasty",
+              "page": "/products/mangue-juteuse-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Menthe Fraiche 10ml 0mg e-tasty",
+              "slug": "menthe-fraiche-10ml-0mg-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Menthe fraiche 10ml 10mg sel de nicotine e-tasty",
+              "slug": "menthe-fraiche-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe Fraiche 10ml 12mg e-tasty",
+              "slug": "menthe-fraiche-10ml-12mg-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Menthe fraiche10ml 20mg sel de nicotine e-tasty",
+              "slug": "menthe-fraiche10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-fraiche10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe Fraiche 10ml 3mg e-tasty",
+              "slug": "menthe-fraiche-10ml-3mg-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Menthe fraiche 10ml 5mg sel de nicotine e-tasty",
+              "slug": "menthe-fraiche-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe Fraiche 10ml 6mg e-tasty",
+              "slug": "menthe-fraiche-10ml-6mg-e-tasty",
+              "page": "/products/menthe-fraiche-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 0mg e-tasty",
+              "slug": "menthe-polaire-10ml-0mg-e-tasty",
+              "page": "/products/menthe-polaire-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 10mg sel de nicotine e-tasty",
+              "slug": "menthe-polaire-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-polaire-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 12mg e-tasty",
+              "slug": "menthe-polaire-10ml-12mg-e-tasty",
+              "page": "/products/menthe-polaire-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 20mg sel de nicotine e-tasty",
+              "slug": "menthe-polaire-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-polaire-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 3mg e-tasty",
+              "slug": "menthe-polaire-10ml-3mg-e-tasty",
+              "page": "/products/menthe-polaire-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 5mg sel de nicotine e-tasty",
+              "slug": "menthe-polaire-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/menthe-polaire-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Menthe polaire 10ml 6mg e-tasty",
+              "slug": "menthe-polaire-10ml-6mg-e-tasty",
+              "page": "/products/menthe-polaire-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Pamplemousse 10ml 0mg e-tasty",
+              "slug": "pamplemousse-10ml-0mg-e-tasty",
+              "page": "/products/pamplemousse-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Pamplemousse 10ml 12mg e-tasty",
+              "slug": "pamplemousse-10ml-12mg-e-tasty",
+              "page": "/products/pamplemousse-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Pamplemousse 10ml 3mg e-tasty",
+              "slug": "pamplemousse-10ml-3mg-e-tasty",
+              "page": "/products/pamplemousse-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Pamplemousse 10ml 6mg e-tasty",
+              "slug": "pamplemousse-10ml-6mg-e-tasty",
+              "page": "/products/pamplemousse-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Peche 10ml 0mg e-tasty",
+              "slug": "peche-10ml-0mg-e-tasty",
+              "page": "/products/peche-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Peche 10ml 12mg e-tasty",
+              "slug": "peche-10ml-12mg-e-tasty",
+              "page": "/products/peche-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Peche 10ml 3mg e-tasty",
+              "slug": "peche-10ml-3mg-e-tasty",
+              "page": "/products/peche-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Peche 10ml 6mg e-tasty",
+              "slug": "peche-10ml-6mg-e-tasty",
+              "page": "/products/peche-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Poire juteuse 10ml 0mg e-tasty",
+              "slug": "poire-juteuse-10ml-0mg-e-tasty",
+              "page": "/products/poire-juteuse-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Poire juteuse 10ml 12mg e-tasty",
+              "slug": "poire-juteuse-10ml-12mg-e-tasty",
+              "page": "/products/poire-juteuse-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Poire juteuse 10ml 3mg e-tasty",
+              "slug": "poire-juteuse-10ml-3mg-e-tasty",
+              "page": "/products/poire-juteuse-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Poire juteuse 10ml 6mg e-tasty",
+              "slug": "poire-juteuse-10ml-6mg-e-tasty",
+              "page": "/products/poire-juteuse-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Pop cola 10ml 0mg e-tasty",
+              "slug": "pop-cola-10ml-0mg-e-tasty",
+              "page": "/products/pop-cola-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Pop cola 10ml 12mg e-tasty",
+              "slug": "pop-cola-10ml-12mg-e-tasty",
+              "page": "/products/pop-cola-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Pop cola 10ml 3mg e-tasty",
+              "slug": "pop-cola-10ml-3mg-e-tasty",
+              "page": "/products/pop-cola-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Pop cola 10ml 6mg e-tasty",
+              "slug": "pop-cola-10ml-6mg-e-tasty",
+              "page": "/products/pop-cola-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 0mg e-tasty",
+              "slug": "popcorn-10ml-0mg-e-tasty",
+              "page": "/products/popcorn-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 10mg sel de nicotine e-tasty",
+              "slug": "popcorn-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/popcorn-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 12mg e-tasty",
+              "slug": "popcorn-10ml-12mg-e-tasty",
+              "page": "/products/popcorn-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 20mg sel de nicotine e-tasty",
+              "slug": "popcorn-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/popcorn-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 3mg e-tasty",
+              "slug": "popcorn-10ml-3mg-e-tasty",
+              "page": "/products/popcorn-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 5mg sel de nicotine e-tasty",
+              "slug": "popcorn-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/popcorn-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Popcorn 10ml 6mg e-tasty",
+              "slug": "popcorn-10ml-6mg-e-tasty",
+              "page": "/products/popcorn-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Raisin exquis 10ml 0mg e-tasty",
+              "slug": "raisin-exquis-10ml-0mg-e-tasty",
+              "page": "/products/raisin-exquis-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Raisin exquis 10ml 12mg e-tasty",
+              "slug": "raisin-exquis-10ml-12mg-e-tasty",
+              "page": "/products/raisin-exquis-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Raisin exquis 10ml 3mg e-tasty",
+              "slug": "raisin-exquis-10ml-3mg-e-tasty",
+              "page": "/products/raisin-exquis-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Raisin exquis 10ml 6mg e-tasty",
+              "slug": "raisin-exquis-10ml-6mg-e-tasty",
+              "page": "/products/raisin-exquis-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "United 10ml 0mg e-tasty",
+              "slug": "united-10ml-0mg-e-tasty",
+              "page": "/products/united-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "United 10ml 10mg sel de nicotine e-tasty",
+              "slug": "united-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/united-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "United 10ml 12mg e-tasty",
+              "slug": "united-10ml-12mg-e-tasty",
+              "page": "/products/united-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "United 10ml 20mg sel de nicotine e-tasty",
+              "slug": "united-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/united-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "United 10ml 3mg e-tasty",
+              "slug": "united-10ml-3mg-e-tasty",
+              "page": "/products/united-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "United 10ml 5mg sel de nicotine e-tasty",
+              "slug": "united-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/united-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "United 10ml 6mg e-tasty",
+              "slug": "united-10ml-6mg-e-tasty",
+              "page": "/products/united-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Vanille dore 10ml 0mg e-tasty",
+              "slug": "vanille-dore-10ml-0mg-e-tasty",
+              "page": "/products/vanille-dore-10ml-0mg-e-tasty"
+            },
+            {
+              "name": "Vanille dore 10ml 12mg e-tasty",
+              "slug": "vanille-dore-10ml-12mg-e-tasty",
+              "page": "/products/vanille-dore-10ml-12mg-e-tasty"
+            },
+            {
+              "name": "Vanille dore 10ml 3mg e-tasty",
+              "slug": "vanille-dore-10ml-3mg-e-tasty",
+              "page": "/products/vanille-dore-10ml-3mg-e-tasty"
+            },
+            {
+              "name": "Vanille dore 10ml 6mg e-tasty",
+              "slug": "vanille-dore-10ml-6mg-e-tasty",
+              "page": "/products/vanille-dore-10ml-6mg-e-tasty"
+            },
+            {
+              "name": "Vanille dorée 10ml 10mg sel de nicotine e-tasty",
+              "slug": "vanille-doree-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/vanille-doree-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Vanille dorée 10ml 20mg sel de nicotine e-tasty",
+              "slug": "vanille-doree-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/vanille-doree-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Vanille dorée 10ml 5mg sel de nicotine e-tasty",
+              "slug": "vanille-doree-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/vanille-doree-10ml-5mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Virginia 10ml 10mg sel de nicotine e-tasty",
+              "slug": "virginia-10ml-10mg-sel-de-nicotine-e-tasty",
+              "page": "/products/virginia-10ml-10mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Virginia 10ml 20mg sel de nicotine e-tasty",
+              "slug": "virginia-10ml-20mg-sel-de-nicotine-e-tasty",
+              "page": "/products/virginia-10ml-20mg-sel-de-nicotine-e-tasty"
+            },
+            {
+              "name": "Virginia 10ml 5mg sel de nicotine e-tasty",
+              "slug": "virginia-10ml-5mg-sel-de-nicotine-e-tasty",
+              "page": "/products/virginia-10ml-5mg-sel-de-nicotine-e-tasty"
+            }
+          ]
+        },
+        {
+          "name": "Smoke Wars",
+          "slug": "smoke-wars",
+          "page": "/gammes/smoke-wars",
+          "products": [
+            {
+              "name": "Master Yob 50ml Smoke Wars - E Tasty",
+              "slug": "master-yob-50ml-smoke-wars-e-tasty",
+              "page": "/products/master-yob-50ml-smoke-wars-e-tasty"
+            }
+          ]
+        },
+        {
+          "name": "Twenty",
+          "slug": "twenty",
+          "page": "/gammes/twenty",
+          "products": [
+            {
+              "name": "Twenty  double pêche",
+              "slug": "twenty-double-peche",
+              "page": "/products/twenty-double-peche"
+            },
+            {
+              "name": "TWENTY fruit du dragon cerise",
+              "slug": "twenty-fruit-du-dragon-cerise",
+              "page": "/products/twenty-fruit-du-dragon-cerise"
+            },
+            {
+              "name": "Twenty fruits rouges",
+              "slug": "twenty-fruits-rouges",
+              "page": "/products/twenty-fruits-rouges"
+            },
+            {
+              "name": "Twenty limonade -cassis",
+              "slug": "twenty-limonade-cassis",
+              "page": "/products/twenty-limonade-cassis"
+            },
+            {
+              "name": "Twenty. Menthe polaire",
+              "slug": "twenty-menthe-polaire",
+              "page": "/products/twenty-menthe-polaire"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Eliquid France",
+      "slug": "eliquid-france",
+      "page": "/fabricants/eliquid-france",
+      "ranges": [
+        {
+          "name": "Lemon Time",
+          "slug": "lemon-time-eliquid-france",
+          "page": "/gammes/lemon-time-eliquid-france",
+          "products": [
+            {
+              "name": "Lemon time lemon 50ml",
+              "slug": "lemon-time-lemon-50ml",
+              "page": "/products/lemon-time-lemon-50ml"
+            }
+          ]
+        },
+        {
+          "name": "Mintaia",
+          "slug": "mintaia-eliquid-france",
+          "page": "/gammes/mintaia-eliquid-france",
+          "products": [
+            {
+              "name": "mint et blackcurrant  50ml - Mintaia",
+              "slug": "mint-et-blackcurrant-50ml-mintaia",
+              "page": "/products/mint-et-blackcurrant-50ml-mintaia"
+            },
+            {
+              "name": "mint et pineapple 50ml - Mintaia",
+              "slug": "mint-et-pineapple-50ml-mintaia",
+              "page": "/products/mint-et-pineapple-50ml-mintaia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fruizee",
+      "slug": "fruizee",
+      "page": "/fabricants/fruizee",
+      "ranges": [
+        {
+          "name": "À classer",
+          "slug": "a-classer",
+          "page": "/gammes/a-classer",
+          "products": [
+            {
+              "name": "Cola pomme 50ml - Fruizee Max",
+              "slug": "cola-pomme-50ml-fruizee-max",
+              "page": "/products/cola-pomme-50ml-fruizee-max"
+            },
+            {
+              "name": "Fruits rouges yuzu 50ml - Fruizee Max",
+              "slug": "fruits-rouges-yuzu-50ml-fruizee-max",
+              "page": "/products/fruits-rouges-yuzu-50ml-fruizee-max"
+            },
+            {
+              "name": "Triple mangue 50ml - Fruizee Max",
+              "slug": "triple-mangue-50ml-fruizee-max",
+              "page": "/products/triple-mangue-50ml-fruizee-max"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Liquidarom",
+      "slug": "liquidarom",
+      "page": "/fabricants/liquidarom",
+      "ranges": [
+        {
+          "name": "Ice Cool",
+          "slug": "ice-cool",
+          "page": "/gammes/ice-cool",
+          "products": [
+            {
+              "name": "Ice Cool - Ananas Kiwi jaune",
+              "slug": "liquidarom-ice-cool-ananas-kiwi-jaune-50-ml",
+              "page": "/products/liquidarom-ice-cool-ananas-kiwi-jaune-50-ml"
+            },
+            {
+              "name": "Ice Cool Cactus Aloe Vera & Fruit du Dragon 50 ml",
+              "slug": "ice-cool-cactus-aloe-vera-fruit-du-dragon-50-ml",
+              "page": "/products/ice-cool-cactus-aloe-vera-fruit-du-dragon-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cactus citronné Framboise Fruit du dragon",
+              "slug": "liquidarom-ice-cool-cactus-citronne-framboise-fruit-du-dragon-50-ml",
+              "page": "/products/liquidarom-ice-cool-cactus-citronne-framboise-fruit-du-dragon-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cassis Citron",
+              "slug": "liquidarom-ice-cool-cassis-citron-50-ml",
+              "page": "/products/liquidarom-ice-cool-cassis-citron-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cassis Framboise Raisin",
+              "slug": "liquidarom-ice-cool-cassis-framboise-raisin-50-ml",
+              "page": "/products/liquidarom-ice-cool-cassis-framboise-raisin-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cassis Mangue",
+              "slug": "liquidarom-ice-cool-cassis-mangue-50-ml",
+              "page": "/products/liquidarom-ice-cool-cassis-mangue-50-ml"
+            },
+            {
+              "name": "Ice Cool - Citron Pastèque",
+              "slug": "liquidarom-ice-cool-citron-pasteque-50-ml",
+              "page": "/products/liquidarom-ice-cool-citron-pasteque-50-ml"
+            },
+            {
+              "name": "Ice Cool - Citron vert Orange sanguine",
+              "slug": "liquidarom-ice-cool-citron-vert-orange-sanguine-50-ml",
+              "page": "/products/liquidarom-ice-cool-citron-vert-orange-sanguine-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cocktail exotique",
+              "slug": "liquidarom-ice-cool-cocktail-exotique-50-ml",
+              "page": "/products/liquidarom-ice-cool-cocktail-exotique-50-ml"
+            },
+            {
+              "name": "Ice Cool - Cola Pomme",
+              "slug": "liquidarom-ice-cool-cola-pomme-50-ml",
+              "page": "/products/liquidarom-ice-cool-cola-pomme-50-ml"
+            },
+            {
+              "name": "Ice Cool - Extra Fruits rouges",
+              "slug": "liquidarom-ice-cool-extra-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-extra-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Ice Cool - Fraise Framboise Basilic",
+              "slug": "liquidarom-ice-cool-fraise-framboise-basilic-50-ml",
+              "page": "/products/liquidarom-ice-cool-fraise-framboise-basilic-50-ml"
+            },
+            {
+              "name": "Ice Cool - Framboise bleue Pitaya",
+              "slug": "liquidarom-ice-cool-framboise-bleue-pitaya-50-ml",
+              "page": "/products/liquidarom-ice-cool-framboise-bleue-pitaya-50-ml"
+            },
+            {
+              "name": "Ice Cool - Framboise des bois",
+              "slug": "liquidarom-ice-cool-framboise-des-bois-50-ml",
+              "page": "/products/liquidarom-ice-cool-framboise-des-bois-50-ml"
+            },
+            {
+              "name": "Ice Cool Framboise Fraise des Bois 50ml",
+              "slug": "ice-cool-framboise-fraise-des-bois-50ml",
+              "page": "/products/ice-cool-framboise-fraise-des-bois-50ml"
+            },
+            {
+              "name": "Ice Cool - Fruit du dragon Fruits rouges",
+              "slug": "liquidarom-ice-cool-fruit-du-dragon-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-fruit-du-dragon-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Ice Cool - Fruit du serpent Framboise",
+              "slug": "liquidarom-ice-cool-fruit-du-serpent-framboise-50-ml",
+              "page": "/products/liquidarom-ice-cool-fruit-du-serpent-framboise-50-ml"
+            },
+            {
+              "name": "Ice Cool fruit du soleil levant grenade 50ml",
+              "slug": "ice-cool-fruit-du-soleil-levant-grenade-50ml",
+              "page": "/products/ice-cool-fruit-du-soleil-levant-grenade-50ml"
+            },
+            {
+              "name": "Ice Cool - Grenade tropicale",
+              "slug": "liquidarom-ice-cool-grenade-tropicale-50-ml",
+              "page": "/products/liquidarom-ice-cool-grenade-tropicale-50-ml"
+            },
+            {
+              "name": "Ice Cool - Kiwi Banane",
+              "slug": "liquidarom-ice-cool-kiwi-banane-50-ml",
+              "page": "/products/liquidarom-ice-cool-kiwi-banane-50-ml"
+            },
+            {
+              "name": "Ice Cool Lychee Myrtille 50ml",
+              "slug": "ice-cool-lychee-myrtille-50ml",
+              "page": "/products/ice-cool-lychee-myrtille-50ml"
+            },
+            {
+              "name": "Ice Cool - Mangue Passion",
+              "slug": "liquidarom-ice-cool-mangue-passion-50-ml",
+              "page": "/products/liquidarom-ice-cool-mangue-passion-50-ml"
+            },
+            {
+              "name": "Ice Cool - Mûre Framboise",
+              "slug": "liquidarom-ice-cool-mure-framboise-50-ml",
+              "page": "/products/liquidarom-ice-cool-mure-framboise-50-ml"
+            },
+            {
+              "name": "Ice Cool Mûre Sauvage Violette 50ml",
+              "slug": "ice-cool-mure-sauvage-violette-50ml",
+              "page": "/products/ice-cool-mure-sauvage-violette-50ml"
+            },
+            {
+              "name": "Ice Cool - Pastèque Fruits rouges",
+              "slug": "liquidarom-ice-cool-pasteque-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-pasteque-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Ice Cool - Pêche Myrtille",
+              "slug": "liquidarom-ice-cool-peche-myrtille-50-ml",
+              "page": "/products/liquidarom-ice-cool-peche-myrtille-50-ml"
+            },
+            {
+              "name": "Ice Cool - Pêche Raisin",
+              "slug": "liquidarom-ice-cool-peche-raisin-50-ml",
+              "page": "/products/liquidarom-ice-cool-peche-raisin-50-ml"
+            },
+            {
+              "name": "Ice Cool - Pomme verte Orange",
+              "slug": "liquidarom-ice-cool-pomme-verte-orange-50-ml",
+              "page": "/products/liquidarom-ice-cool-pomme-verte-orange-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Ananas Kiwi jaune - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-ananas-kiwi-jaune-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-ananas-kiwi-jaune-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Citron - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-cassis-citron-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-cassis-citron-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Framboise Raisin - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-cassis-framboise-raisin-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-cassis-framboise-raisin-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Cassis Mangue - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-cassis-mangue-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-cassis-mangue-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Citron Pastèque - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-citron-pasteque-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-citron-pasteque-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Citron vert Orange sanguine - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-citron-vert-orange-sanguine-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-citron-vert-orange-sanguine-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Cocktail exotique - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-cocktail-exotique-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-cocktail-exotique-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Cola Pomme - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-cola-pomme-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-cola-pomme-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Extra Fruits rouges - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-extra-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-extra-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Fraise Framboise Basilic - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-fraise-framboise-basilic-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-fraise-framboise-basilic-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Framboise bleue Pitaya - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-framboise-bleue-pitaya-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-framboise-bleue-pitaya-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du dragon Fruits rouges - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-fruit-du-dragon-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-fruit-du-dragon-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Fruit du serpent Framboise - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-fruit-du-serpent-framboise-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-fruit-du-serpent-framboise-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Grenade tropicale - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-grenade-tropicale-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-grenade-tropicale-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Kiwi Banane - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-kiwi-banane-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-kiwi-banane-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Mangue Passion - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-mangue-passion-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-mangue-passion-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Pastèque Fruits rouges - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-pasteque-fruits-rouges-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-pasteque-fruits-rouges-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool - Ice Cool - Pêche Raisin - 50 ml",
+              "slug": "liquidarom-ice-cool-ice-cool-peche-raisin-50-ml",
+              "page": "/products/liquidarom-ice-cool-ice-cool-peche-raisin-50-ml"
+            }
+          ]
+        },
+        {
+          "name": "Ice Cool X",
+          "slug": "ice-cool-x",
+          "page": "/gammes/ice-cool-x",
+          "products": [
+            {
+              "name": "Ice Cool X - Blackberry Raspberry",
+              "slug": "liquidarom-ice-cool-x-blackberry-raspberry-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-blackberry-raspberry-50-ml"
+            },
+            {
+              "name": "Ice Cool X - Blackcurrant Raspberry Grape",
+              "slug": "liquidarom-ice-cool-x-blackcurrant-raspberry-grape-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-blackcurrant-raspberry-grape-50-ml"
+            },
+            {
+              "name": "Ice Cool X - Blue Raspberry Pitaya",
+              "slug": "liquidarom-ice-cool-x-blue-raspberry-pitaya-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-blue-raspberry-pitaya-50-ml"
+            },
+            {
+              "name": "Ice Cool X - Mixed Berries",
+              "slug": "liquidarom-ice-cool-x-mixed-berries-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-mixed-berries-50-ml"
+            },
+            {
+              "name": "Ice Cool X - Watermelon Lemon",
+              "slug": "liquidarom-ice-cool-x-watermelon-lemon-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-watermelon-lemon-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool X - Ice Cool X - Blackberry Raspberry - 50 ml",
+              "slug": "liquidarom-ice-cool-x-ice-cool-x-blackberry-raspberry-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-ice-cool-x-blackberry-raspberry-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool X - Ice Cool X - Blackcurrant Raspberry Grape - 50 ml",
+              "slug": "liquidarom-ice-cool-x-ice-cool-x-blackcurrant-raspberry-grape-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-ice-cool-x-blackcurrant-raspberry-grape-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool X - Ice Cool X - Blue Raspberry Pitaya - 50 ml",
+              "slug": "liquidarom-ice-cool-x-ice-cool-x-blue-raspberry-pitaya-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-ice-cool-x-blue-raspberry-pitaya-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool X - Ice Cool X - Mixed Red Berries - 50 ml",
+              "slug": "liquidarom-ice-cool-x-ice-cool-x-mixed-red-berries-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-ice-cool-x-mixed-red-berries-50-ml"
+            },
+            {
+              "name": "Liquidarom - Ice Cool X - Ice Cool X - Watermelon Lemon - 50 ml",
+              "slug": "liquidarom-ice-cool-x-ice-cool-x-watermelon-lemon-50-ml",
+              "page": "/products/liquidarom-ice-cool-x-ice-cool-x-watermelon-lemon-50-ml"
+            }
+          ]
+        },
+        {
+          "name": "Les Essentiels",
+          "slug": "les-essentiels",
+          "page": "/gammes/les-essentiels",
+          "products": [
+            {
+              "name": "Les Essentiels - Le P'tit Blond",
+              "slug": "liquidarom-les-essentiels-le-p-tit-blond-50-ml",
+              "page": "/products/liquidarom-les-essentiels-le-p-tit-blond-50-ml"
+            },
+            {
+              "name": "Les Essentiels - Mojito des îles",
+              "slug": "liquidarom-les-essentiels-mojito-des-iles-50-ml",
+              "page": "/products/liquidarom-les-essentiels-mojito-des-iles-50-ml"
+            },
+            {
+              "name": "Les Essentiels - Pastis 13",
+              "slug": "liquidarom-les-essentiels-pastis-13-50-ml",
+              "page": "/products/liquidarom-les-essentiels-pastis-13-50-ml"
+            },
+            {
+              "name": "Liquidarom - Les Essentiels - Les Essentiels - Le P'tit Blond - 50 ml",
+              "slug": "liquidarom-les-essentiels-les-essentiels-le-p-tit-blond-50-ml",
+              "page": "/products/liquidarom-les-essentiels-les-essentiels-le-p-tit-blond-50-ml"
+            },
+            {
+              "name": "Liquidarom - Les Essentiels - Les Essentiels - Mojito des îles - 50 ml",
+              "slug": "liquidarom-les-essentiels-les-essentiels-mojito-des-iles-50-ml",
+              "page": "/products/liquidarom-les-essentiels-les-essentiels-mojito-des-iles-50-ml"
+            },
+            {
+              "name": "Liquidarom - Les Essentiels - Les Essentiels - Pastis 13 - 50 ml",
+              "slug": "liquidarom-les-essentiels-les-essentiels-pastis-13-50-ml",
+              "page": "/products/liquidarom-les-essentiels-les-essentiels-pastis-13-50-ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Liquide Lab",
+      "slug": "liquide-lab",
+      "page": "/fabricants/liquide-lab",
+      "ranges": [
+        {
+          "name": "GlaGla",
+          "slug": "glagla",
+          "page": "/gammes/glagla",
+          "products": [
+            {
+              "name": "Ananas kiwi jaune 50ml GlaGla",
+              "slug": "ananas-kiwi-jaune-50ml-glagla",
+              "page": "/products/ananas-kiwi-jaune-50ml-glagla"
+            },
+            {
+              "name": "Dragon cassis citron 50ml GlaGla",
+              "slug": "dragon-cassis-citron-50ml-glagla",
+              "page": "/products/dragon-cassis-citron-50ml-glagla"
+            },
+            {
+              "name": "Dragon menthe vert 50ml GlaGla",
+              "slug": "dragon-menthe-vert-50ml-glagla",
+              "page": "/products/dragon-menthe-vert-50ml-glagla"
+            },
+            {
+              "name": "Goomy framboise bleu 50ml GlaGla",
+              "slug": "goomy-framboise-bleu-50ml-glagla",
+              "page": "/products/goomy-framboise-bleu-50ml-glagla"
+            },
+            {
+              "name": "Poire Abricot Fraise 50ml GlaGla",
+              "slug": "poire-abricot-fraise-50ml-glagla",
+              "page": "/products/poire-abricot-fraise-50ml-glagla"
+            },
+            {
+              "name": "Tutti Frutti Grenadine 50ml GlaGla",
+              "slug": "tutti-frutti-grenadine-50ml-glagla",
+              "page": "/products/tutti-frutti-grenadine-50ml-glagla"
+            }
+          ]
+        },
+        {
+          "name": "Iceberg",
+          "slug": "iceberg",
+          "page": "/gammes/iceberg",
+          "products": [
+            {
+              "name": "Chlorywood 50 ml Iceberg",
+              "slug": "chlorywood-50-ml-iceberg",
+              "page": "/products/chlorywood-50-ml-iceberg"
+            },
+            {
+              "name": "Citron Cassis Mandarine 50 ml Iceberg",
+              "slug": "citron-cassis-mandarine-50-ml-iceberg",
+              "page": "/products/citron-cassis-mandarine-50-ml-iceberg"
+            },
+            {
+              "name": "Double zero 50 ml Iceberg",
+              "slug": "double-zero-50-ml-iceberg",
+              "page": "/products/double-zero-50-ml-iceberg"
+            },
+            {
+              "name": "Dragon rouge 50 ml Iceberg",
+              "slug": "dragon-rouge-50-ml-iceberg",
+              "page": "/products/dragon-rouge-50-ml-iceberg"
+            },
+            {
+              "name": "Framboise 50 ml Iceberg",
+              "slug": "framboise-50-ml-iceberg",
+              "page": "/products/framboise-50-ml-iceberg"
+            },
+            {
+              "name": "Fruit du dragon grenade 50 ml Iceberg",
+              "slug": "fruit-du-dragon-grenade-50-ml-iceberg",
+              "page": "/products/fruit-du-dragon-grenade-50-ml-iceberg"
+            },
+            {
+              "name": "Fruit du serpent 50 ml Iceberg",
+              "slug": "fruit-du-serpent-50-ml-iceberg",
+              "page": "/products/fruit-du-serpent-50-ml-iceberg"
+            },
+            {
+              "name": "Fruits rouges 50 ml Iceberg",
+              "slug": "fruits-rouges-50-ml-iceberg",
+              "page": "/products/fruits-rouges-50-ml-iceberg"
+            },
+            {
+              "name": "Mangue 50 ml Iceberg",
+              "slug": "mangue-50-ml-iceberg",
+              "page": "/products/mangue-50-ml-iceberg"
+            },
+            {
+              "name": "Menthe glaciale 50 ml Iceberg",
+              "slug": "menthe-glaciale-50-ml-iceberg",
+              "page": "/products/menthe-glaciale-50-ml-iceberg"
+            },
+            {
+              "name": "Mixed Fruit 50ml Iceberg",
+              "slug": "mixed-fruit-50ml-iceberg",
+              "page": "/products/mixed-fruit-50ml-iceberg"
+            },
+            {
+              "name": "Mure myrtille 50 ml Iceberg",
+              "slug": "mure-myrtille-50-ml-iceberg",
+              "page": "/products/mure-myrtille-50-ml-iceberg"
+            },
+            {
+              "name": "Pomme Poire 50 ml Iceberg",
+              "slug": "pomme-poire-50-ml-iceberg",
+              "page": "/products/pomme-poire-50-ml-iceberg"
+            },
+            {
+              "name": "Raisin fraise 50 ml Iceberg",
+              "slug": "raisin-fraise-50-ml-iceberg",
+              "page": "/products/raisin-fraise-50-ml-iceberg"
+            }
+          ]
+        },
+        {
+          "name": "Kuix",
+          "slug": "kuix",
+          "page": "/gammes/kuix",
+          "products": [
+            {
+              "name": "Kuix Ananas 50ml",
+              "slug": "kuix-ananas-50ml",
+              "page": "/products/kuix-ananas-50ml"
+            },
+            {
+              "name": "Kuix ananas fresh 10mg",
+              "slug": "kuix-ananas-fresh-10mg",
+              "page": "/products/kuix-ananas-fresh-10mg"
+            },
+            {
+              "name": "Kuix ananas fresh 20mg",
+              "slug": "kuix-ananas-fresh-20mg",
+              "page": "/products/kuix-ananas-fresh-20mg"
+            },
+            {
+              "name": "Kuix banana fraise fresh 10mg",
+              "slug": "kuix-banana-fraise-fresh-10mg",
+              "page": "/products/kuix-banana-fraise-fresh-10mg"
+            },
+            {
+              "name": "Kuix banana fraise fresh 20mg",
+              "slug": "kuix-banana-fraise-fresh-20mg",
+              "page": "/products/kuix-banana-fraise-fresh-20mg"
+            },
+            {
+              "name": "Kuix batterie black",
+              "slug": "kuix-batterie-black",
+              "page": "/products/kuix-batterie-black"
+            },
+            {
+              "name": "Kuix batterie blue",
+              "slug": "kuix-batterie-blue",
+              "page": "/products/kuix-batterie-blue"
+            },
+            {
+              "name": "Kuix Bluerazz 50ml",
+              "slug": "kuix-bluerazz-50ml",
+              "page": "/products/kuix-bluerazz-50ml"
+            },
+            {
+              "name": "Kuix Bubble gum pastèque 50ml",
+              "slug": "kuix-bubble-gum-pasteque-50ml",
+              "page": "/products/kuix-bubble-gum-pasteque-50ml"
+            },
+            {
+              "name": "Kuix cassis raisin fresh 10mg",
+              "slug": "kuix-cassis-raisin-fresh-10mg",
+              "page": "/products/kuix-cassis-raisin-fresh-10mg"
+            },
+            {
+              "name": "Kuix cassis raisin fresh 20mg",
+              "slug": "kuix-cassis-raisin-fresh-20mg",
+              "page": "/products/kuix-cassis-raisin-fresh-20mg"
+            },
+            {
+              "name": "Kuix Cassis red fruits 50ml",
+              "slug": "kuix-cassis-red-fruits-50ml",
+              "page": "/products/kuix-cassis-red-fruits-50ml"
+            },
+            {
+              "name": "Kuix chuck yougner 10mg",
+              "slug": "kuix-chuck-yougner-10mg",
+              "page": "/products/kuix-chuck-yougner-10mg"
+            },
+            {
+              "name": "Kuix chuck yougner 20mg",
+              "slug": "kuix-chuck-yougner-20mg",
+              "page": "/products/kuix-chuck-yougner-20mg"
+            },
+            {
+              "name": "Kuix cola citron fresh 10mg",
+              "slug": "kuix-cola-citron-fresh-10mg",
+              "page": "/products/kuix-cola-citron-fresh-10mg"
+            },
+            {
+              "name": "Kuix cola citron fresh 20mg",
+              "slug": "kuix-cola-citron-fresh-20mg",
+              "page": "/products/kuix-cola-citron-fresh-20mg"
+            },
+            {
+              "name": "Kuix Fruits rouges 50ml",
+              "slug": "kuix-fruits-rouges-50ml",
+              "page": "/products/kuix-fruits-rouges-50ml"
+            },
+            {
+              "name": "Kuix Limonade citron vert 50ml",
+              "slug": "kuix-limonade-citron-vert-50ml",
+              "page": "/products/kuix-limonade-citron-vert-50ml"
+            },
+            {
+              "name": "Kuix love 66 fresh 10mg",
+              "slug": "kuix-love-66-fresh-10mg",
+              "page": "/products/kuix-love-66-fresh-10mg"
+            },
+            {
+              "name": "Kuix love 66 fresh 20mg",
+              "slug": "kuix-love-66-fresh-20mg",
+              "page": "/products/kuix-love-66-fresh-20mg"
+            },
+            {
+              "name": "Kuix mango fresh 10mg",
+              "slug": "kuix-mango-fresh-10mg",
+              "page": "/products/kuix-mango-fresh-10mg"
+            },
+            {
+              "name": "Kuix mango fresh 20mg",
+              "slug": "kuix-mango-fresh-20mg",
+              "page": "/products/kuix-mango-fresh-20mg"
+            },
+            {
+              "name": "Kuix mango peche 10mg",
+              "slug": "kuix-mango-peche-10mg",
+              "page": "/products/kuix-mango-peche-10mg"
+            },
+            {
+              "name": "Kuix mango peche 20mg",
+              "slug": "kuix-mango-peche-20mg",
+              "page": "/products/kuix-mango-peche-20mg"
+            },
+            {
+              "name": "Kuix menthe fresh 10mg",
+              "slug": "kuix-menthe-fresh-10mg",
+              "page": "/products/kuix-menthe-fresh-10mg"
+            },
+            {
+              "name": "Kuix menthe fresh 20mg",
+              "slug": "kuix-menthe-fresh-20mg",
+              "page": "/products/kuix-menthe-fresh-20mg"
+            },
+            {
+              "name": "Kuix milkshake fraise 10mg",
+              "slug": "kuix-milkshake-fraise-10mg",
+              "page": "/products/kuix-milkshake-fraise-10mg"
+            },
+            {
+              "name": "Kuix milkshake fraise 20mg",
+              "slug": "kuix-milkshake-fraise-20mg",
+              "page": "/products/kuix-milkshake-fraise-20mg"
+            },
+            {
+              "name": "Kuix mix berry fresh 10mg",
+              "slug": "kuix-mix-berry-fresh-10mg",
+              "page": "/products/kuix-mix-berry-fresh-10mg"
+            },
+            {
+              "name": "Kuix mix berry fresh 20mg",
+              "slug": "kuix-mix-berry-fresh-20mg",
+              "page": "/products/kuix-mix-berry-fresh-20mg"
+            },
+            {
+              "name": "Kuix myrtille fresh 10mg",
+              "slug": "kuix-myrtille-fresh-10mg",
+              "page": "/products/kuix-myrtille-fresh-10mg"
+            },
+            {
+              "name": "Kuix myrtille fresh 20mg",
+              "slug": "kuix-myrtille-fresh-20mg",
+              "page": "/products/kuix-myrtille-fresh-20mg"
+            },
+            {
+              "name": "Kuix Raisin bubble gum 50ml",
+              "slug": "kuix-raisin-bubble-gum-50ml",
+              "page": "/products/kuix-raisin-bubble-gum-50ml"
+            },
+            {
+              "name": "Kuix raisin frensh 10mg",
+              "slug": "kuix-raisin-frensh-10mg",
+              "page": "/products/kuix-raisin-frensh-10mg"
+            },
+            {
+              "name": "Kuix raisin fresh 20mg",
+              "slug": "kuix-raisin-fresh-20mg",
+              "page": "/products/kuix-raisin-fresh-20mg"
+            },
+            {
+              "name": "Kuix tropical 50ml",
+              "slug": "kuix-tropical-50ml",
+              "page": "/products/kuix-tropical-50ml"
+            },
+            {
+              "name": "Kuix watermelon fresh 10mg",
+              "slug": "kuix-watermelon-fresh-10mg",
+              "page": "/products/kuix-watermelon-fresh-10mg"
+            },
+            {
+              "name": "Kuix watermelon fresh 20mg",
+              "slug": "kuix-watermelon-fresh-20mg",
+              "page": "/products/kuix-watermelon-fresh-20mg"
+            }
+          ]
+        },
+        {
+          "name": "Péché Gourmand",
+          "slug": "peche-gourmand",
+          "page": "/gammes/peche-gourmand",
+          "products": [
+            {
+              "name": "Bananoisee  50ml - Péché Gourmand",
+              "slug": "bananoisee-50ml-peche-gourmand",
+              "page": "/products/bananoisee-50ml-peche-gourmand"
+            },
+            {
+              "name": "Brazo del mango  50ml - Péché Gourmand",
+              "slug": "brazo-del-mango-50ml-peche-gourmand",
+              "page": "/products/brazo-del-mango-50ml-peche-gourmand"
+            },
+            {
+              "name": "Céréales Caramel  50ml - Péché Gourmand",
+              "slug": "cereales-caramel-50ml-peche-gourmand",
+              "page": "/products/cereales-caramel-50ml-peche-gourmand"
+            },
+            {
+              "name": "Creme de cafe  50ml - Péché Gourmand",
+              "slug": "creme-de-cafe-50ml-peche-gourmand",
+              "page": "/products/creme-de-cafe-50ml-peche-gourmand"
+            },
+            {
+              "name": "Fou de caramel  50ml - Péché Gourmand",
+              "slug": "fou-de-caramel-50ml-peche-gourmand",
+              "page": "/products/fou-de-caramel-50ml-peche-gourmand"
+            },
+            {
+              "name": "Framboiserie 50ml - Péché Gourmand",
+              "slug": "framboiserie-50ml-peche-gourmand",
+              "page": "/products/framboiserie-50ml-peche-gourmand"
+            },
+            {
+              "name": "James cream  50ml - Péché Gourmand",
+              "slug": "james-cream-50ml-peche-gourmand",
+              "page": "/products/james-cream-50ml-peche-gourmand"
+            },
+            {
+              "name": "Miss fraisier  50ml - Péché Gourmand",
+              "slug": "miss-fraisier-50ml-peche-gourmand",
+              "page": "/products/miss-fraisier-50ml-peche-gourmand"
+            },
+            {
+              "name": "Myrtille coco  50ml - Péché Gourmand",
+              "slug": "myrtille-coco-50ml-peche-gourmand",
+              "page": "/products/myrtille-coco-50ml-peche-gourmand"
+            },
+            {
+              "name": "Peche gourmand cookie doré",
+              "slug": "peche-gourmand-cookie-dore",
+              "page": "/products/peche-gourmand-cookie-dore"
+            },
+            {
+              "name": "Peche gourmand creme brulee",
+              "slug": "peche-gourmand-creme-brulee",
+              "page": "/products/peche-gourmand-creme-brulee"
+            },
+            {
+              "name": "Peche gourmand tarte tatin",
+              "slug": "peche-gourmand-tarte-tatin",
+              "page": "/products/peche-gourmand-tarte-tatin"
+            },
+            {
+              "name": "Poire Caramel  50ml - Péché Gourmand",
+              "slug": "poire-caramel-50ml-peche-gourmand",
+              "page": "/products/poire-caramel-50ml-peche-gourmand"
+            },
+            {
+              "name": "Pomme cannelle  50ml - Péché Gourmand",
+              "slug": "pomme-cannelle-50ml-peche-gourmand",
+              "page": "/products/pomme-cannelle-50ml-peche-gourmand"
+            },
+            {
+              "name": "Popcorn caramel  50ml - Péché Gourmand",
+              "slug": "popcorn-caramel-50ml-peche-gourmand",
+              "page": "/products/popcorn-caramel-50ml-peche-gourmand"
+            },
+            {
+              "name": "Tarte Abricot 50ml Péché Gourmand",
+              "slug": "tarte-abricot-50ml-peche-gourmand",
+              "page": "/products/tarte-abricot-50ml-peche-gourmand"
+            },
+            {
+              "name": "Tarte au citron  50ml - Péché Gourmand",
+              "slug": "tarte-au-citron-50ml-peche-gourmand",
+              "page": "/products/tarte-au-citron-50ml-peche-gourmand"
+            },
+            {
+              "name": "Tarte pecan  50ml - Péché Gourmand",
+              "slug": "tarte-pecan-50ml-peche-gourmand",
+              "page": "/products/tarte-pecan-50ml-peche-gourmand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Liquideo",
+      "slug": "liquideo",
+      "page": "/fabricants/liquideo",
+      "ranges": [
+        {
+          "name": "Dragonzz",
+          "slug": "dragonzz-liquideo",
+          "page": "/gammes/dragonzz-liquideo",
+          "products": [
+            {
+              "name": "Liquideo Dragon fruits rouges 50 Ml - Dragonzz",
+              "slug": "liquideo-dragon-fruits-rouges-50-ml-dragonzz",
+              "page": "/products/liquideo-dragon-fruits-rouges-50-ml-dragonzz"
+            },
+            {
+              "name": "Liquideo Dragon Myrtille Framboise 50 Ml - Dragonzz",
+              "slug": "liquideo-dragon-myrtille-framboise-50-ml-dragonzz",
+              "page": "/products/liquideo-dragon-myrtille-framboise-50-ml-dragonzz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Maison Fuel",
+      "slug": "maison-fuel",
+      "page": "/fabricants/maison-fuel",
+      "ranges": [
+        {
+          "name": "À classer",
+          "slug": "a-classer",
+          "page": "/gammes/a-classer",
+          "products": [
+            {
+              "name": "Yuko Fighter Fuel X Enfer 100ml",
+              "slug": "yuko-fighter-fuel-x-enfer-100ml",
+              "page": "/products/yuko-fighter-fuel-x-enfer-100ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Swoke",
+      "slug": "swoke",
+      "page": "/fabricants/swoke",
+      "ranges": [
+        {
+          "name": "Bisou",
+          "slug": "bisou-swoke",
+          "page": "/gammes/bisou-swoke",
+          "products": [
+            {
+              "name": "Bisou pink swoke",
+              "slug": "bisou-pink-swoke",
+              "page": "/products/bisou-pink-swoke"
+            },
+            {
+              "name": "bisous red swoke",
+              "slug": "bisous-red-swoke",
+              "page": "/products/bisous-red-swoke"
+            }
+          ]
+        },
+        {
+          "name": "Force Vape",
+          "slug": "force-vape-swoke",
+          "page": "/gammes/force-vape-swoke",
+          "products": [
+            {
+              "name": "Force Bleue Force Vape Swoke 100ml",
+              "slug": "force-bleue-force-vape-swoke-100ml",
+              "page": "/products/force-bleue-force-vape-swoke-100ml"
+            },
+            {
+              "name": "Force Jaune Force Vape Swoke 100ml",
+              "slug": "force-jaune-force-vape-swoke-100ml",
+              "page": "/products/force-jaune-force-vape-swoke-100ml"
+            },
+            {
+              "name": "Force noire force vape 100ml by swoke",
+              "slug": "force-noire-force-vape-100ml-by-swoke",
+              "page": "/products/force-noire-force-vape-100ml-by-swoke"
+            },
+            {
+              "name": "Force Rouge Force Vape Swoke 100ml",
+              "slug": "force-rouge-force-vape-swoke-100ml",
+              "page": "/products/force-rouge-force-vape-swoke-100ml"
+            },
+            {
+              "name": "Force vert force vape 100ml by swoke",
+              "slug": "force-vert-force-vape-100ml-by-swoke",
+              "page": "/products/force-vert-force-vape-100ml-by-swoke"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "T-Juice",
+      "slug": "t-juice",
+      "page": "/fabricants/t-juice",
+      "ranges": [
+        {
+          "name": "T-Juice 50 ml",
+          "slug": "t-juice-50-ml",
+          "page": "/gammes/t-juice-50-ml",
+          "products": [
+            {
+              "name": "TJuice Icy Paradise 50ml",
+              "slug": "tjuice-icy-paradise-50ml",
+              "page": "/products/tjuice-icy-paradise-50ml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "The FUU",
+      "slug": "the-fuu",
+      "page": "/fabricants/the-fuu",
+      "ranges": [
+        {
+          "name": "Cloud Empire",
+          "slug": "cloud-empire-the-fuu",
+          "page": "/gammes/cloud-empire-the-fuu",
+          "products": [
+            {
+              "name": "Cloud empire mystery 100ml Fuu",
+              "slug": "cloud-empire-mystery-100ml-fuu",
+              "page": "/products/cloud-empire-mystery-100ml-fuu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vape 47",
+      "slug": "vape-47",
+      "page": "/fabricants/vape-47",
+      "ranges": [
+        {
+          "name": "Enfer",
+          "slug": "enfer",
+          "page": "/gammes/enfer",
+          "products": [
+            {
+              "name": "Concentre Enfer Dragon 30ml - ENFER",
+              "slug": "concentre-enfer-dragon-30ml-enfer",
+              "page": "/products/concentre-enfer-dragon-30ml-enfer"
+            },
+            {
+              "name": "Concentre Enfer Original 30ml - ENFER",
+              "slug": "concentre-enfer-original-30ml-enfer",
+              "page": "/products/concentre-enfer-original-30ml-enfer"
+            },
+            {
+              "name": "Concentre Enfer Purple 30ml - ENFER",
+              "slug": "concentre-enfer-purple-30ml-enfer",
+              "page": "/products/concentre-enfer-purple-30ml-enfer"
+            },
+            {
+              "name": "Concentre Enfer Red 30ml - ENFER",
+              "slug": "concentre-enfer-red-30ml-enfer",
+              "page": "/products/concentre-enfer-red-30ml-enfer"
+            },
+            {
+              "name": "Dragon 50ML - ENFER",
+              "slug": "dragon-50ml-enfer",
+              "page": "/products/dragon-50ml-enfer"
+            },
+            {
+              "name": "Enfer - Enfer Blue - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-blue-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-blue-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Green - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-green-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-green-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Mango - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-mango-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-mango-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Original - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-original-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-original-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Purple - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-purple-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-purple-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Red - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-red-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-red-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Ultimate Freeze - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-ultimate-freeze-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-ultimate-freeze-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "Enfer - Enfer Yellow - 50 ml / 10 ml sels / concentré 30 ml",
+              "slug": "enfer-enfer-yellow-50-ml-10-ml-sels-concentre-30-ml",
+              "page": "/products/enfer-enfer-yellow-50-ml-10-ml-sels-concentre-30-ml"
+            },
+            {
+              "name": "La cerise d enfer 50ml - Enfer",
+              "slug": "la-cerise-d-enfer-50ml-enfer",
+              "page": "/products/la-cerise-d-enfer-50ml-enfer"
+            },
+            {
+              "name": "La framboise d enfer 50ml - Enfer",
+              "slug": "la-framboise-d-enfer-50ml-enfer",
+              "page": "/products/la-framboise-d-enfer-50ml-enfer"
+            },
+            {
+              "name": "La peche d enfer 50ml - Enfer",
+              "slug": "la-peche-d-enfer-50ml-enfer",
+              "page": "/products/la-peche-d-enfer-50ml-enfer"
+            },
+            {
+              "name": "Le cassis d enfer 50ml - Enfer",
+              "slug": "le-cassis-d-enfer-50ml-enfer",
+              "page": "/products/le-cassis-d-enfer-50ml-enfer"
+            },
+            {
+              "name": "Le dragon d enfer 50ml - Enfer",
+              "slug": "le-dragon-d-enfer-50ml-enfer",
+              "page": "/products/le-dragon-d-enfer-50ml-enfer"
+            }
+          ]
+        },
+        {
+          "name": "Furiosa Eggz",
+          "slug": "furiosa-eggz",
+          "page": "/gammes/furiosa-eggz",
+          "products": [
+            {
+              "name": "Furiosa Eggz - Aria - 50 ml",
+              "slug": "furiosa-eggz-aria-50-ml",
+              "page": "/products/furiosa-eggz-aria-50-ml"
+            },
+            {
+              "name": "Furiosa Eggz - Doom - 50 ml",
+              "slug": "furiosa-eggz-doom-50-ml",
+              "page": "/products/furiosa-eggz-doom-50-ml"
+            },
+            {
+              "name": "Furiosa Eggz - Ivy - 50 ml",
+              "slug": "furiosa-eggz-ivy-50-ml",
+              "page": "/products/furiosa-eggz-ivy-50-ml"
+            },
+            {
+              "name": "Furiosa Eggz - Juno - 50 ml",
+              "slug": "furiosa-eggz-juno-50-ml",
+              "page": "/products/furiosa-eggz-juno-50-ml"
+            },
+            {
+              "name": "Furiosa Eggz - Nova - 50 ml",
+              "slug": "furiosa-eggz-nova-50-ml",
+              "page": "/products/furiosa-eggz-nova-50-ml"
+            },
+            {
+              "name": "Furiosa Eggz - Volta - 50 ml",
+              "slug": "furiosa-eggz-volta-50-ml",
+              "page": "/products/furiosa-eggz-volta-50-ml"
+            },
+            {
+              "name": "Furiosa Skinz - Kaiser - 80 ml",
+              "slug": "furiosa-skinz-kaiser-80-ml",
+              "page": "/products/furiosa-skinz-kaiser-80-ml"
+            },
+            {
+              "name": "Skinz grok 100ml - Furiosa vape47",
+              "slug": "skinz-grok-100ml-furiosa-vape47",
+              "page": "/products/skinz-grok-100ml-furiosa-vape47"
+            },
+            {
+              "name": "Ultron 50 Ml - Furiosa Eggz",
+              "slug": "ultron-50-ml-furiosa-eggz",
+              "page": "/products/ultron-50-ml-furiosa-eggz"
+            },
+            {
+              "name": "Ultron 50 Ml - Furiosa Eggz V2",
+              "slug": "ultron-50-ml-furiosa-eggz-v2",
+              "page": "/products/ultron-50-ml-furiosa-eggz-v2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "unplaced": [
+    {
+      "name": "Aspire magnum - gold & mystic galaxy",
+      "slug": "aspire-magnum-gold-mystic-galaxy",
+      "reason": "sans fabricant"
+    },
+    {
+      "name": "E-chicha ASTARA Mystic galaxy (violet)",
+      "slug": "e-chicha-astara-mystic-galaxy-violet",
+      "reason": "sans fabricant"
+    },
+    {
+      "name": "VAPING QUEST - La Mystique 50ML",
+      "slug": "vaping-quest-la-mystique-50ml",
+      "reason": "sans fabricant"
+    }
+  ]
+}

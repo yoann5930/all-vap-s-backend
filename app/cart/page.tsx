@@ -189,6 +189,11 @@ export default function CartPage() {
                       <p className="text-xs font-medium text-red-600">Rupture de stock</p>
                     )}
                     {isPromo10mlEligible({
+                      name: item.name,
+                      brand: item.brand,
+                      range: item.range,
+                      rangeSlug: item.rangeSlug,
+                      productFamily: item.productFamily,
                       category: item.category,
                       productType: item.productType,
                       volumeMl: item.volumeMl,
@@ -198,7 +203,7 @@ export default function CartPage() {
                       isActive: true,
                       catalogStatus: "valide",
                     }) && (
-                      <p className="text-xs text-brand-700">Éligible offre 10 ml dégressive</p>
+                      <p className="text-xs text-brand-700">Éligible offre One Taste 10 ml</p>
                     )}
                     {isPromoTwentyEligible({
                       name: item.name,
@@ -273,7 +278,7 @@ export default function CartPage() {
                 {promo.freeExtra > 0 && (
                   <div className="flex justify-between text-sm text-brand-700">
                     <span>
-                      10 ml offert{promo.freeExtra > 1 ? "s" : ""} (livré
+                      One Taste 10 ml offert{promo.freeExtra > 1 ? "s" : ""} (livré
                       {promo.freeExtra > 1 ? "s" : ""} en plus)
                     </span>
                     <span>+{promo.freeExtra}</span>

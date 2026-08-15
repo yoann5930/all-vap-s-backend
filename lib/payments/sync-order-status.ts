@@ -20,13 +20,13 @@ export async function syncOrderPaymentStatus(orderId: string): Promise<string> {
 
   if (order.paymentProvider === "SUMUP" && order.sumupCheckoutId) {
     if (isTestCheckoutId(order.sumupCheckoutId)) {
-      isPaid = isPaymentTestMode();
+      isPaid = isPaymentTestMode() || order.isAudit === true;
     } else {
       isPaid = await verifySumUpPayment(order.sumupCheckoutId);
     }
   } else if (order.paymentProvider === "VIVA" && order.vivaOrderCode) {
     if (isTestCheckoutId(order.vivaOrderCode)) {
-      isPaid = isPaymentTestMode();
+      isPaid = isPaymentTestMode() || order.isAudit === true;
     } else {
       isPaid = await verifyVivaPayment(order.vivaOrderCode);
     }

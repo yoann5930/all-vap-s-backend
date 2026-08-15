@@ -63,6 +63,11 @@ export function ProductCard({ product }: ProductCardProps) {
   const shortName = product.name.replace(/^Ice Cool X\s*[-–—]\s*/i, "").trim();
   const gammeLabel = product.rangeRef?.name ?? product.range;
   const showPromo10ml = isPromo10mlEligible({
+    name: product.name,
+    brand: product.brand,
+    range: product.rangeRef?.name ?? product.range,
+    rangeSlug: product.rangeRef?.slug,
+    productFamily: product.productFamily,
     category: product.category,
     productType: product.productType,
     volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
@@ -177,7 +182,7 @@ export function ProductCard({ product }: ProductCardProps) {
               </Badge>
             )}
             {showPromo10ml && (
-                <Badge className="text-[10px]">Offre 10 ml</Badge>
+                <Badge className="text-[10px]">Offre One Taste</Badge>
               )}
             {showPromoTwenty && (
                 <Badge className="text-[10px]">Offre Twenty</Badge>

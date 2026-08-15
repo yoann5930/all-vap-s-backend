@@ -18,17 +18,18 @@ export function TenMlOfferBanner({ compact = false, className = "" }: TenMlOffer
         {PROMO_10ML_LABEL}
       </p>
       <h2 className="mt-1 text-lg font-semibold text-white sm:text-xl">
-        E-liquides 10 ml — plus vous en prenez, moins c’est cher
+        E-Tasty One Taste 10 ml — plus vous en prenez, moins c’est cher
       </h2>
       <p className="mt-2 text-sm text-[#A7B0BC]">
-        Prix catalogue souvent 6,90 € / flacon. Remise calculée au panier, toutes saveurs 10 ml
-        cumulées. À partir de 5 flacons, des 10 ml sont offerts en plus (5+1 jusqu’à 10+6).
+        Prix catalogue 6,90 € / flacon. Remise calculée au panier, toutes saveurs One Taste 10 ml
+        cumulées. À partir de 5 flacons payants : 4,90 € / unité, plus des flacons offerts (5+1
+        jusqu’à 10+6).
       </p>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[280px] text-left text-sm">
           <thead>
             <tr className="text-[11px] uppercase tracking-wide text-[#A7B0BC]">
-              <th className="pb-2 pr-3 font-medium">Qté</th>
+              <th className="pb-2 pr-3 font-medium">Qté payante</th>
               <th className="pb-2 pr-3 font-medium">Prix / unité</th>
               <th className="pb-2 font-medium">Offert</th>
             </tr>
@@ -46,8 +47,8 @@ export function TenMlOfferBanner({ compact = false, className = "" }: TenMlOffer
       </div>
       {!compact ? (
         <p className="mt-3 text-xs text-[#A7B0BC]/80">
-          A.V.A. vérifie cette offre sur votre panier avant le paiement. Uniquement les
-          e-liquides 10 ml — jamais 20 / 50 / 100 ml. Ce n’est pas l’offre Twenty.
+          A.V.A. vérifie cette offre sur votre panier avant le paiement. Uniquement e.Tasty One
+          Taste 10 ml — jamais Twenty, 50 / 100 ml, ni une autre marque.
         </p>
       ) : null}
     </section>

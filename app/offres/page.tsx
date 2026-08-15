@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Offres",
   description:
-    "Offres boutique All Vap's : e-liquides 10 ml dégressive et Twenty dégressive. Remise au panier, prix catalogue inchangé.",
+    "Offres boutique All Vap's : E-Tasty One Taste 10 ml et Twenty dégressive. Remise au panier, prix catalogue inchangé.",
   alternates: { canonical: absoluteUrl("/offres") },
 };
 
@@ -41,7 +41,7 @@ export default function OffresPage() {
             href="/offres/10ml"
             className="text-sm font-medium text-brand-400 hover:text-brand-300"
           >
-            Voir les e-liquides 10 ml éligibles →
+            Voir les One Taste 10 ml éligibles →
           </Link>
         </div>
         <div className="flex flex-col gap-4">

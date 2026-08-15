@@ -32,7 +32,7 @@ export default async function PromotionsPage() {
         <Tag className="mx-auto h-10 w-10 text-brand-600" />
         <h1 className="mt-4 text-3xl font-bold text-vap-black">Promotions</h1>
         <p className="mx-auto mt-3 max-w-xl text-gray-600">
-          Sélection de produits en promotion. Les offres boutique (10 ml dégressive, Twenty) sont dans le
+          Sélection de produits en promotion. Les offres boutique (One Taste 10 ml, Twenty) sont dans le
           menu Offres.
         </p>
       </div>

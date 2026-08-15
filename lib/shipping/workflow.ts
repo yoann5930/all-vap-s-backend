@@ -79,14 +79,21 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     preparedAt: new Date().toISOString(),
   };
 
-  const apiResult = await createCarrierShipment(carrier, {
-    orderId: order.id,
-    recipientName: order.customerName || order.customerEmail,
-    recipientEmail: order.customerEmail,
-    addressLine: order.shippingAddress || "",
-    postalCode: "",
-    city: "",
-  });
+  const apiResult = order.isAudit
+    ? {
+        ok: false as const,
+        carrier,
+        configured: false,
+        message: "AUDIT_ONLY — aucun appel transporteur réel.",
+      }
+    : await createCarrierShipment(carrier, {
+        orderId: order.id,
+        recipientName: order.customerName || order.customerEmail,
+        recipientEmail: order.customerEmail,
+        addressLine: order.shippingAddress || "",
+        postalCode: "",
+        city: "",
+      });
 
   let status = "assisted";
   let mode = "assisted";
@@ -113,7 +120,11 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     }
   } else {
     status = "pending_label";
-    mode = isCarrierConfigured(carrier) ? "assisted_api_pending" : "assisted";
+    mode = order.isAudit
+      ? "assisted_audit"
+      : isCarrierConfigured(carrier)
+        ? "assisted_api_pending"
+        : "assisted";
     lastError = apiResult.message;
   }
 

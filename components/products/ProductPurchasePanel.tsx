@@ -27,7 +27,9 @@ type VariantRow = Pick<
 >;
 
 interface ProductPurchasePanelProps {
-  product: Product;
+  product: Product & {
+    rangeRef?: { slug?: string | null; name?: string | null } | null;
+  };
   variants: VariantRow[];
   /** Prix produit de secours si variante sans prix */
   fallbackPriceCents: number;
@@ -74,7 +76,13 @@ export function ProductPurchasePanel({
   const stock = selected?.stock ?? product.stock;
   const hasConfirmedPrice = price > 0;
   const unavailable = !selected || stock <= 0;
+  const twentyMeta = twentyCartMeta(product);
   const showPromo10ml = isPromo10mlEligible({
+    name: product.name,
+    brand: product.brand,
+    range: product.rangeRef?.name ?? product.range,
+    rangeSlug: product.rangeRef?.slug ?? twentyMeta.rangeSlug,
+    productFamily: product.productFamily,
     category: product.category,
     productType: product.productType,
     volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
@@ -87,7 +95,8 @@ export function ProductPurchasePanel({
   const showPromoTwenty = isPromoTwentyEligible({
     name: product.name,
     brand: product.brand,
-    range: product.range,
+    range: product.rangeRef?.name ?? product.range,
+    rangeSlug: product.rangeRef?.slug ?? twentyMeta.rangeSlug,
     productFamily: product.productFamily,
     category: product.category,
     productType: product.productType,
@@ -97,7 +106,6 @@ export function ProductPurchasePanel({
     catalogStatus: product.catalogStatus,
     availableQuantity: stock,
   });
-  const twentyMeta = twentyCartMeta(product);
 
   function handleAdd() {
     if (!selected || !hasConfirmedPrice || unavailable) return;
@@ -133,6 +141,7 @@ export function ProductPurchasePanel({
     const simpleStock = product.stock;
     return (
       <div className="space-y-4">
+        {showPromo10ml ? <TenMlOfferBanner compact className="!px-3 !py-3" /> : null}
         {showPromoTwenty ? <TwentyOfferBanner compact className="!px-3 !py-3" /> : null}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         {simpleStock <= 0 ? (

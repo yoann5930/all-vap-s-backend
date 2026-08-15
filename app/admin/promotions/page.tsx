@@ -76,8 +76,9 @@ export default function AdminPromotionsPage() {
       <section className="mt-8 rounded-xl border border-brand-200 bg-brand-50/40 p-5">
         <h2 className="text-lg font-semibold text-gray-900">{PROMO_10ML_LABEL}</h2>
         <p className="mt-1 text-sm text-gray-600">
-          Applicable <strong>uniquement</strong> aux e-liquides 10 ml (volumeMl = 10).
-          Paliers 6,90 → 3,90 €, puis 5+1 jusqu’à 10+6, calculés au panier. Les 50 ml, 100 ml,
+          Applicable <strong>uniquement</strong> aux e-liquides e.Tasty One Taste 10 ml.
+          Paliers 6,90 → 3,90 € (×4), puis 4,90 € + offerts de 5 à 10 (5+1 jusqu’à 10+6), calculés au panier. Twenty, 50 ml, 100 ml,
+          autres marques, pods, DIY, etc. sont exclus.
           pods, DIY, etc. sont exclus.
         </p>
         <button

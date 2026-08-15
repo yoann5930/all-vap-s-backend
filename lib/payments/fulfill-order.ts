@@ -50,7 +50,7 @@ export async function fulfillPaidOrder(orderId: string): Promise<"PAID" | string
     return { status: "PAID" as const, notify: true, order };
   });
 
-  if (result.order) {
+  if (result.order && !result.order.isAudit) {
     const locationCode = storeIdToStockCode(result.order.pickupStoreId);
     for (const item of result.order.items) {
       await applyStoreSale({
@@ -81,6 +81,8 @@ export async function fulfillPaidOrder(orderId: string): Promise<"PAID" | string
           quantity: i.quantity,
           priceCents: i.priceCents,
         })),
+        isAudit: order.isAudit,
+        auditCampaignId: order.auditCampaignId,
       });
     } catch (err) {
       console.error("[fulfill] confirmation email failed:", err);
@@ -89,7 +91,17 @@ export async function fulfillPaidOrder(orderId: string): Promise<"PAID" | string
       await sendAdminNewOrderEmail({
         orderId: order.id,
         customerEmail: order.customerEmail,
+        customerName: order.customerName,
         totalCents: order.totalCents,
+        items: order.items.map((i) => ({
+          name: i.product.name,
+          quantity: i.quantity,
+          priceCents: i.priceCents,
+        })),
+        deliveryMethod: order.deliveryMethod,
+        pickupStoreId: order.pickupStoreId,
+        isAudit: order.isAudit,
+        auditCampaignId: order.auditCampaignId,
       });
     } catch (err) {
       console.error("[fulfill] admin email failed:", err);
@@ -115,8 +127,6 @@ export async function fulfillRefundedOrder(orderId: string): Promise<"REFUNDED" 
     throw new Error("ORDER_NOT_REFUNDABLE");
   }
 
-  const locationCode = storeIdToStockCode(order.pickupStoreId);
-
   await prisma.$transaction(async (tx) => {
     await tx.order.update({
       where: { id: order.id },
@@ -137,6 +147,12 @@ export async function fulfillRefundedOrder(orderId: string): Promise<"REFUNDED" 
       });
     }
   });
+
+  if (order.isAudit) {
+    return "REFUNDED";
+  }
+
+  const locationCode = storeIdToStockCode(order.pickupStoreId);
 
   for (const item of order.items) {
     let variant = await prisma.productVariant.findFirst({

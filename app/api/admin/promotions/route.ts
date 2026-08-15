@@ -25,10 +25,6 @@ const bannerSchema = z.object({
   isActive: z.boolean().default(true),
 });
 
-function isEliquideCat(category: string): boolean {
-  return /e-?liquide|eliquide|05\.e-liquide|06\.e-liquide|09\.e-liquide/i.test(category);
-}
-
 export async function GET(request: NextRequest) {
   try {
     await requireAuth("ADMIN");
@@ -49,11 +45,15 @@ export async function GET(request: NextRequest) {
         select: {
           id: true,
           name: true,
+          brand: true,
+          range: true,
+          productFamily: true,
           productType: true,
           volumeMl: true,
           promotion10mlEligible: true,
           category: true,
           visibleOnline: true,
+          rangeRef: { select: { slug: true, name: true } },
         },
         orderBy: { name: "asc" },
         take: 500,
@@ -61,9 +61,18 @@ export async function GET(request: NextRequest) {
       return jsonResponse(
         items.filter((p) =>
           isPromo10mlEligible({
-            ...p,
+            name: p.name,
+            brand: p.brand,
+            range: p.rangeRef?.name ?? p.range,
+            rangeSlug: p.rangeRef?.slug,
+            productFamily: p.productFamily,
+            category: p.category,
+            productType: p.productType,
+            volumeMl: p.volumeMl,
             catalogStatus: "valide",
             availableQuantity: 1,
+            visibleOnline: true,
+            isActive: true,
           })
         )
       );
@@ -99,16 +108,29 @@ export async function POST(request: NextRequest) {
           promotion10mlEligible: z.boolean(),
         })
         .parse(body);
-      const product = await prisma.product.findUnique({ where: { id: data.productId } });
+      const product = await prisma.product.findUnique({
+        where: { id: data.productId },
+        include: { rangeRef: { select: { slug: true, name: true } } },
+      });
       if (!product) throw new Error("NOT_FOUND");
-      // Interdire d'activer hors 10 ml e-liquide
       if (data.promotion10mlEligible) {
-        const volume =
-          product.volumeMl ??
-          (product.productType === "10ml" ? 10 : null);
-        if (volume !== 10 || !isEliquideCat(product.category)) {
+        const eligible = isPromo10mlEligible({
+          name: product.name,
+          brand: product.brand,
+          range: product.rangeRef?.name ?? product.range,
+          rangeSlug: product.rangeRef?.slug,
+          productFamily: product.productFamily,
+          category: product.category,
+          productType: product.productType,
+          volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
+          visibleOnline: true,
+          isActive: true,
+          catalogStatus: "valide",
+          availableQuantity: 1,
+        });
+        if (!eligible) {
           return jsonResponse(
-            { error: "Offre 10 ml réservée aux e-liquides volumeMl=10" },
+            { error: "Offre réservée à E-Tasty One Taste 10 ml" },
             400
           );
         }
@@ -132,22 +154,44 @@ export async function POST(request: NextRequest) {
           isActive: true,
           visibleOnline: true,
           catalogStatus: { in: ["valide", "actif"] },
-          OR: [{ productType: "10ml" }, { volumeMl: 10 }],
+          OR: [
+            { productFamily: "ETASTY_ONE_TASTE" },
+            { rangeRef: { slug: "one-taste" } },
+            { productType: "10ml" },
+            { volumeMl: 10 },
+          ],
         },
         select: {
           id: true,
+          name: true,
+          brand: true,
+          range: true,
+          productFamily: true,
           category: true,
           productType: true,
           volumeMl: true,
           promotion10mlEligible: true,
+          rangeRef: { select: { slug: true, name: true } },
         },
       });
 
       let marked = 0;
       for (const p of candidates) {
-        if (!isEliquideCat(p.category)) continue;
-        const volume = p.volumeMl ?? (p.productType === "10ml" ? 10 : null);
-        if (volume !== 10) continue;
+        const eligible = isPromo10mlEligible({
+          name: p.name,
+          brand: p.brand,
+          range: p.rangeRef?.name ?? p.range,
+          rangeSlug: p.rangeRef?.slug,
+          productFamily: p.productFamily,
+          category: p.category,
+          productType: p.productType,
+          volumeMl: p.volumeMl ?? (p.productType === "10ml" ? 10 : null),
+          visibleOnline: true,
+          isActive: true,
+          catalogStatus: "valide",
+          availableQuantity: 1,
+        });
+        if (!eligible) continue;
         await prisma.product.update({
           where: { id: p.id },
           data: {
@@ -159,14 +203,11 @@ export async function POST(request: NextRequest) {
         marked++;
       }
 
-      // Retirer le flag sur tout le reste (50/100, DIY, etc.)
       const cleared = await prisma.product.updateMany({
         where: {
           promotion10mlEligible: true,
           NOT: {
-            AND: [
-              { OR: [{ volumeMl: 10 }, { productType: "10ml" }] },
-            ],
+            OR: [{ productFamily: "ETASTY_ONE_TASTE" }, { range: { contains: "One Taste" } }],
           },
         },
         data: { promotion10mlEligible: false },

@@ -84,6 +84,28 @@ export async function POST(request: NextRequest) {
     const returnUrl = `${baseUrl}/checkout/success?orderId=${order.id}`;
     const testMode = resolved.testMode;
 
+    // Commande AUDIT_ONLY : jamais de PSP réel (Viva / SumUp).
+    if (order.isAudit) {
+      const checkoutId = makeTestCheckoutId(order.id);
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          paymentProvider: provider === "sumup" ? "SUMUP" : "VIVA",
+          ...(provider === "sumup"
+            ? { sumupCheckoutId: checkoutId }
+            : { vivaOrderCode: checkoutId }),
+        },
+      });
+      return jsonResponse({
+        checkoutId,
+        redirectUrl: `${returnUrl}&paid=test`,
+        amount: order.totalCents / 100,
+        currency: "EUR",
+        audit: true,
+        realPayment: false,
+      });
+    }
+
     if (provider === "viva") {
       if (!isVivaConfigured()) {
         if (!testMode) throw new Error("PAYMENT_UNAVAILABLE");

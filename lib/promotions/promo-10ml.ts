@@ -1,28 +1,28 @@
 /**
- * Offre dégressive e-liquides 10 ml UNIQUEMENT — panier / checkout.
+ * Offre dégressive E-Tasty One Taste 10 ml — panier / checkout.
  *
- * Prix catalogue / SumUp inchangé (souvent 6,90 €). Aucune écriture SumUp.
- * Toutes saveurs 10 ml éligibles se cumulent (1 pool).
+ * Prix catalogue / SumUp inchangé (6,90 €). Aucune écriture SumUp.
+ * Toutes saveurs One Taste 10 ml se cumulent (1 pool).
  *
  * Paliers (quantité payante dans le panier) :
  *  1 → 6,90 €/u
  *  2 → 5,90 €/u
  *  3 → 4,90 €/u
  *  4 → 3,90 €/u
- *  5 → 3,90 €/u + 1 offert (5+1, livré en plus)
- *  6 → 3,90 €/u + 2 offerts (6+2)
- *  7 → 3,90 €/u + 3 offerts
- *  8 → 3,90 €/u + 4 offerts
- *  9 → 3,90 €/u + 5 offerts
- * 10 → 3,90 €/u + 6 offerts (10+6)
+ *  5 → 4,90 €/u + 1 offert (5+1, livré en plus)
+ *  6 → 4,90 €/u + 2 offerts
+ *  7 → 4,90 €/u + 3 offerts
+ *  8 → 4,90 €/u + 4 offerts
+ *  9 → 4,90 €/u + 5 offerts
+ * 10 → 4,90 €/u + 6 offerts (10+6)
  *
- * Au-delà de 10 : packs de 10 (3,90 € + 6 offerts) + palier du reste.
- * JAMAIS : 20 / 50 / 100 ml, e-cigs, pods, résistances, accessoires, DIY.
+ * Au-delà de 10 : packs de 10 (4,90 € + 6 offerts) + palier du reste.
+ * JAMAIS : Twenty 20 ml, 50 / 100 ml, autres marques, DIY, matériel.
  */
 
-export const PROMO_10ML_LABEL = "Offre 10 ml dégressive";
+export const PROMO_10ML_LABEL = "Offre One Taste 10 ml";
 export const TEN_ML_CATALOG_UNIT_CENTS = 690;
-export const TEN_ML_PACK_UNIT_CENTS = 390;
+export const TEN_ML_PACK_UNIT_CENTS = 490;
 export const TEN_ML_PACK_FREE_EXTRA = 6;
 
 export const TEN_ML_TIERS = [
@@ -30,17 +30,22 @@ export const TEN_ML_TIERS = [
   { qty: 2, unitCents: 590, freeExtra: 0 },
   { qty: 3, unitCents: 490, freeExtra: 0 },
   { qty: 4, unitCents: 390, freeExtra: 0 },
-  { qty: 5, unitCents: 390, freeExtra: 1 },
-  { qty: 6, unitCents: 390, freeExtra: 2 },
-  { qty: 7, unitCents: 390, freeExtra: 3 },
-  { qty: 8, unitCents: 390, freeExtra: 4 },
-  { qty: 9, unitCents: 390, freeExtra: 5 },
-  { qty: 10, unitCents: 390, freeExtra: 6 },
+  { qty: 5, unitCents: 490, freeExtra: 1 },
+  { qty: 6, unitCents: 490, freeExtra: 2 },
+  { qty: 7, unitCents: 490, freeExtra: 3 },
+  { qty: 8, unitCents: 490, freeExtra: 4 },
+  { qty: 9, unitCents: 490, freeExtra: 5 },
+  { qty: 10, unitCents: 490, freeExtra: 6 },
 ] as const;
 
 export type TenMlTier = (typeof TEN_ML_TIERS)[number];
 
 export interface Promo10mlEligibleInput {
+  name?: string | null;
+  brand?: string | null;
+  range?: string | null;
+  rangeSlug?: string | null;
+  productFamily?: string | null;
   category?: string | null;
   categoryName?: string | null;
   productType?: string | null;
@@ -63,6 +68,10 @@ export interface Promo10mlCartLine {
   productType?: string | null;
   volumeMl?: number | null;
   promotion10mlEligible?: boolean | null;
+  brand?: string | null;
+  range?: string | null;
+  rangeSlug?: string | null;
+  productFamily?: string | null;
   availableQuantity?: number | null;
 }
 
@@ -107,18 +116,41 @@ export interface Promo10mlResult {
   avaSummary: string;
 }
 
+function normOfferKey(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/['’]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isHardwareCategory(category?: string | null, categoryName?: string | null): boolean {
+  const t = `${category || ""} ${categoryName || ""}`.toLowerCase();
+  if (!t.trim()) return false;
+  return (
+    /cigarette|e-?cig|pod|r[eé]sistance|accessoire|diy|base\b|booster|matériel|materiel|kit\b|mod\b|atomiseur/.test(
+      t
+    ) && !/e-?liquide|eliquide/.test(t)
+  );
+}
+
 function isEliquideCategory(category?: string | null, categoryName?: string | null): boolean {
   const t = `${category || ""} ${categoryName || ""}`.toLowerCase();
   if (!t.trim()) return false;
-  if (
-    /cigarette|e-?cig|pod|r[eé]sistance|accessoire|diy|base\b|booster|matériel|materiel|kit\b|mod\b|atomiseur/.test(
-      t
-    ) &&
-    !/e-?liquide|eliquide/.test(t)
-  ) {
-    return false;
-  }
+  if (isHardwareCategory(category, categoryName)) return false;
   return /e-?liquide|eliquide|05\.e-liquide|06\.e-liquide|09\.e-liquide/.test(t);
+}
+
+/** Identité gamme One Taste — jamais un 10 ml d'une autre marque / autre gamme. */
+export function looksLikeOneTaste(input: Promo10mlEligibleInput): boolean {
+  if ((input.productFamily || "").toUpperCase() === "ETASTY_ONE_TASTE") return true;
+  const slug = normOfferKey(input.rangeSlug || "").replace(/_/g, "-");
+  if (slug === "one-taste" || slug === "onetaste") return true;
+  if (/one\s*taste/i.test(input.range || "")) return true;
+  if (/one\s*taste/i.test(input.name || "")) return true;
+  return false;
 }
 
 function resolveVolumeMl(input: Promo10mlEligibleInput): number | null {
@@ -132,12 +164,14 @@ function resolveVolumeMl(input: Promo10mlEligibleInput): number | null {
 }
 
 /**
- * E-liquide 10 ml publié. Le flag admin n'est plus bloquant :
- * en production il n'était jamais posé, ce qui vidait l'offre.
+ * E-Tasty One Taste 10 ml publié. Jamais Twenty, 50/100 ml, autre marque.
+ * Le flag admin n'est plus bloquant (il n'était jamais posé en production).
  */
 export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
+  if (!looksLikeOneTaste(input)) return false;
+
   const volumeMl = resolveVolumeMl(input);
-  if (volumeMl !== 10) return false;
+  if (volumeMl != null && volumeMl !== 10) return false;
 
   const pt = (input.productType || "").toLowerCase();
   if (
@@ -147,7 +181,25 @@ export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
     return false;
   }
 
-  if (!isEliquideCategory(input.category, input.categoryName)) return false;
+  const strong =
+    (input.productFamily || "").toUpperCase() === "ETASTY_ONE_TASTE" ||
+    normOfferKey(input.rangeSlug || "").replace(/_/g, "-") === "one-taste" ||
+    /one\s*taste/i.test(input.range || "");
+  if (!strong && volumeMl !== 10 && !/\b10\s*ml\b|10ml/i.test(pt)) {
+    return false;
+  }
+  if (volumeMl !== 10 && !/\b10\s*ml\b|10ml/i.test(pt) && !/\b10\s*ml\b/i.test(input.name || "")) {
+    return false;
+  }
+
+  if (isHardwareCategory(input.category, input.categoryName)) return false;
+  if (
+    (input.category || input.categoryName) &&
+    !isEliquideCategory(input.category, input.categoryName) &&
+    !strong
+  ) {
+    return false;
+  }
 
   if (input.isActive === false) return false;
   if (input.visibleOnline === false) return false;
@@ -162,9 +214,10 @@ export function isPromo10mlEligible(input: Promo10mlEligibleInput): boolean {
 }
 
 export function whyNotPromo10mlEligible(input: Promo10mlEligibleInput): string | null {
+  if (!looksLikeOneTaste(input)) return "pas_one_taste";
   const volumeMl = resolveVolumeMl(input);
-  if (volumeMl !== 10) return `volumeMl=${volumeMl ?? "null"} (requis: 10)`;
-  if (!isEliquideCategory(input.category, input.categoryName)) {
+  if (volumeMl != null && volumeMl !== 10) return `volumeMl=${volumeMl} (requis: 10)`;
+  if (isHardwareCategory(input.category, input.categoryName)) {
     return `category_non_eliquide:${input.category || input.categoryName || ""}`;
   }
   if (input.isActive === false) return "inactif";
@@ -290,18 +343,18 @@ function buildAvaSummary(params: {
   discountCents: number;
 }): string {
   if (params.eligibleQuantity <= 0) {
-    return "A.V.A. : aucun e-liquide 10 ml dans ce panier — offre dégressive non applicable.";
+    return "A.V.A. : aucun E-Tasty One Taste 10 ml dans ce panier — offre dégressive non applicable.";
   }
   const unit = params.unitCents != null ? formatTenMlUnitEuro(params.unitCents) : "—";
   const extra =
     params.freeExtra > 0
-      ? ` Vous recevez ${params.freeExtra} flacon${params.freeExtra > 1 ? "s" : ""} 10 ml offert${params.freeExtra > 1 ? "s" : ""} en plus.`
+      ? ` Vous recevez ${params.freeExtra} flacon${params.freeExtra > 1 ? "s" : ""} One Taste 10 ml offert${params.freeExtra > 1 ? "s" : ""} en plus.`
       : "";
   const disc =
     params.discountCents > 0
       ? ` Remise ${formatTenMlUnitEuro(params.discountCents)} sur le tarif catalogue.`
       : "";
-  return `A.V.A. a vérifié l'offre 10 ml avant paiement : ${params.eligibleQuantity} flacon${params.eligibleQuantity > 1 ? "s" : ""} à ${unit} l'unité (${formatTenMlUnitEuro(params.payCents)}).${extra}${disc} Prix catalogue inchangé. Uniquement les e-liquides 10 ml.`;
+  return `A.V.A. a vérifié l'offre One Taste 10 ml avant paiement : ${params.eligibleQuantity} flacon${params.eligibleQuantity > 1 ? "s" : ""} à ${unit} l'unité (${formatTenMlUnitEuro(params.payCents)}).${extra}${disc} Prix catalogue inchangé. Uniquement la gamme e.Tasty One Taste 10 ml.`;
 }
 
 export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult {
@@ -310,7 +363,12 @@ export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult 
   let ignoredQuantity = 0;
 
   for (const line of lines) {
-    const eligibleFlag = isPromo10mlEligible({
+    const eligibleInput = {
+      name: line.name,
+      brand: line.brand,
+      range: line.range,
+      rangeSlug: line.rangeSlug,
+      productFamily: line.productFamily,
       category: line.category,
       productType: line.productType,
       volumeMl: line.volumeMl,
@@ -319,20 +377,12 @@ export function calculatePromo10ml(lines: Promo10mlCartLine[]): Promo10mlResult 
       visibleOnline: true,
       isActive: true,
       catalogStatus: "valide",
-    });
+    };
+    const eligibleFlag = isPromo10mlEligible(eligibleInput);
 
     if (!eligibleFlag) {
       ignoredQuantity += line.quantity;
-      const why = whyNotPromo10mlEligible({
-        category: line.category,
-        productType: line.productType,
-        volumeMl: line.volumeMl,
-        promotion10mlEligible: line.promotion10mlEligible,
-        availableQuantity: line.availableQuantity ?? line.quantity,
-        visibleOnline: true,
-        isActive: true,
-        catalogStatus: "valide",
-      });
+      const why = whyNotPromo10mlEligible(eligibleInput);
       if (why && reasonExcludedSample.length < 8) {
         reasonExcludedSample.push(`${line.name}: ${why}`);
       }
@@ -411,9 +461,9 @@ export function tenMlOfferFaqAnswer(): string {
     return `${t.qty} = ${formatTenMlUnitEuro(t.unitCents)} / unité${extra}`;
   });
   return [
-    "Offre dégressive e-liquides 10 ml chez All Vap's. Le prix affiché catalogue reste celui de la caisse (souvent 6,90 €) ; la remise se calcule au panier, toutes saveurs 10 ml cumulées.",
+    "Offre dégressive E-Tasty One Taste 10 ml chez All Vap's. Le prix affiché catalogue reste 6,90 € ; la remise se calcule au panier, toutes saveurs One Taste 10 ml cumulées.",
     ...lines,
-    "Au-delà de 10 : packs de 10 (3,90 € / unité + 6 offerts) + palier du reste.",
-    "Uniquement les e-liquides 10 ml — jamais 20 / 50 / 100 ml. Je vérifie cette offre sur le panier avant paiement. Ce n'est pas l'offre Twenty.",
+    "Au-delà de 10 : packs de 10 (4,90 € / unité + 6 offerts) + palier du reste.",
+    "Uniquement la gamme e.Tasty One Taste 10 ml — jamais Twenty 20 ml, 50 / 100 ml, ni une autre marque. Je vérifie cette offre sur le panier avant paiement.",
   ].join("\n");
 }

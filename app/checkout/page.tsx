@@ -593,7 +593,7 @@ function CheckoutPageInner() {
             {promo10.freeExtra > 0 && (
               <div className="flex justify-between text-brand-300">
                 <span>
-                  10 ml offert{promo10.freeExtra > 1 ? "s" : ""} (en plus)
+                  One Taste 10 ml offert{promo10.freeExtra > 1 ? "s" : ""} (en plus)
                 </span>
                 <span>+{promo10.freeExtra}</span>
               </div>
@@ -638,6 +638,7 @@ function CheckoutPageInner() {
         <AvaOfferVerification
           items={verifyItems}
           clientTwenty={twenty}
+          clientPromo10={promo10}
           clientTotalCents={Math.max(0, subtotal - promoDiscountCents)}
         />
 

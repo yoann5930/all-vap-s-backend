@@ -428,7 +428,11 @@ export function twentyCartMeta(product: {
   const rangeName = product.rangeRef?.name ?? product.range ?? null;
   const rangeSlug =
     product.rangeRef?.slug ??
-    (rangeName && /\btwenty\b/i.test(rangeName) ? "twenty" : null);
+    (rangeName && /\btwenty\b/i.test(rangeName)
+      ? "twenty"
+      : rangeName && /one\s*taste/i.test(rangeName)
+        ? "one-taste"
+        : null);
   return {
     brand: product.brand ?? null,
     range: rangeName,

@@ -115,6 +115,10 @@ export async function POST(request: NextRequest) {
         productType: product.productType,
         volumeMl: product.volumeMl,
         promotion10mlEligible: product.promotion10mlEligible,
+        brand: product.brand,
+        range: product.rangeRef?.name ?? product.range,
+        rangeSlug: product.rangeRef?.slug ?? null,
+        productFamily: product.productFamily,
         availableQuantity: variant?.stock ?? product.stock,
       });
 

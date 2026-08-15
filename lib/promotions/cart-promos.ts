@@ -40,6 +40,10 @@ export function toPromo10mlLines(items: CartPromoItem[]): Promo10mlCartLine[] {
     productType: item.productType,
     volumeMl: item.volumeMl,
     promotion10mlEligible: item.promotion10mlEligible,
+    brand: item.brand,
+    range: item.range,
+    rangeSlug: item.rangeSlug,
+    productFamily: item.productFamily,
     availableQuantity: item.quantity,
   }));
 }

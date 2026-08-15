@@ -99,6 +99,8 @@ export async function sendOrderConfirmationEmail(params: {
   deliveryMethod?: string | null;
   pickupStoreLabel?: string | null;
   customerId?: string;
+  isAudit?: boolean;
+  auditCampaignId?: string | null;
 }) {
   return sendPaymentConfirmationEmail(params);
 }
@@ -115,6 +117,8 @@ export async function sendPaymentConfirmationEmail(params: {
   deliveryMethod?: string | null;
   pickupStoreLabel?: string | null;
   customerId?: string;
+  isAudit?: boolean;
+  auditCampaignId?: string | null;
 }) {
   const t = templates.paymentConfirmationTemplate(params);
   return sendEmail({
@@ -126,6 +130,8 @@ export async function sendPaymentConfirmationEmail(params: {
     relatedOrderId: params.orderId,
     relatedCustomerId: params.customerId,
     idempotencyKey: `payment-confirmation:${params.orderId}`,
+    isAudit: params.isAudit,
+    auditCampaignId: params.auditCampaignId,
   });
 }
 
@@ -261,13 +267,29 @@ export async function sendOrderRefundedEmail(params: {
 export async function sendAdminNewOrderEmail(params: {
   orderId: string;
   customerEmail: string;
+  customerName?: string | null;
   totalCents: number;
+  items?: OrderEmailItem[];
+  deliveryMethod?: string | null;
+  pickupStoreId?: string | null;
+  pickupStoreLabel?: string | null;
+  isAudit?: boolean;
+  auditCampaignId?: string | null;
 }) {
   const cfg = getEmailConfig();
   const to = cfg.adminNotificationEmail;
   if (!to) return { transport: "disabled" as const };
 
-  const t = templates.adminNewOrderTemplate(params);
+  const pickupStoreLabel =
+    params.pickupStoreLabel ||
+    (params.pickupStoreId
+      ? stores.find((s) => s.id === params.pickupStoreId)?.name
+      : null);
+
+  const t = templates.adminNewOrderTemplate({
+    ...params,
+    pickupStoreLabel,
+  });
   return sendEmail({
     to,
     subject: t.subject,
@@ -276,6 +298,8 @@ export async function sendAdminNewOrderEmail(params: {
     type: "admin_new_order",
     relatedOrderId: params.orderId,
     idempotencyKey: `admin-new-order:${params.orderId}`,
+    isAudit: params.isAudit,
+    auditCampaignId: params.auditCampaignId,
   });
 }
 

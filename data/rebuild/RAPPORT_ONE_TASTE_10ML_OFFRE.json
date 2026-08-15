@@ -1,0 +1,150 @@
+{
+  "date": "2026-08-15T12:00:08.723Z",
+  "found10ml": 176,
+  "classified": 140,
+  "published": 140,
+  "photosLinked": 140,
+  "skippedNotOfficial": [
+    "Barbe À Papa 10ml 0mg e-tasty",
+    "Barbe À Papa 10ml 3mg e-tasty",
+    "Barbe À Papa 10ml 6mg e-tasty",
+    "Framboise sauvage 10ml 0mg e-tasty",
+    "Framboise sauvage 10ml 3mg e-tasty",
+    "Fruit Du Serpent 10ml 0mg e-tasty",
+    "Fruit Du Serpent 10ml 3mg e-tasty",
+    "Fruit Du Serpent 10ml 6mg e-tasty",
+    "Fruits Rouges Anisés 10ml 0mg e-tasty",
+    "Fruits Rouges Anisés 10ml 3mg e-tasty",
+    "Fruits Rouges mentholes 10ml 0mg e-tasty",
+    "Fruits Rouges mentholes 10ml 3mg e-tasty",
+    "Myrtille sauvage 10ml 12mg e-tasty",
+    "Myrtille sauvage 10ml 3mg e-tasty",
+    "Pasteque juteuse 10ml 0mg e-tasty",
+    "Pasteque juteuse 10ml 3mg e-tasty",
+    "TWENTY fruit du dragon cerise",
+    "Myrtille sauvage 10ml 6mg e-tasty",
+    "Myrtille sauvage 10ml 0mg e-tasty",
+    "Fruits Rouges mentholes 10ml 6mg e-tasty",
+    "Framboise sauvage 10ml 12mg e-tasty",
+    "Framboise sauvage 10ml 6mg e-tasty",
+    "Fruit Du Serpent 10ml 12mg e-tasty",
+    "Fruits Rouges Anisés 10ml 12mg e-tasty",
+    "Barbe À Papa 10ml 12mg e-tasty",
+    "Fruits Rouges Anisés 10ml 6mg e-tasty",
+    "Pasteque juteuse 10ml 12mg e-tasty",
+    "Pasteque juteuse 10ml 6mg e-tasty"
+  ],
+  "skippedNoPhoto": [],
+  "skippedForbidden": [
+    "Harrison 10ml 0mg e-tasty",
+    "Harrison 10ml 3mg e-tasty",
+    "Pomme croquante 10ml 0mg e-tasty",
+    "Pomme croquante 10ml 3mg e-tasty",
+    "Pomme croquante 10ml 6mg e-tasty",
+    "Harrison 10ml 12mg e-tasty",
+    "Harrison 10ml 6mg e-tasty",
+    "Pomme croquante 10ml 12mg e-tasty"
+  ],
+  "publishedSample": [
+    {
+      "name": "Ananas 10ml 3mg e-tasty",
+      "slug": "ananas-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-3mg-e-tasty-09588527.webp"
+    },
+    {
+      "name": "Bonbon violette 10ml 0mg e-tasty",
+      "slug": "bonbon-violette-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-0mg-e-tasty-d0d0073c.webp"
+    },
+    {
+      "name": "Cafe Expresso 10ml 0mg e-tasty",
+      "slug": "cafe-expresso-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-0mg-e-tasty-b10b812f.webp"
+    },
+    {
+      "name": "Caramel doré 10ml 12mg e-tasty",
+      "slug": "caramel-dore-10ml-12mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-12mg-e-tasty-d272b092.webp"
+    },
+    {
+      "name": "Cassis frais 10ml 3mg e-tasty",
+      "slug": "cassis-frais-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-3mg-e-tasty-5f7e7c2a.webp"
+    },
+    {
+      "name": "Chlorophylle 10ml 3mg e-tasty",
+      "slug": "chlorophylle-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/chlorophylle-10ml-3mg-e-tasty-d446201b.webp"
+    },
+    {
+      "name": "Cafe Expresso 10ml 3mg e-tasty",
+      "slug": "cafe-expresso-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-3mg-e-tasty-021cf62c.webp"
+    },
+    {
+      "name": "Ananas 10ml 0mg e-tasty",
+      "slug": "ananas-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/ananas-10ml-0mg-e-tasty-6b857cbf.webp"
+    },
+    {
+      "name": "Cerise noire 10ml 0mg e-tasty",
+      "slug": "cerise-noire-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-0mg-e-tasty-016e2d61.webp"
+    },
+    {
+      "name": "Bonbon carnival 10ml 0mg e-tasty",
+      "slug": "bonbon-carnival-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-0mg-e-tasty-1145745b.webp"
+    },
+    {
+      "name": "Bonbon carnival 10ml 3mg e-tasty",
+      "slug": "bonbon-carnival-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-carnival-10ml-3mg-e-tasty-4510cf91.webp"
+    },
+    {
+      "name": "Bonbon violette 10ml 12mg e-tasty",
+      "slug": "bonbon-violette-10ml-12mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-12mg-e-tasty-b0671c2a.webp"
+    },
+    {
+      "name": "Bonbon violette 10ml 6mg e-tasty",
+      "slug": "bonbon-violette-10ml-6mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/bonbon-violette-10ml-6mg-e-tasty-63cfb3c7.webp"
+    },
+    {
+      "name": "Cafe Expresso 10ml 6mg e-tasty",
+      "slug": "cafe-expresso-10ml-6mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-expresso-10ml-6mg-e-tasty-2d5ecccb.webp"
+    },
+    {
+      "name": "Caramel doré 10ml 0mg e-tasty",
+      "slug": "caramel-dore-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-0mg-e-tasty-c716ac24.webp"
+    },
+    {
+      "name": "Cafe speculos 10ml 6mg e-tasty",
+      "slug": "cafe-speculos-10ml-6mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cafe-speculos-10ml-6mg-e-tasty-1e338432.webp"
+    },
+    {
+      "name": "Caramel doré 10ml 6mg e-tasty",
+      "slug": "caramel-dore-10ml-6mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/caramel-dore-10ml-6mg-e-tasty-0097e53b.webp"
+    },
+    {
+      "name": "Cassis frais 10ml 0mg e-tasty",
+      "slug": "cassis-frais-10ml-0mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cassis-frais-10ml-0mg-e-tasty-4ac194fb.webp"
+    },
+    {
+      "name": "Cerise noire 10ml 10mg sel de nicotine e-tasty",
+      "slug": "cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-10mg-sel-de-nicotine-e-tasty-5ce02e22.webp"
+    },
+    {
+      "name": "Cerise noire 10ml 3mg e-tasty",
+      "slug": "cerise-noire-10ml-3mg-e-tasty",
+      "imageUrl": "/media/products/e-tasty/one-taste/10ml/cerise-noire-10ml-3mg-e-tasty-cbee1523.webp"
+    }
+  ]
+}

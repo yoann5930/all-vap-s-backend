@@ -434,13 +434,18 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             {catalog.format && <Badge>{catalog.format}</Badge>}
             {catalog.pgVg && <Badge>{catalog.pgVg}</Badge>}
             {isPromo10mlEligible({
+              name: product.name,
+              brand: product.brand,
+              range: product.rangeRef?.name ?? product.range,
+              rangeSlug: product.rangeRef?.slug,
+              productFamily: product.productFamily,
               category: product.category,
               productType: product.productType,
               volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
               visibleOnline: product.visibleOnline,
               isActive: product.isActive,
               catalogStatus: product.catalogStatus,
-            }) && <Badge>Offre 10 ml</Badge>}
+            }) && <Badge>Offre One Taste</Badge>}
           </div>
 
           {!hasMultiDosage && (

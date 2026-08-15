@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import type { PromoTwentyResult } from "@/lib/promotions/promo-twenty";
+import type { Promo10mlResult } from "@/lib/promotions/promo-10ml";
 
 type AvaOfferVerificationProps = {
   items: Array<{
@@ -11,12 +12,14 @@ type AvaOfferVerificationProps = {
     quantity: number;
   }>;
   clientTwenty: PromoTwentyResult;
+  clientPromo10?: Promo10mlResult;
   clientTotalCents: number;
 };
 
 export function AvaOfferVerification({
   items,
   clientTwenty,
+  clientPromo10,
   clientTotalCents,
 }: AvaOfferVerificationProps) {
   const [serverMessage, setServerMessage] = useState<string | null>(null);
@@ -25,6 +28,9 @@ export function AvaOfferVerification({
   const itemsKey = items
     .map((i) => `${i.productId}:${i.variantId || ""}:${i.quantity}`)
     .join("|");
+  const fallbackMessage = [clientPromo10?.avaSummary, clientTwenty.avaSummary]
+    .filter((s) => s && !/aucun /i.test(s))
+    .join(" ") || clientTwenty.avaSummary;
 
   useEffect(() => {
     let cancelled = false;
@@ -41,10 +47,10 @@ export function AvaOfferVerification({
           setServerMessage(data.avaMessage);
           setOk(data.ok !== false);
         } else {
-          setServerMessage(clientTwenty.avaSummary);
+          setServerMessage(fallbackMessage);
         }
       } catch {
-        if (!cancelled) setServerMessage(clientTwenty.avaSummary);
+        if (!cancelled) setServerMessage(fallbackMessage);
       }
     })();
     return () => {
@@ -52,9 +58,9 @@ export function AvaOfferVerification({
     };
     // itemsKey évite une boucle si le parent recrée le tableau
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemsKey, clientTwenty.avaSummary]);
+  }, [itemsKey, clientTwenty.avaSummary, clientPromo10?.avaSummary]);
 
-  const message = serverMessage || clientTwenty.avaSummary;
+  const message = serverMessage || fallbackMessage;
 
   return (
     <div
@@ -69,6 +75,15 @@ export function AvaOfferVerification({
         A.V.A. — vérification avant paiement
       </p>
       <p className="mt-1 leading-relaxed">{message}</p>
+      {clientPromo10 && clientPromo10.eligibleQuantity > 0 ? (
+        <p className="mt-2 text-xs text-[#A7B0BC]">
+          {clientPromo10.eligibleQuantity} One Taste 10 ml ·{" "}
+          {clientPromo10.unitCents != null ? formatPrice(clientPromo10.unitCents) : "—"} / unité
+          {clientPromo10.freeExtra > 0
+            ? ` · + ${clientPromo10.freeExtra} offert${clientPromo10.freeExtra > 1 ? "s" : ""}`
+            : ""}
+        </p>
+      ) : null}
       {clientTwenty.eligibleQuantity > 0 ? (
         <p className="mt-2 text-xs text-[#A7B0BC]">
           {clientTwenty.eligibleQuantity} Twenty ·{" "}
@@ -77,6 +92,10 @@ export function AvaOfferVerification({
             ? ` · + ${clientTwenty.freeExtra} offert${clientTwenty.freeExtra > 1 ? "s" : ""}`
             : ""}{" "}
           · articles {formatPrice(clientTotalCents)}
+        </p>
+      ) : clientPromo10 && clientPromo10.eligibleQuantity > 0 ? (
+        <p className="mt-2 text-xs text-[#A7B0BC]">
+          articles {formatPrice(clientTotalCents)}
         </p>
       ) : null}
     </div>

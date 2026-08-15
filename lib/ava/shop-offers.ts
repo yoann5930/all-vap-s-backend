@@ -27,6 +27,9 @@ function normOfferText(message: string): string {
 
 export function isTenMlOfferQuestion(message: string): boolean {
   const t = normOfferText(message);
+  if (/one\s*taste/.test(t) && /offre|promo|palier|degress|prix|panier|10\s*ml/.test(t)) {
+    return true;
+  }
   if (/\b10\s*ml\b/.test(t) && /offre|promo|palier|degress|prix|panier|paye|paiement|5\s*\+\s*1|10\s*\+\s*6/.test(t)) {
     return true;
   }
@@ -60,7 +63,7 @@ export function formatTenMlOfferKnowledge(): string {
     "Paliers :",
     rows,
     "",
-    "Avant paiement je recalcule le panier : e-liquides 10 ml uniquement, flacons offerts livrés en plus à partir de 5 (5+1 jusqu'à 10+6).",
+    "Avant paiement je recalcule le panier : E-Tasty One Taste 10 ml uniquement, flacons offerts livrés en plus à partir de 5 (5+1 jusqu'à 10+6).",
   ].join("\n");
 }
 
@@ -99,7 +102,7 @@ export function formatAvaCheckoutVerification(params: {
     parts.push(params.promo10.avaSummary);
   }
   if (!parts.length) {
-    return "A.V.A. : aucune offre Twenty ou 10 ml à appliquer sur ce panier. Le total correspond aux prix catalogue.";
+    return "A.V.A. : aucune offre Twenty ou One Taste 10 ml à appliquer sur ce panier. Le total correspond aux prix catalogue.";
   }
   parts.push(`Total articles après offres (hors livraison) : ${(params.totalCents / 100).toFixed(2).replace(".", ",")} €.`);
   return parts.join(" ");
