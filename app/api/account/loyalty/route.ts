@@ -30,20 +30,33 @@ export async function GET() {
       color: { dark: "#0B0B0C", light: "#FFFFFF" },
     });
 
-    const history = await prisma.loyaltyLedgerEntry.findMany({
-      where: { userId: auth.userId },
-      orderBy: { createdAt: "desc" },
-      take: 50,
-      select: {
-        id: true,
-        delta: true,
-        balanceAfter: true,
-        reason: true,
-        source: true,
-        orderId: true,
-        createdAt: true,
-      },
-    });
+    let history: Array<{
+      id: string;
+      delta: number;
+      balanceAfter: number;
+      reason: string;
+      source: string;
+      orderId: string | null;
+      createdAt: Date;
+    }> = [];
+    try {
+      history = await prisma.loyaltyLedgerEntry.findMany({
+        where: { userId: auth.userId },
+        orderBy: { createdAt: "desc" },
+        take: 50,
+        select: {
+          id: true,
+          delta: true,
+          balanceAfter: true,
+          reason: true,
+          source: true,
+          orderId: true,
+          createdAt: true,
+        },
+      });
+    } catch {
+      history = [];
+    }
 
     const fidele = getFideleAToutPublicStatus();
 

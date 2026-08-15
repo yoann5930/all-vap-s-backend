@@ -74,27 +74,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const resolved = resolveOnlinePaymentProvider();
-    if (!resolved.provider || !resolved.configured) {
-      console.error("[payments] no online gateway", resolved.reason);
-      throw new Error("PAYMENT_UNAVAILABLE");
-    }
-
-    const provider = resolved.provider;
     const baseUrl = getBaseUrl();
     const returnUrl = `${baseUrl}/checkout/success?orderId=${order.id}`;
-    const testMode = resolved.testMode;
 
-    // Commande AUDIT_ONLY : jamais de PSP réel (Viva / SumUp).
+    // Commande AUDIT_ONLY : jamais de PSP réel, même si Viva/SumUp absents.
     if (order.isAudit) {
       const checkoutId = makeTestCheckoutId(order.id);
       await prisma.order.update({
         where: { id: orderId },
         data: {
-          paymentProvider: provider === "sumup" ? "SUMUP" : "VIVA",
-          ...(provider === "sumup"
-            ? { sumupCheckoutId: checkoutId }
-            : { vivaOrderCode: checkoutId }),
+          paymentProvider: "VIVA",
+          vivaOrderCode: checkoutId,
         },
       });
       return jsonResponse({
@@ -106,6 +96,15 @@ export async function POST(request: NextRequest) {
         realPayment: false,
       });
     }
+
+    const resolved = resolveOnlinePaymentProvider();
+    if (!resolved.provider || !resolved.configured) {
+      console.error("[payments] no online gateway", resolved.reason);
+      throw new Error("PAYMENT_UNAVAILABLE");
+    }
+
+    const provider = resolved.provider;
+    const testMode = resolved.testMode;
 
     if (provider === "viva") {
       if (!isVivaConfigured()) {
