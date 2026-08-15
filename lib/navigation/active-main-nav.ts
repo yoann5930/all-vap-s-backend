@@ -14,6 +14,7 @@ export type MainNavId =
   | "boutiques"
   | "faq"
   | "contact"
+  | "offres"
   | "admin"
   | null;
 
@@ -48,6 +49,7 @@ export function navIdFromHref(href: string, label = ""): MainNavId {
     return "accessoires";
   if (base === "/diy" || base.startsWith("/diy/") || q.includes("category=diy")) return "diy";
   if (base === "/boutiques" || base.startsWith("/boutiques/")) return "boutiques";
+  if (base === "/offres" || base.startsWith("/offres/")) return "offres";
   if (base === "/faq") return "faq";
   if (base === "/contact") return "contact";
   if (base === "/admin" || base.startsWith("/admin/")) return "admin";
@@ -163,6 +165,7 @@ export function getActiveMainNavigation(
   if (path === "/accessoires" || path.startsWith("/accessoires/")) return "accessoires";
   if (path === "/diy" || path.startsWith("/diy/")) return "diy";
   if (path === "/boutiques" || path.startsWith("/boutiques/")) return "boutiques";
+  if (path === "/offres" || path.startsWith("/offres/")) return "offres";
   if (path === "/faq" || path.startsWith("/faq/")) return "faq";
   if (path === "/contact" || path.startsWith("/contact/")) return "contact";
 

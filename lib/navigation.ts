@@ -10,6 +10,7 @@ export interface NavLink {
 /** Nav principale publique : e-liquides seulement tant que le reste n'est pas validé */
 export const mainNavLinks: NavLink[] = [
   { href: "/e-liquides", label: "E-LIQUIDES" },
+  { href: "/offres", label: "OFFRES" },
   { href: "/boutiques", label: "BOUTIQUES" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "CONTACT" },
@@ -32,6 +33,7 @@ export const hiddenPublicCategories = [
 export const footerNavLinks: NavLink[] = [
   { href: "/", label: "Accueil" },
   { href: "/e-liquides", label: "E-liquides" },
+  { href: "/offres", label: "Offres" },
   { href: "/boutiques", label: "Nos boutiques" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },

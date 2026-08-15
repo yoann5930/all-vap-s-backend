@@ -198,7 +198,11 @@ export function ProductPurchasePanel({
     <div className="space-y-5">
       {showPromo10ml && (
         <p className="rounded-lg border border-brand-500/30 bg-brand-500/10 px-3 py-2 text-sm text-brand-300">
-          {PROMO_10ML_LABEL} — uniquement e-liquides 10 ml
+          {PROMO_10ML_LABEL} — uniquement e-liquides 10 ml. Détail dans{" "}
+          <a href="/offres/10ml" className="underline hover:text-white">
+            Offres
+          </a>
+          .
         </p>
       )}
       {showPromoTwenty && (

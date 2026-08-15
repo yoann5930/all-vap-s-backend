@@ -590,7 +590,7 @@ export async function chatAva(
       }
       return {
         content,
-        suggestions: ["Voir Twenty", "Offre 10 ml", "Je veux un fruité", "Nos magasins"],
+        suggestions: ["Voir les offres", "Offre 10 ml", "Offre Twenty", "Nos magasins"],
         products: [],
         speaking: true,
         conversationContext: options?.conversationContext ?? undefined,
