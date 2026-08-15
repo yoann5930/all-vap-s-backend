@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/components/cart/CartProvider";
-import { updateCartQuantity, removeFromCart, getCartTotal } from "@/lib/cart";
+import { updateCartQuantity, removeFromCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";
-import { calculatePromo10ml, isPromo10mlEligible, type Promo10mlCartLine } from "@/lib/promotions/promo-10ml";
+import { isPromo10mlEligible } from "@/lib/promotions/promo-10ml";
+import { applyCartPromos } from "@/lib/promotions/cart-promos";
+import { isPromoTwentyEligible } from "@/lib/promotions/promo-twenty";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 import { isPreoptimizedProductMedia } from "@/lib/catalog/product-image-display";
@@ -83,21 +85,8 @@ export default function CartPage() {
     };
   }, [items, refreshCart]);
 
-  const subtotal = getCartTotal(items);
-  const promoLines: Promo10mlCartLine[] = items.map((item) => ({
-    productId: item.productId,
-    variantId: item.variantId,
-    name: item.name,
-    quantity: item.quantity,
-    unitPriceCents: item.priceCents,
-    category: item.category,
-    productType: item.productType,
-    volumeMl: item.volumeMl,
-    promotion10mlEligible: item.promotion10mlEligible,
-    availableQuantity: item.quantity,
-  }));
-  const promo = calculatePromo10ml(promoLines);
-  const total = Math.max(0, subtotal - promo.discountCents);
+  const { subtotalCents: subtotal, promo10: promo, twenty, discountCents, totalCents: total } =
+    applyCartPromos(items);
 
   function handleQuantityChange(
     productId: string,
@@ -211,6 +200,22 @@ export default function CartPage() {
                     }) && (
                       <p className="text-xs text-brand-700">Éligible offre 10 ml (5+1)</p>
                     )}
+                    {isPromoTwentyEligible({
+                      name: item.name,
+                      brand: item.brand,
+                      range: item.range,
+                      rangeSlug: item.rangeSlug,
+                      productFamily: item.productFamily,
+                      category: item.category,
+                      productType: item.productType,
+                      volumeMl: item.volumeMl,
+                      availableQuantity: item.quantity,
+                      visibleOnline: true,
+                      isActive: true,
+                      catalogStatus: "valide",
+                    }) && (
+                      <p className="text-xs text-brand-700">Éligible offre Twenty dégressive</p>
+                    )}
                     <p className="text-sm text-gray-500">{formatPrice(item.priceCents)} / unité</p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -266,6 +271,21 @@ export default function CartPage() {
                       {promo.freeQuantity > 1 ? "s" : ""})
                     </span>
                     <span>-{formatPrice(promo.discountCents)}</span>
+                  </div>
+                )}
+                {twenty.eligibleQuantity > 0 && twenty.discountCents > 0 && (
+                  <div className="flex justify-between text-sm text-brand-700">
+                    <span>{twenty.label}</span>
+                    <span>-{formatPrice(twenty.discountCents)}</span>
+                  </div>
+                )}
+                {twenty.freeExtra > 0 && (
+                  <div className="flex justify-between text-sm text-brand-700">
+                    <span>
+                      Twenty offert{twenty.freeExtra > 1 ? "s" : ""} (livré
+                      {twenty.freeExtra > 1 ? "s" : ""} en plus)
+                    </span>
+                    <span>+{twenty.freeExtra}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">

@@ -80,7 +80,7 @@ export function isVapeKnowledgeQuestion(message: string): boolean {
   if (n.length < 4) return false;
 
   const intent =
-    /\b(c.?est quoi|qu.?est.?ce que|explique|explication|difference|différence|pourquoi|comment|depuis quand|histoire|origine|legislation|législation|loi|interdit|securite|sécurité|pg\b|vg\b|nicotine|sels?|freebase|mtl|dl\b|sub.?ohm|resistance|résistance|coil|mesh|diy|di.?yai|accu|batterie|18650|21700|tpd|debuter|débuter|debutant|débutant|fuite|entretien|inhalation|hit\b|vapeur|cloud|pod\b|clearomiseur|atomiseur|ohm\b|evali|mineur|connaissances?|sais.?tu|tu connais)\b/i.test(
+    /\b(c.?est quoi|qu.?est.?ce que|explique|explication|difference|différence|pourquoi|comment|depuis quand|histoire|origine|legislation|législation|loi|interdit|securite|sécurité|pg\b|vg\b|nicotine|sels?|freebase|mtl|dl\b|sub.?ohm|resistance|résistance|coil|mesh|diy|di.?yai|accu|batterie|18650|21700|tpd|debuter|débuter|debutant|débutant|fuite|entretien|inhalation|hit\b|vapeur|cloud|pod\b|clearomiseur|atomiseur|ohm\b|evali|mineur|connaissances?|sais.?tu|tu connais|offre twenty|twenty degress|avant paiement)\b/i.test(
       message,
     );
 

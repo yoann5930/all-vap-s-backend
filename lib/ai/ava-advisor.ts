@@ -36,7 +36,22 @@ export type AvaChatOptions = {
   /** Boutique mémorisée côté client uniquement (jamais de GPS). */
   preferredStoreId?: PreferredStoreId | null;
   /** Mémoire de conversation temporaire (session client). */
-  conversationContext?: AvaConversationContext | null;
+  /** Lignes panier optionnelles — vérification offre Twenty avant paiement. */
+  cartItems?: Array<{
+    productId: string;
+    variantId?: string | null;
+    name?: string;
+    quantity: number;
+    priceCents?: number;
+    category?: string | null;
+    productType?: string | null;
+    volumeMl?: number | null;
+    promotion10mlEligible?: boolean | null;
+    brand?: string | null;
+    range?: string | null;
+    rangeSlug?: string | null;
+    productFamily?: string | null;
+  }> | null;
 };
 
 export interface AvaProductCard {
@@ -528,6 +543,59 @@ export async function chatAva(
       products: [],
       speaking: true,
     };
+  }
+
+  // Offre Twenty — A.V.A. connaît les paliers et vérifie avant paiement
+  {
+    const { isShopOfferQuestion, formatTwentyOfferKnowledge, verifyCheckoutOffers } =
+      await import("@/lib/ava/shop-offers");
+    if (isShopOfferQuestion(message) || (/\btwenty\b/i.test(message) && /offre|promo|prix|panier|paye|paiement|degress/i.test(message))) {
+      let content = formatTwentyOfferKnowledge();
+      if (options?.cartItems && options.cartItems.length > 0) {
+        const lines = options.cartItems.map((i) => ({
+          productId: i.productId,
+          variantId: i.variantId,
+          name: i.name || "Twenty",
+          quantity: i.quantity,
+          unitPriceCents: i.priceCents || 1290,
+          category: i.category,
+          productType: i.productType,
+          volumeMl: i.volumeMl,
+          brand: i.brand,
+          range: i.range,
+          rangeSlug: i.rangeSlug,
+          productFamily: i.productFamily,
+        }));
+        const promo10Lines = options.cartItems.map((i) => ({
+          productId: i.productId,
+          variantId: i.variantId,
+          name: i.name || "",
+          quantity: i.quantity,
+          unitPriceCents: i.priceCents || 0,
+          category: i.category,
+          productType: i.productType,
+          volumeMl: i.volumeMl,
+          promotion10mlEligible: i.promotion10mlEligible,
+        }));
+        const subtotal = options.cartItems.reduce(
+          (s, i) => s + (i.priceCents || 0) * i.quantity,
+          0
+        );
+        const verified = verifyCheckoutOffers({
+          twentyLines: lines,
+          promo10Lines,
+          subtotalCents: subtotal,
+        });
+        content = `${verified.avaMessage}\n\n${content}`;
+      }
+      return {
+        content,
+        suggestions: ["Voir Twenty", "Offre 10 ml", "Je veux un fruité", "Nos magasins"],
+        products: [],
+        speaking: true,
+        conversationContext: options?.conversationContext ?? undefined,
+      };
+    }
   }
 
   // Mémoire métier vape (~15 ans) — culture / technique / législation / sécurité

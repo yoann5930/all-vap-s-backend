@@ -78,6 +78,13 @@
       "tags": ["securite", "technologies"]
     },
     {
+      "id": "faq-offre-twenty",
+      "question": "Quelle est l'offre dégressive Twenty ?",
+      "keywords": ["twenty", "offre twenty", "promo twenty", "degressive", "dégressive", "8.90", "12.90", "flacon offert", "avant paiement", "panier twenty"],
+      "answer": "Offre dégressive Twenty (e.Tasty, 20 ml) chez All Vap's. Le prix catalogue reste 12,90 € ; la remise se calcule au panier, toutes saveurs Twenty cumulées.\n1 Twenty = 12,90 €\n2 = 11,90 € / unité\n3 = 10,90 € / unité\n4 = 9,90 € / unité\n5 = 7,90 € / unité\n6 = 8,90 € / unité + 1 flacon offert (livré en plus)\n7 = 8,90 € / unité + 2 offerts\n8 = 8,90 € / unité + 3 offerts\n9 = 8,90 € / unité + 4 offerts\n10 = 8,90 € / unité + 5 offerts\nAu-delà de 10 : packs de 10 (8,90 € + 5 offerts) + palier du reste. A.V.A. vérifie cette offre sur le panier avant paiement. Ce n'est pas l'offre 10 ml (5+1).",
+      "tags": ["allvaps", "offres", "twenty", "e-liquides"]
+    },
+    {
       "id": "faq-allvaps-role",
       "question": "Que peut faire A.V.A. chez All Vap's ?",
       "keywords": ["que peux-tu", "tu sais quoi", "aide ava", "connaissances"],

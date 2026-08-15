@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ProductCard } from "@/components/products/ProductCard";
+import { TwentyOfferBanner } from "@/components/promotions/TwentyOfferBanner";
 import { isRangeCatalogEligible, readRangeOfficialGate } from "@/lib/catalog/official-verification";
 import { rangeCoverUrl } from "@/lib/catalog/range-cover";
 import { absoluteUrl } from "@/lib/seo/config";
@@ -182,6 +183,12 @@ export default async function GammePage({ params, searchParams }: Props) {
           </h1>
         </div>
       </section>
+
+      {range.slug === "twenty" ? (
+        <div className="mt-6">
+          <TwentyOfferBanner />
+        </div>
+      ) : null}
 
       <section className="mt-10">
         <h2 className="font-display text-xl text-white">Produits</h2>

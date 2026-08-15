@@ -103,6 +103,8 @@ export function detectConversationMode(
     }
   }
 
+  if (/commande|colis|livraison|suivi|statut|avant\s+pai|verif(ie|ier)\s+(l['’ ]?)?offre|panier/.test(t) && /twenty|offre|promo|paiement|commande|colis|livraison/.test(t))
+    return "ORDER_HELP";
   if (/commande|colis|livraison|suivi|statut/.test(t)) return "ORDER_HELP";
   if (/horaire|ouvert|boutique|magasin|hautmont|quesnoy|adresse|telephone/.test(t)) {
     return "STORE_AVAILABILITY";

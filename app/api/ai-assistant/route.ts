@@ -81,7 +81,27 @@ const conversationContextSchema = z
 const postSchema = z.object({
   message: z.string().min(1).max(2000),
   preferredStoreId: z.enum(["hautmont", "le-quesnoy"]).nullable().optional(),
-  conversationContext: conversationContextSchema,
+    conversationContext: conversationContextSchema,
+  cartItems: z
+    .array(
+      z.object({
+        productId: z.string(),
+        variantId: z.string().optional().nullable(),
+        name: z.string().optional(),
+        quantity: z.number().int().positive().max(99),
+        priceCents: z.number().int().optional(),
+        category: z.string().nullable().optional(),
+        productType: z.string().nullable().optional(),
+        volumeMl: z.number().nullable().optional(),
+        promotion10mlEligible: z.boolean().nullable().optional(),
+        brand: z.string().nullable().optional(),
+        range: z.string().nullable().optional(),
+        rangeSlug: z.string().nullable().optional(),
+        productFamily: z.string().nullable().optional(),
+      })
+    )
+    .max(50)
+    .optional(),
 });
 
 const FRIENDLY_ERROR =
@@ -144,6 +164,7 @@ export async function POST(request: NextRequest) {
         | import("@/lib/ai/ava").AvaConversationContext
         | null
         | undefined) ?? null,
+      cartItems: body.cartItems ?? null,
     };
 
     try {

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/Badge";
 import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { isPromo10mlEligible } from "@/lib/promotions/promo-10ml";
+import { isPromoTwentyEligible, twentyCartMeta } from "@/lib/promotions/promo-twenty";
 import { productHref } from "@/lib/catalog/product-href";
 import { isPreoptimizedProductMedia } from "@/lib/catalog/product-image-display";
 import { checkProductZeroMix } from "@/lib/catalog/zero-mix-gate";
@@ -71,6 +72,20 @@ export function ProductCard({ product }: ProductCardProps) {
     catalogStatus: product.catalogStatus,
     stock: product.stock,
   });
+  const showPromoTwenty = isPromoTwentyEligible({
+    name: product.name,
+    brand: product.brand,
+    range: product.range,
+    rangeSlug: product.rangeRef?.slug,
+    productFamily: product.productFamily,
+    category: product.category,
+    productType: product.productType,
+    volumeMl: product.volumeMl ?? (product.productType === "20ml" ? 20 : null),
+    visibleOnline: product.visibleOnline,
+    isActive: product.isActive,
+    catalogStatus: product.catalogStatus,
+    stock: product.stock,
+  });
 
   function handleAddToCart(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -94,8 +109,9 @@ export function ProductCard({ product }: ProductCardProps) {
       sumupVariantId: v?.sumupVariantId || product.sumupVariantId,
       category: product.category,
       productType: product.productType,
-      volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
+      volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : product.productType === "20ml" ? 20 : null),
       promotion10mlEligible: product.promotion10mlEligible,
+      ...twentyCartMeta(product),
     });
     notifyCartUpdate();
   }
@@ -162,6 +178,9 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
             {showPromo10ml && (
                 <Badge className="text-[10px]">5+1 · 10 ml</Badge>
+              )}
+            {showPromoTwenty && (
+                <Badge className="text-[10px]">Offre Twenty</Badge>
               )}
           </div>
         </div>

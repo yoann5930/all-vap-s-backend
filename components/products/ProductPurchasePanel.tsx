@@ -7,6 +7,8 @@ import { addToCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";
 import { isPromo10mlEligible, PROMO_10ML_LABEL } from "@/lib/promotions/promo-10ml";
+import { isPromoTwentyEligible, twentyCartMeta } from "@/lib/promotions/promo-twenty";
+import { TwentyOfferBanner } from "@/components/promotions/TwentyOfferBanner";
 import type { Product, ProductVariant } from "@prisma/client";
 
 type VariantRow = Pick<
@@ -81,6 +83,20 @@ export function ProductPurchasePanel({
     catalogStatus: product.catalogStatus,
     availableQuantity: stock,
   });
+  const showPromoTwenty = isPromoTwentyEligible({
+    name: product.name,
+    brand: product.brand,
+    range: product.range,
+    productFamily: product.productFamily,
+    category: product.category,
+    productType: product.productType,
+    volumeMl: product.volumeMl ?? (product.productType === "20ml" ? 20 : null),
+    visibleOnline: product.visibleOnline,
+    isActive: product.isActive,
+    catalogStatus: product.catalogStatus,
+    availableQuantity: stock,
+  });
+  const twentyMeta = twentyCartMeta(product);
 
   function handleAdd() {
     if (!selected || !hasConfirmedPrice || unavailable) return;
@@ -99,8 +115,9 @@ export function ProductPurchasePanel({
         sumupVariantId: selected.sumupVariantId,
         category: product.category,
         productType: product.productType,
-        volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
+        volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : product.productType === "20ml" ? 20 : null),
         promotion10mlEligible: product.promotion10mlEligible,
+        ...twentyMeta,
       },
       quantity
     );
@@ -114,6 +131,8 @@ export function ProductPurchasePanel({
     const simplePrice = fallbackPriceCents;
     const simpleStock = product.stock;
     return (
+      <div className="space-y-4">
+        {showPromoTwenty ? <TwentyOfferBanner compact className="!px-3 !py-3" /> : null}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         {simpleStock <= 0 ? (
           <Button disabled className="w-full sm:w-auto" aria-disabled="true">
@@ -154,8 +173,9 @@ export function ProductPurchasePanel({
                     sumupProductId: product.sumupProductId,
                     category: product.category,
                     productType: product.productType,
-                    volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : null),
+                    volumeMl: product.volumeMl ?? (product.productType === "10ml" ? 10 : product.productType === "20ml" ? 20 : null),
                     promotion10mlEligible: product.promotion10mlEligible,
+                    ...twentyMeta,
                   },
                   quantity
                 );
@@ -170,6 +190,7 @@ export function ProductPurchasePanel({
           </>
         )}
       </div>
+      </div>
     );
   }
 
@@ -179,6 +200,9 @@ export function ProductPurchasePanel({
         <p className="rounded-lg border border-brand-500/30 bg-brand-500/10 px-3 py-2 text-sm text-brand-300">
           {PROMO_10ML_LABEL} — uniquement e-liquides 10 ml
         </p>
+      )}
+      {showPromoTwenty && (
+        <TwentyOfferBanner compact className="!px-3 !py-3" />
       )}
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#A7B0BC]">

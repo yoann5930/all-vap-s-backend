@@ -99,6 +99,13 @@
       "content": "« Check Atomizer / No Atomizer » : souvent mauvais contact, résistance mal vissée, plot sale, coil HS ou incompatible. « Short » : court-circuit, ne pas forcer — vérifier montage / coil. Ces messages se traitent pas à pas (A.V.A. a un mode assistance matériel pour les rechargeables hors puffs/JNR). Toujours couper la puissance et ne pas contourner les sécurités."
     },
     {
+      "id": "offre-twenty-degressive",
+      "title": "Offre dégressive Twenty (e.Tasty 20 ml)",
+      "tags": ["offres", "twenty", "e-liquides", "panier", "paiement"],
+      "keywords": ["twenty", "offre twenty", "promo twenty", "degressive", "8,90", "12,90", "avant paiement", "verifier panier", "flacon offert"],
+      "content": "Gamme Twenty e.Tasty, format 20 ml. Prix unitaire catalogue : 12,90 € (inchangé côté SumUp). Remise boutique calculée uniquement au panier / checkout, toutes saveurs Twenty mélangées. Paliers : 1=12,90 € ; 2=11,90 €/u ; 3=10,90 €/u ; 4=9,90 €/u ; 5=7,90 €/u ; 6=8,90 €/u + 1 offert en plus ; 7=+2 offerts ; 8=+3 ; 9=+4 ; 10=+5. A.V.A. doit confirmer le palier et le total avant paiement. Ne pas confondre avec l'offre 10 ml 5+1."
+    },
+    {
       "id": "ecologie-puffs",
       "title": "Jetables / puffs — éclairage",
       "tags": ["puff", "jetable", "pratiques"],

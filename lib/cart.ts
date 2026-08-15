@@ -1,3 +1,5 @@
+import { applyCartPromos } from "@/lib/promotions/cart-promos";
+
 export interface CartItem {
   productId: string;
   /** Variante nicotine sélectionnée (obligatoire si le produit a plusieurs dosages) */
@@ -16,6 +18,11 @@ export interface CartItem {
   productType?: string | null;
   volumeMl?: number | null;
   promotion10mlEligible?: boolean | null;
+  /** Offre Twenty (20 ml e.Tasty) — détection sans flag DB */
+  brand?: string | null;
+  range?: string | null;
+  rangeSlug?: string | null;
+  productFamily?: string | null;
 }
 
 const CART_KEY = "allvaps_cart";
@@ -53,6 +60,10 @@ export function addToCart(item: Omit<CartItem, "quantity">, quantity = 1): CartI
       existing.productType = item.productType;
       existing.category = item.category;
     }
+    if (item.productFamily != null) existing.productFamily = item.productFamily;
+    if (item.rangeSlug != null) existing.rangeSlug = item.rangeSlug;
+    if (item.range != null) existing.range = item.range;
+    if (item.brand != null) existing.brand = item.brand;
   } else {
     cart.push({ ...item, quantity });
   }
@@ -89,6 +100,11 @@ export function clearCart(): void {
 
 export function getCartTotal(items: CartItem[]): number {
   return items.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+}
+
+/** Total après offres 10 ml + Twenty (hors livraison). */
+export function getCartPayableTotal(items: CartItem[]): number {
+  return applyCartPromos(items).totalCents;
 }
 
 export function getCartCount(items: CartItem[]): number {

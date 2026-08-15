@@ -16,7 +16,7 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import { cn, formatPrice } from "@/lib/utils";
 import { useCart } from "@/components/cart/CartProvider";
-import { getCartTotal } from "@/lib/cart";
+import { getCartPayableTotal } from "@/lib/cart";
 import { mainNavLinks } from "@/lib/navigation";
 import { Logo } from "@/components/layout/Logo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
@@ -55,7 +55,7 @@ export function Header() {
     [pathname, search, productContext]
   );
   const { cartCount, items } = useCart();
-  const cartTotal = useMemo(() => getCartTotal(items), [items]);
+  const cartTotal = useMemo(() => getCartPayableTotal(items), [items]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [scrolled, setScrolled] = useState(false);

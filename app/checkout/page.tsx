@@ -3,11 +3,12 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
-import { clearCart, getCartTotal } from "@/lib/cart";
+import { clearCart } from "@/lib/cart";
 import { notifyCartUpdate } from "@/components/cart/CartProvider";
 import { formatPrice } from "@/lib/utils";
 import { getPublicShippingOptions } from "@/lib/shipping";
-import { calculatePromo10ml, type Promo10mlCartLine } from "@/lib/promotions/promo-10ml";
+import { applyCartPromos } from "@/lib/promotions/cart-promos";
+import { AvaOfferVerification } from "@/components/checkout/AvaOfferVerification";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
@@ -41,20 +42,8 @@ function formatAddressLine(a: AddressRow): string {
 
 function CheckoutPageInner() {
   const { items } = useCart();
-  const subtotal = getCartTotal(items);
-  const promoLines: Promo10mlCartLine[] = items.map((item) => ({
-    productId: item.productId,
-    variantId: item.variantId,
-    name: item.name,
-    quantity: item.quantity,
-    unitPriceCents: item.priceCents,
-    category: item.category,
-    productType: item.productType,
-    volumeMl: item.volumeMl,
-    promotion10mlEligible: item.promotion10mlEligible,
-    availableQuantity: item.quantity,
-  }));
-  const promo10 = calculatePromo10ml(promoLines);
+  const { subtotalCents: subtotal, promo10, twenty, discountCents: promoDiscountCents } =
+    applyCartPromos(items);
 
   const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -84,12 +73,21 @@ function CheckoutPageInner() {
 
   const shippingOptions = getPublicShippingOptions();
   const shipping = shippingOptions.find((o) => o.id === deliveryMethod)?.priceCents ?? 0;
-  const discountCents = promo10.discountCents + couponDiscountCents;
+  const discountCents = promoDiscountCents + couponDiscountCents;
   const total = Math.max(0, subtotal - discountCents + shipping);
 
   const selectedAddress = useMemo(
     () => addresses.find((a) => a.id === selectedAddressId) || null,
     [addresses, selectedAddressId]
+  );
+  const verifyItems = useMemo(
+    () =>
+      items.map((item) => ({
+        productId: item.productId,
+        variantId: item.variantId,
+        quantity: item.quantity,
+      })),
+    [items]
   );
 
   useEffect(() => {
@@ -183,7 +181,7 @@ function CheckoutPageInner() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: couponCode,
-        orderTotalCents: Math.max(0, subtotal - promo10.discountCents),
+        orderTotalCents: Math.max(0, subtotal - promoDiscountCents),
       }),
     });
     const data = await res.json();
@@ -595,6 +593,20 @@ function CheckoutPageInner() {
                 <span>-{formatPrice(promo10.discountCents)}</span>
               </div>
             )}
+            {twenty.eligibleQuantity > 0 && twenty.discountCents > 0 && (
+              <div className="flex justify-between text-brand-300">
+                <span>{twenty.label}</span>
+                <span>-{formatPrice(twenty.discountCents)}</span>
+              </div>
+            )}
+            {twenty.freeExtra > 0 && (
+              <div className="flex justify-between text-brand-300">
+                <span>
+                  Twenty offert{twenty.freeExtra > 1 ? "s" : ""} (en plus)
+                </span>
+                <span>+{twenty.freeExtra}</span>
+              </div>
+            )}
             {couponDiscountCents > 0 && (
               <div className="flex justify-between text-brand-300">
                 <span>Code promo</span>
@@ -617,6 +629,12 @@ function CheckoutPageInner() {
             {error}
           </div>
         )}
+
+        <AvaOfferVerification
+          items={verifyItems}
+          clientTwenty={twenty}
+          clientTotalCents={Math.max(0, subtotal - promoDiscountCents)}
+        />
 
         <Button type="submit" className="w-full" size="lg" loading={loading}>
           Payer {formatPrice(total)}

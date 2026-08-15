@@ -10,6 +10,10 @@ import {
   calculatePromo10ml,
   type Promo10mlCartLine,
 } from "@/lib/promotions/promo-10ml";
+import {
+  calculatePromoTwenty,
+  type PromoTwentyCartLine,
+} from "@/lib/promotions/promo-twenty";
 import { resolveOnlinePaymentProvider } from "@/lib/payments/resolve-provider";
 import type { DeliveryMethod } from "@prisma/client";
 import {
@@ -75,13 +79,17 @@ export async function POST(request: NextRequest) {
     const productIds = data.items.map((i) => i.productId);
     const products = await prisma.product.findMany({
       where: { id: { in: productIds }, isActive: true, visibleOnline: true },
-      include: { variants: { where: { active: true } } },
+      include: {
+        variants: { where: { active: true } },
+        rangeRef: { select: { slug: true, name: true } },
+      },
     });
 
     if (products.length !== productIds.length) throw new Error("NOT_FOUND");
 
     let subtotal = 0;
     const promoLines: Promo10mlCartLine[] = [];
+    const twentyLines: PromoTwentyCartLine[] = [];
 
     for (const item of data.items) {
       const product = products.find((p) => p.id === item.productId)!;
@@ -115,6 +123,22 @@ export async function POST(request: NextRequest) {
             : false,
         availableQuantity: variant?.stock ?? product.stock,
       });
+
+      twentyLines.push({
+        productId: product.id,
+        variantId: item.variantId,
+        name: product.name,
+        quantity: item.quantity,
+        unitPriceCents: price,
+        category: product.category,
+        productType: product.productType,
+        volumeMl: product.volumeMl,
+        brand: product.brand,
+        range: product.rangeRef?.name ?? product.range,
+        rangeSlug: product.rangeRef?.slug ?? null,
+        productFamily: product.productFamily,
+        availableQuantity: variant?.stock ?? product.stock,
+      });
     }
 
     const auditActive = await isAuditModeActive();
@@ -126,14 +150,33 @@ export async function POST(request: NextRequest) {
     // Hors-stock réservé au flag allowOutOfStock — ne conditionne PAS isAudit.
     const allowOosAudit = auditSecretOk && auditState.allowOutOfStock === true;
 
-    const stockCheck = await validateCartStock(
-      data.items.map((i) => ({
-        productId: i.productId,
-        variantId: i.variantId,
-        quantity: i.quantity,
-      })),
-      { allowOutOfStockAudit: allowOosAudit }
-    );
+    const promo10 = calculatePromo10ml(promoLines);
+    const promoTwenty = calculatePromoTwenty(twentyLines);
+
+    const stockLines = data.items.map((i) => ({
+      productId: i.productId,
+      variantId: i.variantId,
+      quantity: i.quantity,
+    }));
+    for (const extra of promoTwenty.extras) {
+      const hit = stockLines.find(
+        (l) =>
+          l.productId === extra.productId &&
+          (l.variantId || null) === (extra.variantId || null)
+      );
+      if (hit) hit.quantity += extra.quantity;
+      else {
+        stockLines.push({
+          productId: extra.productId,
+          variantId: extra.variantId,
+          quantity: extra.quantity,
+        });
+      }
+    }
+
+    const stockCheck = await validateCartStock(stockLines, {
+      allowOutOfStockAudit: allowOosAudit,
+    });
     if (!stockCheck.ok) {
       return jsonResponse(
         {
@@ -149,9 +192,7 @@ export async function POST(request: NextRequest) {
     const isAuditOrder = auditSecretOk;
     const auditAllowOutOfStock = allowOosAudit && anyInsufficient;
 
-    const promo10 = calculatePromo10ml(promoLines);
-
-    let discountCents = promo10.discountCents;
+    let discountCents = promo10.discountCents + promoTwenty.discountCents;
     if (data.couponCode) {
       const result = await validateCoupon(
         data.couponCode,
@@ -192,7 +233,8 @@ export async function POST(request: NextRequest) {
         auditCampaignId: isAuditOrder ? auditState.campaignId : null,
         auditAllowOutOfStock,
         items: {
-          create: data.items.map((item) => {
+          create: [
+            ...data.items.map((item) => {
             const product = products.find((p) => p.id === item.productId)!;
             const variant = item.variantId
               ? product.variants.find((v) => v.id === item.variantId)
@@ -205,11 +247,16 @@ export async function POST(request: NextRequest) {
                   : product.priceCents;
             return {
               productId: item.productId,
-              variantId: item.variantId || null,
               quantity: item.quantity,
               priceCents: price,
             };
           }),
+            ...promoTwenty.extras.map((extra) => ({
+              productId: extra.productId,
+              quantity: extra.quantity,
+              priceCents: 0,
+            })),
+          ],
         },
       },
       include: { items: { include: { product: true } } },
@@ -225,11 +272,7 @@ export async function POST(request: NextRequest) {
     if (!auditAllowOutOfStock) {
       const reserved = await reserveStockForOrder({
         orderId: order.id,
-        lines: data.items.map((i) => ({
-          productId: i.productId,
-          variantId: i.variantId,
-          quantity: i.quantity,
-        })),
+        lines: stockLines,
       });
       if (!reserved.ok) {
         await prisma.order.update({
@@ -263,6 +306,15 @@ export async function POST(request: NextRequest) {
           freeQuantity: promo10.freeQuantity,
           discountCents: promo10.discountCents,
           label: promo10.label,
+        },
+        promoTwenty: {
+          eligibleQuantity: promoTwenty.eligibleQuantity,
+          unitCents: promoTwenty.unitCents,
+          freeExtra: promoTwenty.freeExtra,
+          payCents: promoTwenty.payCents,
+          discountCents: promoTwenty.discountCents,
+          label: promoTwenty.label,
+          avaSummary: promoTwenty.avaSummary,
         },
       },
       201
