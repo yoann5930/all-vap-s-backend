@@ -192,6 +192,30 @@ model AuditLog {
   @@index([storeCode, createdAt])
 }
 
+/// Réglages applicatifs (mode AUDIT_ONLY, rapports, notifications)
+model AppSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  valueJson Json
+  updatedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Journal d'activation / extinction du mode AUDIT_ONLY
+model AuditModeLog {
+  id              String    @id @default(cuid())
+  campaignId      String
+  action          String
+  actorUserId     String?
+  allowOutOfStock Boolean   @default(false)
+  expiresAt       DateTime?
+  metaJson        Json?
+  createdAt       DateTime  @default(now())
+
+  @@index([campaignId, createdAt])
+}
+
 model Category {
   id          String    @id @default(cuid())
   name        String
