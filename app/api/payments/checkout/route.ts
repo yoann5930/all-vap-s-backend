@@ -51,9 +51,10 @@ export async function POST(request: NextRequest) {
       throw new Error("UNAUTHORIZED");
     }
 
-    // Dernier contrôle stock AVANT toute demande de paiement
-    if (order.isAudit && order.auditAllowOutOfStock) {
-      // AUDIT_ONLY hors stock : ne pas annuler, ne pas engager le stock réel
+    // Dernier contrôle stock AVANT toute demande de paiement.
+    // Commande audit : jamais d’engagement du stock réel.
+    if (order.isAudit) {
+      // AUDIT_ONLY : pas de PSP réel, pas de destock, pas d’annulation stock.
     } else {
       const stockCheck = await revalidateOrderStock(order.id);
       if (!stockCheck.ok) {

@@ -6,6 +6,7 @@ import {
   createCarrierShipment,
   deliveryMethodToCarrier,
 } from "@/lib/shipping/carriers";
+import { startCarrierShipmentForOrder } from "@/lib/shipping/workflow";
 
 /**
  * Prépare le colis. Pour transporteur : tracking manuel ou API réelle si branchée.
@@ -43,6 +44,18 @@ export async function prepareParcel(
       trackingNumber: order.trackingNumber,
       deliveryMethod: order.deliveryMethod,
       carrierConfigured: true,
+      needsManualTracking: false,
+    };
+  }
+
+  if (order.isAudit) {
+    await startCarrierShipmentForOrder(orderId);
+    const freshAudit = await prisma.order.findUnique({ where: { id: orderId } });
+    return {
+      orderId,
+      trackingNumber: freshAudit?.trackingNumber || null,
+      deliveryMethod: order.deliveryMethod,
+      carrierConfigured: false,
       needsManualTracking: false,
     };
   }
@@ -126,7 +139,11 @@ export async function updateOrderShippingStatus(
     const order = await prisma.order.findUnique({ where: { id: orderId } });
     if (!order) throw new Error("NOT_FOUND");
 
-    if (order.deliveryMethod !== "STORE_PICKUP" && !prepared.trackingNumber) {
+    if (
+      order.deliveryMethod !== "STORE_PICKUP" &&
+      !order.isAudit &&
+      !prepared.trackingNumber
+    ) {
       throw new Error("TRACKING_REQUIRED");
     }
 

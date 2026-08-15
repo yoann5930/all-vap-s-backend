@@ -477,6 +477,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 product={product}
                 variants={product.variants || []}
                 fallbackPriceCents={price}
+                officialAvailableQuantity={stockSnap.availableQuantity}
               />
             </Suspense>
           </div>

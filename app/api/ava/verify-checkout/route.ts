@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         range: product.rangeRef?.name ?? product.range,
         rangeSlug: product.rangeRef?.slug ?? null,
         productFamily: product.productFamily,
-        availableQuantity: variant?.stock ?? product.stock,
+        availableQuantity: item.quantity,
       });
 
       promo10Lines.push({
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         range: product.rangeRef?.name ?? product.range,
         rangeSlug: product.rangeRef?.slug ?? null,
         productFamily: product.productFamily,
-        availableQuantity: variant?.stock ?? product.stock,
+        availableQuantity: item.quantity,
       });
     }
 

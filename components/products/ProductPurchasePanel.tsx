@@ -18,13 +18,14 @@ type VariantRow = Pick<
   | "name"
   | "nicotineMg"
   | "nicotineLabel"
-  | "priceCents"
-  | "stock"
   | "barcode"
   | "sumupProductId"
   | "sumupVariantId"
   | "active"
->;
+> & {
+  priceCents?: number | null;
+  stock?: number | null;
+};
 
 interface ProductPurchasePanelProps {
   product: Product & {
@@ -33,12 +34,15 @@ interface ProductPurchasePanelProps {
   variants: VariantRow[];
   /** Prix produit de secours si variante sans prix */
   fallbackPriceCents: number;
+  /** Stock officiel StockLevel (source boutique). ProductVariant n’a pas de champ stock. */
+  officialAvailableQuantity?: number;
 }
 
 export function ProductPurchasePanel({
   product,
   variants,
   fallbackPriceCents,
+  officialAvailableQuantity,
 }: ProductPurchasePanelProps) {
   const searchParams = useSearchParams();
   const nicParam = searchParams.get("nic");
@@ -49,16 +53,27 @@ export function ProductPurchasePanel({
       .sort((a, b) => (a.nicotineMg || 0) - (b.nicotineMg || 0));
   }, [variants]);
 
+  const qtyOf = (v: VariantRow | null) => {
+    if (typeof officialAvailableQuantity === "number" && Number.isFinite(officialAvailableQuantity)) {
+      return Math.max(0, officialAvailableQuantity);
+    }
+    if (v && typeof v.stock === "number" && Number.isFinite(v.stock)) {
+      return Math.max(0, v.stock);
+    }
+    return Math.max(0, product.stock ?? 0);
+  };
+
   const initialId = useMemo(() => {
     if (nicParam != null) {
       const mg = Number(nicParam);
       const hit = dosages.find((v) => v.nicotineMg === mg);
       if (hit) return hit.id;
     }
-    // Premier dosage en stock, sinon premier
-    const inStock = dosages.find((v) => (v.stock ?? 0) > 0);
+    const inStock = dosages.find((v) => qtyOf(v) > 0);
     return inStock?.id || dosages[0]?.id || null;
-  }, [dosages, nicParam]);
+    // qtyOf depends on officialAvailableQuantity + product.stock
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dosages, nicParam, officialAvailableQuantity, product.stock]);
 
   const [selectedId, setSelectedId] = useState<string | null>(initialId);
   const [quantity, setQuantity] = useState(1);
@@ -73,7 +88,7 @@ export function ProductPurchasePanel({
     selected?.priceCents && selected.priceCents > 0
       ? selected.priceCents
       : fallbackPriceCents;
-  const stock = selected?.stock ?? product.stock;
+  const stock = qtyOf(selected);
   const hasConfirmedPrice = price > 0;
   const unavailable = !selected || stock <= 0;
   const twentyMeta = twentyCartMeta(product);
@@ -138,7 +153,7 @@ export function ProductPurchasePanel({
   if (dosages.length === 0) {
     // Pas de variantes nicotine — comportement simple
     const simplePrice = fallbackPriceCents;
-    const simpleStock = product.stock;
+    const simpleStock = qtyOf(null);
     return (
       <div className="space-y-4">
         {showPromo10ml ? <TenMlOfferBanner compact className="!px-3 !py-3" /> : null}
@@ -217,7 +232,7 @@ export function ProductPurchasePanel({
         <div className="mt-2 flex flex-wrap gap-2">
           {dosages.map((v) => {
             const label = v.nicotineLabel || `${v.nicotineMg} mg`;
-            const disabled = (v.stock ?? 0) <= 0;
+            const disabled = qtyOf(v) <= 0;
             const active = v.id === selected?.id;
             return (
               <button
@@ -250,9 +265,7 @@ export function ProductPurchasePanel({
         )}
         {selected && (
           <p className="text-sm text-[#A7B0BC]">
-            {(selected.stock ?? 0) > 0
-              ? "En stock"
-              : "Rupture de stock"}
+            {qtyOf(selected) > 0 ? "En stock" : "Rupture de stock"}
           </p>
         )}
       </div>

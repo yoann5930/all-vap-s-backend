@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
         range: product.rangeRef?.name ?? product.range,
         rangeSlug: product.rangeRef?.slug ?? null,
         productFamily: product.productFamily,
-        availableQuantity: variant?.stock ?? product.stock,
+        availableQuantity: item.quantity,
       });
 
       twentyLines.push({
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
         range: product.rangeRef?.name ?? product.range,
         rangeSlug: product.rangeRef?.slug ?? null,
         productFamily: product.productFamily,
-        availableQuantity: variant?.stock ?? product.stock,
+        availableQuantity: item.quantity,
       });
     }
 
@@ -268,7 +268,8 @@ export async function POST(request: NextRequest) {
       console.error("[orders] status history create failed");
     }
 
-    if (!auditAllowOutOfStock) {
+    // Commande audit : jamais de réservation sur le stock réel.
+    if (!isAuditOrder && !auditAllowOutOfStock) {
       const reserved = await reserveStockForOrder({
         orderId: order.id,
         lines: stockLines,
