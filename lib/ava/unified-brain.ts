@@ -6,6 +6,7 @@ import { getAvaCatalogService } from "@/lib/ai/ava";
 import { toAvaProductCard } from "@/lib/ai/ava/response-builder";
 import { chatWithAvaLlm } from "@/lib/ava/production-llm";
 import { stores } from "@/lib/stores";
+import { getShopClock, shopClockSystemLine, speakShopClock, speakShopOpenClosed } from "@/lib/ava/shop-clock";
 import { searchWebForAva, speakWebHits } from "@/lib/ava/android-web-search";
 import {
   AVA_IDENTITY_SPOKEN,
@@ -36,7 +37,7 @@ export type AvaBrainReply = {
   proposedAction: { type: string };
 };
 
-export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "MEMORY" | "GENERAL" {
+export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "MEMORY" | "GENERAL" | "CLOCK" {
   const n = raw
     .toLowerCase()
     .normalize("NFD")
@@ -55,6 +56,14 @@ export function classifyAvaNeed(raw: string): "PRODUCT" | "WEB" | "BUSINESS" | "
     )
   ) {
     return "WEB";
+  }
+  const clockAsk =
+    /quel jour|quelle date|quelle heure|l heure qu|on est quel|c est quel jour|on est le combien|c est le combien|c est (un )?jour ferie|c est ferie|aujourd hui (on est|c est quel)/.test(
+      n,
+    );
+  const openClosedAsk = /ouvert|ferme|horaire|adresse|boutique/.test(n);
+  if (clockAsk && !openClosedAsk) {
+    return "CLOCK";
   }
   const definition = /c est quoi|explique|pourquoi /.test(n);
   const shopPlace =
@@ -247,11 +256,18 @@ export async function runAvaBrain(params: {
     }
   }
 
+  if (kind === "CLOCK") {
+    const spoken = speakShopClock(getShopClock());
+    await appendTurn(session, message, spoken);
+    return reply(channel, personId, spoken, "SOURCE_SHOP_CLOCK", "shop_clock", false);
+  }
+
   if (kind === "BUSINESS") {
+    const clock = getShopClock();
     const lines = stores.map(
       (s) => `${s.name}, ${s.address}, ${s.postalCode} ${s.city}. ${s.hours[0]}.`,
     );
-    const spoken = `On a deux boutiques. ${lines.join(" ")}`;
+    const spoken = `${speakShopOpenClosed(clock)} On a deux boutiques. ${lines.join(" ")}`;
     await appendTurn(session, message, spoken);
     return reply(channel, personId, spoken, "SOURCE_ALLVAPS_SITE", "search_allvaps_knowledge", false);
   }
@@ -267,6 +283,7 @@ export async function runAvaBrain(params: {
   const llm = await chatWithAvaLlm({
     messages: [
       { role: "system", content: avaSystemPrompt(channel) },
+      { role: "system", content: shopClockSystemLine(getShopClock()) },
       ...(memoryLine
         ? [{ role: "system" as const, content: `MÉMOIRE PARTAGÉE :\n${memoryLine}` }]
         : []),
