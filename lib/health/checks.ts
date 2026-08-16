@@ -80,7 +80,10 @@ export async function checkDatabase(
 /** Diagnostics optionnels — env uniquement, jamais d'appel réseau. */
 export function checkOptionalEnvServices(): Record<string, NamedCheck> {
   const emailEnabled = process.env.MAIL_ENABLED !== "false";
-  const hasSmtp = !!process.env.SMTP_PASS || !!process.env.SMTP_PASSWORD;
+  const hasSmtp =
+    !!process.env.SMTP_PASS ||
+    !!process.env.SMTP_PASSWORD ||
+    !!process.env.SMTP_APP_PASSWORD;
   const hasResend = !!process.env.RESEND_API_KEY;
   const emailOk = emailEnabled && (hasSmtp || hasResend);
 

@@ -406,6 +406,67 @@ export async function chatAva(
     };
   }
 
+  // Orchestrateur commun (check-up, stock boutique, commandes, mail, transporteurs)
+  {
+    const { classifyAvaIntent } = await import("@/lib/ava/intents");
+    const kind = classifyAvaIntent(message);
+    if (
+      kind === "SYSTEM_HEALTH" ||
+      kind === "SYSTEM_STATUS" ||
+      kind === "STOCK" ||
+      kind === "ORDER" ||
+      kind === "EMAIL" ||
+      kind === "SHIPPING"
+    ) {
+      const { runAvaOrchestrator } = await import("@/lib/ava/orchestrator");
+      const brain = await runAvaOrchestrator({
+        channel: "ANDROID",
+        audience: "public",
+        surface: "vendeuse",
+        message,
+        sessionId: `site:${userId || "anon"}`.slice(0, 64),
+        employeeId: null,
+      });
+      return {
+        content: brain.response,
+        suggestions: AVA_SUGGESTIONS,
+        products: [],
+        speaking: true,
+        conversationContext: options?.conversationContext ?? undefined,
+      };
+    }
+  }
+
+  // Module nicotine (calcul réel + orientation freebase/sels) — avant les parcours rapides génériques
+  {
+    const { continueNicotineDialogue, isNicotineConversation, parseMixRequest } = await import(
+      "@/lib/nicotine"
+    );
+    const prevCtx = options?.conversationContext ?? emptyConversationContext();
+    const existingFlow = !prevCtx.diagnosticSession?.active && prevCtx.quickFlow?.flow;
+    if (
+      !existingFlow &&
+      (prevCtx.nicotineInterview || isNicotineConversation(message) || parseMixRequest(message))
+    ) {
+      const turn = continueNicotineDialogue(prevCtx.nicotineInterview ?? null, message);
+      if (userId && turn.done) {
+        await persistNicotineHints(userId, turn);
+      }
+      return {
+        content: turn.spoken,
+        suggestions: turn.suggestions,
+        products: [],
+        speaking: true,
+        conversationContext: {
+          ...prevCtx,
+          turn: (prevCtx.turn ?? 0) + 1,
+          nicotineInterview: turn.done ? null : turn.interview,
+          lastQuestion: turn.spoken,
+        },
+      };
+    }
+  }
+
   // Continuité d’un parcours rapide déjà démarré (avant FAQ boutique)
   {
     const { continueQuickFlow, getQuickFlowFromContext } = await import("@/lib/ava/quick-flows");
@@ -945,4 +1006,26 @@ export async function chatAva(
     conversationContext: ctx,
     speaking: true,
   };
+}
+
+async function persistNicotineHints(
+  userId: string,
+  turn: { interview: import("@/lib/nicotine").NicotineInterviewState | null }
+) {
+  const input = turn.interview?.input;
+  if (!input) return;
+  try {
+    const current = (await getVapeProfile(userId)) ?? emptyVapeProfile();
+    await upsertVapeProfile(userId, {
+      ...current,
+      cigarettesPerDay: input.cigarettesPerDay ?? current.cigarettesPerDay,
+      usedNicotineMg:
+        input.currentNicotineMg != null
+          ? Math.round(input.currentNicotineMg)
+          : current.usedNicotineMg,
+      lastRecommendationAt: new Date().toISOString(),
+    });
+  } catch {
+    /* profil optionnel — ne pas faire échouer AVA */
+  }
 }

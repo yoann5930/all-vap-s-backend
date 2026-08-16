@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AVA LIVE HEALTH DASHBOARD</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: #12141c;
+      --line: #2a2e3a;
+      --gold: #c9a227;
+      --gold2: #e8c547;
+      --ok: #3dcc8a;
+      --partial: #e0b04a;
+      --fail: #e05a5a;
+      --muted: #8b90a0;
+      --text: #f3f1ea;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: "Segoe UI", system-ui, sans-serif; }
+    header {
+      position: sticky; top: 0; z-index: 5;
+      background: linear-gradient(180deg, #161822, #0f1118);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+    h1 { margin: 0; font-size: 18px; letter-spacing: .12em; color: var(--gold); }
+    .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .scorebox { text-align: right; }
+    .score { font-size: 42px; font-weight: 700; color: var(--gold2); line-height: 1; }
+    .target { font-size: 12px; color: var(--muted); }
+    .bar { height: 8px; background: #1c2030; border-radius: 99px; margin-top: 8px; overflow: hidden; min-width: 280px; }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, #7a5a12, var(--gold)); width: 0%; transition: width .6s ease; }
+    main { padding: 16px; display: grid; gap: 16px; }
+    .grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; }
+    .wide { grid-column: 1 / -1; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 12px; letter-spacing: .14em; color: var(--gold); }
+    .mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .mod { background: #0e1016; border: 1px solid var(--line); border-radius: 8px; padding: 8px; cursor: pointer; }
+    .mod:hover { border-color: var(--gold); }
+    .mod b { display: block; font-size: 18px; }
+    .mod span { font-size: 11px; color: var(--muted); }
+    .st { font-size: 10px; letter-spacing: .08em; }
+    .OK, .DONE, .RESOLVED { color: var(--ok); }
+    .PARTIAL, .DEGRADED, .TESTING, .IN_PROGRESS { color: var(--partial); }
+    .FAILED, .BLOCKED { color: var(--fail); }
+    .NOT_CONFIGURED, .NOT_TESTED, .PENDING { color: var(--muted); }
+    .phases { display: grid; gap: 4px; font-size: 12px; }
+    .phases div { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1b1e28; }
+    .feed { max-height: 280px; overflow: auto; font-size: 12px; line-height: 1.5; }
+    .feed div { padding: 4px 0; border-bottom: 1px solid #1b1e28; }
+    .feed time { color: var(--gold); margin-right: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid #1b1e28; }
+    .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 12px; }
+    .paths .box { background: #0e1016; border: 1px dashed var(--line); border-radius: 8px; padding: 10px; text-align: center; }
+    .arrow { color: var(--gold); margin: 6px 0; }
+    .env { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; }
+    .pill { border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px; }
+    .detail { font-size: 12px; color: var(--muted); white-space: pre-wrap; }
+    .kpi { display: flex; gap: 18px; font-size: 13px; }
+    .kpi b { color: var(--gold2); }
+    .err { color: var(--fail); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>AVA LIVE HEALTH DASHBOARD</h1>
+      <div class="sub">All Vap’s · source réelle · jamais de score inventé · outil local hors production</div>
+      <div class="kpi" style="margin-top:8px">
+        <div>Fonctions <b id="fn">—</b></div>
+        <div>Tests <b id="tests">—</b></div>
+        <div>Phase <b id="phase">—</b></div>
+      </div>
+    </div>
+    <div class="scorebox">
+      <div class="score"><span id="score">56</span> / 100</div>
+      <div class="target">OBJECTIF : 100 / 100 · baseline 56</div>
+      <div class="bar"><i id="bar"></i></div>
+    </div>
+  </header>
+  <main>
+    <div class="card">
+      <h2>PHASE ACTUELLE</h2>
+      <div id="task" style="font-size:18px">—</div>
+      <div class="env" id="env" style="margin-top:10px"></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2>MODULES</h2>
+        <div class="mods" id="mods"></div>
+      </div>
+      <div class="card">
+        <h2>PIPELINE DES PHASES</h2>
+        <div class="phases" id="phases"></div>
+      </div>
+      <div class="card">
+        <h2>ACTIVITÉ EN DIRECT</h2>
+        <div class="feed" id="feed"></div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2>DÉTAIL MODULE</h2>
+        <div id="detail" class="detail">Cliquer un module pour voir les preuves.</div>
+      </div>
+      <div class="card">
+        <h2>TESTS</h2>
+        <div id="testlist"></div>
+      </div>
+      <div class="card">
+        <h2>ANOMALIES / BLOCAGES</h2>
+        <div id="anom"></div>
+        <div id="block" class="err"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>CHEMINS CŒUR AVA</h2>
+      <div class="paths" id="paths"></div>
+    </div>
+    <div class="card">
+      <h2>FICHIERS MODIFIÉS</h2>
+      <table>
+        <thead><tr><th>Chemin</th><th>Type</th><th>Phase</th><th>Test</th><th>État</th></tr></thead>
+        <tbody id="files"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>FONCTIONS</h2>
+      <table>
+        <thead><tr><th>Fonction</th><th>Module</th><th>État</th><th>Preuve</th></tr></thead>
+        <tbody id="funcs"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>LAST COMMIT</h2>
+      <div id="commit" class="detail">—</div>
+    </div>
+  </main>
+  <script>
+    let selected = "core";
+    function cls(s) { return String(s || "").replace(/\s+/g, "_"); }
+    function render(s) {
+      document.getElementById("score").textContent = s.score;
+      document.getElementById("bar").style.width = Math.max(0, Math.min(100, s.score)) + "%";
+      document.getElementById("fn").textContent = s.validatedFunctions + " / " + s.totalFunctions;
+      document.getElementById("tests").textContent = s.testsPassed + " / " + s.testsTotal;
+      document.getElementById("phase").textContent = s.currentPhaseLabel;
+      document.getElementById("task").textContent = s.currentTask;
+      document.getElementById("env").innerHTML = Object.entries(s.environments || {}).map(([k,v]) =>
+        `<span class="pill ${cls(v)}">${k}: ${v}</span>`
+      ).join("");
+      document.getElementById("mods").innerHTML = (s.modules || []).map(m =>
+        `<div class="mod" data-id="${m.id}"><span>${m.label}</span><b class="${cls(m.status)}">${m.score}/100</b><span class="st ${cls(m.status)}">${m.status}</span></div>`
+      ).join("");
+      document.querySelectorAll(".mod").forEach(el => el.onclick = () => { selected = el.dataset.id; showDetail(s); });
+      document.getElementById("phases").innerHTML = (s.phases || []).map(p =>
+        `<div><span>${p.id}. ${p.label}</span><b class="${cls(p.status)}">${p.status}</b></div>`
+      ).join("");
+      document.getElementById("feed").innerHTML = (s.activity || []).slice().reverse().slice(0, 40).map(a =>
+        `<div><time>${(a.at || "").slice(11,19)}</time>${a.text}</div>`
+      ).join("");
+      document.getElementById("testlist").innerHTML = (s.tests || []).map(t =>
+        `<div>${t.label}: <b class="${cls(t.status)}">${t.passed}/${t.total}</b> ${t.status}</div>`
+      ).join("");
+      document.getElementById("anom").innerHTML = (s.anomalies || []).map(a =>
+        `<div><b class="${cls(a.status)}">${a.id} ${a.severity}</b> ${a.title} — ${a.status}<div class="detail">${a.note}</div></div>`
+      ).join("");
+      document.getElementById("block").innerHTML = (s.blockers || []).map(b =>
+        `<div>BLOCKED ${b.id}: ${b.reason} · ${b.dependency} · ${b.action}</div>`
+      ).join("") || "";
+      document.getElementById("files").innerHTML = (s.files || []).map(f =>
+        `<tr><td>${f.path}</td><td>${f.change}</td><td>${f.phase}</td><td>${f.test}</td><td class="${cls(f.status)}">${f.status}</td></tr>`
+      ).join("");
+      document.getElementById("funcs").innerHTML = (s.functions || []).map(f =>
+        `<tr><td>${f.label}</td><td>${f.module}</td><td class="${cls(f.status)}">${f.status}</td><td>${f.evidence}</td></tr>`
+      ).join("");
+      const p = s.paths || {};
+      document.getElementById("paths").innerHTML = ["site","android","api"].map(k =>
+        `<div class="box"><div>${k.toUpperCase()}</div><div class="arrow">↓</div><div>${p[k] || "—"}</div><div class="arrow">↓</div><div>AVA Orchestrator</div></div>`
+      ).join("");
+      document.getElementById("commit").textContent = s.lastCommit
+        ? `${s.lastCommit.repo} ${s.lastCommit.hash} — ${s.lastCommit.message}`
+        : "—";
+      showDetail(s);
+    }
+    function showDetail(s) {
+      const m = (s.modules || []).find(x => x.id === selected);
+      if (!m) return;
+      document.getElementById("detail").textContent =
+        m.label + " " + m.score + "/100\n" +
+        (m.checks || []).map(c => `${c.label.padEnd(28)} ${c.status}  ${c.evidence}`).join("\n");
+    }
+    fetch("/api/state").then(r => r.json()).then(render);
+    const es = new EventSource("/api/stream");
+    es.onmessage = (e) => { try { render(JSON.parse(e.data)); } catch {} };
+  </script>
+</body>
+</html>

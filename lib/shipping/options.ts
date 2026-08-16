@@ -63,6 +63,9 @@ export function getTrackingUrl(
     case "COLISSIMO":
       return `https://www.laposte.fr/outils/suivre-vos-envois?code=${encodeURIComponent(trackingNumber)}`;
     default:
+      if (String(method) === "CHRONOPOST") {
+        return `https://www.chronopost.fr/tracking-no-cms/suivi-page?listeNumeros=${encodeURIComponent(trackingNumber)}`;
+      }
       return null;
   }
 }

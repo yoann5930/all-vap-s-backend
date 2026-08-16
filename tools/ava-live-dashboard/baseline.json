@@ -1,0 +1,337 @@
+{
+  "timestamp": "2026-08-16T02:09:00.000Z",
+  "score": 56,
+  "scoreInitial": 56,
+  "scoreTarget": 100,
+  "scoreSource": "audit-2026-08-16",
+  "validatedFunctions": 18,
+  "totalFunctions": 42,
+  "testsPassed": 47,
+  "testsTotal": 47,
+  "currentPhase": 2,
+  "currentPhaseLabel": "PHASE 2 — UNIFICATION DU CŒUR AVA",
+  "currentTask": "Dashboard live initialisé — baseline audit 56/100",
+  "environments": {
+    "local": "PARTIAL",
+    "git": "PARTIAL",
+    "production": "PARTIAL",
+    "androidDevice": "NOT_TESTED"
+  },
+  "modules": [
+    {
+      "id": "core",
+      "label": "Cœur AVA",
+      "score": 40,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "unified-brain-file", "label": "unified-brain présent", "status": "OK", "score": 20, "evidence": "Phase 1 Git 8ca0d418" },
+        { "id": "single-orchestrator", "label": "Orchestrateur unique site/Android/API", "status": "FAILED", "score": 0, "evidence": "C-02 : chatAva ≠ runAvaBrain ≠ llama.cpp" },
+        { "id": "intents-common", "label": "Intents communs", "status": "PARTIAL", "score": 10, "evidence": "classifyAvaNeed + AvaIntentRouter distincts" },
+        { "id": "core-tested", "label": "Tests cœur unifié", "status": "NOT_TESTED", "score": 10, "evidence": "unified-ava-core.test.ts existant, pas d'orchestrateur" }
+      ]
+    },
+    {
+      "id": "voice",
+      "label": "Voix",
+      "score": 78,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "fgs", "label": "ForegroundService", "status": "OK", "score": 30, "evidence": "isForeground=true constaté Samsung" },
+        { "id": "stt-resume", "label": "Reprise STT inter-apps", "status": "PARTIAL", "score": 24, "evidence": "VoiceListeningPolicy, drops encore possibles" },
+        { "id": "echo", "label": "Anti-écho TTS", "status": "NOT_TESTED", "score": 12, "evidence": "TranscriptGuard sans lastTts" },
+        { "id": "audiofocus", "label": "AudioFocus", "status": "PARTIAL", "score": 12, "evidence": "AvaAudioFocus présent" }
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "Mémoire",
+      "score": 38,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "server-mem", "label": "Mémoire serveur", "status": "PARTIAL", "score": 20, "evidence": "AvaMemoryEntry + shared-memory" },
+        { "id": "android-mem", "label": "Mémoire Android persistante", "status": "FAILED", "score": 8, "evidence": "session RAM uniquement" },
+        { "id": "scopes", "label": "Scopes SESSION/CLIENT/ORDER", "status": "NOT_TESTED", "score": 10, "evidence": "non branchés" }
+      ]
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "score": 55,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "apk", "label": "APK démarre", "status": "OK", "score": 25, "evidence": "Samsung HOME launcher" },
+        { "id": "llama", "label": "llama.cpp local", "status": "OK", "score": 15, "evidence": "OnDeviceConversationEngine" },
+        { "id": "business-route", "label": "Métier via serveur", "status": "PARTIAL", "score": 15, "evidence": "GENERAL local, métier partiel" }
+      ]
+    },
+    {
+      "id": "server",
+      "label": "Serveur",
+      "score": 80,
+      "status": "OK",
+      "checks": [
+        { "id": "api-ava", "label": "/api/ava", "status": "OK", "score": 40, "evidence": "GET ava-main live www" },
+        { "id": "health", "label": "/api/health", "status": "OK", "score": 40, "evidence": "endpoint existant" }
+      ]
+    },
+    {
+      "id": "site",
+      "label": "Site",
+      "score": 82,
+      "status": "OK",
+      "checks": [
+        { "id": "home", "label": "allvaps.fr", "status": "OK", "score": 42, "evidence": "production live" },
+        { "id": "catalog-pages", "label": "Catalogue pages", "status": "OK", "score": 40, "evidence": "audit catalogue OK" }
+      ]
+    },
+    {
+      "id": "database",
+      "label": "Base de données",
+      "score": 85,
+      "status": "OK",
+      "checks": [
+        { "id": "prisma", "label": "Prisma / Postgres", "status": "OK", "score": 85, "evidence": "health DB ok prod" }
+      ]
+    },
+    {
+      "id": "stocks",
+      "label": "Stocks",
+      "score": 50,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "global", "label": "Lecture GLOBAL", "status": "PARTIAL", "score": 25, "evidence": "catalogue AVA, pas dual boutique parlé" },
+        { "id": "boutiques", "label": "Hautmont / Quesnoy", "status": "NOT_TESTED", "score": 15, "evidence": "DB dual existe, AVA ne l'expose pas" },
+        { "id": "no-invent", "label": "Pas d'invention", "status": "PARTIAL", "score": 10, "evidence": "règle code, pas de test vocal E2E" }
+      ]
+    },
+    {
+      "id": "orders",
+      "label": "Commandes",
+      "score": 48,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "prisma-status", "label": "Statuts Prisma", "status": "OK", "score": 18, "evidence": "PAID PREPARING PREPARED…" },
+        { "id": "ready-db", "label": "Prêt = DB pas e-mail", "status": "PARTIAL", "score": 18, "evidence": "ready-handler local, vocal incomplet" },
+        { "id": "voice-order", "label": "Intent vocal commandes", "status": "FAILED", "score": 12, "evidence": "ORDER trop étroit côté Android" }
+      ]
+    },
+    {
+      "id": "fidelatoo",
+      "label": "Fidelatoo",
+      "score": 38,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "open", "label": "Ouverture app", "status": "OK", "score": 18, "evidence": "OpenFidelatoo validé" },
+        { "id": "search", "label": "Recherche client", "status": "PARTIAL", "score": 12, "evidence": "démo UI, pas live voice" },
+        { "id": "writes", "label": "Écriture points", "status": "NOT_CONFIGURED", "score": 8, "evidence": "WRITES_ENABLED=false" }
+      ]
+    },
+    {
+      "id": "email",
+      "label": "E-mails",
+      "score": 30,
+      "status": "DEGRADED",
+      "checks": [
+        { "id": "identity", "label": "Identité AVA From", "status": "PARTIAL", "score": 12, "evidence": "garde-fou Yoann dans le code" },
+        { "id": "prod-smtp", "label": "SMTP prod", "status": "NOT_CONFIGURED", "score": 6, "evidence": "health details missing_credentials" },
+        { "id": "inbox", "label": "Lecture inbox", "status": "NOT_CONFIGURED", "score": 6, "evidence": "Gmail API si env" },
+        { "id": "antiloop", "label": "Anti-boucle", "status": "PARTIAL", "score": 6, "evidence": "incoming-classify présent, non E2E" }
+      ]
+    },
+    {
+      "id": "shipping",
+      "label": "Transporteurs",
+      "score": 35,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "mr", "label": "Mondial Relay", "status": "PARTIAL", "score": 15, "evidence": "démo, paiement bloqué" },
+        { "id": "rc", "label": "Relais Colis", "status": "PARTIAL", "score": 10, "evidence": "partiel" },
+        { "id": "chrono", "label": "Chronopost enum", "status": "FAILED", "score": 10, "evidence": "hors DeliveryMethod Prisma" }
+      ]
+    },
+    {
+      "id": "catalog",
+      "label": "Catalogue",
+      "score": 88,
+      "status": "OK",
+      "checks": [
+        { "id": "pages", "label": "Pages fabricant/gamme", "status": "OK", "score": 88, "evidence": "audit catalogue OK — ne pas refondre" }
+      ]
+    },
+    {
+      "id": "nicotine",
+      "label": "Nicotine",
+      "score": 55,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "unit", "label": "47 tests module", "status": "OK", "score": 30, "evidence": "47/47 tsx 16 août" },
+        { "id": "ondevice", "label": "Branché OnDevice LLM", "status": "FAILED", "score": 10, "evidence": "seulement LocalConversationEngine" },
+        { "id": "brain", "label": "Branché unified-brain", "status": "PARTIAL", "score": 15, "evidence": "intent NICOTINE serveur, pas site unifié tests" }
+      ]
+    },
+    {
+      "id": "vape",
+      "label": "Connaissances vape",
+      "score": 50,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "json", "label": "Base data/ava/knowledge", "status": "PARTIAL", "score": 30, "evidence": "vape-knowledge.ts + JSON" },
+        { "id": "all-paths", "label": "Même base 3 surfaces", "status": "FAILED", "score": 20, "evidence": "site chatAva ≠ Android LLM" }
+      ]
+    },
+    {
+      "id": "security",
+      "label": "Sécurité",
+      "score": 55,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "tmp", "label": ".tmp-* ignorés", "status": "OK", "score": 20, "evidence": "Phase 1 gitignore" },
+        { "id": "forbidden-write", "label": "Actions stock interdites API AVA", "status": "OK", "score": 20, "evidence": "central-router" },
+        { "id": "tokens", "label": "Tokens / CORS / rate limit", "status": "PARTIAL", "score": 15, "evidence": "non ré-audité ce chantier" }
+      ]
+    },
+    {
+      "id": "monitoring",
+      "label": "Monitoring",
+      "score": 40,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "health-pub", "label": "/api/health", "status": "OK", "score": 25, "evidence": "DB + app" },
+        { "id": "health-ava", "label": "Checks AVA core/mail/orders", "status": "FAILED", "score": 15, "evidence": "absents du health public" }
+      ]
+    },
+    {
+      "id": "logs",
+      "label": "Logs",
+      "score": 35,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "avalog", "label": "AvaLog Android", "status": "PARTIAL", "score": 20, "evidence": "présent, pas correlationId" },
+        { "id": "corr", "label": "correlationId bout-en-bout", "status": "FAILED", "score": 15, "evidence": "non unifié" }
+      ]
+    },
+    {
+      "id": "autodiag",
+      "label": "Auto-diagnostic",
+      "score": 0,
+      "status": "FAILED",
+      "checks": [
+        { "id": "intent", "label": "SYSTEM_HEALTH vocal", "status": "FAILED", "score": 0, "evidence": "non implémenté audit 16 août" }
+      ]
+    },
+    {
+      "id": "tests",
+      "label": "Tests",
+      "score": 45,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "nic", "label": "Nicotine unit", "status": "OK", "score": 25, "evidence": "47/47" },
+        { "id": "e2e", "label": "E2E AVA", "status": "NOT_TESTED", "score": 20, "evidence": "batterie E2E absente" }
+      ]
+    },
+    {
+      "id": "git",
+      "label": "Git / reproductibilité",
+      "score": 72,
+      "status": "PARTIAL",
+      "checks": [
+        { "id": "c01", "label": "Cœur versionné", "status": "OK", "score": 40, "evidence": "backup/ava-phase1-2026-08-16 87f55137 / 8b2a74d" },
+        { "id": "push", "label": "Backup poussé", "status": "NOT_TESTED", "score": 16, "evidence": "branches locales non poussées" },
+        { "id": "dirty", "label": "Working tree propre", "status": "FAILED", "score": 16, "evidence": "diffs locaux encore présents" }
+      ]
+    }
+  ],
+  "phases": [
+    { "id": 1, "label": "Git / sauvegarde", "status": "DONE" },
+    { "id": 2, "label": "Unification cœur", "status": "PENDING" },
+    { "id": 3, "label": "Mémoire partagée", "status": "PENDING" },
+    { "id": 4, "label": "Voix Android", "status": "PENDING" },
+    { "id": 5, "label": "Stocks", "status": "PENDING" },
+    { "id": 6, "label": "Commandes", "status": "PENDING" },
+    { "id": 7, "label": "E-mails", "status": "PENDING" },
+    { "id": 8, "label": "Fidelatoo", "status": "PENDING" },
+    { "id": 9, "label": "Transporteurs", "status": "PENDING" },
+    { "id": 10, "label": "Nicotine / Vape", "status": "PENDING" },
+    { "id": 11, "label": "Logs / Monitoring", "status": "PENDING" },
+    { "id": 12, "label": "Auto-diagnostic", "status": "PENDING" },
+    { "id": 13, "label": "Tests E2E", "status": "PENDING" },
+    { "id": 14, "label": "Production / validation", "status": "PENDING" }
+  ],
+  "functions": [
+    { "id": "talk", "label": "Discuter naturellement", "status": "PARTIAL", "module": "core", "evidence": "deux cerveaux" },
+    { "id": "listen", "label": "Écouter (STT)", "status": "OK", "module": "voice", "evidence": "Samsung STT" },
+    { "id": "speak", "label": "Parler (TTS)", "status": "OK", "module": "voice", "evidence": "TTS FGS" },
+    { "id": "cross-app", "label": "Écoute inter-apps", "status": "PARTIAL", "module": "voice", "evidence": "FGS persist, drops possibles" },
+    { "id": "context", "label": "Garder le contexte", "status": "PARTIAL", "module": "memory", "evidence": "RAM Android" },
+    { "id": "product", "label": "Chercher produit", "status": "OK", "module": "catalog", "evidence": "catalogue service" },
+    { "id": "stock-global", "label": "Lire stock global", "status": "PARTIAL", "module": "stocks", "evidence": "via catalogue" },
+    { "id": "stock-shop", "label": "Stock Hautmont/Quesnoy", "status": "NOT_TESTED", "module": "stocks", "evidence": "non parlé AVA" },
+    { "id": "orders-read", "label": "Lire commandes", "status": "PARTIAL", "module": "orders", "evidence": "API ready, vocal incomplet" },
+    { "id": "orders-ready", "label": "Détecter commande prête DB", "status": "PARTIAL", "module": "orders", "evidence": "handler local" },
+    { "id": "email-read", "label": "Lire e-mails AVA", "status": "NOT_CONFIGURED", "module": "email", "evidence": "Gmail OAuth env" },
+    { "id": "email-send", "label": "Envoyer depuis compte AVA", "status": "NOT_CONFIGURED", "module": "email", "evidence": "prod missing_credentials" },
+    { "id": "fid-open", "label": "Ouvrir Fidelatoo", "status": "OK", "module": "fidelatoo", "evidence": "intent local" },
+    { "id": "fid-search", "label": "Recherche client Fidelatoo", "status": "PARTIAL", "module": "fidelatoo", "evidence": "démo" },
+    { "id": "fid-points", "label": "Points fidélité autorisés", "status": "NOT_CONFIGURED", "module": "fidelatoo", "evidence": "writes off" },
+    { "id": "ship-mr", "label": "Workflow Mondial Relay", "status": "PARTIAL", "module": "shipping", "evidence": "demo" },
+    { "id": "nic-calc", "label": "Calcul nicotine", "status": "OK", "module": "nicotine", "evidence": "47/47" },
+    { "id": "nic-unify", "label": "Nicotine unifiée 3 chemins", "status": "FAILED", "module": "nicotine", "evidence": "OnDevice bypass" },
+    { "id": "vape-kb", "label": "Connaissances vape uniques", "status": "PARTIAL", "module": "vape", "evidence": "JSON site" },
+    { "id": "checkup", "label": "Check-up vocal réel", "status": "FAILED", "module": "autodiag", "evidence": "absent" },
+    { "id": "git-core", "label": "Cœur dans Git", "status": "OK", "module": "git", "evidence": "Phase 1" },
+    { "id": "site-live", "label": "Site production", "status": "OK", "module": "site", "evidence": "www.allvaps.fr" },
+    { "id": "api-live", "label": "API AVA production", "status": "OK", "module": "server", "evidence": "/api/ava" },
+    { "id": "db-live", "label": "Base production", "status": "OK", "module": "database", "evidence": "health DB" },
+    { "id": "catalog-ok", "label": "Catalogue OK", "status": "OK", "module": "catalog", "evidence": "audit" },
+    { "id": "health-ep", "label": "Health endpoint", "status": "OK", "module": "monitoring", "evidence": "/api/health" },
+    { "id": "no-yoann-from", "label": "From ≠ Yoann perso", "status": "PARTIAL", "module": "email", "evidence": "code guard" },
+    { "id": "no-stock-write", "label": "AVA lecture seule stock", "status": "OK", "module": "security", "evidence": "central-router" },
+    { "id": "llama-kept", "label": "llama.cpp conservé", "status": "OK", "module": "android", "evidence": "PreferOnDevice" },
+    { "id": "session-fid", "label": "Contexte Fidelatoo", "status": "FAILED", "module": "memory", "evidence": "pas de toolContext" },
+    { "id": "corr-id", "label": "Logs correlationId", "status": "FAILED", "module": "logs", "evidence": "absent" },
+    { "id": "chrono-enum", "label": "Chronopost enum", "status": "FAILED", "module": "shipping", "evidence": "hors Prisma" },
+    { "id": "repro", "label": "Clone → rebuild", "status": "PARTIAL", "module": "git", "evidence": "cœur versionné, tree sale" },
+    { "id": "prod-align", "label": "Local = Git = Prod", "status": "FAILED", "module": "git", "evidence": "prod dirty deploy historique" },
+    { "id": "voice-fidelatoo", "label": "Voix pendant Fidelatoo", "status": "PARTIAL", "module": "voice", "evidence": "FGS true, commande live non E2E" },
+    { "id": "stock-honest", "label": "Phrase échec stock", "status": "PARTIAL", "module": "stocks", "evidence": "ShopLiveDataGuard" },
+    { "id": "order-no-selfmail", "label": "Ready sans auto-mail AVA", "status": "PARTIAL", "module": "orders", "evidence": "code local" },
+    { "id": "site-chatava", "label": "Site via orchestrateur", "status": "FAILED", "module": "core", "evidence": "chatAva séparé" },
+    { "id": "android-apiava", "label": "Android métier via /api/ava", "status": "PARTIAL", "module": "core", "evidence": "INTERNAL_OPS seulement" },
+    { "id": "secrets-git", "label": "Secrets hors Git", "status": "OK", "module": "security", "evidence": ".tmp-* ignore" },
+    { "id": "demo-no-pay", "label": "Démo sans paiement réel", "status": "OK", "module": "shipping", "evidence": "DEMO_MODE guard" },
+    { "id": "self-check-same-source", "label": "Check-up = même snapshot", "status": "FAILED", "module": "autodiag", "evidence": "checkup absent" }
+  ],
+  "tests": [
+    { "id": "nicotine", "label": "Nicotine", "passed": 47, "total": 47, "status": "OK" },
+    { "id": "core", "label": "Core", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "memory", "label": "Memory", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "orders", "label": "Orders", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "stocks", "label": "Stocks", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "android", "label": "Android", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "voice", "label": "Voice", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "email", "label": "E-mail", "passed": 0, "total": 0, "status": "NOT_TESTED" },
+    { "id": "e2e", "label": "E2E", "passed": 0, "total": 0, "status": "NOT_TESTED" }
+  ],
+  "activity": [
+    { "at": "2026-08-16T02:09:00.000Z", "text": "Baseline audit 16 août 2026 — AVA HEALTH SCORE = 56/100" },
+    { "at": "2026-08-16T02:30:00.000Z", "text": "Phase 1 Git validée — backup 87f55137 / 8b2a74d — C-01 résolu" }
+  ],
+  "files": [],
+  "anomalies": [
+    { "id": "C-01", "severity": "CRITICAL", "title": "Code cœur hors Git", "status": "RESOLVED", "note": "Phase 1 — 87f55137 / 8b2a74d" },
+    { "id": "C-02", "severity": "CRITICAL", "title": "Deux cerveaux (site / API / Android)", "status": "FAILED", "note": "chatAva ≠ runAvaBrain ≠ llama.cpp" },
+    { "id": "M-01", "severity": "MAJOR", "title": "E-mail prod not_configured", "status": "FAILED", "note": "missing_credentials / cron secret" },
+    { "id": "M-02", "severity": "MAJOR", "title": "Fidelatoo writes non branchées", "status": "PARTIAL", "note": "WRITES_ENABLED=false, creditPoints NotSupported" }
+  ],
+  "blockers": [],
+  "lastCommit": {
+    "repo": "backend",
+    "hash": "87f55137",
+    "message": "backup: versionner les routes AVA encore hors Git (C-01)"
+  },
+  "paths": {
+    "site": "chatAva (lib/ai/ava-advisor.ts)",
+    "android": "PreferOnDeviceConversationEngine / llama.cpp",
+    "api": "runAvaBrain (lib/ava/unified-brain.ts)"
+  }
+}

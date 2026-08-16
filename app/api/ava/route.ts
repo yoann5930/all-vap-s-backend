@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
-import { runAvaBrain } from "@/lib/ava/unified-brain";
+import { runAvaOrchestrator } from "@/lib/ava/orchestrator";
 import { getAuthUser } from "@/lib/jwt";
 import {
   avaEndpointManifest,
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
         ? personIdFromEmail(authUser.email)
         : "unknown";
 
-    const brain = await runAvaBrain({
+    const brain = await runAvaOrchestrator({
       channel,
       audience: access.audience,
       surface: access.surface,
@@ -116,6 +116,8 @@ export async function POST(req: NextRequest) {
       tool: brain.tool,
       memoryUsed: brain.memoryUsed,
       proposedAction: brain.proposedAction,
+      correlationId: brain.correlationId,
+      intent: brain.intent,
     });
   } catch (error) {
     return handleApiError(error);

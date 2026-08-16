@@ -30,11 +30,22 @@ import {
   loadSharedPersistentMemory,
   loadSharedSession,
   personIdFromEmployee,
-  saveSharedFact,
   saveSharedSession,
   tryAnswerFromConfirmedMemory,
   type AvaPersonId,
 } from "@/lib/ava/shared-memory";
+import { classifyAvaNeed, type AvaNeed } from "@/lib/ava/intents";
+import { avaLog, newAvaCorrelationId } from "@/lib/ava/logging";
+import { speakAvaStock } from "@/lib/ava/tools/stock-query";
+import { speakAvaOrders } from "@/lib/ava/tools/order-query";
+import { speakAvaEmailStatus } from "@/lib/ava/tools/email-query";
+import { speakAvaShipping } from "@/lib/ava/tools/shipping-status";
+import { checkupTargetFromMessage, runAvaCheckup } from "@/lib/ava/health/checkup";
+import { searchVapeKnowledge } from "@/lib/ava/vape-knowledge";
+import { AvaMemoryService } from "@/lib/ava/memory-service";
+
+export type { AvaNeed };
+export { classifyAvaNeed };
 
 export type AvaBrainReply = {
   response: string;
@@ -46,105 +57,6 @@ export type AvaBrainReply = {
   memoryUsed: boolean;
   proposedAction: { type: string };
 };
-
-export type AvaNeed =
-  | "PRODUCT"
-  | "WEB"
-  | "BUSINESS"
-  | "MEMORY"
-  | "GENERAL"
-  | "SITE"
-  | "LOYALTY"
-  | "CLOCK"
-  | "ADMIN_OPS"
-  | "NICOTINE";
-
-export function classifyAvaNeed(raw: string): AvaNeed {
-  const n = raw
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{M}/gu, "")
-    .replace(/['’]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (
-    /\b(memorise|retiens?|retient|retenir|retenons|souviens[- ]toi|tu te souviens|rappelle[- ]moi)\b/.test(n)
-  ) {
-    return "MEMORY";
-  }
-  if (
-    /taux de nicotine|sels? de nicotine|nicotine classique|freebase|calcul(er)? (la )?nicotine/.test(n) ||
-    (/booster/.test(n) && /\b(50\s*ml|10\s*ml|mg)\b/.test(n)) ||
-    (/\b\d+\s*mg\b/.test(n) && /(ne (me )?suffit pas|trop (fort|faible)|arrache|gorge|manque)/.test(n)) ||
-    (/je ne fume pas/.test(n) && /nicotine|\d+\s*mg/.test(n))
-  ) {
-    return "NICOTINE";
-  }
-  if (
-    /\b(fidelatoo|fidelite|points? fidel|compte fidel|carte fidel|recompense fidel|qr code fidel)\b/.test(
-      n,
-    ) ||
-    /programme de fidelite|points de fidelite/.test(n)
-  ) {
-    return "LOYALTY";
-  }
-  if (
-    /le site|allvaps\.fr|site all vap/.test(n) &&
-    /fonctionn|marche|en ligne|disponible|sante|status|ca marche/.test(n)
-  ) {
-    return "SITE";
-  }
-  if (
-    /recherche sur internet|cherche sur internet|meteo|météo|quel temps|actualit|dernier modele|dernier modèle/.test(
-      n,
-    )
-  ) {
-    return "WEB";
-  }
-  const clockAsk =
-    /quel jour|quelle date|quelle heure|l heure qu|on est quel|c est quel jour|on est le combien|c est le combien|c est (un )?jour ferie|c est ferie|aujourd hui (on est|c est quel)/.test(
-      n,
-    );
-  const openClosedAsk = /ouvert|ferme|horaire|adresse|boutique/.test(n);
-  if (clockAsk && !openClosedAsk) {
-    return "CLOCK";
-  }
-  if (isConfidentialAsk(raw)) {
-    return "ADMIN_OPS";
-  }
-  const definition = /c est quoi|explique|pourquoi /.test(n);
-  const shopPlace =
-    /horaire|adresse|boutique|hautmont|quesnoy|all\s*vap|ouvert|ferme|ou vous etes|vous etes ou|ou etes vous/.test(
-      n,
-    );
-  const shopAsk =
-    /ou |adresse|horaire|ouvert|ferme|trouver|vous etes|c est ouvert|ou vous/.test(n);
-  if (!definition && shopPlace && shopAsk) {
-    return "BUSINESS";
-  }
-  const seeking =
-    /cherche|trouve|tu as|t as|vous avez|avez vous|il me faut|je veux|s il te plait|catalogue|stock|disponible|en rayon|il reste|rupture|recherche ce produit sur/.test(
-      n,
-    );
-  const catalogItem =
-    /eliquide|e-liquide|e liquide|puff|pod|vape|stock|disponible|catalogue|liquide |fraise|fruits? rouges?|fruite|fruité|cassis|framboise|menthe/.test(
-      n,
-    );
-  if (!definition && seeking && catalogItem) {
-    return "PRODUCT";
-  }
-  if (
-    !definition &&
-    catalogItem &&
-    (/^un |^une |^des |^du |s il te plait/.test(n) || /tu as quoi en |trouve[- ]moi |cherche[- ]moi /.test(n))
-  ) {
-    return "PRODUCT";
-  }
-  if (!definition && /recherche .{0,80}sur (le site |all\s*vap)/.test(n)) {
-    return "PRODUCT";
-  }
-  return "GENERAL";
-}
 
 function expandQuery(message: string): string {
   if (/fruits? rouges?/i.test(message)) {
@@ -209,6 +121,7 @@ export async function runAvaBrain(params: {
   employeeId?: string | null;
   audience?: AvaAudience;
   surface?: AvaSurface;
+  correlationId?: string;
 }): Promise<AvaBrainReply> {
   const channel = params.channel;
   const audience = params.audience ?? (isInternalChannel(channel) ? "internal" : "public");
@@ -217,32 +130,38 @@ export async function runAvaBrain(params: {
   const access = { channel, audience, surface };
   const message = params.message.trim();
   const personId = personIdFromEmployee(params.employeeId);
+  const correlationId = params.correlationId || newAvaCorrelationId();
   const session = await loadSharedSession(params.sessionId);
 
   console.info(channel === "ADMIN_WEB" ? "AVA_CHANNEL_ADMIN" : "AVA_CHANNEL_VENDEUSE");
+  avaLog("CORE", correlationId, "brain", { channel, audience });
 
   if (isAvaSelfIntro(message)) {
     console.info("AVA_INTENT_IDENTITY");
     return reply(channel, personId, AVA_IDENTITY_SPOKEN, "SOURCE_IDENTITY", null, false);
   }
 
-  const kind =
+  let kind: AvaNeed =
     session.nicotineInterview && classifyAvaNeed(message) !== "MEMORY"
       ? "NICOTINE"
       : classifyAvaNeed(message);
+  if (isConfidentialAsk(message)) kind = "ADMIN_OPS";
   console.info(`AVA_INTENT_${kind}`);
+  avaLog("CORE", correlationId, `intent_${kind}`);
 
   if (kind === "MEMORY" || extractMemorizeFact(message)) {
     const memorize = extractMemorizeFact(message);
     if (memorize) {
-      await saveSharedFact({
+      const saved = await AvaMemoryService.writeFact({
         personId,
-        kind: "confirmed_fact",
         subject: memorize.subject,
         content: memorize.content,
-        source: "user",
+        correlationId,
+        scope: "PERSISTENT_MEMORY",
       });
-      const spoken = "C'est noté, je m'en souviendrai.";
+      const spoken = saved
+        ? "C'est noté, je m'en souviendrai."
+        : "Je ne peux pas mémoriser cette information.";
       await appendTurn(session, message, spoken);
       return reply(channel, personId, spoken, "SOURCE_MEMORY", "memory_lookup", true);
     }
@@ -260,6 +179,70 @@ export async function runAvaBrain(params: {
     session.nicotineInterview = turn.done ? null : turn.interview;
     await appendTurn(session, message, turn.spoken);
     return reply(channel, personId, turn.spoken, "SOURCE_NICOTINE", "nicotine_module", false);
+  }
+
+  if (kind === "SYSTEM_HEALTH" || kind === "SYSTEM_STATUS") {
+    const target = checkupTargetFromMessage(message);
+    const check = await runAvaCheckup({ correlationId, only: target });
+    await appendTurn(session, message, check.spoken);
+    return reply(channel, personId, check.spoken, "SOURCE_HEALTH", "system_health", false);
+  }
+
+  if (kind === "STOCK") {
+    const stock = await speakAvaStock(message, correlationId, {
+      allowBoutiqueSplit: audience === "internal",
+    });
+    await appendTurn(session, message, stock.spoken);
+    return reply(channel, personId, stock.spoken, "SOURCE_ALLVAPS_STOCK", "stock_query", false);
+  }
+
+  if (kind === "ORDER") {
+    if (audience !== "internal") {
+      await appendTurn(session, message, AVA_PUBLIC_CONFIDENTIAL_DENIAL);
+      return reply(
+        channel,
+        personId,
+        AVA_PUBLIC_CONFIDENTIAL_DENIAL,
+        "SOURCE_CHANNEL_POLICY",
+        null,
+        false,
+      );
+    }
+    const orders = await speakAvaOrders(message, correlationId);
+    await appendTurn(session, message, orders.spoken);
+    return reply(channel, personId, orders.spoken, "SOURCE_ORDERS", "order_query", false);
+  }
+
+  if (kind === "EMAIL") {
+    if (audience !== "internal") {
+      await appendTurn(session, message, AVA_PUBLIC_CONFIDENTIAL_DENIAL);
+      return reply(
+        channel,
+        personId,
+        AVA_PUBLIC_CONFIDENTIAL_DENIAL,
+        "SOURCE_CHANNEL_POLICY",
+        null,
+        false,
+      );
+    }
+    const mail = await speakAvaEmailStatus(correlationId);
+    await appendTurn(session, message, mail.spoken);
+    return reply(channel, personId, mail.spoken, "SOURCE_MAIL", "email_status", false);
+  }
+
+  if (kind === "SHIPPING") {
+    const ship = speakAvaShipping(correlationId);
+    await appendTurn(session, message, ship.spoken);
+    return reply(channel, personId, ship.spoken, "SOURCE_SHIPPING", "shipping_status", false);
+  }
+
+  if (kind === "VAPE_KNOWLEDGE") {
+    const hits = searchVapeKnowledge(message, 1);
+    if (hits[0]?.content) {
+      const spoken = hits[0].content.slice(0, 420);
+      await appendTurn(session, message, spoken);
+      return reply(channel, personId, spoken, "SOURCE_VAPE_KNOWLEDGE", "vape_knowledge", false);
+    }
   }
 
   if (kind === "ADMIN_OPS") {
