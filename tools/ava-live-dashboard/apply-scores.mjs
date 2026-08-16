@@ -96,13 +96,14 @@ const modules = {
     { id: "all-paths", label: "Même base 3 surfaces", status: "OK", score: 50, evidence: "site+API orchestrateur VAPE_KNOWLEDGE ; Android needsServerBrain" },
   ]),
   security: checks([
-    { id: "tmp", label: ".tmp-* ignorés", status: "OK", score: 30, evidence: "Phase 1 gitignore" },
+    { id: "tmp", label: ".tmp-* ignorés", status: "OK", score: 30, evidence: ".gitignore .env / .tmp ; tests native-security" },
     { id: "forbidden-write", label: "Actions stock interdites API AVA", status: "OK", score: 40, evidence: "unified-ava-core sans apply-stock" },
-    { id: "tokens", label: "Tokens / CORS / rate limit", status: "PARTIAL", score: 20, evidence: "non ré-audité ce chantier" },
+    { id: "tokens", label: "Tokens / CORS / rate limit", status: "OK", score: 30, evidence: "tests/security/native-security.test.ts — CORS, CSRF origin, rate-limit, redaction ops, login 429 events" },
   ]),
   monitoring: checks([
-    { id: "health-pub", label: "/api/health", status: "OK", score: 45, evidence: "app+DB only — contrat validé inchangé" },
+    { id: "health-pub", label: "/api/health", status: "OK", score: 45, evidence: "app+DB + requestId + observability.ops-json" },
     { id: "health-ava", label: "Checks AVA core/mail/orders", status: "OK", score: 40, evidence: "/api/ava/health = runAvaCheckup" },
+    { id: "ops-events", label: "Événements structurés Nexus-ready", status: "OK", score: 15, evidence: "lib/ops/telemetry.ts [ops] JSON ; pas d'appel Nexus" },
   ]),
   logs: checks([
     { id: "avalog", label: "AvaLog Android", status: "OK", score: 50, evidence: "AvaLog.correlationId" },
@@ -161,7 +162,7 @@ s.blockers = [
 ];
 const hasBlocker = s.blockers.length > 0;
 s.score = hasBlocker ? Math.floor(raw) : Math.round(raw);
-s.scoreSource = "evidence-2026-08-16-email-imap-smtp-git-isolated";
+s.scoreSource = "evidence-2026-08-16-security-ops-telemetry-nexus-prep";
 s.validatedFunctions = 38;
 s.testsPassed = 313 + 142;
 s.testsTotal = 313 + 142;
@@ -195,10 +196,26 @@ s.paths = {
 s.anomalies = [
   { id: "C-01", severity: "CRITICAL", title: "Code cœur hors Git", status: "RESOLVED", note: "Phase 1 + 7968fb89 + 1d12863d" },
   { id: "C-02", severity: "CRITICAL", title: "Deux cerveaux", status: "RESOLVED", note: "orchestrateur unique local ; prod pas encore alignée" },
-  { id: "M-01", severity: "MAJOR", title: "E-mail prod not_configured", status: "RESOLVED", note: "SMTP+IMAP+envoi test local OK ; Gmail API absente volontairement" },
+  { id: "M-01", severity: "MAJOR", title: "E-mail prod not_configured", status: "RESOLVED", note: "SMTP+IMAP+envoi test local OK ; Gmail API absente volontairement (IMAP = lecture)" },
   { id: "M-02", severity: "MAJOR", title: "Fidelatoo writes", status: "RESOLVED", note: "DEMO volontaire WRITES_ENABLED=false" },
   { id: "M-03", severity: "MAJOR", title: "Prod non alignée", status: "FAILED", note: "/api/ava/health 404 ; deploy bloqué par drift schema Git" },
 ];
+s.resolvedBlockers = [
+  {
+    id: "B-SMTP",
+    reason: "E-mail 100/100 local : SMTP verify + IMAP lecture + envoi test + From AVA + anti-loop. Gmail API non requise. Aucun secret commité.",
+  },
+  {
+    id: "B-GIT-CHRONO",
+    reason: "Chronopost dans HEAD 157f5260 (enum DeliveryMethod.CHRONOPOST + provider). InventoryCampaign toujours hors Git.",
+  },
+];
+s.lastCommit = {
+  repo: "backend",
+  hash: "af3845bc",
+  message: "chore(ava-dashboard): record evidence-based scores after email and git isolation",
+};
+s.timestamp = new Date().toISOString();
 
 fs.writeFileSync(statePath, JSON.stringify(s, null, 2));
 console.log(JSON.stringify({ score: s.score, modules: s.modules.map((m) => [m.id, m.score, m.status]) }, null, 2));

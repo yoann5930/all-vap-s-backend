@@ -62,9 +62,10 @@ const nextConfig: NextConfig = {
     key: "Permissions-Policy",
     value: "camera=(), microphone=(self), geolocation=()",
   };
-  const noCamera = {
+  /** Boutique publique : AVA (FAB) a besoin du micro. Caméra toujours bloquée. */
+  const publicShopAvaMic = {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
+    value: "camera=(), microphone=(self), geolocation=()",
   };
   return [
     // Inventaire : caméra autorisée (sinon camera=() global bloque getUserMedia)
@@ -101,6 +102,14 @@ const nextConfig: NextConfig = {
       headers: [...baseSecurityHeaders, avaMicrophone],
     },
     {
+      source: "/ava",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
+      source: "/ava/:path*",
+      headers: [...baseSecurityHeaders, avaMicrophone],
+    },
+    {
       source: "/ia",
       headers: [...baseSecurityHeaders, avaMicrophone],
     },
@@ -109,9 +118,13 @@ const nextConfig: NextConfig = {
       headers: [...baseSecurityHeaders, avaMicrophone],
     },
     {
+      source: "/",
+      headers: [...baseSecurityHeaders, publicShopAvaMic],
+    },
+    {
       source:
-        "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire|admin/ava|ia).*)",
-      headers: [...baseSecurityHeaders, noCamera],
+        "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|inventaire|admin/inventaire|admin/ava|ia|ava).*)",
+      headers: [...baseSecurityHeaders, publicShopAvaMic],
     },
     {
       source: "/_next/static/:path*",

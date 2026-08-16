@@ -16,6 +16,7 @@
 | [RAPPORT_AVA_NOTICES.md](./RAPPORT_AVA_NOTICES.md) | Notices |
 | [RAPPORT_AVA_COMPATIBILITES.md](./RAPPORT_AVA_COMPATIBILITES.md) | Coils / cartouches |
 | [RAPPORT_AVA_SECURITE.md](./RAPPORT_AVA_SECURITE.md) | Sécurité |
+| [NEXUS_FUTURE_SECURITY_SUPERVISION.md](./NEXUS_FUTURE_SECURITY_SUPERVISION.md) | Nexus (supervision future, hors dépôt) |
 | [RAPPORT_AVA_TESTS.md](./RAPPORT_AVA_TESTS.md) | Batterie de tests AVA |
 | [RAPPORT_AVA_TESTS_REELS.md](./RAPPORT_AVA_TESTS_REELS.md) | Campagne tests navigateurs / appareils |
 | [RAPPORT_PREPARATION_COMMITS.md](./RAPPORT_PREPARATION_COMMITS.md) | Classification Git / commits |

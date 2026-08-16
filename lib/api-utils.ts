@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
+import { emitOpsEvent, opsEventFromKnownApiError } from "@/lib/ops/telemetry";
 
 export const knownErrors: Record<string, { message: string; status: number }> = {
   UNAUTHORIZED: { message: "Non authentifié", status: 401 },
@@ -19,6 +20,7 @@ export const knownErrors: Record<string, { message: string; status: number }> = 
   VIVA_REFUND_TXN_MISSING: { message: "Transaction Viva introuvable pour remboursement", status: 400 },
   ORDER_NOT_SHIPPABLE: { message: "Commande non expédiable (statut invalide)", status: 400 },
   INVALID_STATUS_TRANSITION: { message: "Transition de statut non autorisée", status: 400 },
+  WRONG_STATUS: { message: "Statut actuel incompatible avec cette action", status: 400 },
   CSRF_REJECTED: { message: "Origine non autorisée", status: 403 },
   RATE_LIMITED: { message: "Trop de tentatives. Réessayez plus tard.", status: 429 },
   ACCOUNT_DISABLED: { message: "Compte désactivé", status: 403 },
@@ -76,9 +78,22 @@ export function handleApiError(error: unknown) {
   if (error instanceof Error) {
     const known = knownErrors[error.message];
     if (known) {
+      const mapped = opsEventFromKnownApiError(error.message);
+      if (mapped) {
+        emitOpsEvent({
+          ...mapped,
+          metadata: { code: error.message, status: known.status },
+        });
+      }
       return NextResponse.json({ error: known.message }, { status: known.status });
     }
     console.error("API Error:", error.message, error.stack);
+    emitOpsEvent({
+      event: "SERVICE_UNAVAILABLE",
+      category: "application",
+      severity: "error",
+      metadata: { kind: "unhandled_500" },
+    });
   } else {
     console.error("API Error (unknown):", error);
   }

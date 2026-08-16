@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { isAllowedOrigin } from "@/lib/security-origins";
+import { permissionsPolicyForPath } from "@/lib/ai/web-voice-permissions";
+import { emitOpsEvent } from "@/lib/ops/telemetry";
+import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/ops/request-id";
 import {
   AUTH_COOKIE_NAME,
   MAINTENANCE_COOKIE,
@@ -66,25 +69,16 @@ async function hasOwnerAccess(request: NextRequest): Promise<boolean> {
 function applySecurityHeaders(
   response: NextResponse,
   pathname: string,
-  opts?: { localDev?: boolean }
+  opts?: { localDev?: boolean; requestId?: string }
 ): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  const camera =
-    pathname.startsWith("/inventaire") || pathname.startsWith("/admin/inventaire")
-      ? "camera=(self)"
-      : "camera=()";
-  const microphone =
-    pathname.startsWith("/admin/ava") ||
-    pathname.startsWith("/ia") ||
-    pathname.startsWith("/ava") ||
-    pathname.startsWith("/compte")
-      ? "microphone=(self)"
-      : "microphone=()";
-  response.headers.set(
-    "Permissions-Policy",
-    `${camera}, ${microphone}, geolocation=()`
-  );
+  if (opts?.requestId) {
+    response.headers.set(REQUEST_ID_HEADER, opts.requestId);
+  }
+  // Site public : AVA (HolographicAssistant) a besoin du micro.
+  // Inventaire : caméra uniquement — microphone=() conservé.
+  response.headers.set("Permissions-Policy", permissionsPolicyForPath(pathname));
 
   // En local : autoriser le Simple Browser / preview IDE (sinon page blanche iframe).
   // En prod : refuser tout embedding.
@@ -134,12 +128,14 @@ export async function middleware(request: NextRequest) {
   const method = request.method.toUpperCase();
   const host = request.headers.get("host") || "";
   const localDev = isLocalHost(host);
+  const requestId = resolveRequestId(request);
+  const hdr = { localDev, requestId };
 
   // inventaire.allvaps.fr/ → inventaire (sans toucher www/apex)
   if (isInventaireHost(host) && (pathname === "/" || pathname === "")) {
     const url = request.nextUrl.clone();
     url.pathname = "/inventaire";
-    return applySecurityHeaders(NextResponse.rewrite(url), "/inventaire", { localDev });
+    return applySecurityHeaders(NextResponse.rewrite(url), "/inventaire", hdr);
   }
 
   // Contournement propriétaire : /?mt_bypass=SECRET → cookie 30 jours
@@ -160,7 +156,7 @@ export async function middleware(request: NextRequest) {
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
-    return applySecurityHeaders(res, pathname, { localDev });
+    return applySecurityHeaders(res, pathname, hdr);
   }
 
   const ownerAccess = await hasOwnerAccess(request);
@@ -172,7 +168,7 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = "/catalogue-en-preparation";
       url.search = "";
-      return applySecurityHeaders(NextResponse.redirect(url), pathname, { localDev });
+      return applySecurityHeaders(NextResponse.redirect(url), pathname, hdr);
     }
   }
 
@@ -192,7 +188,7 @@ export async function middleware(request: NextRequest) {
           { status: 503, headers: { "Retry-After": "3600" } }
         ),
         pathname,
-        { localDev }
+        hdr
       );
     }
 
@@ -203,7 +199,7 @@ export async function middleware(request: NextRequest) {
     const res = NextResponse.redirect(url);
     res.headers.set("Retry-After", "3600");
     res.headers.set("X-Robots-Tag", "noindex, nofollow");
-    return applySecurityHeaders(res, pathname, { localDev });
+    return applySecurityHeaders(res, pathname, hdr);
   }
 
   if (
@@ -213,15 +209,23 @@ export async function middleware(request: NextRequest) {
   ) {
     const origin = request.headers.get("origin");
     if (origin && !isAllowedOrigin(origin, host)) {
+      emitOpsEvent({
+        event: "SUSPICIOUS_REQUEST",
+        category: "security",
+        severity: "warning",
+        route: pathname,
+        requestId,
+        metadata: { reason: "csrf_origin" },
+      });
       return applySecurityHeaders(
         NextResponse.json({ error: "Origine non autorisée" }, { status: 403 }),
         pathname,
-        { localDev }
+        hdr
       );
     }
   }
 
-  return applySecurityHeaders(NextResponse.next(), pathname, { localDev });
+  return applySecurityHeaders(NextResponse.next(), pathname, hdr);
 }
 
 export const config = {

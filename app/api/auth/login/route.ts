@@ -4,6 +4,7 @@ import { loginUser } from "@/lib/auth";
 import { handleApiError } from "@/lib/api-utils";
 import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 import { assertSameOrigin } from "@/lib/security";
+import { emitOpsEvent } from "@/lib/ops/telemetry";
 import {
   COOKIE_NAME,
   REFRESH_COOKIE,
@@ -38,6 +39,13 @@ export async function POST(request: NextRequest) {
     const ip = clientIp(request);
     const ipLimit = checkRateLimit(`login:ip:${ip}`, 20, 15 * 60 * 1000);
     if (!ipLimit.ok) {
+      emitOpsEvent({
+        event: "RATE_LIMIT_TRIGGERED",
+        category: "security",
+        severity: "warning",
+        route: "/api/auth/login",
+        metadata: { bucket: "ip" },
+      });
       return NextResponse.json(
         { error: "Trop de tentatives. Réessayez plus tard.", retryAfterSec: ipLimit.retryAfterSec },
         { status: 429 }
@@ -54,6 +62,13 @@ export async function POST(request: NextRequest) {
 
     const emailLimit = checkRateLimit(`login:email:${data.email}`, 8, 15 * 60 * 1000);
     if (!emailLimit.ok) {
+      emitOpsEvent({
+        event: "RATE_LIMIT_TRIGGERED",
+        category: "security",
+        severity: "warning",
+        route: "/api/auth/login",
+        metadata: { bucket: "email" },
+      });
       return NextResponse.json(
         { error: "Trop de tentatives. Réessayez plus tard.", retryAfterSec: emailLimit.retryAfterSec },
         { status: 429 }
