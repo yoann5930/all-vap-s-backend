@@ -1,20 +1,23 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, X } from "lucide-react";
+import { Keyboard, Loader2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AvaHologramScene } from "@/components/ai/ava3d/AvaHologramScene";
-import { AvaChatPanel, AvaDiscussButton, type AvaChatMessage } from "@/components/ai/AvaChatPanel";
+import { AvaChatPanel, type AvaChatMessage } from "@/components/ai/AvaChatPanel";
 import { MicPermissionPanel } from "@/components/ai/MicPermissionPanel";
 import { ProductSuggestionCard } from "@/components/ai/ProductSuggestionCard";
+import { AvaDeviceGuideOverlay } from "@/components/ai/AvaDeviceGuideOverlay";
 import { ConversationStatus } from "@/components/ava/ConversationStatus";
 import { LiveSubtitles } from "@/components/ava/LiveSubtitles";
 import { AccessibilitySettings } from "@/components/ava/AccessibilitySettings";
 import { DiagnosticConversation } from "@/components/ava/DiagnosticConversation";
+import { NicotineCalculatorPanel } from "@/components/ava/NicotineCalculatorPanel";
 import { useAvaContinuousListening } from "@/hooks/useAvaContinuousListening";
 import { useVoiceConversation, avaStatusLabel } from "@/hooks/useVoiceConversation";
 import { confirmationPrompt } from "@/lib/ava/transcription-confidence";
 import type { ConfirmedDeviceContext } from "@/lib/ava/device-confirmation";
+import { shouldShowMicModal } from "@/lib/ava/mic-modal";
 import {
   AVA_QUICK_ACTIONS,
   cancelReplaceDiagnosticIntent,
@@ -49,11 +52,13 @@ export function ImmersiveAvaScreen({
   const [textSending, setTextSending] = useState(false);
   const [textDraft, setTextDraft] = useState<string | undefined>(undefined);
   const [chatOpen, setChatOpen] = useState(false);
+  const [nicotineCalcOpen, setNicotineCalcOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<AvaChatMessage[]>([]);
   const lastAvaSubtitleRef = useRef<string>("");
   const [showUploader, setShowUploader] = useState(false);
   const [deviceContext, setDeviceContext] = useState<ConfirmedDeviceContext | null>(null);
   const [skipMediaPanel, setSkipMediaPanel] = useState(false);
+  const [micModalDismissed, setMicModalDismissed] = useState(false);
   const [diagConfirm, setDiagConfirm] = useState<PendingAvaIntent | null>(null);
   const consumedIdsRef = useRef<Set<string>>(new Set());
   const skipGreetingRef = useRef(false);
@@ -231,9 +236,15 @@ export function ImmersiveAvaScreen({
   }, [continuous.textPanelForced, continuous.a11y.pauseListening, textDraft]);
 
   const handlePermissionGranted = useCallback(() => {
+    setMicModalDismissed(true);
     continuous.setTextPanelForced(false);
     void voice.ensureListening();
   }, [continuous, voice]);
+
+  const openTextChat = useCallback(() => {
+    setChatOpen(true);
+    continuous.setTextPanelForced(true);
+  }, [continuous]);
 
   const handleSendText = useCallback(
     async (text: string) => {
@@ -280,9 +291,8 @@ export function ImmersiveAvaScreen({
   }, [continuous, voice]);
 
   const handleContinueWithText = useCallback(() => {
-    // Ouvre le chat sans abandonner l'écoute (sauf micro vraiment indisponible)
-    setChatOpen(true);
-    continuous.setTextPanelForced(true);
+    setMicModalDismissed(true);
+    openTextChat();
     if (
       !continuous.a11y.pauseListening &&
       voice.micPermission !== "denied" &&
@@ -290,7 +300,7 @@ export function ImmersiveAvaScreen({
     ) {
       void voice.ensureListening();
     }
-  }, [continuous, voice]);
+  }, [continuous, openTextChat, voice]);
 
   const handleCloseChat = useCallback(() => {
     setChatOpen(false);
@@ -322,6 +332,12 @@ export function ImmersiveAvaScreen({
       voice.voiceState === "WAITING_FOR_END_OF_SPEECH" ||
       voice.voiceState === "RESUMING_LISTENING");
 
+  useEffect(() => {
+    if (voice.micPermission === "granted" || micActive) {
+      setMicModalDismissed(true);
+    }
+  }, [voice.micPermission, micActive]);
+
   const showSubtitles =
     continuous.a11y.subtitlesAlways !== false &&
     (Boolean(voice.subtitle) || Boolean(voice.interimTranscript));
@@ -332,15 +348,14 @@ export function ImmersiveAvaScreen({
     voice.voiceState
   );
 
-  // Permission micro : uniquement si vraiment nécessaire (pas pendant reprise silencieuse)
-  const showMicModal =
-    !continuous.a11y.pauseListening &&
-    (voice.isPromptingMic ||
-      voice.micPermission === "prompting" ||
-      voice.micPermission === "unsupported" ||
-      (voice.micPermission === "unknown" &&
-        voice.voiceState === "REQUESTING_PERMISSION") ||
-      voice.micPermission === "denied");
+  const showMicModal = shouldShowMicModal({
+    pauseListening: continuous.a11y.pauseListening,
+    micModalDismissed,
+    micPermission: voice.micPermission,
+    isPromptingMic: voice.isPromptingMic,
+    micActive,
+    voiceState: voice.voiceState,
+  });
 
   return (
     <AnimatePresence>
@@ -401,6 +416,40 @@ export function ImmersiveAvaScreen({
           <span className="hidden sm:inline">FERMER</span>
         </button>
 
+        {!chatOpen && !showMicModal ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setNicotineCalcOpen((v) => !v)}
+              aria-label="Calcul nicotine"
+              className="absolute bottom-5 right-20 z-[80] inline-flex h-12 min-w-12 items-center justify-center rounded-full border border-cyan-400/35 bg-black/45 px-3 text-[10px] tracking-wide text-cyan-200/85 shadow-[0_0_24px_rgba(0,212,255,0.12)] backdrop-blur-sm transition hover:border-cyan-300/50 hover:bg-cyan-500/15 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400/50 sm:bottom-6 sm:right-24"
+            >
+              Nicotine
+            </button>
+            <button
+              type="button"
+              onClick={openTextChat}
+              disabled={!voice.ready || voice.blocked}
+              aria-label="Écrire à AVA"
+              className="absolute bottom-5 right-4 z-[80] inline-flex h-12 w-12 items-center justify-center rounded-full border border-cyan-400/35 bg-black/45 text-cyan-200/85 shadow-[0_0_24px_rgba(0,212,255,0.12)] backdrop-blur-sm transition hover:border-cyan-300/50 hover:bg-cyan-500/15 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400/50 disabled:opacity-35 sm:bottom-6 sm:right-6"
+            >
+              <Keyboard className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+            </button>
+          </>
+        ) : null}
+
+        {micActive && !chatOpen && !showMicModal ? (
+          <div
+            className="pointer-events-none absolute bottom-6 left-1/2 z-[75] flex -translate-x-1/2 items-center gap-2 rounded-full border border-cyan-500/20 bg-black/35 px-3 py-1.5 backdrop-blur-sm"
+            aria-hidden
+          >
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400/80" />
+            <span className="text-[10px] tracking-[0.16em] text-cyan-400/60 uppercase">
+              Micro actif
+            </span>
+          </div>
+        ) : null}
+
         {diagConfirm ? (
           <div
             role="alertdialog"
@@ -446,12 +495,17 @@ export function ImmersiveAvaScreen({
         {/* UI overlay — ne redimensionne jamais le stage avatar */}
         <div
           className={`ava-fullscreen-ui absolute inset-x-0 bottom-0 z-20 flex flex-col justify-end pt-2 ${
-            chatOpen ? "pb-2 sm:pb-4" : "pb-6 sm:pb-8"
+            chatOpen ? "pb-2 sm:pb-4" : "pb-0"
           }`}
         >
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black via-black/80 to-transparent" />
+          {(showSubtitles || voice.products.length > 0 || voice.pendingConfirm) && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black via-black/70 to-transparent" />
+          )}
 
           <div className="relative flex flex-col items-center gap-3">
+            {nicotineCalcOpen ? (
+              <NicotineCalculatorPanel onClose={() => setNicotineCalcOpen(false)} />
+            ) : null}
             {showSubtitles ? (
               <LiveSubtitles
                 assistantText={voice.subtitle}
@@ -467,6 +521,13 @@ export function ImmersiveAvaScreen({
                   <ProductSuggestionCard
                     key={p.id}
                     index={idx}
+                    highlight={
+                      (p.reason ?? "").includes("priorité")
+                        ? "primary"
+                        : idx > 0
+                          ? "alt"
+                          : undefined
+                    }
                     product={{
                       id: p.id,
                       name: p.name,
@@ -488,7 +549,7 @@ export function ImmersiveAvaScreen({
               </div>
             ) : null}
 
-            {!chatOpen ? (
+            {!chatOpen && (showSubtitles || voice.products.length > 0) ? (
               <ConversationStatus
                 mode={continuous.mode}
                 phase={voice.avaState}
@@ -603,14 +664,6 @@ export function ImmersiveAvaScreen({
               </div>
             ) : null}
 
-            {/* Un seul CTA — pas de champ texte permanent */}
-            <div className="flex flex-col items-center gap-2 px-4 pb-2">
-              <AvaDiscussButton
-                open={chatOpen}
-                disabled={!voice.ready || voice.blocked}
-                onClick={() => setChatOpen(true)}
-              />
-            </div>
           </div>
         </div>
 
@@ -641,6 +694,12 @@ export function ImmersiveAvaScreen({
             onContinueWithText={handleContinueWithText}
           />
         )}
+        {voice.deviceGuide ? (
+          <AvaDeviceGuideOverlay
+            guide={voice.deviceGuide}
+            onClose={() => voice.setDeviceGuide(null)}
+          />
+        ) : null}
       </motion.div>
     </AnimatePresence>
   );

@@ -28,7 +28,10 @@ export function prepareClientUserMessage(message: string): string {
 export function scrubClientReply(text: string): string {
   return clientMustNotSeeAdminLeak(text)
     .replace(/\b(FIDELATOO|orchestrateur|VM Android|centre de contrôle)\b/gi, "[interne]")
-    .replace(/\b(marges?|coût\s+d['’]achat|prix\s+d['’]achat)\b/gi, "[non disponible]");
+    .replace(/\b(marges?|coût\s+d['’]achat|prix\s+d['’]achat)\b/gi, "[non disponible]")
+    .replace(/\b(dossier client|fiche client|base (de )?client|données sauvegardées|mémoire informatique)\b/gi, "")
+    .replace(/je retrouve votre dossier[^.!]{0,80}/gi, "")
+    .replace(/j['’]ouvre votre fiche[^.!]{0,80}/gi, "");
 }
 
 /** System reminder injected for any LLM path on client surface. */

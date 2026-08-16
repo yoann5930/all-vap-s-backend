@@ -31,7 +31,7 @@ export function extractProfileUpdates(message: string): Partial<VapeProfileData>
   if (preferred.length) updates.preferredFlavors = preferred;
   if (avoided.length) updates.avoidedFlavors = avoided;
 
-  const cigMatch = text.match(/(\d+)\s*(cigarettes?|clopes?)/i);
+  const cigMatch = text.match(/(\d+)\s*(cigarettes?|clopes?|tubes?)/i);
   if (cigMatch) updates.cigarettesPerDay = parseInt(cigMatch[1], 10);
 
   const nicMatch = text.match(/(\d+(?:[.,]\d+)?)\s*mg/i);

@@ -65,6 +65,7 @@ interface AvaReplyPayload {
     deviceContext: unknown;
     diagnosticSession?: unknown;
   } | null;
+  deviceGuide?: import("@/lib/ava/device-guide-present").AvaDeviceGuideView | null;
 }
 
 function mapUiState(voice: AvaVoiceState): AvaConversationState {
@@ -123,6 +124,7 @@ export function useVoiceConversation() {
   const [hardwareAssistance, setHardwareAssistance] = useState<
     AvaReplyPayload["hardwareAssistance"]
   >(null);
+  const [deviceGuide, setDeviceGuide] = useState<AvaReplyPayload["deviceGuide"]>(null);
   const greetedRef = useRef(false);
   const conversationActiveRef = useRef(false);
   const ignoreResultsRef = useRef(false);
@@ -251,6 +253,10 @@ export function useVoiceConversation() {
           data.hardwareAssistance && typeof data.hardwareAssistance === "object"
             ? (data.hardwareAssistance as AvaReplyPayload["hardwareAssistance"])
             : null,
+        deviceGuide:
+          data.deviceGuide && typeof data.deviceGuide === "object"
+            ? (data.deviceGuide as AvaReplyPayload["deviceGuide"])
+            : null,
       };
     };
 
@@ -326,6 +332,7 @@ export function useVoiceConversation() {
       setLastReplyText(reply.text || reply.subtitle);
       setProducts(reply.products);
       setHardwareAssistance(reply.hardwareAssistance ?? null);
+      if (reply.deviceGuide) setDeviceGuide(reply.deviceGuide);
       ignoreResultsRef.current = true;
       recognition.stopListening();
 
@@ -558,9 +565,14 @@ export function useVoiceConversation() {
     if (recognition.isListening && conversationActiveRef.current) return true;
 
     conversationActiveRef.current = true;
-    setVoiceState("REQUESTING_PERMISSION");
+    // Reprise silencieuse si déjà autorisé — pas de flash REQUESTING_PERMISSION
+    if (recognition.micPermission !== "granted") {
+      setVoiceState("REQUESTING_PERMISSION");
+    } else {
+      setVoiceState("RESUMING_LISTENING");
+    }
     const ok = await recognition.startListening();
-    setVoiceState(ok ? "LISTENING" : "ERROR");
+    setVoiceState(ok ? "LISTENING" : "PAUSED");
     return ok;
   }, [blocked, recognition, voiceState]);
 
@@ -632,6 +644,8 @@ export function useVoiceConversation() {
     confirmPendingCorrect,
     setOnUserSpoke,
     hardwareAssistance,
+    deviceGuide,
+    setDeviceGuide,
     setHardwareAssistance,
     lastReplyText,
     init,

@@ -29,6 +29,26 @@ import {
   AVA_NAME_REPLY,
 } from "@/lib/ai/ava-constants";
 import { parseCatalogSpecs } from "@/lib/ai/ava-speech-utils";
+import {
+  resolveExperienceLevel,
+  parseCigarettesCorrection,
+  detectNicotineFeedback,
+  isPurchaseOrBeginnerCounsel,
+  hasHardwareProblemSignal,
+  shouldSkipBeginnerQuiz,
+  logAdvisorDecision,
+  isFlavorTooEarly,
+} from "@/lib/ava/advisor-policy";
+import {
+  memoryFromVapeProfile,
+  applyCigarettesCorrection,
+  toVapeProfilePatch,
+  emptyCustomerMemory,
+  type AvaCustomerMemory,
+} from "@/lib/ava/customer-memory";
+import { beginnerNicotineOrientation, speakNicotineFollowup } from "@/lib/ava/beginner-nicotine-speak";
+import { presentDeviceGuide } from "@/lib/ava/device-guide-present";
+import { selectBeginnerDevicePool } from "@/lib/ava/device-recommendation";
 
 export { AVA_GREETING, AVA_SUGGESTIONS } from "@/lib/ai/ava-constants";
 
@@ -112,6 +132,8 @@ export interface AvaReply {
     deviceContext: unknown;
     diagnosticSession?: import("@/lib/ava/diagnostic-session").DiagnosticSession;
   };
+  /** Guide matériel auto (notice vérifiée uniquement). */
+  deviceGuide?: import("@/lib/ava/device-guide-present").AvaDeviceGuideView | null;
 }
 
 function toCard(p: CatalogProduct, reason: string): AvaProductCard {
@@ -297,7 +319,10 @@ export async function initAva(userId?: string) {
       (user?.lastName?.trim() ? `Monsieur ${user.lastName.trim()}` : null);
 
     if (display) {
-      greeting = pickNamedGreeting(display);
+      const returningBeginner =
+        (profile.status === "debutant" || profile.status === "guide") &&
+        (profile.advisedProductIds.length > 0 || profile.usedNicotineMg != null);
+      greeting = pickNamedGreeting(display, returningBeginner);
     }
 
     if (profile.gdprConsent && profile.preferredFlavors.length > 0) {
@@ -327,7 +352,10 @@ function pickGuestGreeting(): string {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-function pickNamedGreeting(name: string): string {
+function pickNamedGreeting(name: string, returningBeginner?: boolean): string {
+  if (returningBeginner) {
+    return `Bonjour ${name}, contente de vous retrouver ! Comment ça se passe avec votre cigarette électronique ?`;
+  }
   const list = [
     `Bonjour ${name}, comment allez-vous ? Qu'est-ce que vous recherchez aujourd'hui ?`,
     `Bonjour ${name} ! Ravie de vous revoir. Je peux vous aider à trouver quelque chose ?`,
@@ -343,6 +371,40 @@ export async function chatAva(
   options?: AvaChatOptions
 ): Promise<AvaReply> {
   const text = message.toLowerCase();
+  const prevCtxBase = options?.conversationContext ?? emptyConversationContext();
+  let advisorMemory = emptyCustomerMemory({
+    experienceLevel: prevCtxBase.experienceLevel ?? "BEGINNER",
+    cigarettesPerDay: prevCtxBase.cigarettesPerDay ?? null,
+    allDayNeed: prevCtxBase.allDayNeed ?? null,
+  });
+  if (userId) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { firstName: true },
+      });
+      const profile = await getVapeProfile(userId);
+      advisorMemory = memoryFromVapeProfile(profile, user?.firstName?.trim() || null);
+      if (prevCtxBase.cigarettesPerDay != null) {
+        advisorMemory.cigarettesPerDay = prevCtxBase.cigarettesPerDay;
+      }
+      if (prevCtxBase.allDayNeed != null) advisorMemory.allDayNeed = prevCtxBase.allDayNeed;
+    } catch {
+      /* mémoire optionnelle */
+    }
+  }
+  advisorMemory.experienceLevel = resolveExperienceLevel({
+    profileStatus:
+      advisorMemory.experienceLevel === "EXPERT"
+        ? "confirme"
+        : advisorMemory.experienceLevel === "AUTONOMOUS"
+          ? "autonome"
+          : advisorMemory.experienceLevel === "GUIDED"
+            ? "guide"
+            : "debutant",
+    message,
+    previous: advisorMemory.experienceLevel,
+  });
 
   // Âge : uniquement signal explicite (jamais une correction matériel / « Non, … »)
   {
@@ -359,6 +421,80 @@ export async function chatAva(
       products: [],
       speaking: true,
     };
+  }
+
+  {
+    const cigsCorr = parseCigarettesCorrection(message);
+    const inFlow = Boolean(prevCtxBase.quickFlow?.flow);
+    if (cigsCorr && !inFlow) {
+      advisorMemory = applyCigarettesCorrection(advisorMemory, cigsCorr);
+      if (userId) await persistAdvisorMemory(userId, advisorMemory);
+      const nic =
+        advisorMemory.experienceLevel === "EXPERT" || advisorMemory.experienceLevel === "AUTONOMOUS"
+          ? { spoken: "" }
+          : beginnerNicotineOrientation({
+              cigarettesPerDay: cigsCorr,
+              allDayNeed: advisorMemory.allDayNeed === true,
+              deviceKind: "pod",
+            });
+      logAdvisorDecision({
+        experienceLevel: advisorMemory.experienceLevel,
+        intent: "MEMORY_UPDATE",
+        missingRequiredFields: [],
+        action: "UPDATE_MEMORY",
+        nicotineEngine: nic.spoken ? "RECALCULATED" : "SKIPPED_EXPERT",
+        memoryLoaded: Boolean(userId),
+      });
+      return {
+        content: `D'accord, je retiens environ ${cigsCorr} cigarettes par jour.${nic.spoken ? ` ${nic.spoken}` : ""}`,
+        suggestions: ["Voir le matériel", "Ça me convient", "Autre question"],
+        products: [],
+        speaking: true,
+        conversationContext: {
+          ...prevCtxBase,
+          cigarettesPerDay: cigsCorr,
+          experienceLevel: advisorMemory.experienceLevel,
+          memoryLoaded: true,
+          superseded: {
+            ...prevCtxBase.superseded,
+            cigarettesPerDay: [
+              ...(prevCtxBase.superseded.cigarettesPerDay || []),
+              String(advisorMemory.cigarettesPerDayPrevious ?? ""),
+            ].filter(Boolean),
+          },
+        },
+      };
+    }
+  }
+
+  {
+    const fb = detectNicotineFeedback(message);
+    if (fb && !prevCtxBase.quickFlow?.flow && (advisorMemory.experienceLevel === "BEGINNER" || advisorMemory.experienceLevel === "GUIDED")) {
+      const spoken = speakNicotineFollowup({
+        feedback: fb,
+        cigarettesPerDay: advisorMemory.cigarettesPerDay,
+      });
+      logAdvisorDecision({
+        experienceLevel: advisorMemory.experienceLevel,
+        intent: "NICOTINE_FEEDBACK",
+        missingRequiredFields: [],
+        action: "ORIENT_NICOTINE",
+        nicotineEngine: "TABLE",
+        memoryLoaded: Boolean(userId),
+      });
+      return {
+        content: spoken,
+        suggestions: ["Voir le matériel", "Changer de liquide", "Ça me convient"],
+        products: [],
+        speaking: true,
+        conversationContext: {
+          ...prevCtxBase,
+          experienceLevel: advisorMemory.experienceLevel,
+          cigarettesPerDay: advisorMemory.cigarettesPerDay,
+          memoryLoaded: true,
+        },
+      };
+    }
   }
 
   // Consigne explicite « Réponds uniquement : … » — avant tout catalogue / SAV
@@ -417,9 +553,9 @@ export async function chatAva(
       kind === "ORDER" ||
       kind === "EMAIL" ||
       kind === "SHIPPING" ||
-      kind === "NICOTINE" ||
-      kind === "VAPE_KNOWLEDGE" ||
-      kind === "SITE"
+      (kind === "VAPE_KNOWLEDGE" && !isPurchaseOrBeginnerCounsel(message)) ||
+      kind === "SITE" ||
+      (kind === "NICOTINE" && !options?.conversationContext?.quickFlow && !isPurchaseOrBeginnerCounsel(message))
     ) {
       const { runAvaOrchestrator } = await import("@/lib/ava/orchestrator");
       const brain = await runAvaOrchestrator({
@@ -506,8 +642,37 @@ export async function chatAva(
             `${r.product.name} ${r.product.brand ?? ""} ${r.product.category}`.toLowerCase();
           return !/\bpuff\b|\bjnr\b|jetable|dispos/.test(blob);
         });
-        if (ranked.length > 0) {
-          const built = buildAvaProductAnswer(ranked.slice(0, 4), criteria);
+        const inStock = ranked.filter((r) => !r.outOfStockExact);
+        const pool = inStock.length ? inStock : ranked;
+        const limit = step.catalogHint.limit ?? 3;
+        const isDeviceRec = step.catalogHint.category === "cigarettes-electroniques";
+        if (pool.length > 0) {
+          const sliced = pool.slice(0, limit);
+          const devicePool = isDeviceRec ? selectBeginnerDevicePool(sliced, limit) : null;
+          const built = devicePool
+            ? {
+                content: devicePool.spokenLead,
+                products: devicePool.products,
+                suggestions: devicePool.products.map((p) => p.name),
+              }
+            : buildAvaProductAnswer(sliced, criteria);
+          if (step.persistHints && userId) {
+            if (step.persistHints.cigarettesPerDay != null) {
+              advisorMemory.cigarettesPerDay = step.persistHints.cigarettesPerDay;
+            }
+            if (step.persistHints.allDayNeed != null) advisorMemory.allDayNeed = step.persistHints.allDayNeed;
+            advisorMemory.experienceLevel = "BEGINNER";
+            advisorMemory.recommendedProductIds = built.products.map((p) => p.id);
+            await persistAdvisorMemory(userId, advisorMemory);
+          }
+          logAdvisorDecision({
+            experienceLevel: advisorMemory.experienceLevel,
+            intent: isDeviceRec ? "DEVICE_RECOMMENDATION" : "CATALOG",
+            missingRequiredFields: [],
+            action: isDeviceRec ? "SHOW_DEVICE_RECOMMENDATIONS" : "CONTINUE",
+            nicotineEngine: step.persistHints?.cigarettesPerDay ? "CALCULATED" : "NONE",
+            memoryLoaded: Boolean(userId) || Boolean(prevCtx.memoryLoaded),
+          });
           ctx = {
             ...ctx,
             category: criteria.category,
@@ -516,6 +681,10 @@ export async function chatAva(
             freshness: criteria.freshness,
             lastProposedProductIds: built.products.map((p) => p.id),
             lastProposedNames: built.products.map((p) => p.name),
+            cigarettesPerDay: advisorMemory.cigarettesPerDay,
+            allDayNeed: advisorMemory.allDayNeed,
+            experienceLevel: advisorMemory.experienceLevel,
+            memoryLoaded: true,
           };
           return {
             content: `${step.content}\n\n${built.content}`,
@@ -525,6 +694,12 @@ export async function chatAva(
             conversationContext: ctx,
           };
         }
+      }
+      if (step.persistHints && userId) {
+        if (step.persistHints.cigarettesPerDay != null) {
+          advisorMemory.cigarettesPerDay = step.persistHints.cigarettesPerDay;
+        }
+        await persistAdvisorMemory(userId, advisorMemory);
       }
       return {
         content: step.content,
@@ -669,7 +844,7 @@ export async function chatAva(
       searchVapeKnowledge,
       formatKnowledgeAnswer,
     } = await import("@/lib/ava/vape-knowledge");
-    if (isVapeKnowledgeQuestion(message)) {
+    if (isVapeKnowledgeQuestion(message) && !isPurchaseOrBeginnerCounsel(message)) {
       const hits = searchVapeKnowledge(message, 2);
       if (hits.length > 0 && hits[0].score >= 4) {
         return {
@@ -740,9 +915,10 @@ export async function chatAva(
       null;
     const forceDiagnostic =
       Boolean(prevSession?.active) ||
-      detectHardwareIntent(message).isHardware ||
-      isSavOrHardwareIntent(message) ||
-      /check\s*atomizer|drag\s*6|voopoo|sav|panne/i.test(message);
+      ((detectHardwareIntent(message).isHardware ||
+        isSavOrHardwareIntent(message) ||
+        /check\s*atomizer|drag\s*6|voopoo|sav|panne/i.test(message)) &&
+        !(isPurchaseOrBeginnerCounsel(message) && !hasHardwareProblemSignal(message)));
 
     if (forceDiagnostic) {
       const diag = runHardwareDiagnostic({
@@ -813,21 +989,47 @@ export async function chatAva(
     if (!prevCtx.diagnosticSession?.active) {
       const matchedIntent = matchQuickIntentFromMessage(message);
       if (matchedIntent) {
-        const started = startQuickFlow(matchedIntent);
-        if (started) {
-          return {
-            content: started.content,
-            suggestions: started.suggestions,
-            products: [],
-            speaking: true,
-            conversationContext: {
-              ...prevCtx,
-              turn: (prevCtx.turn ?? 0) + 1,
-              quickFlow: started.state,
-              lastQuestion: started.content,
-              diagnosticSession: null,
-            },
-          };
+        const beginnerIntent =
+          matchedIntent === "BEGINNER_VAPING" || matchedIntent === "BEGINNER_DEVICE_GUIDANCE";
+        if (beginnerIntent && shouldSkipBeginnerQuiz(advisorMemory.experienceLevel, message)) {
+          logAdvisorDecision({
+            experienceLevel: advisorMemory.experienceLevel,
+            intent: "FREE_EXPERT",
+            missingRequiredFields: [],
+            action: "FREE_EXPERT",
+            nicotineEngine: advisorMemory.usedNicotineMg != null ? "MEMORIZED" : "NONE",
+            memoryLoaded: Boolean(userId),
+          });
+        } else {
+          const seed =
+            beginnerIntent && advisorMemory.cigarettesPerDay
+              ? `je fume ${advisorMemory.cigarettesPerDay} cigarettes par jour${
+                  advisorMemory.allDayNeed ? " toute la journée" : ""
+                }. ${message}`
+              : message;
+          const started = startQuickFlow(matchedIntent, seed);
+          if (started) {
+            if (!started.continueFlow && started.catalogHint) {
+              const hinted = await replyFromCatalogHint(started, prevCtx, message, userId, advisorMemory);
+              if (hinted) return hinted;
+            }
+            return {
+              content: started.content,
+              suggestions: started.suggestions,
+              products: [],
+              speaking: true,
+              conversationContext: {
+                ...prevCtx,
+                turn: (prevCtx.turn ?? 0) + 1,
+                quickFlow: started.state,
+                lastQuestion: started.content,
+                diagnosticSession: null,
+                experienceLevel: advisorMemory.experienceLevel,
+                cigarettesPerDay: advisorMemory.cigarettesPerDay,
+                memoryLoaded: true,
+              },
+            };
+          }
         }
       }
     }
@@ -852,13 +1054,45 @@ export async function chatAva(
     };
   }
 
+  if (isFlavorTooEarly(message) && !prevCtxBase.quickFlow?.flow) {
+    const { startFlavorOrientation } = await import("@/lib/ava/quick-flows");
+    const started = startFlavorOrientation();
+    return {
+      content: started.content,
+      suggestions: started.suggestions,
+      products: [],
+      speaking: true,
+      conversationContext: {
+        ...prevCtxBase,
+        quickFlow: started.state,
+        lastQuestion: started.content,
+        experienceLevel: advisorMemory.experienceLevel,
+      },
+    };
+  }
+
   const merged = mergeContextFromMessage(
     options?.conversationContext,
     message,
     options?.preferredStoreId ?? options?.conversationContext?.preferredStoreId ?? null
   );
   let ctx = merged.context;
+  ctx = {
+    ...ctx,
+    experienceLevel: advisorMemory.experienceLevel,
+    cigarettesPerDay: advisorMemory.cigarettesPerDay,
+    memoryLoaded: true,
+  };
   const criteria = merged;
+  if (
+    (advisorMemory.experienceLevel === "EXPERT" || advisorMemory.experienceLevel === "AUTONOMOUS") &&
+    advisorMemory.usedNicotineMg != null &&
+    criteria.nicotineMg == null &&
+    !/cigarette.?electron|materiel|pod|kit|box/i.test(message)
+  ) {
+    criteria.nicotineMg = advisorMemory.usedNicotineMg;
+    ctx.nicotineMg = advisorMemory.usedNicotineMg;
+  }
 
   // Référence à un produit déjà proposé (« le deuxième »)
   const refIdx = parseProductReference(message, ctx.lastProposedNames);
@@ -886,12 +1120,22 @@ export async function chatAva(
         };
       }
       const built = buildAvaProductAnswer(ranked, criteria);
+      const guide = presentDeviceGuide(product.name, advisorMemory.experienceLevel);
+      advisorMemory.selectedDeviceName = product.name;
+      advisorMemory.currentDeviceName = product.name;
+      if (userId) await persistAdvisorMemory(userId, advisorMemory);
       return {
-        content: built.content,
+        content: `${built.content}\n\n${guide.spoken}`,
         suggestions: built.suggestions,
         products: built.products,
-        conversationContext: ctx,
+        conversationContext: {
+          ...ctx,
+          pendingDeviceGuideQuery: product.name,
+          deviceModel: product.name,
+          experienceLevel: advisorMemory.experienceLevel,
+        },
         speaking: true,
+        deviceGuide: guide,
       };
     }
   }
@@ -1031,4 +1275,94 @@ async function persistNicotineHints(
   } catch {
     /* profil optionnel — ne pas faire échouer AVA */
   }
+}
+
+async function persistAdvisorMemory(userId: string, memory: AvaCustomerMemory) {
+  try {
+    const current = await getVapeProfile(userId);
+    if (!current) return;
+    await upsertVapeProfile(userId, {
+      ...current,
+      ...toVapeProfilePatch(memory),
+    });
+  } catch {
+    /* RGPD / profil optionnel */
+  }
+}
+
+async function replyFromCatalogHint(
+  step: import("@/lib/ava/quick-flows").QuickFlowResult,
+  prevCtx: AvaConversationContext,
+  message: string,
+  userId: string | undefined,
+  advisorMemory: AvaCustomerMemory,
+): Promise<AvaReply | null> {
+  if (!step.catalogHint) return null;
+  const { loadCatalogForAva } = await import("@/lib/ai/ava/load-catalog");
+  const { searchProductsForAva } = await import("@/lib/ai/ava/product-search");
+  const { buildAvaProductAnswer } = await import("@/lib/ai/ava/response-builder");
+  const catalog = await loadCatalogForAva();
+  const criteria = {
+    rawQuery: message,
+    category: step.catalogHint.category ?? null,
+    flavorFamily: (step.catalogHint.flavorFamily as AvaConversationContext["flavorFamily"]) ?? null,
+    flavorTerms: step.catalogHint.flavorTerms ?? [],
+    freshness: step.catalogHint.freshness ?? null,
+    nicotineMg: null as number | null,
+    volumeMl: null as number | null,
+    needsClarification: null as null,
+    clarificationQuestion: null as null,
+  };
+  const ranked = searchProductsForAva(catalog, criteria).filter((r) => {
+    const blob = `${r.product.name} ${r.product.brand ?? ""} ${r.product.category}`.toLowerCase();
+    return !/\bpuff\b|\bjnr\b|jetable|dispos/.test(blob);
+  });
+  const inStock = ranked.filter((r) => !r.outOfStockExact);
+  const pool = inStock.length ? inStock : ranked;
+  const limit = step.catalogHint.limit ?? 3;
+  if (pool.length === 0) return null;
+  const sliced = pool.slice(0, limit);
+  const isDeviceRec = step.catalogHint.category === "cigarettes-electroniques";
+  const devicePool = isDeviceRec ? selectBeginnerDevicePool(sliced, limit) : null;
+  const built = devicePool
+    ? {
+        content: devicePool.spokenLead,
+        products: devicePool.products,
+        suggestions: devicePool.products.map((p) => p.name),
+      }
+    : buildAvaProductAnswer(sliced, criteria);
+  if (step.persistHints && userId) {
+    if (step.persistHints.cigarettesPerDay != null) {
+      advisorMemory.cigarettesPerDay = step.persistHints.cigarettesPerDay;
+    }
+    if (step.persistHints.allDayNeed != null) advisorMemory.allDayNeed = step.persistHints.allDayNeed;
+    advisorMemory.recommendedProductIds = built.products.map((p) => p.id);
+    await persistAdvisorMemory(userId, advisorMemory);
+  }
+  logAdvisorDecision({
+    experienceLevel: advisorMemory.experienceLevel,
+    intent: isDeviceRec ? "DEVICE_RECOMMENDATION" : "CATALOG",
+    missingRequiredFields: [],
+    action: isDeviceRec ? "SHOW_DEVICE_RECOMMENDATIONS" : "CONTINUE",
+    nicotineEngine: step.persistHints?.cigarettesPerDay ? "CALCULATED" : "NONE",
+    memoryLoaded: Boolean(userId),
+  });
+  return {
+    content: `${step.content}\n\n${built.content}`,
+    suggestions: built.suggestions,
+    products: built.products,
+    speaking: true,
+    conversationContext: {
+      ...prevCtx,
+      turn: (prevCtx.turn ?? 0) + 1,
+      quickFlow: null,
+      category: criteria.category,
+      lastProposedProductIds: built.products.map((p) => p.id),
+      lastProposedNames: built.products.map((p) => p.name),
+      cigarettesPerDay: advisorMemory.cigarettesPerDay,
+      allDayNeed: advisorMemory.allDayNeed,
+      experienceLevel: advisorMemory.experienceLevel,
+      memoryLoaded: true,
+    },
+  };
 }

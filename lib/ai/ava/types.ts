@@ -107,6 +107,13 @@ export interface AvaConversationContext {
   diagnosticSession?: import("@/lib/ava/diagnostic-session").DiagnosticSession | null;
   /** Parcours action rapide (débutant, nicotine, fruits, matériel). */
   quickFlow?: import("@/lib/ava/quick-flows").AvaQuickFlowState | null;
+  /** Entretien nicotine (taux, sels, boosters) — hors catalogue. */
+  nicotineInterview?: import("@/lib/nicotine").NicotineInterviewState | null;
+  experienceLevel?: import("@/lib/ava/advisor-policy").AvaExperienceLevel | null;
+  cigarettesPerDay?: number | null;
+  allDayNeed?: boolean | null;
+  memoryLoaded?: boolean;
+  pendingDeviceGuideQuery?: string | null;
 }
 
 export function emptyConversationContext(

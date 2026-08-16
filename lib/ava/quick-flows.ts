@@ -10,6 +10,19 @@ import {
   type AvaQuickIntent,
 } from "@/lib/ava/quick-actions";
 import { isExcludedBrandOrProduct } from "@/lib/ava/problems-knowledge";
+import {
+  continueNicotineDialogue,
+  startNicotineDialogue,
+  type NicotineInterviewState,
+} from "@/lib/nicotine";
+import {
+  isDeviceRecommendationIntent,
+  parseCigarettesPerDay,
+  detectAllDayNeed,
+  beginnerHasEnoughForFirstDevice,
+  isFlavorTooEarly,
+} from "@/lib/ava/advisor-policy";
+import { beginnerNicotineOrientation } from "@/lib/ava/beginner-nicotine-speak";
 
 export type AvaQuickFlowState = {
   intent: AvaQuickIntent;
@@ -31,6 +44,12 @@ export type QuickFlowResult = {
     flavorFamily?: string | null;
     flavorTerms?: string[];
     freshness?: "with" | "without" | "any" | null;
+    limit?: number;
+  };
+  persistHints?: {
+    cigarettesPerDay?: number;
+    allDayNeed?: boolean;
+    status?: "debutant";
   };
 };
 
@@ -61,10 +80,20 @@ function nextState(
 }
 
 /** Démarre un parcours à partir du message initial (premier tour). */
-export function startQuickFlow(intent: AvaQuickIntent): QuickFlowResult | null {
+export function startQuickFlow(intent: AvaQuickIntent, message = ""): QuickFlowResult | null {
   if (intent === "OPEN_GENERAL_CHAT") return null;
   const cfg = AVA_QUICK_ACTIONS[intent];
   if (!cfg.flow) return null;
+
+  if (intent === "BEGINNER_VAPING" || intent === "BEGINNER_DEVICE_GUIDANCE") {
+    const seed = absorbBeginnerFacts({}, message);
+    if (beginnerHasEnoughForFirstDevice(seed) || (isDeviceRecommendationIntent(message) && seed.cigsPerDay)) {
+      return finishBeginnerWithDevices(
+        nextState(null, intent, 1, seed),
+        seed,
+      );
+    }
+  }
 
   switch (intent) {
     case "BEGINNER_VAPING":
@@ -75,14 +104,15 @@ export function startQuickFlow(intent: AvaQuickIntent): QuickFlowResult | null {
         continueFlow: true,
         state: nextState(null, intent, 1, {}),
       };
-    case "NICOTINE_GUIDANCE":
+    case "NICOTINE_GUIDANCE": {
+      const started = startNicotineDialogue();
       return {
-        content:
-          "D’accord. Je peux vous aider à vous orienter parmi les taux proposés en boutique — sans avis médical. Fumez-vous encore des cigarettes, ou vapotez-vous déjà ?",
-        suggestions: ["Je fume encore", "Je vapote déjà", "Les deux", "Je débute"],
-        continueFlow: true,
-        state: nextState(null, intent, 1, {}),
+        content: started.spoken,
+        suggestions: started.suggestions,
+        continueFlow: !started.done,
+        state: nextState(null, intent, 1, encodeInterview(started.interview)),
       };
+    }
     case "FRUIT_FLAVOUR_GUIDANCE":
       return {
         content:
@@ -94,10 +124,10 @@ export function startQuickFlow(intent: AvaQuickIntent): QuickFlowResult | null {
     case "BEGINNER_DEVICE_GUIDANCE":
       return {
         content:
-          "Très bien, je vais vous aider à trouver un matériel adapté pour débuter (hors puff et jetable). Avez-vous déjà vapote, même un peu ?",
-        suggestions: ["Pas encore", "Un peu", "Oui, j’ai déjà un matériel"],
+          "Très bien, je cherche un matériel simple pour débuter (hors puff et jetable). Environ combien de cigarettes par jour, à peu près ?",
+        suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20"],
         continueFlow: true,
-        state: nextState(null, intent, 1, {}),
+        state: nextState(null, intent, 2, { smokes: "yes" }),
       };
     default:
       return null;
@@ -129,6 +159,25 @@ export function continueQuickFlow(
     };
   }
 
+  if (
+    isFlavorTooEarly(message) &&
+    state.flow !== "FRUIT_FLAVOUR_SELECTION" &&
+    state.flow !== "BEGINNER_ONBOARDING" &&
+    state.flow !== "BEGINNER_DEVICE_SELECTION"
+  ) {
+    return startFlavorOrientation();
+  }
+
+  if (
+    (state.flow === "BEGINNER_ONBOARDING" || state.flow === "BEGINNER_DEVICE_SELECTION") &&
+    (isDeviceRecommendationIntent(message) || beginnerHasEnoughForFirstDevice(absorbBeginnerFacts(state.answers, message)))
+  ) {
+    const merged = absorbBeginnerFacts(state.answers, message);
+    if (beginnerHasEnoughForFirstDevice(merged) || (isDeviceRecommendationIntent(message) && merged.cigsPerDay)) {
+      return finishBeginnerWithDevices(state, merged);
+    }
+  }
+
   switch (state.flow) {
     case "BEGINNER_ONBOARDING":
       return beginnerStep(state, message);
@@ -137,7 +186,7 @@ export function continueQuickFlow(
     case "FRUIT_FLAVOUR_SELECTION":
       return fruitStep(state, message);
     case "BEGINNER_DEVICE_SELECTION":
-      return deviceStep(state, message);
+      return beginnerStep(state, message);
     default:
       return {
         content: "Dites-moi comment je peux vous aider.",
@@ -149,155 +198,165 @@ export function continueQuickFlow(
 }
 
 function beginnerStep(state: AvaQuickFlowState, message: string): QuickFlowResult {
-  const answers = { ...state.answers };
+  const answers = absorbBeginnerFacts({ ...state.answers }, message);
   const step = state.step;
+
+  if (isDeviceRecommendationIntent(message) && beginnerHasEnoughForFirstDevice(answers)) {
+    return finishBeginnerWithDevices(state, answers);
+  }
 
   if (step === 1) {
     const yn = yesNo(message);
     answers.smokes = yn === "unknown" ? message.slice(0, 80) : yn;
+    if (beginnerHasEnoughForFirstDevice(answers) || isDeviceRecommendationIntent(message) && answers.cigsPerDay) {
+      return finishBeginnerWithDevices(state, answers);
+    }
     return {
-      content:
-        yn === "no" || /jamais/i.test(message)
-          ? "Merci. Environ combien de cigarettes fumiez-vous par jour auparavant, si vous vous en souvenez — ou préférez-vous passer cette étape ?"
-          : "Merci. Environ combien de cigarettes par jour, approximativement ?",
-      suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20", "Passer"],
+      content: "Environ combien de cigarettes par jour, à peu près ?",
+      suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20"],
       continueFlow: true,
       state: nextState(state, state.intent, 2, answers),
     };
   }
 
   if (step === 2) {
-    answers.cigsPerDay = message.slice(0, 80);
+    if (!answers.cigsPerDay) answers.cigsPerDay = message.slice(0, 80);
+    if (beginnerHasEnoughForFirstDevice(answers) || isDeviceRecommendationIntent(message)) {
+      return finishBeginnerWithDevices(state, answers);
+    }
     return {
       content:
-        "À quel moment le besoin est-il le plus fort pour vous : au réveil, après les repas, le soir, ou plutôt tout au long de la journée ?",
-      suggestions: ["Au réveil", "Après les repas", "Le soir", "Toute la journée"],
+        "Vous en avez besoin plutôt toute la journée, ou surtout à certains moments ?",
+      suggestions: ["Toute la journée", "Surtout à certains moments"],
       continueFlow: true,
       state: nextState(state, state.intent, 3, answers),
     };
   }
 
-  if (step === 3) {
-    answers.whenStrongest = message.slice(0, 80);
-    return {
-      content:
-        "Pour le tirage : un tirage serré se rapproche d’une cigarette (plus étroit), un tirage plus aérien laisse passer plus d’air et de vapeur. Que préférez-vous ?",
-      suggestions: ["Tirage serré", "Plus aérien", "Je ne sais pas"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 4, answers),
-    };
+  if (step >= 3) {
+    if (answers.allDay == null && detectAllDayNeed(message) != null) {
+      answers.allDay = detectAllDayNeed(message) ? "yes" : "no";
+    }
+    answers.whenStrongest = answers.whenStrongest || message.slice(0, 80);
+    return finishBeginnerWithDevices(state, answers);
   }
 
-  if (step === 4) {
-    answers.draw = message.slice(0, 80);
-    return {
-      content:
-        "Côté format : préférez-vous un matériel compact et discret, ou une autonomie plus importante même si l’appareil est un peu plus grand ?",
-      suggestions: ["Compact / discret", "Plus d’autonomie", "Sans préférence"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 5, answers),
-    };
-  }
+  return finishBeginnerWithDevices(state, answers);
+}
 
-  if (step === 5) {
-    answers.format = message.slice(0, 80);
-    return {
-      content: "Quelles saveurs vous tentent le plus : fruité, frais, gourmand, ou classic / tabac ?",
-      suggestions: ["Fruité", "Frais", "Gourmand", "Classic / tabac"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 6, answers),
-    };
-  }
+function absorbBeginnerFacts(
+  answers: Record<string, string>,
+  message: string,
+): Record<string, string> {
+  const next = { ...answers };
+  const cigs = parseCigarettesPerDay(message);
+  if (cigs != null) next.cigsPerDay = String(cigs);
+  const allDay = detectAllDayNeed(message);
+  if (allDay != null) next.allDay = allDay ? "yes" : "no";
+  if (/tube/i.test(message)) next.cigaretteType = "tubes";
+  return next;
+}
 
-  if (step === 6) {
-    answers.flavor = message.slice(0, 80);
-    return {
-      content:
-        "Souhaitez-vous aussi une aide pour vous orienter sur le taux de nicotine (information boutique, sans avis médical) ?",
-      suggestions: ["Oui, guidez-moi", "Non merci", "Plus tard"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 7, answers),
-    };
-  }
-
-  // step >= 7 : clôture progressive
-  answers.nicotineHelp = message.slice(0, 80);
-  const wantsNic = /oui|guide/i.test(message);
+function finishBeginnerWithDevices(
+  state: AvaQuickFlowState,
+  answers: Record<string, string>,
+): QuickFlowResult {
+  const parsed =
+    parseCigarettesPerDay(answers.cigsPerDay || "") ??
+    (/^\d+$/.test(answers.cigsPerDay || "") ? Number(answers.cigsPerDay) : null);
+  const cigs = parsed != null && Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+  const allDay = answers.allDay === "yes" || detectAllDayNeed(answers.whenStrongest || "") === true;
+  const nic = cigs
+    ? beginnerNicotineOrientation({
+        cigarettesPerDay: cigs,
+        allDayNeed: allDay,
+        deviceKind: "pod",
+      })
+    : { spoken: "Dès que le matériel est choisi, j'oriente le taux avec la table boutique — je n'invente pas un chiffre." };
   return {
-    content: wantsNic
-      ? "Très bien. En boutique, les taux courants vont souvent de 0 à 18 mg selon les formats. Plus vous fumiez, plus les personnes débutantes se tournent parfois vers un taux plus élevé — mais le choix reste personnel et n’est pas un avis médical. Voulez-vous que je vous propose des e-liquides fruités ou un matériel débutant du catalogue ?"
-      : "Parfait. Je peux maintenant vous proposer des pistes du catalogue selon vos préférences (hors puff et jetable). Souhaitez-vous plutôt voir des e-liquides, ou un matériel pour débuter ?",
-    suggestions: ["E-liquides", "Matériel débutant", "Les deux"],
+    content:
+      `D'accord. Avec ce que vous m'avez indiqué, je peux déjà vous montrer les modèles que je considère les plus adaptés pour débuter — simples, rechargeables, sans puff ni jetable.\n\n${nic.spoken}\n\nOn verra le liquide ensuite, une fois le matériel choisi.`,
+    suggestions: ["Voir le matériel", "Ajuster plus tard", "Question sur l'utilisation"],
     continueFlow: false,
     state: null,
     catalogHint: {
-      flavorFamily: /fruit/i.test(answers.flavor || "")
-        ? "fruite"
-        : /frais|menthol/i.test(answers.flavor || "")
-          ? "frais"
-          : /gourmand/i.test(answers.flavor || "")
-            ? "gourmand"
-            : /classic|tabac/i.test(answers.flavor || "")
-              ? "tabac"
-              : "fruite",
-      flavorTerms: answers.flavor ? [answers.flavor] : ["fruit"],
-      category: /mat[eé]riel/i.test(message) ? "cigarettes-electroniques" : null,
+      category: "cigarettes-electroniques",
+      flavorTerms: [],
+      limit: 3,
+    },
+    persistHints: {
+      cigarettesPerDay: cigs ?? undefined,
+      allDayNeed:
+        answers.allDay === "yes" ? true : answers.allDay === "no" ? false : allDay ? true : undefined,
+      status: "debutant",
     },
   };
 }
 
 function nicotineStep(state: AvaQuickFlowState, message: string): QuickFlowResult {
-  const answers = { ...state.answers };
-  const step = state.step;
-
-  if (step === 1) {
-    answers.status = message.slice(0, 80);
+  const prev = decodeInterview(state.answers);
+  const turn = continueNicotineDialogue(prev, message);
+  if (!turn.done) {
     return {
-      content:
-        "Merci. Si vous fumiez encore, environ combien de cigarettes par jour ? (Approximation suffisante — ce n’est pas un diagnostic médical.)",
-      suggestions: ["Moins de 5", "Environ 10", "Environ 20", "Plus de 20", "Je vapote déjà"],
+      content: turn.spoken,
+      suggestions: turn.suggestions,
       continueFlow: true,
-      state: nextState(state, state.intent, 2, answers),
+      state: nextState(state, state.intent, state.step + 1, encodeInterview(turn.interview)),
     };
   }
-
-  if (step === 2) {
-    answers.cigs = message.slice(0, 80);
-    return {
-      content:
-        "Préférez-vous un sels de nicotine (souvent ressenti plus doux) ou une nicotine classique librebase, ou vous n’avez pas de préférence ?",
-      suggestions: ["Sels de nicotine", "Librebase", "Sans préférence", "Je ne sais pas"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 3, answers),
-    };
-  }
-
-  // Orientation prudente
-  answers.salt = message.slice(0, 80);
-  let hint =
-    "À titre indicatif boutique uniquement : beaucoup de débutants qui fumaient beaucoup regardent souvent des taux plus élevés (ex. 12–18 mg selon formats), tandis qu’une consommation plus faible oriente parfois vers 3–6 mg. ";
-  if (/moins de 5|vapote d[eé]j[aà]/i.test(answers.cigs)) {
-    hint =
-      "À titre indicatif boutique uniquement : avec une faible consommation ou si vous vapotez déjà, des taux plus bas (0–6 mg) sont souvent regardés en premier. ";
-  } else if (/20|plus de/i.test(answers.cigs)) {
-    hint =
-      "À titre indicatif boutique uniquement : avec une consommation élevée de cigarettes, certaines personnes regardent d’abord des taux plus hauts disponibles en boutique. ";
-  }
-
   return {
-    content:
-      hint +
-      "Ce n’est pas un avis médical : en cas de doute (grossesse, pathologie, traitement), demandez conseil à un professionnel de santé. Voulez-vous que je vous montre des e-liquides du catalogue pour comparer les taux affichés ?",
-    suggestions: ["Voir des e-liquides", "Autre question", "Parler à la boutique"],
+    content: turn.spoken,
+    suggestions: turn.suggestions,
     continueFlow: false,
     state: null,
-    catalogHint: { category: "e-liquides", flavorTerms: [] },
+  };
+}
+
+function encodeInterview(interview: NicotineInterviewState | null): Record<string, string> {
+  return { interview: interview ? JSON.stringify(interview) : "" };
+}
+
+function decodeInterview(answers: Record<string, string>): NicotineInterviewState | null {
+  const raw = answers.interview;
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as NicotineInterviewState;
+  } catch {
+    return null;
+  }
+}
+
+export function startFlavorOrientation(): QuickFlowResult {
+  return {
+    content:
+      "Vous préférez essayer quelque chose qui rappelle davantage la cigarette, ou quelque chose de complètement différent ?",
+    suggestions: ["Plus proche d'une cigarette", "Quelque chose de différent", "Je ne sais pas"],
+    continueFlow: true,
+    state: nextState(null, "FRUIT_FLAVOUR_GUIDANCE", 0, { flavorGate: "await" }),
   };
 }
 
 function fruitStep(state: AvaQuickFlowState, message: string): QuickFlowResult {
   const answers = { ...state.answers };
   const step = state.step;
+
+  if (answers.flavorGate === "await" || step === 0) {
+    const tabac = /cigarette|tabac|classic|blond/i.test(message);
+    return {
+      content: tabac
+        ? "Très bien. Je vous montre quelques classiques, sans noyer le choix."
+        : "Très bien. On reste sur une petite sélection, sans liste interminable.",
+      suggestions: ["Autre saveur", "Voir le matériel"],
+      continueFlow: false,
+      state: null,
+      catalogHint: {
+        category: "e-liquides",
+        flavorFamily: tabac ? "tabac" : "fruite",
+        flavorTerms: tabac ? ["tabac"] : ["fruit"],
+        limit: 3,
+      },
+    };
+  }
 
   if (step === 1) {
     answers.simpleOrMix = message.slice(0, 80);
@@ -385,10 +444,23 @@ function deviceStep(state: AvaQuickFlowState, message: string): QuickFlowResult 
 
   if (step === 1) {
     answers.experience = message.slice(0, 80);
+    if (isDeviceRecommendationIntent(message) || /pas encore|jamais|debut/i.test(message)) {
+      return {
+        content:
+          "Très bien. Je cherche un matériel simple à prendre en main, rechargeable, qui tient bien la journée si besoin — sans vous demander des réglages techniques.",
+        suggestions: ["Voir d’autres kits", "E-liquides adaptés", "Autre question"],
+        continueFlow: false,
+        state: null,
+        catalogHint: {
+          category: "cigarettes-electroniques",
+          flavorTerms: [],
+          limit: 3,
+        },
+      };
+    }
     return {
-      content:
-        "Quelle simplicité recherchez-vous : quelque chose d’ultra simple à prendre en main, ou acceptez-vous quelques réglages ?",
-      suggestions: ["Ultra simple", "Quelques réglages", "Sans préférence"],
+      content: "Vous cherchez surtout quelque chose de simple à utiliser au quotidien ?",
+      suggestions: ["Oui, le plus simple", "Je me débrouille un peu", "Sans préférence"],
       continueFlow: true,
       state: nextState(state, state.intent, 2, answers),
     };
@@ -397,21 +469,16 @@ function deviceStep(state: AvaQuickFlowState, message: string): QuickFlowResult 
   if (step === 2) {
     answers.simplicity = message.slice(0, 80);
     return {
-      content: "Priorité autonomie (tenir longtemps) ou format compact / discret ?",
-      suggestions: ["Autonomie", "Compact / discret", "Les deux"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 3, answers),
-    };
-  }
-
-  if (step === 3) {
-    answers.autonomy = message.slice(0, 80);
-    return {
       content:
-        "Tirage plutôt serré (proche cigarette) ou plus aérien ? Et quel niveau d’entretien vous convient : minimal, ou vous acceptez de changer résistances / remplir régulièrement ?",
-      suggestions: ["Serré + entretien minimal", "Aérien", "Entretien OK"],
-      continueFlow: true,
-      state: nextState(state, state.intent, 4, answers),
+        "Parfait. Je vais chercher dans le catalogue un matériel débutant rechargeable (pas de puff, pas de JNR, pas de jetable).",
+      suggestions: ["Voir d’autres kits", "E-liquides adaptés", "Autre question"],
+      continueFlow: false,
+      state: null,
+      catalogHint: {
+        category: "cigarettes-electroniques",
+        flavorTerms: [],
+        limit: 3,
+      },
     };
   }
 
@@ -425,6 +492,7 @@ function deviceStep(state: AvaQuickFlowState, message: string): QuickFlowResult 
     catalogHint: {
       category: "cigarettes-electroniques",
       flavorTerms: [],
+      limit: 3,
     },
   };
 }
@@ -440,11 +508,12 @@ export function matchQuickIntentFromMessage(message: string): AvaQuickIntent | n
   }
   // Tolérance légère sur formulations proches
   const t = trimmed.toLowerCase();
-  if (/d[eé]bute la vape|besoin d['’][eê]tre guid/i.test(t)) return "BEGINNER_VAPING";
-  if (/taux de nicotine choisir/i.test(t)) return "NICOTINE_GUIDANCE";
+  if (/d[eé]bute la vape|besoin d['’][eê]tre guid|je d[eé]bute|completement d[eé]but/i.test(t)) return "BEGINNER_VAPING";
+  if (/taux de nicotine choisir|taux de nicotine|sels? de nicotine|nicotine classique|calcul(er)? (la )?nicotine/i.test(t))
+    return "NICOTINE_GUIDANCE";
   if (/e-liquide fruit[eé]|meilleurs fruits|fruit[eé].*conseil/i.test(t))
     return "FRUIT_FLAVOUR_GUIDANCE";
-  if (/mat[eé]riel.*commencer|mat[eé]riel adapt[eé] pour commencer/i.test(t))
+  if (/mat[eé]riel.*commencer|mat[eé]riel adapt[eé] pour commencer|meilleur mat[eé]riel|choisis[- ]moi|arr[eê]ter de fumer/i.test(t))
     return "BEGINNER_DEVICE_GUIDANCE";
   return null;
 }

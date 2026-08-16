@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Send, ShieldAlert, X } from "lucide-react";
 import { HolographicAvatar } from "@/components/ai/HolographicAvatar";
 import { ProductSuggestionCard, type ProductSuggestion } from "@/components/ai/ProductSuggestionCard";
+import { AvaDeviceGuideOverlay } from "@/components/ai/AvaDeviceGuideOverlay";
 import { VoiceControls } from "@/components/ai/Voice";
 import { Particles } from "@/components/ai/Particles";
 import { AVA_GREETING } from "@/lib/ai/ava-constants";
@@ -14,6 +15,7 @@ interface ChatMessage {
   role: "assistant" | "user";
   content: string;
   products?: ProductSuggestion[];
+  deviceGuide?: import("@/lib/ava/device-guide-present").AvaDeviceGuideView | null;
 }
 
 interface ChatWindowProps {
@@ -27,7 +29,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
-  const [blocked, setBlocked] = useState(false);
+  const [guide, setGuide] = useState<import("@/lib/ava/device-guide-present").AvaDeviceGuideView | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -135,7 +137,9 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
         role: "assistant",
         content: data.content,
         products: data.products,
+        deviceGuide: data.deviceGuide ?? null,
       };
+      if (data.deviceGuide) setGuide(data.deviceGuide);
 
       setMessages((prev) => [...prev, assistantMsg]);
 
@@ -181,7 +185,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold tracking-wide text-cyan-300">AVA</p>
                 <p className="truncate text-[11px] text-cyan-400/60">
-                  All Vap&apos;s Virtual Advisor · {isLoggedIn ? "Profil mémorisé" : "Mode invité"}
+                  All Vap&apos;s Virtual Advisor · {isLoggedIn ? "Connecté" : "Mode invité"}
                 </p>
               </div>
               <button
@@ -224,7 +228,18 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
                         {msg.products && msg.products.length > 0 && (
                           <div className="space-y-2">
                             {msg.products.map((p, idx) => (
-                              <ProductSuggestionCard key={p.id} product={p} index={idx} />
+                              <ProductSuggestionCard
+                                key={p.id}
+                                product={p}
+                                index={idx}
+                                highlight={
+                                  p.reason?.includes("priorité")
+                                    ? "primary"
+                                    : idx > 0
+                                      ? "alt"
+                                      : undefined
+                                }
+                              />
                             ))}
                           </div>
                         )}
@@ -317,6 +332,7 @@ export function ChatWindow({ onClose, onSpeakingChange }: ChatWindowProps) {
             )}
           </div>
         </div>
+        {guide ? <AvaDeviceGuideOverlay guide={guide} onClose={() => setGuide(null)} /> : null}
       </motion.div>
     </AnimatePresence>
   );

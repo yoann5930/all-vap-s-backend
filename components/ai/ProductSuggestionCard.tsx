@@ -32,13 +32,15 @@ export interface ProductSuggestion {
 interface ProductSuggestionCardProps {
   product: ProductSuggestion;
   index: number;
+  highlight?: "primary" | "alt";
 }
 
-export function ProductSuggestionCard({ product, index }: ProductSuggestionCardProps) {
+export function ProductSuggestionCard({ product, index, highlight }: ProductSuggestionCardProps) {
   const price = product.isPromo && product.promoPriceCents ? product.promoPriceCents : product.priceCents;
   const specs = [product.nicotine, product.pgVg ? `PG/VG ${product.pgVg}` : null, product.volume]
     .filter(Boolean)
     .join(" · ");
+  const isPrimary = highlight === "primary" || (highlight == null && index === 0 && Boolean(product.reason?.includes("priorité")));
 
   function handleAdd() {
     addToCart({
@@ -58,10 +60,12 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      className="overflow-hidden rounded-xl border border-cyan-500/25 bg-black/50 backdrop-blur-sm"
+      className={`overflow-hidden rounded-xl border bg-black/50 backdrop-blur-sm ${
+        isPrimary ? "border-cyan-400/60" : "border-cyan-500/25"
+      }`}
     >
       <div className="flex gap-3 p-2.5">
-        <Link href={`/boutique/${product.slug}`} className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-900">
+        <Link href={`/boutique/${product.slug}`} className={`relative shrink-0 overflow-hidden rounded-lg bg-gray-900 ${isPrimary ? "h-20 w-20" : "h-16 w-16"}`}>
           {product.imageUrl ? (
             isPreoptimizedProductMedia(product.imageUrl) ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -90,6 +94,11 @@ export function ProductSuggestionCard({ product, index }: ProductSuggestionCardP
         </Link>
 
         <div className="min-w-0 flex-1">
+          {isPrimary ? (
+            <p className="text-[10px] font-medium uppercase tracking-wide text-cyan-400">Recommandation AVA</p>
+          ) : highlight === "alt" ? (
+            <p className="text-[10px] text-cyan-400/70">Alternative</p>
+          ) : null}
           <Link href={`/boutique/${product.slug}`} className="line-clamp-2 text-xs font-semibold text-cyan-100 hover:text-cyan-300">
             {product.name}
           </Link>

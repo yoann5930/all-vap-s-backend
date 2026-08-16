@@ -1,4 +1,4 @@
-export type VapeStatus = "debutant" | "confirme";
+export type VapeStatus = "debutant" | "guide" | "autonome" | "confirme";
 export type DrawPreference = "serre" | "aerien" | "mixte";
 export type FlavorTag = "fruite" | "frais" | "gourmand" | "classic" | "boisson";
 
@@ -22,6 +22,8 @@ export interface VapeProfileData {
 
 export const VAPE_STATUS_OPTIONS: Array<{ value: VapeStatus; label: string }> = [
   { value: "debutant", label: "Débutant" },
+  { value: "guide", label: "Accompagné" },
+  { value: "autonome", label: "Autonome" },
   { value: "confirme", label: "Vapoteur confirmé" },
 ];
 
