@@ -13,9 +13,23 @@ import {
   type CarrierId,
 } from "@/lib/shipping/carriers";
 import { sendEmail } from "@/lib/email/service";
-import { getEmailConfig } from "@/lib/email/config";
 import { archiveMemoryArtifact, refreshClientMemoryFromOrders } from "@/lib/ava-memory/service";
 import { readOrderDocumentBytes } from "@/lib/documents/service";
+import { PREPARER_NOTIFICATION_EMAIL } from "@/lib/ava-order/constants";
+import { assertNoPaidShipping } from "@/lib/shipping/real-shipping-guard";
+
+function carrierShipmentDb() {
+  return (
+    prisma as unknown as {
+      carrierShipment?: {
+        findUnique: (args: unknown) => Promise<Record<string, unknown> | null>;
+        create: (args: unknown) => Promise<Record<string, unknown>>;
+        upsert: (args: unknown) => Promise<Record<string, unknown>>;
+        update: (args: unknown) => Promise<Record<string, unknown>>;
+      };
+    }
+  ).carrierShipment;
+}
 
 const LABEL_ROOT = path.join(process.cwd(), "storage", "shipments");
 
@@ -24,7 +38,7 @@ export function isLaPosteExcluded(method: string | null | undefined): boolean {
 }
 
 export function supportedAutoCarriers(): CarrierId[] {
-  return ["mondial-relay", "relais-colis"];
+  return ["mondial-relay", "relais-colis", "chronopost"];
 }
 
 function shipmentIdempotency(orderId: string, carrier: string) {
@@ -34,7 +48,7 @@ function shipmentIdempotency(orderId: string, carrier: string) {
 export async function startCarrierShipmentForOrder(orderId: string): Promise<{
   skipped: boolean;
   reason?: string;
-  shipment?: Awaited<ReturnType<typeof prisma.carrierShipment.findUnique>>;
+  shipment?: Record<string, unknown> | null;
 }> {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -55,9 +69,21 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
   }
 
   const key = shipmentIdempotency(orderId, carrier);
-  const existing = await prisma.carrierShipment.findUnique({
-    where: { idempotencyKey: key },
-  });
+  const db = carrierShipmentDb();
+  if (!db) {
+    return {
+      skipped: true,
+      reason: "NOT_CONFIGURED",
+    };
+  }
+  let existing: Record<string, unknown> | null = null;
+  try {
+    existing = await db.findUnique({
+      where: { idempotencyKey: key },
+    });
+  } catch {
+    return { skipped: true, reason: "NOT_CONFIGURED" };
+  }
   if (existing) {
     return { skipped: false, shipment: existing, reason: "IDEMPOTENT_REUSE" };
   }
@@ -79,12 +105,14 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     preparedAt: new Date().toISOString(),
   };
 
-  const apiResult = order.isAudit
+  const apiResult = order.isAudit || !assertNoPaidShipping("createCarrierShipment").allowed
     ? {
         ok: false as const,
         carrier,
         configured: false,
-        message: "AUDIT_ONLY — aucun appel transporteur réel.",
+        message: order.isAudit
+          ? "AUDIT_ONLY — aucun appel transporteur réel."
+          : "ALLOW_REAL_SHIPPING/DEMO_MODE — aucune étiquette payante.",
       }
     : await createCarrierShipment(carrier, {
         orderId: order.id,
@@ -128,23 +156,29 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     lastError = apiResult.message;
   }
 
-  const shipment = await prisma.carrierShipment.create({
-    data: {
-      orderId,
-      carrier,
-      status,
-      mode,
-      idempotencyKey: key,
-      trackingNumber,
-      externalShipmentId,
-      relayLabel: order.shippingAddress,
-      labelStoragePath,
-      labelFileName,
-      qrAvailable: false,
-      packDataJson: packData,
-      lastError,
-    },
-  });
+  let shipment: Record<string, unknown>;
+  try {
+    shipment = await db.create({
+      data: {
+        orderId,
+        carrier,
+        status,
+        mode,
+        idempotencyKey: key,
+        trackingNumber,
+        externalShipmentId,
+        relayLabel: order.shippingAddress,
+        labelStoragePath,
+        labelFileName,
+        qrAvailable: false,
+        packDataJson: packData,
+        lastError,
+      },
+    });
+  } catch (err) {
+    console.warn("[shipping] CarrierShipment persist unavailable", err);
+    return { skipped: true, reason: "NOT_CONFIGURED" };
+  }
 
   if (trackingNumber) {
     await prisma.order.update({
@@ -157,9 +191,9 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     userId: order.userId,
     orderId,
     kind: "tracking",
-    idempotencyKey: `mem:shipment:${shipment.id}`,
+    idempotencyKey: `mem:shipment:${String(shipment.id)}`,
     title: `Expédition ${carrier} — ${status}`,
-    shipmentId: shipment.id,
+    shipmentId: String(shipment.id),
     metaJson: {
       mode,
       trackingNumber,
@@ -168,8 +202,8 @@ export async function startCarrierShipmentForOrder(orderId: string): Promise<{
     },
   });
 
-  if (!order.isAudit) {
-    await emailManagerShipmentPack({ orderId, shipmentId: shipment.id });
+  if (!order.isAudit && shipment.id) {
+    await emailManagerShipmentPack({ orderId, shipmentId: String(shipment.id) });
   }
 
   if (order.userId && !order.isAudit) {
@@ -205,7 +239,9 @@ export async function importAssistedCarrierLabel(input: {
   if (!tracking || tracking.length < 5) throw new Error("TRACKING_REQUIRED");
 
   const key = shipmentIdempotency(input.orderId, carrier);
-  let shipment = await prisma.carrierShipment.findUnique({ where: { idempotencyKey: key } });
+  const db = carrierShipmentDb();
+  if (!db) throw new Error("NOT_CONFIGURED");
+  let shipment = await db.findUnique({ where: { idempotencyKey: key } });
 
   const dir = path.join(LABEL_ROOT, input.orderId);
   await mkdir(dir, { recursive: true });
@@ -220,7 +256,7 @@ export async function importAssistedCarrierLabel(input: {
     }
   }
 
-  shipment = await prisma.carrierShipment.upsert({
+  shipment = await db.upsert({
     where: { idempotencyKey: key },
     create: {
       orderId: input.orderId,
@@ -256,17 +292,19 @@ export async function importAssistedCarrierLabel(input: {
     userId: order.userId,
     orderId: input.orderId,
     kind: "carrier_label",
-    idempotencyKey: `mem:label:${shipment.id}:${tracking}`,
+    idempotencyKey: `mem:label:${String(shipment?.id)}:${tracking}`,
     title: `Étiquette ${carrier} — ${tracking}`,
-    shipmentId: shipment.id,
+    shipmentId: String(shipment?.id || ""),
     metaJson: { trackingNumber: tracking, fileName },
   });
 
-  await emailManagerShipmentPack({
-    orderId: input.orderId,
-    shipmentId: shipment.id,
-    forceLabelAttach: true,
-  });
+  if (shipment?.id) {
+    await emailManagerShipmentPack({
+      orderId: input.orderId,
+      shipmentId: String(shipment.id),
+      forceLabelAttach: true,
+    });
+  }
 
   if (order.userId) {
     await refreshClientMemoryFromOrders(order.userId).catch(() => null);
@@ -280,21 +318,23 @@ async function emailManagerShipmentPack(opts: {
   shipmentId: string;
   forceLabelAttach?: boolean;
 }) {
-  const cfg = getEmailConfig();
-  const manager = cfg.adminNotificationEmail;
-  if (!manager) return;
-
-  const shipment = await prisma.carrierShipment.findUnique({
+  const manager = PREPARER_NOTIFICATION_EMAIL;
+  const db = carrierShipmentDb();
+  if (!db) return;
+  const shipment = await db.findUnique({
     where: { id: opts.shipmentId },
   });
   if (!shipment) return;
 
-  const idempotencyKey = `shipment-manager:${opts.shipmentId}:${shipment.status}:${shipment.trackingNumber || "none"}`;
+  const status = String(shipment.status || "");
+  const tracking = (shipment.trackingNumber as string | null) || null;
+  const carrier = String(shipment.carrier || "");
+  const idempotencyKey = `shipment-manager:${opts.shipmentId}:${status}:${tracking || "none"}`;
   const existing = await prisma.emailLog.findFirst({
     where: { idempotencyKey, status: "SENT" },
   });
   if (existing && !opts.forceLabelAttach) return;
-  if (shipment.emailedToManager && shipment.status === "pending_label" && !opts.forceLabelAttach) {
+  if (shipment.emailedToManager && status === "pending_label" && !opts.forceLabelAttach) {
     return;
   }
 
@@ -311,47 +351,53 @@ async function emailManagerShipmentPack(opts: {
       /* ignore */
     }
   }
-  if (shipment.labelStoragePath && (shipment.status === "label_ready" || opts.forceLabelAttach)) {
+  const labelPath = shipment.labelStoragePath ? String(shipment.labelStoragePath) : "";
+  if (labelPath && (status === "label_ready" || opts.forceLabelAttach)) {
     try {
       const { readFile } = await import("fs/promises");
-      const bytes = await readFile(path.join(process.cwd(), shipment.labelStoragePath));
+      const bytes = await readFile(path.join(process.cwd(), labelPath));
       attachments.push({
-        filename: shipment.labelFileName || "etiquette.pdf",
+        filename: String(shipment.labelFileName || "etiquette.pdf"),
         content: bytes,
-        contentType: shipment.labelMimeType || "application/pdf",
+        contentType: String(shipment.labelMimeType || "application/pdf"),
       });
     } catch {
       /* ignore */
     }
   }
 
+  const ref = opts.orderId.slice(-8).toUpperCase();
   const subject =
-    shipment.status === "label_ready"
-      ? `Étiquette + préparation — ${shipment.carrier} n°${shipment.trackingNumber}`
-      : `Préparation expédition ${shipment.carrier} — étiquette à importer`;
+    status === "label_ready"
+      ? `All Vap's — Expédition prête — Commande #${ref}`
+      : `All Vap's — Expédition à finaliser — Commande #${ref}`;
 
   await sendEmail({
     to: manager,
-    subject: `${subject} — All Vap's`,
-    html: `<p>Dossier expédition <strong>${shipment.carrier}</strong>.</p>
+    subject,
+    html: `<p>Dossier expédition <strong>${carrier}</strong>.</p>
       <ul>
-        <li>Commande : ${opts.orderId.slice(-8).toUpperCase()}</li>
-        <li>Statut : ${shipment.status}</li>
-        <li>Mode : ${shipment.mode}</li>
-        <li>Suivi : ${shipment.trackingNumber || "en attente (mode assisté)"}</li>
-        <li>Point relais : ${shipment.relayLabel || "voir adresse commande"}</li>
+        <li>Commande : ${ref}</li>
+        <li>Statut : ${status}</li>
+        <li>Mode : ${String(shipment.mode || "")}</li>
+        <li>Suivi : ${tracking || "en attente (mode assisté) — aucun numéro inventé"}</li>
+        <li>Point relais : ${String(shipment.relayLabel || "voir adresse commande")}</li>
         <li>QR officiel : ${shipment.qrAvailable ? "disponible" : "non fourni (non inventé)"}</li>
       </ul>
-      <p>${shipment.lastError ? `Note technique : ${shipment.lastError}` : ""}</p>`,
-    text: `Expédition ${shipment.carrier} — ${shipment.status} — suivi ${shipment.trackingNumber || "n/a"}`,
+      <p>${shipment.lastError ? `Note technique : ${String(shipment.lastError)}` : ""}</p>`,
+    text: `Expédition ${carrier} — ${status} — suivi ${tracking || "n/a"}`,
     type: "admin_notification",
     relatedOrderId: opts.orderId,
     idempotencyKey,
     attachments,
   });
 
-  await prisma.carrierShipment.update({
-    where: { id: shipment.id },
-    data: { emailedToManager: true },
-  });
+  try {
+    await db.update({
+      where: { id: shipment.id },
+      data: { emailedToManager: true },
+    });
+  } catch {
+    /* ignore */
+  }
 }

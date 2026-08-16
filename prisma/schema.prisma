@@ -30,6 +30,7 @@ enum DeliveryMethod {
   RELAIS_COLIS
   COLISSIMO
   STORE_PICKUP
+  CHRONOPOST
 }
 
 enum PaymentProvider {

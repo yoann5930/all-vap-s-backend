@@ -5,7 +5,9 @@
  * La Poste / Colissimo : exclus.
  */
 
-export type CarrierId = "mondial-relay" | "relais-colis" | "colissimo";
+import { assertNoPaidShipping } from "@/lib/shipping/real-shipping-guard";
+
+export type CarrierId = "mondial-relay" | "relais-colis" | "colissimo" | "chronopost";
 
 export type CarrierShipmentRequest = {
   orderId: string;
@@ -48,6 +50,8 @@ function envKey(carrier: CarrierId): string {
       return "RELAIS_COLIS_API_KEY";
     case "colissimo":
       return "COLISSIMO_API_KEY";
+    case "chronopost":
+      return "CHRONOPOST_API_KEY";
   }
 }
 
@@ -69,6 +73,16 @@ export async function createCarrierShipment(
     };
   }
 
+  if (carrier === "chronopost") {
+    return {
+      ok: false,
+      carrier,
+      configured: false,
+      message:
+        "Chronopost : pas d'API officielle branchée. Connexion manuelle app/site officiel. Aucun suivi inventé.",
+    };
+  }
+
   if (!isCarrierConfigured(carrier)) {
     return {
       ok: false,
@@ -78,6 +92,16 @@ export async function createCarrierShipment(
         carrier === "mondial-relay"
           ? "API Mondial Relay Dual Carrier non configurée. Mode assisté : créer l'étiquette sur Connect puis importer le PDF."
           : "Relais Colis : pas d'API publique étiquettes configurée. Mode assisté : Easy Upload / espace pro puis import PDF.",
+    };
+  }
+
+  const paid = assertNoPaidShipping("createCarrierShipment");
+  if (!paid.allowed) {
+    return {
+      ok: false,
+      carrier,
+      configured: true,
+      message: paid.reason,
     };
   }
 
@@ -137,6 +161,8 @@ export function deliveryMethodToCarrier(
       return "relais-colis";
     case "COLISSIMO":
       return "colissimo";
+    case "CHRONOPOST":
+      return "chronopost";
     default:
       return null;
   }
