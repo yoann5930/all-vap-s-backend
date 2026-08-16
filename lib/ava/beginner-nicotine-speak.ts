@@ -1,51 +1,73 @@
 /**
- * Orientation nicotine débutant — moteur déterministe (table boutique All Vap's).
- * Jamais « les taux vont de 0 à 18 mg ». Jamais un chiffre inventé hors table.
+ * Orientation nicotine débutant — moteur déterministe, phrase boutique.
+ * Les métadonnées (table, reasons) restent internes. Le client n'entend qu'une fourchette.
  */
 import { recommendNicotineProfile } from "@/lib/nicotine/recommend";
-import {
-  lookupSmokerProfile,
-  spokenSmokerProfileHint,
-} from "@/lib/nicotine/tables";
+import { lookupSmokerProfile, smokerProfileRangeForType } from "@/lib/nicotine/tables";
+import type { NicotineType } from "@/lib/nicotine/config";
 import type { NicotineRecommendation } from "@/lib/nicotine/types";
+
+function preferredBeginnerType(
+  cigs: number,
+  deviceKind?: "pod" | "kit" | "unknown",
+): NicotineType {
+  const profile = lookupSmokerProfile(cigs);
+  if (!profile) return "FREEBASE";
+  if (deviceKind === "kit") {
+    return profile.types.includes("FREEBASE") ? "FREEBASE" : "SALT";
+  }
+  if (profile.types.includes("SALT") && (!profile.types.includes("FREEBASE") || cigs >= 11)) {
+    return "SALT";
+  }
+  return profile.types.includes("FREEBASE") ? "FREEBASE" : "SALT";
+}
+
+function clientRangePhrase(from: number, to: number): string {
+  return from === to ? `autour de ${from} mg/ml` : `autour de ${from} à ${to} mg/ml`;
+}
 
 export function beginnerNicotineOrientation(opts: {
   cigarettesPerDay: number;
   allDayNeed?: boolean;
   deviceKind?: "pod" | "kit" | "unknown";
+  hasSelectedDevice?: boolean;
 }): { spoken: string; recommendation: NicotineRecommendation } {
   const cigs = opts.cigarettesPerDay;
-  const profile = lookupSmokerProfile(cigs);
-  const deviceType =
-    opts.deviceKind === "kit" ? "pod" : opts.deviceKind === "pod" ? "pod" : "pod";
+  const type = preferredBeginnerType(cigs, opts.deviceKind ?? "pod");
+  const tableRange = smokerProfileRangeForType(cigs, type);
   const rec = recommendNicotineProfile({
     adult: true,
     smoker: true,
     cigarettesPerDay: cigs,
     cravings: opts.allDayNeed ? "HIGH" : "MEDIUM",
     throatHit: "GOOD",
-    deviceType,
+    deviceType: opts.deviceKind === "kit" ? "kit" : "pod",
+    currentNicotineType: type,
   });
-  const tableHint = spokenSmokerProfileHint(cigs);
-  const range = rec.recommendedRange.length
-    ? rec.recommendedRange
-    : profile
-      ? [...profile.rangeMgMl]
+  const range = tableRange?.length
+    ? tableRange
+    : rec.recommendedRange.length
+      ? rec.recommendedRange
       : [];
   const from = range[0];
   const to = range[range.length - 1];
-  const rangeTxt =
-    from == null ? null : from === to ? `${from} mg/ml` : `${from} à ${to} mg/ml`;
-  const typeBit =
-    rec.recommendedType === "SALT"
-      ? "plutôt en sels de nicotine, sur un matériel simple (pod), "
-      : rec.recommendedType === "FREEBASE"
-        ? "en nicotine classique, "
-        : "";
-  const spoken = rangeTxt
-    ? `Avec une consommation autour de ${cigs} cigarettes par jour, la table boutique All Vap's oriente souvent vers ${typeBit}environ ${rangeTxt}. ${tableHint} Ce n'est pas un avis médical, juste une zone de départ à ajuster ensuite.`
-    : `${tableHint} Je ne vais pas inventer un chiffre hors table boutique.`;
-  return { spoken, recommendation: rec };
+  const spoken =
+    from == null
+      ? "Dites-moi d'abord votre consommation, je pourrai vous indiquer une nicotine de départ."
+      : opts.hasSelectedDevice
+        ? `Avec votre consommation, je partirais ${clientRangePhrase(from, to)} pour commencer. On ajustera ensuite selon votre ressenti.`
+        : `Avec votre consommation, je partirais ${clientRangePhrase(from, to)} pour commencer. Une fois votre matériel choisi, on vérifiera que ça correspond bien.`;
+  return {
+    spoken,
+    recommendation: {
+      ...rec,
+      recommendedType: type,
+      recommendedRange: range,
+      spoken,
+      reasons: rec.reasons,
+      warnings: [],
+    },
+  };
 }
 
 export function speakNicotineFollowup(opts: {
@@ -57,18 +79,23 @@ export function speakNicotineFollowup(opts: {
     return "Parfait, on garde cette orientation tant que ça vous convient. Dites-moi si ça change.";
   }
   if (opts.cigarettesPerDay == null) {
-    return "Je note. On pourra réajuster avec la table boutique, sans inventer un nouveau chiffre.";
+    return "Je note. Dites-moi environ combien de cigarettes il vous reste par jour, je réajusterai la nicotine.";
   }
   const rec = beginnerNicotineOrientation({
     cigarettesPerDay: opts.cigarettesPerDay,
     allDayNeed: opts.feedback === "TOO_WEAK" || opts.feedback === "USAGE_UP",
     deviceKind: "pod",
+    hasSelectedDevice: true,
   });
+  const range = rec.recommendation.recommendedRange;
+  const from = range[0];
+  const to = range[range.length - 1];
+  if (from == null || to == null) return rec.spoken;
   if (opts.feedback === "TOO_STRONG") {
-    return `Je note que c'est trop fort. On reste dans la table boutique, plutôt vers le bas de la zone. ${rec.spoken}`;
+    return `Je comprends. On vise plutôt le bas de la fourchette, autour de ${from} mg/ml, et on voit comment vous vous sentez.`;
   }
   if (opts.feedback === "TOO_WEAK" || opts.feedback === "USAGE_UP") {
-    return `Je note. On peut regarder le haut de la zone boutique, toujours sans sortir de la table. ${rec.spoken}`;
+    return `Je note, le manque est encore là. On peut viser le haut de la fourchette, autour de ${to} mg/ml, et on réajuste ensuite.`;
   }
   return rec.spoken;
 }

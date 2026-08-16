@@ -55,6 +55,6 @@ export function selectBeginnerDevicePool(
     spokenLead:
       products.length === 0
         ? "Je n’ai pas de matériel débutant disponible à vous montrer pour le moment."
-        : "Voici les modèles que je retiens, avec la photo et la disponibilité réelle.",
+        : "Je vous montre les modèles que je trouve les plus adaptés pour commencer simplement.",
   };
 }

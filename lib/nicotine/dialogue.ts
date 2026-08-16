@@ -250,7 +250,7 @@ function questionText(id: string, state: NicotineInterviewState): string {
   }
   switch (id) {
     case "smoker":
-      return "D'accord. Je peux vous aider à vous orienter parmi les taux proposés en boutique — sans avis médical. Fumez-vous encore des cigarettes, ou vapotez-vous déjà ?";
+      return "D'accord. Je peux vous aider à vous orienter parmi les taux proposés en boutique. Fumez-vous encore des cigarettes, ou vapotez-vous déjà ?";
     case "cigarettesPerDay":
       return "Combien de cigarettes fumez-vous par jour ?";
     case "firstCigaretteAfterWakeMinutes":

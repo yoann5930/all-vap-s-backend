@@ -15,8 +15,15 @@ import {
   beginnerHasEnoughForFirstDevice,
   shouldSkipBeginnerQuiz,
   containsForbiddenMemoryLanguage,
+  containsInternalShopSpeak,
   beginnerForbiddenQuestion,
   resolveExperienceLevel,
+  detectExperienceFromMessage,
+  isFlavorTooEarly,
+  isFlavorIndecision,
+  isAskToPickRecommended,
+  isNicotineStrengthQuestion,
+  isConfirmRecommendedDevice,
 } from "../../lib/ava/advisor-policy";
 import { beginnerNicotineOrientation } from "../../lib/ava/beginner-nicotine-speak";
 import { presentDeviceGuide } from "../../lib/ava/device-guide-present";
@@ -61,7 +68,10 @@ console.log("\n=== AVA beginner advisor ===\n");
   assert((s3.catalogHint?.limit ?? 99) <= 3, "T1 max 3 produits");
   assert(!/taux courants|0 à 18|0 a 18/i.test(s3.content), "T1 pas de fourchette générique 0-18");
   assert(!beginnerForbiddenQuestion(s3.content), "T1 pas de jargon MTL/puissance");
-  assert(/table boutique|mg\/ml/i.test(s3.content), "T1 nicotine via moteur métier");
+  assert(/mg\/ml/i.test(s3.content), "T1 nicotine via moteur métier");
+  assert(!/table boutique|tableau boutique/i.test(s3.content), "T1 pas d'exposition table interne");
+  assert(!/sans puff ni jetable/i.test(s3.content), "T1 pas de puff non demandée");
+  assert(!/avis médical/i.test(s3.content), "T1 pas de disclaimer médical");
   assert(!/compact ou|fruité, frais, gourmand/i.test(s3.content), "T1 pas compact/saveurs trop tôt");
 }
 
@@ -73,6 +83,9 @@ console.log("\n=== AVA beginner advisor ===\n");
   });
   assert(nic.recommendation.recommendedRange.length > 0, "T1 moteur nicotine a une plage");
   assert(!/les taux courants/i.test(nic.spoken), "T1 spoken non générique");
+  assert(!/table boutique|tableau boutique|avis médical/i.test(nic.spoken), "T1 spoken sans interne");
+  assert(nic.recommendation.recommendedRange[0] === 15, "T1 20 cigs pod → 15 mg bas de fourchette");
+  assert(nic.recommendation.recommendedRange[nic.recommendation.recommendedRange.length - 1] === 18, "T1 20 cigs pod → 18 mg haut");
 }
 
 // TEST 2 — Interruption
@@ -296,9 +309,53 @@ console.log("\n=== AVA beginner advisor ===\n");
 }
 
 assert(parseCigarettesPerDay("Environ 20") === 20, "parse environ 20");
+assert(parseCigarettesPerDay("Je fume 20 clopes.") === 20, "parse 20 clopes");
+assert(parseCigarettesPerDay("Je suis à un paquet par jour.") === 20, "parse paquet");
+assert(parseCigarettesPerDay("Environ vingt.") === 20, "parse environ vingt");
+assert(parseCigarettesPerDay("Ça dépend, mais autour de 20.") === 20, "parse autour de 20");
 assert(detectAllDayNeed("toute la journée") === true, "detect all-day");
 assert(beginnerHasEnoughForFirstDevice({ cigsPerDay: "20", allDay: "yes" }), "enough for device");
 assert(!containsForbiddenMemoryLanguage("Bonjour Julien, contente de vous retrouver !"), "langage naturel");
+assert(detectExperienceFromMessage("je n'y connais absolument rien") === "BEGINNER", "BEGINNER n'y connais rien");
+assert(
+  matchQuickIntentFromMessage(
+    "Bonjour, je voudrais commencer la cigarette électronique mais je n'y connais absolument rien.",
+  ) === "BEGINNER_VAPING",
+  "premier contact → parcours débutant",
+);
+assert(isDeviceRecommendationIntent("Peu importe, je vous fais confiance, choisissez pour moi."), "confiance → reco");
+assert(isDeviceRecommendationIntent("Mais lequel vous me conseillez vraiment ?"), "trancher → reco");
+assert(isAskToPickRecommended("Mais lequel vous me conseillez vraiment ?"), "ask pick");
+assert(isConfirmRecommendedDevice("D'accord, je prends celui que vous me conseillez."), "confirm device");
+assert(isNicotineStrengthQuestion("Et je dois prendre combien en nicotine ? Je n'y connais rien."), "nicotine Q");
+assert(isFlavorTooEarly("Pour le liquide je ne sais pas du tout ce que j'aime."), "liquide indécis");
+assert(isFlavorIndecision("Franchement je ne sais pas."), "franchement indécis");
+assert(!containsInternalShopSpeak("Avec votre consommation, je partirais autour de 15 à 18 mg/ml pour commencer."), "phrase boutique propre");
+
+{
+  const s0 = startQuickFlow(
+    "BEGINNER_VAPING",
+    "Bonjour, je voudrais commencer la cigarette électronique mais je n'y connais absolument rien.",
+  )!;
+  assert(!/mtl|watt|résistance|coil/i.test(s0.content), "E1 pas de jargon");
+  const s1 = continueQuickFlow(s0.state!, "Je fume environ 20 cigarettes par jour.");
+  assert(!/combien de cigarettes/i.test(s1.content), "E2 ne redemande pas le nombre");
+  assert(s1.continueFlow === true, "E2 encore une question utile");
+  const sTubes = continueQuickFlow(s1.state!, "Je fais des tubes.");
+  assert(sTubes.continueFlow === true, "E3 tubes ne déclenche pas la reco trop tôt");
+  const s4 = continueQuickFlow(sTubes.state!, "J'ai envie de fumer toute la journée.");
+  const s5 = s4.continueFlow
+    ? continueQuickFlow(
+        s4.state!,
+        "Je veux le meilleur matériel pour arrêter de fumer, mais je ne sais pas du tout quoi choisir.",
+      )
+    : s4;
+  assert(!s5.continueFlow, "E5 reco après infos suffisantes");
+  assert(s5.catalogHint?.category === "cigarettes-electroniques", "E5 catalogue matériel");
+  assert(!containsInternalShopSpeak(s5.content), "E5 sans fuite interne");
+  assert(!/sans puff/i.test(s5.content), "E5 pas de puff");
+  assert((s5.content.match(/[.!?]/g) || []).length <= 8, "E5 réponse courte");
+}
 
 console.log(`\nRésultat: ${ok} OK, ${fail} FAIL\n`);
 if (fail > 0) process.exit(1);

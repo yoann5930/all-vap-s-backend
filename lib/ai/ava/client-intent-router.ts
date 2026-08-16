@@ -34,7 +34,7 @@ function norm(s: string): string {
 
 export function isSocialGreeting(message: string): boolean {
   const t = norm(message);
-  return /^(salut|hello|bonjour|bonsoir|hey|coucou|yo|hi|slt|bjr)([!?. ]|$)/.test(t);
+  return /^(salut|hello|bonjour|bonsoir|hey|coucou|yo|hi|slt|bjr)\s*[!?.]*\s*$/.test(t);
 }
 
 export function isSocialSmalltalk(message: string): boolean {

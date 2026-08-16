@@ -18,15 +18,48 @@ export function normAdvisor(s: string): string {
 export function isDeviceRecommendationIntent(message: string): boolean {
   const t = normAdvisor(message);
   return (
-    /choisis[- ]moi|choisissez[- ]moi|le meilleur materiel|materiel pour (debuter|arreter)|arreter de fumer|arreter les cigarettes|qu est[- ]ce que je dois (prendre|acheter)|conseille[- ]moi (une )?cigarette|montre[- ]moi (les )?modeles|je veux (le meilleur|un materiel|quelque chose d adapte)|directement le materiel/.test(
+    /choisis[- ]moi|choisissez[- ]moi|choisissez pour moi|le meilleur materiel|materiel pour (debuter|arreter)|arreter de fumer|arreter les cigarettes|qu est[- ]ce que je dois (prendre|acheter)|conseille[- ]moi( une)? (cigarette|materiel)?|montre[- ]moi (les )?modeles|je veux (le meilleur|un materiel|quelque chose d adapte|quelque chose de bien)|directement le materiel|je (ne )?sais pas (du tout )?quoi (prendre|choisir)|prenez le meilleur|vous me conseillez (quoi|lequel)|lequel .{0,32}(conseillez|recommandez)|peu importe.{0,40}(confiance|choisis)/.test(
       t,
-    ) || /cigarette electronique/.test(t) && /(meilleur|debuter|conseille|choisis)/.test(t)
+    ) ||
+    (/cigarette electronique/.test(t) && /(meilleur|debuter|conseille|choisis)/.test(t))
+  );
+}
+
+export function isAskToPickRecommended(message: string): boolean {
+  const t = normAdvisor(message);
+  return /lequel .{0,32}(conseillez|recommandez)|vous me conseillez (vraiment )?(lequel|quoi)|mais lequel|lequel (je|on) (prends|prend|choisit)/.test(
+    t,
+  );
+}
+
+export function isConfirmRecommendedDevice(message: string): boolean {
+  const t = normAdvisor(message);
+  return /je prends (celui|ca|le (modele|materiel))|d accord.{0,24}je prends|ok je prends|je le prends|celui que vous (me )?(conseillez|recommandez)/.test(
+    t,
+  );
+}
+
+export function isNicotineStrengthQuestion(message: string): boolean {
+  const t = normAdvisor(message);
+  return /combien .{0,28}nicotine|quel taux|quelle nicotine|taux .{0,16}prendre|je dois prendre combien|combien (en |de )?nicotine/.test(
+    t,
   );
 }
 
 export function isFlavorTooEarly(message: string): boolean {
   const t = normAdvisor(message);
-  return /je (ne )?sais pas (quelle|quoi) saveur|quelle saveur/.test(t);
+  return (
+    /je (ne )?sais pas (quelle|quoi) saveur|quelle saveur/.test(t) ||
+    /pour le liquide.{0,80}(sais pas|connais pas|ce que j aime)/.test(t) ||
+    /liquide.{0,40}je (ne )?sais pas/.test(t)
+  );
+}
+
+export function isFlavorIndecision(message: string): boolean {
+  const t = normAdvisor(message);
+  return /franchement je (ne )?sais pas|aucune idee|pas d avis|je n ai pas de preference|^je (ne )?sais pas\.?$/.test(
+    t,
+  );
 }
 
 export function parseCigarettesPerDay(message: string): number | null {
@@ -37,8 +70,17 @@ export function parseCigarettesPerDay(message: string): number | null {
   if (m) return Number(m[1]);
   if (/moins de 5|moins de cinq/.test(t)) return 4;
   if (/environ 10|une dizaine/.test(t)) return 10;
-  if (/environ 20|une vingtaine|paquet/.test(t)) return 20;
+  if (/environ 20|une vingtaine|un paquet|paquet par jour/.test(t)) return 20;
   if (/plus de 20/.test(t)) return 25;
+  const autour = t.match(/autour de (\d{1,2})/);
+  if (autour) return Number(autour[1]);
+  const environNum = t.match(/environ (\d{1,2})\b/);
+  if (environNum) return Number(environNum[1]);
+  if (/\bvingt\b/.test(t) && !/\d{2,}/.test(t)) return 20;
+  if (/^\d{1,2}$/.test(t)) {
+    const n = Number(t);
+    if (n >= 1 && n <= 60) return n;
+  }
   const lone = t.match(/\b(\d{1,2})\b/);
   if (lone && Number(lone[1]) >= 1 && Number(lone[1]) <= 60 && /jour|\/j/.test(t)) {
     return Number(lone[1]);
@@ -76,7 +118,11 @@ export function detectNicotineFeedback(message: string): NicotineFeedback {
 export function isPurchaseOrBeginnerCounsel(message: string): boolean {
   if (isDeviceRecommendationIntent(message)) return true;
   const t = normAdvisor(message);
-  if (/je debut|debutant|premiere (vape|fois)|arreter de fumer|arreter les cigarettes/.test(t)) {
+  if (
+    /je debut|debutant|premiere (vape|fois)|arreter de fumer|arreter les cigarettes|n y connais|commencer la cigarette/.test(
+      t,
+    )
+  ) {
     return true;
   }
   if (parseCigarettesPerDay(message) != null) return true;
@@ -150,7 +196,7 @@ export function detectExperienceFromMessage(
 ): AvaExperienceLevel {
   const t = normAdvisor(message);
   if (
-    /je debut|debutant|jamais vape|premiere fois|je connais rien|je n y connais rien|completement debut/.test(
+    /je debut|debutant|jamais vape|premiere fois|je connais rien|je n y connais (absolument )?rien|n y connais (absolument )?rien|completement debut|commencer la cigarette/.test(
       t,
     )
   ) {
@@ -190,11 +236,13 @@ export function beginnerHasEnoughForFirstDevice(answers: Record<string, string>)
     (answers.cigsPerDay && /^\d+$/.test(answers.cigsPerDay)
       ? Number(answers.cigsPerDay)
       : null);
-  const allDay =
+  const allDayKnown =
     answers.allDay === "yes" ||
+    answers.allDay === "no" ||
     answers.allDay === "true" ||
-    detectAllDayNeed(answers.whenStrongest || "") === true;
-  return cigs != null && cigs > 0 && (allDay || answers.whenStrongest != null || answers.allDay != null);
+    answers.allDay === "false" ||
+    detectAllDayNeed(answers.whenStrongest || "") != null;
+  return cigs != null && cigs > 0 && allDayKnown;
 }
 
 export const FORBIDDEN_CLIENT_MEMORY_PHRASES = [
@@ -205,7 +253,24 @@ export const FORBIDDEN_CLIENT_MEMORY_PHRASES = [
   /memoire informatique/i,
   /je retrouve votre dossier/i,
   /j['’]ouvre votre fiche/i,
+  /j['’]ai charge votre fiche/i,
 ];
+
+export const FORBIDDEN_CLIENT_INTERNAL_SPEAK = [
+  /tableau boutique/i,
+  /table boutique/i,
+  /notre moteur/i,
+  /notre algorithme/i,
+  /selon (notre|vos) (tableau|table|donnees|dossier)/i,
+  /avis m[eé]dical/i,
+  /pas un besoin exact/i,
+  /pas une obligation/i,
+  /sans puff ni jetable/i,
+];
+
+export function containsInternalShopSpeak(text: string): boolean {
+  return FORBIDDEN_CLIENT_INTERNAL_SPEAK.some((re) => re.test(text));
+}
 
 export function containsForbiddenMemoryLanguage(text: string): boolean {
   return FORBIDDEN_CLIENT_MEMORY_PHRASES.some((re) => re.test(text));

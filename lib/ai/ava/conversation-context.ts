@@ -190,6 +190,14 @@ export function parseProductReference(
   if (/premier|premiere|le\s+1\b|numero\s+1|n[°o]\s*1/.test(t)) return 0;
   if (/deuxieme|deuxième|second|le\s+2\b|numero\s+2|n[°o]\s*2/.test(t)) return 1;
   if (/troisieme|troisième|le\s+3\b|numero\s+3|n[°o]\s*3/.test(t)) return 2;
+  if (
+    lastNames.length > 0 &&
+    /celui que vous (me )?(conseillez|recommandez)|le (modele |materiel )?que vous (me )?(conseillez|recommandez)|lequel .{0,32}(conseillez|recommandez)|vous me conseillez vraiment/.test(
+      t,
+    )
+  ) {
+    return 0;
+  }
   for (let i = 0; i < lastNames.length; i++) {
     if (t.includes(norm(lastNames[i]))) return i;
   }
