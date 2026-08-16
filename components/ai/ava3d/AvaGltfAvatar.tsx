@@ -5,14 +5,15 @@
  * Ne jamais écraser les maps UV par une texture plate unique (cause du visage déformé).
  */
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, Center } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import type { AvaLipSyncValues } from "@/hooks/useAvaLipSync";
 import type { AvaConversationState } from "@/hooks/useVoiceConversation";
 import { AVA_3D_ROADMAP } from "@/lib/ai/ava-constants";
 
-/** GLB non compressé — fiable sans Meshopt decoder */
+/** GLB Meshopt — le décodeur est activé par défaut par useGLTF. */
 export const AVA_MODEL_PATH = AVA_3D_ROADMAP.modelPath;
 
 /** @deprecated chemins historiques */
@@ -21,7 +22,9 @@ export const AVA_TEST_TEXTURE_PATH = "/models/ava/ava-hologram-texture.png";
 export const AVA_LEGACY_TEST_MODEL_PATH = "/models/ava/ava-test-model.glb";
 
 const MODEL_TRANSFORM = {
-  position: [0, -0.02, 0] as [number, number, number],
+  // Centre géométrique mesuré du GLB : Y va de 0 à 0,9789886 m.
+  // <Center> recalc seule la boîte d'un SkinnedMesh et décentre le visage animé.
+  position: [0, -0.4894943, 0] as [number, number, number],
   rotation: [0, 0, 0] as [number, number, number],
   scale: 1,
 };
@@ -52,13 +55,19 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
   const jawBoneRef = useRef<THREE.Bone | null>(null);
   const leftEyeBoneRef = useRef<THREE.Bone | null>(null);
   const rightEyeBoneRef = useRef<THREE.Bone | null>(null);
+  const neckBoneRef = useRef<THREE.Bone | null>(null);
+  const headBoneRef = useRef<THREE.Bone | null>(null);
   const jawRestRef = useRef(new THREE.Quaternion());
   const leftEyeRestRef = useRef(new THREE.Quaternion());
   const rightEyeRestRef = useRef(new THREE.Quaternion());
+  const neckRestRef = useRef(new THREE.Quaternion());
+  const headRestRef = useRef(new THREE.Quaternion());
   const { scene } = useGLTF(AVA_MODEL_PATH);
 
   const cloned = useMemo(() => {
-    const root = scene.clone(true);
+    // scene.clone(true) partage le squelette interne des SkinnedMesh. La copie
+    // dédiée de SkeletonUtils garde les morphs et les bones correctement liés.
+    const root = cloneSkeleton(scene);
     root.traverse((obj) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material) return;
@@ -86,6 +95,12 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
       } else if (bone.name === "Eye.R" || bone.name === "EyeR") {
         rightEyeBoneRef.current = bone;
         rightEyeRestRef.current.copy(bone.quaternion);
+      } else if (bone.name === "Neck") {
+        neckBoneRef.current = bone;
+        neckRestRef.current.copy(bone.quaternion);
+      } else if (bone.name === "Head") {
+        headBoneRef.current = bone;
+        headRestRef.current.copy(bone.quaternion);
       }
     });
   }, [cloned]);
@@ -173,44 +188,39 @@ export function AvaGltfAvatar({ state, lipSync, lookX, lookY, blink }: AvaGltfAv
       rightEyeBoneRef.current.quaternion.copy(rightEyeRestRef.current).multiply(gaze);
     }
 
+    // Répartit les mouvements entre cou et tête pour éviter l'effet marionnette.
+    const speakingEnergy = isSpeaking ? 1 : 0.45;
+    const headMotion = new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(
+        -lookY * 0.024 + Math.sin(t * 0.41) * 0.006 * speakingEnergy,
+        lookX * 0.045 + Math.sin(t * 0.31) * 0.008 * speakingEnergy,
+        Math.sin(t * 0.23) * 0.004,
+        "XYZ"
+      )
+    );
+    const neckMotion = new THREE.Quaternion().setFromEuler(
+      new THREE.Euler(-lookY * 0.01, lookX * 0.018, Math.sin(t * 0.19) * 0.002, "XYZ")
+    );
+    if (headBoneRef.current) {
+      headBoneRef.current.quaternion.copy(headRestRef.current).multiply(headMotion);
+    }
+    if (neckBoneRef.current) {
+      neckBoneRef.current.quaternion.copy(neckRestRef.current).multiply(neckMotion);
+    }
+
     if (groupRef.current) {
       groupRef.current.position.y =
         MODEL_TRANSFORM.position[1] + Math.sin(t * 1.05) * 0.006;
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(
-        groupRef.current.rotation.y,
-        lookX * 0.1,
-        0.05
-      );
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(
-        groupRef.current.rotation.x,
-        -lookY * 0.05,
-        0.05
-      );
+      groupRef.current.rotation.y = Math.sin(t * 0.17) * 0.004;
+      groupRef.current.rotation.x = Math.sin(t * 0.13) * 0.002;
     }
   });
 
   return (
     <group ref={groupRef} position={MODEL_TRANSFORM.position} scale={MODEL_TRANSFORM.scale}>
-      <Center>
-        <primitive object={cloned} rotation={MODEL_TRANSFORM.rotation} />
-      </Center>
+      <primitive object={cloned} rotation={MODEL_TRANSFORM.rotation} />
     </group>
   );
-}
-
-function setMorph(
-  dict: Record<string, number>,
-  inf: number[],
-  keys: string[],
-  value: number
-) {
-  for (const key of keys) {
-    const idx = dict[key];
-    if (idx !== undefined) {
-      inf[idx] = value;
-      return;
-    }
-  }
 }
 
 function dampMorph(

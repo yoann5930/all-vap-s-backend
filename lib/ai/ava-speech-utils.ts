@@ -64,6 +64,11 @@ export function toSpokenText(text: string, maxLen = 220): string {
   return `${cut.trim()}…`;
 }
 
+/** Prépare une réponse complète pour la file TTS, sans la tronquer. */
+export function toCompleteSpokenText(text: string): string {
+  return humanizeForSpeech(text);
+}
+
 export function toSubtitle(text: string, maxLen = 100): string {
   const line = text.split("\n").find((l) => l.trim().length > 0) ?? text;
   const clean = line.replace(/👋/g, "").trim();

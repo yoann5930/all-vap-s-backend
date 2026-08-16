@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toSpokenText, toSubtitle } from "@/lib/ai/ava-speech-utils";
+import { toCompleteSpokenText, toSubtitle } from "@/lib/ai/ava-speech-utils";
 import { MIC_MESSAGES } from "@/lib/ai/mic-permission";
 import { AVA_VOICE_CONFIG } from "@/lib/ai/ava/config";
 import type { AvaConversationContext } from "@/lib/ai/ava/types";
@@ -227,9 +227,9 @@ export function useVoiceConversation() {
       return {
         text: content,
         subtitle: toSubtitle(content),
-        spoken: toSpokenText(
-          (typeof data.spoken === "string" && data.spoken) || content
-        ),
+        // La voix suit le texte client complet. Le découpage en phrases est
+        // effectué ensuite par useSpeechSynthesis, sans limite arbitraire.
+        spoken: toCompleteSpokenText(content),
         products: productsRaw.map((p: AvaProduct & { imageUrl?: string | null }) => ({
           id: p.id,
           name: p.name,
@@ -332,16 +332,9 @@ export function useVoiceConversation() {
 
       if (shouldSpeak) {
         setVoiceState("AVA_SPEAKING");
-        // Ne jamais bloquer le dialogue si speechSynthesis plante / n’émet pas onend
-        await Promise.race([
-          synthesis.speak(reply.spoken).catch(() => undefined),
-          new Promise<void>((resolve) => setTimeout(resolve, 10000)),
-        ]);
-        try {
-          synthesis.stopSpeaking();
-        } catch {
-          /* ignore */
-        }
+        // useSpeechSynthesis possède un watchdog par segment. Attendre ici la
+        // file entière évite la coupure historique après dix secondes.
+        await synthesis.speak(reply.spoken).catch(() => undefined);
       }
 
       ignoreResultsRef.current = false;
@@ -468,17 +461,9 @@ export function useVoiceConversation() {
       ignoreResultsRef.current = true;
       setVoiceState("AVA_SPEAKING");
       try {
-        await Promise.race([
-          synthesis.speak(spoken),
-          new Promise<void>((resolve) => setTimeout(resolve, 8000)),
-        ]);
+        await synthesis.speak(spoken);
       } catch {
         /* ok */
-      }
-      try {
-        synthesis.stopSpeaking();
-      } catch {
-        /* ignore */
       }
       ignoreResultsRef.current = false;
     }

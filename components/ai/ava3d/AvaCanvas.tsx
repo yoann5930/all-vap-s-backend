@@ -1,9 +1,20 @@
 "use client";
 
-import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  Component,
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ErrorInfo,
+  type ReactNode,
+} from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { AvaGltfAvatar } from "@/components/ai/ava3d/AvaGltfAvatar";
+import { AvaRealisticFace } from "@/components/ai/ava3d/AvaRealisticFace";
 import { HoloParticles3D } from "@/components/ai/ava3d/HoloParticles3D";
 import { HoloProjectionBase } from "@/components/ai/ava3d/HoloProjectionBase";
 import { useAvaLipSync } from "@/hooks/useAvaLipSync";
@@ -32,6 +43,25 @@ function CameraRig() {
   return null;
 }
 
+class AvaModelErrorBoundary extends Component<
+  { children: ReactNode; fallback: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error("[AVA 3D] Modèle facial indisponible, fallback portrait actif", error, info);
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
 function AvaSceneContent({
   state,
   isSpeaking,
@@ -53,16 +83,37 @@ function AvaSceneContent({
   }, []);
 
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    const loop = () => {
-      if (Math.random() > 0.55) {
-        setBlink(1);
-        timeout = setTimeout(() => setBlink(0), 85);
-      }
-      timeout = setTimeout(loop, isSpeaking ? 3000 : 1600 + Math.random() * 2600);
+    let cancelled = false;
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+    const later = (fn: () => void, delayMs: number) => {
+      const timer = setTimeout(() => {
+        timers.delete(timer);
+        if (!cancelled) fn();
+      }, delayMs);
+      timers.add(timer);
     };
-    timeout = setTimeout(loop, 900);
-    return () => clearTimeout(timeout);
+    const blinkOnce = (after: () => void) => {
+      setBlink(1);
+      later(() => {
+        setBlink(0);
+        after();
+      }, 85 + Math.random() * 55);
+    };
+    const schedule = () => {
+      const delay = isSpeaking ? 2400 + Math.random() * 2800 : 1800 + Math.random() * 3600;
+      later(() => {
+        const doubleBlink = Math.random() < 0.09;
+        blinkOnce(() => {
+          if (doubleBlink) later(() => blinkOnce(schedule), 90 + Math.random() * 80);
+          else schedule();
+        });
+      }, delay);
+    };
+    schedule();
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
   }, [isSpeaking]);
 
   return (
@@ -78,15 +129,37 @@ function AvaSceneContent({
       <HoloParticles3D count={particleCount} />
       <HoloProjectionBase state={state} />
 
-      <Suspense fallback={null}>
-        <AvaGltfAvatar
-          state={state}
-          lipSync={lipSync}
-          lookX={look.x}
-          lookY={look.y}
-          blink={blink}
-        />
-      </Suspense>
+      <AvaModelErrorBoundary
+        fallback={
+          <AvaRealisticFace
+            state={state}
+            lipSync={lipSync}
+            lookX={look.x}
+            lookY={look.y}
+            blink={blink}
+          />
+        }
+      >
+        <Suspense
+          fallback={
+            <AvaRealisticFace
+              state={state}
+              lipSync={lipSync}
+              lookX={look.x}
+              lookY={look.y}
+              blink={blink}
+            />
+          }
+        >
+          <AvaGltfAvatar
+            state={state}
+            lipSync={lipSync}
+            lookX={look.x}
+            lookY={look.y}
+            blink={blink}
+          />
+        </Suspense>
+      </AvaModelErrorBoundary>
     </>
   );
 }
@@ -126,7 +199,7 @@ export function AvaCanvas({ state, isSpeaking, audioElement, className = "" }: A
           antialias: true,
           alpha: false,
           powerPreference: "high-performance",
-          preserveDrawingBuffer: true,
+          preserveDrawingBuffer: false,
         }}
         camera={{ fov: 48, near: 0.1, far: 100 }}
         style={{ width: "100%", height: "100%" }}

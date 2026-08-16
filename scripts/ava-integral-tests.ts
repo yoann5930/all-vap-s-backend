@@ -4,7 +4,13 @@
  *
  * Usage: npx tsx scripts/ava-integral-tests.ts
  */
-import { humanizeForSpeech, toSpokenText, AVA_GREETING_SHORT } from "../lib/ai/ava-speech-utils";
+import {
+  AVA_GREETING_SHORT,
+  humanizeForSpeech,
+  splitSpokenSentences,
+  toCompleteSpokenText,
+  toSpokenText,
+} from "../lib/ai/ava-speech-utils";
 import { searchCatalog, type CatalogProduct } from "../lib/ai/catalog-search";
 import {
   AVA_GREETING,
@@ -145,6 +151,34 @@ check(
 );
 check("client-speech", "AVA_GREETING_SHORT", Boolean(AVA_GREETING_SHORT), AVA_GREETING_SHORT.slice(0, 50));
 check("client-speech", "toSpokenText non vide", toSpokenText("DIY AVA").length > 0, toSpokenText("DIY AVA"));
+const fiveSentenceReply =
+  "Première phrase pour vous accueillir. Deuxième phrase pour préciser votre besoin. " +
+  "Troisième phrase pour expliquer le choix. Quatrième phrase pour donner le conseil. " +
+  "Cinquième phrase pour conclure naturellement.";
+const completeSpokenReply = toCompleteSpokenText(fiveSentenceReply);
+check(
+  "client-speech",
+  "Réponse 5 phrases conservée intégralement",
+  completeSpokenReply.includes("Première") && completeSpokenReply.includes("Cinquième"),
+  `${completeSpokenReply.length} caractères`
+);
+check(
+  "client-speech",
+  "File TTS contient les 5 phrases",
+  splitSpokenSentences(completeSpokenReply).length === 5,
+  `${splitSpokenSentences(completeSpokenReply).length} segments`
+);
+const voiceConversationSource = fs.readFileSync(
+  path.join(process.cwd(), "hooks", "useVoiceConversation.ts"),
+  "utf8"
+);
+check(
+  "client-speech",
+  "Aucune coupure TTS fixe à 10 secondes",
+  !/synthesis\.speak\([\s\S]{0,180}setTimeout\(resolve,\s*10000\)/.test(
+    voiceConversationSource
+  )
+);
 
 // —— Facial rig 3D validé ——
 check(
@@ -154,7 +188,7 @@ check(
   AVA_3D_ROADMAP.statusLabel
 );
 check("client-3d", "Animation faciale avancée active", AVA_3D_ROADMAP.enableAdvancedLipSync && AVA_3D_ROADMAP.enableIdleAnimations);
-const glbPath = path.join(process.cwd(), "public", "models", "ava", "Ava_FacialRig.glb");
+const glbPath = path.join(process.cwd(), "public", "models", "ava", "Ava_FacialRig_Optimized.glb");
 const faceSvg = path.join(process.cwd(), "public", "ava", "ava-face-base.svg");
 check("client-3d", "GLB facial final présent", fs.existsSync(glbPath), fs.existsSync(glbPath) ? "found" : `missing ${glbPath}`);
 check("client-3d", "Portrait SVG présent", fs.existsSync(faceSvg), faceSvg);

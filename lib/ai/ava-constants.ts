@@ -21,8 +21,7 @@ export const AVA_NAME_REPLY = "Je m'appelle Ava.";
 /** Configuration du modèle facial 3D validé d’AVA. */
 export const AVA_3D_ROADMAP = {
   statusLabel: "AVA FACIAL RIG 1.0",
-  modelPath:
-    "https://pbpecrqwlec9usa3.public.blob.vercel-storage.com/ava/Ava_FacialRig.glb",
+  modelPath: "/models/ava/Ava_FacialRig_Optimized.glb",
   plannedMorphs: [
     "viseme_AA",
     "viseme_E",
@@ -41,5 +40,5 @@ export const AVA_3D_ROADMAP = {
   ] as const,
   enableAdvancedLipSync: true,
   enableIdleAnimations: true,
-  enableCompressedAssets: false,
+  enableCompressedAssets: true,
 } as const;
