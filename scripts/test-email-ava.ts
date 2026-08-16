@@ -26,8 +26,8 @@ function loadEnvFile(path: string) {
 loadEnvFile(".env");
 loadEnvFile(".env.local");
 
-process.env.MAIL_ENABLED = process.env.MAIL_ENABLED || "true";
-process.env.MAIL_TEST_MODE = process.env.MAIL_TEST_MODE || "true";
+process.env.MAIL_ENABLED = "true";
+process.env.MAIL_TEST_MODE = "true";
 process.env.MAIL_TEST_RECIPIENT =
   process.env.MAIL_TEST_RECIPIENT || "test@example.com";
 process.env.MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || "A.V.A. — All Vap's";

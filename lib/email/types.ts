@@ -48,6 +48,8 @@ export type EmailPayload = {
   /** Préfixe audit explicite */
   auditCampaignId?: string | null;
   isAudit?: boolean;
+  /** Si true, refuse d'envoyer à la boîte AVA (anti-boucle interne). */
+  forbidAvaSelfRecipient?: boolean;
 };
 
 export type SendEmailResult = {

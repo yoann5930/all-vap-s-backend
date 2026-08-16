@@ -3,6 +3,12 @@
  * Ne jamais logger SMTP_APP_PASSWORD / SMTP_PASS.
  */
 
+import {
+  avaFromDisplayName,
+  isForbiddenAutomaticFrom,
+  resolveAvaFromAddress,
+} from "@/lib/email/ava-identity";
+
 export type EmailConfig = {
   enabled: boolean;
   configured: boolean;
@@ -45,11 +51,8 @@ export function getSmtpPassword(): string | null {
 }
 
 export function getEmailConfig(): EmailConfig {
-  const fromAddress =
-    process.env.MAIL_FROM_ADDRESS ||
-    process.env.SMTP_USER ||
-    "avaallvaps@gmail.com";
-  const fromName = process.env.MAIL_FROM_NAME || "A.V.A. — All Vap's";
+  const fromAddress = resolveAvaFromAddress();
+  const fromName = avaFromDisplayName();
   const publicUrl = (
     process.env.APP_PUBLIC_URL ||
     process.env.NEXT_PUBLIC_APP_URL ||
@@ -57,7 +60,7 @@ export function getEmailConfig(): EmailConfig {
   ).replace(/\/$/, "");
 
   const host = process.env.SMTP_HOST || null;
-  const user = process.env.SMTP_USER || process.env.MAIL_FROM_ADDRESS || null;
+  const user = process.env.SMTP_USER || process.env.MAIL_FROM_ADDRESS || fromAddress;
   const hasPassword = smtpPasswordPresent();
   const smtpReady = !!(host && user && hasPassword);
   const resendConfigured = !!process.env.RESEND_API_KEY;
@@ -68,6 +71,9 @@ export function getEmailConfig(): EmailConfig {
   // Console locale ≠ configuré pour la livraison.
   const configured = smtpReady || resendConfigured;
 
+  const replyRaw = (process.env.MAIL_REPLY_TO || fromAddress).trim();
+  const replyTo = isForbiddenAutomaticFrom(replyRaw) ? fromAddress : replyRaw;
+
   return {
     enabled,
     configured,
@@ -75,7 +81,7 @@ export function getEmailConfig(): EmailConfig {
     testRecipient: (process.env.MAIL_TEST_RECIPIENT || "").trim() || null,
     fromName,
     fromAddress,
-    replyTo: process.env.MAIL_REPLY_TO || fromAddress,
+    replyTo,
     adminNotificationEmail:
       (process.env.ADMIN_NOTIFICATION_EMAIL || process.env.ADMIN_NOTIFY_EMAIL || "").trim() ||
       null,

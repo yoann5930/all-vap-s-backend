@@ -1,13 +1,18 @@
 /**
- * Libellés Gmail A.V.A. — architecture prête.
- * Sans GOOGLE_GMAIL_CLIENT_* / refresh token : ne simule pas le classement.
+ * Libellés Gmail A.V.A.
+ * Sans OAuth Gmail : ne simule pas le classement.
  */
+import { google } from "googleapis";
 
 export const GMAIL_LABELS = {
-  ORDER_FORM: "Bon de commande",
-  PREP_SLIP: "Bon de préparation",
-  INVOICE: "Factures",
-  MANAGEMENT_REPORTS: "Rapports de gestion",
+  ORDER_FORM: "All Vap's/Commandes",
+  PREP_SLIP: "All Vap's/Préparation",
+  INVOICE: "All Vap's/Commandes",
+  MANAGEMENT_REPORTS: "All Vap's/Rapports",
+  SHIP_MR: "All Vap's/Expéditions/Mondial Relay",
+  SHIP_RC: "All Vap's/Expéditions/Relais Colis",
+  SHIP_CHRONO: "All Vap's/Expéditions/Chronopost",
+  SHIP_PICKUP: "All Vap's/Expéditions/Retrait magasin",
 } as const;
 
 export type GmailLabelResult = {
@@ -25,9 +30,48 @@ export function isGmailApiConfigured(): boolean {
   );
 }
 
+function gmailOAuthClient() {
+  const client = new google.auth.OAuth2(
+    process.env.GOOGLE_GMAIL_CLIENT_ID,
+    process.env.GOOGLE_GMAIL_CLIENT_SECRET,
+  );
+  client.setCredentials({
+    refresh_token: process.env.GOOGLE_GMAIL_REFRESH_TOKEN,
+  });
+  return google.gmail({ version: "v1", auth: client });
+}
+
+const labelIdCache = new Map<string, string>();
+
+async function ensureLabelId(
+  gmail: ReturnType<typeof gmailOAuthClient>,
+  labelName: string,
+): Promise<string> {
+  const cached = labelIdCache.get(labelName);
+  if (cached) return cached;
+  const listed = await gmail.users.labels.list({ userId: "me" });
+  const existing = (listed.data.labels || []).find((l) => l.name === labelName);
+  if (existing?.id) {
+    labelIdCache.set(labelName, existing.id);
+    return existing.id;
+  }
+  const created = await gmail.users.labels.create({
+    userId: "me",
+    requestBody: {
+      name: labelName,
+      labelListVisibility: "labelShow",
+      messageListVisibility: "show",
+    },
+  });
+  const id = created.data.id;
+  if (!id) throw new Error("GMAIL_LABEL_CREATE_FAILED");
+  labelIdCache.set(labelName, id);
+  return id;
+}
+
 /**
  * Applique un libellé Gmail au message si l'API est configurée.
- * Sinon : retourne configured=false — l'e-mail peut quand même être envoyé via SMTP.
+ * Sinon : configured=false — l'e-mail peut quand même partir via SMTP.
  */
 export async function applyGmailLabelIfConfigured(params: {
   labelName: string;
@@ -50,17 +94,29 @@ export async function applyGmailLabelIfConfigured(params: {
     };
   }
 
-  // TODO: brancher googleapis Gmail users.messages.modify + users.labels.create
-  // dès que les OAuth All Vap's (avaallvaps@gmail.com) sont fournis.
-  console.warn(
-    `[All Vap's] Gmail API configurée mais client HTTP non encore branché — label « ${params.labelName} » en attente.`
-  );
-  return {
-    configured: true,
-    applied: false,
-    messageId: params.messageId,
-    reason: "Gmail OAuth prêt — implémentation API labels à finaliser avec les credentials.",
-  };
+  try {
+    const gmail = gmailOAuthClient();
+    const labelId = await ensureLabelId(gmail, params.labelName);
+    await gmail.users.messages.modify({
+      userId: "me",
+      id: params.messageId,
+      requestBody: { addLabelIds: [labelId] },
+    });
+    return {
+      configured: true,
+      applied: true,
+      messageId: params.messageId,
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "gmail_label_failed";
+    console.warn("[gmail] label not applied:", message);
+    return {
+      configured: true,
+      applied: false,
+      messageId: params.messageId,
+      reason: message,
+    };
+  }
 }
 
 /**
@@ -77,12 +133,25 @@ export async function ensureAvaGmailLabels(): Promise<{
       configured: false,
       labels,
       message:
-        "Libellés prévus (Bon de commande, Bon de préparation, Factures, Rapports de gestion) — API Gmail non connectée.",
+        "Libellés prévus (Commandes, Préparation, Expéditions) — API Gmail non connectée.",
     };
   }
-  return {
-    configured: true,
-    labels,
-    message: "Credentials Gmail présents — création des libellés à finaliser via API.",
-  };
+  try {
+    const gmail = gmailOAuthClient();
+    for (const name of labels) {
+      await ensureLabelId(gmail, name);
+    }
+    return {
+      configured: true,
+      labels,
+      message: "Libellés Gmail All Vap's créés ou déjà présents.",
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "gmail_labels_failed";
+    return {
+      configured: true,
+      labels,
+      message: `Credentials Gmail présents — création libellés en échec : ${message}`,
+    };
+  }
 }

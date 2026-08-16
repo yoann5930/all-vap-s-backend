@@ -58,6 +58,9 @@ prisma/*.db-journal
 .tmp-*.txt
 .tmp-*.html
 
+# dashboard AVA live — runtime (scores, pas de secrets, ne pas versionner)
+tools/ava-live-dashboard/data/
+
 # cache images pour build hash visuel (binaires)
 /data/.visual-image-cache/
 

@@ -4,6 +4,8 @@
 import { checkApplication, checkDatabase } from "@/lib/health/checks";
 import { getEmailConfig } from "@/lib/email/config";
 import { isGmailApiConfigured } from "@/lib/email/gmail-labels";
+import { isImapConfigured, probeAvaImapInbox } from "@/lib/email/imap-probe";
+import { verifyEmailTransport } from "@/lib/email/transport";
 import { speakAvaOrders } from "@/lib/ava/tools/order-query";
 import { speakAvaShipping } from "@/lib/ava/tools/shipping-status";
 import { AVA_SYSTEM_ID } from "@/lib/ava/ava-core";
@@ -121,8 +123,19 @@ export async function runAvaCheckup(opts?: {
     if (!cfg.configured) {
       return item("E-mail", "NOT_CONFIGURED", t, "missing_credentials");
     }
-    const inbox = isGmailApiConfigured() ? "inbox ok" : "inbox non configurée";
-    return item("E-mail", isGmailApiConfigured() ? "OK" : "DEGRADED", t, inbox);
+    const verify = await verifyEmailTransport();
+    if (!verify.ok) {
+      return item("E-mail", "ERROR", t, "smtp_verify_failed");
+    }
+    if (isGmailApiConfigured()) {
+      return item("E-mail", "OK", t, "smtp+gmail_api");
+    }
+    if (isImapConfigured()) {
+      const inbox = await probeAvaImapInbox();
+      if (inbox.ok) return item("E-mail", "OK", t, "smtp+imap");
+      return item("E-mail", "DEGRADED", t, "smtp_ok_imap_failed");
+    }
+    return item("E-mail", "DEGRADED", t, "smtp_ok_inbox_not_configured");
   });
 
   await maybe("fidelatoo", async () => {
@@ -159,7 +172,7 @@ export async function runAvaCheckup(opts?: {
   return { correlationId, items, spoken };
 }
 
-function formatSpoken(items: AvaCheckItem[]): string {
+export function formatSpoken(items: AvaCheckItem[]): string {
   const lines = items.map((i) => {
     const label =
       i.status === "OK"

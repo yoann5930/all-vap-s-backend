@@ -297,21 +297,24 @@ export function orderReadyPickupTemplate(params: {
   customerName?: string | null;
   storeName: string;
   storeAddress: string;
+  storeHours?: string;
 }) {
   const ref = orderRef(params.orderId);
-  const subject = "Votre commande All Vap's est prête";
+  const subject = "Votre commande All Vap's est prête à être retirée.";
+  const hours = params.storeHours || "Lundi – Samedi : 10h – 19h. Dimanche : fermé.";
   const bodyText = `${hello(params.customerName)},
 
-Votre commande n°${ref} est prête pour retrait.
+Votre commande All Vap's n°${ref} est prête à être retirée.
 
 Boutique : ${params.storeName}
 ${params.storeAddress}
+Horaires : ${hours}
 
 Présentez le numéro de commande ou une pièce d'identité à l'accueil.`;
   const bodyHtml = `
     <p>${escapeHtml(hello(params.customerName))},</p>
-    <p>Votre commande <strong>n°${escapeHtml(ref)}</strong> est prête pour retrait.</p>
-    <p><strong>${escapeHtml(params.storeName)}</strong><br/>${escapeHtml(params.storeAddress)}</p>
+    <p>Votre commande All Vap's <strong>n°${escapeHtml(ref)}</strong> est prête à être retirée.</p>
+    <p><strong>${escapeHtml(params.storeName)}</strong><br/>${escapeHtml(params.storeAddress)}<br/>Horaires : ${escapeHtml(hours)}</p>
     <p>Présentez le numéro de commande ou une pièce d'identité à l'accueil.</p>
   `;
   return {
@@ -416,18 +419,38 @@ ${params.message}`;
 export function adminNewOrderTemplate(params: {
   orderId: string;
   customerEmail: string;
+  customerName?: string | null;
   totalCents: number;
+  items?: OrderEmailItem[];
+  deliveryMethod?: string | null;
+  pickupStoreLabel?: string | null;
 }) {
   const ref = orderRef(params.orderId);
   const cfg = getEmailConfig();
+  const who = params.customerName?.trim() || "—";
+  const items = params.items || [];
   const subject = `Nouvelle commande payée — All Vap's n°${ref}`;
+  const delivery =
+    params.pickupStoreLabel
+      ? `Retrait : ${params.pickupStoreLabel}`
+      : params.deliveryMethod
+        ? `Livraison : ${params.deliveryMethod}`
+        : "";
   const bodyText = `Nouvelle commande payée n°${ref}
-Client : ${params.customerEmail}
-Total : ${formatPrice(params.totalCents)}
+Client : ${who}
+Email : ${params.customerEmail}
+${items.length ? itemsToText(items) + "\n" : ""}${delivery ? delivery + "\n" : ""}Total : ${formatPrice(params.totalCents)}
 Admin : ${cfg.publicUrl}/admin/orders`;
   const bodyHtml = `
     <p>Nouvelle commande payée <strong>n°${escapeHtml(ref)}</strong></p>
-    <p>Client&nbsp;: ${escapeHtml(params.customerEmail)}</p>
+    <p>Client&nbsp;: ${escapeHtml(who)}</p>
+    <p>Email&nbsp;: ${escapeHtml(params.customerEmail)}</p>
+    ${
+      items.length
+        ? `<table style="width:100%;border-collapse:collapse;margin:12px 0;">${itemsToHtml(items)}</table>`
+        : ""
+    }
+    ${delivery ? `<p>${escapeHtml(delivery)}</p>` : ""}
     <p>Total&nbsp;: <strong>${formatPrice(params.totalCents)}</strong></p>
   `;
   return {

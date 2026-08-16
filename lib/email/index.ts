@@ -217,6 +217,7 @@ export async function sendOrderReadyForPickupEmail(params: {
     customerName: params.customerName,
     storeName: store.name,
     storeAddress: `${store.address}, ${store.postalCode} ${store.city}`,
+    storeHours: (store.hours || []).join(" · "),
   });
   return sendEmail({
     to: params.to,

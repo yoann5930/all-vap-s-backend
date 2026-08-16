@@ -5,6 +5,7 @@ import {
   resolveAvaFromAddress,
 } from "@/lib/email/ava-identity";
 import { isGmailApiConfigured } from "@/lib/email/gmail-labels";
+import { isImapConfigured } from "@/lib/email/imap-probe";
 import { avaLog } from "@/lib/ava/logging";
 
 export async function speakAvaEmailStatus(correlationId: string): Promise<{
@@ -23,7 +24,7 @@ export async function speakAvaEmailStatus(correlationId: string): Promise<{
         spoken: "L'expéditeur automatique est bloqué. Je n'envoie pas depuis une adresse personnelle.",
       };
     }
-    const inbox = isGmailApiConfigured();
+    const inbox = isGmailApiConfigured() || isImapConfigured();
     if (!cfg.configured) {
       return {
         ok: false,

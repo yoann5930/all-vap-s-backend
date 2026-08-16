@@ -4,6 +4,7 @@ import { createEmailLog, findSuccessfulEmailLog, markEmailLog } from "./log";
 import { maskEmail } from "./mask";
 import { sendViaConsole, sendViaResend, sendViaSmtp } from "./transport";
 import type { EmailPayload, SendEmailResult } from "./types";
+import { isAvaSelfRecipient, isForbiddenAutomaticFrom } from "./ava-identity";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -54,6 +55,24 @@ export async function sendEmail(payload: EmailPayload): Promise<SendEmailResult>
   }
 
   const intendedTo = assertSafeEmailAddress(payload.to);
+  if (isForbiddenAutomaticFrom(cfg.fromAddress)) {
+    throw new EmailError("Expéditeur automatique interdit", "FORBIDDEN_SENDER");
+  }
+  if (payload.forbidAvaSelfRecipient && isAvaSelfRecipient(intendedTo)) {
+    console.log(`[MAIL] Skip AVA self-recipient type=${payload.type || "generic"}`);
+    await createEmailLog({
+      type: payload.type || "generic",
+      recipient: intendedTo,
+      subject: payload.subject,
+      relatedOrderId: payload.relatedOrderId,
+      relatedCustomerId: payload.relatedCustomerId,
+      idempotencyKey: payload.idempotencyKey,
+      status: "SKIPPED",
+      lastErrorCode: "AVA_SELF_MAIL_FORBIDDEN",
+      transport: "disabled",
+    });
+    return { transport: "disabled" };
+  }
   let finalTo = intendedTo;
   let redirectedToTest = false;
   let subject = assertSafeHeaderValue(payload.subject, "subject");
@@ -92,9 +111,10 @@ export async function sendEmail(payload: EmailPayload): Promise<SendEmailResult>
   }
 
   // BCC : jamais le même que TO ; en mode test, une seule boîte cible
+  // Interdit : BCC vers la boîte AVA pour un déclencheur interne
   const finalBcc = redirectedToTest
     ? []
-    : [...new Set(bccRaw.filter((b) => b !== finalTo))];
+    : [...new Set(bccRaw.filter((b) => b !== finalTo && !(payload.forbidAvaSelfRecipient && isAvaSelfRecipient(b))))];
 
   const html = payload.html;
   const text = payload.text;
@@ -141,6 +161,7 @@ export async function sendEmail(payload: EmailPayload): Promise<SendEmailResult>
     if (preferred === "resend" || (preferred === "auto" && cfg.resendConfigured && !cfg.smtp.hasPassword)) {
       const info = await sendViaResend(mail);
       await markEmailLog(log?.id, { status: "SENT", transport: "resend" });
+      console.log(`[MAIL] Outgoing mail sender=AVA to=${maskEmail(finalTo)}`);
       return { transport: "resend", messageId: info.messageId, redirectedToTest };
     }
 
@@ -150,12 +171,14 @@ export async function sendEmail(payload: EmailPayload): Promise<SendEmailResult>
     ) {
       const info = await sendViaSmtp(mail);
       await markEmailLog(log?.id, { status: "SENT", transport: "smtp" });
+      console.log(`[MAIL] Outgoing mail sender=AVA to=${maskEmail(finalTo)}`);
       return { transport: "smtp", messageId: info.messageId, redirectedToTest };
     }
 
     if (preferred === "auto" && cfg.resendConfigured) {
       const info = await sendViaResend(mail);
       await markEmailLog(log?.id, { status: "SENT", transport: "resend" });
+      console.log(`[MAIL] Outgoing mail sender=AVA to=${maskEmail(finalTo)}`);
       return { transport: "resend", messageId: info.messageId, redirectedToTest };
     }
 
