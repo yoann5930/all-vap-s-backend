@@ -213,6 +213,12 @@ export function searchProductsForAva(
       if (!blob.includes(m)) continue;
     }
 
+    if (criteria.range) {
+      const rg = norm(criteria.range);
+      const rangeBlob = `${norm(p.range ?? "")} ${norm(p.name)}`;
+      if (!rangeBlob.includes(rg)) continue;
+    }
+
     if (criteria.volumeMl != null) {
       const volOk =
         (p.volumeMl != null && Math.abs(p.volumeMl - criteria.volumeMl) < 1) ||

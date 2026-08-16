@@ -19,7 +19,10 @@ export type AvaStockSpeakResult = {
   known: boolean;
 };
 
-function detectScope(message: string): AvaStockScope {
+export const AVA_STOCK_UNAVAILABLE = "Je n'ai pas pu vérifier le stock.";
+export const AVA_STOCK_UNIDENTIFIED = "Je n'ai pas identifié le produit pour vérifier le stock.";
+
+export function detectStockScope(message: string): AvaStockScope {
   const n = message.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
   if (n.includes("hautmont")) return "HAUTMONT";
   if (n.includes("quesnoy")) return "LE_QUESNOY";
@@ -39,7 +42,7 @@ export async function speakAvaStock(
   opts?: { allowBoutiqueSplit?: boolean },
 ): Promise<AvaStockSpeakResult> {
   const domain: AvaLogDomain = "STOCK";
-  const scope = detectScope(message);
+  const scope = detectStockScope(message);
   const allowSplit = opts?.allowBoutiqueSplit === true;
   try {
     const svc = getAvaCatalogService();
@@ -50,7 +53,7 @@ export async function speakAvaStock(
       avaLog(domain, correlationId, "no_product_match");
       return {
         ok: true,
-        spoken: "Je n'ai pas identifié le produit pour vérifier le stock.",
+        spoken: AVA_STOCK_UNIDENTIFIED,
         scope,
         known: false,
       };
@@ -63,7 +66,7 @@ export async function speakAvaStock(
       if (!dual.global.known) {
         return {
           ok: false,
-          spoken: "Je n'ai pas pu vérifier le stock.",
+          spoken: AVA_STOCK_UNAVAILABLE,
           scope,
           known: false,
         };
@@ -85,7 +88,7 @@ export async function speakAvaStock(
         avaLog(domain, correlationId, "boutique_unknown", { loc });
         return {
           ok: false,
-          spoken: "Je n'ai pas pu vérifier le stock.",
+          spoken: AVA_STOCK_UNAVAILABLE,
           scope,
           known: false,
         };
@@ -102,7 +105,7 @@ export async function speakAvaStock(
     if (!dual.global.known) {
       return {
         ok: false,
-        spoken: "Je n'ai pas pu vérifier le stock.",
+        spoken: AVA_STOCK_UNAVAILABLE,
         scope,
         known: false,
       };
@@ -127,7 +130,7 @@ export async function speakAvaStock(
     });
     return {
       ok: false,
-      spoken: "Je n'ai pas pu vérifier le stock.",
+      spoken: AVA_STOCK_UNAVAILABLE,
       scope,
       known: false,
     };

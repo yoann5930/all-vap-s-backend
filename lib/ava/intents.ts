@@ -189,9 +189,10 @@ export function classifyAvaIntent(raw: string): AvaIntentKind {
   }
 
   if (
-    /\b(pg\/vg|mtl|rdl|\bdl\b|resistances?|amorc|fuites?|gout brule|accus?|batteries?|sevrage)\b/.test(
+    /\b(pg\/vg|pg vg|propylene|glycerine|glycerine vegetale|mtl|rdl|\bdl\b|tirage (serre|direct)|resistances?|amorc|fuites?|gout brule|accus?|batteries?|sevrage|tpd|hon lik|clearomiseur|coil|sub-?ohm)\b/.test(
       n,
-    )
+    ) ||
+    (/\b(pg|vg)\b/.test(n) && /(c est quoi|explique|irrit|allergie|ratio)/.test(n))
   ) {
     return "VAPE_KNOWLEDGE";
   }
@@ -217,6 +218,8 @@ export function needsServerBusinessTool(kind: AvaIntentKind): boolean {
     kind === "SYSTEM_HEALTH" ||
     kind === "SYSTEM_STATUS" ||
     kind === "INTERNAL_OPS" ||
-    kind === "CLIENT_FILE"
+    kind === "CLIENT_FILE" ||
+    kind === "VAPE_KNOWLEDGE" ||
+    kind === "SITE"
   );
 }

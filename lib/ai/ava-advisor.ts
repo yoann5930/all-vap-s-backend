@@ -406,7 +406,7 @@ export async function chatAva(
     };
   }
 
-  // Orchestrateur commun (check-up, stock boutique, commandes, mail, transporteurs)
+  // Orchestrateur commun (check-up, stock boutique, commandes, mail, transporteurs, nicotine, vape)
   {
     const { classifyAvaIntent } = await import("@/lib/ava/intents");
     const kind = classifyAvaIntent(message);
@@ -416,7 +416,10 @@ export async function chatAva(
       kind === "STOCK" ||
       kind === "ORDER" ||
       kind === "EMAIL" ||
-      kind === "SHIPPING"
+      kind === "SHIPPING" ||
+      kind === "NICOTINE" ||
+      kind === "VAPE_KNOWLEDGE" ||
+      kind === "SITE"
     ) {
       const { runAvaOrchestrator } = await import("@/lib/ava/orchestrator");
       const brain = await runAvaOrchestrator({

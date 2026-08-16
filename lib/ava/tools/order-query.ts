@@ -25,7 +25,7 @@ function shortRef(id: string): string {
   return id.slice(-8).toUpperCase();
 }
 
-function detectFocus(message: string): "ready" | "prepare" | "preparing" | "latest" | "late" | "all" {
+export function detectOrderFocus(message: string): "ready" | "prepare" | "preparing" | "latest" | "late" | "all" {
   const n = message.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
   if (/pretes?|prete/.test(n)) return "ready";
   if (/en preparation/.test(n)) return "preparing";
@@ -71,7 +71,7 @@ export async function speakAvaOrders(
       preparing,
       ready,
     });
-    const focus = detectFocus(message);
+    const focus = detectOrderFocus(message);
     let spoken: string;
     if (focus === "ready") {
       spoken =

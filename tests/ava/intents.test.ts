@@ -21,6 +21,7 @@ assert(classifyAvaIntent("Et au Quesnoy, le stock ?") === "STOCK", "stock quesno
 assert(classifyAvaIntent("Ta boîte mail fonctionne ?") === "EMAIL", "email");
 assert(classifyAvaIntent("Chronopost est configuré ?") === "SHIPPING", "shipping");
 assert(classifyAvaIntent("Pourquoi le ciel est bleu ?") === "GENERAL", "general");
+assert(classifyAvaIntent("C'est quoi le PG/VG ?") === "VAPE_KNOWLEDGE", "vape");
 assert(classifyAvaNeed("Le site All Vap's fonctionne ?") === "SITE", "site health stays SITE");
 
 if (fail) process.exit(1);
