@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import prisma from "@/lib/prisma";
+import { ensureProductImageEtastyStyle } from "@/lib/catalog/normalize-product-image";
 
 export type SyncRangeCfg = {
   manufacturerSlug: string;
@@ -192,6 +193,7 @@ export async function syncLiquidaromCloudPhotosNames(options: {
       },
       select: {
         id: true,
+        slug: true,
         name: true,
         brand: true,
         range: true,
@@ -266,12 +268,23 @@ export async function syncLiquidaromCloudPhotosNames(options: {
       const newName = photosOnly
         ? best.name
         : `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(file.flavor)} ${formatMl}`;
+      const normalizedPhotoUrl = APPLY
+        ? ((await ensureProductImageEtastyStyle({
+            sourceUrl: file.publicUrl,
+            productName: newName,
+            brand: cfg.manufacturerName,
+            manufacturerSlug: cfg.manufacturerSlug,
+            rangeSlug: cfg.rangeSlug,
+            format: formatMl,
+            productSlug: best.slug,
+          })) || file.publicUrl)
+        : file.publicUrl;
       (rangeReport.updates as unknown[]).push({
         id: best.id,
         stock: best.stock,
         from: best.name,
         to: newName,
-        imageUrl: file.publicUrl,
+        imageUrl: normalizedPhotoUrl,
         score: bestScore,
         photosOnly,
       });
@@ -280,14 +293,14 @@ export async function syncLiquidaromCloudPhotosNames(options: {
           where: { id: best.id },
           data: photosOnly
             ? {
-                imageUrl: file.publicUrl,
+                imageUrl: normalizedPhotoUrl,
                 imageStatus: "validated",
               }
             : {
                 name: newName,
                 brand: cfg.manufacturerName,
                 range: cfg.rangeName,
-                imageUrl: file.publicUrl,
+                imageUrl: normalizedPhotoUrl,
                 imageStatus: "validated",
                 isNew: false,
                 ...(rangeRow ? { rangeId: rangeRow.id } : {}),
@@ -297,7 +310,7 @@ export async function syncLiquidaromCloudPhotosNames(options: {
         await prisma.productImage.create({
           data: {
             productId: best.id,
-            url: file.publicUrl,
+            url: normalizedPhotoUrl,
             status: "validated",
             sortOrder: 0,
             alt: newName,
