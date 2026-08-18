@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">AVA Device Agent</string>
+  <string name="accessibility_description">Pilotage technique AVA (commandes structurées, jamais ADB public).</string>
+  <string name="remote_indicator">Contrôle technique AVA actif</string>
+  <string name="kill_switch">Désactiver accès distant AVA</string>
+</resources>

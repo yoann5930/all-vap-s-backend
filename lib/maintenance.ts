@@ -37,6 +37,8 @@ export function isMaintenanceExemptPath(pathname: string): boolean {
   if (pathname.startsWith("/api/inventaire")) return true;
   if (pathname.startsWith("/api/admin")) return true;
   if (pathname === "/api/health") return true;
+  if (pathname.startsWith("/api/internal/ava-test")) return true;
+  if (pathname.startsWith("/api/internal/ava-device")) return true;
   if (pathname.startsWith("/api/auth/")) return true;
   if (pathname.startsWith("/api/sumup/webhook")) return true;
   if (pathname.startsWith("/api/viva/webhook")) return true;
