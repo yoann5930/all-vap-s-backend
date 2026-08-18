@@ -144,6 +144,14 @@ export async function importCatalogCsv(content: string, dryRun = false): Promise
 
       const photoUrl = row.photo || row.imageUrl || row["Photo principale"];
       if (photoUrl && !/group|rayon|hero|banner/i.test(photoUrl)) {
+        const normalizedUrl = await ensureProductImageEtastyStyle({
+          sourceUrl: photoUrl,
+          productName: name,
+          brand: brandName,
+          rangeSlug: rangeSlug || rangeText || undefined,
+          format: row.format || undefined,
+          productSlug: data.slug,
+        });
         const existingImg = await prisma.productImage.findFirst({
           where: { productId, sortOrder: 0 },
         });
@@ -151,16 +159,19 @@ export async function importCatalogCsv(content: string, dryRun = false): Promise
         if (existingImg) {
           await prisma.productImage.update({
             where: { id: existingImg.id },
-            data: { url: photoUrl, status: imgStatus },
+            data: { url: normalizedUrl, status: imgStatus },
           });
         } else {
           await prisma.productImage.create({
-            data: { productId, url: photoUrl, status: imgStatus, sortOrder: 0 },
+            data: { productId, url: normalizedUrl, status: imgStatus, sortOrder: 0 },
           });
         }
         await prisma.product.update({
           where: { id: productId },
-          data: { imageUrl: photoUrl, imageStatus: row.imageStatus === "validated" ? "validated" : "pending" },
+          data: {
+            imageUrl: normalizedUrl,
+            imageStatus: row.imageStatus === "validated" ? "validated" : "pending",
+          },
         });
         stats.imagesAttached++;
       }
