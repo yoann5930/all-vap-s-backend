@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
 import { CATALOG_CATEGORIES } from "@/lib/catalog/categories";
+import { normalizeProductImageFields } from "@/lib/catalog/product-image-fields";
 
 export interface CsvProductRow {
   name: string;
@@ -122,6 +123,17 @@ export async function importProductsFromRows(rows: CsvProductRow[]) {
 
       const slug = row.slug || slugify(row.name);
       const categoryId = catBySlug[row.category];
+      const imageFields = await normalizeProductImageFields(
+        {
+          productName: row.name,
+          brand: row.brand,
+          productSlug: slug,
+        },
+        {
+          imageUrl: row.imageUrl || null,
+          images: row.images || (row.imageUrl ? [row.imageUrl] : []),
+        }
+      );
 
       const data = {
         name: row.name,
@@ -131,8 +143,8 @@ export async function importProductsFromRows(rows: CsvProductRow[]) {
         categoryId: categoryId || null,
         brand: row.brand || null,
         description: row.description || null,
-        imageUrl: row.imageUrl || null,
-        images: row.images || (row.imageUrl ? [row.imageUrl] : []),
+        imageUrl: imageFields.imageUrl ?? null,
+        images: imageFields.images ?? [],
         priceCents: row.priceCents,
         promoPriceCents: row.promoPriceCents || null,
         stock: row.stock,
@@ -162,5 +174,5 @@ export async function importProductsFromRows(rows: CsvProductRow[]) {
 }
 
 export const CSV_TEMPLATE = `name,sku,category,brand,price,promoPrice,stock,description,imageUrl,isPromo,isNew,isBestSeller
-Vaporesso XROS 3 Mini,AV-POD-001,pods,Vaporesso,24.90,19.90,30,Pod compact 1000mAh,https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=400,true,true,false
-E-liquide Pulp Blue Slush,AV-ELIQ-001,e-liquides,Pulp,19.90,14.90,50,Saveur framboise bleue 50ml,https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400,true,false,true`;
+Vaporesso XROS 3 Mini,AV-POD-001,pods,Vaporesso,24.90,19.90,30,Pod compact 1000mAh,,true,true,false
+E-liquide Pulp Blue Slush,AV-ELIQ-001,e-liquides,Pulp,19.90,14.90,50,Saveur framboise bleue 50ml,,true,false,true`;
