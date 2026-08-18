@@ -16,6 +16,9 @@ import {
 
 const WEBHOOK_PREFIXES = ["/api/sumup/webhook", "/api/viva/webhook"];
 
+/** Auth Bearer interne (pas de cookie) — pas de CSRF Origin. */
+const INTERNAL_TOKEN_PREFIXES = ["/api/internal/ava-test", "/api/internal/ava-device"];
+
 /** Catégories matériel non prêtes — ne pas exposer via /boutique?category= */
 const HIDDEN_BOUTIQUE_CATEGORIES = new Set([
   "cigarettes-electroniques",
@@ -205,7 +208,8 @@ export async function middleware(request: NextRequest) {
   if (
     ["POST", "PUT", "PATCH", "DELETE"].includes(method) &&
     pathname.startsWith("/api/") &&
-    !WEBHOOK_PREFIXES.some((p) => pathname.startsWith(p))
+    !WEBHOOK_PREFIXES.some((p) => pathname.startsWith(p)) &&
+    !INTERNAL_TOKEN_PREFIXES.some((p) => pathname.startsWith(p))
   ) {
     const origin = request.headers.get("origin");
     if (origin && !isAllowedOrigin(origin, host)) {

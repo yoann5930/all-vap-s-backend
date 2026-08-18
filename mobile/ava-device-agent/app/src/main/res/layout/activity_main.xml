@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:padding="20dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <TextView android:id="@+id/title" android:text="AVA Device Agent" android:textSize="20sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <TextView android:id="@+id/deviceId" android:layout_marginTop="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <TextView android:id="@+id/status" android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <Switch android:id="@+id/remoteToggle" android:text="@string/kill_switch" android:layout_marginTop="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <Button android:id="@+id/enrollBtn" android:text="Enrôler cet appareil" android:layout_marginTop="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <Button android:id="@+id/startBtn" android:text="Démarrer l'agent" android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+  <TextView android:layout_marginTop="16dp" android:text="Le secret appareil est dans Android Keystore. Aucun ADB public." android:layout_width="match_parent" android:layout_height="wrap_content" />
+</LinearLayout>

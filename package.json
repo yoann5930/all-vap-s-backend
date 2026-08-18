@@ -25,7 +25,9 @@
     "ava:llm:gateway:start": "powershell -ExecutionPolicy Bypass -File ./services/ava-llm-gateway/scripts/start-ava-llm-stack.ps1",
     "ava:llm:gateway:smoke": "npm --prefix services/ava-llm-gateway run smoke",
     "ava:llm:gateway:health": "npm --prefix services/ava-llm-gateway run health",
-    "ava:admin:brain-e2e": "tsx scripts/smoke-ava-admin-brain-e2e.ts"
+    "ava:admin:brain-e2e": "tsx scripts/smoke-ava-admin-brain-e2e.ts",
+    "ava:test-gateway": "tsx tests/ava/ava-test-gateway.test.ts",
+    "ava:device-gateway": "tsx tests/ava/ava-device-gateway.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",

@@ -64,6 +64,10 @@ tools/ava-live-dashboard/data/
 # cache images pour build hash visuel (binaires)
 /data/.visual-image-cache/
 
+# sessions de test AVA (isolées, jamais de clients réels)
+/data/ava-test-sessions.json
+/data/ava-device-registry.json
+
 # sauvegardes inventaire (données employés)
 /data/inventaire-backups/
 
@@ -71,4 +75,8 @@ tools/ava-live-dashboard/data/
 mobile/inventaire-webview/app/build/
 mobile/inventaire-webview/.gradle/
 mobile/inventaire-webview/local.properties
+mobile/ava-device-agent/app/build/
+mobile/ava-device-agent/.gradle/
+mobile/ava-device-agent/local.properties
+mobile/ava-device-agent/*.apk
 public/apps/*.apk.idsig
