@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Clock, Navigation, Mail, Star, ExternalLink } from "lucide-react";
 import { getStoreById } from "@/lib/stores";
+import { formatStorePhone } from "@/lib/stores/nearest";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
@@ -87,7 +88,7 @@ export default async function StoreDetailPage({ params }: Props) {
               <a href={`tel:${store.phone}`}>
                 <Button variant="outline" className="gap-2">
                   <Phone className="h-4 w-4" />
-                  {store.phone.replace("+33", "0")}
+                  {formatStorePhone(store.phone)}
                 </Button>
               </a>
               <a href={`mailto:${store.email}`}>
