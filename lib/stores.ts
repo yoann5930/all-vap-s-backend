@@ -32,8 +32,8 @@ export const stores: Store[] = [
     address: "17 Avenue Marcel Aimé",
     city: "Hautmont",
     postalCode: "59330",
-    phone: "+33327496100",
-    email: "hautmont@allvaps.fr",
+    phone: "+33955807522",
+    email: "contact@allvaps.fr",
     mapsUrl:
       "https://www.google.com/maps/dir/?api=1&destination=17+Avenue+Marcel+Aim%C3%A9,+59330+Hautmont",
     embedMapUrl:
@@ -52,8 +52,8 @@ export const stores: Store[] = [
     address: "10 Rue Léon Gambetta",
     city: "Le Quesnoy",
     postalCode: "59530",
-    phone: "+33327496200",
-    email: "quesnoy@allvaps.fr",
+    phone: "+33950128045",
+    email: "contact@allvaps.fr",
     mapsUrl:
       "https://www.google.com/maps/dir/?api=1&destination=10+Rue+L%C3%A9on+Gambetta,+59530+Le+Quesnoy",
     embedMapUrl:
