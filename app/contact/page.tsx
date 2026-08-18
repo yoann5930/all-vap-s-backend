@@ -3,6 +3,8 @@ import { Mail, Phone } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/Card";
 import { StoresSection } from "@/components/home/StoresSection";
 import { absoluteUrl } from "@/lib/seo/config";
+import { stores } from "@/lib/stores";
+import { formatStorePhone } from "@/lib/stores/nearest";
 
 export const metadata = {
   title: "Contact",
@@ -11,6 +13,8 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  const primaryStore = stores[0];
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
@@ -37,12 +41,16 @@ export default function ContactPage() {
           <CardBody className="text-center">
             <Phone className="mx-auto h-8 w-8 text-brand-600" />
             <h2 className="mt-4 font-semibold">Téléphone</h2>
-            <a
-              href="tel:+33327496100"
-              className="mt-2 block text-brand-700 hover:text-brand-800"
-            >
-              +33 3 27 49 61 00
-            </a>
+            {primaryStore?.phone ? (
+              <a
+                href={`tel:${primaryStore.phone}`}
+                className="mt-2 block text-brand-700 hover:text-brand-800"
+              >
+                {formatStorePhone(primaryStore.phone)}
+              </a>
+            ) : (
+              <span className="mt-2 block text-gray-500">Voir nos boutiques</span>
+            )}
           </CardBody>
         </Card>
       </div>
