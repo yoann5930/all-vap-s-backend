@@ -4,6 +4,7 @@ import { Logo } from "@/components/layout/Logo";
 import { NewsletterSignup } from "@/components/layout/NewsletterSignup";
 import { footerNavLinks, footerLegalLinks, socialLinks } from "@/lib/navigation";
 import { stores } from "@/lib/stores";
+import { formatStorePhone } from "@/lib/stores/nearest";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -76,12 +77,17 @@ export function Footer() {
               Contact & horaires
             </h4>
             <ul className="mt-5 space-y-3">
-              <li>
-                <a href="tel:+33327496100" className="flex items-center gap-2.5 text-sm font-light text-white/40 transition-colors hover:text-brand-400">
-                  <Phone className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-                  +33 3 27 49 61 00
-                </a>
-              </li>
+              {mainStore?.phone && (
+                <li>
+                  <a
+                    href={`tel:${mainStore.phone}`}
+                    className="flex items-center gap-2.5 text-sm font-light text-white/40 transition-colors hover:text-brand-400"
+                  >
+                    <Phone className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                    {formatStorePhone(mainStore.phone)}
+                  </a>
+                </li>
+              )}
               <li>
                 <Link href="/contact" className="flex items-center gap-2.5 text-sm font-light text-white/40 transition-colors hover:text-brand-400">
                   <Mail className="h-4 w-4 shrink-0" strokeWidth={1.5} />
