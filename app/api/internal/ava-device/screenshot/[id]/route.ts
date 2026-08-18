@@ -9,7 +9,7 @@ export async function GET(
   context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
-  const result = handleScreenshotGet({
+  const result = await handleScreenshotGet({
     authorization: request.headers.get("authorization"),
     screenshotId: id,
   });

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   } catch {
     body = null;
   }
-  const result = handleCreateApproval({
+  const result = await handleCreateApproval({
     authorization: request.headers.get("authorization"),
     body,
   });

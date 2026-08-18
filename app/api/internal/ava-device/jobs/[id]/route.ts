@@ -9,7 +9,7 @@ export async function GET(
   context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
-  const result = handleJobGet({
+  const result = await handleJobGet({
     authorization: request.headers.get("authorization"),
     jobId: id,
   });

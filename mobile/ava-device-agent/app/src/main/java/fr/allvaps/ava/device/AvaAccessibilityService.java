@@ -2,9 +2,19 @@ package fr.allvaps.ava.device;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
+import android.graphics.Bitmap;
 import android.graphics.Path;
+import android.hardware.HardwareBuffer;
+import android.os.Build;
+import android.util.Base64;
+import android.view.Display;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import java.io.ByteArrayOutputStream;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AvaAccessibilityService extends AccessibilityService {
   private static AvaAccessibilityService instance;
@@ -92,6 +102,49 @@ public class AvaAccessibilityService extends AccessibilityService {
     String blob = dumpText(root, new StringBuilder(), 0).toLowerCase();
     return blob.contains("mot de passe") || blob.contains("password") || blob.contains("code pin")
       || blob.contains("empreinte") || blob.contains("sms");
+  }
+
+  public String takeJpegBase64() {
+    if (Build.VERSION.SDK_INT < 30) return null;
+    CountDownLatch latch = new CountDownLatch(1);
+    AtomicReference<String> ref = new AtomicReference<>();
+    takeScreenshot(Display.DEFAULT_DISPLAY, getMainExecutor(), new TakeScreenshotCallback() {
+      @Override
+      public void onSuccess(ScreenshotResult screenshot) {
+        HardwareBuffer hb = screenshot.getHardwareBuffer();
+        try {
+          Bitmap hw = Bitmap.wrapHardwareBuffer(hb, screenshot.getColorSpace());
+          if (hw == null) return;
+          Bitmap software = hw.copy(Bitmap.Config.ARGB_8888, false);
+          if (software == null) return;
+          int w = software.getWidth();
+          int h = software.getHeight();
+          if (w > 720) {
+            h = Math.max(1, h * 720 / w);
+            w = 720;
+            Bitmap scaled = Bitmap.createScaledBitmap(software, w, h, true);
+            if (scaled != software) software.recycle();
+            software = scaled;
+          }
+          ByteArrayOutputStream bos = new ByteArrayOutputStream();
+          software.compress(Bitmap.CompressFormat.JPEG, 45, bos);
+          software.recycle();
+          ref.set(Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP));
+        } finally {
+          hb.close();
+          latch.countDown();
+        }
+      }
+
+      @Override
+      public void onFailure(int errorCode) {
+        latch.countDown();
+      }
+    });
+    try {
+      latch.await(8, TimeUnit.SECONDS);
+    } catch (InterruptedException ignored) {}
+    return ref.get();
   }
 
   private boolean tapNode(AccessibilityNodeInfo n) {

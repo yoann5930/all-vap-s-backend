@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const deviceId = request.nextUrl.searchParams.get("deviceId") || "";
-  const result = handleOperatorStatus({
+  const result = await handleOperatorStatus({
     authorization: request.headers.get("authorization"),
     deviceId,
   });

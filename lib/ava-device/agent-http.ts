@@ -25,9 +25,14 @@ export async function readSignedAgent(request: NextRequest): Promise<{
   };
 }
 
-export function json(result: { status: number; body: Record<string, unknown> }) {
-  return NextResponse.json(result.body, {
-    status: result.status,
+export async function json(
+  result:
+    | { status: number; body: Record<string, unknown> }
+    | Promise<{ status: number; body: Record<string, unknown> }>,
+) {
+  const resolved = await result;
+  return NextResponse.json(resolved.body, {
+    status: resolved.status,
     headers: { "Cache-Control": "no-store" },
   });
 }

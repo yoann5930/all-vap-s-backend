@@ -113,11 +113,11 @@ function nowJob(
 async function waitForJob(jobId: string, waitMs: number): Promise<AvaDeviceJob | null> {
   const start = Date.now();
   while (Date.now() - start < waitMs) {
-    const job = getJob(jobId);
+    const job = await getJob(jobId);
     if (job && (job.status === "done" || job.status === "error" || job.status === "rejected")) return job;
-    await new Promise((r) => setTimeout(r, 80));
+    await new Promise((r) => setTimeout(r, 250));
   }
-  return getJob(jobId);
+  return await getJob(jobId);
 }
 
 export async function handleOperatorCommand(params: {
@@ -140,7 +140,7 @@ export async function handleOperatorCommand(params: {
   if (!isValidDeviceId(deviceId) || !isAllowedDeviceId(deviceId)) {
     return err("AVA_DEVICE_UNKNOWN", "Appareil non enregistré");
   }
-  if (!getEnrolledDevice(deviceId)) {
+  if (!(await getEnrolledDevice(deviceId))) {
     return err("AVA_DEVICE_NOT_ENROLLED", "Appareil non enrôlé");
   }
 
@@ -152,7 +152,7 @@ export async function handleOperatorCommand(params: {
   if (parsed.data.dryRun != null) args.dryRun = parsed.data.dryRun;
 
   const approvalOk = parsed.data.approvalId
-    ? consumeApproval(parsed.data.approvalId, deviceId, command)
+    ? await consumeApproval(parsed.data.approvalId, deviceId, command)
     : false;
 
   const policy = evaluateCommandPolicy({
@@ -179,7 +179,7 @@ export async function handleOperatorCommand(params: {
     args.openAvaUrl = "https://www.allvaps.fr/ava";
   }
 
-  const job = putJob(
+  const job = await putJob(
     nowJob(deviceId, command, args, parsed.data.approvalId ?? null, "operator", policy.dryRun),
   );
   avaDeviceLog("command", {
@@ -217,18 +217,19 @@ export async function handleOperatorCommand(params: {
   };
 }
 
-export function handleOperatorStatus(params: {
+export async function handleOperatorStatus(params: {
   authorization: string | null | undefined;
   deviceId: string;
-}): { status: number; body: Record<string, unknown> } {
+}): Promise<{ status: number; body: Record<string, unknown> }> {
   const denied = operatorDenied(params.authorization);
   if (denied) return denied;
   const deviceId = params.deviceId.trim();
   if (!isValidDeviceId(deviceId) || !isAllowedDeviceId(deviceId)) {
     return err("AVA_DEVICE_UNKNOWN", "Appareil non enregistré");
   }
-  const enrolled = Boolean(getEnrolledDevice(deviceId));
-  const hb = getHeartbeat(deviceId);
+  const enrolledRow = await getEnrolledDevice(deviceId);
+  const enrolled = Boolean(enrolledRow);
+  const hb = await getHeartbeat(deviceId);
   return {
     status: 200,
     body: {
@@ -243,16 +244,16 @@ export function handleOperatorStatus(params: {
       freeStorageMb: hb?.freeStorageMb ?? null,
       avaAppRunning: hb?.avaAppRunning ?? null,
       foregroundApp: hb?.foregroundApp ?? null,
-      remoteAccessEnabled: hb?.remoteAccessEnabled ?? getEnrolledDevice(deviceId)?.remoteAccessEnabled ?? null,
-      remoteSessionActive: hasRecentOperatorActivity(deviceId),
+      remoteAccessEnabled: hb?.remoteAccessEnabled ?? enrolledRow?.remoteAccessEnabled ?? null,
+      remoteSessionActive: await hasRecentOperatorActivity(deviceId),
     },
   };
 }
 
-export function handleCreateApproval(params: {
+export async function handleCreateApproval(params: {
   authorization: string | null | undefined;
   body: unknown;
-}): { status: number; body: Record<string, unknown> } {
+}): Promise<{ status: number; body: Record<string, unknown> }> {
   const auth = authorizeApprovalIssuer(params.authorization);
   if (!auth.ok) {
     return { status: auth.status, body: { ok: false, errorCode: auth.errorCode, message: auth.message } };
@@ -272,7 +273,7 @@ export function handleCreateApproval(params: {
     return err("AVA_DEVICE_UNKNOWN", "Appareil non enregistré");
   }
   const approvalId = `apr_${randomBytes(12).toString("hex")}`;
-  putApproval({
+  await putApproval({
     approvalId,
     deviceId: parsed.data.deviceId,
     command,
@@ -283,21 +284,21 @@ export function handleCreateApproval(params: {
   return { status: 200, body: { ok: true, approvalId, ttlSec: 300, command, deviceId: parsed.data.deviceId } };
 }
 
-function verifyDeviceHmac(params: {
+async function verifyDeviceHmac(params: {
   deviceId: string;
   timestamp: string | null;
   signature: string | null;
   method: string;
   path: string;
   bodyRaw: string;
-}): { ok: true } | { ok: false; status: number; errorCode: AvaDeviceErrorCode; message: string } {
+}): Promise<{ ok: true } | { ok: false; status: number; errorCode: AvaDeviceErrorCode; message: string }> {
   if (!isAvaDeviceGatewayEnabled()) {
     return { ok: false, status: 404, errorCode: "AVA_DEVICE_DISABLED", message: "Not found" };
   }
   if (!params.deviceId || !isValidDeviceId(params.deviceId) || !isAllowedDeviceId(params.deviceId)) {
     return { ok: false, status: 401, errorCode: "AVA_DEVICE_UNKNOWN", message: "Appareil inconnu" };
   }
-  const enrolled = getEnrolledDevice(params.deviceId);
+  const enrolled = await getEnrolledDevice(params.deviceId);
   if (!enrolled) {
     return { ok: false, status: 401, errorCode: "AVA_DEVICE_NOT_ENROLLED", message: "Appareil non enrôlé" };
   }
@@ -318,16 +319,16 @@ function verifyDeviceHmac(params: {
   if (!params.signature || !safeEqualString(params.signature, expected)) {
     return { ok: false, status: 401, errorCode: "AVA_DEVICE_UNAUTHORIZED", message: "Signature invalide" };
   }
-  if (!touchDeviceTimestamp(params.deviceId, ts)) {
+  if (!(await touchDeviceTimestamp(params.deviceId, ts))) {
     return { ok: false, status: 401, errorCode: "AVA_DEVICE_UNAUTHORIZED", message: "Rejeu refusé" };
   }
   return { ok: true };
 }
 
-export function handleAgentEnroll(params: {
+export async function handleAgentEnroll(params: {
   authorization: string | null | undefined;
   body: unknown;
-}): { status: number; body: Record<string, unknown> } {
+}): Promise<{ status: number; body: Record<string, unknown> }> {
   const auth = authorizeEnroll(params.authorization);
   if (!auth.ok) {
     return { status: auth.status, body: { ok: false, errorCode: auth.errorCode, message: auth.message } };
@@ -341,7 +342,7 @@ export function handleAgentEnroll(params: {
   if (!isValidDeviceId(parsed.data.deviceId) || !isAllowedDeviceId(parsed.data.deviceId)) {
     return err("AVA_DEVICE_UNKNOWN", "Appareil non autorisé");
   }
-  putEnrolledDevice({
+  await putEnrolledDevice({
     deviceId: parsed.data.deviceId,
     secret: parsed.data.deviceSecret,
     enrolledAt: new Date().toISOString(),
@@ -352,14 +353,14 @@ export function handleAgentEnroll(params: {
   return { status: 200, body: { ok: true, deviceId: parsed.data.deviceId, enrolled: true } };
 }
 
-export function handleAgentHeartbeat(params: {
+export async function handleAgentHeartbeat(params: {
   deviceId: string;
   timestamp: string | null;
   signature: string | null;
   bodyRaw: string;
   body: unknown;
-}): { status: number; body: Record<string, unknown> } {
-  const v = verifyDeviceHmac({
+}): Promise<{ status: number; body: Record<string, unknown> }> {
+  const v = await verifyDeviceHmac({
     deviceId: params.deviceId,
     timestamp: params.timestamp,
     signature: params.signature,
@@ -382,7 +383,7 @@ export function handleAgentHeartbeat(params: {
   const parsed = schema.safeParse(params.body);
   if (!parsed.success) return err("AVA_DEVICE_INVALID_REQUEST", "Heartbeat invalide");
   if (parsed.data.remoteAccessEnabled === false) {
-    setRemoteAccessEnabled(params.deviceId, false);
+    await setRemoteAccessEnabled(params.deviceId, false);
   }
   const hb: AvaDeviceHeartbeat = {
     deviceId: params.deviceId,
@@ -397,25 +398,25 @@ export function handleAgentHeartbeat(params: {
     remoteAccessEnabled: parsed.data.remoteAccessEnabled ?? true,
     agentVersion: parsed.data.agentVersion ?? null,
   };
-  putHeartbeat(hb);
+  await putHeartbeat(hb);
   return {
     status: 200,
     body: {
       ok: true,
       gatewayEnabled: isAvaDeviceGatewayEnabled(),
-      remoteSessionActive: hasRecentOperatorActivity(params.deviceId),
+      remoteSessionActive: await hasRecentOperatorActivity(params.deviceId),
       killSwitch: !isAvaDeviceGatewayEnabled(),
     },
   };
 }
 
-export function handleAgentPoll(params: {
+export async function handleAgentPoll(params: {
   deviceId: string;
   timestamp: string | null;
   signature: string | null;
   bodyRaw: string;
-}): { status: number; body: Record<string, unknown> } {
-  const v = verifyDeviceHmac({
+}): Promise<{ status: number; body: Record<string, unknown> }> {
+  const v = await verifyDeviceHmac({
     deviceId: params.deviceId,
     timestamp: params.timestamp,
     signature: params.signature,
@@ -424,9 +425,14 @@ export function handleAgentPoll(params: {
     bodyRaw: params.bodyRaw,
   });
   if (!v.ok) return { status: v.status, body: { ok: false, errorCode: v.errorCode, message: v.message } };
-  const job = nextQueuedJob(params.deviceId);
-  if (!job) return { status: 200, body: { ok: true, job: null, remoteSessionActive: hasRecentOperatorActivity(params.deviceId) } };
-  updateJob(job.jobId, { status: "dispatched" });
+  const job = await nextQueuedJob(params.deviceId);
+  if (!job) {
+    return {
+      status: 200,
+      body: { ok: true, job: null, remoteSessionActive: await hasRecentOperatorActivity(params.deviceId) },
+    };
+  }
+  await updateJob(job.jobId, { status: "dispatched" });
   return {
     status: 200,
     body: {
@@ -443,14 +449,14 @@ export function handleAgentPoll(params: {
   };
 }
 
-export function handleAgentResult(params: {
+export async function handleAgentResult(params: {
   deviceId: string;
   timestamp: string | null;
   signature: string | null;
   bodyRaw: string;
   body: unknown;
-}): { status: number; body: Record<string, unknown> } {
-  const v = verifyDeviceHmac({
+}): Promise<{ status: number; body: Record<string, unknown> }> {
+  const v = await verifyDeviceHmac({
     deviceId: params.deviceId,
     timestamp: params.timestamp,
     signature: params.signature,
@@ -470,12 +476,12 @@ export function handleAgentResult(params: {
   });
   const parsed = schema.safeParse(params.body);
   if (!parsed.success) return err("AVA_DEVICE_INVALID_REQUEST", "Résultat invalide");
-  const job = getJob(parsed.data.jobId);
+  const job = await getJob(parsed.data.jobId);
   if (!job || job.deviceId !== params.deviceId) {
     return err("AVA_DEVICE_INVALID_REQUEST", "Job introuvable");
   }
   if (parsed.data.authChallenge) {
-    updateJob(job.jobId, {
+    await updateJob(job.jobId, {
       status: "rejected",
       errorCode: "AVA_DEVICE_AUTH_STOP",
       result: { stopped: true, reason: "auth_challenge" },
@@ -486,7 +492,7 @@ export function handleAgentResult(params: {
   let result = parsed.data.result || {};
   if (parsed.data.screenshotJpegBase64) {
     const id = `shot_${randomBytes(6).toString("hex")}`;
-    putScreenshot({
+    await putScreenshot({
       id,
       deviceId: params.deviceId,
       createdAt: new Date().toISOString(),
@@ -496,7 +502,7 @@ export function handleAgentResult(params: {
     result = { ...result, screenshotId: id, screenshotExpiresSec: 600 };
   }
   const started = Date.parse(job.createdAt);
-  updateJob(job.jobId, {
+  await updateJob(job.jobId, {
     status: parsed.data.ok ? "done" : "error",
     result,
     errorCode: parsed.data.errorCode ?? null,
@@ -510,24 +516,24 @@ export function handleAgentResult(params: {
   return { status: 200, body: { ok: true, jobId: job.jobId } };
 }
 
-export function handleJobGet(params: {
+export async function handleJobGet(params: {
   authorization: string | null | undefined;
   jobId: string;
-}): { status: number; body: Record<string, unknown> } {
+}): Promise<{ status: number; body: Record<string, unknown> }> {
   const denied = operatorDenied(params.authorization);
   if (denied) return denied;
-  const job = getJob(params.jobId);
+  const job = await getJob(params.jobId);
   if (!job) return { status: 404, body: { ok: false, errorCode: "AVA_DEVICE_INVALID_REQUEST", message: "Job introuvable" } };
   return { status: 200, body: { ok: true, job } };
 }
 
-export function handleScreenshotGet(params: {
+export async function handleScreenshotGet(params: {
   authorization: string | null | undefined;
   screenshotId: string;
-}): { status: number; body: Record<string, unknown> } {
+}): Promise<{ status: number; body: Record<string, unknown> }> {
   const denied = operatorDenied(params.authorization);
   if (denied) return denied;
-  const shot = getScreenshot(params.screenshotId);
+  const shot = await getScreenshot(params.screenshotId);
   if (!shot) {
     return { status: 404, body: { ok: false, errorCode: "AVA_DEVICE_INVALID_REQUEST", message: "Capture expirée" } };
   }

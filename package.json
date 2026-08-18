@@ -27,7 +27,8 @@
     "ava:llm:gateway:health": "npm --prefix services/ava-llm-gateway run health",
     "ava:admin:brain-e2e": "tsx scripts/smoke-ava-admin-brain-e2e.ts",
     "ava:test-gateway": "tsx tests/ava/ava-test-gateway.test.ts",
-    "ava:device-gateway": "tsx tests/ava/ava-device-gateway.test.ts"
+    "ava:device-gateway": "tsx tests/ava/ava-device-gateway.test.ts",
+    "ava:device-live": "tsx scripts/ava-device-live.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",

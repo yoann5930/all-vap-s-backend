@@ -89,6 +89,10 @@ public class DeviceAgentService extends Service {
           payload.put("jobId", job.getString("jobId"));
           boolean authStop = result.optBoolean("authChallenge", false);
           payload.put("ok", !authStop && !result.has("error"));
+          if (result.has("screenshotJpegBase64")) {
+            payload.put("screenshotJpegBase64", result.getString("screenshotJpegBase64"));
+            result.remove("screenshotJpegBase64");
+          }
           payload.put("authChallenge", authStop);
           payload.put("result", result);
           postSigned("/api/internal/ava-device/agent/result", payload.toString());
