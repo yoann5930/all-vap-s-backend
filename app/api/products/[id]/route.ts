@@ -3,6 +3,7 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { jsonResponse, errorResponse, handleApiError } from "@/lib/api-utils";
 import { getAuthUser } from "@/lib/jwt";
+import { normalizeProductImageFields } from "@/lib/catalog/product-image-fields";
 
 export async function GET(
   _request: NextRequest,
@@ -111,7 +112,11 @@ export async function PATCH(
     const { id } = await params;
     const data = updateSchema.parse(await request.json());
 
-    if (data.imageUrl) {
+    const touchesImages =
+      Object.prototype.hasOwnProperty.call(data, "imageUrl") ||
+      Object.prototype.hasOwnProperty.call(data, "images");
+
+    if (touchesImages) {
       const existing = await prisma.product.findUnique({
         where: { id },
         select: {
@@ -124,20 +129,23 @@ export async function PATCH(
           rangeRef: { select: { slug: true } },
         },
       });
-      if (existing) {
-        const { ensureProductImageEtastyStyle } = await import(
-          "@/lib/catalog/normalize-product-image"
-        );
-        data.imageUrl = await ensureProductImageEtastyStyle({
-          sourceUrl: data.imageUrl,
+      if (!existing) return errorResponse("Produit introuvable", 404);
+
+      const normalizedImages = await normalizeProductImageFields(
+        {
           productName: data.name || existing.name,
           brand: data.brand ?? existing.brand ?? existing.manufacturer?.name,
           manufacturerSlug: existing.manufacturer?.slug,
           rangeSlug: existing.rangeRef?.slug || existing.range,
           format: existing.productType,
           productSlug: existing.slug,
-        });
-      }
+        },
+        {
+          ...(Object.prototype.hasOwnProperty.call(data, "imageUrl") ? { imageUrl: data.imageUrl } : {}),
+          ...(Object.prototype.hasOwnProperty.call(data, "images") ? { images: data.images } : {}),
+        }
+      );
+      Object.assign(data, normalizedImages);
     }
 
     const product = await prisma.product.update({ where: { id }, data });
