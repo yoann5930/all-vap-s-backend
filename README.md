@@ -18,7 +18,7 @@ npm run dev
 
 → http://localhost:3000
 
-**Admin :** `admin@allvaps.fr` / `Admin123!`
+Pour créer ou initialiser un compte administrateur en développement, utiliser les variables d'environnement et le mécanisme de seed prévus par le projet. Aucun mot de passe administrateur ne doit être documenté ou commité dans le dépôt.
 
 ## Fonctionnalités
 
@@ -46,9 +46,11 @@ npm run dev
 - Produits · Commandes · Clients
 - Catégories & Marques · Coupons · Bannières · Avis
 
-### IA (architecture préparée)
-- Conseil vape · Recommandation e-liquides · Estimation Pokémon
-- Stub fonctionnel via `/api/ai` et `/ia`
+### AVA
+- Assistant conversationnel de conseil vape
+- Profil et mémoire client via les services métier du projet
+- Recommandation catalogue et prise en compte des stocks
+- Interface 3D et synthèse vocale côté client
 
 ## Structure
 
