@@ -1,1 +1,0 @@
-> **Archivé.** Contenu canonique : [`RAPPORT_AVA_ACCESSIBILITE.md`](./RAPPORT_AVA_ACCESSIBILITE.md) · [`RAPPORT_GLOBAL.md`](./RAPPORT_GLOBAL.md)
