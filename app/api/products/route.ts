@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/jwt";
 import { slugify } from "@/lib/utils";
 import { jsonResponse, handleApiError } from "@/lib/api-utils";
+import { normalizeProductImageFields } from "@/lib/catalog/product-image-fields";
 import {
   buildProductWhere,
   buildProductOrderBy,
@@ -170,9 +171,20 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = productSchema.parse(body);
     const slug = data.slug || slugify(data.name);
+    const normalizedImages = await normalizeProductImageFields(
+      {
+        productName: data.name,
+        brand: data.brand,
+        productSlug: slug,
+      },
+      {
+        ...(Object.prototype.hasOwnProperty.call(data, "imageUrl") ? { imageUrl: data.imageUrl } : {}),
+        ...(Object.prototype.hasOwnProperty.call(data, "images") ? { images: data.images } : {}),
+      }
+    );
 
     const product = await prisma.product.create({
-      data: { ...data, slug },
+      data: { ...data, ...normalizedImages, slug },
     });
 
     try {
