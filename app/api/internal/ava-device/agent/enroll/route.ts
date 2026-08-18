@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   } catch {
     body = null;
   }
-  const result = handleAgentEnroll({
+  const result = await handleAgentEnroll({
     authorization: request.headers.get("authorization"),
     body,
   });

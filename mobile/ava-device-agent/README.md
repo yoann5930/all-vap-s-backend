@@ -20,13 +20,13 @@ Notification « Contrôle technique AVA actif » pendant une session distante.
 
 ## Build
 
-Copier `gradle/wrapper/gradle-wrapper.jar` depuis `mobile/inventaire-webview` si besoin, puis :
+Le wrapper Gradle est généré depuis la distribution officielle `gradle-8.7` (services.gradle.org).
 
 ```bash
 cd mobile/ava-device-agent
-./gradlew :app:assembleDebug
+gradlew.bat :app:assembleDebug
 ```
 
-Ne pas désinstaller l’APK AVA actuel sans rollback.
+Ne pas désinstaller l’APK AVA actuel. Désinstaller uniquement `fr.allvaps.ava.device` pour rollback.
 
-Le token d’enrôlement se place dans les prefs `enroll_token` (jamais dans Git).
+Le jeton d’enrôlement se saisit dans l’écran agent (jamais dans Git). Après succès il est effacé des prefs.

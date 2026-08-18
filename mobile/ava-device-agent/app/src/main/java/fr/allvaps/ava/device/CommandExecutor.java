@@ -2,12 +2,17 @@ package fr.allvaps.ava.device;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,6 +20,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class CommandExecutor {
   private static final String TAG = "AVA_DEVICE";
@@ -51,11 +59,11 @@ public final class CommandExecutor {
         out.put("note", "Pas de dump logcat global.");
         return out;
       case "CHECK_MICROPHONE":
-        out.put("permission", ctx.checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED);
+        out.put("permission", false);
         out.put("recording", false);
         return out;
       case "CHECK_CAMERA_PERMISSION":
-        out.put("permission", ctx.checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED);
+        out.put("permission", false);
         out.put("preview", false);
         return out;
       case "CHECK_NOTIFICATION_PERMISSION":
@@ -63,21 +71,26 @@ public final class CommandExecutor {
         return out;
       case "CHECK_SPEAKER":
       case "CHECK_TTS":
-        return checkTts(ctx);
+        return checkTts(ctx, args);
       case "CHECK_AVATAR":
         openUrl(ctx, AVA_URL);
+        sleepQuiet(700);
         out.put("avaOpened", true);
         out.put("foregroundApp", acc != null ? acc.foregroundPackage() : "");
         return out;
       case "OPEN_AVA":
       case "RUN_AVA_SCENARIO":
         openUrl(ctx, AVA_URL);
+        sleepQuiet(900);
         out.put("opened", AVA_URL);
         out.put("testUser", "AVA_MOBILE_TEST_USER");
+        out.put("foregroundApp", acc != null ? acc.foregroundPackage() : "");
         return out;
       case "OPEN_CHROME":
         openUrl(ctx, SITE_URL);
+        sleepQuiet(700);
         out.put("opened", SITE_URL);
+        out.put("foregroundApp", acc != null ? acc.foregroundPackage() : "");
         return out;
       case "OPEN_URL":
         String url = args.optString("url", SITE_URL);
@@ -91,8 +104,10 @@ public final class CommandExecutor {
         return out;
       case "OPEN_FIDELATOO":
         out.put("opened", openPackage(ctx, FIDELATOO));
+        sleepQuiet(900);
         out.put("write", "NOT_EXECUTED");
         out.put("dryRun", true);
+        out.put("foregroundApp", acc != null ? acc.foregroundPackage() : "");
         return out;
       case "FIDELATOO_SEARCH_TEST":
         openPackage(ctx, FIDELATOO);
@@ -154,8 +169,17 @@ public final class CommandExecutor {
         out.put("ok", true);
         return out;
       case "SCREENSHOT":
-        out.put("note", "Capture via Accessibility takeScreenshot côté service si API 30+.");
-        out.put("requested", true);
+        String jpeg = acc != null ? acc.takeJpegBase64() : null;
+        if (jpeg == null || jpeg.isEmpty()) {
+          out.put("ok", false);
+          out.put("error", "screenshot_unavailable");
+          out.put("note", "Activer le service d'accessibilité AVA Device Agent.");
+          return out;
+        }
+        out.put("screenshotJpegBase64", jpeg);
+        out.put("ttlSec", 600);
+        out.put("archived", false);
+        out.put("ok", true);
         return out;
       case "SHELL_DIAGNOSTIC":
       case "FACTORY_RESET":
@@ -182,18 +206,44 @@ public final class CommandExecutor {
     JSONObject o = new JSONObject();
     BatteryManager bm = (BatteryManager) ctx.getSystemService(Context.BATTERY_SERVICE);
     int bat = bm != null ? bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) : -1;
+    boolean charging = false;
+    if (bm != null) charging = bm.isCharging();
+    Intent battery = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    if (battery != null) {
+      int status = battery.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+      charging = status == BatteryManager.BATTERY_STATUS_CHARGING
+        || status == BatteryManager.BATTERY_STATUS_FULL;
+      if (bat < 0) {
+        int level = battery.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = battery.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+        if (level >= 0 && scale > 0) bat = Math.round(100f * level / scale);
+      }
+    }
     o.put("online", true);
     o.put("deviceId", AgentPrefs.deviceId(ctx));
     o.put("battery", bat);
-    o.put("charging", bat >= 0 && bm != null && bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATUS) == 2);
-    o.put("network", "unknown");
+    o.put("charging", charging);
+    o.put("network", networkLabel(ctx));
     long free = Environment.getDataDirectory().getFreeSpace() / (1024 * 1024);
     o.put("freeStorageMb", free);
     String fg = acc != null ? acc.foregroundPackage() : "";
     o.put("foregroundApp", fg);
-    o.put("avaAppRunning", fg.contains("chrome") || fg.contains("allvaps") || fg.contains("ava"));
+    o.put("avaAppRunning", fg.contains("chrome") || fg.contains("allvaps") || fg.contains("sbrowser"));
     o.put("adbPublic", false);
     return o;
+  }
+
+  private static String networkLabel(Context ctx) {
+    ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+    if (cm == null) return "unknown";
+    Network net = cm.getActiveNetwork();
+    if (net == null) return "none";
+    NetworkCapabilities caps = cm.getNetworkCapabilities(net);
+    if (caps == null) return "unknown";
+    if (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) return "wifi";
+    if (caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) return "cellular";
+    if (caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) return "ethernet";
+    return "other";
   }
 
   private static JSONObject listApps(Context ctx) throws Exception {
@@ -214,15 +264,65 @@ public final class CommandExecutor {
     return o;
   }
 
-  private static JSONObject checkTts(Context ctx) throws Exception {
+  private static JSONObject checkTts(Context ctx, JSONObject args) throws Exception {
     JSONObject o = new JSONObject();
-    o.put("engineAvailable", true);
-    o.put("segmentsQueued", 0);
-    o.put("note", "Pas d'enregistrement. TTS système vérifié sans lire une conversation réelle.");
-    TextToSpeech tts = new TextToSpeech(ctx, status -> {});
-    o.put("ttsStatusInit", true);
+    String[] segs = new String[]{
+      "Test AVA. Première phrase de contrôle.",
+      "Deuxième phrase de contrôle technique.",
+      "Troisième phrase de contrôle technique.",
+      "Fin du test de lecture vocale."
+    };
+    if (args != null && args.has("text")) {
+      String raw = args.optString("text", "");
+      if (!raw.isEmpty()) segs = raw.split("(?<=[.!?])\\s+");
+    }
+    CountDownLatch ready = new CountDownLatch(1);
+    CountDownLatch done = new CountDownLatch(segs.length);
+    AtomicInteger queued = new AtomicInteger(0);
+    AtomicInteger completed = new AtomicInteger(0);
+    TextToSpeech[] holder = new TextToSpeech[1];
+    holder[0] = new TextToSpeech(ctx, status -> {
+      if (status == TextToSpeech.SUCCESS) ready.countDown();
+      else ready.countDown();
+    });
+    boolean inited = ready.await(5, TimeUnit.SECONDS);
+    TextToSpeech tts = holder[0];
+    o.put("engineAvailable", inited && tts != null);
+    if (!inited || tts == null) {
+      o.put("segmentsExpected", segs.length);
+      o.put("segmentsQueued", 0);
+      o.put("completed", false);
+      return o;
+    }
+    tts.setLanguage(Locale.FRANCE);
+    tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+      @Override public void onStart(String utteranceId) {}
+      @Override public void onDone(String utteranceId) {
+        completed.incrementAndGet();
+        done.countDown();
+      }
+      @Override public void onError(String utteranceId) {
+        done.countDown();
+      }
+    });
+    for (int i = 0; i < segs.length; i++) {
+      int mode = i == 0 ? TextToSpeech.QUEUE_FLUSH : TextToSpeech.QUEUE_ADD;
+      int r = tts.speak(segs[i], mode, null, "ava-tts-" + i);
+      if (r == TextToSpeech.SUCCESS) queued.incrementAndGet();
+    }
+    boolean all = done.await(18, TimeUnit.SECONDS);
+    tts.stop();
     tts.shutdown();
+    o.put("segmentsExpected", segs.length);
+    o.put("segmentsQueued", queued.get());
+    o.put("segmentsCompleted", completed.get());
+    o.put("completed", all && completed.get() >= segs.length);
+    o.put("note", "TTS système. Pas d'enregistrement. Pas de conversation réelle.");
     return o;
+  }
+
+  private static void sleepQuiet(int ms) {
+    try { Thread.sleep(ms); } catch (InterruptedException ignored) {}
   }
 
   private static void openUrl(Context ctx, String url) {

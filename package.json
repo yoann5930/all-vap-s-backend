@@ -18,7 +18,8 @@
     "catalog:liquidarom:dry-run": "tsx scripts/import-liquidarom-products.ts --dry-run",
     "catalog:liquidarom:import": "tsx scripts/import-liquidarom-products.ts",
     "ava:test-gateway": "tsx tests/ava/ava-test-gateway.test.ts",
-    "ava:device-gateway": "tsx tests/ava/ava-device-gateway.test.ts"
+    "ava:device-gateway": "tsx tests/ava/ava-device-gateway.test.ts",
+    "ava:device-live": "tsx scripts/ava-device-live.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",

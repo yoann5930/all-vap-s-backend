@@ -92,14 +92,14 @@ function sign(path: string, bodyRaw: string) {
   };
 }
 
-function enroll() {
+async function enroll() {
   return handleAgentEnroll({
     authorization: `Bearer ${ENROLL}`,
     body: { deviceId: DEVICE, deviceSecret: SECRET },
   });
 }
 
-function heartbeat() {
+async function heartbeat() {
   const bodyRaw = JSON.stringify({ battery: 82, charging: true, network: "wifi", freeStorageMb: 14500, avaAppRunning: true, foregroundApp: "com.android.chrome", remoteAccessEnabled: true, agentVersion: "1.0.0" });
   const s = sign("/api/internal/ava-device/agent/heartbeat", bodyRaw);
   return handleAgentHeartbeat({
@@ -114,7 +114,7 @@ function heartbeat() {
 async function agentCycle(fakeResult?: Record<string, unknown>) {
   const pollRaw = "{}";
   const ps = sign("/api/internal/ava-device/agent/poll", pollRaw);
-  const poll = handleAgentPoll({
+  const poll = await handleAgentPoll({
     deviceId: DEVICE,
     timestamp: ps.timestamp,
     signature: ps.signature,
@@ -133,7 +133,7 @@ async function agentCycle(fakeResult?: Record<string, unknown>) {
   }
   const raw = JSON.stringify(resultBody);
   const rs = sign("/api/internal/ava-device/agent/result", raw);
-  handleAgentResult({
+  await handleAgentResult({
     deviceId: DEVICE,
     timestamp: rs.timestamp,
     signature: rs.signature,
@@ -153,7 +153,7 @@ async function runOp(command: string, args: Record<string, unknown> = {}, extra:
   if (queued.status !== 200 || !(queued.body as { ok?: boolean }).ok) return queued;
   const jobId = (queued.body as { jobId: string }).jobId;
   await agentCycle();
-  const got = handleJobGet({ authorization: `Bearer ${OP}`, jobId });
+  const got = await handleJobGet({ authorization: `Bearer ${OP}`, jobId });
   return { status: got.status, body: { ...(queued.body as object), ...(got.body as object), ok: true, status: (got.body as { job?: { status?: string } }).job?.status, result: (got.body as { job?: { result?: unknown } }).job?.result } };
 }
 
@@ -174,7 +174,8 @@ function mockResult(command: string): Record<string, unknown> {
 
 async function main() {
   console.log("\n== AVA device gateway ==\n");
-  resetAvaDeviceStoreForTests();
+  process.env.AVA_DEVICE_STORE_MEMORY = "1";
+  await resetAvaDeviceStoreForTests();
 
   assert(COMMAND_CLASS.DEVICE_STATUS === "SAFE_READ", "DEVICE_STATUS SAFE_READ");
   assert(COMMAND_CLASS.FIDELATOO_ADD_POINTS === "CRITICAL", "points CRITICAL");
@@ -222,14 +223,14 @@ async function main() {
     });
     assert(notEnrolled.status === 401, "non enrôlé => 401");
 
-    const en = enroll();
+    const en = await enroll();
     assert(en.status === 200, "enrôlement HMAC");
     report.AUTH_DEVICE = en.status === 200 ? "PASS" : "FAIL";
 
-    const hb = heartbeat();
+    const hb = await heartbeat();
     assert(hb.status === 200, "heartbeat");
     report.HEARTBEAT = hb.status === 200 ? "PASS" : "FAIL";
-    const st = handleOperatorStatus({ authorization: `Bearer ${OP}`, deviceId: DEVICE });
+    const st = await handleOperatorStatus({ authorization: `Bearer ${OP}`, deviceId: DEVICE });
     assert(st.status === 200 && (st.body as { online?: boolean }).online === true, "status online");
 
     const unk = await handleOperatorCommand({
@@ -261,7 +262,7 @@ async function main() {
     });
     assert(shell.status === 400, "shell désactivé");
 
-    const apr = handleCreateApproval({
+    const apr = await handleCreateApproval({
       authorization: `Bearer ${APPROVAL}`,
       body: { deviceId: DEVICE, command: "FIDELATOO_ADD_POINTS" },
     });

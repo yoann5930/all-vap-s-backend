@@ -3,7 +3,9 @@ package fr.allvaps.ava.device;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ public class MainActivity extends Activity {
     TextView id = findViewById(R.id.deviceId);
     TextView status = findViewById(R.id.status);
     Switch remote = findViewById(R.id.remoteToggle);
+    EditText tokenField = findViewById(R.id.enrollToken);
     id.setText("DEVICE ID : " + AgentPrefs.deviceId(this));
     status.setText(AgentPrefs.enrolled(this) ? "Enrôlé" : "Non enrôlé");
     remote.setChecked(!AgentPrefs.remoteEnabled(this));
@@ -31,10 +34,26 @@ public class MainActivity extends Activity {
       AgentPrefs.setRemoteEnabled(this, !checked);
       Toast.makeText(this, checked ? "Accès distant coupé" : "Accès distant autorisé", Toast.LENGTH_SHORT).show();
     });
+    String extraToken = getIntent() != null ? getIntent().getStringExtra("enroll_token") : null;
+    if (extraToken != null && !extraToken.isEmpty()) {
+      tokenField.setText(extraToken);
+      AgentPrefs.setEnrollToken(this, extraToken);
+    } else {
+      String saved = AgentPrefs.enrollToken(this);
+      if (!saved.isEmpty()) tokenField.setText(saved);
+    }
     findViewById(R.id.startBtn).setOnClickListener(v ->
       startForegroundService(new Intent(this, DeviceAgentService.class)));
+    findViewById(R.id.accessBtn).setOnClickListener(v ->
+      startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
     Button enroll = findViewById(R.id.enrollBtn);
-    enroll.setOnClickListener(v -> new Thread(this::enroll).start());
+    enroll.setOnClickListener(v -> {
+      AgentPrefs.setEnrollToken(this, tokenField.getText().toString().trim());
+      new Thread(this::enroll).start();
+    });
+    if (getIntent() != null && getIntent().getBooleanExtra("auto_enroll", false)) {
+      new Thread(this::enroll).start();
+    }
   }
 
   private void enroll() {
@@ -43,11 +62,13 @@ public class MainActivity extends Activity {
       JSONObject body = new JSONObject();
       body.put("deviceId", AgentPrefs.deviceId(this));
       body.put("deviceSecret", secret);
-      String enrollToken = AgentPrefs.sp(this).getString("enroll_token", "");
+      String enrollToken = AgentPrefs.enrollToken(this);
       URL url = new URL(AgentPrefs.gateway(this) + "/api/internal/ava-device/agent/enroll");
       HttpURLConnection c = (HttpURLConnection) url.openConnection();
       c.setRequestMethod("POST");
       c.setDoOutput(true);
+      c.setConnectTimeout(12_000);
+      c.setReadTimeout(20_000);
       c.setRequestProperty("Content-Type", "application/json");
       c.setRequestProperty("Authorization", "Bearer " + enrollToken);
       byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
@@ -57,9 +78,15 @@ public class MainActivity extends Activity {
       String raw = sc.hasNext() ? sc.next() : "";
       boolean ok = code == 200;
       AgentPrefs.setEnrolled(this, ok);
+      if (ok) AgentPrefs.clearEnrollToken(this);
       runOnUiThread(() -> {
         ((TextView) findViewById(R.id.status)).setText(ok ? "Enrôlé" : "Échec enrôlement " + code);
-        if (!ok) Toast.makeText(this, raw, Toast.LENGTH_LONG).show();
+        if (ok) {
+          ((EditText) findViewById(R.id.enrollToken)).setText("");
+          startForegroundService(new Intent(this, DeviceAgentService.class));
+        } else {
+          Toast.makeText(this, "Échec enrôlement", Toast.LENGTH_LONG).show();
+        }
       });
       c.disconnect();
     } catch (Exception e) {

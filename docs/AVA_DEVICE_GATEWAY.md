@@ -67,6 +67,8 @@ curl -X POST https://www.allvaps.fr/api/internal/ava-device \
 
 Identité de test mobile : `AVA_MOBILE_TEST_USER` (jamais un vrai client).
 
+En production Vercel, l’état (enrôlement, jobs, heartbeat) est persisté dans `AppSetting` par clés `ava.device.*` — pas de table inventaire / employé / client.
+
 ## Agent Android
 
 `mobile/ava-device-agent/` — connexion sortante TLS, backoff, indicateur « Contrôle technique AVA actif », pas de stream écran 24/7, pas de micro/caméra permanents.

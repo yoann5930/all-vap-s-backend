@@ -30,6 +30,18 @@ public final class AgentPrefs {
     return sp(c).getString("gateway", DEFAULT_GATEWAY);
   }
 
+  public static String enrollToken(Context c) {
+    return sp(c).getString("enroll_token", "");
+  }
+
+  public static void setEnrollToken(Context c, String token) {
+    sp(c).edit().putString("enroll_token", token == null ? "" : token).apply();
+  }
+
+  public static void clearEnrollToken(Context c) {
+    sp(c).edit().remove("enroll_token").apply();
+  }
+
   public static boolean enrolled(Context c) {
     return sp(c).getBoolean("enrolled", false);
   }
