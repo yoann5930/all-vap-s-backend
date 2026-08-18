@@ -1,1 +1,0 @@
-> **Archivé.** Contenu canonique : [`RAPPORT_AVA_BASE_TECHNIQUE.md`](./RAPPORT_AVA_BASE_TECHNIQUE.md) · [`RAPPORT_GLOBAL.md`](./RAPPORT_GLOBAL.md)
