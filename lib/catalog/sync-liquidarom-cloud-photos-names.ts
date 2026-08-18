@@ -268,17 +268,22 @@ export async function syncLiquidaromCloudPhotosNames(options: {
       const newName = photosOnly
         ? best.name
         : `${cfg.manufacturerName} — ${cfg.rangeName} — ${titleCaseFlavor(file.flavor)} ${formatMl}`;
-      const normalizedPhotoUrl = APPLY
-        ? ((await ensureProductImageEtastyStyle({
-            sourceUrl: file.publicUrl,
-            productName: newName,
-            brand: cfg.manufacturerName,
-            manufacturerSlug: cfg.manufacturerSlug,
-            rangeSlug: cfg.rangeSlug,
-            format: formatMl,
-            productSlug: best.slug,
-          })) || file.publicUrl)
-        : file.publicUrl;
+      let normalizedPhotoUrl = file.publicUrl;
+      if (APPLY) {
+        const normalized = await ensureProductImageEtastyStyle({
+          sourceUrl: file.publicUrl,
+          productName: newName,
+          brand: cfg.manufacturerName,
+          manufacturerSlug: cfg.manufacturerSlug,
+          rangeSlug: cfg.rangeSlug,
+          format: formatMl,
+          productSlug: best.slug,
+        });
+        if (!normalized) {
+          throw new Error(`Photo normalization failed for product ${best.slug}`);
+        }
+        normalizedPhotoUrl = normalized;
+      }
       (rangeReport.updates as unknown[]).push({
         id: best.id,
         stock: best.stock,
