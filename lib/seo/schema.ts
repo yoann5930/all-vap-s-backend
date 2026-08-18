@@ -9,7 +9,7 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: absoluteUrl("/favicon.svg"),
     sameAs: [
-      "https://www.facebook.com/allvaps",
+      "https://www.facebook.com/profile.php?id=61554838700955",
       "https://www.instagram.com/allvaps",
     ],
     contactPoint: {
